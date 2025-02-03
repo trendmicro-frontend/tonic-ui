@@ -1,5 +1,5 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
-import { isNullish, warnDeprecatedProps } from '@tonic-ui/utils';
+import { warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
@@ -55,9 +55,9 @@ const LinearProgress = forwardRef((inProps, ref) => {
   }
 
   if (variant === 'determinate') {
-    if ((process.env.NODE_ENV !== 'production') && isNullish(value)) {
+    if (process.env.NODE_ENV !== 'production' && (value < min || value > max)) {
       const prefix = `${LinearProgress.displayName}:`;
-      console.error(`${prefix} You need to provide a value prop when using the determinate variant.`);
+      console.warn(`${prefix} The value prop should be between ${min} and ${max}`);
     }
 
     linearProgressRootProps['aria-valuemin'] = min;

@@ -1,4 +1,3 @@
-import { isNullish } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
@@ -33,6 +32,10 @@ const CircularProgress = forwardRef((inProps, ref) => {
     ...rest
   } = useDefaultProps({ props: inProps, name: 'CircularProgress' });
 
+  if (process.env.NODE_ENV !== 'production' && (value < min || value > max)) {
+    const prefix = `${CircularProgress.displayName}:`;
+    console.warn(`${prefix} The value prop should be between ${min} and ${max}`);
+  }
   const clampedValue = Math.max(min, Math.min(value, max));
   const scale = (clampedValue - min) / (max - min);
   const circularProgressRootStyleProps = useCircularProgressRootStyle({
@@ -62,11 +65,6 @@ const CircularProgress = forwardRef((inProps, ref) => {
   };
 
   if (variant === 'determinate') {
-    if ((process.env.NODE_ENV !== 'production') && isNullish(value)) {
-      const prefix = `${CircularProgress.displayName}:`;
-      console.error(`${prefix} You need to provide a value prop when using the determinate variant.`);
-    }
-
     circularProgressRootProps['aria-valuemin'] = min;
     circularProgressRootProps['aria-valuemax'] = max;
     circularProgressRootProps['aria-valuenow'] = value;

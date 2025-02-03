@@ -78,24 +78,4 @@ describe('LinearProgress', () => {
     const gradientProgressBar = gradientProgress.firstChild;
     expect(gradientProgressBar).toHaveStyleRule('background', 'linear-gradient(90deg,#1e5ede,#04caa1)');
   });
-
-  /*
-  it('should warn when determinate variant is used without value prop', () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-
-    render(
-      <LinearProgress
-        aria-label="error case"
-        variant="determinate"
-        value={undefined}
-      />
-    );
-
-    expect(consoleSpy).toHaveBeenCalledWith(
-      'LinearProgress: You need to provide a value prop when using the determinate variant.'
-    );
-
-    consoleSpy.mockRestore();
-  });
-  */
 });

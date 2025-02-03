@@ -61,24 +61,4 @@ describe('CircularProgress', () => {
     expect(circle).toHaveAttribute('stroke-width', '5');
     expect(progress).toBeInTheDocument();
   });
-
-  /*
-  it('should warn when determinate variant is used without value prop', () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-
-    render(
-      <CircularProgress
-        aria-label="error case"
-        variant="determinate"
-        value={undefined}
-      />
-    );
-
-    expect(consoleSpy).toHaveBeenCalledWith(
-      'CircularProgress: You need to provide a value prop when using the determinate variant.'
-    );
-
-    consoleSpy.mockRestore();
-  });
-  */
 });
