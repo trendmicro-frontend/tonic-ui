@@ -1,9 +1,19 @@
 import { render, screen } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { LinearProgress } from '@tonic-ui/react/src';
+import { warnDeprecatedProps } from '@tonic-ui/utils';
 import React from 'react';
 
+jest.mock('@tonic-ui/utils', () => ({
+  ...jest.requireActual('@tonic-ui/utils'),
+  warnDeprecatedProps: jest.fn(),
+}));
+
 describe('LinearProgress', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('renders correctly', async () => {
     const renderOptions = {};
     const { container } = render((
@@ -77,5 +87,17 @@ describe('LinearProgress', () => {
     expect(gradientProgress).toHaveStyleRule('background-color', 'rgba(255, 255, 255, 0.12)');
     const gradientProgressBar = gradientProgress.firstChild;
     expect(gradientProgressBar).toHaveStyleRule('background', 'linear-gradient(90deg,#1e5ede,#04caa1)');
+  });
+
+  describe('deprecated props', () => {
+    it('should show warning when using size prop', () => {
+      render(<LinearProgress size="sm" />);
+
+      expect(warnDeprecatedProps).toHaveBeenCalledWith('size', {
+        prefix: 'LinearProgress:',
+        alternative: 'height',
+        willRemove: true,
+      });
+    });
   });
 });
