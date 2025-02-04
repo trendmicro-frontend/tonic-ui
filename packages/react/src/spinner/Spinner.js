@@ -89,11 +89,9 @@ const Spinner = forwardRef((inProps, ref) => {
         {
           'svg circle:first-of-type': {
             color: trackColor,
-            strokeWidth: trackWidth, // deprecated
           },
           'svg circle:last-of-type': {
             color: color ?? lineColor,
-            strokeWidth: lineWidth, // deprecated
           },
         },
       ]}
