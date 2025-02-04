@@ -1,5 +1,6 @@
 import { createPopper } from '@popperjs/core';
 import { useEffectOnce } from '@tonic-ui/react-hooks';
+import { ensureArray } from 'ensure-type';
 import React, { forwardRef, useEffect, useRef, useState, useCallback } from 'react';
 import { useDefaultProps } from '../default-props';
 import { Portal } from '../portal';
@@ -17,7 +18,7 @@ const Popper = forwardRef((inProps, ref) => {
     anchorEl, // TODO: rename to `referenceRef` in a future release
     children,
     isOpen,
-    modifiers,
+    modifiers = [],
     placement: placementProp,
     popperRef: popperRefProp,
     portalProps,
@@ -81,7 +82,7 @@ const Popper = forwardRef((inProps, ref) => {
             }
           },
         },
-        ...modifiers,
+        ...ensureArray(modifiers),
       ],
       strategy: 'absolute',
     });
