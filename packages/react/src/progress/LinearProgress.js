@@ -43,23 +43,18 @@ const LinearProgress = forwardRef((inProps, ref) => {
       });
     }, (sizeProp !== undefined));
 
-    if (sizeProp) {
+    if (sizeProp !== undefined) {
       const height = {
         'xs': '1h',
         'sm': '1x', // default
         'md': '2x',
         'lg': '3x',
       }[sizeProp] ?? sizeProp;
-      linearProgressRootStyleProps.height = height;
+      linearProgressRootStyleProps.height = height ?? linearProgressRootStyleProps.height;
     }
   }
 
   if (variant === 'determinate') {
-    if (process.env.NODE_ENV !== 'production' && (value < min || value > max)) {
-      const prefix = `${LinearProgress.displayName}:`;
-      console.warn(`${prefix} The value prop should be between ${min} and ${max}`);
-    }
-
     linearProgressRootProps['aria-valuemin'] = min;
     linearProgressRootProps['aria-valuemax'] = max;
     linearProgressRootProps['aria-valuenow'] = value;

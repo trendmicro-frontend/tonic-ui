@@ -123,6 +123,8 @@ const useCircularProgressSVGStyle = ({
   const viewBox = `0 0 ${size} ${size}`;
   return {
     display: 'block',
+
+    // The following are SVG element attributes
     viewBox,
   };
 };
@@ -140,6 +142,8 @@ const useCircularProgressTrackStyle = ({
   const radius = (size - thickness) / 2;
   const baseStyle = {
     color,
+
+    // The following are SVG element attributes
     fill: 'none',
     cx: size / 2,
     cy: size / 2,
@@ -178,6 +182,8 @@ const useCircularProgressIndicatorStyle = ({
   }, [circumference, thickness]);
   const baseStyle = {
     color,
+
+    // The following are SVG element attributes
     fill: 'none',
     cx: size / 2,
     cy: size / 2,
@@ -193,9 +199,11 @@ const useCircularProgressIndicatorStyle = ({
 
     return {
       ...baseStyle,
+      transition: createTransitionStyle('stroke-dashoffset'),
+
+      // The following are SVG element attributes
       strokeDasharray,
       strokeDashoffset,
-      transition: createTransitionStyle('stroke-dashoffset'),
     };
   }
 
@@ -205,6 +213,8 @@ const useCircularProgressIndicatorStyle = ({
     return {
       ...baseStyle,
       animation: `${animationKeyframe} ${animationDuration}s ease-in-out infinite`,
+
+      // The following are SVG element attributes
       strokeLinecap: 'round',
     };
   }

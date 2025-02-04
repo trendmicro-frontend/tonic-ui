@@ -32,10 +32,6 @@ const CircularProgress = forwardRef((inProps, ref) => {
     ...rest
   } = useDefaultProps({ props: inProps, name: 'CircularProgress' });
 
-  if (process.env.NODE_ENV !== 'production' && (value < min || value > max)) {
-    const prefix = `${CircularProgress.displayName}:`;
-    console.warn(`${prefix} The value prop should be between ${min} and ${max}`);
-  }
   const clampedValue = Math.max(min, Math.min(value, max));
   const scale = (clampedValue - min) / (max - min);
   const circularProgressRootStyleProps = useCircularProgressRootStyle({
