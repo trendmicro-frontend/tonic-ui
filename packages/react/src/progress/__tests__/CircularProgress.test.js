@@ -56,9 +56,32 @@ describe('CircularProgress', () => {
     );
 
     const progress = getByRole('progressbar');
-    const circle = progress.querySelector('circle');
-
-    expect(circle).toHaveAttribute('stroke-width', '5');
     expect(progress).toBeInTheDocument();
+
+    const track = progress.querySelector('svg circle:first-of-type');
+    const indicator = progress.querySelector('svg circle:last-of-type');
+    expect(track).toHaveAttribute('stroke-width', '5');
+    expect(track).toHaveStyleRule('color', 'rgba(255, 255, 255, 0.12)');
+    expect(indicator).toHaveAttribute('stroke-width', '5');
+    expect(indicator).toHaveStyleRule('color', 'var(--tonic-colors-red-60)');
+  });
+
+  it('should handle unknown variant gracefully', () => {
+    const { getByRole } = render(
+      <CircularProgress
+        aria-label="unknown variant"
+        variant="unknown"
+        thickness={5}
+      />
+    );
+
+    const progress = getByRole('progressbar');
+    expect(progress).toBeInTheDocument();
+    expect(progress).toHaveAttribute('aria-label', 'unknown variant');
+
+    const track = progress.querySelector('svg circle:first-of-type');
+    const indicator = progress.querySelector('svg circle:last-of-type');
+    expect(track).toHaveAttribute('stroke-width', '5');
+    expect(indicator).toHaveAttribute('stroke-width', '5');
   });
 });

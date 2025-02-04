@@ -60,8 +60,8 @@ describe('Spinner', () => {
 
     it('should allow thickness override regardless of size', () => {
       const { container } = render(<Spinner size="xs" thickness={6} />);
-      const track = container.querySelector('circle:first-of-type');
-      const indicator = container.querySelector('circle:last-of-type');
+      const track = container.querySelector('svg circle:first-of-type');
+      const indicator = container.querySelector('svg circle:last-of-type');
 
       // Should use provided thickness instead of size-based thickness
       expect(track).toHaveAttribute('stroke-width', '6');

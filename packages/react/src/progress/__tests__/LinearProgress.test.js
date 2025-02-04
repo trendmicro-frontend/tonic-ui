@@ -1,4 +1,4 @@
-import { render, screen } from '@tonic-ui/react/test-utils/render';
+import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { LinearProgress } from '@tonic-ui/react/src';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
@@ -57,9 +57,8 @@ describe('LinearProgress', () => {
 
   it('should render with custom colors', () => {
     // Custom color
-    render(
+    const { getByRole, rerender } = render(
       <LinearProgress
-        data-testid="linear-progress-1"
         aria-label="custom color"
         color="red:60"
         value={50}
@@ -67,15 +66,13 @@ describe('LinearProgress', () => {
       />
     );
 
-    const progress = screen.getByTestId('linear-progress-1');
+    let progress = getByRole('progressbar');
     expect(progress).toHaveStyleRule('background-color', 'rgba(255, 255, 255, 0.12)');
-    const progressBar = progress.firstChild;
-    expect(progressBar).toHaveStyleRule('background', '#e52630');
+    expect(progress.firstChild).toHaveStyleRule('background', '#e52630');
 
     // Gradient colors
-    render(
+    rerender(
       <LinearProgress
-        data-testid="linear-progress-2"
         aria-label="gradient"
         color={['blue:60', 'teal:40']}
         value={50}
@@ -83,10 +80,22 @@ describe('LinearProgress', () => {
       />
     );
 
-    const gradientProgress = screen.getByTestId('linear-progress-2');
-    expect(gradientProgress).toHaveStyleRule('background-color', 'rgba(255, 255, 255, 0.12)');
-    const gradientProgressBar = gradientProgress.firstChild;
-    expect(gradientProgressBar).toHaveStyleRule('background', 'linear-gradient(90deg,#1e5ede,#04caa1)');
+    progress = getByRole('progressbar');
+    expect(progress).toHaveStyleRule('background-color', 'rgba(255, 255, 255, 0.12)');
+    expect(progress.firstChild).toHaveStyleRule('background', 'linear-gradient(90deg,#1e5ede,#04caa1)');
+  });
+
+  it('should handle unknown variant gracefully', () => {
+    const { getByRole } = render(
+      <LinearProgress
+        aria-label="unknown variant"
+        variant="unknown"
+      />
+    );
+
+    const progress = getByRole('progressbar');
+    expect(progress).toBeInTheDocument();
+    expect(progress).toHaveAttribute('aria-label', 'unknown variant');
   });
 
   describe('deprecated props', () => {
