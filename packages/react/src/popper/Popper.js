@@ -93,9 +93,8 @@ const Popper = forwardRef((inProps, ref) => {
     assignRef(popperRefProp, popperInstance);
 
     if (popperRef.current !== popperInstance) {
-      const prefix = `${Popper.displayName}:`;
       console.error(
-        `${prefix} An unexpected error occurred. The popper instance is not assigned to the "popperRef" as expected.`,
+        `${Popper.displayName}: An unexpected error occurred. The popper instance is not assigned to the "popperRef" as expected.`,
       );
     }
   }, [anchorEl, modifiers, placement, placementProp, popperRefProp]);
@@ -108,9 +107,8 @@ const Popper = forwardRef((inProps, ref) => {
     assignRef(popperRefProp, null);
 
     if (popperRef.current !== null) {
-      const prefix = `${Popper.displayName}:`;
       console.error(
-        `${prefix} An unexpected error occurred. The "popperRef" is not set to null as expected.`,
+        `${Popper.displayName}: An unexpected error occurred. The "popperRef" is not set to null as expected.`,
       );
     }
   }, [popperRefProp]);
