@@ -8,8 +8,7 @@ import {
   Text,
   TextLabel,
 } from '@tonic-ui/react';
-import { callAll } from '@tonic-ui/utils';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 const sizeOptions = [16, 32, 48, 64, 80];
 const thicknessOptions = [2, 4, 8, 12];
@@ -27,36 +26,12 @@ const useSelection = (defaultValue) => {
 };
 
 const App = () => {
+  const min = 0, max = 100;
   const [variant, changeVariantBy] = useSelection('indeterminate');
   const [size, changeSizeBy] = useSelection(defaultSize);
   const [thickness, changeThicknessBy] = useSelection(defaultThickness);
   const [scale, setScale] = useState(1);
-  const [progress, setProgress] = useState(0);
-  const resetProgress = useCallback(() => setProgress(0), []);
-
-  useEffect(() => {
-    let waitForAnimationEnd = false;
-    const timer = setInterval(() => {
-      if (waitForAnimationEnd) {
-        return;
-      }
-      setProgress((oldProgress) => {
-        if (oldProgress >= 100) {
-          waitForAnimationEnd = true;
-          setTimeout(() => {
-            waitForAnimationEnd = false;
-          }, 250);
-          return 0;
-        }
-        const diff = 1 + Math.round(Math.random() * 1);
-        return Math.min(oldProgress + diff, 100);
-      });
-    }, 100);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+  const [progressValue, setProgressValue] = useState(min);
 
   return (
     <>
@@ -83,10 +58,7 @@ const App = () => {
             <Button
               key={value}
               selected={value === variant}
-              onClick={callAll(
-                changeVariantBy(value),
-                resetProgress,
-              )}
+              onClick={changeVariantBy(value)}
               minWidth="15x"
             >
               {value}
@@ -146,6 +118,29 @@ const App = () => {
           ))}
         </ButtonGroup>
       </FormGroup>
+      {variant === 'determinate' && (
+        <FormGroup>
+          <Box mb="2x">
+            <Flex alignItems="center" columnGap="2x">
+              <TextLabel>
+                value={progressValue}
+              </TextLabel>
+            </Flex>
+          </Box>
+          <Flex columnGap="4x" mb="2x">
+            <Box
+              as="input"
+              type="range"
+              name="progress"
+              min={min}
+              max={max}
+              value={progressValue}
+              onChange={(e) => setProgressValue(Number(e.target.value))}
+              style={{ width: '320px' }}
+            />
+          </Flex>
+        </FormGroup>
+      )}
       <Divider mb="4x" />
       <Box mb="4x">
         <Text fontSize="lg" lineHeight="lg">
@@ -184,7 +179,9 @@ const App = () => {
           variant={variant}
           size={size}
           thickness={thickness}
-          value={variant === 'determinate' ? progress : undefined}
+          min={min}
+          max={max}
+          value={variant === 'determinate' ? progressValue : undefined}
           width={Math.floor(size * scale)}
           height={Math.floor(size * scale)}
         />
@@ -195,7 +192,7 @@ const App = () => {
           width={Math.floor(size * scale)}
         >
           <TextLabel>
-            {progress}%
+            {progressValue}%
           </TextLabel>
         </Box>
       )}
