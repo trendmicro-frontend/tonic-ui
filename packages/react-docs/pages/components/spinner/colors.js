@@ -1,14 +1,36 @@
-import { Flex, Spinner, useColorStyle } from '@tonic-ui/react';
+import {
+  Flex,
+  Spinner,
+  useColorMode,
+} from '@tonic-ui/react';
 import React from 'react';
 
 const App = () => {
-  const [colorStyle] = useColorStyle();
+  const [colorMode] = useColorMode();
+  const customTrackColor = {
+    dark: 'teal:60',
+    light: 'teal:20',
+  }[colorMode];
 
   return (
     <Flex alignItems="center" columnGap="6x">
-      <Spinner color="transparent" />
-      <Spinner color="red:50" trackColor={colorStyle.background.secondary} />
-      <Spinner color="red:50" trackColor="transparent" />
+      <Spinner color="teal:40" />
+      <Spinner
+        color="teal:40"
+        sx={{
+          'svg circle:first-of-type': {
+            color: customTrackColor,
+          },
+        }}
+      />
+      <Spinner
+        color="teal:40"
+        sx={{
+          'svg circle:first-of-type': {
+            color: 'transparent',
+          },
+        }}
+      />
     </Flex>
   );
 };

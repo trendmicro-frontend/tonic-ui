@@ -31,14 +31,14 @@ const mapSpinnerSizeToThickness = (size) => {
 
 const Spinner = forwardRef((inProps, ref) => {
   const {
-    lineColor, // deprecated
-    lineWidth, // deprecated
-    trackWidth, // deprecated
+    lineColor: lineColorProp, // deprecated
+    lineWidth: lineWidthProp, // deprecated
+    trackColor: trackColorProp, // deprecated
+    trackWidth: trackWidthProp, // deprecated
 
     color,
     size = defaultSize,
     thickness: thicknessProp,
-    trackColor,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Spinner' });
 
@@ -51,7 +51,7 @@ const Spinner = forwardRef((inProps, ref) => {
         alternative: 'color',
         willRemove: true,
       });
-    }, (lineColor !== undefined));
+    }, (lineColorProp !== undefined));
 
     useOnceWhen(() => {
       warnDeprecatedProps('lineWidth', {
@@ -59,7 +59,15 @@ const Spinner = forwardRef((inProps, ref) => {
         alternative: 'thickness',
         willRemove: true,
       });
-    }, (lineWidth !== undefined));
+    }, (lineWidthProp !== undefined));
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('trackColor', {
+        prefix,
+        alternative: 'sx={{ "svg circle:first-of-type": { color: trackColor } }}',
+        willRemove: true,
+      });
+    }, (trackColorProp !== undefined));
 
     useOnceWhen(() => {
       warnDeprecatedProps('trackWidth', {
@@ -67,7 +75,7 @@ const Spinner = forwardRef((inProps, ref) => {
         alternative: 'thickness',
         willRemove: true,
       });
-    }, (trackWidth !== undefined));
+    }, (trackWidthProp !== undefined));
   }
 
   const diameter = mapSpinnerSizeToDiameter(size);
@@ -75,23 +83,24 @@ const Spinner = forwardRef((inProps, ref) => {
 
   // Get the maximum value from lineWidth, trackWidth, and the mapped thickness
   const normalizedThickness = Math.max(
-    ensureFiniteNumber(lineWidth), // deprecated
-    ensureFiniteNumber(trackWidth), // deprecated
+    ensureFiniteNumber(lineWidthProp), // deprecated
+    ensureFiniteNumber(trackWidthProp), // deprecated
     thickness,
   );
 
   return (
     <CircularProgress
       ref={ref}
+      color={color}
       size={diameter}
       thickness={normalizedThickness}
       sx={[
         {
           'svg circle:first-of-type': {
-            color: trackColor,
+            color: trackColorProp,
           },
           'svg circle:last-of-type': {
-            color: color ?? lineColor,
+            color: color ?? lineColorProp,
           },
         },
       ]}

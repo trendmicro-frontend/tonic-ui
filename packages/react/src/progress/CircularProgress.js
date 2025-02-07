@@ -1,3 +1,5 @@
+import { useOnceWhen } from '@tonic-ui/react-hooks';
+import { warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
@@ -19,6 +21,8 @@ const CircularProgressIndicator = (props) => <Box as="circle" {...props} />;
 
 const CircularProgress = forwardRef((inProps, ref) => {
   const {
+    trackColor: trackColorProp, // deprecated
+
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
     color = 'blue:60',
@@ -26,11 +30,22 @@ const CircularProgress = forwardRef((inProps, ref) => {
     max = 100,
     size = defaultSize,
     thickness = defaultThickness,
-    trackColor,
     value = 0,
     variant = defaultVariant,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'CircularProgress' });
+
+  { // deprecation warning
+    const prefix = `${CircularProgress.displayName}:`;
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('trackColor', {
+        prefix,
+        alternative: 'sx={{ "svg circle:first-of-type": { color: trackColor } }}',
+        willRemove: true,
+      });
+    }, (trackColorProp !== undefined));
+  }
 
   const clampedValue = Math.max(min, Math.min(value, max));
   const scale = (clampedValue - min) / (max - min);
@@ -44,7 +59,7 @@ const CircularProgress = forwardRef((inProps, ref) => {
   const circularProgressTrackStyleProps = useCircularProgressTrackStyle({
     size,
     thickness,
-    trackColor,
+    trackColor: trackColorProp, // deprecated
   });
   const circularProgressIndicatorStyleProps = useCircularProgressIndicatorStyle({
     color,

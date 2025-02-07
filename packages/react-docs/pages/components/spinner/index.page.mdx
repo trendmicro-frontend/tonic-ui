@@ -28,10 +28,21 @@ You can use the `size` prop to change the size of the spinner. Each size has a c
 
 ### Colors
 
-* `color` - Defines the spinner's indicator color. Use `transparent` to hide the indicator.
-* `trackColor` - Defines the spinner's track color. Use `transparent` to hide the track.
+The `color` prop supports both default and custom theme colors. To customize the circular track color, use the `sx` prop as shown below:
+
+```jsx
+sx={{
+  'svg circle:first-of-type': {
+    color: customTrackColor,
+  },
+}}
+```
 
 {render('./colors')}
+
+### Customization
+
+For more extensive customization, consider using the [CircularProgress](./progress#circularprogress) component.
 
 ## Props
 
@@ -41,4 +52,3 @@ You can use the `size` prop to change the size of the spinner. Each size has a c
 | :--- | :--- | :------ | :---------- |
 | color | string | 'blue:60' | The color of the spinner. It supports both default and custom theme colors. |
 | size | string | 'md' | The size of the spinner. One of: 'xl', 'lg', 'md', 'sm', 'xs'. |
-| trackColor | string | Dark mode:<br/>'rgba(255, 255, 255, .12)'<br/><br/>Light mode:<br/>'rgba(0, 0, 0, .12)' | The spinner's track color. |

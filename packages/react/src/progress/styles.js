@@ -132,10 +132,10 @@ const useCircularProgressSVGStyle = ({
 const useCircularProgressTrackStyle = ({
   size,
   thickness,
-  trackColor,
+  trackColor: deprecatedTrackColor, // deprecated
 }) => {
   const [colorMode] = useColorMode();
-  const color = trackColor ?? {
+  const color = deprecatedTrackColor ?? {
     dark: 'rgba(255, 255, 255, 0.12)',
     light: 'rgba(0, 0, 0, 0.12)',
   }[colorMode];
