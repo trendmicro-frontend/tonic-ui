@@ -37,14 +37,14 @@ The `color` prop allows you to customize the progress bar's color. You can choos
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | color | string | 'blue:60' | The color of the circular progress. It supports both default and custom theme colors. |
-| height | number \| string | | Optionally scales the circular progress to match the height.<br/>⚠️ When scaling is required, both `width` and `height` props must be passed with identical values. |
 | min | number | 0 | The minimum value of the progress indicator. |
 | max | number | 100 | The maximum value of the progress indicator. |
 | size | number | 48 | The diameter of the circular progress, in pixels. |
 | thickness | number | 4 | The thickness of the circular progress, in pixels. |
 | value | number | 0 | The value of the progress indicator for the determinate variant. Value between `min` and `max`. |
 | variant | string | 'indeterminate' | The variant to use. One of: 'indeterminate', 'determinate'<br />• Use 'indeterminate' when there is no progress value.<br />• Use 'determinate' when a progress value is defined. |
-| width | number \| string | | Optionally scales the circular progress to match the width.<br/>⚠️ When scaling is required, both `width` and `height` props must be passed with identical values. |
+
+> ℹ️  To scale the circular progress, set the `width` and `height` props to identical values. For example, if the `size` is 48, passing 96 to both `width` and `height` will scale the circular progress by 2x.
 
 ### LinearProgress
 
@@ -56,3 +56,4 @@ The `color` prop allows you to customize the progress bar's color. You can choos
 | max | number | 100 | The maximum value of the progress indicator. |
 | value | number | 0 | The value of the progress indicator for the determinate variant. Value between `min` and `max`. |
 | variant | string | 'indeterminate' | The variant to use. One of: 'indeterminate', 'determinate'<br />• Use 'indeterminate' when there is no progress value.<br />• Use 'determinate' when a progress value is defined. |
+| width | number \| string | | The width of the progress bar, in pixels. |
