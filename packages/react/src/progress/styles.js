@@ -1,10 +1,13 @@
 import { keyframes } from '@emotion/react';
 import { createTransitionStyle } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
+import { useMemo } from 'react';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 
-const indeterminateProgressAnimation = keyframes`
+const baseAnimationDuration = 2; // in seconds
+
+const linearProgressBarKeyframe = keyframes`
   0% {
     left: -40%;
     right: 100%;
@@ -19,28 +22,35 @@ const indeterminateProgressAnimation = keyframes`
   }
 `;
 
-const useLinearProgressStyle = ({ size }) => {
+const circularProgressRootKeyframe = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
+const useLinearProgressRootStyle = () => {
   const [colorMode] = useColorMode();
   const backgroundColor = {
     dark: 'rgba(255, 255, 255, 0.12)',
     light: 'rgba(0, 0, 0, 0.12)',
   }[colorMode];
-  const height = {
-    'xs': '1h',
-    'sm': '1x',
-    'md': '2x',
-    'lg': '3x',
-  }[size];
 
   return {
     position: 'relative',
     overflow: 'hidden',
     backgroundColor,
-    height,
+    height: '1x',
   };
 };
 
-const useLinearProgressBarStyle = ({ variant, color }) => {
+const useLinearProgressBarStyle = ({
+  color,
+  variant,
+}) => {
   const theme = useTheme();
   const colors = ensureArray(color)
     .map(c => {
@@ -66,7 +76,7 @@ const useLinearProgressBarStyle = ({ variant, color }) => {
     return {
       position: 'absolute',
       inset: 0,
-      animation: `${indeterminateProgressAnimation} 1.6s linear .5s infinite`,
+      animation: `${linearProgressBarKeyframe} 1.6s linear .5s infinite`,
       background: (colors.length > 1)
         ? `linear-gradient(90deg,${colors.join(',')})`
         : colors[0],
@@ -77,7 +87,146 @@ const useLinearProgressBarStyle = ({ variant, color }) => {
   return {};
 };
 
+const useCircularProgressRootStyle = ({
+  color,
+  size,
+  variant,
+}) => {
+  const baseStyle = {
+    color,
+    display: 'inline-block',
+    width: size,
+    height: size,
+  };
+
+  if (variant === 'determinate') {
+    return {
+      ...baseStyle,
+      transform: 'rotate(-90deg)',
+      transition: createTransitionStyle('transform'),
+    };
+  }
+
+  if (variant === 'indeterminate') {
+    return {
+      ...baseStyle,
+      animation: `${circularProgressRootKeyframe} ${baseAnimationDuration}s linear infinite`,
+    };
+  }
+
+  return baseStyle;
+};
+
+const useCircularProgressSVGStyle = ({
+  size,
+}) => {
+  const viewBox = `0 0 ${size} ${size}`;
+  return {
+    display: 'block',
+
+    // The following are SVG element attributes
+    viewBox,
+  };
+};
+
+const useCircularProgressTrackStyle = ({
+  size,
+  thickness,
+  trackColor: deprecatedTrackColor, // deprecated
+}) => {
+  const [colorMode] = useColorMode();
+  const color = deprecatedTrackColor ?? {
+    dark: 'rgba(255, 255, 255, 0.12)',
+    light: 'rgba(0, 0, 0, 0.12)',
+  }[colorMode];
+  const radius = (size - thickness) / 2;
+  const baseStyle = {
+    color,
+
+    // The following are SVG element attributes
+    fill: 'none',
+    cx: size / 2,
+    cy: size / 2,
+    r: radius,
+    stroke: 'currentColor',
+    strokeWidth: thickness,
+  };
+
+  return baseStyle;
+};
+
+const useCircularProgressIndicatorStyle = ({
+  color,
+  scale, // between 0 and 1 inclusive (0 ≤ scale ≤ 1)
+  size,
+  thickness,
+  variant,
+}) => {
+  const radius = (size - thickness) / 2;
+  const circumference = radius * 2 * Math.PI;
+  const animationKeyframe = useMemo(() => {
+    return keyframes`
+      0% {
+        stroke-dasharray: 0, ${circumference};
+        stroke-dashoffset: 0;
+      }
+      50% {
+        stroke-dasharray: ${circumference * 0.6}, ${circumference};
+        stroke-dashoffset: -${circumference * (1 - 0.6) - thickness * 4};
+      }
+      100% {
+        stroke-dasharray: ${circumference * 0.6}, ${circumference};
+        stroke-dashoffset: -${(circumference * 1 - thickness * 4)};
+      }
+    `;
+  }, [circumference, thickness]);
+  const baseStyle = {
+    color,
+
+    // The following are SVG element attributes
+    fill: 'none',
+    cx: size / 2,
+    cy: size / 2,
+    r: radius,
+    stroke: 'currentColor',
+    strokeWidth: thickness,
+  };
+
+  if (variant === 'determinate') {
+    const percentage = 100 - scale * 100;
+    const strokeDasharray = circumference.toFixed(3);
+    const strokeDashoffset = ((percentage / 100) * circumference).toFixed(3) + 'px';
+
+    return {
+      ...baseStyle,
+      transition: createTransitionStyle('stroke-dashoffset'),
+
+      // The following are SVG element attributes
+      strokeDasharray,
+      strokeDashoffset,
+    };
+  }
+
+  if (variant === 'indeterminate') {
+    const animationDuration = Math.floor(baseAnimationDuration * 0.75 * 100) / 100; // in seconds
+
+    return {
+      ...baseStyle,
+      animation: `${animationKeyframe} ${animationDuration}s ease-in-out infinite`,
+
+      // The following are SVG element attributes
+      strokeLinecap: 'round',
+    };
+  }
+
+  return baseStyle;
+};
+
 export {
-  useLinearProgressStyle,
+  useLinearProgressRootStyle,
   useLinearProgressBarStyle,
+  useCircularProgressRootStyle,
+  useCircularProgressSVGStyle,
+  useCircularProgressTrackStyle,
+  useCircularProgressIndicatorStyle,
 };

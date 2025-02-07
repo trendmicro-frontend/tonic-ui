@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spinner renders correctly 1`] = `
+@keyframes animation-0 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes animation-1 {
+  0% {
+    stroke-dasharray: 0,138.23007675795088;
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dasharray: 82.93804605477052,138.23007675795088;
+    stroke-dashoffset: -39.29203070318036;
+  }
+
+  100% {
+    stroke-dasharray: 82.93804605477052,138.23007675795088;
+    stroke-dashoffset: -122.23007675795088;
+  }
+}
+
+.emotion-0 {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  -webkit-animation: animation-0 2s linear infinite;
+  animation: animation-0 2s linear infinite;
+}
+
+.emotion-2 {
+  display: block;
+}
+
+.emotion-4 {
+  color: rgba(255, 255, 255, 0.12);
+}
+
+.emotion-6 {
+  color: var(--tonic-colors-blue-60);
+  -webkit-animation: animation-1 1.5s ease-in-out infinite;
+  animation: animation-1 1.5s ease-in-out infinite;
+}
+
+<div>
+  <div
+    aria-label="loading"
+    class="emotion-0 emotion-1"
+    role="progressbar"
+  >
+    <svg
+      class="emotion-2 emotion-1"
+      viewBox="0 0 48 48"
+    >
+      <circle
+        class="emotion-4 emotion-1"
+        cx="24"
+        cy="24"
+        fill="none"
+        r="22"
+        stroke="currentColor"
+        stroke-width="4"
+      />
+      <circle
+        class="emotion-6 emotion-1"
+        cx="24"
+        cy="24"
+        fill="none"
+        r="22"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-width="4"
+      />
+    </svg>
+  </div>
+</div>
+`;

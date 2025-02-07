@@ -1,5 +1,6 @@
 import { createPopper } from '@popperjs/core';
 import { useEffectOnce } from '@tonic-ui/react-hooks';
+import { ensureArray } from 'ensure-type';
 import React, { forwardRef, useEffect, useRef, useState, useCallback } from 'react';
 import { useDefaultProps } from '../default-props';
 import { Portal } from '../portal';
@@ -17,7 +18,7 @@ const Popper = forwardRef((inProps, ref) => {
     anchorEl, // TODO: rename to `referenceRef` in a future release
     children,
     isOpen,
-    modifiers,
+    modifiers = [],
     placement: placementProp,
     popperRef: popperRefProp,
     portalProps,
@@ -81,7 +82,7 @@ const Popper = forwardRef((inProps, ref) => {
             }
           },
         },
-        ...modifiers,
+        ...ensureArray(modifiers),
       ],
       strategy: 'absolute',
     });
@@ -93,9 +94,8 @@ const Popper = forwardRef((inProps, ref) => {
     assignRef(popperRefProp, popperInstance);
 
     if (popperRef.current !== popperInstance) {
-      const prefix = `${Popper.displayName}:`;
       console.error(
-        `${prefix} An unexpected error occurred. The popper instance is not assigned to the "popperRef" as expected.`,
+        `${Popper.displayName}: An unexpected error occurred. The popper instance is not assigned to the "popperRef" as expected.`,
       );
     }
   }, [anchorEl, modifiers, placement, placementProp, popperRefProp]);
@@ -108,9 +108,8 @@ const Popper = forwardRef((inProps, ref) => {
     assignRef(popperRefProp, null);
 
     if (popperRef.current !== null) {
-      const prefix = `${Popper.displayName}:`;
       console.error(
-        `${prefix} An unexpected error occurred. The "popperRef" is not set to null as expected.`,
+        `${Popper.displayName}: An unexpected error occurred. The "popperRef" is not set to null as expected.`,
       );
     }
   }, [popperRefProp]);

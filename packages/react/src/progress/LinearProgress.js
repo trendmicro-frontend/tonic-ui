@@ -1,46 +1,67 @@
-import { ensureFiniteNumber } from 'ensure-type';
+import { useOnceWhen } from '@tonic-ui/react-hooks';
+import { warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import {
-  useLinearProgressStyle,
+  useLinearProgressRootStyle,
   useLinearProgressBarStyle,
 } from './styles';
 
-const defaultSize = 'sm';
 const defaultVariant = 'indeterminate';
 
 const LinearProgress = forwardRef((inProps, ref) => {
   const {
+    size: sizeProp, // deprecated
+
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
     color = 'blue:60',
     min = 0,
     max = 100,
-    size = defaultSize,
-    value,
+    value = 0,
     variant = defaultVariant,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'LinearProgress' });
-  const progressStyleProps = useLinearProgressStyle({ size });
-  const progressbarStyleProps = useLinearProgressBarStyle({ color, variant });
-  const progressbarProps = {
-    'aria-valuemin': min,
-    'aria-valuemax': max,
-    'aria-valuenow': (variant === 'determinate') ? value : undefined,
+  const linearProgressRootStyleProps = useLinearProgressRootStyle();
+  const linearProgressBarStyleProps = useLinearProgressBarStyle({ color, variant });
+  const linearProgressRootProps = {
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
     role: 'progressbar',
   };
+  const linearProgressBarProps = {};
+
+  { // deprecation warning
+    const prefix = `${LinearProgress.displayName}:`;
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('size', {
+        prefix,
+        alternative: 'height',
+        willRemove: true,
+      });
+    }, (sizeProp !== undefined));
+
+    if (sizeProp !== undefined) {
+      const height = {
+        'xs': '1h',
+        'sm': '1x', // default
+        'md': '2x',
+        'lg': '3x',
+      }[sizeProp] ?? sizeProp;
+      linearProgressRootStyleProps.height = height ?? linearProgressRootStyleProps.height;
+    }
+  }
 
   if (variant === 'determinate') {
-    if ((process.env.NODE_ENV !== 'production') && (value === undefined)) {
-      console.error('You need to provide a value prop when using the determinate variant of LinearProgress.');
-    }
+    linearProgressRootProps['aria-valuemin'] = min;
+    linearProgressRootProps['aria-valuemax'] = max;
+    linearProgressRootProps['aria-valuenow'] = value;
 
-    const scale = (ensureFiniteNumber(value) - min) / (max - min);
-    progressbarProps.style = {
-      ...progressbarProps.style,
+    const clampedValue = Math.max(min, Math.min(value, max));
+    const scale = (clampedValue - min) / (max - min);
+    linearProgressBarProps.style = {
       clipPath: `inset(0 ${(1 - scale) * 100}% 0 0)`,
     };
   }
@@ -48,15 +69,18 @@ const LinearProgress = forwardRef((inProps, ref) => {
   return (
     <Box
       ref={ref}
-      {...progressStyleProps}
+      {...linearProgressRootProps}
+      {...linearProgressRootStyleProps}
       {...rest}
     >
       <Box
-        {...progressbarStyleProps}
-        {...progressbarProps}
+        {...linearProgressBarProps}
+        {...linearProgressBarStyleProps}
       />
     </Box>
   );
 });
+
+LinearProgress.displayName = 'LinearProgress';
 
 export default LinearProgress;

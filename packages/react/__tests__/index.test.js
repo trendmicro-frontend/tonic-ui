@@ -163,6 +163,7 @@ test('should match expected exports', () => {
     'usePortalManager',
 
     // progress
+    'CircularProgress',
     'LinearProgress',
 
     // provider
