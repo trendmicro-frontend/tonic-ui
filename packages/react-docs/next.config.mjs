@@ -341,6 +341,7 @@ const initialNextConfig = {
   distDir: process.env.NODE_ENV === 'production' ? 'dist' : 'build',
   output: process.env.NODE_ENV === 'production' ? 'export' : 'standalone',
   pageExtensions: ['page.js', 'page.mdx'],
+  trailingSlash: true,
 };
 
 const transformNextConfig = () => plugins.reduce((acc, next) => next(acc), initialNextConfig);

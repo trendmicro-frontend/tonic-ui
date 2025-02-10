@@ -34,8 +34,8 @@ You can keep v0.x packages until you are ready to remove them.
 A `TonicProvider` is provided by the `@tonic-ui/react` package. It includes the following providers:
 
 * **ThemeProvider**: Provides the theming context for all components.
-* **ColorModeProvider**: Provides color mode context to all components. [Learn more](../components/color-mode)
-* **ColorStyleProvider**: Provides the color style context to all components. [Learn more](../components/color-style)
+* **ColorModeProvider**: Provides color mode context to all components. [Learn more](../../components/color-mode)
+* **ColorStyleProvider**: Provides the color style context to all components. [Learn more](../../components/color-style)
 
 Optionally via prop:
 
@@ -58,13 +58,13 @@ Optionally via prop:
 + </TonicProvider>
 ```
 
-> See [Getting Started](../getting-started/usage) to learn more about the providers.
+> See [Getting Started](../../getting-started/usage) to learn more about the providers.
 
 ### 3. Replace deprecated components and Hooks
 
 #### FlatButton component
 
-💣 `FlatButton` is deprecated and will be removed in the next major release. Use [Button](../components/button) or [ButtonBase](../components/button-base) instead.
+💣 `FlatButton` is deprecated and will be removed in the next major release. Use [Button](../../components/button) or [ButtonBase](../../components/button-base) instead.
 
 ```diff
 - <FlatButton variant="solid"/>
@@ -107,7 +107,7 @@ const ActionButton = forwardRef((props, ref) => (
 
 #### PseudoBox component
 
-💣 `PseudoBox` is deprecated and its props can now be passed to `Box` directly. Use [Box](../components/box) instead.
+💣 `PseudoBox` is deprecated and its props can now be passed to `Box` directly. Use [Box](../../components/box) instead.
 
 ```diff
 - <PseudoBox
@@ -121,7 +121,7 @@ const ActionButton = forwardRef((props, ref) => (
 
 #### ToggleSwitch component
 
-💣 `ToggleSwitch` is deprecated and will be removed in the next major release. Use [Switch](../components/switch) instead.
+💣 `ToggleSwitch` is deprecated and will be removed in the next major release. Use [Switch](../../components/switch) instead.
 
 ```diff
 - <ToggleSwitch />
@@ -130,7 +130,7 @@ const ActionButton = forwardRef((props, ref) => (
 
 #### useDisclosure Hook
 
-💣 `useDisclosure` is deprecated and will be removed in the next major release. Use [useToggle](../hooks/use-toggle) instead.
+💣 `useDisclosure` is deprecated and will be removed in the next major release. Use [useToggle](../../hooks/use-toggle) instead.
 
 ```js
 const [value, toggleValue] = useToggle(false);
@@ -166,7 +166,7 @@ The following components changed the `display` property internally. Check whethe
 
 ### Theme
 
-Removed dark and light shadows from the `theme.shadows` object in favor of `colorStyle.shadow`. See [shadows](../theme/shadows) to learn more.
+Removed dark and light shadows from the `theme.shadows` object in favor of `colorStyle.shadow`. See [shadows](../../theme/shadows) to learn more.
 
 ```diff
 {
@@ -370,13 +370,13 @@ The following components now have built-in transitions. Remember to remove all t
 | `ToastTransition` | built-in | false |
 | `Tooltip` | `Grow` | false |
 
-* [Transitions](../components/transitions)
-* [Collapse](../components/transitions/collapse) - internally used in `Accordion` and `Menu`
-* [Fade](../components/transitions/fade) - internally used in `Modal`
-* [Grow](../components/transitions/grow) - internally used in `Popover` and `Tooltip`
-* [Scale](../components/transitions/scale)
-* [Slide](../components/transitions/slide) - internally used in `Drawer`
-* [Zoom](../components/transitions/zoom)
+* [Transitions](../../components/transitions)
+* [Collapse](../../components/transitions/collapse) - internally used in `Accordion` and `Menu`
+* [Fade](../../components/transitions/fade) - internally used in `Modal`
+* [Grow](../../components/transitions/grow) - internally used in `Popover` and `Tooltip`
+* [Scale](../../components/transitions/scale)
+* [Slide](../../components/transitions/slide) - internally used in `Drawer`
+* [Zoom](../../components/transitions/zoom)
 
 ### Drawer
 

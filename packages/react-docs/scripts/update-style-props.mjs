@@ -43,7 +43,7 @@ try {
         const cells = [
           '`' + x.prop + '`',
           '`' + x.properties.join('`, `') + '`',
-          x.scale ? `[${x.scale}](../theme/${kebabize(x.scale)})` : '',
+          x.scale ? `[${x.scale}](../../theme/${kebabize(x.scale)})` : '',
         ];
         return '| ' + cells.join(' | ') + ' |';
       }));
