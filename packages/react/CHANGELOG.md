@@ -1,5 +1,15 @@
 # @tonic-ui/react
 
+## 2.6.0
+
+### Minor Changes
+
+- feat: `CircularProgress` component by [@cheton](https://github.com/cheton) in [#966](https://github.com/trendmicro-frontend/tonic-ui/pull/966)
+
+- feat(react/date-pickers)!: deprecate `Calendar` and replace it with `DateCalendar` by [@cheton](https://github.com/cheton) in [#961](https://github.com/trendmicro-frontend/tonic-ui/pull/961)
+
+- feat: eliminate the `lodash.get` dependency by [@cheton](https://github.com/cheton) in [#964](https://github.com/trendmicro-frontend/tonic-ui/pull/964)
+
 ## 2.5.1
 
 ### Patch Changes
