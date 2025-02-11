@@ -58,14 +58,12 @@ const useYearMonthPickerYearStyle = () => {
     outline: 0, // Remove the default outline
     _hover: {
       '& > * > button': {
-        opacity: 1,
-        visibility: 'visible',
+        opacity: 1, // Avoid using "visibility" to prevent losing focus, ensuring better accessibility
       },
     },
     _focusVisible: {
       '& > * > button ': {
-        opacity: 1,
-        visibility: 'visible',
+        opacity: 1, // Avoid using "visibility" to prevent losing focus, ensuring better accessibility
       },
       outlineColor: focusVisibleOutlineColor,
       outlineOffset: '-1h',
@@ -95,8 +93,7 @@ const useYearMonthPickerYearButtonStyle = () => {
     px: 0,
     width: '4x',
     height: '4x',
-    opacity: 0,
-    visibility: 'hidden',
+    opacity: 0, // Avoid using "visibility" to prevent losing focus, ensuring better accessibility
     _hover: {
       borderColor: 'transparent',
       color: hoverColor,
