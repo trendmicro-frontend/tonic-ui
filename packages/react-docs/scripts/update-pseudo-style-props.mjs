@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { pseudoClassSelector, pseudoElementSelector } from '@tonic-ui/styled-system';
+import { ensureArray } from 'ensure-type';
 import _ from 'lodash';
 
 const args = process.argv.slice(2);
@@ -13,11 +14,38 @@ const list = {
 
 const data = _.reduce(list, (result, selectorObject, key) => {
   for (const [prop, sx] of Object.entries(selectorObject)) {
-    const items = sx({}).map(x => ({
-      prop,
-      selector: x[0],
-    }));
-    result[key] = (result[key] || (result[key] = [])).concat(items);
+    let items = [];
+
+    if (prop === '_has') {
+      items = [{
+        prop: '_has',
+        selector: '&:has(<relative-selector-list>)',
+      }];
+    } else if (prop === '_is') {
+      items = [{
+        prop: '_is',
+        selector: '&:is(<forgiving-selector-list>)',
+      }];
+    } else if (prop === '_not') {
+      items = [{
+        prop: '_not',
+        selector: '&:not(<complex-selector-list>)',
+      }];
+    } else if (prop === '_nthOfType') {
+      items = [{
+        prop: '_nthOfType',
+        selector: '&:nth-of-type(<An+B> | even | odd)',
+      }];
+    } else {
+      items = sx({}).map(x => {
+        return {
+          prop,
+          selector: x[0],
+        };
+      });
+    }
+
+    result[key] = ensureArray(result[key]).concat(items);
   }
   return result;
 }, {});
@@ -34,7 +62,7 @@ try {
       ].concat(value.map(x => {
         const cells = [
           '`' + x.prop + '`',
-          '`' + x.selector.split(',').join('` ,<br/>`') + '`',
+          '`' + x.selector.replaceAll('|', '\\|').split(',').join('`,<br/>`') + '`',
         ];
         return '| ' + cells.join(' | ') + ' |';
       }));
