@@ -1,4 +1,7 @@
-const noop = () => {};
+import {
+  noop,
+  warnDeprecatedProps,
+} from '@tonic-ui/utils';
 
 const createSelectorFunction = (name) => {
   if (Array.isArray(name)) {
@@ -72,8 +75,34 @@ const pseudoClassSelector = {
     '&:focus',
     '&[data-focus]',
   ]),
-  _focusActive: createSelectorFunction('&:focus:active'),
-  _focusHover: createSelectorFunction('&:focus:hover'),
+  _focusActive: (() => { // deprecated
+    const selectorFunction = createSelectorFunction('&:focus:active');
+    let _warnedOnce = false;
+    return (props) => {
+      if (process.env.NODE_ENV !== 'production' && !_warnedOnce) {
+        warnDeprecatedProps('_focusActive', {
+          alternative: '_focus: { \'&:active\': { } }',
+          willRemove: true,
+        });
+        _warnedOnce = true;
+      }
+      return selectorFunction(props);
+    };
+  })(),
+  _focusHover: (() => { // deprecated
+    const selectorFunction = createSelectorFunction('&:focus:hover');
+    let _warnedOnce = false;
+    return (props) => {
+      if (process.env.NODE_ENV !== 'production' && !_warnedOnce) {
+        warnDeprecatedProps('_focusHover', {
+          alternative: '_focus: { \'&:hover\': { } }',
+          willRemove: true,
+        });
+        _warnedOnce = true;
+      }
+      return selectorFunction(props);
+    };
+  })(),
   _focusVisible: createSelectorFunction('&:focus-visible'),
   _focusWithin: createSelectorFunction('&:focus-within'),
   _has: createFunctionalSelectorFunction('&:has'),
