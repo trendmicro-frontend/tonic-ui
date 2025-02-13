@@ -1,5 +1,11 @@
 # @tonic-ui/styled-system
 
+## 2.2.0
+
+### Minor Changes
+
+- feat(styled-system): introduce `_has`, `_is`, and `_not` style props to support functional pseudo-class selectors by [@cheton](https://github.com/cheton) in [#972](https://github.com/trendmicro-frontend/tonic-ui/pull/972)
+
 ## 2.1.0
 
 ### Minor Changes

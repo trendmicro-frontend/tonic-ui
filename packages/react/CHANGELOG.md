@@ -1,5 +1,13 @@
 # @tonic-ui/react
 
+## 2.6.1
+
+### Patch Changes
+
+- feat(styled-system): introduce `_has`, `_is`, and `_not` style props to support functional pseudo-class selectors by [@cheton](https://github.com/cheton) in [#972](https://github.com/trendmicro-frontend/tonic-ui/pull/972)
+- Updated dependencies [[`008d823`](https://github.com/trendmicro-frontend/tonic-ui/commit/008d82315a72b4069d043424ac98298fb46a4415)]
+  - @tonic-ui/styled-system@2.2.0
+
 ## 2.6.0
 
 ### Minor Changes
