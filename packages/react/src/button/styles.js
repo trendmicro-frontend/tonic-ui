@@ -363,23 +363,27 @@ const useButtonStyle = ({
   };
   const orientationStyle = {
     'horizontal': {
-      _notFirstOfType: {
-        borderTopLeftRadius: 0,
-        borderBottomLeftRadius: 0,
-      },
-      _notLastOfType: {
-        borderTopRightRadius: 0,
-        borderBottomRightRadius: 0,
+      _not: {
+        ':first-of-type': {
+          borderTopLeftRadius: 0,
+          borderBottomLeftRadius: 0,
+        },
+        ':last-of-type': {
+          borderTopRightRadius: 0,
+          borderBottomRightRadius: 0,
+        },
       },
     },
     'vertical': {
-      _notFirstOfType: {
-        borderTopLeftRadius: 0,
-        borderTopRightRadius: 0,
-      },
-      _notLastOfType: {
-        borderBottomLeftRadius: 0,
-        borderBottomRightRadius: 0,
+      _not: {
+        ':first-of-type': {
+          borderTopLeftRadius: 0,
+          borderTopRightRadius: 0,
+        },
+        ':last-of-type': {
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+        },
       },
     },
   }[orientation];

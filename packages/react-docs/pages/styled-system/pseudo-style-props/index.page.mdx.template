@@ -70,11 +70,47 @@ Add the `_lastChild` prop to style an element that is the last element among its
 
 {render('./_lastChild')}
 
-### `:nth-of-type()`
+### `:has(<relative-selector-list>)`
+
+```jsx
+_has={{
+  '+ li': {
+    color: 'red:50',
+  },
+}}
+```
+
+{render('./_has')}
+
+### `:is(<forgiving-selector-list>)`
+
+```jsx
+_is={{
+  ':first-of-type, :last-of-type': {
+    color: 'red:50',
+  },
+}}
+```
+
+{render('./_is')}
+
+### `:not(<complex-selector-list>)`
+
+```jsx
+_not={{
+  ':first-of-type, :last-of-type': {
+    color: 'red:50',
+  },
+}}
+```
+
+{render('./_not')}
+
+### `:nth-of-type(<An+B> | even | odd)`
 
 Add the `_nthOfType` prop to match elements of a given type, based on their position among a group of siblings. The value can be represented as an array or an object in the following form:
 
-```
+```jsx
 _nthOfType={{
   '2n+1': {
     color: 'red:40',

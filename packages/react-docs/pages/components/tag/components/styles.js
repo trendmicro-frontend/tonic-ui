@@ -79,8 +79,8 @@ const getOutlineEditableTagStyle = ({
         color: hoverColor,
       },
     },
-    _focusHover: {
-      '&:not([disabled])': {
+    _focus: {
+      '&:hover:not([disabled])': {
         borderColor: focusColor,
         color: hoverColor,
       },

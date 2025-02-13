@@ -43,14 +43,14 @@ const useIconButtonStyle = ({ size = '8x' }) => {
       borderColor: focusBorderColor,
       boxShadow: focusBoxShadowBorderColor ? `inset 0 0 0 1px ${colors[focusBoxShadowBorderColor]}` : undefined,
       color: focusColor,
-    },
-    _focusHover: {
-      color: focusHoverColor,
-    },
-    _focusActive: {
-      borderColor: focusBorderColor,
-      boxShadow: focusBoxShadowBorderColor ? `inset 0 0 0 1px ${colors[focusBoxShadowBorderColor]}` : undefined,
-      color: focusActiveColor,
+      '&:hover': {
+        color: focusHoverColor,
+      },
+      '&:active': {
+        borderColor: focusBorderColor,
+        boxShadow: focusBoxShadowBorderColor ? `inset 0 0 0 1px ${colors[focusBoxShadowBorderColor]}` : undefined,
+        color: focusActiveColor,
+      },
     },
   };
 };

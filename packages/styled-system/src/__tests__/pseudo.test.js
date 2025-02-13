@@ -112,6 +112,17 @@ describe('pseudo class selectors', () => {
     ]);
   });
 
+  test('_has', () => {
+    const hasFunctionalSelector = pseudoClassSelector._has({
+      '> .child': { color: 'red' },
+      '~ .sibling': { backgroundColor: 'blue' },
+    });
+    expect(hasFunctionalSelector).toEqual([
+      ['&:has(> .child)', { color: 'red' }],
+      ['&:has(~ .sibling)', { backgroundColor: 'blue' }],
+    ]);
+  });
+
   test('_hover', () => {
     const hoverSelector = pseudoClassSelector._hover({ color: 'purple' });
     expect(hoverSelector).toEqual([
@@ -133,6 +144,15 @@ describe('pseudo class selectors', () => {
     ]);
   });
 
+  test('_is', () => {
+    const isFunctionalSelector = pseudoClassSelector._is({
+      ':valid, :unsupported': { color: 'white' },
+    });
+    expect(isFunctionalSelector).toEqual([
+      ['&:is(:valid, :unsupported)', { color: 'white' }],
+    ]);
+  });
+
   test('_lastChild', () => {
     const lastChildSelector = pseudoClassSelector._lastChild({ border: '1px solid black' });
     expect(lastChildSelector).toEqual([
@@ -147,37 +167,32 @@ describe('pseudo class selectors', () => {
     ]);
   });
 
-  test('_notFirstChild', () => {
-    const notFirstChildSelector = pseudoClassSelector._notFirstChild({ opacity: 0.7 });
-    expect(notFirstChildSelector).toEqual([
+  test('_not', () => {
+    const notFunctionalSelector = pseudoClassSelector._not({
+      ':first-child': {
+        opacity: 0.7,
+      },
+      ':last-child': {
+        boxShadow: '0 0 5px rgba(0,0,0,0.5)',
+      },
+      ':first-of-type': {
+        transform: 'scale(0.8)',
+      },
+      ':last-of-type': {
+        border: '1px dashed blue',
+      },
+    });
+    expect(notFunctionalSelector).toEqual([
       ['&:not(:first-child)', { opacity: 0.7 }],
-    ]);
-  });
-
-  test('_notFirstOfType', () => {
-    const notFirstOfTypeSelector = pseudoClassSelector._notFirstOfType({ transform: 'scale(0.8)' });
-    expect(notFirstOfTypeSelector).toEqual([
-      ['&:not(:first-of-type)', { transform: 'scale(0.8)' }],
-    ]);
-  });
-
-  test('_notLastChild', () => {
-    const notLastChildSelector = pseudoClassSelector._notLastChild({ boxShadow: '0 0 5px rgba(0,0,0,0.5)' });
-    expect(notLastChildSelector).toEqual([
       ['&:not(:last-child)', { boxShadow: '0 0 5px rgba(0,0,0,0.5)' }],
-    ]);
-  });
-
-  test('_notLastOfType', () => {
-    const notLastOfTypeSelector = pseudoClassSelector._notLastOfType({ border: '1px dashed blue' });
-    expect(notLastOfTypeSelector).toEqual([
+      ['&:not(:first-of-type)', { transform: 'scale(0.8)' }],
       ['&:not(:last-of-type)', { border: '1px dashed blue' }],
     ]);
   });
 
   test('_nthOfType', () => {
-    const nthOfTypeSelector = pseudoClassSelector._nthOfType({ 'odd': { backgroundColor: 'lightblue' } });
-    expect(nthOfTypeSelector).toEqual([
+    const nthOfTypeFunctionalSelector = pseudoClassSelector._nthOfType({ 'odd': { backgroundColor: 'lightblue' } });
+    expect(nthOfTypeFunctionalSelector).toEqual([
       ['&:nth-of-type(odd)', { backgroundColor: 'lightblue' }],
     ]);
   });
