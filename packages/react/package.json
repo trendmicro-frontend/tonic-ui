@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/react",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "description": "A comprehensive React component library for Tonic UI.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -27,7 +27,7 @@
     "@tonic-ui/react-base": "^2.0.2",
     "@tonic-ui/react-hooks": "^2.0.1",
     "@tonic-ui/react-icons": "^2.1.1",
-    "@tonic-ui/styled-system": "^2.0.3",
+    "@tonic-ui/styled-system": "^2.2.0",
     "@tonic-ui/theme": "^2.0.1",
     "@tonic-ui/utils": "^2.1.1",
     "date-fns": "2.x",
