@@ -74,7 +74,7 @@ const useSearchInputClearButtonStyle = ({ variant, size }) => {
     borderWidth,
     color,
     ...sizeStyle,
-    transition: createTransitionStyle(['border-color', 'box-shadow', 'color'], { duration: 200 }),
+    transition: createTransitionStyle('border-color', { duration: 200 }),
     _hover: {
       color: hoverColor,
     },
