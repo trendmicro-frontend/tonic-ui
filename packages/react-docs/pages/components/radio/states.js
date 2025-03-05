@@ -1,8 +1,8 @@
-import { Flex, Radio, Stack } from '@tonic-ui/react';
+import { Divider, Flex, Radio, Stack } from '@tonic-ui/react';
 import React from 'react';
 
 const App = () => (
-  <Stack spacing="6x">
+  <Stack spacing="4x">
     <Flex columnGap="6x">
       <Radio>
         Label
@@ -11,6 +11,7 @@ const App = () => (
         Label
       </Radio>
     </Flex>
+    <Divider />
     <Flex columnGap="6x">
       <Radio disabled>
         Label
@@ -18,6 +19,16 @@ const App = () => (
       <Radio disabled defaultChecked>
         Label
       </Radio>
+    </Flex>
+    <Flex columnGap="6x">
+      <Flex alignItems="center" columnGap="2x">
+        <Radio disabled />
+        Label
+      </Flex>
+      <Flex alignItems="center" columnGap="2x">
+        <Radio disabled defaultChecked />
+        Label
+      </Flex>
     </Flex>
   </Stack>
 );
