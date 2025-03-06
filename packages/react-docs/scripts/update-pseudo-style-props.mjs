@@ -12,6 +12,10 @@ const list = {
   'pseudo-element-selectors': pseudoElementSelector,
 };
 
+// XXX: `_focusActive` and `_focusHover` will be deprecated. Use `_focus: { '&:active': {}, '&:hover': {} }` instead.
+delete list['pseudo-class-selectors']['_focusActive'];
+delete list['pseudo-class-selectors']['_focusHover'];
+
 const data = _.reduce(list, (result, selectorObject, key) => {
   for (const [prop, sx] of Object.entries(selectorObject)) {
     let items = [];
