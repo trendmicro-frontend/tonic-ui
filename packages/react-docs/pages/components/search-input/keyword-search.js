@@ -63,6 +63,9 @@ const App = () => {
         inputProps={{
           textOverflow: 'ellipsis',
         }}
+        sx={{
+          transition: 'width .2s',
+        }}
       />
       <Button
         disabled={!keyword}

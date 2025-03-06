@@ -1,9 +1,9 @@
-import { Flex, Stack, Switch } from '@tonic-ui/react';
+import { Divider, Flex, Stack, Switch } from '@tonic-ui/react';
 import React from 'react';
 
 const App = () => {
   return (
-    <Stack spacing="6x">
+    <Stack spacing="4x">
       <Flex columnGap="6x">
         <Switch checked={false}>
           Label
@@ -12,6 +12,7 @@ const App = () => {
           Label
         </Switch>
       </Flex>
+      <Divider />
       <Flex columnGap="6x">
         <Switch checked={false} disabled>
           Label
@@ -19,6 +20,16 @@ const App = () => {
         <Switch checked={true} disabled>
           Label
         </Switch>
+      </Flex>
+      <Flex columnGap="6x">
+        <Flex alignItems="center" columnGap="2x">
+          <Switch checked={false} disabled />
+          Label
+        </Flex>
+        <Flex alignItems="center" columnGap="2x">
+          <Switch checked={true} disabled />
+          Label
+        </Flex>
       </Flex>
     </Stack>
   );

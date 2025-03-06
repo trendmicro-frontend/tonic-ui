@@ -1,8 +1,8 @@
-import { Checkbox, Flex, Stack } from '@tonic-ui/react';
+import { Checkbox, Divider, Flex, Stack } from '@tonic-ui/react';
 import React from 'react';
 
 const App = () => (
-  <Stack spacing="6x">
+  <Stack spacing="4x">
     <Flex columnGap="6x">
       <Checkbox>
         Label
@@ -14,6 +14,7 @@ const App = () => (
         Label
       </Checkbox>
     </Flex>
+    <Divider />
     <Flex columnGap="6x">
       <Checkbox disabled>
         Label
@@ -24,6 +25,20 @@ const App = () => (
       <Checkbox disabled defaultChecked>
         Label
       </Checkbox>
+    </Flex>
+    <Flex columnGap="6x">
+      <Flex alignItems="center" columnGap="2x">
+        <Checkbox disabled />
+        Label
+      </Flex>
+      <Flex alignItems="center" columnGap="2x">
+        <Checkbox disabled indeterminate />
+        Label
+      </Flex>
+      <Flex alignItems="center" columnGap="2x">
+        <Checkbox disabled defaultChecked />
+        Label
+      </Flex>
     </Flex>
   </Stack>
 );

@@ -1,3 +1,4 @@
+import { createTransitionStyle } from '@tonic-ui/utils';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 
@@ -177,7 +178,7 @@ const useSelectStyle = ({
     position: 'relative',
     display: 'flex',
     alignItems: 'center',
-    transition: 'all .2s',
+    transition: createTransitionStyle('border-color', { duration: 200 }),
   };
 
   if (multiple) {

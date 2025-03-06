@@ -196,7 +196,7 @@ const SwitchControlBox = forwardRef((inProps, ref) => {
           r={radius}
           transform="translateX(0)"
           transformBox="fill-box"
-          transition={createTransitionStyle(['transform'], { duration: 250 })}
+          transition={createTransitionStyle('transform', { duration: 200 })}
         />
       </Box>
     </Box>

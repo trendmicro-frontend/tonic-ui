@@ -1,3 +1,4 @@
+import { createTransitionStyle } from '@tonic-ui/utils';
 import { useColorMode } from '../color-mode';
 
 const useContainerStyle = ({
@@ -68,8 +69,8 @@ const useHorizontalTrackStyle = ({
     left: 0,
     visibility: 'hidden',
     ...(overflowX === 'auto' && {
-      transition: 'opacity 200ms',
       opacity: 0,
+      transition: createTransitionStyle('opacity', { duration: 200 }),
     }),
     ...(overflowX === 'hidden' && {
       display: 'none',
@@ -88,8 +89,8 @@ const useVerticalTrackStyle = ({
     top: 0,
     visibility: 'hidden',
     ...(overflowY === 'auto' && {
-      transition: 'opacity 200ms',
       opacity: 0,
+      transition: createTransitionStyle('opacity', { duration: 200 }),
     }),
     ...(overflowY === 'hidden' && {
       display: 'none',

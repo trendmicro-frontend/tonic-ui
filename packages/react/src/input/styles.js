@@ -1,4 +1,5 @@
 import { sx } from '@tonic-ui/styled-system';
+import { createTransitionStyle } from '@tonic-ui/utils';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 import {
@@ -599,7 +600,7 @@ const useInputStyle = ({
     position: 'relative',
     display: 'flex',
     alignItems: 'center',
-    transition: 'all .2s',
+    transition: createTransitionStyle('border-color', { duration: 200 }),
     width: '100%',
   };
   const sizeStyle = (() => {
@@ -839,7 +840,7 @@ const useInputControlBaseStyle = ({
     display: 'flex',
     alignItems: 'center',
     position: 'relative',
-    transition: 'all .2s',
+    transition: createTransitionStyle('border-color', { duration: 200 }),
   };
   const sizeStyle = (() => {
     const _style = {

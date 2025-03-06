@@ -101,7 +101,7 @@ describe('DatePicker', () => {
     expect(datePickerInputElement).toHaveValue('2024-08-15');
 
     // The "menu" role should not be in the document
-    await waitForElementToBeRemoved(() => screen.getByRole('menu'));
+    await waitForElementToBeRemoved(() => screen.queryByRole('menu'));
 
     expect(container).toMatchSnapshot();
 
