@@ -51,7 +51,7 @@ const TreeItemRender = ({
       }
       return ServerIcon;
     })();
-    const iconColor = isExpandable ? 'yellow:50' : 'currentColor';
+    const iconColor = colorStyle.color.primary;
 
     return (
       <TreeItemContent

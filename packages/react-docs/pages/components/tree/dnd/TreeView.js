@@ -29,7 +29,7 @@ const TreeItemRender = ({
 
   const render = useCallback(({ isExpandable, isExpanded, isSelected }) => {
     const icon = isExpanded ? FolderOpenIcon : FolderIcon;
-    const iconColor = 'yellow:50';
+    const iconColor = colorStyle.color.primary;
 
     return (
       <Droppable
