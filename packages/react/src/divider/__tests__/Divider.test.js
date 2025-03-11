@@ -9,7 +9,7 @@ describe('Divider', () => {
     const { container } = render((
       <>
         <Stack direction="column" spacing="4x">
-          <Divider variand="solid" orientation="horizontal" />
+          <Divider variant="solid" orientation="horizontal" />
           <Divider variant="dashed" orientation="horizontal" />
           <Divider variant="dotted" orientation="horizontal" />
         </Stack>
