@@ -513,6 +513,7 @@ export const routes = [
     },
     routes: [
       { title: 'Overview', path: 'playground' },
+      { title: 'Gomoku', path: 'playground/gomoku' },
       { title: 'Othello', path: 'playground/othello' },
     ],
   },
