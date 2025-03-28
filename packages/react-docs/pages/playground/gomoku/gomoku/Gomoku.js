@@ -7,111 +7,106 @@ import {
   MenuItem,
   Text,
 } from '@tonic-ui/react';
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useCallback, useRef, useEffect, useState } from 'react';
 import { useLocale } from './LocaleProvider';
+import {
+  BOARD_SIZE,
+  PLAYER_NONE,
+  PLAYER_HUMAN,
+  PLAYER_AI,
+  BLACK_PIECE,
+  WHITE_PIECE,
+} from './constants';
+import {
+  checkWin,
+  computeAIMove,
+  isBoardFull,
+  isValidPosition,
+} from './utils';
 
-const BOARD_SIZE = 15;
 const CELL_SIZE = 40;
 const CANVAS_SIZE = BOARD_SIZE * CELL_SIZE;
-
-const PLAYER_NONE = 0;
-const PLAYER_HUMAN = 1;
-const PLAYER_AI = 2;
-
-const BLACK_PIECE = 'black';
-const WHITE_PIECE = 'white';
-
-const directions = [
-  [1, 0],
-  [0, 1],
-  [1, 1],
-  [1, -1],
-];
 
 const defaultBoard = Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE).fill(PLAYER_NONE));
 
 const Gomoku = () => {
   const isHumanWithBlackPiece = true;
   const canvasRef = useRef(null);
-  const { lang, setLang, t } = useLocale();  // Use the locale context
+  const { setLang, t } = useLocale();  // Use the locale context
   const [board, setBoard] = useState(defaultBoard);
   const [isGameOver, setIsGameOver] = useState(false);
   const [message, setMessage] = useState(t('turn'));
   const [hoveredCell, setHoveredCell] = useState(null); // Track the hovered cell
 
   useEffect(() => {
-    drawBoard();
-  }, [board, hoveredCell]);
-
-  useEffect(() => {
     setMessage(isGameOver ? message : t('turn'));
-  }, [lang]);
+  }, [isGameOver, message, t]);
 
-  const drawPiece = (ctx, i, j, color) => {
-    const x = i * CELL_SIZE + CELL_SIZE / 2;
-    const y = j * CELL_SIZE + CELL_SIZE / 2;
-    const radius = CELL_SIZE / 2 - 4;
+  const drawBoard = useCallback(() => {
+    const drawPiece = (ctx, x, y, color) => {
+      const px = x * CELL_SIZE + CELL_SIZE / 2;
+      const py = y * CELL_SIZE + CELL_SIZE / 2;
+      const radius = CELL_SIZE / 2 - 4;
 
-    // Save the current state of the canvas to restore later
-    ctx.save();
+      // Save the current state of the canvas to restore later
+      ctx.save();
 
-    // Set shadow properties
-    ctx.shadowBlur = 5;
-    ctx.shadowColor = (color === BLACK_PIECE)
-      ? 'rgba(0, 0, 0, 0.4)'
-      : 'rgba(255, 255, 255, 0.4)';
-    ctx.shadowOffsetX = 2;
-    ctx.shadowOffsetY = 2;
+      // Set shadow properties
+      ctx.shadowBlur = 5;
+      ctx.shadowColor = (color === BLACK_PIECE)
+        ? 'rgba(0, 0, 0, 0.4)'
+        : 'rgba(255, 255, 255, 0.4)';
+      ctx.shadowOffsetX = 2;
+      ctx.shadowOffsetY = 2;
 
-    ctx.beginPath();
-    ctx.arc(x, y, radius, 0, Math.PI * 2);
-    ctx.fillStyle = (color === BLACK_PIECE)
-      ? 'rgba(0, 0, 0, 1)'
-      : 'rgba(255, 255, 255, 1)';
-    ctx.fill();
-    ctx.strokeStyle = (color === BLACK_PIECE)
-      ? 'rgba(0, 0, 0, 0.2)'
-      : 'rgba(255, 255, 255, 0.2)';
-    ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(px, py, radius, 0, Math.PI * 2);
+      ctx.fillStyle = (color === BLACK_PIECE)
+        ? 'rgba(0, 0, 0, 1)'
+        : 'rgba(255, 255, 255, 1)';
+      ctx.fill();
+      ctx.strokeStyle = (color === BLACK_PIECE)
+        ? 'rgba(0, 0, 0, 0.2)'
+        : 'rgba(255, 255, 255, 0.2)';
+      ctx.stroke();
 
-    // Restore the canvas state to remove the shadow effect for future drawings
-    ctx.restore();
-  };
+      // Restore the canvas state to remove the shadow effect for future drawings
+      ctx.restore();
+    };
 
-  const drawGhostPiece = (ctx, i, j, color) => {
-    const x = i * CELL_SIZE + CELL_SIZE / 2;
-    const y = j * CELL_SIZE + CELL_SIZE / 2;
-    const radius = CELL_SIZE / 2 - 4;
+    const drawGhostPiece = (ctx, x, y, color) => {
+      const px = x * CELL_SIZE + CELL_SIZE / 2;
+      const py = y * CELL_SIZE + CELL_SIZE / 2;
+      const radius = CELL_SIZE / 2 - 4;
 
-    // Save the current state of the canvas to restore later
-    ctx.save();
+      // Save the current state of the canvas to restore later
+      ctx.save();
 
-    // Set shadow properties
-    ctx.shadowBlur = 5;
-    ctx.shadowColor = (color === BLACK_PIECE)
-      ? 'rgba(0, 0, 0, 0.4)'
-      : 'rgba(255, 255, 255, 0.4)';
-    ctx.shadowOffsetX = 2;
-    ctx.shadowOffsetY = 2;
-    ctx.shadowBlur = 8;
+      // Set shadow properties
+      ctx.shadowBlur = 5;
+      ctx.shadowColor = (color === BLACK_PIECE)
+        ? 'rgba(0, 0, 0, 0.4)'
+        : 'rgba(255, 255, 255, 0.4)';
+      ctx.shadowOffsetX = 2;
+      ctx.shadowOffsetY = 2;
+      ctx.shadowBlur = 8;
 
-    ctx.beginPath();
-    ctx.arc(x, y, radius, 0, Math.PI * 2);
-    ctx.fillStyle = (color === BLACK_PIECE)
-      ? 'rgba(0, 0, 0)'
-      : 'rgba(255, 255, 255)';
-    ctx.fill();
-    ctx.strokeStyle = (color === BLACK_PIECE)
-      ? 'rgba(0, 0, 0, 0.2)'
-      : 'rgba(255, 255, 255, 0.2)';
-    ctx.lineWidth = 1;
-    ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(px, py, radius, 0, Math.PI * 2);
+      ctx.fillStyle = (color === BLACK_PIECE)
+        ? 'rgba(0, 0, 0)'
+        : 'rgba(255, 255, 255)';
+      ctx.fill();
+      ctx.strokeStyle = (color === BLACK_PIECE)
+        ? 'rgba(0, 0, 0, 0.2)'
+        : 'rgba(255, 255, 255, 0.2)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
 
-    // Restore the canvas state to remove the shadow effect for future drawings
-    ctx.restore();
-  };
+      // Restore the canvas state to remove the shadow effect for future drawings
+      ctx.restore();
+    };
 
-  const drawBoard = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
@@ -128,39 +123,37 @@ const Gomoku = () => {
       ctx.stroke();
     }
 
-    for (let i = 0; i < BOARD_SIZE; i++) {
-      for (let j = 0; j < BOARD_SIZE; j++) {
-        if (board[i][j] === PLAYER_HUMAN) {
-          drawPiece(ctx, i, j, isHumanWithBlackPiece ? BLACK_PIECE : WHITE_PIECE);
-        } else if (board[i][j] === PLAYER_AI) {
-          drawPiece(ctx, i, j, isHumanWithBlackPiece ? WHITE_PIECE : BLACK_PIECE);
+    for (let x = 0; x < BOARD_SIZE; ++x) {
+      for (let y = 0; y < BOARD_SIZE; ++y) {
+        if (board[x][y] === PLAYER_HUMAN) {
+          drawPiece(ctx, x, y, isHumanWithBlackPiece ? BLACK_PIECE : WHITE_PIECE);
+        } else if (board[x][y] === PLAYER_AI) {
+          drawPiece(ctx, x, y, isHumanWithBlackPiece ? WHITE_PIECE : BLACK_PIECE);
         }
       }
     }
 
     if (hoveredCell) {
-      drawGhostPiece(ctx, hoveredCell.i, hoveredCell.j, isHumanWithBlackPiece ? BLACK_PIECE : WHITE_PIECE);
+      drawGhostPiece(ctx, hoveredCell.x, hoveredCell.y, isHumanWithBlackPiece ? BLACK_PIECE : WHITE_PIECE);
     }
-  };
+  }, [board, hoveredCell, isHumanWithBlackPiece]);
 
   const handleClick = (e) => {
     if (isGameOver) {
       return;
     }
     const rect = canvasRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const i = Math.floor(x / CELL_SIZE);
-    const j = Math.floor(y / CELL_SIZE);
-    if (board[i][j] !== PLAYER_NONE) {
+    const x = Math.floor((e.clientX - rect.left) / CELL_SIZE);
+    const y = Math.floor((e.clientY - rect.top) / CELL_SIZE);
+    if (board[x][y] !== PLAYER_NONE) {
       return;
     }
 
     const newBoard = board.map(row => [...row]);
-    newBoard[i][j] = PLAYER_HUMAN;
+    newBoard[x][y] = PLAYER_HUMAN;
     setBoard(newBoard);
 
-    if (checkWin(newBoard, PLAYER_HUMAN)) {
+    if (checkWin(newBoard, PLAYER_HUMAN, x, y)) {
       setIsGameOver(true);
       setMessage(t('win'));
       return;
@@ -177,9 +170,9 @@ const Gomoku = () => {
     setTimeout(() => {
       const aiMove = computeAIMove(newBoard);
       if (aiMove) {
-        newBoard[aiMove.i][aiMove.j] = PLAYER_AI;
+        newBoard[aiMove.x][aiMove.y] = PLAYER_AI;
         setBoard([...newBoard]);
-        if (checkWin(newBoard, PLAYER_AI)) {
+        if (checkWin(newBoard, PLAYER_AI, aiMove.x, aiMove.y)) {
           setIsGameOver(true);
           setMessage(t('lose'));
         } else if (isBoardFull(newBoard)) {
@@ -194,20 +187,18 @@ const Gomoku = () => {
 
   const handleMouseMove = (e) => {
     const rect = canvasRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const i = Math.floor(x / CELL_SIZE);
-    const j = Math.floor(y / CELL_SIZE);
+    const x = Math.floor((e.clientX - rect.left) / CELL_SIZE);
+    const y = Math.floor((e.clientY - rect.top) / CELL_SIZE);
 
     // Check for overflow and clear hovered cell if necessary
-    if ((i < 0 || i >= BOARD_SIZE) || (j < 0 || j >= BOARD_SIZE) || (board[i][j] !== PLAYER_NONE)) {
+    if (!isValidPosition(x, y) || (board[x][y] !== PLAYER_NONE)) {
       setHoveredCell(null);
       return;
     }
 
     // Only update hoveredCell if the value has changed
-    if (!hoveredCell || hoveredCell.i !== i || hoveredCell.j !== j) {
-      setHoveredCell({ i, j });
+    if (!hoveredCell || hoveredCell.x !== x || hoveredCell.y !== y) {
+      setHoveredCell({ x, y });
     }
   };
 
@@ -216,96 +207,9 @@ const Gomoku = () => {
     setHoveredCell(null);
   };
 
-  const checkWin = (b, player) => {
-    for (let i = 0; i < BOARD_SIZE; i++) {
-      for (let j = 0; j < BOARD_SIZE; j++) {
-        if (b[i][j] === player) {
-          for (let [dx, dy] of directions) {
-            let count = 1;
-            let k = 1;
-            while (
-              i + dx * k >= 0 &&
-              i + dx * k < BOARD_SIZE &&
-              j + dy * k >= 0 &&
-              j + dy * k < BOARD_SIZE &&
-              b[i + dx * k][j + dy * k] === player
-            ) {
-              count++;
-              k++;
-            }
-            if (count >= 5) return true;
-          }
-        }
-      }
-    }
-    return false;
-  };
-
-  const isBoardFull = (b) => {
-    return b.every(row => row.every(cell => cell !== PLAYER_NONE));
-  };
-
-  const computeAIMove = (b) => {
-    let bestScore = -Infinity;
-    let move = null;
-    for (let i = 0; i < BOARD_SIZE; i++) {
-      for (let j = 0; j < BOARD_SIZE; j++) {
-        if (b[i][j] === PLAYER_NONE) {
-          const score = evaluatePoint(b, i, j, PLAYER_AI) + evaluatePoint(b, i, j, PLAYER_HUMAN) * 0.9;
-          if (score > bestScore) {
-            bestScore = score;
-            move = { i, j };
-          }
-        }
-      }
-    }
-    return move;
-  };
-
-  const evaluatePoint = (b, x, y, player) => {
-    let total = 0;
-    const opponent = player === PLAYER_HUMAN ? PLAYER_AI : PLAYER_HUMAN;
-    for (let [dx, dy] of directions) {
-      let count = 1;
-      let block = 0;
-      for (let step = 1; step < 5; step++) {
-        const i = x + dx * step;
-        const j = y + dy * step;
-        if (i < 0 || i >= BOARD_SIZE || j < 0 || j >= BOARD_SIZE) {
-          block++;
-          break;
-        } else if (b[i][j] === opponent) {
-          block++;
-          break;
-        } else if (b[i][j] === player) {
-          count++;
-        } else {
-          break;
-        }
-      }
-      for (let step = 1; step < 5; step++) {
-        const i = x - dx * step;
-        const j = y - dy * step;
-        if (i < 0 || i >= BOARD_SIZE || j < 0 || j >= BOARD_SIZE) {
-          block++;
-          break;
-        } else if (b[i][j] === opponent) {
-          block++;
-          break;
-        } else if (b[i][j] === player) {
-          count++;
-        } else {
-          break;
-        }
-      }
-
-      if (count >= 5) total += 10000;
-      else if (count === 4) total += block === 0 ? 1000 : 100;
-      else if (count === 3) total += block === 0 ? 100 : 10;
-      else if (count === 2) total += 10;
-    }
-    return total;
-  };
+  useEffect(() => {
+    drawBoard();
+  }, [board, drawBoard, hoveredCell]);
 
   return (
     <Box sx={{ textAlign: 'center', p: 2 }}>
