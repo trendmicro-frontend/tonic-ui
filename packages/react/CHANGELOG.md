@@ -1,5 +1,11 @@
 # @tonic-ui/react
 
+## 2.6.2
+
+### Patch Changes
+
+- feat: use `createTransitionStyle` to compose the `transition` style for various components by [@cheton](https://github.com/cheton) in [#977](https://github.com/trendmicro-frontend/tonic-ui/pull/977)
+
 ## 2.6.1
 
 ### Patch Changes
