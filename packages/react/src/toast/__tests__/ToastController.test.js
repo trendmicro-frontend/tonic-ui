@@ -2,6 +2,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Toast, ToastController } from '@tonic-ui/react/src';
+import React from 'react';
 
 jest.useFakeTimers();
 
