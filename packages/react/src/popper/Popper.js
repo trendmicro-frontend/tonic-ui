@@ -1,5 +1,6 @@
 import { createPopper } from '@popperjs/core';
-import { useEffectOnce } from '@tonic-ui/react-hooks';
+import { useEffectOnce, useOnceWhen } from '@tonic-ui/react-hooks';
+import { warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import React, { forwardRef, useEffect, useRef, useState, useCallback } from 'react';
 import { useDefaultProps } from '../default-props';
@@ -7,26 +8,36 @@ import { Portal } from '../portal';
 import { Box } from '../box';
 import { assignRef } from '../utils/refs';
 
-function getAnchorEl(anchorEl) {
-  return typeof anchorEl === 'function' ? anchorEl() : anchorEl;
-}
-
 const defaultPlacement = 'bottom-start';
 
 const Popper = forwardRef((inProps, ref) => {
   const {
-    anchorEl, // TODO: rename to `referenceRef` in a future release
+    anchorEl, // deprecated
+
     children,
     isOpen,
     modifiers = [],
     placement: placementProp,
-    popperRef: popperRefProp,
+    popperRef: popperRefProp, // reference to receive the popper instance
     portalProps,
+    referenceRef,
     unmountOnExit = false,
     usePortal = false,
     willUseTransition = false,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Popper' });
+
+  { // deprecation warning
+    const prefix = `${Popper.displayName}:`;
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('anchorEl', {
+        prefix,
+        alternative: 'referenceRef',
+        willRemove: true,
+      });
+    }, (anchorEl !== undefined));
+  }
 
   const nodeRef = useRef();
   const popperRef = useRef(null); // popper instance
@@ -41,14 +52,18 @@ const Popper = forwardRef((inProps, ref) => {
   }, [placementProp]);
 
   const setupPopper = useCallback(() => {
-    if (!anchorEl || !nodeRef.current) {
+    const anchor = (typeof anchorEl === 'function') ? anchorEl() : anchorEl; // deprecated
+    const reference = anchor ?? referenceRef?.current;
+    const popper = nodeRef.current;
+
+    if (!reference || !popper) {
       return;
     }
 
     // Destroy existing popper instance and create a new one
     popperRef.current?.destroy?.();
 
-    const popperInstance = createPopper(getAnchorEl(anchorEl), nodeRef.current, {
+    const popperInstance = createPopper(reference, popper, {
       placement: placement,
       modifiers: [
         { // https://popper.js.org/docs/v2/modifiers/arrow/
@@ -98,7 +113,7 @@ const Popper = forwardRef((inProps, ref) => {
         `${Popper.displayName}: An unexpected error occurred. The popper instance is not assigned to the "popperRef" as expected.`,
       );
     }
-  }, [anchorEl, modifiers, placement, placementProp, popperRefProp]);
+  }, [anchorEl, modifiers, placement, placementProp, popperRefProp, referenceRef]);
 
   const cleanupPopper = useCallback(() => {
     // Destroy popper instance

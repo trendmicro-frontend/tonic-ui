@@ -64,12 +64,12 @@ const DatePickerContent = forwardRef((
   return (
     <PopperComponent
       aria-labelledby={datePickerToggleId}
-      anchorEl={datePickerToggleRef?.current}
       id={datePickerContentId}
       isOpen={isOpen}
       modifiers={popperModifiers}
       placement={placement}
       ref={datePickerContentRef}
+      referenceRef={datePickerToggleRef}
       role="menu"
       tabIndex={-1}
       unmountOnExit={true}
