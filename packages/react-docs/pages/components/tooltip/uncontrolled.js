@@ -4,7 +4,7 @@ import React from 'react';
 const App = () => (
   <Tooltip
     label="This is an uncontrolled tooltip"
-    defaultIsOpen={false}
+    defaultIsOpen={true}
   >
     <Text display="inline-block">Text content</Text>
   </Tooltip>

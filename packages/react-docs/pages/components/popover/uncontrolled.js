@@ -2,7 +2,7 @@ import { Button, Popover, PopoverContent, PopoverTrigger, Text } from '@tonic-ui
 import React from 'react';
 
 const App = () => (
-  <Popover defaultIsOpen={false}>
+  <Popover defaultIsOpen={true}>
     <PopoverTrigger>
       <Button variant="secondary">Trigger</Button>
     </PopoverTrigger>

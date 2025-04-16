@@ -176,11 +176,11 @@ const PopoverContent = forwardRef((inProps, ref) => {
     <PopperComponent
       aria-hidden={ariaAttr(!isOpen)}
       aria-labelledby={popoverTriggerId}
-      anchorEl={popoverTriggerRef.current} // TODO: rename to `referenceRef` in a future release
       id={popoverId}
       isOpen={isOpen}
       placement={placement}
       ref={popoverContentRef}
+      referenceRef={popoverTriggerRef}
       role={role}
       unmountOnExit={true}
       usePortal={false} // Pass `true` in `PopperProps` to render popover in a portal

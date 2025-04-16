@@ -183,12 +183,17 @@ describe('ToastManager', () => {
         toast(({ onClose, placement }) => {
           return (
             <Toast
+              data-testid={toastTestId}
               appearance="success"
               onClose={onClose}
-              data-testid={toastTestId}
             >
               {message}
-              <ToastCloseButton top={10} right={8} position="absolute" data-testid={toastCloseButtonTestId} />
+              <ToastCloseButton
+                data-testid={toastCloseButtonTestId}
+                top={10}
+                right={8}
+                position="absolute"
+              />
             </Toast>
           );
         }, { placement });
@@ -659,7 +664,7 @@ describe('ToastManager', () => {
         <>
           <Button onClick={handleClickAddToasts}>Add Toasts</Button>
           {/* Access toast.state here to check order */}
-          {toast.state && (
+          {!!toast.state && (
             <pre data-testid="toast-state">{JSON.stringify(toast.state, null, 2)}</pre>
           )}
         </>

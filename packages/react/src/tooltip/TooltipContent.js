@@ -144,12 +144,12 @@ const TooltipContent = forwardRef((inProps, ref) => {
       aria-hidden={ariaAttr(!isOpen)}
       aria-labelledby={tooltipTriggerId}
       data-popper-placement={placement}
-      anchorEl={tooltipTriggerRef.current} // TODO: rename to `referenceRef` in a future release
       id={tooltipId}
       isOpen={isOpen}
       placement={placement}
       pointerEvents="none"
       ref={tooltipContentRef}
+      referenceRef={tooltipTriggerRef}
       role="tooltip"
       unmountOnExit={true}
       usePortal={false} // Pass `true` in `PopperProps` to render tooltip in a portal

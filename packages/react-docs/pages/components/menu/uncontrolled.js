@@ -25,7 +25,7 @@ const App = () => {
 
   return (
     <Flex columnGap="4x" alignItems="center">
-      <Menu>
+      <Menu defaultIsOpen={true}>
         <MenuButton>
           Options
         </MenuButton>

@@ -112,12 +112,12 @@ const MenuContent = forwardRef((inProps, ref) => {
   return (
     <PopperComponent
       aria-labelledby={menuToggleId}
-      anchorEl={menuToggleRef?.current} // TODO: rename to `referenceRef` in a future release
       data-menu-id={menuId}
       id={menuId}
       isOpen={isOpen}
       placement={placement}
       ref={menuContentRef}
+      referenceRef={menuToggleRef}
       role="menu"
       tabIndex={tabIndex}
       unmountOnExit={true}

@@ -50,10 +50,10 @@ describe('Toast', () => {
       return (
         <Collapse in={isOpen} unmountOnExit>
           <Toast
+            data-testid="toast"
             appearance="success"
             isClosable
             onClose={callEventHandlers(() => toggle(false), onClose)}
-            data-testid="toast"
           >
             {message}
           </Toast>
@@ -118,6 +118,7 @@ describe('Toast', () => {
                       onClose={onClose}
                     >
                       <Toast
+                        data-testid="toast"
                         appearance={toast.appearance}
                         isClosable={true}
                         onClose={onClose}
@@ -127,10 +128,14 @@ describe('Toast', () => {
                           width: 'fit-content',
                           boxShadow: colorStyle.shadow.thin,
                         }}
-                        data-testid="toast"
                       >
                         <Text pr="10x">{toast.content}</Text>
-                        <ToastCloseButton top={10} right={8} position="absolute" data-testid="toast-close-button" />
+                        <ToastCloseButton
+                          data-testid="toast-close-button"
+                          top={10}
+                          right={8}
+                          position="absolute"
+                        />
                       </Toast>
                     </ToastController>
                   </ToastTransition>

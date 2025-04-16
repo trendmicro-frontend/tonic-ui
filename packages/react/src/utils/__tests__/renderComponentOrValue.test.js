@@ -3,7 +3,7 @@ import { render } from '@tonic-ui/react/test-utils/render';
 import React from 'react';
 import { renderComponentOrValue } from '../renderComponentOrValue';
 
-class ReactClassComponent extends React.Component {
+class ReactClassComponent extends React.PureComponent {
   render() {
     return (
       <div>{this.props.message}</div>
