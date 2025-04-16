@@ -1,5 +1,11 @@
 # @tonic-ui/react
 
+## 2.6.3
+
+### Patch Changes
+
+- feat: support `referenceRef` in `Popper` to address positioning issue by [@cheton](https://github.com/cheton) in [#991](https://github.com/trendmicro-frontend/tonic-ui/pull/991)
+
 ## 2.6.2
 
 ### Patch Changes
