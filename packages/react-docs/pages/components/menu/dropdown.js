@@ -30,8 +30,10 @@ const mapOptionValueToText = (value) => {
 const App = () => {
   const [width, setWidth] = useState('auto');
   const [value, setValue] = useState('all');
-  const handleChange = (option) => {
-    setValue(option.value);
+  const handleSelect = (option) => {
+    if (value !== option.value) {
+      setValue(option.value);
+    }
   };
   const renderValue = (value) => {
     const labelText = 'Event status:';
@@ -102,7 +104,7 @@ const App = () => {
       </FormGroup>
       <Divider my="4x" />
       <Dropdown
-        onChange={handleChange}
+        onSelect={handleSelect}
         options={options}
         renderOption={renderOption}
         width={width}

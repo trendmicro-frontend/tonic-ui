@@ -11,14 +11,14 @@ const DropdownBase = forwardRef((
   {
     children,
     options = [],
-    onChange,
+    onSelect,
     renderOption,
     ...rest
   },
   ref,
 ) => {
   const handleClickBy = (option) => (event) => {
-    onChange(option);
+    onSelect(option);
   };
 
   return (

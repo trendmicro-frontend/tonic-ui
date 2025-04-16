@@ -7,7 +7,7 @@ const Dropdown = forwardRef((
   {
     children,
     options = [],
-    onChange,
+    onSelect,
     renderOption,
     ...rest
   },
@@ -16,7 +16,7 @@ const Dropdown = forwardRef((
   return (
     <DropdownBase
       options={options}
-      onChange={onChange}
+      onSelect={onSelect}
       renderOption={renderOption}
       {...rest}
     >
