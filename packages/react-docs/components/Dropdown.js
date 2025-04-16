@@ -1,79 +1,41 @@
-import {
-  Menu,
-  MenuItem,
-  MenuList,
-  MenuToggle,
-} from '@tonic-ui/react';
-import { noop, runIfFn } from '@tonic-ui/utils';
-import { ensureFunction } from 'ensure-type';
-import React, { forwardRef, useCallback, useEffect, useState } from 'react';
+import { MenuButton } from '@tonic-ui/react';
+import { runIfFn } from '@tonic-ui/utils';
+import React, { forwardRef } from 'react';
+import DropdownBase from './DropdownBase';
 
 const Dropdown = forwardRef((
   {
     children,
-    highlightSelectedOption = false,
     options = [],
-    onChange: onChangeProp,
-    renderOption = noop,
-    value: valueProp,
+    onChange,
+    renderOption,
     ...rest
   },
-  ref,
+  ref
 ) => {
-  const [value, setValue] = useState(valueProp ?? '');
-
-  useEffect(() => {
-    const isControlled = valueProp !== undefined;
-    if (isControlled) {
-      setValue(valueProp);
-    }
-  }, [valueProp]);
-
-  const onChange = useCallback((nextValue) => {
-    const isControlled = valueProp !== undefined;
-    if (!isControlled) {
-      setValue(nextValue);
-    }
-    ensureFunction(onChangeProp)(nextValue);
-  }, [valueProp, onChangeProp]);
-
-  const handleClickMenuItemBy = (value) => (event) => {
-    onChange(value);
-  };
-
   return (
-    <Menu
-      ref={ref}
+    <DropdownBase
+      options={options}
+      onChange={onChange}
+      renderOption={renderOption}
       {...rest}
     >
-      <MenuToggle>
-        {({ getMenuToggleProps }) => {
-          return runIfFn(children, { getToggleProps: getMenuToggleProps });
-        }}
-      </MenuToggle>
-      <MenuList
-        sx={{
-          // Set the minimum width to fit the menu's content while occupying full width
-          minWidth: 'max-content',
-          width: '100%',
-        }}
-      >
-        {options.map((option) => {
-          const key = option;
-          const isSelected = (value === option);
-
-          return (
-            <MenuItem
-              data-selected={highlightSelectedOption ? isSelected : undefined}
-              key={key}
-              onClick={handleClickMenuItemBy(option)}
-            >
-              {renderOption(option)}
-            </MenuItem>
-          );
-        })}
-      </MenuList>
-    </Menu>
+      {({ getToggleProps }) => (
+        <MenuButton
+          {...getToggleProps()}
+          variant="secondary"
+          sx={{
+            width: '100%',
+            '> :first-of-type': {
+              // Override flex item's default `minWidth: auto` to allow text truncation
+              minWidth: 0,
+            },
+          }}
+        >
+          {runIfFn(children)}
+        </MenuButton>
+      )}
+    </DropdownBase>
   );
 });
 
