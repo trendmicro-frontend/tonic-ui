@@ -52,7 +52,11 @@ const Dropdown = forwardRef((
         }}
       </MenuToggle>
       <MenuList
-        width="max-content"
+        sx={{
+          // Set the minimum width to fit the menu's content while occupying full width
+          minWidth: 'max-content',
+          width: '100%',
+        }}
       >
         {options.map((option) => {
           const key = option;

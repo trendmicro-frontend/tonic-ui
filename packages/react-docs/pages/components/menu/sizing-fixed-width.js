@@ -1,12 +1,37 @@
-import { Menu, MenuButton, MenuItem, MenuList, Text } from '@tonic-ui/react';
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  OverflowTooltip,
+} from '@tonic-ui/react';
 import React from 'react';
 
 const App = () => (
-  <Menu>
-    <MenuButton variant="secondary">
-      <Text>This is a very long menu button</Text>
+  <Menu
+    width={200}
+  >
+    <MenuButton
+      variant="secondary"
+      sx={{
+        width: '100%',
+        '> :first-of-type': {
+          // Override flex item's default `minWidth: auto` to allow text truncation
+          minWidth: 0,
+        },
+      }}
+    >
+      <OverflowTooltip label="Long text on a menu button">
+        Long text on a menu button
+      </OverflowTooltip>
     </MenuButton>
-    <MenuList width={200}>
+    <MenuList
+      sx={{
+        // Set the minimum width to fit the menu's content while occupying full width
+        minWidth: 'max-content',
+        width: '100%',
+      }}
+    >
       <MenuItem>
         List item 1
       </MenuItem>

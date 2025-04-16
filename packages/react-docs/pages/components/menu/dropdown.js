@@ -1,19 +1,19 @@
 import {
   Flex,
   MenuButton,
-  OverflowTooltip,
-  TextLabel,
+  Text,
 } from '@tonic-ui/react';
 import React, { useState } from 'react';
 import Dropdown from '@/components/Dropdown';
+import MutedText from '@/components/MutedText';
 
 const options = [
-  'all',
-  'network-events',
-  'system-events',
+  { value: 'all' },
+  { value: 'network-events' },
+  { value: 'system-events' },
 ];
 
-const renderOption = (value) => {
+const mapOptionValueToText = (value) => {
   return {
     'all': 'All',
     'network-events': 'Network events',
@@ -21,35 +21,30 @@ const renderOption = (value) => {
   }[value];
 };
 
-const renderLabel = (value) => {
-  const selectionText = renderOption(value);
-
-  return (
-    <>
-      <TextLabel mr="2x">
-        {'Event status:'}
-      </TextLabel>
-      <OverflowTooltip
-        PopperProps={{ usePortal: true }}
-        label={selectionText}
-      >
-        {selectionText}
-      </OverflowTooltip>
-    </>
-  );
-};
-
 const App = () => {
   const [value, setValue] = useState('all');
-  const width = 200;
-  const maxWidth = typeof width === 'number'
-    ? `calc(${width}px - 48px)`
-    : `calc(${width} - 48px)`;
+  const renderOption = (option) => {
+    return mapOptionValueToText(option.value);
+  };
+  const handleChange = (option) => {
+    setValue(option.value);
+  };
+  const renderButtonLabel = (value) => {
+    return (
+      <Flex columnGap="2x">
+        <MutedText>
+          {'Event status:'}
+        </MutedText>
+        <Text>
+          {mapOptionValueToText(value)}
+        </Text>
+      </Flex>
+    );
+  };
 
   return (
     <Dropdown
-      value={value}
-      onChange={setValue}
+      onChange={handleChange}
       options={options}
       renderOption={renderOption}
     >
@@ -57,11 +52,15 @@ const App = () => {
         <MenuButton
           {...getToggleProps()}
           variant="secondary"
-          width={width}
+          sx={{
+            width: '100%',
+            '> :first-of-type': {
+              // Override flex item's default `minWidth: auto` to allow text truncation
+              minWidth: 0,
+            },
+          }}
         >
-          <Flex maxWidth={maxWidth}>
-            {renderLabel(value)}
-          </Flex>
+          {renderButtonLabel(value)}
         </MenuButton>
       )}
     </Dropdown>
