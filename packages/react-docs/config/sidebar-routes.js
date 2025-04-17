@@ -74,7 +74,7 @@ export const routes = [
     ],
   },
   {
-    title: 'Experiment',
+    title: 'Experiments',
     icon: (props) => <SearchOIcon size="4x" {...props} />,
     render: () => (
       <Tag variant="outline" borderColor="yellow:50" color="yellow:50" size="sm">
@@ -82,11 +82,11 @@ export const routes = [
       </Tag>
     ),
     routes: [
-      { title: 'Getting Started', path: 'experiment' },
-      { title: 'Dropdown', path: 'experiment/Dropdown' },
-      { title: 'DropdownBase', path: 'experiment/DropdownBase' },
-      { title: 'List', path: 'experiment/List' },
-      { title: 'MutedText', path: 'experiment/MutedText' },
+      { title: 'Getting Started', path: 'experiments' },
+      { title: 'Dropdown', path: 'experiments/Dropdown' },
+      { title: 'DropdownBase', path: 'experiments/DropdownBase' },
+      { title: 'List', path: 'experiments/List' },
+      { title: 'MutedText', path: 'experiments/MutedText' },
     ],
   },
   {
