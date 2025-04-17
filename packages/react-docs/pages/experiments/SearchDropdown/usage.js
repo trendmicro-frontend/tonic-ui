@@ -199,6 +199,20 @@ const App = () => {
         width={width}
       >
         {({ getToggleProps }) => {
+          // Note: When using the default `MenuButton` toggle, you don't need to provide a custom render function.
+          // The default layout looks like this:
+          //
+          // ```js
+          // <SearchDropdown
+          //   onSelect={onSelect}
+          //   options={options}
+          //   renderContent={renderContent}
+          //   renderOption={renderOption} // for keyword highlights
+          // >
+          //   {renderValue(value)}
+          // </SearchDropdown>
+          // ```
+
           if (toggler === 'MenuButton') {
             return (
               <MenuButton
