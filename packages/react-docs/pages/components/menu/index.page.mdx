@@ -1,8 +1,3 @@
-import { Accordion, AccordionItem, AccordionHeader, AccordionBody } from '@tonic-ui/react';
-import CodeBlock from '@/components/CodeBlock';
-import rawDropdown from '!!raw-loader!@/components/Dropdown';
-import rawDropdownBase from '!!raw-loader!@/components/DropdownBase';
-
 # Menu
 
 A menu is used to display a list of options to the user. It appears when the user interacts with a button, link, or other control that triggers an action.
@@ -202,16 +197,7 @@ The `Dropdown` component enables users to select a single option from a list. It
 
 {render('./dropdown')}
 
-<Accordion rowGap={1}>
-  <AccordionItem defaultIsExpanded>
-    <AccordionHeader>`Dropdown` component source</AccordionHeader>
-    <AccordionBody><CodeBlock code={rawDropdown} /></AccordionBody>
-  </AccordionItem>
-  <AccordionItem defaultIsExpanded>
-    <AccordionHeader>`DropdownBase` component source</AccordionHeader>
-    <AccordionBody><CodeBlock code={rawDropdownBase} /></AccordionBody>
-  </AccordionItem>
-</Accordion>
+Check out the [Dropdown](../../experiments/Dropdown) and [DropdownBase](../../experiments/DropdownBase) components for more details.
 
 ### Multiselect
 

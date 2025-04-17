@@ -1,18 +1,64 @@
 import {
   Button,
+  Flex,
+  MenuToggleIcon,
 } from '@tonic-ui/react';
 import {
-  MenuIcon,
+  AngleRightIcon,
+  //MenuIcon,
 } from '@tonic-ui/react-icons';
 import React, { useState } from 'react';
 import DropdownBase from '@/components/DropdownBase';
 
-const options = Array.from({ length: 4 }, (_, i) => ({ value: i + 1 }));
+const options = [
+  // Default items
+  { value: 'new', label: 'New File' },
+  { value: 'open', label: 'Open File' },
 
-const mapOptionValueToString = (value) => {
-  const option = options.find(opt => opt.value === value);
-  return option ? `Option ${option.value}` : undefined;
-};
+  // Divider
+  { type: 'divider' },
+
+  // Submenu
+  {
+    type: 'submenu',
+    label: (
+      <Flex
+        alignItems="center"
+        columnGap="2x"
+        justifyContent="space-between"
+        width="100%"
+      >
+        Export
+        <AngleRightIcon />
+      </Flex>
+    ),
+    children: [
+      { value: 'pdf', label: 'Export as PDF' },
+      { value: 'docx', label: 'Export as Word' },
+      { value: 'image', label: 'Export as Image' },
+    ],
+  },
+
+  // Divider
+  { type: 'divider' },
+
+  // Group
+  {
+    type: 'group',
+    label: 'Recent Files',
+    children: [
+      { value: 'file1', label: 'Report_Q1.pdf' },
+      { value: 'file2', label: 'Budget_2025.xlsx' },
+    ],
+  },
+
+  // Divider
+  { type: 'divider' },
+
+  // Another default item
+  { value: 'settings', label: 'Settings' },
+];
+
 
 const App = () => {
   const [value, setValue] = useState('all');
@@ -21,22 +67,20 @@ const App = () => {
       setValue(option.value);
     }
   };
-  const renderOption = (option) => {
-    return mapOptionValueToString(option.value);
-  };
 
   return (
     <DropdownBase
       onSelect={handleSelect}
       options={options}
-      renderOption={renderOption}
     >
       {({ getToggleProps }) => (
         <Button
           {...getToggleProps()}
-          variant="ghost"
+          variant="secondary"
+          columnGap="2x"
         >
-          <MenuIcon />
+          Click Me
+          <MenuToggleIcon />
         </Button>
       )}
     </DropdownBase>
