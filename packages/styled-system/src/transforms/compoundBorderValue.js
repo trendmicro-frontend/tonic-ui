@@ -10,32 +10,32 @@ const hasOwnSafe = (obj, key) => {
     ? Object.hasOwn(obj, key)
     : Object.prototype.hasOwnProperty.call(obj, key);
 };
-/**
+  /**
    * Border radius values follow this order:
    * 1 value:  all corners
    * 2 values: [top-left/bottom-right] [top-right/bottom-left]
    * 3 values: [top-left] [top-right/bottom-left] [bottom-right]
    * 4 values: [top-left] [top-right] [bottom-right] [bottom-left]
    */
-const normalizeRadiusValues =(parts) => {
+const normalizeRadiusValues = (parts) => {
   switch (parts.length) {
-    case 1:
-      // all corners get the same value
-      return [parts[0], parts[0], parts[0], parts[0]];
-    case 2:
-      // top-left/bottom-right | top-right/bottom-left
-      return [parts[0], parts[1], parts[0], parts[1]];
-    case 3:
-      // top-left | top-right | bottom-left | bottom-right
-      return [parts[0], parts[1], parts[1], parts[2]];
-    case 4:
-      // top-left | top-right | bottom-right | bottom-left
-      return parts; // return as is  
-    default:
-      // invalid number of values, return as is
-      return parts;
+  case 1:
+    // all corners get the same value
+    return [parts[0], parts[0], parts[0], parts[0]];
+  case 2:
+    // top-left/bottom-right | top-right/bottom-left
+    return [parts[0], parts[1], parts[0], parts[1]];
+  case 3:
+    // top-left | top-right | bottom-left | bottom-right
+    return [parts[0], parts[1], parts[1], parts[2]];
+  case 4:
+    // top-left | top-right | bottom-right | bottom-left
+    return parts;
+  default:
+    // invalid number of values, return as is
+    return parts;
   }
-}; 
+};
 
 const compoundBorderValue = (scale, value, options) => {
   /**
@@ -80,7 +80,7 @@ const compoundBorderValue = (scale, value, options) => {
         if (part === '0') {
           return part;
         }
-        // Handle theme values sm, md, lg, etc. 
+        // Handle theme values sm, md, lg, etc.
         if (hasOwnSafe(scale, part)) {
           return getter(scale, part, options);
         }

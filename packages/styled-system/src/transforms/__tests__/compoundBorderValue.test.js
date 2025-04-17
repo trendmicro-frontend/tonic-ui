@@ -1,4 +1,4 @@
-import { compoundBorderValue } from '../transforms';
+import { compoundBorderValue } from '../compoundBorderValue';
 
 describe('compoundBorderValue', () => {
   const scale = {
@@ -8,44 +8,34 @@ describe('compoundBorderValue', () => {
     xl: '1rem'
   };
 
-  describe('single value', () => {
-    test('should apply same value to all corners', () => {
-      expect(compoundBorderValue(scale, 'sm'))
-        .toBe('0.125rem 0.125rem 0.125rem 0.125rem');
-    });
+  test('should apply same value to all corners', () => {
+    expect(compoundBorderValue(scale, 'sm'))
+      .toBe('0.125rem 0.125rem 0.125rem 0.125rem');
   });
 
-  describe('two values', () => {
-    test('should apply first value to top-left/bottom-left and second value to top-right/bottom-right', () => {
-      expect(compoundBorderValue(scale, 'sm md'))
-        .toBe('0.125rem 0.25rem 0.25rem 0.125rem');
-    });
+  test('should apply first value to top-left/bottom-left and second value to top-right/bottom-right', () => {
+    expect(compoundBorderValue(scale, 'sm md'))
+      .toBe('0.125rem 0.25rem 0.25rem 0.125rem');
   });
 
-  describe('three values', () => {
-    test('should apply values in order: top-left, top-right, bottom-right, and copy top-right for bottom-left', () => {
-      expect(compoundBorderValue(scale, 'sm md lg'))
-        .toBe('0.125rem 0.25rem 0.5rem 0.25rem');
-    });
+  test('should apply values in order: top-left, top-right, bottom-right, and copy top-right for bottom-left', () => {
+    expect(compoundBorderValue(scale, 'sm md lg'))
+      .toBe('0.125rem 0.25rem 0.5rem 0.25rem');
   });
 
-  describe('four values', () => {
-    test('should apply values in clockwise order: top-left, top-right, bottom-right, bottom-left', () => {
-      expect(compoundBorderValue(scale, 'sm md lg xl'))
-        .toBe('0.125rem 0.25rem 0.5rem 1rem');
-    });
+  test('should apply values in clockwise order: top-left, top-right, bottom-right, bottom-left', () => {
+    expect(compoundBorderValue(scale, 'sm md lg xl'))
+      .toBe('0.125rem 0.25rem 0.5rem 1rem');
   });
 
-  describe('mixed values', () => {
-    test('should handle theme values with raw values', () => {
-      expect(compoundBorderValue(scale, 'sm 0 4px md'))
-        .toBe('0.125rem 0 4px 0.25rem');
-    });
+  test('should handle theme values with raw values', () => {
+    expect(compoundBorderValue(scale, 'sm 0 4px md'))
+      .toBe('0.125rem 0 4px 0.25rem');
+  });
 
-    test('should handle zero values', () => {
-      expect(compoundBorderValue(scale, 'sm 0 0 sm'))
-        .toBe('0.125rem 0 0 0.125rem');
-    });
+  test('should handle zero values', () => {
+    expect(compoundBorderValue(scale, 'sm 0 0 sm'))
+      .toBe('0.125rem 0 0 0.125rem');
   });
 
   describe('edge cases', () => {
