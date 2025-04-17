@@ -1,5 +1,6 @@
 import system from '../core/system';
 import positiveOrNegativeTransform from '../transforms/positiveOrNegative';
+import compoundThemeValueTransform from '../transforms/compoundBorderValue';
 
 const _border = {
   /**
@@ -109,6 +110,7 @@ const _borderRadius = {
   borderRadius: {
     property: 'borderRadius',
     scale: 'radii',
+    transform: compoundThemeValueTransform
   },
   borderTopLeftRadius: {
     property: 'borderTopLeftRadius',

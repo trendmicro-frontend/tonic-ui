@@ -155,3 +155,66 @@ test('returns border styles', () => {
     borderSpacing: '.125rem',
   });
 });
+
+describe('borderRadius with compoundThemeValueTransform', () => {
+  const theme = {
+    radii: {
+      sm: '0.125rem',
+      md: '0.25rem',
+      lg: '0.5rem',
+      xl: '1rem'
+    }
+  };
+
+  test('single value should apply to all corners', () => {
+    const style = border({
+      theme,
+      borderRadius: 'sm'
+    });
+    expect(style).toEqual({
+      borderTopLeftRadius: '0.125rem',
+      borderTopRightRadius: '0.125rem',
+      borderBottomLeftRadius: '0.125rem',
+      borderBottomRightRadius: '0.125rem'
+    });
+  });
+
+  test('two values should apply to diagonal corners', () => {
+    const style = border({
+      theme,
+      borderRadius: 'sm md'
+    });
+    expect(style).toEqual({
+      borderTopLeftRadius: '0.125rem',
+      borderTopRightRadius: '0.25rem',
+      borderBottomLeftRadius: '0.25rem',
+      borderBottomRightRadius: '0.125rem'
+    });
+  });
+
+  test('four values should apply clockwise from top-left', () => {
+    const style = border({
+      theme,
+      borderRadius: 'sm md lg xl'
+    });
+    expect(style).toEqual({
+      borderTopLeftRadius: '0.125rem',
+      borderTopRightRadius: '0.25rem',
+      borderBottomRightRadius: '0.5rem',
+      borderBottomLeftRadius: '1rem'
+    });
+  });
+
+  test('should handle mixed theme and raw values', () => {
+    const style = border({
+      theme,
+      borderRadius: 'sm 8px'
+    });
+    expect(style).toEqual({
+      borderTopLeftRadius: '0.125rem',
+      borderTopRightRadius: '8px',
+      borderBottomLeftRadius: '8px',
+      borderBottomRightRadius: '0.125rem'
+    });
+  });
+});
