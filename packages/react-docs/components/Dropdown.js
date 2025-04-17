@@ -6,8 +6,8 @@ import DropdownBase from './DropdownBase';
 const Dropdown = forwardRef((
   {
     children,
-    options = [],
     onSelect,
+    options = [],
     renderOption,
     ...rest
   },

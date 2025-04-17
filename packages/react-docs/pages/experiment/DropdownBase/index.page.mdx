@@ -1,0 +1,43 @@
+import CodeBlock from '@/components/CodeBlock';
+import code from '!!raw-loader!@/components/DropdownBase';
+
+# DropdownBase
+
+A fundamental dropdown component that renders a menu with selectable options and manages the selection behavior.
+
+## Usage
+
+{render('./usage')}
+
+## Props
+
+<h3>`children: ReactNode | () => ReactNode`</h3>
+Content inside the dropdown button. Accepts a React node or a render function.
+
+<h3>`onSelect: (option: { value: any, props?: object, [key: string]: any }) => void`</h3>
+Callback triggered when an option is selected. Receives the full `option` object as its argument, allowing you to access any additional custom fields you may have defined.
+
+<h3>`options: Array<{ value: any, props?: object, [key: string]: any }>`</h3>
+An array of options to be rendered in the dropdown menu.
+
+Each option is an object with the following fields:
+
+* `value` (required): A unique identifier or payload associated with the option.
+* `props` (optional): Props passed directly to the underlying `MenuItem`, such as `disabled`, custom data attributes, or `sx` style props.
+* `[key: string]: any` (optional): Additional custom fields for your own internal use. These are not used by the component itself but are passed along in the `onSelect` callback.
+
+```js
+options={[
+  { value: 'apple', props: { 'data-track': 'apple', disabled: true }, customData: 123 },
+  { value: 'banana', props: { 'data-track': 'banana' } },
+]}
+```
+
+You may also include any additional custom fields as needed — only `value` and `props` are handled internally by the component.
+
+<h3>`renderOption?: (option: { value: any, props?: object, [key: string]: any }) => ReactNode`</h3>
+Optional custom render function for dropdown options.
+
+## Source
+
+<CodeBlock code={code} />

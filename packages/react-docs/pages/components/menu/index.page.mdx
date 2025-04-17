@@ -1,7 +1,7 @@
 import { Accordion, AccordionItem, AccordionHeader, AccordionBody } from '@tonic-ui/react';
 import CodeBlock from '@/components/CodeBlock';
-import DropdownSource from '!!raw-loader!@/components/Dropdown';
-import DropdownBaseSource from '!!raw-loader!@/components/DropdownBase';
+import rawDropdown from '!!raw-loader!@/components/Dropdown';
+import rawDropdownBase from '!!raw-loader!@/components/DropdownBase';
 
 # Menu
 
@@ -205,11 +205,11 @@ The `Dropdown` component enables users to select a single option from a list. It
 <Accordion rowGap={1}>
   <AccordionItem defaultIsExpanded>
     <AccordionHeader>`Dropdown` component source</AccordionHeader>
-    <AccordionBody><CodeBlock code={DropdownSource} /></AccordionBody>
+    <AccordionBody><CodeBlock code={rawDropdown} /></AccordionBody>
   </AccordionItem>
   <AccordionItem defaultIsExpanded>
     <AccordionHeader>`DropdownBase` component source</AccordionHeader>
-    <AccordionBody><CodeBlock code={DropdownBaseSource} /></AccordionBody>
+    <AccordionBody><CodeBlock code={rawDropdownBase} /></AccordionBody>
   </AccordionItem>
 </Accordion>
 

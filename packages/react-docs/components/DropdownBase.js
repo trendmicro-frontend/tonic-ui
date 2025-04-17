@@ -10,8 +10,8 @@ import React, { forwardRef } from 'react';
 const DropdownBase = forwardRef((
   {
     children,
-    options = [],
     onSelect,
+    options = [],
     renderOption,
     ...rest
   },

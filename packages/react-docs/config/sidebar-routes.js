@@ -1,4 +1,5 @@
 import {
+  Tag,
   Text,
   Tooltip,
 } from '@tonic-ui/react';
@@ -9,6 +10,7 @@ import {
   HookIcon,
   MigrateSuccessIcon,
   RocketIcon,
+  SearchOIcon,
   SVGIcon,
   ToolsConfigurationIcon,
   UserTeamIcon,
@@ -69,6 +71,21 @@ export const routes = [
       { title: 'Content Security Policy', path: 'customization/content-security-policy' },
       { title: 'CSS Theme Variables', path: 'customization/css-theme-variables' },
       { title: 'Shadow DOM', path: 'customization/shadow-dom' },
+    ],
+  },
+  {
+    title: 'Experiment',
+    icon: (props) => <SearchOIcon size="4x" {...props} />,
+    render: () => (
+      <Tag variant="outline" borderColor="yellow:50" color="yellow:50" size="sm">
+        NEW
+      </Tag>
+    ),
+    routes: [
+      { title: 'Getting Started', path: 'experiment' },
+      { title: 'Dropdown', path: 'experiment/Dropdown' },
+      { title: 'DropdownBase', path: 'experiment/DropdownBase' },
+      { title: 'MutedText', path: 'experiment/MutedText' },
     ],
   },
   {
