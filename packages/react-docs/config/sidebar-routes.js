@@ -85,6 +85,7 @@ export const routes = [
       { title: 'Getting Started', path: 'experiment' },
       { title: 'Dropdown', path: 'experiment/Dropdown' },
       { title: 'DropdownBase', path: 'experiment/DropdownBase' },
+      { title: 'List', path: 'experiment/List' },
       { title: 'MutedText', path: 'experiment/MutedText' },
     ],
   },
