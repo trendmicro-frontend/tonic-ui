@@ -11,20 +11,31 @@ import {
   Text,
   TextLabel,
   Tooltip,
+  useColorStyle,
+  useTheme,
 } from '@tonic-ui/react';
 import {
   InfoOIcon,
 } from '@tonic-ui/react-icons';
+import Chance from 'chance';
+import { ensureArray } from 'ensure-type';
 import React, { useState } from 'react';
-import Dropdown from '@/components/Dropdown';
+import Highlight from 'react-highlight-words';
 import FormGroup from '@/components/FormGroup';
 import MutedText from '@/components/MutedText';
+import SearchDropdown from '@/components/SearchDropdown';
 
-const options = [
-  { value: 'all', label: 'All' },
-  { value: 'network', label: 'Network events' },
-  { value: 'system', label: 'System events' },
-];
+const chance = new Chance();
+
+const options = Array.from({ length: 20 }, () => {
+  const label = chance.company();
+  return {
+    value: label.toLowerCase().replace(/\s+/g, '-'),
+    label,
+  };
+});
+
+options.unshift({ value: 'all', label: 'All' });
 
 const useSelection = (defaultValue) => {
   const [value, setValue] = useState(defaultValue);
@@ -33,6 +44,8 @@ const useSelection = (defaultValue) => {
 };
 
 const App = () => {
+  const theme = useTheme();
+  const [colorStyle] = useColorStyle();
   const [width, changeWidthBy] = useSelection('auto');
   const [toggler, changeTogglerBy] = useSelection('MenuButton');
   const [value, setValue] = useState('all');
@@ -45,7 +58,7 @@ const App = () => {
   };
 
   const renderValue = (value) => {
-    const fieldText = 'Event status:';
+    const fieldText = 'Company:';
     const option = options.find(option => option.value === value);
     return (
       <Flex alignItems="center" columnGap="2x" width="100%">
@@ -150,18 +163,39 @@ const App = () => {
         </ButtonGroup>
       </FormGroup>
       <Divider my="4x" />
-      <Dropdown
+      <SearchDropdown
         offset={offset}
         onSelect={handleSelect}
         options={options}
-        renderContent={({ options, renderOptions }) => (
-          <Scrollbar
-            maxHeight={200}
-            overflowY="auto"
-          >
-            {renderOptions(options)}
-          </Scrollbar>
+        renderContent={({ options, renderOptions, renderSearchInput }) => (
+          <>
+            <Box px="3x" mb="2x">
+              {renderSearchInput()}
+            </Box>
+            <Scrollbar
+              maxHeight={200}
+              overflowY="visible"
+            >
+              {renderOptions(options)}
+            </Scrollbar>
+          </>
         )}
+        renderOption={(option, { searchKeyword }) => {
+          const searchWords = ensureArray(searchKeyword);
+          const textToHighlight = option.label;
+          const highlightStyle = {
+            backgroundColor: theme?.colors?.[colorStyle?.text?.highlight],
+              color: theme?.colors?.['gray:100'],
+          };
+
+          return (
+            <Highlight
+              searchWords={searchWords}
+              textToHighlight={textToHighlight}
+              highlightStyle={highlightStyle}
+            />
+          );
+        }}
         width={width}
       >
         {({ getToggleProps }) => {
@@ -211,7 +245,7 @@ const App = () => {
             );
           }
         }}
-      </Dropdown>
+      </SearchDropdown>
     </>
   );
 };

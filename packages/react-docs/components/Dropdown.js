@@ -1,5 +1,4 @@
 import { MenuButton } from '@tonic-ui/react';
-import { runIfFn } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import DropdownBase from './DropdownBase';
 
@@ -22,21 +21,27 @@ const Dropdown = forwardRef((
       renderOption={renderOption}
       {...rest}
     >
-      {({ getToggleProps }) => (
-        <MenuButton
-          {...getToggleProps()}
-          variant="secondary"
-          sx={{
-            width: '100%',
-            '> :first-of-type': {
-              // Override flex item's default `minWidth: auto` to allow text truncation
-              minWidth: 0,
-            },
-          }}
-        >
-          {runIfFn(children)}
-        </MenuButton>
-      )}
+      {({ getToggleProps }) => {
+        if (typeof children === 'function') {
+          return children({ getToggleProps });
+        }
+
+        return (
+          <MenuButton
+            {...getToggleProps()}
+            variant="secondary"
+            sx={{
+              width: '100%',
+              '> :first-of-type': {
+                // Override flex item's default `minWidth: auto` to allow text truncation
+                minWidth: 0,
+              },
+            }}
+          >
+            {children}
+          </MenuButton>
+        );
+      }}
     </DropdownBase>
   );
 });

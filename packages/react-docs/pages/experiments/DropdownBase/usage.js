@@ -2,10 +2,10 @@ import {
   Button,
   Flex,
   MenuToggleIcon,
+  Scrollbar,
 } from '@tonic-ui/react';
 import {
   AngleRightIcon,
-  //MenuIcon,
 } from '@tonic-ui/react-icons';
 import React, { useState } from 'react';
 import DropdownBase from '@/components/DropdownBase';
@@ -72,6 +72,13 @@ const App = () => {
     <DropdownBase
       onSelect={handleSelect}
       options={options}
+      renderContent={({ options, renderOptions }) => {
+        return (
+          <Scrollbar maxHeight={240} overflowY="visible" overflowX="hidden">
+            {renderOptions(options)}
+          </Scrollbar>
+        );
+      }}
     >
       {({ getToggleProps }) => (
         <Button

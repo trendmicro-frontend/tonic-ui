@@ -87,6 +87,7 @@ export const routes = [
       { title: 'DropdownBase', path: 'experiments/DropdownBase' },
       { title: 'List', path: 'experiments/List' },
       { title: 'MutedText', path: 'experiments/MutedText' },
+      { title: 'SearchDropdown', path: 'experiments/SearchDropdown' },
     ],
   },
   {

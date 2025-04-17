@@ -41,6 +41,7 @@
     "acorn": "^8.8.2",
     "algoliasearch": "^4.14.2",
     "boolean": "^3.2.0",
+    "chance": "^1.1.12",
     "cross-env": "^7.0.3",
     "date-fns": "2.x",
     "del-cli": "^5.0.0",

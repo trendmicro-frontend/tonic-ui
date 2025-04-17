@@ -69,10 +69,11 @@ const DropdownBase = forwardRef((
               </MenuItem>
             </SubmenuToggle>
             <SubmenuList
+              PopperProps={{
+                usePortal: true,
+              }}
               sx={{
-                // Set the minimum width to fit the menu's content while occupying full width
-                minWidth: 'max-content',
-                width: '100%',
+                width: 'max-content',
               }}
             >
               {renderOptions(option.children, childPrefix)}
