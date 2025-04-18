@@ -669,11 +669,11 @@ const getInputGroupCSS = ({
   const useNegativeMargin = (variant === VARIANT_OUTLINE || variant === VARIANT_FILLED);
 
   return sx({
-    '&:not(:first-child)': {
+    '&:not(:first-of-type)': {
       borderTopLeftRadius: 0,
       borderBottomLeftRadius: 0,
     },
-    '&:not(:last-child)': {
+    '&:not(:last-of-type)': {
       borderTopRightRadius: 0,
       borderBottomRightRadius: 0,
     },
@@ -759,7 +759,7 @@ const getInputGroupAppendCSS = () => {
 
   return sx({
     '& > *:first-of-type': notFirstChildStyle,
-    '&:not(:last-child) > *:first-of-type': notLastChildStyle,
+    '&:not(:last-of-type) > *:first-of-type': notLastChildStyle,
   });
 };
 
