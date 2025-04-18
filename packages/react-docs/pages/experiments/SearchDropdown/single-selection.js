@@ -10,16 +10,15 @@ import {
   Tag,
   Text,
   TextLabel,
-  Tooltip,
   useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
 import {
-  InfoOIcon,
-} from '@tonic-ui/react-icons';
+  useConst,
+} from '@tonic-ui/react-hooks';
 import Chance from 'chance';
 import { ensureArray } from 'ensure-type';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Highlight from 'react-highlight-words';
 import FormGroup from '@/components/FormGroup';
 import MutedText from '@/components/MutedText';
@@ -27,29 +26,85 @@ import SearchDropdown from '@/components/SearchDropdown';
 
 const chance = new Chance();
 
-const options = Array.from({ length: 20 }, () => {
-  const label = chance.company();
-  return {
-    value: label.toLowerCase().replace(/\s+/g, '-'),
-    label,
-  };
-});
-
-options.unshift({ value: 'all', label: 'All' });
-
 const useSelection = (defaultValue) => {
   const [value, setValue] = useState(defaultValue);
   const changeBy = (value) => () => setValue(value);
   return [value, changeBy];
 };
 
+const AutoWidthText = ({ children, tooltip, variant, ...rest }) => {
+  const TextComponent = (variant === 'muted') ? MutedText : Text;
+
+  return (
+    <OverflowTooltip
+      PopperProps={{
+        usePortal: true,
+      }}
+      label={tooltip ?? children}
+      maxWidth={320}
+    >
+      {({ ref, style }) => (
+        <TextComponent
+          ref={ref}
+          {...style}
+          flex="auto"
+          {...rest}
+        >
+          {children}
+        </TextComponent>
+      )}
+    </OverflowTooltip>
+  );
+};
+
+const FixedWidthText = ({ children, tooltip, variant, ...rest }) => {
+  const TextComponent = (variant === 'muted') ? MutedText : Text;
+
+  return (
+    <OverflowTooltip
+      PopperProps={{
+        usePortal: true,
+      }}
+      label={tooltip ?? children}
+      maxWidth={320}
+    >
+      {({ ref, style }) => (
+        <TextComponent
+          ref={ref}
+          {...style}
+          maxWidth="100%"
+          flex="none"
+          {...rest}
+        >
+          {children}
+        </TextComponent>
+      )}
+    </OverflowTooltip>
+  );
+};
+
 const App = () => {
   const theme = useTheme();
   const [colorStyle] = useColorStyle();
-  const [width, changeWidthBy] = useSelection('auto');
   const [toggler, changeTogglerBy] = useSelection('MenuButton');
-  const [value, setValue] = useState('all');
-  const offset = (toggler === 'Tag') ? [0, 4] : undefined;
+  const togglerOffset = (toggler === 'Tag') ? [0, 4] : undefined;
+
+  const options = useConst(() => {
+    return [
+      { value: 'all', label: 'All' },
+      ...chance.unique(chance.company, 20).map((value, index) => {
+        return {
+          value: `${index}_${value.toLowerCase()}`,
+          label: value,
+        };
+      }),
+    ];
+  });
+  const optionValueToLabelMap = useMemo(() => {
+    return Object.fromEntries(options.map(option => [option.value, option.label]));
+  }, [options]);
+
+  const [value, setValue] = useState(options[0]?.value);
 
   const handleSelect = (option) => {
     if (value !== option.value) {
@@ -58,43 +113,16 @@ const App = () => {
   };
 
   const renderValue = (value) => {
-    const fieldText = 'Company:';
-    const option = options.find(option => option.value === value);
+    const label = optionValueToLabelMap[value];
+
     return (
-      <Flex alignItems="center" columnGap="2x" width="100%">
-        <OverflowTooltip
-          PopperProps={{
-            usePortal: true,
-          }}
-          label={`${fieldText} ${option?.label}`}
-        >
-          {({ ref, style }) => (
-            <MutedText
-              ref={ref}
-              {...style}
-              maxWidth="100%"
-              flex="none"
-            >
-              {fieldText}
-            </MutedText>
-          )}
-        </OverflowTooltip>
-        <OverflowTooltip
-          PopperProps={{
-            usePortal: true,
-          }}
-          label={option?.label}
-        >
-          {({ ref, style }) => (
-            <Text
-              ref={ref}
-              {...style}
-              flex="auto"
-            >
-              {option?.label}
-            </Text>
-        )}
-        </OverflowTooltip>
+      <Flex alignItems="center" columnGap="1x" width="100%">
+        <FixedWidthText variant="muted" tooltip={`Company: ${label}`}>
+          {'Company:'}
+        </FixedWidthText>
+        <AutoWidthText maxWidth={120}>
+          {label}
+        </AutoWidthText>
       </Flex>
     );
   };
@@ -105,39 +133,7 @@ const App = () => {
         <Box mb="2x">
           <Flex alignItems="center" columnGap="2x">
             <TextLabel>
-              width
-            </TextLabel>
-            <Tooltip label="Try changing the dropdown width to see how the overflow tooltip behaves.">
-              <InfoOIcon />
-            </Tooltip>
-          </Flex>
-        </Box>
-        <ButtonGroup
-          variant="secondary"
-          sx={{
-            '> *:not(:first-of-type)': {
-              marginLeft: -1
-            },
-            mb: '1x',
-          }}
-        >
-          {['auto', '80px', '160px'].map(value => (
-            <Button
-              key={value}
-              selected={value === width}
-              onClick={changeWidthBy(value)}
-              minWidth="15x"
-            >
-              {value}
-            </Button>
-          ))}
-        </ButtonGroup>
-      </FormGroup>
-      <FormGroup>
-        <Box mb="2x">
-          <Flex alignItems="center" columnGap="2x">
-            <TextLabel>
-              toggler
+              Dropdown toggler:
             </TextLabel>
           </Flex>
         </Box>
@@ -164,7 +160,7 @@ const App = () => {
       </FormGroup>
       <Divider my="4x" />
       <SearchDropdown
-        offset={offset}
+        offset={togglerOffset}
         onSelect={handleSelect}
         options={options}
         renderContent={({ options, renderOptions, renderSearchInput }) => (
@@ -196,7 +192,6 @@ const App = () => {
             />
           );
         }}
-        width={width}
       >
         {({ getToggleProps }) => {
           // Note: When using the default `MenuButton` toggle, you don't need to provide a custom render function.

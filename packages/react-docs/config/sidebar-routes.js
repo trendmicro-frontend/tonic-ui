@@ -83,11 +83,13 @@ export const routes = [
     ),
     routes: [
       { title: 'Getting Started', path: 'experiments' },
+      { title: 'DROPDOWN', heading: true },
       { title: 'Dropdown', path: 'experiments/Dropdown' },
       { title: 'DropdownBase', path: 'experiments/DropdownBase' },
+      { title: 'SearchDropdown', path: 'experiments/SearchDropdown' },
+      { title: 'OTHERS', heading: true },
       { title: 'List', path: 'experiments/List' },
       { title: 'MutedText', path: 'experiments/MutedText' },
-      { title: 'SearchDropdown', path: 'experiments/SearchDropdown' },
     ],
   },
   {

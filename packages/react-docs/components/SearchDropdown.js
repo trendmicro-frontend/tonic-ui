@@ -57,7 +57,7 @@ const SearchDropdown = forwardRef((
   const renderContent = ({ options, renderOption, renderOptions }) => {
     if (typeof renderContentProp === 'function') {
       // Render custom layout
-      return renderContentProp({ options, renderOption, renderOptions, renderSearchInput });
+      return renderContentProp({ options, renderOption, renderOptions, renderSearchInput, searchKeyword });
     }
 
     // Render default layout
