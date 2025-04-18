@@ -1,5 +1,11 @@
 # @tonic-ui/react
 
+## 2.6.4
+
+### Patch Changes
+
+- fix(react/InputGroup): replace the pseudo-class ':first-child' with ':first-of-type' by [@cheton](https://github.com/cheton) in [`89e6aea`](https://github.com/trendmicro-frontend/tonic-ui/commit/89e6aea55bbeef9808c7f4ac021121c70b7ae82c)
+
 ## 2.6.3
 
 ### Patch Changes
