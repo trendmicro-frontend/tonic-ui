@@ -1,5 +1,11 @@
 # @tonic-ui/react
 
+## 2.6.5
+
+### Patch Changes
+
+- feat(react/tag): update `_focus` to `_focusVisible` in `Tag` component to enable focus outline on keyboard navigation by [@cheton](https://github.com/cheton) in [#999](https://github.com/trendmicro-frontend/tonic-ui/pull/999)
+
 ## 2.6.4
 
 ### Patch Changes
