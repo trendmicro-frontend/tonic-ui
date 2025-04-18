@@ -35,7 +35,7 @@ const TableCell = forwardRef((inProps, ref) => {
   if ((groupVariant === GROUP_VARIANT_BODY) && (layout !== LAYOUT_TABLE) && (variant === VARIANT_OUTLINE)) {
     sx = {
       ...sx,
-      '*:last-child > &': {
+      '*:last-of-type > &': {
         borderBottom: 0,
         borderBottomColor: 'transparent',
       },
