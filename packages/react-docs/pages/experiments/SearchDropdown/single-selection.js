@@ -214,7 +214,7 @@ const App = () => {
                 {...getToggleProps()}
                 variant="secondary"
                 sx={{
-                  width: '100%',
+                  maxWidth: '100%',
                   '> :first-of-type': {
                     // Override flex item's default `minWidth: auto` to allow text truncation
                     minWidth: 0,
@@ -228,29 +228,23 @@ const App = () => {
 
           if (toggler === 'Tag') {
             return (
-              <Box
+              <Tag
                 {...getToggleProps()}
+                isClosable={true}
+                onClose={(event) => {
+                  event.preventDefault();
+                }}
                 sx={{
                   cursor: 'pointer',
-                  width: '100%',
+                  maxWidth: '100%',
+                  '> :first-of-type': {
+                    // Override flex item's default `minWidth: auto` to allow text truncation
+                    minWidth: 0,
+                  },
                 }}
               >
-                <Tag
-                  isClosable={true}
-                  onClose={(event) => {
-                    event.preventDefault();
-                  }}
-                  sx={{
-                    maxWidth: '100%',
-                    '> :first-of-type': {
-                      // Override flex item's default `minWidth: auto` to allow text truncation
-                      minWidth: 0,
-                    },
-                  }}
-                >
-                  {renderValue(value)}
-                </Tag>
-              </Box>
+                {renderValue(value)}
+              </Tag>
             );
           }
         }}

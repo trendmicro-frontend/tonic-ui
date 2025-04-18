@@ -31,7 +31,7 @@ const Dropdown = forwardRef((
             {...getToggleProps()}
             variant="secondary"
             sx={{
-              width: '100%',
+              maxWidth: '100%',
               '> :first-of-type': {
                 // Override flex item's default `minWidth: auto` to allow text truncation
                 minWidth: 0,
