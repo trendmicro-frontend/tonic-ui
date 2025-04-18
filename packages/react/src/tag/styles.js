@@ -15,17 +15,10 @@ const getSolidTagStyle = ({
     dark: 'gray:20',
     light: 'black:emphasis',
   }[colorMode];
-  // Focus
-  const focusColor = {
-    dark: theme?.colors?.['blue:60'],
-    light: theme?.colors?.['blue:60'],
+  const focusVisibleOutlineColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
   }[colorMode];
-  const focusBoxShadowSpreadRadius = theme?.sizes?.['1q'];
-  const boxShadowColor = {
-    dark: theme?.colors?.['black:emphasis'],
-    light: theme?.colors?.['white:emphasis'],
-  }[colorMode];
-  const boxShadowSpreadRadius = theme?.sizes?.['2q'];
   // Disable
   const disabledOpacity = {
     dark: 0.28,
@@ -44,11 +37,11 @@ const getSolidTagStyle = ({
   return {
     backgroundColor,
     color,
-    _focus: {
-      '&:not([disabled])': {
-        borderColor: focusColor,
-        boxShadow: `inset 0 0 0 ${focusBoxShadowSpreadRadius} ${focusColor}, inset 0 0 0 ${boxShadowSpreadRadius} ${boxShadowColor}`,
-      },
+    _focusVisible: {
+      outlineColor: focusVisibleOutlineColor,
+      outlineOffset: '-1h',
+      outlineStyle: 'solid',
+      outlineWidth: '1h',
     },
     _invalid: {
       backgroundColor: invalidBackgroundColor,
@@ -74,17 +67,10 @@ const getOutlineTagStyle = ({
     dark: 'gray:40',
     light: 'gray:60',
   }[colorMode];
-  // Focus
-  const focusColor = {
-    dark: theme?.colors?.['blue:60'],
-    light: theme?.colors?.['blue:60'],
+  const focusVisibleOutlineColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
   }[colorMode];
-  const focusBoxShadowSpreadRadius = theme?.sizes?.['1q'];
-  const boxShadowColor = {
-    dark: theme?.colors?.['black:emphasis'],
-    light: theme?.colors?.['white:emphasis'],
-  }[colorMode];
-  const boxShadowSpreadRadius = theme?.sizes?.['2q'];
   // Disable
   const disabledOpacity = {
     dark: 0.28,
@@ -103,11 +89,11 @@ const getOutlineTagStyle = ({
   return {
     borderColor,
     color,
-    _focus: {
-      '&:not([disabled])': {
-        borderColor: focusColor,
-        boxShadow: `inset 0 0 0 ${focusBoxShadowSpreadRadius} ${focusColor}, inset 0 0 0 ${boxShadowSpreadRadius} ${boxShadowColor}`,
-      },
+    _focusVisible: {
+      outlineColor: focusVisibleOutlineColor,
+      outlineOffset: '-1h',
+      outlineStyle: 'solid',
+      outlineWidth: '1h',
     },
     _invalid: {
       borderColor: invalidBackgroundColor,
