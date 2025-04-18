@@ -133,13 +133,7 @@ To change the width of the menu, pass `width` prop to the `MenuList` component.
 
 #### full width
 
-Set `display="block"` on the `Menu` and set `width="100%"` on `MenuButton` and `MenuList` to make the menu as wide as the content.
-
 {render('./sizing-full-width')}
-
-#### `min-content`
-
-{render('./sizing-min-content')}
 
 #### `max-content`
 
@@ -189,19 +183,24 @@ You can also use the `Scrollbar` component to override the default scrollbar.
 
 ### Dropdown
 
-Use the `Dropdown` component when you need to select one option from a list of options.
+The `Dropdown` component enables users to select a single option from a list. It provides a simple interface for managing dropdown selections.
 
-The component is available on GitHub at the [link](https://github.com/trendmicro-frontend/tonic-ui/blob/master/packages/react-docs/components/Dropdown.js).
+```jsx
+<Dropdown
+  onSelect={onSelect}
+  options={options}
+  renderOption={renderOption}
+>
+  {renderValue(value)}
+</Dropdown>
+```
 
-{render('./dropdown')}
+{render('../../experiments/Dropdown/usage')}
 
-### Multiselect
-
-Use the `Multiselect` component when you need to select multiple options from a list or to filter information.
-
-The component is available on GitHub at the [link](https://github.com/trendmicro-frontend/tonic-ui/blob/master/packages/react-docs/components/Multiselect.js)
-
-{render('./multiselect')}
+Check out the following components for more details:
+* [DropdownBase](../../experiments/DropdownBase)
+* [Dropdown](../../experiments/Dropdown)
+* [SearchDropdown](../../experiments/SearchDropdown)
 
 ## Accessibility
 

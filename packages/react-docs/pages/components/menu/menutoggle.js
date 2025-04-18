@@ -7,7 +7,12 @@ const App = () => (
       <MenuToggle>
         <Text>Options</Text>
       </MenuToggle>
-      <MenuList width="max-content">
+      <MenuList
+        sx={{
+          minWidth: 'max-content',
+          width: '100%',
+        }}
+      >
         <MenuItem>
           List item 1
         </MenuItem>
@@ -33,7 +38,12 @@ const App = () => (
           <MenuToggleIcon />
         </Flex>
       </MenuToggle>
-      <MenuList width="max-content">
+      <MenuList
+        sx={{
+          minWidth: 'max-content',
+          width: '100%',
+        }}
+      >
         <MenuItem>
           List item 1
         </MenuItem>
@@ -58,15 +68,23 @@ const App = () => (
             <Button
               {...getMenuToggleProps()}
               variant="default"
+              sx={{
+                columnGap: '1x',
+              }}
             >
               <Text>Options</Text>
-              <Space width="1x" />
               <MenuToggleIcon />
             </Button>
           );
         }}
       </MenuToggle>
-      <MenuList width="max-content">
+      <MenuList
+        sx={{
+          // Set the minimum width to fit the menu's content while occupying full width
+          minWidth: 'max-content',
+          width: '100%',
+        }}
+      >
         <MenuItem>
           List item 1
         </MenuItem>

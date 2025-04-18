@@ -3,10 +3,10 @@ import {
   MenuButton,
   OverflowTooltip,
   Text,
-  TextLabel,
 } from '@tonic-ui/react';
 import React, { useState } from 'react';
 import Multiselect from '@/components/Multiselect';
+import MutedText from '@/components/MutedText';
 
 const policyData = {
   policies: [
@@ -43,43 +43,43 @@ const renderLabel = (value) => {
   if (isNoneSelected) {
     const selectionText = 'Select';
     return (
-      <>
-        <TextLabel mr="2x">
-          {'Policy:'}
-        </TextLabel>
+      <Flex alignItems="center">
+        <MutedText mr="2x">
+          Policy:
+        </MutedText>
         <OverflowTooltip
           PopperProps={{ usePortal: true }}
           label={selectionText}
         >
           {selectionText}
         </OverflowTooltip>
-      </>
+      </Flex>
     );
   }
 
   if (isAllSelected) {
     const selectionText = 'All'; 
     return (
-      <>
-        <TextLabel mr="2x">
-          {'Policy:'}
-        </TextLabel>
+      <Flex alignItems="center">
+        <MutedText mr="2x">
+          Policy:
+        </MutedText>
         <OverflowTooltip
           PopperProps={{ usePortal: true }}
           label={selectionText}
         >
           {selectionText}
         </OverflowTooltip>
-      </>
+      </Flex>
     );
   }
 
   const selectionText = value.map(renderOption).join(', ');
   return (
-    <>
-      <TextLabel mr="2x">
-        {'Policy:'}
-      </TextLabel>
+    <Flex alignItems="center">
+      <MutedText mr="2x">
+        Policy:
+      </MutedText>
       <OverflowTooltip
         PopperProps={{ usePortal: true }}
         label={selectionText}
@@ -89,16 +89,12 @@ const renderLabel = (value) => {
       <Text ml="1x">
         {`(${selectionCount})`}
       </Text>
-    </>
+    </Flex>
   );
 };
 
 const App = () => {
   const [value, setValue] = useState(options);
-  const width = 200;
-  const maxWidth = typeof width === 'number'
-    ? `calc(${width}px - 48px)`
-    : `calc(${width} - 48px)`;
 
   return (
     <Multiselect
@@ -108,16 +104,21 @@ const App = () => {
       options={options}
       renderOption={renderOption}
       shouldSelectAllIfNoneSelected={true}
+      width={200}
     >
       {({ getToggleProps }) => (
         <MenuButton
           {...getToggleProps()}
           variant="secondary"
-          width={width}
+          sx={{
+            width: '100%',
+            '> :first-of-type': {
+              // Override flex item's default `minWidth: auto` to allow text truncation
+              minWidth: 0,
+            },
+          }}
         >
-          <Flex maxWidth={maxWidth}>
-            {renderLabel(value)}
-          </Flex>
+          {renderLabel(value)}
         </MenuButton>
       )}
     </Multiselect>

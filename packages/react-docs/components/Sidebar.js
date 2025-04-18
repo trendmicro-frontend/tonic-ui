@@ -8,6 +8,7 @@ import {
   Flex,
   Image,
   Link,
+  OverflowTooltip,
   Text,
   useColorMode,
   useColorStyle,
@@ -141,7 +142,7 @@ const Sidebar = forwardRef((
         </Flex>
       </Box>
       <Accordion>
-        {routes.map(({ title: sectionTitle, icon, routes }) => {
+        {routes.map(({ title: sectionTitle, icon, render, routes }) => {
           const defaultIsExpanded = routes.some((route) => {
             if (!route.path) {
               return false;
@@ -180,21 +181,29 @@ const Sidebar = forwardRef((
                       >
                         <Flex
                           alignItems="center"
-                          columnGap="2x"
+                          justifyContent="space-between"
+                          width="100%"
+                          mr="3x"
                         >
-                          {(typeof icon === 'function') && (
-                            icon({
-                              color: colorStyle?.color?.tertiary,
-                              size: '4x',
-                            })
-                          )}
-                          <Text
-                            color={colorStyle?.color?.primary}
-                            fontSize="sm"
-                            lineHeight="sm"
+                          <Flex
+                            alignItems="center"
+                            columnGap="2x"
                           >
-                            {sectionTitle}
-                          </Text>
+                            {(typeof icon === 'function') && (
+                              icon({
+                                color: colorStyle?.color?.tertiary,
+                                size: '4x',
+                              })
+                            )}
+                            <Text
+                              color={colorStyle?.color?.primary}
+                              fontSize="sm"
+                              lineHeight="sm"
+                            >
+                              {sectionTitle}
+                            </Text>
+                          </Flex>
+                          {(typeof render === 'function') && render()}
                         </Flex>
                         <AccordionToggleIcon />
                       </Flex>
@@ -246,13 +255,22 @@ const Sidebar = forwardRef((
                               justifyContent="space-between"
                               width="100%"
                             >
-                              <Text
-                                fontSize="sm"
-                                lineHeight="sm"
-                                pl="9x"
+                              <OverflowTooltip
+                                label={title}
+                                PopperProps={{ usePortal: true }}
                               >
-                                {title}
-                              </Text>
+                                {({ ref, style }) => (
+                                  <Text
+                                    ref={ref}
+                                    fontSize="sm"
+                                    lineHeight="sm"
+                                    pl="9x"
+                                    {...style}
+                                  >
+                                    {title}
+                                  </Text>
+                                )}
+                              </OverflowTooltip>
                               {(typeof render === 'function') && render()}
                             </Flex>
                           </NavLink>

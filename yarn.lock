@@ -4617,6 +4617,7 @@ __metadata:
     acorn: ^8.8.2
     algoliasearch: ^4.14.2
     boolean: ^3.2.0
+    chance: ^1.1.12
     cross-env: ^7.0.3
     date-fns: 2.x
     del-cli: ^5.0.0
@@ -4642,6 +4643,7 @@ __metadata:
     node-emoji: ^2.1.0
     prism-react-renderer: ^2.0.6
     prop-types: 15.x
+    raw-loader: ^4.0.2
     react: latest
     react-beautiful-dnd: ^13.1.1
     react-dnd: ^16.0.1
@@ -6541,6 +6543,13 @@ __metadata:
     ansi-styles: ^4.1.0
     supports-color: ^7.1.0
   checksum: 8e3ddf3981c4da405ddbd7d9c8d91944ddf6e33d6837756979f7840a29272a69a5189ecae0ff84006750d6d1e92368d413335eab4db5476db6e6703a1d1e0505
+  languageName: node
+  linkType: hard
+
+"chance@npm:^1.1.12":
+  version: 1.1.12
+  resolution: "chance@npm:1.1.12"
+  checksum: e07a036cf8b0ddea853767695c359233ff056fb4272535fdb9ad05d26d1bb32618220f3608b4022edcfddf74323c135265c09c93aff3aab4aefab71ad68ae407
   languageName: node
   linkType: hard
 
@@ -14890,6 +14899,18 @@ __metadata:
   version: 4.0.3
   resolution: "raf-schd@npm:4.0.3"
   checksum: 45514041c5ad31fa96aef3bb3c572a843b92da2f2cd1cb4a47c9ad58e48761d3a4126e18daa32b2bfa0bc2551a42d8f324a0e40e536cb656969929602b4e8b58
+  languageName: node
+  linkType: hard
+
+"raw-loader@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "raw-loader@npm:4.0.2"
+  dependencies:
+    loader-utils: ^2.0.0
+    schema-utils: ^3.0.0
+  peerDependencies:
+    webpack: ^4.0.0 || ^5.0.0
+  checksum: 51cc1b0d0e8c37c4336b5318f3b2c9c51d6998ad6f56ea09612afcfefc9c1f596341309e934a744ae907177f28efc9f1654eacd62151e82853fcc6d37450e795
   languageName: node
   linkType: hard
 

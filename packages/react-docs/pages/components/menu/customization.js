@@ -95,7 +95,6 @@ const App = () => {
         persistentFocus={true}
       >
         <MenuList
-          width="max-content"
           onBlur={(event) => {
             if (shouldPreventDefaultOnNextBlur) {
               event.preventDefault();
@@ -103,6 +102,11 @@ const App = () => {
               // Restore the flag to its initial state
               shouldPreventDefaultOnNextBlur = false;
             }
+          }}
+          sx={{
+            // Set the minimum width to fit the menu's content while occupying full width
+            minWidth: 'max-content',
+            width: '100%',
           }}
         >
           <Box

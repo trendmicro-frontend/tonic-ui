@@ -13,14 +13,19 @@ import { AngleRightIcon } from '@tonic-ui/react-icons';
 import React from 'react';
 
 const App = () => (
-  <Menu display="block">
-    <MenuButton variant="secondary" width={200}>
+  <Menu width={200}>
+    <MenuButton variant="secondary" width="100%">
       <Text>Options</Text>
     </MenuButton>
     <MenuList
-      maxHeight={200}
-      overflow="auto"
-      width={200}
+      sx={{
+        // Set the minimum width to fit the menu's content while occupying full width
+        minWidth: 'max-content',
+        width: '100%',
+        // Vertical scrolling
+        maxHeight: 200,
+        overflowY: 'auto',
+      }}
     >
       {Array.from({ length: 100 }).map((_, key) => (
         <Submenu
@@ -44,7 +49,9 @@ const App = () => (
             PopperProps={{
               usePortal: true,
             }}
-            width="max-content"
+            sx={{
+              width: 'max-content',
+            }}
           >
             <MenuItem>
               <Text>List item</Text>
