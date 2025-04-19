@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Collapse,
   Fade,
   Flex,
@@ -44,10 +45,7 @@ const Demo = ({
     light: codeBlockLight,
   }[colorMode];
   const [showSourceCode, toggleShowSourceCode] = useToggle(expanded ?? defaultExpanded);
-  const { onCopy: copySource, hasCopied: hasCopiedSource } = useClipboard(file?.data);
-  const handleClickCopySource = useCallback(() => {
-    copySource();
-  }, [copySource]);
+  const { onCopy, hasCopied } = useClipboard(file?.data);
   const handleClickEditInCodeSandbox = useCallback(() => {
     openInCodeSandbox(sandbox);
   }, [sandbox]);
@@ -84,7 +82,7 @@ const Demo = ({
       </LiveProvider>
     );
   }
-    
+
   return (
     <LiveProvider
       code={file?.data}
@@ -124,9 +122,9 @@ const Demo = ({
         </IconButton>
         <IconButton
           data-track={`Code|copy_source|${x({ path: router.pathname })}`}
-          onClick={handleClickCopySource}
+          onClick={onCopy}
         >
-          <Tooltip label={hasCopiedSource ? 'Copied' : 'Copy the source'}>
+          <Tooltip label={hasCopied ? 'Copied' : 'Copy the source'}>
             <FileCopyOIcon />
           </Tooltip>
         </IconButton>
@@ -150,19 +148,41 @@ const Demo = ({
       <Fade in={showSourceCode}>
         <Collapse in={showSourceCode} unmountOnExit={true}>
           <Box
-            as={LiveEditor}
             sx={{
-              fontFamily: 'mono',
-              fontSize: 'md',
-              lineHeight: 'md',
-              mb: '4x',
-              '& > .prism-code': {
-                // Use `!important` to override the inline style
-                padding: `${theme?.space?.['4x']} !important`,
-                overflowX: 'auto',
-              },
+              position: 'relative',
             }}
-          />
+          >
+            <Box
+              as={LiveEditor}
+              sx={{
+                fontFamily: 'mono',
+                fontSize: 'md',
+                lineHeight: 'md',
+                mb: '4x',
+                '& > .prism-code': {
+                  // Use `!important` to override the inline style
+                  padding: `${theme?.space?.['4x']} !important`,
+                  overflowX: 'auto',
+                },
+              }}
+            />
+            <Tooltip
+              placement="left"
+            >
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={onCopy}
+                sx={{
+                  position: 'absolute',
+                  right: '4x',
+                  top: '4x',
+                }}
+              >
+                {hasCopied ? 'Copied' : 'Copy'}
+              </Button>
+            </Tooltip>
+          </Box>
         </Collapse>
       </Fade>
     </LiveProvider>

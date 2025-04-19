@@ -1,8 +1,11 @@
 import {
   Box,
+  Button,
+  Tooltip,
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
+import useClipboard from '../hooks/useClipboard';
 import { ensureString } from 'ensure-type';
 import React from 'react';
 import { LiveProvider, LiveEditor } from 'react-live';
@@ -16,6 +19,7 @@ const CodeBlock = ({ code: codeProp, language, ...rest }) => {
     light: codeBlockLight,
   }[colorMode];
   const code = ensureString(codeProp).trim();
+  const { onCopy, hasCopied } = useClipboard(code);
 
   return (
     <LiveProvider
@@ -25,19 +29,41 @@ const CodeBlock = ({ code: codeProp, language, ...rest }) => {
       theme={liveProviderTheme}
     >
       <Box
-        as={LiveEditor}
         sx={{
-          fontFamily: 'mono',
-          fontSize: 'md',
-          lineHeight: 'md',
-          mb: '4x',
-          '& > .prism-code': {
-            // Use `!important` to override the inline style
-            padding: `${theme?.space?.['4x']} !important`,
-            overflowX: 'auto',
-          },
+          position: 'relative',
         }}
-      />
+      >
+        <Box
+          as={LiveEditor}
+          sx={{
+            fontFamily: 'mono',
+            fontSize: 'md',
+            lineHeight: 'md',
+            mb: '4x',
+            '& > .prism-code': {
+              // Use `!important` to override the inline style
+              padding: `${theme?.space?.['4x']} !important`,
+              overflowX: 'auto',
+            },
+          }}
+        />
+        <Tooltip
+          placement="left"
+        >
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={onCopy}
+            sx={{
+              position: 'absolute',
+              right: '4x',
+              top: '4x',
+            }}
+          >
+            {hasCopied ? 'Copied' : 'Copy'}
+          </Button>
+        </Tooltip>
+      </Box>
     </LiveProvider>
   );
 };
