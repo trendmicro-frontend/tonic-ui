@@ -8,18 +8,23 @@ import {
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
-import { useToggle } from '@tonic-ui/react-hooks';
+import {
+  useToggle,
+} from '@tonic-ui/react-hooks';
 import {
   CodeIcon,
   FileCopyOIcon,
   RedoIcon,
 } from '@tonic-ui/react-icons';
+import {
+  merge,
+} from '@tonic-ui/utils';
 import { useRouter } from 'next/router';
+import { themes } from "prism-react-renderer"
 import React, { Fragment, useEffect, useCallback, useReducer } from 'react';
 import { LiveProvider, LiveEditor } from 'react-live';
 import useClipboard from '../hooks/useClipboard';
 import CodeSandboxIcon from '../icons/CodeSandboxIcon';
-import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 import { open as openInCodeSandbox } from '../sandbox/codesandbox';
 import x from '../utils/json-stringify';
 import IconButton from './IconButton';
@@ -41,8 +46,16 @@ const Demo = ({
     light: 'gray:30',
   }[colorMode];
   const liveProviderTheme = {
-    dark: codeBlockDark,
-    light: codeBlockLight,
+    dark: merge(themes.vsDark, {
+      plain: {
+        backgroundColor: theme.colors['gray:90'],
+      },
+    }),
+    light: merge(themes.vsLight, {
+      plain: {
+        backgroundColor: theme.colors['gray:10'],
+      },
+    }),
   }[colorMode];
   const [showSourceCode, toggleShowSourceCode] = useToggle(expanded ?? defaultExpanded);
   const { onCopy, hasCopied } = useClipboard(file?.data);

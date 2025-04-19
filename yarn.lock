@@ -4641,7 +4641,7 @@ __metadata:
     next: ^14.2.3
     next-plugin-svgr: ^1.1.10
     node-emoji: ^2.1.0
-    prism-react-renderer: ^2.0.6
+    prism-react-renderer: ^2.4.1
     prop-types: 15.x
     raw-loader: ^4.0.2
     react: latest
@@ -14747,6 +14747,18 @@ __metadata:
   peerDependencies:
     react: ">=16.0.0"
   checksum: b12a7d502c1e764d94f7d3c84aee9cd6fccc676bb7e21dee94d37eb2e7e62e097a343999e1979887cb83a57cbdea48d2046aa74d07bce05caa25f4c296df30b6
+  languageName: node
+  linkType: hard
+
+"prism-react-renderer@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "prism-react-renderer@npm:2.4.1"
+  dependencies:
+    "@types/prismjs": ^1.26.0
+    clsx: ^2.0.0
+  peerDependencies:
+    react: ">=16.0.0"
+  checksum: ddd5490a1335629addde9535db7872f0aee8dbce048818dd6e4c3972c779780af13d669c12d3f2fbb54c5b22d1578e50945099ef1a24dd445f33774e87d85e6e
   languageName: node
   linkType: hard
 

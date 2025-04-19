@@ -5,18 +5,29 @@ import {
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
+import {
+  merge,
+} from '@tonic-ui/utils';
 import useClipboard from '../hooks/useClipboard';
 import { ensureString } from 'ensure-type';
 import React from 'react';
 import { LiveProvider, LiveEditor } from 'react-live';
-import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
+import { themes } from "prism-react-renderer"
 
 const CodeBlock = ({ code: codeProp, language, ...rest }) => {
   const theme = useTheme();
   const [colorMode] = useColorMode();
   const liveProviderTheme = {
-    dark: codeBlockDark,
-    light: codeBlockLight,
+    dark: merge(themes.vsDark, {
+      plain: {
+        backgroundColor: theme.colors['gray:90'],
+      },
+    }),
+    light: merge(themes.vsLight, {
+      plain: {
+        backgroundColor: theme.colors['gray:10'],
+      },
+    }),
   }[colorMode];
   const code = ensureString(codeProp).trim();
   const { onCopy, hasCopied } = useClipboard(code);
