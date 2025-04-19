@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Tooltip,
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
@@ -58,22 +57,18 @@ const CodeBlock = ({ code: codeProp, language, ...rest }) => {
             },
           }}
         />
-        <Tooltip
-          placement="left"
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={onCopy}
+          sx={{
+            position: 'absolute',
+            right: '4x',
+            top: '4x',
+          }}
         >
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={onCopy}
-            sx={{
-              position: 'absolute',
-              right: '4x',
-              top: '4x',
-            }}
-          >
-            {hasCopied ? 'Copied' : 'Copy'}
-          </Button>
-        </Tooltip>
+          {hasCopied ? 'Copied' : 'Copy'}
+        </Button>
       </Box>
     </LiveProvider>
   );

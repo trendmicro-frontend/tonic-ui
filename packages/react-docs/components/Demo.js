@@ -179,22 +179,18 @@ const Demo = ({
                 },
               }}
             />
-            <Tooltip
-              placement="left"
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={onCopy}
+              sx={{
+                position: 'absolute',
+                right: '4x',
+                top: '4x',
+              }}
             >
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={onCopy}
-                sx={{
-                  position: 'absolute',
-                  right: '4x',
-                  top: '4x',
-                }}
-              >
-                {hasCopied ? 'Copied' : 'Copy'}
-              </Button>
-            </Tooltip>
+              {hasCopied ? 'Copied' : 'Copy'}
+            </Button>
           </Box>
         </Collapse>
       </Fade>
