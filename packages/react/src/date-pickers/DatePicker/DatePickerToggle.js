@@ -24,8 +24,7 @@ const DatePickerToggle = forwardRef((
     datePickerToggleId,
     datePickerToggleRef,
     isOpen,
-    onClose: closeDatePicker,
-    onOpen: openDatePicker,
+    onToggle: toggleDatePicker,
   } = { ...datePickerContext };
   const styleProps = useDatePickerToggleStyle();
   const combinedRef = useMergeRefs(datePickerToggleRef, ref);
@@ -36,12 +35,8 @@ const DatePickerToggle = forwardRef((
       return;
     }
 
-    if (isOpen) {
-      ensureFunction(closeDatePicker)();
-    } else {
-      ensureFunction(openDatePicker)();
-    }
-  }, [disabled, closeDatePicker, openDatePicker]);
+    ensureFunction(toggleDatePicker)();
+  }, [disabled, toggleDatePicker]);
 
   const onKeyDown = useEventCallback((event) => {
     if (disabled) {
@@ -52,14 +47,10 @@ const DatePickerToggle = forwardRef((
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault(); // Prevent default scrolling for Space
 
-      if (isOpen) {
-        ensureFunction(closeDatePicker)();
-      } else {
-        ensureFunction(openDatePicker)();
-      }
+      ensureFunction(toggleDatePicker)();
       return;
     }
-  }, [disabled, closeDatePicker, openDatePicker]);
+  }, [disabled, toggleDatePicker]);
 
   const getDatePickerToggleProps = () => ({
     'aria-controls': datePickerContentId,
