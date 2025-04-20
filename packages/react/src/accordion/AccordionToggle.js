@@ -11,19 +11,48 @@ const AccordionToggle = forwardRef((inProps, ref) => {
     children,
     disabled: disabledProp,
     onClick: onClickProp,
+    onKeyDown: onKeyDownProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'AccordionToggle' });
-  const context = useAccordionItem(); // context might be an undefined value
-  const disabled = ensureBoolean(disabledProp ?? context?.disabled);
+  const {
+    accordionContentId,
+    accordionToggleId,
+    disabled: accordionItemDisabled,
+    isExpanded,
+    onToggle: toggleAccordionItem,
+  } = useAccordionItem();
+  const disabled = ensureBoolean(disabledProp ?? accordionItemDisabled);
   const styleProps = useAccordionToggleStyle();
 
+  const onClick = (event) => {
+    if (disabled) {
+      event.preventDefault();
+      return;
+    }
+
+    toggleAccordionItem();
+  };
+  const onKeyDown = (event) => {
+    if (disabled) {
+      event.preventDefault();
+      return;
+    }
+
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault(); // Prevent default scrolling for Space
+
+      toggleAccordionItem();
+    }
+  };
+
   const getAccordionToggleProps = () => ({
-    'aria-controls': context?.accordionContentId,
+    'aria-controls': accordionContentId,
     'aria-disabled': ariaAttr(disabled),
-    'aria-expanded': ariaAttr(context?.isExpanded),
+    'aria-expanded': ariaAttr(isExpanded),
     disabled,
-    id: context?.accordionToggleId,
-    onClick: callEventHandlers(onClickProp, context?.onToggle),
+    id: accordionToggleId,
+    onClick: callEventHandlers(onClickProp, onClick),
+    onKeyDown: callEventHandlers(onKeyDownProp, onKeyDown),
     ref,
     role: 'button',
     tabIndex: 0,

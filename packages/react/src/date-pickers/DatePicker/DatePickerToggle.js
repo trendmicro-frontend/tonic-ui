@@ -1,6 +1,7 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { callEventHandlers } from '@tonic-ui/utils';
-import React, { forwardRef, useCallback } from 'react';
+import { ensureFunction } from 'ensure-type';
+import React, { forwardRef } from 'react';
 import { Box } from '../../box';
 import {
   useDatePickerToggleStyle,
@@ -23,38 +24,41 @@ const DatePickerToggle = forwardRef((
     datePickerToggleId,
     datePickerToggleRef,
     isOpen,
-    onClose,
-    onOpen,
+    onClose: closeDatePicker,
+    onOpen: openDatePicker,
   } = { ...datePickerContext };
   const styleProps = useDatePickerToggleStyle();
   const combinedRef = useMergeRefs(datePickerToggleRef, ref);
-  const handleClick = callEventHandlers(onClickProp, useCallback((event) => {
-    // Don't handle `onClick` event when the `DatePickerToggle` is disabled
+  const onClick = (event) => {
     if (disabled) {
       event.preventDefault();
       return;
     }
 
-    onOpen?.();
-  }, [disabled, onOpen]));
+    if (isOpen) {
+      ensureFunction(closeDatePicker)();
+    } else {
+      ensureFunction(openDatePicker)();
+    }
+  };
 
-  const handleKeyDown = callEventHandlers(onKeyDownProp, useCallback((event) => {
-    // Don't handle `onKeyDown` event when the `DatePickerToggle` is disabled
+  const onKeyDown = (event) => {
     if (disabled) {
       event.preventDefault();
       return;
     }
 
-    if (event.key === 'Enter') {
-      onOpen?.();
-      return;
-    }
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault(); // Prevent default scrolling for Space
 
-    if (event.key === 'Escape') {
-      onClose?.();
+      if (isOpen) {
+        ensureFunction(closeDatePicker)();
+      } else {
+        ensureFunction(openDatePicker)();
+      }
       return;
     }
-  }, [disabled, onClose, onOpen]));
+  };
 
   const getDatePickerToggleProps = () => ({
     'aria-controls': datePickerContentId,
@@ -63,8 +67,8 @@ const DatePickerToggle = forwardRef((
     'aria-haspopup': 'menu',
     disabled,
     id: datePickerToggleId,
-    onClick: handleClick,
-    onKeyDown: handleKeyDown,
+    onClick: callEventHandlers(onClickProp, onClick),
+    onKeyDown: callEventHandlers(onKeyDownProp, onKeyDown),
     ref: combinedRef,
     role: 'button',
     tabIndex: 0,

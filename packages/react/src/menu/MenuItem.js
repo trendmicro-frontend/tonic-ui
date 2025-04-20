@@ -9,8 +9,8 @@ import useMenu from './useMenu';
 const MenuItem = forwardRef((inProps, ref) => {
   const {
     disabled,
-    onClick,
-    onKeyDown,
+    onClick: onClickProp,
+    onKeyDown: onKeyDownProp,
     role = 'menuitem',
     ...rest
   } = useDefaultProps({ props: inProps, name: 'MenuItem' });
@@ -29,9 +29,8 @@ const MenuItem = forwardRef((inProps, ref) => {
       tabIndex={tabIndex}
       disabled={disabled}
       aria-disabled={ariaAttr(disabled)}
-      onClick={callEventHandlers(onClick, event => {
+      onClick={callEventHandlers(onClickProp, event => {
         if (disabled) {
-          event.stopPropagation();
           event.preventDefault();
           return;
         }
@@ -39,16 +38,13 @@ const MenuItem = forwardRef((inProps, ref) => {
           ensureFunction(closeMenu)();
         }
       })}
-      onKeyDown={callEventHandlers(onKeyDown, event => {
+      onKeyDown={callEventHandlers(onKeyDownProp, event => {
         if (disabled) {
+          event.preventDefault();
           return;
         }
         if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-
-          if (onClick) {
-            ensureFunction(onClick)();
-          }
+          event.preventDefault(); // Prevent default scrolling for Space
 
           if (closeOnSelect) {
             ensureFunction(closeMenu)();

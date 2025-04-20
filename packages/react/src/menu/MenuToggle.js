@@ -20,7 +20,6 @@ const MenuToggle = forwardRef((inProps, ref) => {
   const menuContext = useMenu(); // context might be an undefined value
   const {
     autoSelect,
-    focusOnLastItem,
     focusOnFirstItem,
     isOpen,
     menuId,
@@ -31,8 +30,7 @@ const MenuToggle = forwardRef((inProps, ref) => {
   } = { ...menuContext };
   const combinedRef = useMergeRefs(menuToggleRef, ref);
   const styleProps = useMenuToggleStyle();
-  const handleClick = callEventHandlers(onClickProp, (event) => {
-    // Don't handle `onClick` event when the `MenuToggle` is disabled
+  const onClick = (event) => {
     if (disabled) {
       event.preventDefault();
       return;
@@ -40,37 +38,33 @@ const MenuToggle = forwardRef((inProps, ref) => {
 
     if (isOpen) {
       ensureFunction(closeMenu)();
-      return;
+    } else {
+      ensureFunction(openMenu)();
+
+      // If `autoSelect` is true, focus on the first item when the menu opens with a mouse click
+      autoSelect && focusOnFirstItem();
     }
-
-    ensureFunction(openMenu)();
-
-    // If `autoSelect` is true, focus on the first item when the menu opens with a mouse click
-    autoSelect && focusOnFirstItem();
-  });
-  const handleKeyDown = callEventHandlers(onKeyDownProp, event => {
-    // Don't handle `onKeyDown` event when the `MenuToggle` is disabled
+  };
+  const onKeyDown = (event) => {
     if (disabled) {
       event.preventDefault();
       return;
     }
 
-    if (event.key === 'ArrowDown') {
-      ensureFunction(openMenu)();
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault(); // Prevent default scrolling for Space
 
-      // Focus on the first item when the menu opens with the down arrow
-      ensureFunction(focusOnFirstItem)();
+      if (isOpen) {
+        ensureFunction(closeMenu)();
+      } else {
+        ensureFunction(openMenu)();
+
+        // If `autoSelect` is true, focus on the first item when the menu opens with a mouse click
+        autoSelect && focusOnFirstItem();
+      }
       return;
     }
-
-    if (event.key === 'ArrowUp') {
-      ensureFunction(openMenu)();
-
-      // Focus on the last item when the menu opens with the up arrow
-      ensureFunction(focusOnLastItem)();
-      return;
-    }
-  });
+  };
 
   const getMenuToggleProps = () => ({
     'aria-controls': menuId,
@@ -79,8 +73,8 @@ const MenuToggle = forwardRef((inProps, ref) => {
     'aria-haspopup': 'menu',
     disabled,
     id: menuToggleId,
-    onClick: handleClick,
-    onKeyDown: handleKeyDown,
+    onClick: callEventHandlers(onClickProp, onClick),
+    onKeyDown: callEventHandlers(onKeyDownProp, onKeyDown),
     ref: combinedRef,
     role: 'button',
     tabIndex: 0,

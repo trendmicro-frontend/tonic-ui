@@ -55,7 +55,7 @@ const Day = forwardRef((
     onChange(date);
   }, [date, setActiveDate, onChange]);
   const handleKeyDown = useEventCallback((event) => {
-    if (event.key === ' ' || event.key === 'Enter') {
+    if (event.key === 'Enter' || event.key === ' ') {
       setActiveDate(date);
       onChange(date);
 

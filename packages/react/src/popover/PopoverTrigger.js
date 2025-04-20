@@ -41,6 +41,8 @@ const PopoverTrigger = forwardRef((inProps, ref) => {
   const eventHandler = {};
 
   if (trigger === 'click') {
+    // No need to check for disabled here — it's already handled by `PopoverContent`.
+
     eventHandler.onClick = function (event) {
       if (isOpen) {
         onClose();
@@ -49,13 +51,29 @@ const PopoverTrigger = forwardRef((inProps, ref) => {
       }
     };
     eventHandler.onKeyDown = function (event) {
-      if (event.key === 'Enter') {
-        onOpen();
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault(); // Prevent default scrolling for Space
+
+        if (isOpen) {
+          onClose();
+        } else {
+          onOpen();
+        }
+        return;
+      }
+
+      if (event.key === 'Escape') {
+        if (isOpen) {
+          onClose();
+        }
+        return;
       }
     };
   }
 
   if (trigger === 'hover') {
+    // No need to check for disabled here — it's already handled by `PopoverContent`.
+
     eventHandler.onBlur = function (event) {
       onClose();
     };
