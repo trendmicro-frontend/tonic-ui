@@ -1,6 +1,6 @@
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import { useEventCallback } from '@tonic-ui/react-hooks';
-import { ensureBoolean } from 'ensure-type';
+import { ensureBoolean, ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
@@ -31,7 +31,7 @@ const AccordionToggle = forwardRef((inProps, ref) => {
       return;
     }
 
-    toggleAccordionItem();
+    ensureFunction(toggleAccordionItem)();
   }, [disabled, toggleAccordionItem]);
 
   const onKeyDown = useEventCallback((event) => {
@@ -43,7 +43,7 @@ const AccordionToggle = forwardRef((inProps, ref) => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault(); // Prevent default scrolling for Space
 
-      toggleAccordionItem();
+      ensureFunction(toggleAccordionItem)();
     }
   }, [disabled, toggleAccordionItem]);
 
