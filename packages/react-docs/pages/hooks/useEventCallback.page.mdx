@@ -2,11 +2,30 @@
 
 A custom Hook to do escape hatch optimization for event callbacks.
 
-https://dev.to/yelouafi/a-simple-rule-for-using-callbacks-in-react-4jah
+This custom hook provides an *escape hatch* for optimizing event callbacks in React—particularly useful when dealing with side effects, async logic, or subscriptions.
 
-The general rule is: use `useEventCallback` when doing side effects, and use the built-in `useCallback` when doing render work.
-* `useEventCallback` is more suited for callbacks waiting for some external input, then changing the state of the applicationo.
-* `useCallback` is more suited for callbacks that output something into the external world. In fact `useCallback` is semantically really an alias for `useMemo` since we're treating functions here the same as the values we output from JSX.
+A Simple Rule for Using Callbacks in React (dev.to)](https://dev.to/yelouafi/a-simple-rule-for-using-callbacks-in-react-4jah)
+
+### When to use which?
+
+A simple rule of thumb:
+
+- Use **`useEventCallback`** for **side effects** — when your callback:
+  - Waits for user or system input (e.g., event handlers)
+  - Updates state or interacts with async/subscription logic
+- Use **`useCallback`** for **render-time logic** — when your callback:
+  - Is passed down as props
+  - Is used in memoized computations (e.g., within `useMemo` or `React.memo`)
+
+Although `useCallback` is often thought of for functions, semantically it behaves more like `useMemo`—memoizing function *values* across renders.
+
+Feature | useCallback | useEventCallback
+:---- | :---- | :----
+Returns new function on deps | ✅ Yes (on deps change) | ❌ No (stable function reference)
+Always receives latest state/props | ❌ No (can capture stale values) | ✅ Yes (uses internal ref)
+Stable function identity | ✅ Yes (if deps don’t change) | ✅ Always stable
+Best use case | Memoizing props, performance tuning | Event handlers, async logic, subscriptions
+
 
 ## Import
 
