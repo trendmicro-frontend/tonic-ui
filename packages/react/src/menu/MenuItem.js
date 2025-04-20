@@ -29,9 +29,7 @@ const MenuItem = forwardRef((inProps, ref) => {
       return;
     }
 
-    if (closeOnSelect) {
-      ensureFunction(closeMenu)();
-    }
+    closeOnSelect && ensureFunction(closeMenu)();
   }, [disabled, closeOnSelect, closeMenu]);
 
   const onKeyDown = useEventCallback((event) => {
@@ -40,12 +38,8 @@ const MenuItem = forwardRef((inProps, ref) => {
       return;
     }
 
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault(); // Prevent default scrolling for Space
-
-      if (closeOnSelect) {
-        ensureFunction(closeMenu)();
-      }
+    if (event.key === 'Enter') {
+      closeOnSelect && ensureFunction(closeMenu)();
     }
   }, [disabled, closeOnSelect, closeMenu]);
 
