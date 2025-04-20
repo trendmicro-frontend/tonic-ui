@@ -85,6 +85,18 @@ const Popover = (inProps) => {
     }
   }, []);
 
+  const onClose = useCallback((callback) => {
+    const isControlled = (isOpenProp !== undefined);
+    if (!isControlled) {
+      const delay = (trigger === 'hover') ? leaveDelay : 0;
+      closeWithDelay(callback, delay);
+    }
+
+    if (typeof onCloseProp === 'function') {
+      onCloseProp();
+    }
+  }, [isOpenProp, onCloseProp, trigger, leaveDelay, closeWithDelay]);
+
   const onOpen = useCallback((callback) => {
     const isControlled = (isOpenProp !== undefined);
     if (!isControlled) {
@@ -97,17 +109,13 @@ const Popover = (inProps) => {
     }
   }, [isOpenProp, onOpenProp, trigger, enterDelay, openWithDelay]);
 
-  const onClose = useCallback((callback) => {
-    const isControlled = (isOpenProp !== undefined);
-    if (!isControlled) {
-      const delay = (trigger === 'hover') ? leaveDelay : 0;
-      closeWithDelay(callback, delay);
+  const onToggle = useCallback(() => {
+    if (isOpen) {
+      onClose();
+    } else {
+      onOpen();
     }
-
-    if (typeof onCloseProp === 'function') {
-      onCloseProp();
-    }
-  }, [isOpenProp, onCloseProp, trigger, leaveDelay, closeWithDelay]);
+  }, [isOpen, onClose, onOpen]);
 
   useEffect(() => {
     if (isOpen && trigger === 'click') {
@@ -167,6 +175,7 @@ const Popover = (inProps) => {
     offset,
     onClose,
     onOpen,
+    onToggle,
     placement: (followCursor || nextToCursor) ? 'bottom-start' : placement,
     popoverId,
     popoverContentRef,

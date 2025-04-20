@@ -1,4 +1,4 @@
-import { useEventListener, useMergeRefs } from '@tonic-ui/react-hooks';
+import { useEventCallback, useEventListener, useMergeRefs } from '@tonic-ui/react-hooks';
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import React, { cloneElement, forwardRef, useRef, useState } from 'react';
 import { Box } from '../box';
@@ -25,8 +25,9 @@ const PopoverTrigger = forwardRef((inProps, ref) => {
     isHoveringContentRef,
     isHoveringTriggerRef,
     isOpen,
-    onClose,
-    onOpen,
+    onClose: closePopover,
+    onOpen: openPopover,
+    onToggle: togglePopover,
     popoverId,
     popoverTriggerId,
     popoverTriggerRef,
@@ -38,87 +39,79 @@ const PopoverTrigger = forwardRef((inProps, ref) => {
   const styleProps = usePopoverTriggerStyle();
   const [enableMouseMove, setEnableMouseMove] = useState(true);
   const mouseLeaveTimeoutRef = useRef();
-  const eventHandler = {};
 
-  if (trigger === 'click') {
+  const onClick = useEventCallback((event) => {
     // No need to check for disabled here — it's already handled by `PopoverContent`.
+    togglePopover();
+  }, [togglePopover]);
 
-    eventHandler.onClick = function (event) {
-      if (isOpen) {
-        onClose();
-      } else {
-        onOpen();
-      }
-    };
-    eventHandler.onKeyDown = function (event) {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault(); // Prevent default scrolling for Space
-
-        if (isOpen) {
-          onClose();
-        } else {
-          onOpen();
-        }
-        return;
-      }
-
-      if (event.key === 'Escape') {
-        if (isOpen) {
-          onClose();
-        }
-        return;
-      }
-    };
-  }
-
-  if (trigger === 'hover') {
+  const onKeyDown = useEventCallback((event) => {
     // No need to check for disabled here — it's already handled by `PopoverContent`.
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault(); // Prevent default scrolling for Space
 
-    eventHandler.onBlur = function (event) {
-      onClose();
-    };
-    eventHandler.onFocus = function (event) {
-      onOpen();
-    };
-    eventHandler.onKeyDown = function (event) {
-      if (event.key === 'Escape') {
-        onClose();
-      }
-    };
-    eventHandler.onMouseEnter = function (event) {
-      isHoveringTriggerRef.current = true;
-      if (mouseLeaveTimeoutRef.current) {
-        clearTimeout(mouseLeaveTimeoutRef.current);
-        mouseLeaveTimeoutRef.current = undefined;
-      }
+      togglePopover();
+      return;
+    }
+  }, [togglePopover]);
 
-      setEnableMouseMove(true); // track mouse movement
-      onOpen(() => { // callback
-        setEnableMouseMove(followCursor); // after the enter delay, track mouse movement only if "followCursor" is true
-      });
-    };
-    eventHandler.onMouseLeave = function (event) {
-      isHoveringTriggerRef.current = false;
-      if (mouseLeaveTimeoutRef.current) {
-        clearTimeout(mouseLeaveTimeoutRef.current);
-        mouseLeaveTimeoutRef.current = undefined;
+  const onBlur = useEventCallback((event) => {
+    closePopover();
+  }, [closePopover]);
+
+  const onFocus = useEventCallback((event) => {
+    openPopover();
+  }, [openPopover]);
+
+  const onMouseEnter = useEventCallback((event) => {
+    isHoveringTriggerRef.current = true;
+    if (mouseLeaveTimeoutRef.current) {
+      clearTimeout(mouseLeaveTimeoutRef.current);
+      mouseLeaveTimeoutRef.current = undefined;
+    }
+
+    setEnableMouseMove(true); // track mouse movement
+    openPopover(() => { // callback
+      setEnableMouseMove(followCursor); // after the enter delay, track mouse movement only if "followCursor" is true
+    });
+  }, [isHoveringTriggerRef, openPopover]);
+
+  const onMouseLeave = useEventCallback((event) => {
+    isHoveringTriggerRef.current = false;
+    if (mouseLeaveTimeoutRef.current) {
+      clearTimeout(mouseLeaveTimeoutRef.current);
+      mouseLeaveTimeoutRef.current = undefined;
+    }
+    mouseLeaveTimeoutRef.current = setTimeout(() => {
+      mouseLeaveTimeoutRef.current = undefined;
+      if (!isHoveringContentRef.current && !isHoveringTriggerRef.current) {
+        closePopover(() => { // callback
+          setEnableMouseMove(true);
+        });
       }
-      mouseLeaveTimeoutRef.current = setTimeout(() => {
-        mouseLeaveTimeoutRef.current = undefined;
-        if (!isHoveringContentRef.current && !isHoveringTriggerRef.current) {
-          onClose(() => { // callback
-            setEnableMouseMove(true);
-          });
-        }
-      }, 100); // XXX: keep opening popover when cursor quickly move between trigger and content
-    };
-    eventHandler.onMouseMove = function (event) {
-      if (enableMouseMove || followCursor) {
-        setMousePageX(event.pageX);
-        setMousePageY(event.pageY);
-      }
-    };
-  }
+    }, 100); // XXX: keep opening popover when cursor quickly move between trigger and content
+  }, [isHoveringTriggerRef, closePopover]);
+
+  const onMouseMove = useEventCallback((event) => {
+    if (enableMouseMove || followCursor) {
+      setMousePageX(event.pageX);
+      setMousePageY(event.pageY);
+    }
+  }, [followCursor, setMousePageX, setMousePageY]);
+
+  const eventHandler = {
+    'click': {
+      onClick,
+      onKeyDown,
+    },
+    'hover': {
+      onBlur,
+      onFocus,
+      onMouseEnter,
+      onMouseLeave,
+      onMouseMove,
+    },
+  }[trigger];
 
   /**
    * This allows for catching the "mouseleave" event when the popover trigger is disabled.
