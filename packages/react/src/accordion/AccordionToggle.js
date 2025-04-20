@@ -1,4 +1,5 @@
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
+import { useEventCallback } from '@tonic-ui/react-hooks';
 import { ensureBoolean } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
@@ -24,15 +25,16 @@ const AccordionToggle = forwardRef((inProps, ref) => {
   const disabled = ensureBoolean(disabledProp ?? accordionItemDisabled);
   const styleProps = useAccordionToggleStyle();
 
-  const onClick = (event) => {
+  const onClick = useEventCallback((event) => {
     if (disabled) {
       event.preventDefault();
       return;
     }
 
     toggleAccordionItem();
-  };
-  const onKeyDown = (event) => {
+  }, [disabled, toggleAccordionItem]);
+
+  const onKeyDown = useEventCallback((event) => {
     if (disabled) {
       event.preventDefault();
       return;
@@ -43,7 +45,7 @@ const AccordionToggle = forwardRef((inProps, ref) => {
 
       toggleAccordionItem();
     }
-  };
+  }, [disabled, toggleAccordionItem]);
 
   const getAccordionToggleProps = () => ({
     'aria-controls': accordionContentId,

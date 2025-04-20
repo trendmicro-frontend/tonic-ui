@@ -1,5 +1,6 @@
+import { useEventCallback } from '@tonic-ui/react-hooks';
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
-import React, { forwardRef, useCallback } from 'react';
+import React, { forwardRef } from 'react';
 import { ensureFunction } from 'ensure-type';
 import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
@@ -23,7 +24,7 @@ const TreeItemToggle = forwardRef((inProps, ref) => {
 
   const styleProps = useTreeItemToggleStyle();
 
-  const onClick = useCallback((event) => {
+  const onClick = useEventCallback((event) => {
     // Stop event bubbling to prevent the node from being selected
     event.stopPropagation();
 
@@ -35,7 +36,7 @@ const TreeItemToggle = forwardRef((inProps, ref) => {
     ensureFunction(toggleExpansion)();
   }, [disabled, toggleExpansion]);
 
-  const onKeyDown = useCallback((event) => {
+  const onKeyDown = useEventCallback((event) => {
     // Stop event bubbling to prevent the node from being selected
     event.stopPropagation();
 

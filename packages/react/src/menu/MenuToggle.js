@@ -1,4 +1,4 @@
-import { useMergeRefs } from '@tonic-ui/react-hooks';
+import { useEventCallback, useMergeRefs } from '@tonic-ui/react-hooks';
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
@@ -19,33 +19,25 @@ const MenuToggle = forwardRef((inProps, ref) => {
   } = useDefaultProps({ props: inProps, name: 'MenuToggle' });
   const menuContext = useMenu(); // context might be an undefined value
   const {
-    autoSelect,
-    focusOnFirstItem,
     isOpen,
     menuId,
     menuToggleId,
     menuToggleRef,
-    onClose: closeMenu,
-    onOpen: openMenu,
+    onToggle: toggleMenu,
   } = { ...menuContext };
   const combinedRef = useMergeRefs(menuToggleRef, ref);
   const styleProps = useMenuToggleStyle();
-  const onClick = (event) => {
+
+  const onClick = useEventCallback((event) => {
     if (disabled) {
       event.preventDefault();
       return;
     }
 
-    if (isOpen) {
-      ensureFunction(closeMenu)();
-    } else {
-      ensureFunction(openMenu)();
+    ensureFunction(toggleMenu)();
+  }, [disabled, toggleMenu]);
 
-      // If `autoSelect` is true, focus on the first item when the menu opens with a mouse click
-      autoSelect && focusOnFirstItem();
-    }
-  };
-  const onKeyDown = (event) => {
+  const onKeyDown = useEventCallback((event) => {
     if (disabled) {
       event.preventDefault();
       return;
@@ -54,17 +46,9 @@ const MenuToggle = forwardRef((inProps, ref) => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault(); // Prevent default scrolling for Space
 
-      if (isOpen) {
-        ensureFunction(closeMenu)();
-      } else {
-        ensureFunction(openMenu)();
-
-        // If `autoSelect` is true, focus on the first item when the menu opens with a mouse click
-        autoSelect && focusOnFirstItem();
-      }
-      return;
+      ensureFunction(toggleMenu)();
     }
-  };
+  }, [disabled, toggleMenu]);
 
   const getMenuToggleProps = () => ({
     'aria-controls': menuId,

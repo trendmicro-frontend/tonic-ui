@@ -1,3 +1,4 @@
+import { useEventCallback } from '@tonic-ui/react-hooks';
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
@@ -22,6 +23,32 @@ const MenuItem = forwardRef((inProps, ref) => {
   const tabIndex = -1;
   const styleProps = useMenuItemStyle({ tabIndex });
 
+  const onClick = useEventCallback((event) => {
+    if (disabled) {
+      event.preventDefault();
+      return;
+    }
+
+    if (closeOnSelect) {
+      ensureFunction(closeMenu)();
+    }
+  }, [disabled, closeOnSelect, closeMenu]);
+
+  const onKeyDown = useEventCallback((event) => {
+    if (disabled) {
+      event.preventDefault();
+      return;
+    }
+
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault(); // Prevent default scrolling for Space
+
+      if (closeOnSelect) {
+        ensureFunction(closeMenu)();
+      }
+    }
+  }, [disabled, closeOnSelect, closeMenu]);
+
   return (
     <ButtonBase
       ref={ref}
@@ -29,28 +56,8 @@ const MenuItem = forwardRef((inProps, ref) => {
       tabIndex={tabIndex}
       disabled={disabled}
       aria-disabled={ariaAttr(disabled)}
-      onClick={callEventHandlers(onClickProp, event => {
-        if (disabled) {
-          event.preventDefault();
-          return;
-        }
-        if (closeOnSelect) {
-          ensureFunction(closeMenu)();
-        }
-      })}
-      onKeyDown={callEventHandlers(onKeyDownProp, event => {
-        if (disabled) {
-          event.preventDefault();
-          return;
-        }
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault(); // Prevent default scrolling for Space
-
-          if (closeOnSelect) {
-            ensureFunction(closeMenu)();
-          }
-        }
-      })}
+      onClick={callEventHandlers(onClickProp, onClick)}
+      onKeyDown={callEventHandlers(onKeyDownProp, onKeyDown)}
       {...styleProps}
       {...rest}
     />

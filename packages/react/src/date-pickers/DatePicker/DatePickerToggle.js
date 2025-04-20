@@ -1,4 +1,4 @@
-import { useMergeRefs } from '@tonic-ui/react-hooks';
+import { useEventCallback, useMergeRefs } from '@tonic-ui/react-hooks';
 import { callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
@@ -29,7 +29,8 @@ const DatePickerToggle = forwardRef((
   } = { ...datePickerContext };
   const styleProps = useDatePickerToggleStyle();
   const combinedRef = useMergeRefs(datePickerToggleRef, ref);
-  const onClick = (event) => {
+
+  const onClick = useEventCallback((event) => {
     if (disabled) {
       event.preventDefault();
       return;
@@ -40,9 +41,9 @@ const DatePickerToggle = forwardRef((
     } else {
       ensureFunction(openDatePicker)();
     }
-  };
+  }, [disabled, closeDatePicker, openDatePicker]);
 
-  const onKeyDown = (event) => {
+  const onKeyDown = useEventCallback((event) => {
     if (disabled) {
       event.preventDefault();
       return;
@@ -58,7 +59,7 @@ const DatePickerToggle = forwardRef((
       }
       return;
     }
-  };
+  }, [disabled, closeDatePicker, openDatePicker]);
 
   const getDatePickerToggleProps = () => ({
     'aria-controls': datePickerContentId,
