@@ -236,7 +236,7 @@ const App = () => {
               onChange={onCheckboxGroupChange}
             >
               <Scrollbar
-                maxHeight={200}
+                maxHeight={36 * 5}
                 overflowY="visible"
               >
                 {renderOptions(options)}
@@ -265,34 +265,27 @@ const App = () => {
             </Checkbox>
           );
         }}
+        toggleProps={{
+          // Tip: If you're using the default `MenuButton` as the toggle, there's no need to manually provide the `sx` below.
+          sx: {
+            maxWidth: '100%',
+            width: '100%',
+            '> :first-of-type': {
+              // Override flex item's default `minWidth: auto` to allow text truncation
+              minWidth: 0,
+            },
+          },
+        }}
       >
         {({ getToggleProps }) => {
-          // Note: When using the default `MenuButton` toggle, you don't need to provide a custom render function.
-          // The default layout looks like this:
-          //
-          // ```js
-          // <SearchDropdown
-          //   onSelect={onSelect}
-          //   options={options}
-          //   renderContent={renderContent}
-          //   renderOption={renderOption} // for keyword highlights
-          // >
-          //   {renderValue(value)}
-          // </SearchDropdown>
-          // ```
+          const { sx, ...restToggleProps } = getToggleProps();
 
           if (toggler === 'MenuButton') {
             return (
               <MenuButton
-                {...getToggleProps()}
+                {...restToggleProps}
                 variant="secondary"
-                sx={{
-                  maxWidth: '100%',
-                  '> :first-of-type': {
-                    // Override flex item's default `minWidth: auto` to allow text truncation
-                    minWidth: 0,
-                  },
-                }}
+                sx={sx}
               >
                 {renderValues(values)}
               </MenuButton>
@@ -302,19 +295,12 @@ const App = () => {
           if (toggler === 'Tag') {
             return (
               <Tag
-                {...getToggleProps()}
+                {...restToggleProps}
                 isClosable={true}
                 onClose={(event) => {
                   event.preventDefault();
                 }}
-                sx={{
-                  cursor: 'pointer',
-                  maxWidth: '100%',
-                  '> :first-of-type': {
-                    // Override flex item's default `minWidth: auto` to allow text truncation
-                    minWidth: 0,
-                  },
-                }}
+                sx={[sx, { cursor: 'pointer' }]}
               >
                 {renderValues(values)}
               </Tag>

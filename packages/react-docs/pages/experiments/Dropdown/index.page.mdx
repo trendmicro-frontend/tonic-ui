@@ -7,6 +7,22 @@ A dropdown component built on `DropdownBase` and `MenuButton` that renders a men
 
 ## Usage
 
+Here's the simplest configuration:
+
+```jsx
+<Dropdown
+  onSelect={(option) => {
+    setOption(option);
+  }}
+  options={[
+    { value: 1, label: 'Option 1' },
+    { value: 2, label: 'Option 2' },
+  ]}
+>
+  {option.label}
+</Dropdown>
+```
+
 {render('./usage')}
 
 ## Props

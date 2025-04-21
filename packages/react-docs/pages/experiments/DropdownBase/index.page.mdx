@@ -7,6 +7,48 @@ A foundational dropdown component that renders a menu with selectable options, s
 
 ## Usage
 
+Here's the simplest configuration:
+
+```jsx
+<DropdownBase
+  onSelect={(option) => {
+    setOption(option);
+  }}
+  options={[
+    { value: 1, label: 'Option 1' },
+    { value: 2, label: 'Option 2' },
+  ]}
+>
+  {({ getToggleProps }) => {
+    const { sx, ...restToggleProps } = getToggleProps();
+    return (
+      <Button
+        {...restToggleProps}
+        variant="secondary"
+        sx={sx}
+      >
+        {option.label}
+      </Button>
+    );
+  }}
+</DropdownBase>
+```
+
+It’s recommended to pass `toggleProps` with the `sx` prop configured as follows to properly set the dropdown width:
+
+```js
+toggleProps={{
+  sx: {
+    maxWidth: '100%',
+    width: '100%',
+    '> :first-of-type': {
+      // Override the default `minWidth: auto` for flex items to enable text truncation
+      minWidth: 0,
+    },
+  },
+}}
+```
+
 {render('./usage')}
 
 ## Props
@@ -34,6 +76,7 @@ export interface DropdownBaseProps {
     renderOption: (option: Option) => ReactNode;
     renderOptions: (options: Option[], prefix?: string) => ReactNode[];
   }) => ReactNode;
+  toggleProps?: Record<string, any>;
 }
 
 declare const DropdownBase: React.ForwardRefExoticComponent<
@@ -109,6 +152,7 @@ Each option is an object that may include the following fields:
 | options | `Array<Option>` | An array of options to be rendered in the dropdown menu. Each option should include a `value` (required), and optionally a `label`, `type`, `props`, and `children`. |
 | renderOption | `(option: Option) => ReactNode` | Optional custom render function for individual dropdown options. If not provided, the default function renders the `label` (if available) or `value` of the option. |
 | renderContent | `(args: { options: Option[], renderOption: (option: Option) => ReactNode, renderOptions: (options: Option[], prefix?: string) => ReactNode[] }) => ReactNode` | Optional custom function to render the entire dropdown's content. Provides access to `options`, `renderOption`, and `renderOptions`. Use this to fully customize the dropdown content beyond the default rendering behavior. |
+| toggleProps | `Record<string, any>` | Additional props to be passed to the toggle component. These props will be merged with the props returned by `getToggleProps()`. |
 
 ## Source
 

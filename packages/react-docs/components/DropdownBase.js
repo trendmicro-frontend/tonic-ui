@@ -22,6 +22,7 @@ const DropdownBase = forwardRef((
     options = [],
     renderContent = null,
     renderOption = defaultRenderOption,
+    toggleProps,
     ...rest
   },
   ref,
@@ -100,9 +101,11 @@ const DropdownBase = forwardRef((
       ref={ref}
       {...rest}
     >
-      <MenuToggle>
-        {({ getMenuToggleProps }) => {
-          return runIfFn(children, { getToggleProps: getMenuToggleProps });
+      <MenuToggle
+        {...toggleProps}
+      >
+        {({ getMenuToggleProps: getToggleProps }) => {
+          return runIfFn(children, { getToggleProps });
         }}
       </MenuToggle>
       <MenuList

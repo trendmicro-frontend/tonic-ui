@@ -7,6 +7,38 @@ A search dropdown component based on `Dropdown` and `SearchInput`, designed to r
 
 ## Usage
 
+Here's the simplest configuration:
+
+```jsx
+<SearchDropdown
+  onSelect={(option) => {
+    setOption(option);
+  }}
+  options={[
+    { value: 1, label: 'Option 1' },
+    { value: 2, label: 'Option 2' },
+  ]}
+  renderContent={({ options, renderOptions, renderSearchInput }) => (
+    <>
+      <Box px="3x" mb="2x">
+        {renderSearchInput()}
+      </Box>
+      <Scrollbar
+        maxHeight={36 * 5}
+        overflowY="visible"
+      >
+        {renderOptions(options)}
+      </Scrollbar>
+    </>
+  )}
+  renderOption={(option, { searchKeyword }) => {
+    return option.label;
+  }}
+>
+  {option.label}
+</SearchDropdown>
+```
+
 ### Single selection
 
 {render('./single-selection')}
