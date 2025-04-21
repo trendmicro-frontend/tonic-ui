@@ -6,12 +6,10 @@ import {
   Link,
   useColorMode,
   useColorStyle,
-  useTheme,
 } from '@tonic-ui/react';
 import { ensureString } from 'ensure-type';
 import React, { isValidElement } from 'react';
-import { LiveProvider, LiveEditor } from 'react-live';
-import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
+import CodeBlock from './CodeBlock';
 
 const ParagraphComponent = props => (
   <Box
@@ -24,8 +22,7 @@ const ParagraphComponent = props => (
 );
 
 const H1Component = props => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
+  const [colorStyle] = useColorStyle();
 
   return (
     <Box
@@ -46,8 +43,7 @@ const H1Component = props => {
 };
 
 const H2Component = props => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
+  const [colorStyle] = useColorStyle();
 
   return (
     <Box
@@ -65,8 +61,7 @@ const H2Component = props => {
 };
 
 const H3Component = props => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
+  const [colorStyle] = useColorStyle();
 
   return (
     <Box
@@ -84,8 +79,7 @@ const H3Component = props => {
 };
 
 const H4Component = props => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
+  const [colorStyle] = useColorStyle();
 
   return (
     <Box
@@ -103,8 +97,7 @@ const H4Component = props => {
 };
 
 const H5Component = props => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
+  const [colorStyle] = useColorStyle();
 
   return (
     <Box
@@ -122,8 +115,7 @@ const H5Component = props => {
 };
 
 const H6Component = props => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
+  const [colorStyle] = useColorStyle();
 
   return (
     <Box
@@ -142,7 +134,7 @@ const H6Component = props => {
 
 const BlockquoteComponent = props => {
   const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
+  const [colorStyle] = useColorStyle();
   const backgroundColor = {
     light: 'white',
     dark: 'gray:80',
@@ -293,41 +285,15 @@ const TDComponent = ({ align, ...props }) => {
 };
 
 const PreComponent = ({ children, ...rest }) => {
-  const theme = useTheme();
-  const [colorMode] = useColorMode();
-  const liveProviderTheme = {
-    dark: codeBlockDark,
-    light: codeBlockLight,
-  }[colorMode];
   const code = isValidElement(children)
-    ? ensureString(children?.props?.children).trimEnd()
-    : ensureString(children).trimEnd();
+    ? ensureString(children?.props?.children)
+    : ensureString(children);
   const language = isValidElement(children)
     ? ensureString(children.props.className).replace(/language-/, '')
     : '';
 
   return (
-    <LiveProvider
-      code={code}
-      disabled={true}
-      language={language}
-      theme={liveProviderTheme}
-    >
-      <Box
-        as={LiveEditor}
-        sx={{
-          fontFamily: 'mono',
-          fontSize: 'md',
-          lineHeight: 'md',
-          mb: '4x',
-          '& > .prism-code': {
-            // Use `!important` to override the inline style
-            padding: `${theme?.space?.['4x']} !important`,
-            overflowX: 'auto',
-          },
-        }}
-      />
-    </LiveProvider>
+    <CodeBlock code={code} language={language} />
   );
 };
 

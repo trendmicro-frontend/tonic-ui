@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Collapse,
   Fade,
   Flex,
@@ -7,18 +8,23 @@ import {
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
-import { useToggle } from '@tonic-ui/react-hooks';
+import {
+  useToggle,
+} from '@tonic-ui/react-hooks';
 import {
   CodeIcon,
   FileCopyOIcon,
   RedoIcon,
 } from '@tonic-ui/react-icons';
+import {
+  merge,
+} from '@tonic-ui/utils';
 import { useRouter } from 'next/router';
+import { themes } from "prism-react-renderer"
 import React, { Fragment, useEffect, useCallback, useReducer } from 'react';
 import { LiveProvider, LiveEditor } from 'react-live';
 import useClipboard from '../hooks/useClipboard';
 import CodeSandboxIcon from '../icons/CodeSandboxIcon';
-import { codeBlockLight, codeBlockDark } from '../prism-themes/tonic-ui';
 import { open as openInCodeSandbox } from '../sandbox/codesandbox';
 import x from '../utils/json-stringify';
 import IconButton from './IconButton';
@@ -40,14 +46,19 @@ const Demo = ({
     light: 'gray:30',
   }[colorMode];
   const liveProviderTheme = {
-    dark: codeBlockDark,
-    light: codeBlockLight,
+    dark: merge(themes.vsDark, {
+      plain: {
+        backgroundColor: theme.colors['gray:90'],
+      },
+    }),
+    light: merge(themes.vsLight, {
+      plain: {
+        backgroundColor: theme.colors['gray:10'],
+      },
+    }),
   }[colorMode];
   const [showSourceCode, toggleShowSourceCode] = useToggle(expanded ?? defaultExpanded);
-  const { onCopy: copySource, hasCopied: hasCopiedSource } = useClipboard(file?.data);
-  const handleClickCopySource = useCallback(() => {
-    copySource();
-  }, [copySource]);
+  const { onCopy, hasCopied } = useClipboard(file?.data);
   const handleClickEditInCodeSandbox = useCallback(() => {
     openInCodeSandbox(sandbox);
   }, [sandbox]);
@@ -84,7 +95,7 @@ const Demo = ({
       </LiveProvider>
     );
   }
-    
+
   return (
     <LiveProvider
       code={file?.data}
@@ -124,9 +135,9 @@ const Demo = ({
         </IconButton>
         <IconButton
           data-track={`Code|copy_source|${x({ path: router.pathname })}`}
-          onClick={handleClickCopySource}
+          onClick={onCopy}
         >
-          <Tooltip label={hasCopiedSource ? 'Copied' : 'Copy the source'}>
+          <Tooltip label={hasCopied ? 'Copied' : 'Copy the source'}>
             <FileCopyOIcon />
           </Tooltip>
         </IconButton>
@@ -150,19 +161,37 @@ const Demo = ({
       <Fade in={showSourceCode}>
         <Collapse in={showSourceCode} unmountOnExit={true}>
           <Box
-            as={LiveEditor}
             sx={{
-              fontFamily: 'mono',
-              fontSize: 'md',
-              lineHeight: 'md',
-              mb: '4x',
-              '& > .prism-code': {
-                // Use `!important` to override the inline style
-                padding: `${theme?.space?.['4x']} !important`,
-                overflowX: 'auto',
-              },
+              position: 'relative',
             }}
-          />
+          >
+            <Box
+              as={LiveEditor}
+              sx={{
+                fontFamily: 'mono',
+                fontSize: 'md',
+                lineHeight: 'md',
+                mb: '4x',
+                '& > .prism-code': {
+                  // Use `!important` to override the inline style
+                  padding: `${theme?.space?.['4x']} !important`,
+                  overflowX: 'auto',
+                },
+              }}
+            />
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={onCopy}
+              sx={{
+                position: 'absolute',
+                right: '4x',
+                top: '4x',
+              }}
+            >
+              {hasCopied ? 'Copied' : 'Copy'}
+            </Button>
+          </Box>
         </Collapse>
       </Fade>
     </LiveProvider>
