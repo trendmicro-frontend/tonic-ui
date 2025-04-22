@@ -11,6 +11,7 @@
     "clean": "lerna exec --parallel -- yarn clean && lerna clean --yes",
     "changeset": "changeset",
     "ci-publish": "yarn lerna-publish-from-package --yes",
+    "dev": "yarn build-public; cd packages/react-docs; yarn dev",
     "lerna-publish": "yarn build && yarn lint && yarn test && lerna publish --no-private",
     "lerna-publish-from-git": "yarn build && yarn lint && yarn test && lerna publish from-git --no-private",
     "lerna-publish-from-package": "yarn build && yarn lint && yarn test && lerna publish from-package --no-private",

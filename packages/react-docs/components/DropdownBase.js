@@ -13,7 +13,7 @@ import { isPlainObject, runIfFn } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import React, { forwardRef, useCallback } from 'react';
 
-const defaultRenderOption = (option) => option?.label ?? option?.value;
+const defaultRenderOption = (option) => option?.label;
 
 const DropdownBase = forwardRef((
   {
@@ -22,6 +22,7 @@ const DropdownBase = forwardRef((
     options = [],
     renderContent = null,
     renderOption = defaultRenderOption,
+    toggleProps,
     ...rest
   },
   ref,
@@ -100,9 +101,11 @@ const DropdownBase = forwardRef((
       ref={ref}
       {...rest}
     >
-      <MenuToggle>
-        {({ getMenuToggleProps }) => {
-          return runIfFn(children, { getToggleProps: getMenuToggleProps });
+      <MenuToggle
+        {...toggleProps}
+      >
+        {({ getMenuToggleProps: getToggleProps }) => {
+          return runIfFn(children, { getToggleProps });
         }}
       </MenuToggle>
       <MenuList

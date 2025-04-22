@@ -9,6 +9,7 @@ const Dropdown = forwardRef((
     options = [],
     renderContent,
     renderOption,
+    toggleProps,
     ...rest
   },
   ref
@@ -19,6 +20,7 @@ const Dropdown = forwardRef((
       onSelect={onSelect}
       renderContent={renderContent}
       renderOption={renderOption}
+      toggleProps={toggleProps}
       {...rest}
     >
       {({ getToggleProps }) => {
@@ -26,17 +28,22 @@ const Dropdown = forwardRef((
           return children({ getToggleProps });
         }
 
+        const { sx, ...restToggleProps } = getToggleProps();
         return (
           <MenuButton
-            {...getToggleProps()}
+            {...restToggleProps}
             variant="secondary"
-            sx={{
-              maxWidth: '100%',
-              '> :first-of-type': {
-                // Override flex item's default `minWidth: auto` to allow text truncation
-                minWidth: 0,
+            sx={[
+              {
+                maxWidth: '100%',
+                width: '100%',
+                '> :first-of-type': {
+                  textAlign: 'left', // [optional] Useful when the trigger is a button to align text properly
+                  minWidth: 0, // Override the default `minWidth: auto` for flex items to enable text truncation
+                },
               },
-            }}
+              sx, // Allows style overrides
+            ]}
           >
             {children}
           </MenuButton>

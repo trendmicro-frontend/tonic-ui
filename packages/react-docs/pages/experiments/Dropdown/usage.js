@@ -138,7 +138,7 @@ const App = () => {
             mb: '1x',
           }}
         >
-          {['auto', '80px', '160px'].map(value => (
+          {['auto', '80px', '160px', '100%'].map(value => (
             <Button
               key={value}
               selected={value === width}
@@ -192,34 +192,26 @@ const App = () => {
             {renderOptions(options)}
           </Scrollbar>
         )}
+        toggleProps={{
+          // Tip: If you're using the default `MenuButton` as the toggle, there's no need to manually provide the `sx` below.
+          sx: {
+            maxWidth: '100%',
+            width: '100%',
+            '> :first-of-type': {
+              // Override flex item's default `minWidth: auto` to allow text truncation
+              minWidth: 0,
+            },
+          },
+        }}
         width={width}
       >
         {({ getToggleProps }) => {
-          // Note: When using the default `MenuButton` toggle, you don't need to provide a custom render function.
-          // The default layout looks like this:
-          //
-          // ```js
-          // <Dropdown
-          //   onSelect={onSelect}
-          //   options={options}
-          //   renderContent={renderContent}
-          //   renderOption={renderOption} // not required if each option provides a label
-          // >
-          //   {renderValue(value)}
-          // </Dropdown>
-          // ```
+          const { sx, ...restToggleProps } = getToggleProps();
 
           if (toggler === 'MenuButton') {
-            const sx = {
-              maxWidth: '100%',
-              '> :first-of-type': {
-                // Override flex item's default `minWidth: auto` to allow text truncation
-                minWidth: 0,
-              },
-            };
             return (
               <MenuButton
-                {...getToggleProps()}
+                {...restToggleProps}
                 variant="secondary"
                 sx={sx}
               >
@@ -231,19 +223,12 @@ const App = () => {
           if (toggler === 'Tag') {
             return (
               <Tag
-                {...getToggleProps()}
+                {...restToggleProps}
                 isClosable={true}
                 onClose={(event) => {
                   event.preventDefault();
                 }}
-                sx={{
-                  cursor: 'pointer',
-                  maxWidth: '100%',
-                  '> :first-of-type': {
-                    // Override flex item's default `minWidth: auto` to allow text truncation
-                    minWidth: 0,
-                  },
-                }}
+                sx={[sx, { cursor: 'pointer' }]}
               >
                 {renderValue(value)}
               </Tag>

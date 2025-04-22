@@ -7,6 +7,32 @@ A dropdown component built on `DropdownBase` and `MenuButton` that renders a men
 
 ## Usage
 
+### Basic configuration
+
+Here's the simplest configuration to get started with the `Dropdown` component.
+
+```jsx
+<Dropdown
+  onSelect={(option) => {
+    setOption(option);
+  }}
+  options={[
+    { value: 1, label: 'Option 1' },
+    { value: 2, label: 'Option 2' },
+  ]}
+>
+  {option.label}
+</Dropdown>
+```
+
+* `options`: An array of selectable items. Each item typically includes a `value` and a `label`, both of which can be of any type. You can also modify the object structure to fit your specific needs.
+* `onSelect`: A callback function that receives the selected option and can be used to update the component state.
+* children: The content inside the `Dropdown` acts as the trigger. In this example, it displays the `label` of the selected option.
+
+### Advanced configuration
+
+Here's a more advanced and commonly used configuration pattern:
+
 {render('./usage')}
 
 ## Props

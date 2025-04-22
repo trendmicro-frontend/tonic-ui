@@ -1,7 +1,6 @@
 import {
-  Button,
   Flex,
-  MenuToggleIcon,
+  MenuButton,
   Scrollbar,
 } from '@tonic-ui/react';
 import {
@@ -79,17 +78,30 @@ const App = () => {
           </Scrollbar>
         );
       }}
+      toggleProps={{
+        sx: {
+          maxWidth: '100%',
+          width: '100%',
+          '> :first-of-type': {
+            // Override flex item's default `minWidth: auto` to allow text truncation
+            minWidth: 0,
+          },
+        },
+      }}
+      width={200}
     >
-      {({ getToggleProps }) => (
-        <Button
-          {...getToggleProps()}
-          variant="secondary"
-          columnGap="2x"
-        >
-          Click Me
-          <MenuToggleIcon />
-        </Button>
-      )}
+      {({ getToggleProps }) => {
+        const { sx, ...restToggleProps } = getToggleProps();
+        return (
+          <MenuButton
+            {...restToggleProps}
+            variant="secondary"
+            sx={sx}
+          >
+            Click Me
+          </MenuButton>
+        );
+      }}
     </DropdownBase>
   );
 };
