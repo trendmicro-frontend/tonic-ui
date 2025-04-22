@@ -7,7 +7,9 @@ A foundational dropdown component that renders a menu with selectable options, s
 
 ## Usage
 
-Here's the simplest configuration:
+### Basic configuration
+
+Here's the simplest configuration to get started with the `DropdownBase` component.
 
 ```jsx
 <DropdownBase
@@ -34,7 +36,7 @@ Here's the simplest configuration:
 </DropdownBase>
 ```
 
-It’s recommended to pass `toggleProps` with the `sx` prop configured as follows to properly set the dropdown width:
+It's recommended to pass `toggleProps` with the `sx` prop configured as follows to properly set the dropdown width:
 
 ```js
 toggleProps={{
@@ -42,12 +44,16 @@ toggleProps={{
     maxWidth: '100%',
     width: '100%',
     '> :first-of-type': {
-      // Override the default `minWidth: auto` for flex items to enable text truncation
-      minWidth: 0,
+      textAlign: 'left', // [optional] Useful when the trigger is a button to align text properly
+      minWidth: 0, // Override the default `minWidth: auto` for flex items to enable text truncation
     },
   },
 }}
 ```
+
+### Advanced configuration
+
+Here's a more advanced and commonly used configuration pattern:
 
 {render('./usage')}
 

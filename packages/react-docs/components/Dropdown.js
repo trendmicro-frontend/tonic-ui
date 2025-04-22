@@ -38,9 +38,8 @@ const Dropdown = forwardRef((
                 maxWidth: '100%',
                 width: '100%',
                 '> :first-of-type': {
-                  textAlign: 'left',
-                  // Override the default `minWidth: auto` for flex items to enable text truncation
-                  minWidth: 0,
+                  textAlign: 'left', // [optional] Useful when the trigger is a button to align text properly
+                  minWidth: 0, // Override the default `minWidth: auto` for flex items to enable text truncation
                 },
               },
               sx, // Allows style overrides
