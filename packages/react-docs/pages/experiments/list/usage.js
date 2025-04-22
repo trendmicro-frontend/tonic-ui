@@ -1,8 +1,7 @@
 import { Box, Button, ButtonGroup, Divider, TextLabel } from '@tonic-ui/react';
-import FormGroup from '@/components/FormGroup';
-import List from '@/components/List';
-import ListItem from '@/components/ListItem';
 import React, { useState } from 'react';
+import FormGroup from '@/components/FormGroup';
+import { List, ListItem } from '@/experiments/list';
 
 const useSelection = (defaultValue) => {
   const [value, setValue] = useState(defaultValue);

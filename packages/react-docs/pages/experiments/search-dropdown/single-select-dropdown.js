@@ -20,8 +20,8 @@ import { ensureArray } from 'ensure-type';
 import React, { useMemo, useState } from 'react';
 import Highlight from 'react-highlight-words';
 import FormGroup from '@/components/FormGroup';
-import MutedText from '@/components/MutedText';
-import SearchDropdown from '@/components/SearchDropdown';
+import { MutedText } from '@/experiments/muted-text';
+import { SearchDropdown } from '@/experiments/search-dropdown';
 
 const chance = new Chance();
 

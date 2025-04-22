@@ -7,7 +7,7 @@ import {
   AngleRightIcon,
 } from '@tonic-ui/react-icons';
 import React, { useState } from 'react';
-import DropdownBase from '@/components/DropdownBase';
+import { DropdownBase } from '@/experiments/dropdown';
 
 const options = [
   // Default items

@@ -19,9 +19,9 @@ import {
   InfoOIcon,
 } from '@tonic-ui/react-icons';
 import React, { useMemo, useState } from 'react';
-import Dropdown from '@/components/Dropdown';
 import FormGroup from '@/components/FormGroup';
-import MutedText from '@/components/MutedText';
+import { Dropdown } from '@/experiments/dropdown';
+import { MutedText } from '@/experiments/muted-text';
 
 const useSelection = (defaultValue) => {
   const [value, setValue] = useState(defaultValue);
