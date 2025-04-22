@@ -13,8 +13,7 @@ import CodeBlock from './CodeBlock';
 
 const ParagraphComponent = props => (
   <Box
-    mt={0}
-    mb="4x"
+    my="2x"
     fontSize="md"
     lineHeight="lg"
     {...props}
