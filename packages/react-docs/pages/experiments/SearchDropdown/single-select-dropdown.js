@@ -11,7 +11,6 @@ import {
   Text,
   TextLabel,
   useColorStyle,
-  useTheme,
 } from '@tonic-ui/react';
 import {
   useConst,
@@ -84,7 +83,6 @@ const FixedWidthText = ({ children, tooltip, variant, ...rest }) => {
 };
 
 const App = () => {
-  const theme = useTheme();
   const [colorStyle] = useColorStyle();
   const [toggler, changeTogglerBy] = useSelection('MenuButton');
   const togglerOffset = (toggler === 'Tag') ? [0, 4] : undefined;
@@ -180,15 +178,16 @@ const App = () => {
           const searchWords = ensureArray(searchKeyword);
           const textToHighlight = option.label;
           const highlightStyle = {
-            backgroundColor: theme?.colors?.[colorStyle?.text?.highlight],
-              color: theme?.colors?.['gray:100'],
+            backgroundColor: 'inherit',
+            color: colorStyle.color.emphasis,
+            fontWeight: 'semibold',
           };
 
           return (
             <Highlight
               searchWords={searchWords}
               textToHighlight={textToHighlight}
-              highlightStyle={highlightStyle}
+              highlightTag={(props) => <Box as="mark" {...highlightStyle} {...props} />}
             />
           );
         }}
