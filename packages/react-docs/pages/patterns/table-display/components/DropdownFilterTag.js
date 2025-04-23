@@ -4,64 +4,82 @@ import {
   Text,
   useColorStyle,
 } from '@tonic-ui/react';
+import { useEffectOnce, useToggle } from '@tonic-ui/react-hooks';
 import { ensureFunction } from 'ensure-type';
 import React, { useMemo, useRef } from 'react';
-import Dropdown from '@/components/Dropdown';
+import { Dropdown } from '@/experiments/dropdown';
 import FilterTag from './FilterTag';
 
 const DropdownFilterTag = ({
   label,
-  options: optionsProp,
-  value: valueProp = null,
-  onChange: onChangeProp,
-  onClose: onCloseProp,
+  onClose,
+  onChange,
+  options,
+  value,
+  ...rest
 }) => {
+  const isSelectedRef = useRef();
+  const [isOpen, toggleIsOpen] = useToggle(false);
+
+  useEffectOnce(() => {
+    // Automatically open the menu on initial render
+    toggleIsOpen(true);
+  });
+
+  const handleClose = () => {
+    toggleIsOpen(false);
+    if (!isSelectedRef.current) {
+      ensureFunction(onClose)();
+    }
+  };
+
+  const handleOpen = () => {
+    toggleIsOpen(true);
+  };
+
+  const handleSelect = (option) => {
+    const nextValue = option.value;
+    if (nextValue !== value) {
+      ensureFunction(onChange)(nextValue);
+      isSelectedRef.current = true;
+    }
+  };
+
   const [colorStyle] = useColorStyle();
-  const hasChangedValueRef = useRef(false);
-  const options = useMemo(() => {
-    return optionsProp.map(option => option.value);
-  }, [optionsProp]);
   const optionMap = useMemo(() => {
-    return optionsProp.reduce((acc, option) => {
+    return options.reduce((acc, option) => {
       acc[option.value] = option;
       return acc;
     }, {});
-  }, [optionsProp]);
+  }, [options]);
 
   return (
     <Dropdown
-      defaultIsOpen={!valueProp}
-      options={options}
+      isOpen={isOpen}
       offset={[0, 4]}
-      onChange={(value) => {
-        // The onChange callback will only be triggered when an option is selected
-        hasChangedValueRef.current = !!value;
-        onChangeProp(value);
-      }}
-      onClose={() => {
-        if (!valueProp && !hasChangedValueRef.current) {
-          ensureFunction(onCloseProp)();
-        }
-        hasChangedValueRef.current = false;
-      }}
-      renderOption={(value) => optionMap[value]?.label}
-      value={valueProp}
+      onClose={handleClose}
+      onOpen={handleOpen}
+      onSelect={handleSelect}
+      options={options}
+      {...rest}
     >
-      <FilterTag
-        onClose={(event) => {
-          event.stopPropagation();
-          ensureFunction(onCloseProp)();
-        }}
-      >
-        <Flex columnGap="1x">
-          <Text color={colorStyle.color.secondary}>
-            {label}
-          </Text>
-          <OverflowTooltip label={valueProp}>
-            {valueProp}
-          </OverflowTooltip>
-        </Flex>
-      </FilterTag>
+      {({ getToggleProps }) => {
+        return (
+          <FilterTag
+            {...getToggleProps()}
+            onClose={onClose}
+          >
+            <Flex columnGap="1x">
+              <Text color={colorStyle.color.secondary}>
+                {label}
+              </Text>
+              <OverflowTooltip label={optionMap[value]?.label}>
+                {optionMap[value]?.label}
+              </OverflowTooltip>
+            </Flex>
+          </FilterTag>
+        );
+      }}
     </Dropdown>
   );
 };

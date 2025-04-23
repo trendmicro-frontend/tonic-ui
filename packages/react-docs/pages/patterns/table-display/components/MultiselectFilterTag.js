@@ -4,17 +4,18 @@ import {
   Text,
   useColorStyle,
 } from '@tonic-ui/react';
+import { useEffectOnce, useToggle } from '@tonic-ui/react-hooks';
 import { ensureFunction } from 'ensure-type';
 import React, { useMemo } from 'react';
-import Multiselect from '@/components/Multiselect';
+import Multiselect from './Multiselect';
 import FilterTag from './FilterTag';
 
 const MultiselectFilterTag = ({
   label,
-  options: optionsProp,
-  value: valueProp = null,
   onChange: onChangeProp,
   onClose: onCloseProp,
+  options: optionsProp,
+  value: valueProp = null,
 }) => {
   const [colorStyle] = useColorStyle();
   const options = useMemo(() => {
@@ -27,12 +28,35 @@ const MultiselectFilterTag = ({
     }, {});
   }, [optionsProp]);
 
+  const [isOpen, toggleIsOpen] = useToggle(false);
+
+  useEffectOnce(() => {
+    // Automatically open the menu on initial render
+    toggleIsOpen(true);
+  });
+
+  const handleClose = () => {
+    toggleIsOpen(false);
+    /*
+    if (!isSelectedRef.current) {
+      ensureFunction(onClose)();
+    }
+    */
+  };
+
+  const handleOpen = () => {
+    toggleIsOpen(true);
+  };
+
   return (
     <Multiselect
+      isOpen={isOpen}
       isSearchable
       defaultIsOpen={Array.isArray(valueProp) ? valueProp.length === 0 : !valueProp}
       options={options}
       offset={[0, 4]}
+      onClose={handleClose}
+      onOpen={handleOpen}
       onChange={(value) => {
         // The onChange callback will be triggered every time, regardless of whether an option was selected or not
         onChangeProp(value);
@@ -45,21 +69,23 @@ const MultiselectFilterTag = ({
       shouldSelectAllIfNoneSelected={false}
       value={valueProp}
     >
-      <FilterTag
-        onClose={(event) => {
-          event.stopPropagation();
-          ensureFunction(onCloseProp)();
-        }}
-      >
-        <Flex columnGap="1x">
-          <Text color={colorStyle.color.secondary}>
-            {label}
-          </Text>
-          <OverflowTooltip label={valueProp}>
-            {Array.isArray(valueProp) ? valueProp.map(value => optionMap[value]?.label).join(', ') : optionMap[valueProp]}
-          </OverflowTooltip>
-        </Flex>
-      </FilterTag>
+      {({ getToggleProps }) => {
+        return (
+          <FilterTag
+            {...getToggleProps}
+            onClose={onCloseProp}
+          >
+            <Flex columnGap="1x">
+              <Text color={colorStyle.color.secondary}>
+                {label}
+              </Text>
+              <OverflowTooltip label={valueProp}>
+                {Array.isArray(valueProp) ? valueProp.map(value => optionMap[value]?.label).join(', ') : optionMap[valueProp]}
+              </OverflowTooltip>
+            </Flex>
+          </FilterTag>
+        );
+      }}
     </Multiselect>
   );
 };

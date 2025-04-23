@@ -9,6 +9,7 @@ const FilterButton = forwardRef((props, ref) => {
 
   return (
     <Button
+      ref={ref}
       variant="ghost"
       sx={{
         color: colorStyle.color.info,
