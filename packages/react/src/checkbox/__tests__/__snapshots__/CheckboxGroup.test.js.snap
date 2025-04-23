@@ -1,0 +1,252 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CheckboxGroup should render correctly 1`] = `
+.emotion-0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  vertical-align: top;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.emotion-2 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.emotion-4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  position: relative;
+  border: var(--tonic-borders-1);
+  width: var(--tonic-sizes-4x);
+  height: var(--tonic-sizes-4x);
+  z-index: 0;
+  background-color: var(--tonic-colors-transparent);
+  border-color: var(--tonic-colors-gray-50);
+  color: var(--tonic-colors-white-emphasis);
+}
+
+input[type="checkbox"]+.emotion-4>* {
+  opacity: 0;
+}
+
+input[type="checkbox"]:checked+.emotion-4>* {
+  opacity: 1;
+}
+
+input[type="checkbox"][data-indeterminate]+.emotion-4>* {
+  opacity: 1;
+}
+
+input[type="checkbox"]:hover+.emotion-4 {
+  background-color: var(--tonic-colors-transparent);
+  border-color: var(--tonic-colors-blue-50);
+  color: var(--tonic-colors-white-emphasis);
+}
+
+input[type="checkbox"]:disabled+.emotion-4 {
+  background-color: var(--tonic-colors-transparent);
+  border-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-white-emphasis);
+  opacity: 0.28;
+}
+
+input[type="checkbox"]:focus-visible+.emotion-4 {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1h);
+}
+
+input[type="checkbox"]:checked+.emotion-4 {
+  background-color: var(--tonic-colors-blue-60);
+  border-color: var(--tonic-colors-blue-60);
+  color: var(--tonic-colors-white-emphasis);
+}
+
+input[type="checkbox"]:checked:hover:not(:disabled)+.emotion-4 {
+  background-color: var(--tonic-colors-blue-50);
+  border-color: var(--tonic-colors-blue-50);
+  color: var(--tonic-colors-white-emphasis);
+}
+
+input[type="checkbox"]:checked:focus-visible+.emotion-4 {
+  background-color: inherit;
+  border-color: var(--tonic-colors-transparent);
+  color: var(--tonic-colors-white-emphasis);
+}
+
+input[type="checkbox"]:checked:focus-visible+.emotion-4>div:first-of-type {
+  background-color: var(--tonic-colors-blue-60);
+}
+
+input[type="checkbox"]:checked:disabled+.emotion-4 {
+  background-color: var(--tonic-colors-gray-60);
+  border-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-white-emphasis);
+  opacity: 0.28;
+}
+
+.emotion-6 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  vertical-align: middle;
+}
+
+.emotion-8 {
+  margin-left: var(--tonic-space-2x);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  opacity: 1;
+}
+
+<div>
+  <label
+    class="emotion-0 emotion-1"
+  >
+    <input
+      checked=""
+      class="emotion-2 emotion-1"
+      name="@tonic-ui/react:CheckboxGroup-1"
+      type="checkbox"
+      value="1"
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-4 emotion-1"
+      role="checkbox"
+    >
+      <svg
+        aria-hidden="true"
+        class="emotion-6 emotion-1"
+        fill="currentColor"
+        focusable="false"
+        viewBox="0 0 16 16"
+      >
+        <g
+          fill="currentColor"
+        >
+          <path
+            d="M6 11.060l-3-3-1 1 4 4 9-9-1-1z"
+          />
+        </g>
+      </svg>
+    </div>
+    <div
+      class="emotion-8 emotion-1"
+    >
+      Option 1
+    </div>
+  </label>
+  <label
+    class="emotion-0 emotion-1"
+  >
+    <input
+      class="emotion-2 emotion-1"
+      name="@tonic-ui/react:CheckboxGroup-1"
+      type="checkbox"
+      value="2"
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-4 emotion-1"
+      role="checkbox"
+    >
+      <svg
+        aria-hidden="true"
+        class="emotion-6 emotion-1"
+        fill="currentColor"
+        focusable="false"
+        viewBox="0 0 16 16"
+      >
+        <g
+          fill="currentColor"
+        >
+          <path
+            d="M6 11.060l-3-3-1 1 4 4 9-9-1-1z"
+          />
+        </g>
+      </svg>
+    </div>
+    <div
+      class="emotion-8 emotion-1"
+    >
+      Option 2
+    </div>
+  </label>
+  <label
+    class="emotion-0 emotion-1"
+  >
+    <input
+      class="emotion-2 emotion-1"
+      name="@tonic-ui/react:CheckboxGroup-1"
+      type="checkbox"
+      value="3"
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-4 emotion-1"
+      role="checkbox"
+    >
+      <svg
+        aria-hidden="true"
+        class="emotion-6 emotion-1"
+        fill="currentColor"
+        focusable="false"
+        viewBox="0 0 16 16"
+      >
+        <g
+          fill="currentColor"
+        >
+          <path
+            d="M6 11.060l-3-3-1 1 4 4 9-9-1-1z"
+          />
+        </g>
+      </svg>
+    </div>
+    <div
+      class="emotion-8 emotion-1"
+    >
+      Option 3
+    </div>
+  </label>
+</div>
+`;

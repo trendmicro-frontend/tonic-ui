@@ -10,6 +10,18 @@ import { RadioGroup } from '@tonic-ui/react';
 
 ### Usage
 
+### Arbitrary value types
+
+> Arbitrary value type support for [CheckboxGroup](../checkbox-group) and [RadioGroup](../radio-group) has been available since version 2.7.0.
+
+The `RadioGroup` component supports values of any type. While the underlying DOM input elements convert values to strings (e.g., the number `1` becomes `"1"`), the `RadioGroup` preserves the original value types in the `onChange` handler as well as the `value` and `defaultValue` props.
+
+When using non-primitive values, ensure the same object reference is passed to the `value` prop to maintain consistent behavior.
+
+{render('./arbitrary-value-types')}
+
+Related components: [CheckboxGroup](../checkbox-group)
+
 #### Uncontrolled radio group
 
 {render('./uncontrolled-radio-group')}
@@ -51,10 +63,10 @@ Use the `size` prop to change the size of the `RadioGroup`. You can set the valu
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
-| defaultValue | string \| number | | The default `input` element value. Use when the component is not controlled. |
+| defaultValue | any | | The default value of the radio group. |
 | disabled | boolean | | If `true`, all radios will be disabled. |
 | name | string | | The name used to reference the value of the control. If you don't provide this prop, it falls back to a randomly generated name. |
 | onChange | function | | A callback called when the state of the radio changes. |
 | size | string | 'md' | The size (width and height) of the radio. One of: 'sm', 'md', 'lg' |
-| value | string \| number | | The value to be used in the radio input. This is the value that will be returned on form submission. |
+| value | any | | The current selected value of the radio group. |
 | variantColor | string | | The color of the radio when it's checked. This should be one of the color keys in the theme (e.g. 'green', 'red'). |

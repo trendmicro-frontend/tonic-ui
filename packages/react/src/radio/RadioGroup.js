@@ -1,6 +1,6 @@
 import { runIfFn } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDefaultProps } from '../default-props';
 import config from '../shared/config';
 import useAutoId from '../utils/useAutoId';
@@ -14,10 +14,10 @@ const RadioGroup = (inProps) => {
     defaultValue,
     disabled,
     name: nameProp,
+    onChange: onChangeProp,
     size,
     value: valueProp,
     variantColor,
-    onChange,
   } = useDefaultProps({ props: inProps, name: 'RadioGroup' });
   const defaultId = useAutoId();
   const name = nameProp ?? `${config.name}:RadioGroup-${defaultId}`;
@@ -32,24 +32,25 @@ const RadioGroup = (inProps) => {
     }
   }, [valueProp]);
 
-  const handleChange = event => {
-    const nextValue = event.target.value;
+  const onChange = useCallback(({ value }) => {
+    const isControlled = (valueProp !== undefined);
+    const nextValue = value;
 
-    if (valueProp !== undefined) {
+    if (isControlled) {
       setState({ value: valueProp });
     } else {
       setState({ value: nextValue });
     }
 
-    if (typeof onChange === 'function') {
-      onChange(nextValue);
+    if (typeof onChangeProp === 'function') {
+      onChangeProp(nextValue);
     }
-  };
+  }, [onChangeProp, valueProp]);
 
   const context = getMemoizedState({
     disabled,
     name,
-    onChange: handleChange,
+    onChange,
     size,
     value: state.value,
     variantColor,

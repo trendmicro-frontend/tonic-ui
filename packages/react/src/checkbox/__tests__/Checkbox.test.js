@@ -1,3 +1,5 @@
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Checkbox, CheckboxGroup } from '@tonic-ui/react/src';
@@ -70,5 +72,78 @@ describe('Checkbox', () => {
 
     // Restore the original console.error
     consoleErrorMock.mockRestore();
+  });
+
+  it('should handle string value', async () => {
+    const onChange = jest.fn(e => e.target.value);
+    const user = userEvent.setup();
+    render(
+      <Checkbox value="test-value" onChange={onChange}>
+        Test Value
+      </Checkbox>
+    );
+
+    await user.click(screen.getByLabelText('Test Value'));
+    expect(onChange).toHaveBeenCalled();
+    expect(onChange).toHaveReturnedWith('test-value');
+  });
+
+  it('should handle number value', async () => {
+    const onChange = jest.fn(e => e.target.value);
+    const user = userEvent.setup();
+    render(
+      <Checkbox value={123} onChange={onChange}>
+        Number Value
+      </Checkbox>
+    );
+
+    await user.click(screen.getByLabelText('Number Value'));
+    expect(onChange).toHaveBeenCalled();
+    expect(onChange).toHaveReturnedWith('123');
+  });
+
+  it('should handle boolean value', async () => {
+    const onChange = jest.fn(e => e.target.value);
+    const user = userEvent.setup();
+    render(
+      <Checkbox value={true} onChange={onChange}>
+        Boolean Value
+      </Checkbox>
+    );
+
+    await user.click(screen.getByLabelText('Boolean Value'));
+    expect(onChange).toHaveBeenCalled();
+    expect(onChange).toHaveReturnedWith('true');
+  });
+
+  it('should handle object value', async () => {
+    const onChange = jest.fn(e => e.target.value);
+    const user = userEvent.setup();
+    const complexValue = { id: 1, name: 'Test' };
+    render(
+      <Checkbox value={complexValue} onChange={onChange}>
+        Object Value
+      </Checkbox>
+    );
+
+    await user.click(screen.getByLabelText('Object Value'));
+    expect(onChange).toHaveBeenCalled();
+    expect(onChange).toHaveReturnedWith('[object Object]');
+  });
+
+  it('should handle checked state changes', async () => {
+    const onChange = jest.fn(e => e.target.checked);
+    const user = userEvent.setup();
+    render(
+      <Checkbox value="test" onChange={onChange}>
+        Test
+      </Checkbox>
+    );
+
+    await user.click(screen.getByLabelText('Test'));
+    expect(onChange).toHaveReturnedWith(true);
+
+    await user.click(screen.getByLabelText('Test'));
+    expect(onChange).toHaveReturnedWith(false);
   });
 });

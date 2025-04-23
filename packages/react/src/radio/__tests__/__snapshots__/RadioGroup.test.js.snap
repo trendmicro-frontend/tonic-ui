@@ -1,0 +1,190 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RadioGroup should render correctly 1`] = `
+.emotion-0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  vertical-align: top;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.emotion-2 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.emotion-4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: var(--tonic-borders-1);
+  border-radius: var(--tonic-radii-circle);
+  width: var(--tonic-sizes-4x);
+  height: var(--tonic-sizes-4x);
+  border-color: var(--tonic-colors-gray-50);
+}
+
+input[type="radio"]+.emotion-4>* {
+  opacity: 0;
+}
+
+input[type="radio"]:checked+.emotion-4>* {
+  opacity: 1;
+}
+
+input[type="radio"]:hover+.emotion-4 {
+  border-color: var(--tonic-colors-blue-50);
+}
+
+input[type="radio"]:focus-visible+.emotion-4 {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1h);
+}
+
+input[type="radio"]:disabled+.emotion-4 {
+  border-color: var(--tonic-colors-gray-60);
+  opacity: 0.28;
+}
+
+input[type="radio"]:checked+.emotion-4 {
+  border-color: var(--tonic-colors-blue-60);
+  color: var(--tonic-colors-blue-60);
+}
+
+input[type="radio"]:checked:hover:not(:disabled)+.emotion-4 {
+  border-color: var(--tonic-colors-blue-50);
+  color: var(--tonic-colors-blue-50);
+}
+
+input[type="radio"]:checked:disabled+.emotion-4 {
+  border-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-gray-60);
+  opacity: 0.28;
+}
+
+.emotion-6 {
+  background-color: currentColor;
+  border-radius: var(--tonic-radii-circle);
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: calc(1rem / 2);
+  height: calc(1rem / 2);
+}
+
+.emotion-8 {
+  margin-left: var(--tonic-space-2x);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  opacity: 1;
+}
+
+<div>
+  <label
+    class="emotion-0 emotion-1"
+  >
+    <input
+      checked=""
+      class="emotion-2 emotion-1"
+      name="@tonic-ui/react:RadioGroup-1"
+      type="radio"
+      value="1"
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-4 emotion-1"
+      role="radio"
+    >
+      <div
+        class="emotion-6 emotion-1"
+      />
+    </div>
+    <div
+      class="emotion-8 emotion-1"
+    >
+      Option 1
+    </div>
+  </label>
+  <label
+    class="emotion-0 emotion-1"
+  >
+    <input
+      class="emotion-2 emotion-1"
+      name="@tonic-ui/react:RadioGroup-1"
+      type="radio"
+      value="2"
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-4 emotion-1"
+      role="radio"
+    >
+      <div
+        class="emotion-6 emotion-1"
+      />
+    </div>
+    <div
+      class="emotion-8 emotion-1"
+    >
+      Option 2
+    </div>
+  </label>
+  <label
+    class="emotion-0 emotion-1"
+  >
+    <input
+      class="emotion-2 emotion-1"
+      name="@tonic-ui/react:RadioGroup-1"
+      type="radio"
+      value="3"
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-4 emotion-1"
+      role="radio"
+    >
+      <div
+        class="emotion-6 emotion-1"
+      />
+    </div>
+    <div
+      class="emotion-8 emotion-1"
+    >
+      Option 3
+    </div>
+  </label>
+</div>
+`;
