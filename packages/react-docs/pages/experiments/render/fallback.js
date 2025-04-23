@@ -1,6 +1,5 @@
 import { Box, Button, Stack, Text } from '@tonic-ui/react';
 import React, { useState } from 'react';
-import BorderedBox from '@/components/BorderedBox';
 import { Render } from '@/experiments/render';
 
 const App = () => {

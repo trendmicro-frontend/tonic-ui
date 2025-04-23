@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { ensureArray } from 'ensure-type';
 
 const For = forwardRef((
