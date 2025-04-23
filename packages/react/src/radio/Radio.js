@@ -1,5 +1,6 @@
 import { useEffectOnceWhen, useMergeRefs } from '@tonic-ui/react-hooks';
-import { callAll, isNullish } from '@tonic-ui/utils';
+import { isNullish } from '@tonic-ui/utils';
+import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
@@ -60,10 +61,12 @@ const Radio = forwardRef((inProps, ref) => {
       warningMessage = `Warning: The \`Radio\` has a \`name\` prop ("${name}") that conflicts with the \`RadioGroup\`'s \`name\` prop ("${radioGroupName}")`;
     }
     name = (name ?? radioGroupName);
-    onChange = callAll(
-      onChange,
-      radioGroupOnChange,
-    );
+    onChange = (event) => {
+      ensureFunction(onChangeProp)(event);
+
+      // Pass the radio value to the group handler
+      ensureFunction(radioGroupOnChange)({ value });
+    };
     // Use the default value if the value is null or undefined
     size = (size ?? radioGroupSize) ?? defaultSize;
     variantColor = (variantColor ?? radioGroupVariantColor) ?? defaultVariantColor;

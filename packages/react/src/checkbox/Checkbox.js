@@ -1,6 +1,6 @@
 import { useEffectOnceWhen, useMergeRefs } from '@tonic-ui/react-hooks';
-import { callAll, dataAttr, isNullish } from '@tonic-ui/utils';
-import { ensureArray } from 'ensure-type';
+import { dataAttr, isNullish } from '@tonic-ui/utils';
+import { ensureArray, ensureFunction } from 'ensure-type';
 import React, { forwardRef, useRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
@@ -61,10 +61,15 @@ const Checkbox = forwardRef((inProps, ref) => {
       warningMessage = `Warning: The \`Checkbox\` has a \`name\` prop ("${name}") that conflicts with the \`CheckboxGroup\`'s \`name\` prop ("${checkboxGroupName}")`;
     }
     name = name ?? checkboxGroupName;
-    onChange = callAll(
-      onChange,
-      checkboxGroupOnChange,
-    );
+    onChange = (event) => {
+      ensureFunction(onChangeProp)(event);
+
+      // Pass the checkbox's checked state and value to the group handler
+      ensureFunction(checkboxGroupOnChange)({
+        checked: event.target.checked,
+        value,
+      });
+    };
     // Use the default value if the value is null or undefined
     size = (size ?? checkboxGroupSize) ?? defaultSize;
     variantColor = (variantColor ?? checkboxGroupVariantColor) ?? defaultVariantColor;
