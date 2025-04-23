@@ -16,7 +16,9 @@ import { CheckboxGroup } from '@tonic-ui/react';
 
 The `CheckboxGroup` component supports values of any type. While the underlying DOM input elements convert values to strings (e.g., the number `1` becomes `"1"`), the `CheckboxGroup` preserves the original value types in the `onChange` handler as well as the `value` and `defaultValue` props.
 
-When using non-primitive values, ensure the same object reference is passed to the `value` prop to maintain consistent behavior.
+When using non-primitive values, make sure to pass the same object reference to the `value` prop to ensure consistent behavior.
+
+Aside from `undefined` and certain special cases such as `function` and `NaN`, the following value types are supported:
 
 {render('./arbitrary-value-types')}
 

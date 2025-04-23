@@ -4,14 +4,25 @@ import React, { useState } from 'react';
 
 const App = () => {
   const items = useConst(() => [
-    { label: 'String value: "apple"', value: 'apple' },
+    { label: 'Array value: []', value: [] },
+    { label: 'Array value: [1, 2, 3]', value: [1, 2, 3] },
+    { label: 'Boolean value: false', value: false },
+    { label: 'Boolean value: true', value: true },
     { label: 'Number value: 0', value: 0 },
-    { label: 'Object value: {"value":"apple"}', value: { value: 'apple' } },
+    { label: 'Number value: Infinity', value: Infinity },
+    { label: 'Object value: {"name":"John Doe"}', value: { name: 'John Doe' } },
+    { label: 'Object value: {"render": ƒ (){}}', value: { render: function render() {} } },
+    { label: 'String value: "value"', value: 'value' },
+    { label: 'String value: "" (empty string)', value: '' },
+    { label: 'Symbol value: Symbol("foo")', value: Symbol('foo') },
+    { label: 'Symbol value: Set([1, 2, 3])', value: new Set([1, 2, 3]) },
+    { label: 'Null value: null', value: null },
   ]);
-  const [selectedValues, setSelectedValues] = useState(['apple']);
-
+  const [selectedValues, setSelectedValues] = useState([]);
+  const selectedCount = selectedValues.length;
   const handleChange = (values) => {
     setSelectedValues(values);
+    console.log(values);
   };
 
   return (
@@ -30,8 +41,7 @@ const App = () => {
       </CheckboxGroup>
       <Divider my="4x" />
       <Flex alignItems="center" columnGap="1x">
-        <Text>Selected values:</Text>
-        <Text>{selectedValues.length === 0 ? 'None' : JSON.stringify(selectedValues)}</Text>
+        <Text>{selectedCount > 0 ? `${selectedCount} selected` : 'No items selected'}</Text>
       </Flex>
     </Box>
   );
