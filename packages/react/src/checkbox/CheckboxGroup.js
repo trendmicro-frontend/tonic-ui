@@ -9,8 +9,6 @@ import { CheckboxGroupContext } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
 
-const uniq = (values) => [...new Set(values)];
-
 const CheckboxGroup = (inProps) => {
   const {
     children,
@@ -38,7 +36,7 @@ const CheckboxGroup = (inProps) => {
   const onChange = useCallback(({ checked, value }) => {
     const isControlled = (valueProp !== undefined);
     const nextValue = !!checked
-      ? uniq(state.value.concat(ensureArray(value))) // Add the newly checked value, skip nullish, and ensure uniqueness
+      ? [...state.value, value] // Add the newly checked value
       : state.value.filter(v => (v !== value)); // Remove the unchecked value from the current selection
 
     if (isControlled) {
