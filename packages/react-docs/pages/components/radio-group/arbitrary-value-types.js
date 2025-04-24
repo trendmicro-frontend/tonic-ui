@@ -15,7 +15,7 @@ const App = () => {
     { label: 'String value: "value"', value: 'value' },
     { label: 'String value: "" (empty string)', value: '' },
     { label: 'Symbol value: Symbol("foo")', value: Symbol('foo') },
-    { label: 'Symbol value: Set([1, 2, 3])', value: new Set([1, 2, 3]) },
+    { label: 'Set value: Set([1, 2, 3])', value: new Set([1, 2, 3]) },
     { label: 'Null value: null', value: null },
   ]);
   const [selectedValue, setSelectedValue] = useState();
