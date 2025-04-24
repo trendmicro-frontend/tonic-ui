@@ -1,5 +1,11 @@
 # @tonic-ui/react
 
+## 2.7.0
+
+### Minor Changes
+
+- feat: support arbitrary value types for `CheckboxGroup` and `RadioGroup` components by [@cheton](https://github.com/cheton) in [#1010](https://github.com/trendmicro-frontend/tonic-ui/pull/1010)
+
 ## 2.6.5
 
 ### Patch Changes
