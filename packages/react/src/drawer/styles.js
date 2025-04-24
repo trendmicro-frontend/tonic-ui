@@ -135,10 +135,8 @@ const useDrawerContentStyle = ({
       maxHeight: isLeftOrRight ? undefined : '80vh',
     },
     full: {
-      width: '100%',
-      height: '100%',
-      maxWidth: '100vw',
-      maxHeight: '100vh',
+      width: '100vw',
+      height: '100vh',
     },
     auto: {
       width: isLeftOrRight ? 'auto' : '100%',
