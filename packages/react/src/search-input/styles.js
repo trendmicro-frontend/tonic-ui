@@ -16,7 +16,6 @@ const useSearchInputAdornmentStyle = () => {
 
 const useSearchInputClearButtonStyle = ({ variant, size }) => {
   const [colorMode] = useColorMode();
-  const { colors } = useTheme();
   const color = {
     dark: 'white:tertiary',
     light: 'black:tertiary',
@@ -29,11 +28,7 @@ const useSearchInputClearButtonStyle = ({ variant, size }) => {
     dark: 'white:primary',
     light: 'black:primary',
   }[colorMode];
-  const focusColor = color;
-  const focusHoverColor = hoverColor;
-  const focusActiveColor = activeColor;
-  const focusBorderColor = colors['blue:60'];
-  const focusBoxShadowBorderColor = colors['blue:60'];
+  const focusVisibleOutlineColor = 'blue:60';
   const sizeStyle = (() => {
     const width = {
       sm: '6x',
@@ -75,24 +70,17 @@ const useSearchInputClearButtonStyle = ({ variant, size }) => {
     color,
     ...sizeStyle,
     transition: createTransitionStyle('border-color', { duration: 200 }),
+    _focusVisible: {
+      outlineColor: focusVisibleOutlineColor,
+      outlineOffset: '-1h',
+      outlineStyle: 'solid',
+      outlineWidth: '1h',
+    },
     _hover: {
       color: hoverColor,
     },
     _active: {
       color: activeColor,
-    },
-    _focus: {
-      borderColor: focusBorderColor,
-      boxShadow: focusBoxShadowBorderColor ? `inset 0 0 0 1px ${focusBoxShadowBorderColor}` : undefined,
-      color: focusColor,
-      '&:hover': {
-        color: focusHoverColor,
-      },
-      '&:active': {
-        borderColor: focusBorderColor,
-        boxShadow: focusBoxShadowBorderColor ? `inset 0 0 0 1px ${focusBoxShadowBorderColor}` : undefined,
-        color: focusActiveColor,
-      },
     },
   };
 
