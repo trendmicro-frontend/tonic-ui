@@ -2,7 +2,6 @@ import {
   Button,
   Divider,
   Flex,
-  OverflowTooltip,
   SearchInput,
   Scrollbar,
   Text,
@@ -15,6 +14,7 @@ import React, { useCallback, useState } from 'react';
 import Toolbar from '@/components/Toolbar';
 import ToolbarItem from '@/components/ToolbarItem';
 import { Dropdown } from '@/experiments/dropdown';
+import { FlexItem } from '@/experiments/flex-item';
 import { MutedText } from '@/experiments/muted-text';
 
 const filterMap = (() => {
@@ -22,7 +22,7 @@ const filterMap = (() => {
     { value: 'all', label: 'All' },
     ...Array.from({ length: 10 }, (_, i) => ({
       value: String(i + 1),
-      label: `Option ${i + 1}`,
+      label: `Item ${i + 1}`,
     })),
   ];
 
@@ -35,81 +35,31 @@ const filterMap = (() => {
   return map;
 })();
 
-const defaultDropdownOptions = [
+const defaultDropdownItems = [
   ...Array.from(filterMap.values()),
 ];
 
-const AutoWidthText = ({ children, tooltip, variant, ...rest }) => {
-  const TextComponent = (variant === 'muted') ? MutedText : Text;
-
-  return (
-    <OverflowTooltip
-      PopperProps={{
-        usePortal: true,
-      }}
-      label={tooltip ?? children}
-      maxWidth={320}
-    >
-      {({ ref, style }) => (
-        <TextComponent
-          ref={ref}
-          {...style}
-          flex="auto"
-          {...rest}
-        >
-          {children}
-        </TextComponent>
-      )}
-    </OverflowTooltip>
-  );
-};
-
-const FixedWidthText = ({ children, tooltip, variant, ...rest }) => {
-  const TextComponent = (variant === 'muted') ? MutedText : Text;
-
-  return (
-    <OverflowTooltip
-      PopperProps={{
-        usePortal: true,
-      }}
-      label={tooltip ?? children}
-      maxWidth={320}
-    >
-      {({ ref, style }) => (
-        <TextComponent
-          ref={ref}
-          {...style}
-          maxWidth="100%"
-          flex="none"
-          {...rest}
-        >
-          {children}
-        </TextComponent>
-      )}
-    </OverflowTooltip>
-  );
-};
-
 const App = () => {
   const [colorStyle] = useColorStyle();
-  const [selectedOption, setSelectedOption] = useState(defaultDropdownOptions[0]);
+  const [selectedItem, setSelectedItem] = useState(defaultDropdownItems[0]);
   const [searchInputValue, setSearchInputValue] = useState('');
   const [matchedResults] = useState(0);
 
   const clearFilters = useCallback(() => {
-    setSelectedOption(defaultDropdownOptions[0]);
+    setSelectedItem(defaultDropdownItems[0]);
     setSearchInputValue('');
   }, []);
 
-  const renderSelectedOption = (option) => {
+  const renderSelectedItem = (item) => {
+    const tooltip = `Label: ${item.label}`;
     return (
       <Flex alignItems="center" columnGap="1x" width="100%">
-        <FixedWidthText variant="muted" tooltip={`Label: ${option.label}`}>
+        <FlexItem as={MutedText} fixed tooltip={tooltip}>
           {'Label:'}
-        </FixedWidthText>
-        <AutoWidthText tooltip={option.label}>
-          {option.label}
-        </AutoWidthText>
+        </FlexItem>
+        <FlexItem tooltip>
+          {item.label}
+        </FlexItem>
       </Flex>
     );
   };
@@ -122,20 +72,20 @@ const App = () => {
         </Button>
         <Divider orientation="vertical" height="8x" />
         <Dropdown
-          onSelect={(option) => {
-            setSelectedOption(option);
+          onSelect={(item) => {
+            setSelectedItem(item);
           }}
-          options={defaultDropdownOptions}
-          renderContent={({ options, renderOptions }) => {
+          items={defaultDropdownItems}
+          renderContent={({ items, renderItems }) => {
             return (
               <Scrollbar maxHeight={200} overflowY="visible">
-                {renderOptions(options)}
+                {renderItems(items)}
               </Scrollbar>
             );
           }}
           width={200}
         >
-          {renderSelectedOption(selectedOption)}
+          {renderSelectedItem(selectedItem)}
         </Dropdown>
         <SearchInput
           placeholder="Search"

@@ -5,8 +5,6 @@ import {
   Box,
   Checkbox,
   Flex,
-  OverflowTooltip,
-  Text,
   Truncate,
 } from '@tonic-ui/react';
 import { ensureNumber } from 'ensure-type';
@@ -14,26 +12,7 @@ import _ from 'lodash';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import BaseTable from '@/components/BaseTable';
 import TablePagination from '@/components/TablePagination';
-import { MutedText } from '@/experiments/muted-text';
 import TableToolbar from './table-toolbar';
-
-const filterMap = (() => {
-  const filterData = [
-    { value: 'all', label: 'All' },
-    ...Array.from({ length: 10 }, (_, i) => ({
-      value: String(i + 1),
-      label: `Option ${i + 1}`,
-    })),
-  ];
-
-  const map = new Map();
-  filterData.forEach((filter) => {
-    // Use the policy ID as the key and ensure it's a string rather than a number
-    const key = String(filter.value);
-    map.set(key, filter);
-  });
-  return map;
-})();
 
 const threatTypes = [
   'Virus/Malware',

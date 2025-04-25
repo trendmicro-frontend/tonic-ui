@@ -1,9 +1,11 @@
 import CodeBlock from '@/components/CodeBlock';
 import _Dropdown_ from '!!raw-loader!@/experiments/dropdown/Dropdown';
+import _MenuButtonToggle_ from '!!raw-loader!../shared/MenuButtonToggle';
+import _TagToggle_ from '!!raw-loader!../shared/TagToggle';
 
 # Dropdown
 
-A dropdown component built on `DropdownBase` and `MenuButton` that renders a menu with selectable options and manages the selection behavior.
+A dropdown component built on `DropdownBase` and `MenuButton` that renders a menu with selectable items and manages the selection behavior.
 
 ## Usage
 
@@ -13,21 +15,21 @@ Here's the simplest configuration to get started with the `Dropdown` component.
 
 ```jsx
 <Dropdown
-  onSelect={(option) => {
-    setOption(option);
+  onSelect={(item) => {
+    setItem(item);
   }}
-  options={[
-    { value: 1, label: 'Option 1' },
-    { value: 2, label: 'Option 2' },
+  items={[
+    { label: 'Item 1', value: 1 },
+    { label: 'Item 2', value: 2 },
   ]}
 >
-  {option.label}
+  {item.label}
 </Dropdown>
 ```
 
-* `options`: An array of selectable items. Each item typically includes a `value` and a `label`, both of which can be of any type. You can also modify the object structure to fit your specific needs.
-* `onSelect`: A callback function that receives the selected option and can be used to update the component state.
-* children: The content inside the `Dropdown` acts as the trigger. In this example, it displays the `label` of the selected option.
+* `items`: An array of selectable items. Each item typically includes a `label`, along with an optional identifier such as `id` or `value` of any type. The structure is flexible and can be customized to fit your specific needs.
+* `onSelect`: A callback function that receives the selected item and can be used to update the component state.
+* `children`: The content rendered within the dropdown trigger. In this example, it shows the `label` of the currently selected item.
 
 ### Advanced configuration
 
@@ -35,12 +37,38 @@ Here's a more advanced and commonly used configuration pattern:
 
 {render('./usage')}
 
+### Custom dropdown toggle
+
+By default, the dropdown uses a `MenuButton` as its toggle. You can customize this by providing your own toggle component via the `toggle` prop:
+
+```jsx
+<Dropdown
+  onSelect={onSelect}
+  items={items}
+  toggle={MyToggleComponent}
+>
+  {selectedItem.label}
+</Dropdown>
+```
+
+---
+
+The toggle components below serve as useful examples — customize them as needed to fit with your needs.
+
+#### MenuButtonToggle
+
+<CodeBlock code={_MenuButtonToggle_} />
+
+#### TagToggle
+
+<CodeBlock code={_TagToggle_} />
+
 ## Props
 
 Check out the [DropdownBase](../dropdown-base) components for more details.
 
 ## Source
 
-### Dropdwn
+### Dropdown
 
 <CodeBlock code={_Dropdown_} />

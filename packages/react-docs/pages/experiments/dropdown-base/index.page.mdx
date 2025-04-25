@@ -3,7 +3,7 @@ import _DropdownBase_ from '!!raw-loader!@/experiments/dropdown/DropdownBase';
 
 # DropdownBase
 
-A foundational dropdown component that renders a menu with selectable options, supporting dynamic content rendering and custom selection behavior.
+A foundational dropdown component that renders a menu with selectable items, supporting dynamic content rendering and custom selection behavior.
 
 ## Usage
 
@@ -13,42 +13,41 @@ Here's the simplest configuration to get started with the `DropdownBase` compone
 
 ```jsx
 <DropdownBase
-  onSelect={(option) => {
-    setOption(option);
+  onSelect={(item) => {
+    setItem(item);
   }}
-  options={[
-    { value: 1, label: 'Option 1' },
-    { value: 2, label: 'Option 2' },
+  items={[
+    { label: 'Item 1', value: 1 },
+    { label: 'Item 2', value: 2 },
   ]}
+  toggle={Toggle}
 >
-  {({ getToggleProps }) => {
-    const { sx, ...restToggleProps } = getToggleProps();
-    return (
-      <Button
-        {...restToggleProps}
-        variant="secondary"
-        sx={sx}
-      >
-        {option.label}
-      </Button>
-    );
-  }}
+  {value}
 </DropdownBase>
 ```
 
-It's recommended to pass `toggleProps` with the `sx` prop configured as follows to properly set the dropdown width:
-
-```js
-toggleProps={{
-  sx: {
-    maxWidth: '100%',
-    width: '100%',
-    '> :first-of-type': {
-      textAlign: 'left', // [optional] Useful when the trigger is a button to align text properly
-      minWidth: 0, // Override the default `minWidth: auto` for flex items to enable text truncation
-    },
-  },
-}}
+**Important:** The `Toggle` component **must be wrapped** with `forwardRef` to ensure correct positioning:
+```jsx
+const Toggle = forwardRef(({ sx, ...rest }, ref) => {
+  return (
+    <MenuButton
+      ref={ref}
+      {...rest}
+      variant="secondary"
+      sx={[
+        {
+          maxWidth: '100%',
+          width: '100%',
+          '> :first-of-type': {
+            textAlign: 'left', // [optional] Useful when the trigger is a button to align text properly
+            minWidth: 0, // Override the default `minWidth: auto` for flex items to enable text truncation
+          },
+        },
+        sx, // Allows style overrides
+      ]}
+    />
+  );
+});
 ```
 
 ### Advanced configuration
@@ -64,27 +63,64 @@ The `DropdownBaseProps` interface defines the following properties for the `Drop
 ```ts
 import { ReactNode, ReactElement, Ref } from 'react';
 
-type Option = {
-  value: any;
-  type?: 'divider' | 'group' | 'submenu' | string;
+type DropdownItem = {
+  type?: 'custom' | 'divider' | 'group' | 'submenu' | string;
   label?: ReactNode;
-  children?: Option[];
+  children?: DropdownItem[];
   props?: Record<string, any>;
 };
 
 export interface DropdownBaseProps {
+  /**
+   * The content inside the dropdown toggle.
+   * Can be a React node or a function that returns a React node.
+   */
   children?: ((args: { getToggleProps: () => any }) => ReactNode) | ReactNode;
-  onSelect?: (option: Option) => void;
-  options?: Option[];
-  renderOption?: (option: Option) => ReactNode;
+
+  /**
+   * Callback triggered when an item is selected.
+   * Receives the full `item` object, allowing access to custom fields or props.
+   */
+  onSelect?: (item: DropdownItem) => void;
+
+  /**
+   * Array of items to be rendered in the dropdown menu.
+   * Each item typically includes a `label`, and optionally a `type`, `props`, and `children`.
+   */
+  items?: DropdownItem[];
+
+  /**
+   * Optional custom render function for rendering individual items in the dropdown.
+   * Defaults to rendering the `label` or `value` of the item.
+   */
+  renderItem?: (item: DropdownItem) => ReactNode;
+
+  /**
+   * Optional custom function to render the entire dropdown's content.
+   * Provides access to `items`, `renderItem`, and `renderItems` for full customization.
+   */
   renderContent?: (args: {
-    options: Option[];
-    renderOption: (option: Option) => ReactNode;
-    renderOptions: (options: Option[], prefix?: string) => ReactNode[];
+    items: DropdownItem[];
+    renderItem: (item: DropdownItem) => ReactNode;
+    renderItems: (items: DropdownItem[], prefix?: string) => ReactNode[];
   }) => ReactNode;
+
+  /**
+   * The component to be used as the toggle (button) for the dropdown.
+   * Allows for full customization of the toggle's appearance and behavior.
+   */
+  toggle?: React.ComponentType<any>;
+
+  /**
+   * Additional props to be passed to the toggle component.
+   */
   toggleProps?: Record<string, any>;
 }
 
+/**
+ * DropdownBase component.
+ * A base component for rendering dropdown functionality with customizable options.
+ */
 declare const DropdownBase: React.ForwardRefExoticComponent<
   DropdownBaseProps & { ref?: Ref<any> }
 >;
@@ -92,28 +128,32 @@ declare const DropdownBase: React.ForwardRefExoticComponent<
 export default DropdownBase;
 ```
 
-### `Option` object
+### `DropdownItem` object
 
-Each option is an object that may include the following fields:
+Each dropdown item is an object that may include the following fields:
 
-* `value` (required): A unique identifier or payload associated with the option.
-* `label` (optional): The label to display for the option. If not provided, the `value` will be used.
-* `type` (optional): Specifies the type of option. It can be:
-  * (empty): A regular menu item.
+* `label` (optional): The label to display for the item.
+* `type` (optional): Specifies the type of item. It can be:
+  * A regular menu item when the type is not provided.
     ```js
     {
       value: 'settings',
       label: 'Settings'
     }
     ```
-
-  * `'divider'`: A divider that visually separates groups of items.
+  * `'custom'`: A custom element for a specific purpose.
+    ```js
+    {
+      type: 'custom',
+    }
+    ```
+  * `'divider'`: A divider that visually separates different groups of items.
     ```js
     {
       type: 'divider',
     }
     ```
-  * `'group'`: A group of options, which may contain nested options under `children`.
+  * `'group'`: A group of items, which may include nested items under `children`.
     ```js
     {
       type: 'group',
@@ -124,7 +164,7 @@ Each option is an object that may include the following fields:
       ]
     }
     ```
-  * `'submenu'`: Creates a nested menu that appears next to the option. You must provide a `children` array with more options. This is useful for grouping related items.
+  * `'submenu'`: Creates a nested menu that appears next to the item. You must provide a `children` array with more items. This is useful for grouping related items.
     ```js
     {
       type: 'submenu',
@@ -151,14 +191,37 @@ Each option is an object that may include the following fields:
 
 ### Prop definitions
 
-| Name | Type | Description |
-| :--- | :--- | :---------- |
-| children | ReactNode | Content inside the dropdown button. Accepts a React node or a render function. |
-| onSelect | `(option: Option) => void` | Callback triggered when an option is selected. Receives the full `option` object, allowing you to access any custom fields or props defined for the option. |
-| options | `Array<Option>` | An array of options to be rendered in the dropdown menu. Each option should include a `value` (required), and optionally a `label`, `type`, `props`, and `children`. |
-| renderOption | `(option: Option) => ReactNode` | Optional custom render function for individual dropdown options. If not provided, the default function renders the `label` (if available) or `value` of the option. |
-| renderContent | `(args: { options: Option[], renderOption: (option: Option) => ReactNode, renderOptions: (options: Option[], prefix?: string) => ReactNode[] }) => ReactNode` | Optional custom function to render the entire dropdown's content. Provides access to `options`, `renderOption`, and `renderOptions`. Use this to fully customize the dropdown content beyond the default rendering behavior. |
-| toggleProps | `Record<string, any>` | Additional props to be passed to the toggle component. These props will be merged with the props returned by `getToggleProps()`. |
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children <sub>[1]</sub> | ReactNode | | The content inside the dropdown toggle. Can be a React node or a function that returns a React node. |
+| onSelect | `(item: DropdownItem) => void` | | Callback triggered when an item is selected. Receives the full `item` object, allowing you to access any custom fields or props defined for the item. |
+| items | `Array<DropdownItem>` | [] | An array of items to be rendered in the dropdown menu. Each item should include a `value` (required), and optionally a `label`, `type`, `props`, and `children`. |
+| renderItem | `(item: DropdownItem) => ReactNode` | `defaultRenderItem` <sub>[2]</sub> | Optional custom render function for rendering dropdown items. |
+| renderContent | `(args: { items: DropdownItem[], renderItem: (item: DropdownItem) => ReactNode, renderItems: (items: DropdownItem[], prefix?: string) => ReactNode[] }) => ReactNode` | | Optional custom function to render the entire dropdown's content. Provides access to `items`, `renderItem`, and `renderItems`. Use this to fully customize the dropdown content beyond the default rendering behavior. |
+| toggle <sub>[1]</sub> | `React.ComponentType<any>`	| | The component to be used as the toggle (e.g., button) for the dropdown. This allows for full customization of the toggle's appearance and behavior. |
+| toggleProps | `Record<string, any>` | | Additional props to be passed to the toggle component. These props will be merged with the props returned by `getToggleProps()`. |
+
+Notes:
+1. If `toggle` is a valid React component, it wraps the `children`. Otherwise, it executes the `children` function, passing in `getToggleProps`. This allows for full customization of the toggle's appearance and behavior.
+    ```jsx
+    <MenuToggle {...toggleProps}>
+      {({ getMenuToggleProps: getToggleProps }) => {
+        if (isValidElementType(Toggle)) {
+          return (
+            // The `Toggle` component must be wrapped with `forwardRef` to ensure correct positioning
+            <Toggle {...getToggleProps()}>
+              {children}
+            </Toggle>
+          );
+        }
+        return runIfFn(children, { getToggleProps });
+      }}
+    </MenuToggle>
+    ```
+2. `defaultRenderItem` is the default render function for rendering dropdown items. It renders the item's `label` if the item is a plain object; otherwise, it renders the item directly.
+    ```js
+    const defaultRenderItem = (item) => isPlainObject(item) ? item.label : item;
+    ```
 
 ## Source
 

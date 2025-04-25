@@ -1,11 +1,12 @@
 import { MenuButton } from '@tonic-ui/react';
 import React, { forwardRef } from 'react';
-import DropdownBase from './DropdownBase';
 
-const Toggle = forwardRef((props, ref) => {
+const MenuButtonToggle = forwardRef((props, ref) => {
   const { children, sx, ...rest } = props;
+
   return (
     <MenuButton
+      ref={ref}
       {...rest}
       variant="secondary"
       sx={[
@@ -24,36 +25,7 @@ const Toggle = forwardRef((props, ref) => {
     </MenuButton>
   );
 });
-Toggle.displayName = 'Toggle';
 
-const Dropdown = forwardRef((
-  {
-    children,
-    onSelect,
-    items = [],
-    renderContent,
-    renderItem,
-    toggle = Toggle,
-    toggleProps,
-    ...rest
-  },
-  ref
-) => {
-  return (
-    <DropdownBase
-      items={items}
-      onSelect={onSelect}
-      renderContent={renderContent}
-      renderItem={renderItem}
-      toggle={toggle}
-      toggleProps={toggleProps}
-      {...rest}
-    >
-      {children}
-    </DropdownBase>
-  );
-});
+MenuButtonToggle.displayName = 'MenuButtonToggle';
 
-Dropdown.displayName = 'Dropdown';
-
-export default Dropdown;
+export default MenuButtonToggle;

@@ -8,9 +8,10 @@ const SearchDropdown = forwardRef((
   {
     onClose: onCloseProp,
     onSelect,
-    options = [],
+    items = [],
     renderContent: renderContentProp,
-    renderOption: renderOptionProp,
+    renderItem: renderItemProp,
+    toggle,
     toggleProps,
     ...rest
   },
@@ -55,10 +56,10 @@ const SearchDropdown = forwardRef((
     />
   );
 
-  const renderContent = ({ options, renderOption, renderOptions }) => {
+  const renderContent = ({ items, renderItem, renderItems }) => {
     if (typeof renderContentProp === 'function') {
       // Render custom layout
-      return renderContentProp({ options, renderOption, renderOptions, renderSearchInput, searchKeyword });
+      return renderContentProp({ items, renderItem, renderItems, renderSearchInput, searchKeyword });
     }
 
     // Render default layout
@@ -70,22 +71,22 @@ const SearchDropdown = forwardRef((
         >
           {renderSearchInput()}
         </Box>
-        {renderOptions(options)}
+        {renderItems(items)}
       </>
     );
   };
 
-  const renderOption = (option) => {
-    return (typeof renderOptionProp === 'function')
-      ? renderOptionProp(option, { searchKeyword })
-      : (option.label ?? option.value);
+  const renderItem = (item) => {
+    return (typeof renderItemProp === 'function')
+      ? renderItemProp(item, { searchKeyword })
+      : (item.label ?? item.value);
   };
 
-  const filteredOptions = options.filter(option => {
+  const filteredOptions = items.filter(item => {
     if (!normalizedSearchKeyword) {
       return true;
     }
-    const normalizedItemString = ensureString(option?.label).trim().toLowerCase();
+    const normalizedItemString = ensureString(item?.label).trim().toLowerCase();
     return normalizedItemString.includes(normalizedSearchKeyword);
   });
 
@@ -97,10 +98,11 @@ const SearchDropdown = forwardRef((
     <Dropdown
       defaultActiveIndex={0}
       onClose={callEventHandlers(onCloseProp, onClose)}
-      options={filteredOptions}
+      items={filteredOptions}
       onSelect={onSelect}
       renderContent={renderContent}
-      renderOption={renderOption}
+      renderItem={renderItem}
+      toggle={toggle}
       toggleProps={toggleProps}
       {...rest}
     />

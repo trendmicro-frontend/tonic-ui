@@ -11,62 +11,82 @@ import {
 } from '@tonic-ui/react';
 import { isPlainObject, runIfFn } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
-import React, { forwardRef, useCallback } from 'react';
+import React, { Fragment, forwardRef, useCallback } from 'react';
 
-const defaultRenderOption = (option) => option?.label;
+const isValidElementType = (type) => {
+  return (
+    typeof type === 'string' || // Covers: 'div', 'span', etc.
+    typeof type === 'function' || // Covers: function components and class components
+    (typeof type === 'object' && type !== null && typeof type.$$typeof === 'symbol') // Covers: React.memo, React.forwardRef, React.lazy, etc.
+  );
+};
+
+const defaultRenderItem = (item, context) => isPlainObject(item) ? item.label : item;
 
 const DropdownBase = forwardRef((
   {
     children,
     onSelect,
-    options = [],
+    items = [],
     renderContent = null,
-    renderOption = defaultRenderOption,
+    renderItem: renderItemProp = defaultRenderItem,
+    toggle: Toggle,
     toggleProps,
     ...rest
   },
   ref,
 ) => {
-  const handleClickBy = useCallback((option) => (event) => {
-    onSelect?.(option);
+  const handleClickBy = useCallback((item) => (event) => {
+    onSelect?.(item);
   }, [onSelect]);
 
-  // Recursively render options including groups, dividers, and items
-  const renderOptions = (options, prefix = '') => {
-    return ensureArray(options).map((option, index) => {
-      const childPrefix = [prefix, index].join('_');
+  const renderItem = (item) => (typeof renderItemProp === 'function') ? renderItemProp(item) : null;
 
-      if (!isPlainObject(option)) {
-        return null;
+  // Recursively render items including groups, dividers, and items
+  const renderItems = (items, prefix = '') => {
+    return ensureArray(items).map((item, index) => {
+      const key = [prefix, index].join('_');
+
+      if (!isPlainObject(item)) {
+        return (
+          <Fragment key={key}>
+            {renderItem(item)}
+          </Fragment>
+        );
       }
 
-      if (option.type === 'group') {
-        const key = `${childPrefix}_menugroup`;
+      if (item.type === 'custom') {
         return (
-          <MenuGroup key={key} title={option.label} {...option.props}>
-            {renderOptions(option.children, childPrefix)}
+          <Fragment key={key}>
+            {renderItem(item)}
+          </Fragment>
+        );
+      }
+
+      if (item.type === 'group') {
+        return (
+          <MenuGroup key={`${key}_group`} title={item.label} {...item.props}>
+            {renderItems(item.children, key)}
           </MenuGroup>
         );
       }
 
-      if (option.type === 'divider') {
-        const key = `${childPrefix}_menudivider`;
+      if (item.type === 'divider') {
         return (
-          <MenuDivider key={key} {...option.props} />
+          <MenuDivider key={`${key}_divider`} {...item.props} />
         );
       }
 
-      if (option.type === 'submenu') {
-        const key = `${childPrefix}_submenu`;
+      if (item.type === 'submenu') {
         return (
-          <Submenu key={key}>
+          <Submenu key={`${key}_submenu`}>
             <SubmenuToggle
               sx={{
                 width: '100%',
               }}
             >
-              <MenuItem {...option.props}>
-                {renderOption?.(option)}
+              <MenuItem {...item.props}>
+                {renderItem?.(item)}
               </MenuItem>
             </SubmenuToggle>
             <SubmenuList
@@ -77,20 +97,19 @@ const DropdownBase = forwardRef((
                 width: 'max-content',
               }}
             >
-              {renderOptions(option.children, childPrefix)}
+              {renderItems(item.children, key)}
             </SubmenuList>
           </Submenu>
         );
       }
 
-      const key = `${childPrefix}_menuitem`;
       return (
         <MenuItem
           key={key}
-          onClick={handleClickBy(option)}
-          {...option.props}
+          onClick={handleClickBy(item)}
+          {...item.props}
         >
-          {renderOption?.(option)}
+          {renderItem?.(item)}
         </MenuItem>
       );
     });
@@ -105,6 +124,14 @@ const DropdownBase = forwardRef((
         {...toggleProps}
       >
         {({ getMenuToggleProps: getToggleProps }) => {
+          if (isValidElementType(Toggle)) {
+            return (
+              // The `Toggle` component must be wrapped with `forwardRef` to ensure correct positioning
+              <Toggle {...getToggleProps()}>
+                {children}
+              </Toggle>
+            );
+          }
           return runIfFn(children, { getToggleProps });
         }}
       </MenuToggle>
@@ -116,8 +143,8 @@ const DropdownBase = forwardRef((
         }}
       >
         {(typeof renderContent === 'function')
-          ? renderContent({ options, renderOption, renderOptions })
-          : renderOptions(options)
+          ? renderContent({ items, renderItem, renderItems })
+          : renderItems(items)
         }
       </MenuList>
     </Menu>

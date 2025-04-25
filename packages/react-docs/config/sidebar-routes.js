@@ -93,7 +93,8 @@ export const routes = [
       { title: 'List', path: 'experiments/list' },
       { title: 'MutedText', path: 'experiments/muted-text' },
 
-      { title: 'UTILITIES', heading: true },
+      { title: 'MISCELLANEOUS', heading: true },
+      { title: 'FlexItem', path: 'experiments/flex-item' },
       { title: 'For', path: 'experiments/for' },
       { title: 'Render', path: 'experiments/render' },
     ],

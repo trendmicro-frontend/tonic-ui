@@ -3,7 +3,7 @@ import rawSearchDropdown from '!!raw-loader!@/experiments/search-dropdown/Search
 
 # SearchDropdown
 
-A search dropdown component based on `Dropdown` and `SearchInput`, designed to render a menu with selectable options and handle selection logic through search functionality.
+A search dropdown component based on `Dropdown` and `SearchInput`, designed to render a menu with selectable items and handle selection logic through search functionality.
 
 ## Usage
 
@@ -13,14 +13,14 @@ Here's the simplest configuration to get started with the `SearchDropdown` compo
 
 ```jsx
 <SearchDropdown
-  onSelect={(option) => {
-    setOption(option);
+  onSelect={(item) => {
+    setItem(item);
   }}
-  options={[
-    { value: 1, label: 'Option 1' },
-    { value: 2, label: 'Option 2' },
+  items={[
+    { label: 'Item 1', value: 1 },
+    { label: 'Item 2', value: 2 },
   ]}
-  renderContent={({ options, renderOptions, renderSearchInput }) => (
+  renderContent={({ items, renderItems, renderSearchInput }) => (
     <>
       <Box px="3x" mb="2x">
         {renderSearchInput()}
@@ -29,15 +29,15 @@ Here's the simplest configuration to get started with the `SearchDropdown` compo
         maxHeight={36 * 5}
         overflowY="visible"
       >
-        {renderOptions(options)}
+        {renderItems(items)}
       </Scrollbar>
     </>
   )}
-  renderOption={(option, { searchKeyword }) => {
-    return option.label;
+  renderItem={(item, { searchKeyword }) => {
+    return item.label;
   }}
 >
-  {option.label}
+  {item.label}
 </SearchDropdown>
 ```
 

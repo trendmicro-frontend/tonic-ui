@@ -1,23 +1,31 @@
 import {
   Flex,
-  OverflowTooltip,
-  Text,
-  useColorStyle,
 } from '@tonic-ui/react';
 import { useEffectOnce, useToggle } from '@tonic-ui/react-hooks';
 import { ensureFunction } from 'ensure-type';
-import React, { useMemo, useRef } from 'react';
+import React, { forwardRef, useMemo, useRef } from 'react';
 import { Dropdown } from '@/experiments/dropdown';
+import { FlexItem } from '@/experiments/flex-item';
+import { MutedText } from '@/experiments/muted-text';
 import FilterTag from './FilterTag';
 
-const DropdownFilterTag = ({
-  label,
-  onClose,
-  onChange,
-  options,
-  value,
-  ...rest
-}) => {
+const DropdownFilterTag = forwardRef((
+  {
+    label,
+    onClose,
+    onChange,
+    items = [],
+    value,
+    ...rest
+  },
+  ref,
+) => {
+  const itemMap = useMemo(() => {
+    return items.reduce((acc, item) => {
+      acc[item.value] = item;
+      return acc;
+    }, {});
+  }, [items]);
   const isSelectedRef = useRef();
   const [isOpen, toggleIsOpen] = useToggle(false);
 
@@ -37,21 +45,21 @@ const DropdownFilterTag = ({
     toggleIsOpen(true);
   };
 
-  const handleSelect = (option) => {
-    const nextValue = option.value;
+  const handleSelect = (item) => {
+    const nextValue = item.value;
     if (nextValue !== value) {
       ensureFunction(onChange)(nextValue);
       isSelectedRef.current = true;
     }
   };
 
-  const [colorStyle] = useColorStyle();
-  const optionMap = useMemo(() => {
-    return options.reduce((acc, option) => {
-      acc[option.value] = option;
-      return acc;
-    }, {});
-  }, [options]);
+  const FilterTagToggle = useMemo(() => {
+    const Component = forwardRef((props, ref) => (
+      <FilterTag ref={ref} {...props} onClose={onClose} />
+    ));
+    Component.displayName = 'FilterTagToggle';
+    return Component;
+  }, [onClose]);
 
   return (
     <Dropdown
@@ -60,29 +68,21 @@ const DropdownFilterTag = ({
       onClose={handleClose}
       onOpen={handleOpen}
       onSelect={handleSelect}
-      options={options}
+      items={items}
+      toggle={FilterTagToggle}
       {...rest}
     >
-      {({ getToggleProps }) => {
-        return (
-          <FilterTag
-            {...getToggleProps()}
-            onClose={onClose}
-          >
-            <Flex columnGap="1x">
-              <Text color={colorStyle.color.secondary}>
-                {label}
-              </Text>
-              <OverflowTooltip label={optionMap[value]?.label}>
-                {optionMap[value]?.label}
-              </OverflowTooltip>
-            </Flex>
-          </FilterTag>
-        );
-      }}
+      <Flex alignItems="center" columnGap="1x">
+        <FlexItem as={MutedText} fixed>
+          {label}
+        </FlexItem>
+        <FlexItem tooltip>
+          {itemMap[value]?.label}
+        </FlexItem>
+      </Flex>
     </Dropdown>
   );
-};
+});
 
 DropdownFilterTag.displayName = 'DropdownFilterTag';
 

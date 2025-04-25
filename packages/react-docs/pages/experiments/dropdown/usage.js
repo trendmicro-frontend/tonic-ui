@@ -4,11 +4,7 @@ import {
   ButtonGroup,
   Divider,
   Flex,
-  MenuButton,
-  OverflowTooltip,
   Scrollbar,
-  Tag,
-  Text,
   TextLabel,
   Tooltip,
 } from '@tonic-ui/react';
@@ -21,7 +17,10 @@ import {
 import React, { useMemo, useState } from 'react';
 import FormGroup from '@/components/FormGroup';
 import { Dropdown } from '@/experiments/dropdown';
+import { FlexItem } from '@/experiments/flex-item';
 import { MutedText } from '@/experiments/muted-text';
+import MenuButtonToggle from '../shared/MenuButtonToggle';
+import TagToggle from '../shared/TagToggle';
 
 const useSelection = (defaultValue) => {
   const [value, setValue] = useState(defaultValue);
@@ -29,89 +28,46 @@ const useSelection = (defaultValue) => {
   return [value, changeBy];
 };
 
-const AutoWidthText = ({ children, tooltip, variant, ...rest }) => {
-  const TextComponent = (variant === 'muted') ? MutedText : Text;
-
-  return (
-    <OverflowTooltip
-      PopperProps={{
-        usePortal: true,
-      }}
-      label={tooltip ?? children}
-      maxWidth={320}
-    >
-      {({ ref, style }) => (
-        <TextComponent
-          ref={ref}
-          {...style}
-          flex="auto"
-          {...rest}
-        >
-          {children}
-        </TextComponent>
-      )}
-    </OverflowTooltip>
-  );
-};
-
-const FixedWidthText = ({ children, tooltip, variant, ...rest }) => {
-  const TextComponent = (variant === 'muted') ? MutedText : Text;
-
-  return (
-    <OverflowTooltip
-      PopperProps={{
-        usePortal: true,
-      }}
-      label={tooltip ?? children}
-      maxWidth={320}
-    >
-      {({ ref, style }) => (
-        <TextComponent
-          ref={ref}
-          {...style}
-          maxWidth="100%"
-          flex="none"
-          {...rest}
-        >
-          {children}
-        </TextComponent>
-      )}
-    </OverflowTooltip>
-  );
-};
-
 const App = () => {
   const [width, changeWidthBy] = useSelection('auto');
-  const [toggler, changeTogglerBy] = useSelection('MenuButton');
+  const [toggle, changeToggleBy] = useSelection('MenuButton');
   const [value, setValue] = useState('all');
-  const offset = (toggler === 'Tag') ? [0, 4] : undefined;
+  const offset = (toggle === 'Tag') ? [0, 4] : undefined;
+  const ToggleComponent = {
+    'MenuButton': MenuButtonToggle,
+    'Tag': TagToggle,
+  }[toggle];
 
-  const options = useConst(() => [
+  const items = useConst(() => [
     { value: 'all', label: 'All' },
     { value: 'network', label: 'Network events' },
     { value: 'system', label: 'System events' },
   ]);
-  const optionValueToLabelMap = useMemo(() => {
-    return Object.fromEntries(options.map(option => [option.value, option.label]));
-  }, [options]);
+  const itemValueToLabelMap = useMemo(() => {
+    return Object.fromEntries(items.map(item => [item.value, item.label]));
+  }, [items]);
 
-  const handleSelect = (option) => {
-    if (value !== option.value) {
-      setValue(option.value);
+  const handleSelect = (item) => {
+    if (value !== item.value) {
+      setValue(item.value);
     }
   };
 
   const renderValue = (value) => {
-    const label = optionValueToLabelMap[value];
+    const label = itemValueToLabelMap[value];
 
     return (
       <Flex alignItems="center" columnGap="1x" width="100%">
-        <FixedWidthText variant="muted" tooltip={`Event status: ${label}`}>
+        <FlexItem
+          as={MutedText}
+          fixed
+          tooltip={`Event status: ${label}`}
+        >
           {'Event status:'}
-        </FixedWidthText>
-        <AutoWidthText tooltip={label}>
+        </FlexItem>
+        <FlexItem tooltip>
           {label}
-        </AutoWidthText>
+        </FlexItem>
       </Flex>
     );
   };
@@ -154,7 +110,7 @@ const App = () => {
         <Box mb="2x">
           <Flex alignItems="center" columnGap="2x">
             <TextLabel>
-              Dropdown toggler:
+              Dropdown toggle:
             </TextLabel>
           </Flex>
         </Box>
@@ -170,8 +126,8 @@ const App = () => {
           {['MenuButton', 'Tag'].map(value => (
             <Button
               key={value}
-              selected={value === toggler}
-              onClick={changeTogglerBy(value)}
+              selected={value === toggle}
+              onClick={changeToggleBy(value)}
               minWidth="15x"
             >
               {value}
@@ -183,58 +139,19 @@ const App = () => {
       <Dropdown
         offset={offset}
         onSelect={handleSelect}
-        options={options}
-        renderContent={({ options, renderOptions }) => (
+        items={items}
+        renderContent={({ items, renderItems }) => (
           <Scrollbar
             maxHeight={200}
             overflowY="auto"
           >
-            {renderOptions(options)}
+            {renderItems(items)}
           </Scrollbar>
         )}
-        toggleProps={{
-          // Tip: If you're using the default `MenuButton` as the toggle, there's no need to manually provide the `sx` below.
-          sx: {
-            maxWidth: '100%',
-            width: '100%',
-            '> :first-of-type': {
-              // Override flex item's default `minWidth: auto` to allow text truncation
-              minWidth: 0,
-            },
-          },
-        }}
+        toggle={ToggleComponent} // No need to specify the `toggle` prop if you're using the default toggle
         width={width}
       >
-        {({ getToggleProps }) => {
-          const { sx, ...restToggleProps } = getToggleProps();
-
-          if (toggler === 'MenuButton') {
-            return (
-              <MenuButton
-                {...restToggleProps}
-                variant="secondary"
-                sx={sx}
-              >
-                {renderValue(value)}
-              </MenuButton>
-            );
-          }
-
-          if (toggler === 'Tag') {
-            return (
-              <Tag
-                {...restToggleProps}
-                isClosable={true}
-                onClose={(event) => {
-                  event.preventDefault();
-                }}
-                sx={[sx, { cursor: 'pointer' }]}
-              >
-                {renderValue(value)}
-              </Tag>
-            );
-          }
-        }}
+        {renderValue(value)}
       </Dropdown>
     </>
   );

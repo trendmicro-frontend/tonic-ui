@@ -3,7 +3,7 @@ import { FilterDeleteIcon, FilterIcon } from '@tonic-ui/react-icons';
 import React, { Fragment, useCallback, useMemo, useState } from 'react';
 import FilterButton from './components/FilterButton';
 import DropdownFilterTag from './components/DropdownFilterTag';
-//import MultiselectFilterTag from './components/MultiselectFilterTag'; // TODO: include the filter when CheckboxGroup supports values of any type
+import SearchDropdownFilterTag from './components/SearchDropdownFilterTag';
 import InputFilterTag from './components/InputFilterTag';
 
 const App = () => {
@@ -16,7 +16,7 @@ const App = () => {
         <DropdownFilterTag
           {...props}
           label={'Device type:'}
-          options={[
+          items={[
             { value: 'desktop', label: 'Desktop' },
             { value: 'server', label: 'Server' },
           ]}
@@ -37,15 +37,14 @@ const App = () => {
         />
       ),
     },
-    /*
     {
       id: 'osType',
       name: 'OS type',
       render: (props) => (
-        <MultiselectFilterTag
+        <SearchDropdownFilterTag
           {...props}
           label={'OS type:'}
-          options={[
+          items={[
             { value: 'windows', label: 'Windows' },
             { value: 'macos', label: 'macOS' },
             { value: 'linux', label: 'Linux' },
@@ -53,7 +52,6 @@ const App = () => {
         />
       ),
     },
-    */
   ], []);
 
   const [selectedFilters, setSelectedFilters] = useState([]);

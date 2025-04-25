@@ -6,10 +6,10 @@ import {
 import {
   AngleRightIcon,
 } from '@tonic-ui/react-icons';
-import React, { useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { DropdownBase } from '@/experiments/dropdown';
 
-const options = [
+const items = [
   // Default items
   { value: 'new', label: 'New File' },
   { value: 'open', label: 'Open File' },
@@ -58,50 +58,51 @@ const options = [
   { value: 'settings', label: 'Settings' },
 ];
 
+const Toggle = forwardRef(({ sx, ...rest }, ref) => {
+  return (
+    <MenuButton
+      ref={ref}
+      {...rest}
+      sx={[
+        {
+          maxWidth: '100%',
+          width: '100%',
+          '> :first-of-type': {
+            textAlign: 'left', // [optional] Useful when the trigger is a button to align text properly
+            minWidth: 0, // Override the default `minWidth: auto` for flex items to enable text truncation
+          },
+        },
+        sx, // Allows style overrides
+      ]}
+      variant="secondary"
+    />
+  );
+});
+Toggle.displayName = 'Toggle';
 
 const App = () => {
-  const [value, setValue] = useState('all');
-  const handleSelect = (option) => {
-    if (value !== option.value) {
-      setValue(option.value);
+  const [value, setValue] = useState();
+  const handleSelect = (item) => {
+    if (value !== item.value) {
+      setValue(item.value);
     }
   };
 
   return (
     <DropdownBase
       onSelect={handleSelect}
-      options={options}
-      renderContent={({ options, renderOptions }) => {
+      items={items}
+      renderContent={({ items, renderItems }) => {
         return (
           <Scrollbar maxHeight={240} overflowY="visible" overflowX="hidden">
-            {renderOptions(options)}
+            {renderItems(items)}
           </Scrollbar>
         );
       }}
-      toggleProps={{
-        sx: {
-          maxWidth: '100%',
-          width: '100%',
-          '> :first-of-type': {
-            // Override flex item's default `minWidth: auto` to allow text truncation
-            minWidth: 0,
-          },
-        },
-      }}
+      toggle={Toggle}
       width={200}
     >
-      {({ getToggleProps }) => {
-        const { sx, ...restToggleProps } = getToggleProps();
-        return (
-          <MenuButton
-            {...restToggleProps}
-            variant="secondary"
-            sx={sx}
-          >
-            Click Me
-          </MenuButton>
-        );
-      }}
+      {value ? `Click Me (${JSON.stringify(value)})` : 'Click Me'}
     </DropdownBase>
   );
 };
