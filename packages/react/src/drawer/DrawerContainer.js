@@ -15,10 +15,11 @@ const DrawerContainer = forwardRef((inProps, ref) => {
     closeOnOutsideClick,
     onClose,
     placement,
+    size,
     containerRef, // internal use only
   } = { ...drawerContext };
   const combinedRef = useMergeRefs(containerRef, ref);
-  const styleProps = useDrawerContainerStyle({ backdrop, placement });
+  const styleProps = useDrawerContainerStyle({ backdrop, placement, size });
   const containerProps = {
     ref: combinedRef,
     onClick: (event) => {

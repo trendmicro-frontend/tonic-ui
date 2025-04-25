@@ -10,29 +10,31 @@ const defaultSize = 'auto';
 const useDrawerContainerStyle = ({
   backdrop,
   placement = defaultPlacement,
+  size,
 }) => {
+  const isFullSize = backdrop || (size === 'full');
   const placementStyle = {
     top: {
       top: 0,
       right: 0,
-      bottom: backdrop ? 0 : undefined,
+      bottom: isFullSize ? 0 : undefined,
       left: 0,
     },
     right: {
       top: 0,
       right: 0,
       bottom: 0,
-      left: backdrop ? 0 : undefined,
+      left: isFullSize ? 0 : undefined,
     },
     bottom: {
-      top: backdrop ? 0 : undefined,
+      top: isFullSize ? 0 : undefined,
       right: 0,
       bottom: 0,
       left: 0,
     },
     left: {
       top: 0,
-      right: backdrop ? 0 : undefined,
+      right: isFullSize ? 0 : undefined,
       bottom: 0,
       left: 0,
     },
