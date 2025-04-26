@@ -33,6 +33,8 @@ import {
   useToggle,
 } from '@tonic-ui/react-hooks';
 import React, { useRef, useState } from 'react';
+import List from '@/components/List';
+import ListItem from '@/components/ListItem';
 import PreformattedText from '@/components/PreformattedText';
 import SkeletonBlock from '@/components/SkeletonBlock';
 
@@ -106,7 +108,10 @@ const App = () => {
 
   return (<>
     <Box>
-      <Tooltip label="Click to launch modal" openOnFocus={false}>
+      <Tooltip
+        label="Click to launch modal"
+        openOnFocus={false}
+      >
         <Button onClick={() => toggleModal(true)}>
           Launch modal
         </Button>
@@ -127,12 +132,13 @@ const App = () => {
               <Text mb="2x">
                 Use the <Code>scrollBehavior</Code> prop to control how scrolling should behave:
               </Text>
-              <Box as="ul" my="2x">
-                <li>If set to <Code>inside</Code>, only the <Code>ModalBody</Code> will scroll.</li>
-                <li>If set to <Code>outside</Code>, the entire <Code>ModalContent</Code> will scroll within the viewport.</li>
-              </Box>
+              <List my="2x">
+                <ListItem>If set to <Code>inside</Code>, only the <Code>ModalBody</Code> will scroll.</ListItem>
+                <ListItem>If set to <Code>outside</Code>, the entire <Code>ModalContent</Code> will scroll within the viewport.</ListItem>
+              </List>
             </>
           )}
+          maxWidth={480}
         >
           <TextLabel display="inline-block">
             <Flex alignItems="center" columnGap="2x">
@@ -364,7 +370,7 @@ const App = () => {
       </Text>
     </Box>
     <FormGroup>
-      <TextLabel display="flex" alignItems="center" mb="3x">
+      <TextLabel display="flex" alignItems="center" mb="2x">
         <Checkbox
           checked={enableBodyScrollLock}
           onChange={() => toggleBodyScrollLock()}

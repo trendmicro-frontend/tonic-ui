@@ -5,6 +5,7 @@ import {
   Button,
   ButtonGroup,
   Checkbox,
+  Code,
   Divider,
   Drawer,
   DrawerBody,
@@ -12,6 +13,7 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
+  Flex,
   Grid,
   Input,
   Space,
@@ -26,7 +28,7 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
-import { EmailIcon, UserIcon } from '@tonic-ui/react-icons';
+import { EmailIcon, InfoOIcon, UserIcon } from '@tonic-ui/react-icons';
 import {
   useToggle,
 } from '@tonic-ui/react-hooks';
@@ -90,7 +92,10 @@ const App = () => {
 
   return (<>
     <Box>
-      <Tooltip label="Click to launch drawer" openOnFocus={false}>
+      <Tooltip
+        label="Click to launch drawer"
+        openOnFocus={false}
+      >
         <Button onClick={() => toggleDrawer(true)}>
           Launch drawer
         </Button>
@@ -166,13 +171,12 @@ const App = () => {
       </TextLabel>
     </FormGroup>
     <FormGroup>
-      <TextLabel display="flex" alignItems="center">
+      <TextLabel display="flex" alignItems="center" mb="2x">
         <Checkbox
           checked={backdrop}
           onChange={(e) => {
             const nextBackdrop = !backdrop;
             if (!nextBackdrop) {
-              toggleCloseOnOutsideClick(false);
               toggleIsOverlayVisible(false);
             }
 
@@ -180,7 +184,25 @@ const App = () => {
           }}
         />
         <Space width="2x" />
-        <Text fontFamily="mono" whiteSpace="nowrap">backdrop</Text>
+        <Flex alignItems="center" columnGap="2x">
+          <Text fontFamily="mono" whiteSpace="nowrap">backdrop</Text>
+          <Tooltip
+            placement="right"
+            label={(
+              <>
+                <Text mb="2x">
+                  The <Code>backdrop</Code> is necessary for <Code>DrawerOverlay</Code> to function correctly. Otherwise, it will not expand to the entire screen.
+                </Text>
+                <Text>
+                  Adding a <Code>backdrop</Code> is also useful for closing the drawer when clicking outside the drawer content, blocking interaction with the underlying UI while closing.
+                </Text>
+              </>
+            )}
+            maxWidth={480}
+          >
+            <InfoOIcon />
+          </Tooltip>
+        </Flex>
       </TextLabel>
     </FormGroup>
     <FormGroup>
@@ -282,7 +304,7 @@ const App = () => {
       </Text>
     </Box>
     <FormGroup>
-      <TextLabel display="flex" alignItems="center" mb="3x">
+      <TextLabel display="flex" alignItems="center" mb="2x">
         <Checkbox
           checked={enableBodyScrollLock}
           onChange={() => toggleBodyScrollLock()}
