@@ -12,8 +12,6 @@ const DrawerContainer = forwardRef((inProps, ref) => {
   const drawerContext = useDrawer(); // context might be an undefined value
   const {
     backdrop,
-    closeOnOutsideClick,
-    onClose,
     placement,
     size,
     containerRef, // internal use only
@@ -22,12 +20,6 @@ const DrawerContainer = forwardRef((inProps, ref) => {
   const styleProps = useDrawerContainerStyle({ backdrop, placement, size });
   const containerProps = {
     ref: combinedRef,
-    onClick: (event) => {
-      event.stopPropagation();
-      if (closeOnOutsideClick) {
-        (typeof onClose === 'function') && onClose(event);
-      }
-    },
     ...styleProps,
     ...props,
   };
