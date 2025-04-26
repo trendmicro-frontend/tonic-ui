@@ -198,7 +198,7 @@ const App = () => {
       <TextLabel display="flex" alignItems="center">
         <Checkbox
           checked={closeOnOutsideClick}
-          disabled={(!isClosable && !closeOnEsc) || !backdrop}
+          disabled={!isClosable && !closeOnEsc}
           onChange={() => toggleCloseOnOutsideClick()}
         />
         <Space width="2x" />
