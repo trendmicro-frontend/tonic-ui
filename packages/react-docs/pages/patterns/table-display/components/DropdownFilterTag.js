@@ -69,7 +69,9 @@ const DropdownFilterTag = forwardRef((
       onOpen={handleOpen}
       onSelect={handleSelect}
       items={items}
-      toggle={FilterTagToggle}
+      slots={{
+        toggle: FilterTagToggle,
+      }}
       {...rest}
     >
       <Flex alignItems="center" columnGap="1x">

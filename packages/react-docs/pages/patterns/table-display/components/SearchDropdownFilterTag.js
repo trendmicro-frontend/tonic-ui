@@ -185,7 +185,9 @@ const SearchDropdownFilterTag = forwardRef((
           </Checkbox>
         );
       }}
-      toggle={FilterTagToggle}
+      slots={{
+        toggle: FilterTagToggle,
+      }}
       {...rest}
     >
       {renderValue()}

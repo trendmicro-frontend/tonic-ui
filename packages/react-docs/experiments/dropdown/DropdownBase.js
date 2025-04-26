@@ -30,8 +30,8 @@ const DropdownBase = forwardRef((
     items = [],
     renderContent = null,
     renderItem: renderItemProp = defaultRenderItem,
-    toggle: Toggle,
-    toggleProps,
+    slots = {},
+    slotProps = {},
     ...rest
   },
   ref,
@@ -121,9 +121,10 @@ const DropdownBase = forwardRef((
       {...rest}
     >
       <MenuToggle
-        {...toggleProps}
+        {...slotProps?.toggle}
       >
         {({ getMenuToggleProps: getToggleProps }) => {
+          const Toggle = slots?.toggle;
           if (isValidElementType(Toggle)) {
             return (
               // The `Toggle` component must be wrapped with `forwardRef` to ensure correct positioning

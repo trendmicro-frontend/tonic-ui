@@ -144,7 +144,9 @@ const App = () => {
             />
           );
         }}
-        toggle={ToggleComponent}
+        slots={{
+          toggle: ToggleComponent,
+        }}
       >
         {renderValue(value)}
       </SearchDropdown>

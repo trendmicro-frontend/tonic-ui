@@ -20,15 +20,15 @@ Here's the simplest configuration to get started with the `DropdownBase` compone
     { label: 'Item 1', value: 1 },
     { label: 'Item 2', value: 2 },
   ]}
-  toggle={Toggle}
+  slots={{ toggle: CustomToggle }}
 >
   {value}
 </DropdownBase>
 ```
 
-**Important:** The `Toggle` component **must be wrapped** with `forwardRef` to ensure correct positioning:
+**Important:** The toggle component **must be wrapped** with `forwardRef` to ensure correct positioning:
 ```jsx
-const Toggle = forwardRef(({ sx, ...rest }, ref) => {
+const CustomToggle = forwardRef(({ sx, ...rest }, ref) => {
   return (
     <MenuButton
       ref={ref}
@@ -48,6 +48,10 @@ const Toggle = forwardRef(({ sx, ...rest }, ref) => {
     />
   );
 });
+
+CustomToggle.displayName = 'CustomToggle';
+
+export default CustomToggle;
 ```
 
 ### Advanced configuration
@@ -106,15 +110,20 @@ export interface DropdownBaseProps {
   }) => ReactNode;
 
   /**
-   * The component to be used as the toggle (button) for the dropdown.
-   * Allows for full customization of the toggle's appearance and behavior.
+   * Optional slots to override internal components like the toggle.
+   * Example: `{ toggle: Toggle }`
    */
-  toggle?: React.ComponentType<any>;
+  slots?: {
+    toggle?: React.ComponentType<any>;
+  };
 
   /**
-   * Additional props to be passed to the toggle component.
+   * Optional slotProps to pass props to internal slot components.
+   * Example: `{ toggle: { disabled: true } }`
    */
-  toggleProps?: Record<string, any>;
+  slotProps?: {
+    toggle?: Record<string, any>;
+  };
 }
 
 /**
@@ -198,14 +207,17 @@ Each dropdown item is an object that may include the following fields:
 | items | `Array<DropdownItem>` | [] | An array of items to be rendered in the dropdown menu. Each item should include a `value` (required), and optionally a `label`, `type`, `props`, and `children`. |
 | renderItem | `(item: DropdownItem) => ReactNode` | `defaultRenderItem` <sub>[2]</sub> | Optional custom render function for rendering dropdown items. |
 | renderContent | `(args: { items: DropdownItem[], renderItem: (item: DropdownItem) => ReactNode, renderItems: (items: DropdownItem[], prefix?: string) => ReactNode[] }) => ReactNode` | | Optional custom function to render the entire dropdown's content. Provides access to `items`, `renderItem`, and `renderItems`. Use this to fully customize the dropdown content beyond the default rendering behavior. |
-| toggle <sub>[1]</sub> | `React.ComponentType<any>`	| | The component to be used as the toggle (e.g., button) for the dropdown. This allows for full customization of the toggle's appearance and behavior. |
-| toggleProps | `Record<string, any>` | | Additional props to be passed to the toggle component. These props will be merged with the props returned by `getToggleProps()`. |
+| slots	<sub>[1]</sub> | `{ toggle?: React.ComponentType<any> }` | \{\} |	The components used for each slot inside the `DropdownBase`. Either a string to use a HTML element or a component. |
+| slotProps	| `{ toggle?: Record<string, any> }` | \{\} | The props used for each slot inside the `DropdownBase`. |
 
 Notes:
-1. If `toggle` is a valid React component, it wraps the `children`. Otherwise, it executes the `children` function, passing in `getToggleProps`. This allows for full customization of the toggle's appearance and behavior.
+1. If `slots.toggle` is a valid React component, it wraps the `children`. Otherwise, it executes the `children` function, passing in `getToggleProps`. This allows for full customization of the toggle's appearance and behavior.
     ```jsx
-    <MenuToggle {...toggleProps}>
+    <MenuToggle
+      {...slotProps?.toggle}
+    >
       {({ getMenuToggleProps: getToggleProps }) => {
+        const Toggle = slots?.toggle;
         if (isValidElementType(Toggle)) {
           return (
             // The `Toggle` component must be wrapped with `forwardRef` to ensure correct positioning

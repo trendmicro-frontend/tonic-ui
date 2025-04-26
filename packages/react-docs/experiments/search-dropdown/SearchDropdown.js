@@ -11,8 +11,8 @@ const SearchDropdown = forwardRef((
     items = [],
     renderContent: renderContentProp,
     renderItem: renderItemProp,
-    toggle,
-    toggleProps,
+    slots = {},
+    slotProps = {},
     ...rest
   },
   ref
@@ -102,8 +102,8 @@ const SearchDropdown = forwardRef((
       onSelect={onSelect}
       renderContent={renderContent}
       renderItem={renderItem}
-      toggle={toggle}
-      toggleProps={toggleProps}
+      slots={slots}
+      slotProps={slotProps}
       {...rest}
     />
   );

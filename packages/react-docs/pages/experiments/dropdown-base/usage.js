@@ -58,7 +58,7 @@ const items = [
   { value: 'settings', label: 'Settings' },
 ];
 
-const Toggle = forwardRef(({ sx, ...rest }, ref) => {
+const CustomToggle = forwardRef(({ sx, ...rest }, ref) => {
   return (
     <MenuButton
       ref={ref}
@@ -78,7 +78,8 @@ const Toggle = forwardRef(({ sx, ...rest }, ref) => {
     />
   );
 });
-Toggle.displayName = 'Toggle';
+
+CustomToggle.displayName = 'CutomToggle';
 
 const App = () => {
   const [value, setValue] = useState();
@@ -99,7 +100,9 @@ const App = () => {
           </Scrollbar>
         );
       }}
-      toggle={Toggle}
+      slots={{
+        toggle: CustomToggle,
+      }}
       width={200}
     >
       {value ? `Click Me (${JSON.stringify(value)})` : 'Click Me'}

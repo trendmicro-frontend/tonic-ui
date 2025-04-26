@@ -216,7 +216,9 @@ const App = () => {
             </Checkbox>
           );
         }}
-        toggle={ToggleComponent}
+        slots={{
+          toggle: ToggleComponent,
+        }}
       >
         {renderValues(values)}
       </SearchDropdown>

@@ -148,7 +148,9 @@ const App = () => {
             {renderItems(items)}
           </Scrollbar>
         )}
-        toggle={ToggleComponent} // No need to specify the `toggle` prop if you're using the default toggle
+        slots={{
+          toggle: ToggleComponent, // No need to specify the `toggle` prop if you're using the default toggle
+        }}
         width={width}
       >
         {renderValue(value)}
