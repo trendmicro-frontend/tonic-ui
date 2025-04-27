@@ -434,6 +434,7 @@ export const routes = [
     ),
     routes: [
       { title: 'Getting Started', path: 'hooks' },
+      { title: 'useClickOutside', path: 'hooks/useClickOutside' },
       { title: 'useConst', path: 'hooks/useConst' },
       { title: 'useCopyToClipboard', path: 'hooks/useCopyToClipboard' },
       { title: 'useEffectOnce', path: 'hooks/useEffectOnce' },

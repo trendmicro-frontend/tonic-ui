@@ -1,0 +1,29 @@
+# useClickOutside
+
+A custom Hook that detects clicks outside one or more elements. This is particularly useful for modals, popovers, drawers, menus, or any other elements that should close or hide when clicked outside.
+
+## Import
+
+```js
+import { useClickOutside } from '@tonic-ui/react-hooks';
+```
+
+## Usage
+
+```js
+useClickOutside(refs, handler, [options]);
+```
+
+### Parameters
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| refs | `RefObject` \| `RefObject[]` | | A single ref or an array of refs to detect outside clicks from. |
+| handler | `(event: MouseEvent) => void` | | A function to call when the click happens outside the referenced elements. |
+| options? | object | | Optional configuration options. |
+| options.events? | string[] | `['mousedown', 'touchstart']` | A list of event types to listen for. If `events` is empty, the hook will not listen to any events. |
+| options.shouldAllRefsOutside? | `boolean` | true | Whether to trigger the handler when all refs are clicked outside. Otherwise, trigger the handler when some (but not all) refs are clicked outside. |
+
+## Demos
+
+{render('./useClickOutside')}

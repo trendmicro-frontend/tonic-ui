@@ -1,4 +1,4 @@
-import { useMergeRefs, useOutsideClick } from '@tonic-ui/react-hooks';
+import { useClickOutside, useMergeRefs } from '@tonic-ui/react-hooks';
 import { ariaAttr, callAll } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { useDefaultProps } from '../default-props';
@@ -51,7 +51,7 @@ const ModalContent = forwardRef((inProps, ref) => {
     ...rest,
   };
 
-  useOutsideClick(contentRef, (event) => {
+  useClickOutside(contentRef, (event) => {
     // Close the modal when clicking outside the content
     if (closeOnOutsideClick) {
       (typeof onClose === 'function') && onClose(event);
