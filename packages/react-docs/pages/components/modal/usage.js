@@ -279,7 +279,7 @@ const App = () => {
           }
         }}
       >
-        {['default', 'stretch'].map(value => (
+        {['default', '-webkit-fill-available'].map(value => (
           <Button
             disabled={size === 'full'}
             key={value}
@@ -326,7 +326,7 @@ const App = () => {
         </TextLabel>
       </Box>
       <PreformattedText>
-        {`const modalStyleProps = ${JSON.stringify(modalStyleProps, null, 2)};\nconst modalContentStyleProps = ${JSON.stringify(modalContentStyleProps, null, 2)};\n\n// example\n<Modal\n  scrollBehavior="${scrollBehavior}"\n  {...modalStyleProps}\n>\n  <ModalOverlay />\n  <ModalContent {...contentStyleProps}>\n    <ModalHeader />\n    <ModalBody />\n    <ModalFooter />\n  </ModalContent>\n</Modal>`}
+        {`const modalStyleProps = ${JSON.stringify(modalStyleProps, null, 2)};\nconst modalContentStyleProps = ${JSON.stringify(modalContentStyleProps, null, 2)};\n\n// example\n<Modal\n  scrollBehavior="${scrollBehavior}"\n  {...modalStyleProps}\n>\n  <ModalOverlay />\n  <ModalContent {...modalContentStyleProps}>\n    <ModalHeader />\n    <ModalBody />\n    <ModalFooter />\n  </ModalContent>\n</Modal>`}
       </PreformattedText>
     </FormGroup>
     <Divider my="4x" />
