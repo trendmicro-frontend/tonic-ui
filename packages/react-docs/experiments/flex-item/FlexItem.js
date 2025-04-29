@@ -25,7 +25,7 @@ const FlexItem = forwardRef((
     slots = {},
 
     /**
-     * A boolean or string to conditionally show a tooltip with a label (default is true).
+     * A boolean or string to conditionally show a tooltip with a label (default is false).
      */
     tooltip = false,
 
@@ -48,7 +48,6 @@ const FlexItem = forwardRef((
       }}
       disabled={!tooltip}
       label={tooltipLabel}
-      maxWidth={320}
       {...slotProps?.tooltip}
     >
       {({ ref: truncateRef, style: truncateStyle }) => (
