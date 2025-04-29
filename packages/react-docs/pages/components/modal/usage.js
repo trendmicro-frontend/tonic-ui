@@ -33,10 +33,9 @@ import {
   useToggle,
 } from '@tonic-ui/react-hooks';
 import React, { useRef, useState } from 'react';
-import List from '@/components/List';
-import ListItem from '@/components/ListItem';
 import PreformattedText from '@/components/PreformattedText';
 import SkeletonBlock from '@/components/SkeletonBlock';
+import { List, ListItem } from '@/experiments/list';
 
 const FormGroup = (props) => (
   <Box mb="4x" {...props} />
