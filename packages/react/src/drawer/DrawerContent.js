@@ -1,4 +1,4 @@
-import { useMergeRefs } from '@tonic-ui/react-hooks';
+import { useClickOutside, useMergeRefs } from '@tonic-ui/react-hooks';
 import { ariaAttr, callAll } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { useDefaultProps } from '../default-props';
@@ -21,6 +21,7 @@ const DrawerContent = forwardRef((inProps, ref) => {
   const drawerContext = useDrawer(); // context might be an undefined value
   const {
     closeOnEsc,
+    closeOnOutsideClick,
     isClosable,
     isOpen,
     onClose,
@@ -54,6 +55,13 @@ const DrawerContent = forwardRef((inProps, ref) => {
     'top': 'down',
     'bottom': 'up',
   }[placement];
+
+  useClickOutside(contentRef, (event) => {
+    // Close the drawer when clicking outside the content
+    if (closeOnOutsideClick) {
+      (typeof onClose === 'function') && onClose(event);
+    }
+  });
 
   return (
     <TransitionComponent

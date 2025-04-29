@@ -253,7 +253,7 @@ const App = () => {
         </TextLabel>
       </FormGroup>
       <FormGroup>
-        <TextLabel display="flex" alignItems="center" mb="3x">
+        <TextLabel display="flex" alignItems="center" mb="2x">
           <Checkbox
             checked={isTableScrollbarVisible}
             disabled={layout === 'table'}

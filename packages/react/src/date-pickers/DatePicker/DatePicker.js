@@ -1,4 +1,4 @@
-import { useConst, useEventCallback, useMergeRefs, useOutsideClick, usePrevious, useToggle } from '@tonic-ui/react-hooks';
+import { useClickOutside, useConst, useEventCallback, useMergeRefs, usePrevious, useToggle } from '@tonic-ui/react-hooks';
 import { callEventHandlers, isNullOrUndefined } from '@tonic-ui/utils';
 import format from 'date-fns/format';
 import endOfDay from 'date-fns/endOfDay';
@@ -103,7 +103,7 @@ const DatePicker = forwardRef((inProps, ref) => {
     isOpen && toggleIsOpen(false);
   }, [isOpen]);
 
-  useOutsideClick(nodeRef, onClose);
+  useClickOutside(nodeRef, onClose);
 
   // Check if the value prop has changed
   useEffect(() => {

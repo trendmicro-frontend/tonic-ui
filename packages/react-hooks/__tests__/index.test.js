@@ -3,6 +3,7 @@ import * as moduleExport from '@tonic-ui/react-hooks/src';
 test('should match expected exports', () => {
   const receivedExports = Object.keys(moduleExport);
   const expectedExports = [
+    'useClickOutside',
     'useConst',
     'useCopyToClipboard',
     'useEffectOnce',

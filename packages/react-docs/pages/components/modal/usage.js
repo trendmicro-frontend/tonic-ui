@@ -35,6 +35,7 @@ import {
 import React, { useRef, useState } from 'react';
 import PreformattedText from '@/components/PreformattedText';
 import SkeletonBlock from '@/components/SkeletonBlock';
+import { List, ListItem } from '@/experiments/list';
 
 const FormGroup = (props) => (
   <Box mb="4x" {...props} />
@@ -106,7 +107,10 @@ const App = () => {
 
   return (<>
     <Box>
-      <Tooltip label="Click to launch modal" openOnFocus={false}>
+      <Tooltip
+        label="Click to launch modal"
+        openOnFocus={false}
+      >
         <Button onClick={() => toggleModal(true)}>
           Launch modal
         </Button>
@@ -127,12 +131,13 @@ const App = () => {
               <Text mb="2x">
                 Use the <Code>scrollBehavior</Code> prop to control how scrolling should behave:
               </Text>
-              <Box as="ul" my="2x">
-                <li>If set to <Code>inside</Code>, only the <Code>ModalBody</Code> will scroll.</li>
-                <li>If set to <Code>outside</Code>, the entire <Code>ModalContent</Code> will scroll within the viewport.</li>
-              </Box>
+              <List my="2x">
+                <ListItem>If set to <Code>inside</Code>, only the <Code>ModalBody</Code> will scroll.</ListItem>
+                <ListItem>If set to <Code>outside</Code>, the entire <Code>ModalContent</Code> will scroll within the viewport.</ListItem>
+              </List>
             </>
           )}
+          maxWidth={480}
         >
           <TextLabel display="inline-block">
             <Flex alignItems="center" columnGap="2x">
@@ -273,7 +278,7 @@ const App = () => {
           }
         }}
       >
-        {['default', 'stretch'].map(value => (
+        {['default', '-webkit-fill-available'].map(value => (
           <Button
             disabled={size === 'full'}
             key={value}
@@ -320,7 +325,7 @@ const App = () => {
         </TextLabel>
       </Box>
       <PreformattedText>
-        {`const modalStyleProps = ${JSON.stringify(modalStyleProps, null, 2)};\nconst modalContentStyleProps = ${JSON.stringify(modalContentStyleProps, null, 2)};\n\n// example\n<Modal\n  scrollBehavior="${scrollBehavior}"\n  {...modalStyleProps}\n>\n  <ModalOverlay />\n  <ModalContent {...contentStyleProps}>\n    <ModalHeader />\n    <ModalBody />\n    <ModalFooter />\n  </ModalContent>\n</Modal>`}
+        {`const modalStyleProps = ${JSON.stringify(modalStyleProps, null, 2)};\nconst modalContentStyleProps = ${JSON.stringify(modalContentStyleProps, null, 2)};\n\n// example\n<Modal\n  scrollBehavior="${scrollBehavior}"\n  {...modalStyleProps}\n>\n  <ModalOverlay />\n  <ModalContent {...modalContentStyleProps}>\n    <ModalHeader />\n    <ModalBody />\n    <ModalFooter />\n  </ModalContent>\n</Modal>`}
       </PreformattedText>
     </FormGroup>
     <Divider my="4x" />
@@ -364,7 +369,7 @@ const App = () => {
       </Text>
     </Box>
     <FormGroup>
-      <TextLabel display="flex" alignItems="center" mb="3x">
+      <TextLabel display="flex" alignItems="center" mb="2x">
         <Checkbox
           checked={enableBodyScrollLock}
           onChange={() => toggleBodyScrollLock()}

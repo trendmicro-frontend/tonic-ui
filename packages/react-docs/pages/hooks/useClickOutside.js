@@ -1,14 +1,12 @@
 import { Box, Divider, Flex, Radio, RadioGroup, Text, TextLabel, useColorMode, useColorStyle } from '@tonic-ui/react';
-import { useOutsideClick } from '@tonic-ui/react-hooks';
+import { useClickOutside } from '@tonic-ui/react-hooks';
 import React, { useCallback, useRef, useState } from 'react';
 import PreformattedText from '@/components/PreformattedText';
+import x from '@/utils/json-stringify';
 
 const FormGroup = (props) => (
   <Box mb="4x" {...props} />
 );
-
-const pointerDownEvents = ['mousedown', 'touchstart'];
-const pointerUpEvents = ['mouseup', 'touchend'];
 
 const App = () => {
   const [colorMode] = useColorMode();
@@ -19,11 +17,12 @@ const App = () => {
     console.log('Clicked outside');
   }, []);
   const events = {
-    'pointerDown': pointerDownEvents,
-    'pointerUp': pointerUpEvents,
+    'pointerDown': ['mousedown', 'touchstart'],
+    'pointerUp': ['mouseup', 'touchend'],
+    'none': [],
   }[eventOption];
 
-  useOutsideClick(ref, handler, events || false);
+  useClickOutside(ref, handler, { events });
 
   return (
     <>
@@ -55,21 +54,9 @@ const App = () => {
           </Flex>
         </RadioGroup>
       </FormGroup>
-      {eventOption === 'pointerDown' && (
-        <PreformattedText>
-          {`useOutsideClick(ref, handler, [${pointerDownEvents.map(x => `'${x}'`).join(', ')}]); // or "useOutsideClick(ref, handler)"`}
-        </PreformattedText>
-      )}
-      {eventOption === 'pointerUp' && (
-        <PreformattedText>
-          {`useOutsideClick(ref, handler, [${pointerUpEvents.map(x => `'${x}'`).join(', ')}]);`}
-        </PreformattedText>
-      )}
-      {eventOption === 'none' && (
-        <PreformattedText>
-          {'useOutsideClick(ref, handler, false);'}
-        </PreformattedText>
-      )}
+      <PreformattedText>
+        {`useClickOutside(ref, handler, { events: ${x(events) });`}
+      </PreformattedText>
       <Divider my="4x" />
       <Box mb="4x">
         <Text fontSize="lg" lineHeight="lg">
@@ -83,7 +70,7 @@ const App = () => {
         userSelect="none"
         p="6x"
       >
-        Click outside me a message will be logged to the console
+        Click outside me and a message will be logged to the console.
       </Box>
     </>
   );
