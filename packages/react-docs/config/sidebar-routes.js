@@ -83,13 +83,20 @@ export const routes = [
     ),
     routes: [
       { title: 'Getting Started', path: 'experiments' },
-      { title: 'DROPDOWN', heading: true },
-      { title: 'Dropdown', path: 'experiments/Dropdown' },
-      { title: 'DropdownBase', path: 'experiments/DropdownBase' },
-      { title: 'SearchDropdown', path: 'experiments/SearchDropdown' },
-      { title: 'OTHERS', heading: true },
-      { title: 'List', path: 'experiments/List' },
-      { title: 'MutedText', path: 'experiments/MutedText' },
+
+      { title: 'FORM CONTROLS', heading: true },
+      { title: 'Dropdown', path: 'experiments/dropdown' },
+      { title: 'DropdownBase', path: 'experiments/dropdown-base' },
+      { title: 'SearchDropdown', path: 'experiments/search-dropdown' },
+
+      { title: 'TYPOGRAPHY', heading: true },
+      { title: 'List', path: 'experiments/list' },
+      { title: 'MutedText', path: 'experiments/muted-text' },
+
+      { title: 'MISCELLANEOUS', heading: true },
+      { title: 'FlexItem', path: 'experiments/flex-item' },
+      { title: 'For', path: 'experiments/for' },
+      { title: 'Render', path: 'experiments/render' },
     ],
   },
   {
@@ -129,12 +136,14 @@ export const routes = [
     ),
     routes: [
       { title: 'Getting Started', path: 'components' },
+
       { title: 'COLOR MODE', heading: true },
       { title: 'Overview', path: 'components/color-mode' },
       { title: 'DarkMode', path: 'components/color-mode/dark-mode' },
       { title: 'LightMode', path: 'components/color-mode/light-mode' },
       { title: 'InvertedMode', path: 'components/color-mode/inverted-mode' },
       { title: 'useColorMode', path: 'components/color-mode/useColorMode' },
+
       { title: 'COLOR STYLE', heading: true },
       { title: 'Overview', path: 'components/color-style' },
       { title: 'useColorStyle', path: 'components/color-style/useColorStyle' },
@@ -172,7 +181,7 @@ export const routes = [
       { title: 'ToastManager', path: 'components/toast-manager' },
       { title: 'useToastManager', path: 'components/toast-manager/useToastManager' },
 
-      { title: 'FORMS', heading: true },
+      { title: 'FORM CONTROLS', heading: true },
       {
         title: 'Button',
         path: 'components/button',

@@ -30,6 +30,7 @@ const FilterTag = forwardRef((
 
   return (
     <Tag
+      ref={ref}
       disabled={disabled}
       isClosable
       tabIndex={disabled ? undefined : 0}

@@ -1,0 +1,242 @@
+import CodeBlock from '@/components/CodeBlock';
+import _DropdownBase_ from '!!raw-loader!@/experiments/dropdown/DropdownBase';
+
+# DropdownBase
+
+A foundational dropdown component that renders a menu with selectable items, supporting dynamic content rendering and custom selection behavior.
+
+## Usage
+
+### Basic configuration
+
+Here's the simplest configuration to get started with the `DropdownBase` component.
+
+```jsx
+<DropdownBase
+  onSelect={(item) => {
+    setItem(item);
+  }}
+  items={[
+    { label: 'Item 1', value: 1 },
+    { label: 'Item 2', value: 2 },
+  ]}
+  slots={{ toggle: CustomToggle }}
+>
+  {value}
+</DropdownBase>
+```
+
+**Important:** The toggle component **must be wrapped** with `forwardRef` to ensure correct positioning:
+```jsx
+const CustomToggle = forwardRef(({ sx, ...rest }, ref) => {
+  return (
+    <MenuButton
+      ref={ref}
+      {...rest}
+      variant="secondary"
+      sx={[
+        {
+          maxWidth: '100%',
+          width: '100%',
+          '> :first-of-type': {
+            textAlign: 'left', // [optional] Useful when the trigger is a button to align text properly
+            minWidth: 0, // Override the default `minWidth: auto` for flex items to enable text truncation
+          },
+        },
+        sx, // Allows style overrides
+      ]}
+    />
+  );
+});
+
+CustomToggle.displayName = 'CustomToggle';
+
+export default CustomToggle;
+```
+
+### Advanced configuration
+
+Here's a more advanced and commonly used configuration pattern:
+
+{render('./usage')}
+
+## Props
+
+The `DropdownBaseProps` interface defines the following properties for the `DropdownBase` component:
+
+```ts
+import { ReactNode, ReactElement, Ref } from 'react';
+
+type DropdownItem = {
+  type?: 'custom' | 'divider' | 'group' | 'submenu' | string;
+  label?: ReactNode;
+  children?: DropdownItem[];
+  props?: Record<string, any>;
+};
+
+export interface DropdownBaseProps {
+  /**
+   * The content inside the dropdown toggle.
+   * Can be a React node or a function that returns a React node.
+   */
+  children?: ((args: { getToggleProps: () => any }) => ReactNode) | ReactNode;
+
+  /**
+   * Callback triggered when an item is selected.
+   * Receives the full `item` object, allowing access to custom fields or props.
+   */
+  onSelect?: (item: DropdownItem) => void;
+
+  /**
+   * Array of items to be rendered in the dropdown menu.
+   * Each item typically includes a `label`, and optionally a `type`, `props`, and `children`.
+   */
+  items?: DropdownItem[];
+
+  /**
+   * Optional custom render function for rendering individual items in the dropdown.
+   * Defaults to rendering the `label` or `value` of the item.
+   */
+  renderItem?: (item: DropdownItem) => ReactNode;
+
+  /**
+   * Optional custom function to render the entire dropdown's content.
+   * Provides access to `items`, `renderItem`, and `renderItems` for full customization.
+   */
+  renderContent?: (args: {
+    items: DropdownItem[];
+    renderItem: (item: DropdownItem) => ReactNode;
+    renderItems: (items: DropdownItem[], prefix?: string) => ReactNode[];
+  }) => ReactNode;
+
+  /**
+   * Optional slots to override internal components like the toggle.
+   * Example: `{ toggle: Toggle }`
+   */
+  slots?: {
+    toggle?: React.ComponentType<any>;
+  };
+
+  /**
+   * Optional slotProps to pass props to internal slot components.
+   * Example: `{ toggle: { disabled: true } }`
+   */
+  slotProps?: {
+    toggle?: Record<string, any>;
+  };
+}
+
+/**
+ * DropdownBase component.
+ * A base component for rendering dropdown functionality with customizable options.
+ */
+declare const DropdownBase: React.ForwardRefExoticComponent<
+  DropdownBaseProps & { ref?: Ref<any> }
+>;
+
+export default DropdownBase;
+```
+
+### `DropdownItem` object
+
+Each dropdown item is an object that may include the following fields:
+
+* `label` (optional): The label to display for the item.
+* `type` (optional): Specifies the type of item. It can be:
+  * A regular menu item when the type is not provided.
+    ```js
+    {
+      value: 'settings',
+      label: 'Settings'
+    }
+    ```
+  * `'custom'`: A custom element for a specific purpose.
+    ```js
+    {
+      type: 'custom',
+    }
+    ```
+  * `'divider'`: A divider that visually separates different groups of items.
+    ```js
+    {
+      type: 'divider',
+    }
+    ```
+  * `'group'`: A group of items, which may include nested items under `children`.
+    ```js
+    {
+      type: 'group',
+      label: 'Fruits',
+      children: [
+        { value: 'apple', label: 'Apple' },
+        { value: 'banana', label: 'Banana' },
+      ]
+    }
+    ```
+  * `'submenu'`: Creates a nested menu that appears next to the item. You must provide a `children` array with more items. This is useful for grouping related items.
+    ```js
+    {
+      type: 'submenu',
+      label: (
+        <Flex
+          alignItems="center"
+          columnGap="2x"
+          justifyContent="space-between"
+          width="100%"
+        >
+          File
+          <AngleRightIcon />
+        </Flex>
+      ),
+      children: [
+        { value: 'new', label: 'New File' },
+        { value: 'open', label: 'Open File' },
+        { value: 'save', label: 'Save File' },
+      ]
+    }
+    ```
+* `props` (optional): Props passed directly to the underlying `MenuItem`, such as `disabled`, custom data attributes, or style props (`sx`).
+* `[key: string]: any` (optional): Additional custom fields for your internal use, which are passed along in the `onSelect` callback but are not used internally by the component.
+
+### Prop definitions
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children <sub>[1]</sub> | ReactNode | | The content inside the dropdown toggle. Can be a React node or a function that returns a React node. |
+| onSelect | `(item: DropdownItem) => void` | | Callback triggered when an item is selected. Receives the full `item` object, allowing you to access any custom fields or props defined for the item. |
+| items | `Array<DropdownItem>` | [] | An array of items to be rendered in the dropdown menu. Each item should include a `value` (required), and optionally a `label`, `type`, `props`, and `children`. |
+| renderItem | `(item: DropdownItem) => ReactNode` | `defaultRenderItem` <sub>[2]</sub> | Optional custom render function for rendering dropdown items. |
+| renderContent | `(args: { items: DropdownItem[], renderItem: (item: DropdownItem) => ReactNode, renderItems: (items: DropdownItem[], prefix?: string) => ReactNode[] }) => ReactNode` | | Optional custom function to render the entire dropdown's content. Provides access to `items`, `renderItem`, and `renderItems`. Use this to fully customize the dropdown content beyond the default rendering behavior. |
+| slots	<sub>[1]</sub> | `{ toggle?: React.ComponentType<any> }` | \{\} |	The components used for each slot inside the `DropdownBase`. Either a string to use a HTML element or a component. |
+| slotProps	| `{ toggle?: Record<string, any> }` | \{\} | The props used for each slot inside the `DropdownBase`. |
+
+Notes:
+1. If `slots.toggle` is a valid React component, it wraps the `children`. Otherwise, it executes the `children` function, passing in `getToggleProps`. This allows for full customization of the toggle's appearance and behavior.
+    ```jsx
+    <MenuToggle
+      {...slotProps?.toggle}
+    >
+      {({ getMenuToggleProps: getToggleProps }) => {
+        const Toggle = slots?.toggle;
+        if (isValidElementType(Toggle)) {
+          return (
+            // The `Toggle` component must be wrapped with `forwardRef` to ensure correct positioning
+            <Toggle {...getToggleProps()}>
+              {children}
+            </Toggle>
+          );
+        }
+        return runIfFn(children, { getToggleProps });
+      }}
+    </MenuToggle>
+    ```
+2. `defaultRenderItem` is the default render function for rendering dropdown items. It renders the item's `label` if the item is a plain object; otherwise, it renders the item directly.
+    ```js
+    const defaultRenderItem = (item) => isPlainObject(item) ? item.label : item;
+    ```
+
+## Source
+
+### DropdownBase
+
+<CodeBlock code={_DropdownBase_} />

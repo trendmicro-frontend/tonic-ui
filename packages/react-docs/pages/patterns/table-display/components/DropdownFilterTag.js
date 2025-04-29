@@ -1,70 +1,90 @@
 import {
   Flex,
-  OverflowTooltip,
-  Text,
-  useColorStyle,
 } from '@tonic-ui/react';
+import { useEffectOnce, useToggle } from '@tonic-ui/react-hooks';
 import { ensureFunction } from 'ensure-type';
-import React, { useMemo, useRef } from 'react';
-import Dropdown from '@/components/Dropdown';
+import React, { forwardRef, useMemo, useRef } from 'react';
+import { Dropdown } from '@/experiments/dropdown';
+import { FlexItem } from '@/experiments/flex-item';
+import { MutedText } from '@/experiments/muted-text';
 import FilterTag from './FilterTag';
 
-const DropdownFilterTag = ({
-  label,
-  options: optionsProp,
-  value: valueProp = null,
-  onChange: onChangeProp,
-  onClose: onCloseProp,
-}) => {
-  const [colorStyle] = useColorStyle();
-  const hasChangedValueRef = useRef(false);
-  const options = useMemo(() => {
-    return optionsProp.map(option => option.value);
-  }, [optionsProp]);
-  const optionMap = useMemo(() => {
-    return optionsProp.reduce((acc, option) => {
-      acc[option.value] = option;
+const DropdownFilterTag = forwardRef((
+  {
+    label,
+    onClose,
+    onChange,
+    items = [],
+    value,
+    ...rest
+  },
+  ref,
+) => {
+  const itemMap = useMemo(() => {
+    return items.reduce((acc, item) => {
+      acc[item.value] = item;
       return acc;
     }, {});
-  }, [optionsProp]);
+  }, [items]);
+  const isSelectedRef = useRef();
+  const [isOpen, toggleIsOpen] = useToggle(false);
+
+  useEffectOnce(() => {
+    // Automatically open the menu on initial render
+    toggleIsOpen(true);
+  });
+
+  const handleClose = () => {
+    toggleIsOpen(false);
+    if (!isSelectedRef.current) {
+      ensureFunction(onClose)();
+    }
+  };
+
+  const handleOpen = () => {
+    toggleIsOpen(true);
+  };
+
+  const handleSelect = (item) => {
+    const nextValue = item.value;
+    if (nextValue !== value) {
+      ensureFunction(onChange)(nextValue);
+      isSelectedRef.current = true;
+    }
+  };
+
+  const FilterTagToggle = useMemo(() => {
+    const Component = forwardRef((props, ref) => (
+      <FilterTag ref={ref} {...props} onClose={onClose} />
+    ));
+    Component.displayName = 'FilterTagToggle';
+    return Component;
+  }, [onClose]);
 
   return (
     <Dropdown
-      defaultIsOpen={!valueProp}
-      options={options}
+      isOpen={isOpen}
       offset={[0, 4]}
-      onChange={(value) => {
-        // The onChange callback will only be triggered when an option is selected
-        hasChangedValueRef.current = !!value;
-        onChangeProp(value);
+      onClose={handleClose}
+      onOpen={handleOpen}
+      onSelect={handleSelect}
+      items={items}
+      slots={{
+        toggle: FilterTagToggle,
       }}
-      onClose={() => {
-        if (!valueProp && !hasChangedValueRef.current) {
-          ensureFunction(onCloseProp)();
-        }
-        hasChangedValueRef.current = false;
-      }}
-      renderOption={(value) => optionMap[value]?.label}
-      value={valueProp}
+      {...rest}
     >
-      <FilterTag
-        onClose={(event) => {
-          event.stopPropagation();
-          ensureFunction(onCloseProp)();
-        }}
-      >
-        <Flex columnGap="1x">
-          <Text color={colorStyle.color.secondary}>
-            {label}
-          </Text>
-          <OverflowTooltip label={valueProp}>
-            {valueProp}
-          </OverflowTooltip>
-        </Flex>
-      </FilterTag>
+      <Flex alignItems="center" columnGap="1x">
+        <FlexItem as={MutedText} fixed>
+          {label}
+        </FlexItem>
+        <FlexItem tooltip>
+          {itemMap[value]?.label}
+        </FlexItem>
+      </Flex>
     </Dropdown>
   );
-};
+});
 
 DropdownFilterTag.displayName = 'DropdownFilterTag';
 

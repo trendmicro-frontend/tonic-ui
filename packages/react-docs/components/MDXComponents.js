@@ -1,7 +1,6 @@
 import {
   Box,
   Code,
-  Divider,
   Image,
   Link,
   useColorMode,
@@ -13,8 +12,7 @@ import CodeBlock from './CodeBlock';
 
 const ParagraphComponent = props => (
   <Box
-    mt={0}
-    mb="4x"
+    my="2x"
     fontSize="md"
     lineHeight="lg"
     {...props}
@@ -301,9 +299,20 @@ const CodeComponent = props => (
   <Code as="code" {...props} />
 );
 
-const HRComponent = props => (
-  <Divider as="hr" my="2x" {...props} />
-);
+const HRComponent = props => {
+  const [colorStyle] = useColorStyle();
+
+  return (
+    <Box
+      as="hr"
+      border={0}
+      borderTop={1}
+      borderColor={colorStyle.divider}
+      my="4x"
+      {...props}
+    />
+  );
+};
 
 const AnchorComponent = props => (
   <Link as="a" {...props} />

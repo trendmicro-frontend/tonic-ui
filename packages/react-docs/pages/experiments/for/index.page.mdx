@@ -1,0 +1,26 @@
+import CodeBlock from '@/components/CodeBlock';
+import _For_ from '!!raw-loader!@/experiments/for/For';
+
+# For
+
+The `For` component provides a declarative way to iterate over collections and render each item.
+
+## Usage
+
+### Object
+
+Use the `For` component to loop over an object.
+
+{render('./object')}
+
+### Fallback
+
+Use the `fallback` prop to render alternative content when the array is either empty or not provided (e.g. `undefined` or `null`).
+
+{render('./fallback')}
+
+## Source
+
+### For
+
+<CodeBlock code={_For_} />

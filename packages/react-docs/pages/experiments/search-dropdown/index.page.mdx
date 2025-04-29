@@ -1,0 +1,64 @@
+import CodeBlock from '@/components/CodeBlock';
+import rawSearchDropdown from '!!raw-loader!@/experiments/search-dropdown/SearchDropdown';
+
+# SearchDropdown
+
+A search dropdown component based on `Dropdown` and `SearchInput`, designed to render a menu with selectable items and handle selection logic through search functionality.
+
+## Usage
+
+### Basic configuration
+
+Here's the simplest configuration to get started with the `SearchDropdown` component.
+
+```jsx
+<SearchDropdown
+  onSelect={(item) => {
+    setItem(item);
+  }}
+  items={[
+    { label: 'Item 1', value: 1 },
+    { label: 'Item 2', value: 2 },
+  ]}
+  renderContent={({ items, renderItems, renderSearchInput }) => (
+    <>
+      <Box px="3x" mb="2x">
+        {renderSearchInput()}
+      </Box>
+      <Scrollbar
+        maxHeight={36 * 5}
+        overflowY="visible"
+      >
+        {renderItems(items)}
+      </Scrollbar>
+    </>
+  )}
+  renderItem={(item, { searchKeyword }) => {
+    return item.label;
+  }}
+>
+  {item.label}
+</SearchDropdown>
+```
+
+### Advanced configuration
+
+Here's a more advanced and commonly used configuration pattern:
+
+#### Single-select dropdown
+
+{render('./single-select-dropdown')}
+
+#### Multi-select dropdown
+
+{render('./multi-select-dropdown')}
+
+## Props
+
+Check out the [Dropdown](../dropdown) and [DropdownBase](../dropdown-base) components for more details.
+
+## Source
+
+### SearchDropdown
+
+<CodeBlock code={rawSearchDropdown} />
