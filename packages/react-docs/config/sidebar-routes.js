@@ -18,12 +18,7 @@ import {
   WorkspaceIcon,
 } from '@tonic-ui/react-icons';
 import React from 'react';
-
-const Subtitle = (props) => {
-  return (
-    <Text {...props} />
-  );
-};
+import MutedText from '@/components/MutedText';
 
 export const routes = [
   {
@@ -187,7 +182,7 @@ export const routes = [
         path: 'components/button',
         render: () => {
           return (
-            <Tooltip label={<Subtitle>{`tag: button`}</Subtitle>}>
+            <Tooltip label={<Text>{`tag: button`}</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -198,7 +193,7 @@ export const routes = [
         path: 'components/button-base',
         render: () => {
           return (
-            <Tooltip label={<Subtitle>{`tag: button`}</Subtitle>}>
+            <Tooltip label={<Text>{`tag: button`}</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -210,7 +205,7 @@ export const routes = [
         path: 'components/checkbox',
         render: () => {
           return (
-            <Tooltip label={<Subtitle>{`tag: input`}</Subtitle>}>
+            <Tooltip label={<Text>{`tag: input`}</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -222,7 +217,7 @@ export const routes = [
         path: 'components/input',
         render: () => {
           return (
-            <Tooltip label={<Subtitle>{`tag: input`}</Subtitle>}>
+            <Tooltip label={<Text>{`tag: input`}</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -233,7 +228,7 @@ export const routes = [
         path: 'components/input-base',
         render: () => {
           return (
-            <Tooltip label={<Subtitle>{`tag: input`}</Subtitle>}>
+            <Tooltip label={<Text>{`tag: input`}</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -244,7 +239,7 @@ export const routes = [
         path: 'components/input-control',
         render: () => {
           return (
-            <Tooltip label={<Subtitle>{`tag: input`}</Subtitle>}>
+            <Tooltip label={<Text>{`tag: input`}</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -256,7 +251,7 @@ export const routes = [
         path: 'components/link-button',
         render: () => {
           return (
-            <Tooltip label={<Subtitle>{`tag: button`}</Subtitle>}>
+            <Tooltip label={<Text>{`tag: button`}</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -267,7 +262,7 @@ export const routes = [
         path: 'components/radio',
         render: () => {
           return (
-            <Tooltip label={<Subtitle>{`tag: input`}</Subtitle>}>
+            <Tooltip label={<Text>{`tag: input`}</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -279,7 +274,7 @@ export const routes = [
         path: 'components/search-input',
         render: () => {
           return (
-            <Tooltip label={<Subtitle>{`tag: input`}</Subtitle>}>
+            <Tooltip label={<Text>{`tag: input`}</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -290,7 +285,7 @@ export const routes = [
         path: 'components/select',
         render: () => {
           return (
-            <Tooltip label={<Subtitle>{`tag: select`}</Subtitle>}>
+            <Tooltip label={<Text>{`tag: select`}</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -301,7 +296,7 @@ export const routes = [
         path: 'components/switch',
         render: () => {
           return (
-            <Tooltip label={<Subtitle>{`tag: input`}</Subtitle>}>
+            <Tooltip label={<Text>{`tag: input`}</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -312,7 +307,7 @@ export const routes = [
         path: 'components/textarea',
         render: () => {
           return (
-            <Tooltip label={<Subtitle>{`tag: textarea`}</Subtitle>}>
+            <Tooltip label={<Text>{`tag: textarea`}</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -325,7 +320,7 @@ export const routes = [
         path: 'components/icon',
         render: () => {
           return (
-            <Tooltip label={<Subtitle>{`tag: svg`}</Subtitle>}>
+            <Tooltip label={<Text>{`tag: svg`}</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -336,7 +331,7 @@ export const routes = [
         path: 'components/image',
         render: () => {
           return (
-            <Tooltip label={<Subtitle>{`tag: img`}</Subtitle>}>
+            <Tooltip label={<Text>{`tag: img`}</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -347,7 +342,7 @@ export const routes = [
         path: 'components/svg-icon',
         render: () => {
           return (
-            <Tooltip label={<Subtitle>{`tag: svg`}</Subtitle>}>
+            <Tooltip label={<Text>{`tag: svg`}</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -359,7 +354,7 @@ export const routes = [
         path: 'components/link',
         render: () => {
           return (
-            <Tooltip label={<Subtitle>{`tag: a`}</Subtitle>}>
+            <Tooltip label={<Text>{`tag: a`}</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -370,7 +365,7 @@ export const routes = [
         path: 'components/button-link',
         render: () => {
           return (
-            <Tooltip label={<Subtitle>{`tag: a`}</Subtitle>}>
+            <Tooltip label={<Text>{`tag: a`}</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -397,7 +392,7 @@ export const routes = [
         path: 'components/code',
         render: () => {
           return (
-            <Tooltip label={<Subtitle>{`tag: code`}</Subtitle>}>
+            <Tooltip label={<Text>{`tag: code`}</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -409,7 +404,7 @@ export const routes = [
         path: 'components/text-label',
         render: () => {
           return (
-            <Tooltip label={<Subtitle>{`tag: label`}</Subtitle>}>
+            <Tooltip label={<Text>{`tag: label`}</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -448,6 +443,13 @@ export const routes = [
       { title: 'useMergeRefs', path: 'hooks/useMergeRefs' },
       { title: 'useOnce', path: 'hooks/useOnce' },
       { title: 'useOnceWhen', path: 'hooks/useOnceWhen' },
+      {
+        title: 'useOutsideClick',
+        path: 'hooks/useOutsideClick',
+        render: () => (
+          <MutedText fontSize="xs" color="yellow:50">deprecated</MutedText>
+        ),
+      },
       { title: 'usePrevious', path: 'hooks/usePrevious' },
       { title: 'useToggle', path: 'hooks/useToggle' },
     ],

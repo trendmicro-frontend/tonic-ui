@@ -15,7 +15,6 @@ import { getOwnerDocument } from '@tonic-ui/utils';
 const useClickOutside = (refs, handler, options = {}) => {
   const {
     events = ['mousedown', 'touchstart'],
-    shouldAllRefsOutside = true,
   } = options;
 
   // Ensure refs is always an array, even if a single ref is passed
@@ -25,31 +24,27 @@ const useClickOutside = (refs, handler, options = {}) => {
 
   useEffect(() => {
     const handleCheckIfOutside = (event) => {
-      let allOutside = true;
-      let anyOutside = false;
+      let allRefsOutside = true;
 
       for (let i = 0; i < allRefs.length; i++) {
         const ref = allRefs[i];
         const el = ref?.current;
         const doc = getOwnerDocument(el);
-        if (el && doc) {
-          const isOutside = !el.contains(event.target);
-          if (isOutside) {
-            anyOutside = true;
-          } else {
-            allOutside = false;
-          }
 
-          // If `shouldAllRefsOutside` is true and one ref is inside, stop further checks
-          if (shouldAllRefsOutside && !isOutside) {
-            return; // If one element is not outside, stop checking
-          }
+        if (!el || !doc) {
+          continue;
+        }
+
+        const isOutside = !el.contains(event.target);
+        if (!isOutside) {
+          allRefsOutside = false;
+          break; // Stop early if one ref is not outside
         }
       }
 
-      // Trigger handler if conditions are met:
-      if ((shouldAllRefsOutside && allOutside) || (!shouldAllRefsOutside && anyOutside)) {
-        handler(event);
+      // Trigger handler if all refs are outside
+      if (allRefsOutside) {
+        handler?.(event);
       }
     };
 
@@ -78,7 +73,7 @@ const useClickOutside = (refs, handler, options = {}) => {
         });
       });
     };
-  }, [allRefs, handler, events, shouldAllRefsOutside]);
+  }, [allRefs, handler, events]);
 };
 
 export default useClickOutside;
