@@ -7,7 +7,7 @@ import {
   AngleRightIcon,
 } from '@tonic-ui/react-icons';
 import React, { forwardRef, useState } from 'react';
-import { DropdownBase } from '@/experiments/dropdown';
+import { DropdownBase, MenuButtonToggle } from '@/experiments/dropdown';
 
 const items = [
   // Default items
@@ -58,29 +58,6 @@ const items = [
   { value: 'settings', label: 'Settings' },
 ];
 
-const CustomToggle = forwardRef(({ sx, ...rest }, ref) => {
-  return (
-    <MenuButton
-      ref={ref}
-      {...rest}
-      sx={[
-        {
-          maxWidth: '100%',
-          width: '100%',
-          '> :first-of-type': {
-            textAlign: 'left', // [optional] Useful when the trigger is a button to align text properly
-            minWidth: 0, // Override the default `minWidth: auto` for flex items to enable text truncation
-          },
-        },
-        sx, // Allows style overrides
-      ]}
-      variant="secondary"
-    />
-  );
-});
-
-CustomToggle.displayName = 'CutomToggle';
-
 const App = () => {
   const [value, setValue] = useState();
   const handleSelect = (item) => {
@@ -101,7 +78,10 @@ const App = () => {
         );
       }}
       slots={{
-        toggle: CustomToggle,
+        toggle: MenuButtonToggle,
+      }}
+      slotProps={{
+        // Additional props to pass to the toggle component
       }}
       width={200}
     >

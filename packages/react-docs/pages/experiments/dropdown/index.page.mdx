@@ -39,13 +39,20 @@ Here's a more advanced and commonly used configuration pattern:
 
 ### Custom dropdown toggle
 
-By default, the dropdown uses a `MenuButton` as its toggle. You can customize this by providing your own toggle component via the `slots.toggle` prop:
+By default, the dropdown uses a `MenuButton` as its toggle. To customize the toggle, provide your own component (wrapped with `forwardRef`) using the `slots.toggle` prop:
 
 ```jsx
 <Dropdown
   onSelect={onSelect}
   items={items}
-  slots={{ toggle: MyToggleComponent }}
+  slots={{
+    toggle: CustomDropdownToggle,
+  }}
+  slotProps={{
+    toggle: {
+      // Additional props to pass to the toggle component
+    },
+  }}
 >
   {selectedItem.label}
 </Dropdown>

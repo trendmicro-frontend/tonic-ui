@@ -2,14 +2,18 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Checkbox,
   Divider,
   Flex,
   Scrollbar,
+  Space,
+  Text,
   TextLabel,
   Tooltip,
 } from '@tonic-ui/react';
 import {
   useConst,
+  useToggle,
 } from '@tonic-ui/react-hooks';
 import {
   InfoOIcon,
@@ -31,6 +35,7 @@ const useSelection = (defaultValue) => {
 const App = () => {
   const [width, changeWidthBy] = useSelection('auto');
   const [toggle, changeToggleBy] = useSelection('MenuButton');
+  const [disabled, toggleDisabled] = useToggle(false);
   const [value, setValue] = useState('all');
   const offset = (toggle === 'Tag') ? [0, 4] : undefined;
   const ToggleComponent = {
@@ -110,7 +115,7 @@ const App = () => {
         <Box mb="2x">
           <Flex alignItems="center" columnGap="2x">
             <TextLabel>
-              Dropdown toggle:
+              Dropdown toggle component:
             </TextLabel>
           </Flex>
         </Box>
@@ -135,6 +140,23 @@ const App = () => {
           ))}
         </ButtonGroup>
       </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <Flex alignItems="center" columnGap="2x">
+            <TextLabel>
+              Dropdown toggle props:
+            </TextLabel>
+          </Flex>
+        </Box>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox
+            checked={disabled}
+            onChange={() => toggleDisabled()}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">disabled</Text>
+        </TextLabel>
+      </FormGroup>
       <Divider my="4x" />
       <Dropdown
         offset={offset}
@@ -149,7 +171,14 @@ const App = () => {
           </Scrollbar>
         )}
         slots={{
-          toggle: ToggleComponent, // No need to specify the `toggle` prop if you're using the default toggle
+          // You can omit `slots.toggle` if you're using the default toggle component
+          toggle: ToggleComponent,
+        }}
+        slotProps={{
+          toggle: {
+            // Additional props to pass to the toggle component
+            disabled,
+          },
         }}
         width={width}
       >
