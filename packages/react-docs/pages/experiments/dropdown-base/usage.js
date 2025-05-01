@@ -1,7 +1,6 @@
 import {
   Flex,
   MenuButton,
-  Scrollbar,
 } from '@tonic-ui/react';
 import {
   AngleRightIcon,
@@ -70,13 +69,6 @@ const App = () => {
     <DropdownBase
       onSelect={handleSelect}
       items={items}
-      renderContent={({ items, renderItems }) => {
-        return (
-          <Scrollbar maxHeight={240} overflowY="visible" overflowX="hidden">
-            {renderItems(items)}
-          </Scrollbar>
-        );
-      }}
       slots={{
         toggle: MenuButtonToggle,
       }}
