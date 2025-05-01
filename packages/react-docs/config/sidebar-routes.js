@@ -18,7 +18,7 @@ import {
   WorkspaceIcon,
 } from '@tonic-ui/react-icons';
 import React from 'react';
-import { MutedText } from '@/experiments/muted-text';
+import { MutedText } from '../experiments/muted-text';
 
 export const routes = [
   {
