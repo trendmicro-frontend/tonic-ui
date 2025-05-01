@@ -1,4 +1,3 @@
-import { MenuButton } from '@tonic-ui/react';
 import React, { forwardRef } from 'react';
 import DropdownBase from './DropdownBase';
 import MenuButtonToggle from './MenuButtonToggle';
