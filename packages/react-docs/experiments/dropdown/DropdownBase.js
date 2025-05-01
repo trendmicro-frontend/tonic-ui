@@ -43,9 +43,9 @@ const DropdownBase = forwardRef((
   const renderItem = (item) => (typeof renderItemProp === 'function') ? renderItemProp(item) : null;
 
   // Recursively render items including groups, dividers, and items
-  const renderItems = (items, prefix = '') => {
+  const renderItems = (items, prefix) => {
     return ensureArray(items).map((item, index) => {
-      const key = [prefix, index].join('_');
+      const key = [prefix, index].filter(x => (x !== null && x !== undefined)).join('_');
 
       if (!isPlainObject(item)) {
         return (
@@ -90,9 +90,6 @@ const DropdownBase = forwardRef((
               </MenuItem>
             </SubmenuToggle>
             <SubmenuList
-              PopperProps={{
-                usePortal: true,
-              }}
               sx={{
                 width: 'max-content',
               }}

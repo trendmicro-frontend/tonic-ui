@@ -20,7 +20,14 @@ Here's the simplest configuration to get started with the `DropdownBase` compone
     { label: 'Item 1', value: 1 },
     { label: 'Item 2', value: 2 },
   ]}
-  slots={{ toggle: CustomToggle }}
+  slots={{
+    toggle: CustomDropdownToggle,
+  }}
+  slotProps={{
+    toggle: {
+      // Additional props to pass to the toggle component
+    },
+  }}
 >
   {value}
 </DropdownBase>
@@ -28,7 +35,7 @@ Here's the simplest configuration to get started with the `DropdownBase` compone
 
 **Important:** The toggle component **must be wrapped** with `forwardRef` to ensure correct positioning:
 ```jsx
-const CustomToggle = forwardRef(({ sx, ...rest }, ref) => {
+const CustomDropdownToggle = forwardRef(({ sx, ...rest }, ref) => {
   return (
     <MenuButton
       ref={ref}
@@ -49,9 +56,9 @@ const CustomToggle = forwardRef(({ sx, ...rest }, ref) => {
   );
 });
 
-CustomToggle.displayName = 'CustomToggle';
+CustomDropdownToggle.displayName = 'CustomDropdownToggle';
 
-export default CustomToggle;
+export default CustomDropdownToggle;
 ```
 
 ### Advanced configuration

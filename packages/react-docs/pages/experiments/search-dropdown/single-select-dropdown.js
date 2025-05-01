@@ -2,14 +2,18 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Checkbox,
   Divider,
   Flex,
   Scrollbar,
+  Space,
+  Text,
   TextLabel,
   useColorStyle,
 } from '@tonic-ui/react';
 import {
   useConst,
+  useToggle,
 } from '@tonic-ui/react-hooks';
 import Chance from 'chance';
 import { ensureArray } from 'ensure-type';
@@ -33,6 +37,7 @@ const useSelection = (defaultValue) => {
 const App = () => {
   const [colorStyle] = useColorStyle();
   const [toggle, changeToggleBy] = useSelection('MenuButton');
+  const [disabled, toggleDisabled] = useToggle(false);
   const toggleOffset = (toggle === 'Tag') ? [0, 4] : undefined;
   const ToggleComponent = {
     'MenuButton': MenuButtonToggle,
@@ -84,7 +89,7 @@ const App = () => {
         <Box mb="2x">
           <Flex alignItems="center" columnGap="2x">
             <TextLabel>
-              Dropdown toggle:
+              Dropdown toggle component:
             </TextLabel>
           </Flex>
         </Box>
@@ -108,6 +113,23 @@ const App = () => {
             </Button>
           ))}
         </ButtonGroup>
+      </FormGroup>
+      <FormGroup>
+        <Box mb="2x">
+          <Flex alignItems="center" columnGap="2x">
+            <TextLabel>
+              Dropdown toggle props:
+            </TextLabel>
+          </Flex>
+        </Box>
+        <TextLabel display="flex" alignItems="center">
+          <Checkbox
+            checked={disabled}
+            onChange={() => toggleDisabled()}
+          />
+          <Space width="2x" />
+          <Text fontFamily="mono" whiteSpace="nowrap">disabled</Text>
+        </TextLabel>
       </FormGroup>
       <Divider my="4x" />
       <SearchDropdown
@@ -146,6 +168,12 @@ const App = () => {
         }}
         slots={{
           toggle: ToggleComponent,
+        }}
+        slotProps={{
+          toggle: {
+            // Additional props to pass to the toggle component
+            disabled,
+          },
         }}
       >
         {renderValue(value)}
