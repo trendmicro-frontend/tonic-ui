@@ -1,5 +1,11 @@
 # @tonic-ui/react-hooks
 
+## 2.1.0
+
+### Minor Changes
+
+- feat: implement `useClickOutside` hook to support multiple refs by [@cheton](https://github.com/cheton) in [#1017](https://github.com/trendmicro-frontend/tonic-ui/pull/1017)
+
 ## 2.0.1
 
 ### Patch Changes

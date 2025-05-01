@@ -4669,7 +4669,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/react-hooks@^2.0.1, @tonic-ui/react-hooks@workspace:^, @tonic-ui/react-hooks@workspace:packages/react-hooks":
+"@tonic-ui/react-hooks@^2.1.0, @tonic-ui/react-hooks@workspace:^, @tonic-ui/react-hooks@workspace:packages/react-hooks":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/react-hooks@workspace:packages/react-hooks"
   dependencies:
@@ -4764,7 +4764,7 @@ __metadata:
     "@testing-library/react": ^14.0.0
     "@testing-library/user-event": ^14.4.3
     "@tonic-ui/react-base": ^2.0.2
-    "@tonic-ui/react-hooks": ^2.0.1
+    "@tonic-ui/react-hooks": ^2.1.0
     "@tonic-ui/react-icons": ^2.1.1
     "@tonic-ui/styled-system": ^2.2.0
     "@tonic-ui/theme": ^2.0.1

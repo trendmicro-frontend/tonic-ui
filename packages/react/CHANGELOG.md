@@ -1,5 +1,17 @@
 # @tonic-ui/react
 
+## 2.7.1
+
+### Patch Changes
+
+- fix(drawer): improve full-size drawer dimensions for full-screen span by [@GeorgiDS9](https://github.com/GeorgiDS9) in [#1013](https://github.com/trendmicro-frontend/tonic-ui/pull/1013)
+
+- feat: utilize `useClickOutside` hook to close modals and drawers when clicking outside the content by [@cheton](https://github.com/cheton) in [#1017](https://github.com/trendmicro-frontend/tonic-ui/pull/1017)
+
+- feat(react/search-input): change `_focus` to `_focusVisible` for the close button in `SearchInput` by [@cheton](https://github.com/cheton) in [#1014](https://github.com/trendmicro-frontend/tonic-ui/pull/1014)
+- Updated dependencies [[`293fa08`](https://github.com/trendmicro-frontend/tonic-ui/commit/293fa083938aa737cc0705781ea0eabb68bde2b1)]
+  - @tonic-ui/react-hooks@2.1.0
+
 ## 2.7.0
 
 ### Minor Changes
