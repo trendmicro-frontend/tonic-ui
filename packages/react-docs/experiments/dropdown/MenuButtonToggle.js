@@ -7,8 +7,8 @@ const MenuButtonToggle = forwardRef((props, ref) => {
   return (
     <MenuButton
       ref={ref}
-      {...rest}
       variant="secondary"
+      {...rest}
       sx={[
         {
           maxWidth: '100%',

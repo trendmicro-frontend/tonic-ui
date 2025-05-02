@@ -8,9 +8,9 @@ const TagToggle = forwardRef((props, ref) => {
     <Tag
       ref={ref}
       {...rest}
-      isClosable={true}
       sx={[
         {
+          borderRadius: 'lg',
           cursor: 'pointer',
           maxWidth: '100%',
           width: '100%',
