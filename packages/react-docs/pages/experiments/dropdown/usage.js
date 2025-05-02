@@ -6,25 +6,22 @@ import {
   Divider,
   Flex,
   Scrollbar,
-  Space,
-  Text,
+  Stack,
   TextLabel,
   Tooltip,
 } from '@tonic-ui/react';
 import {
   useConst,
-  useToggle,
 } from '@tonic-ui/react-hooks';
 import {
   InfoOIcon,
 } from '@tonic-ui/react-icons';
+import { produce } from 'immer';
 import React, { useMemo, useState } from 'react';
 import FormGroup from '@/components/FormGroup';
-import { Dropdown } from '@/experiments/dropdown';
+import { Dropdown, MenuButtonToggle, TagToggle } from '@/experiments/dropdown';
 import { FlexItem } from '@/experiments/flex-item';
 import { MutedText } from '@/experiments/muted-text';
-import MenuButtonToggle from '../shared/MenuButtonToggle';
-import TagToggle from '../shared/TagToggle';
 
 const useSelection = (defaultValue) => {
   const [value, setValue] = useState(defaultValue);
@@ -32,17 +29,31 @@ const useSelection = (defaultValue) => {
   return [value, changeBy];
 };
 
+const DROPDOWN_TOGGLE_MENU_BUTTON = 'MenuButton';
+const DROPDOWN_TOGGLE_TAG = 'Tag';
+
 const App = () => {
   const [width, changeWidthBy] = useSelection('auto');
-  const [toggle, changeToggleBy] = useSelection('MenuButton');
-  const [disabled, toggleDisabled] = useToggle(false);
-  const [value, setValue] = useState('all');
-  const offset = (toggle === 'Tag') ? [0, 4] : undefined;
+  const [toggle, changeToggleBy] = useSelection(DROPDOWN_TOGGLE_MENU_BUTTON);
   const ToggleComponent = {
-    'MenuButton': MenuButtonToggle,
-    'Tag': TagToggle,
+    [DROPDOWN_TOGGLE_MENU_BUTTON]: MenuButtonToggle,
+    [DROPDOWN_TOGGLE_TAG]: TagToggle,
   }[toggle];
-
+  const [togglePropsMap, setTogglePropsMap] = useState({
+    [DROPDOWN_TOGGLE_MENU_BUTTON]: {
+      disabled: false,
+    },
+    [DROPDOWN_TOGGLE_TAG]: {
+      disabled: false,
+      isClosable: true,
+    },
+  });
+  const toggleOffset = (toggle === DROPDOWN_TOGGLE_TAG) ? [0, 4] : undefined;
+  const toggleProps = togglePropsMap[toggle];
+  const setToggleProps = (updater) => {
+    setTogglePropsMap((prevState) => produce(prevState, draft => updater(draft[toggle])));
+  };
+  const [value, setValue] = useState('all');
   const items = useConst(() => [
     { value: 'all', label: 'All' },
     { value: 'network', label: 'Network events' },
@@ -111,14 +122,12 @@ const App = () => {
           ))}
         </ButtonGroup>
       </FormGroup>
+      <Box mb="2x">
+        <MutedText>
+          Dropdown toggle component:
+        </MutedText>
+      </Box>
       <FormGroup>
-        <Box mb="2x">
-          <Flex alignItems="center" columnGap="2x">
-            <TextLabel>
-              Dropdown toggle component:
-            </TextLabel>
-          </Flex>
-        </Box>
         <ButtonGroup
           variant="secondary"
           sx={{
@@ -141,25 +150,37 @@ const App = () => {
         </ButtonGroup>
       </FormGroup>
       <FormGroup>
-        <Box mb="2x">
-          <Flex alignItems="center" columnGap="2x">
-            <TextLabel>
-              Dropdown toggle props:
-            </TextLabel>
-          </Flex>
-        </Box>
-        <TextLabel display="flex" alignItems="center">
+        <Stack spacing="2x" shouldWrapChildren>
+          <MutedText>
+            Dropdown toggle props:
+          </MutedText>
           <Checkbox
-            checked={disabled}
-            onChange={() => toggleDisabled()}
-          />
-          <Space width="2x" />
-          <Text fontFamily="mono" whiteSpace="nowrap">disabled</Text>
-        </TextLabel>
+            checked={toggleProps.disabled}
+            onChange={() => {
+              setToggleProps(draftToggleProps => {
+                draftToggleProps.disabled = !draftToggleProps.disabled;
+              });
+            }}
+          >
+            <MutedText fontFamily="mono" whiteSpace="nowrap">disabled</MutedText>
+          </Checkbox>
+          {toggle === DROPDOWN_TOGGLE_TAG && (
+            <Checkbox
+              checked={toggleProps.isClosable}
+              onChange={() => {
+                setToggleProps(draftToggleProps => {
+                  draftToggleProps.isClosable = !draftToggleProps.isClosable;
+                });
+              }}
+            >
+              <MutedText fontFamily="mono" whiteSpace="nowrap">isClosable</MutedText>
+            </Checkbox>
+          )}
+        </Stack>
       </FormGroup>
       <Divider my="4x" />
       <Dropdown
-        offset={offset}
+        offset={toggleOffset}
         onSelect={handleSelect}
         items={items}
         renderContent={({ items, renderItems }) => (
@@ -175,10 +196,8 @@ const App = () => {
           toggle: ToggleComponent,
         }}
         slotProps={{
-          toggle: {
-            // Additional props to pass to the toggle component
-            disabled,
-          },
+          // Additional props to pass to the toggle component
+          toggle: toggleProps,
         }}
         width={width}
       >

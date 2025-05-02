@@ -53,6 +53,7 @@
     "eslint-plugin-jsx-a11y": "latest",
     "eslint-plugin-react": "latest",
     "hastscript": "^8.0.0",
+    "immer": "^10.1.1",
     "immutability-helper": "^3.1.1",
     "jest": "^29.0.0",
     "jest-environment-jsdom": "^29.0.0",
