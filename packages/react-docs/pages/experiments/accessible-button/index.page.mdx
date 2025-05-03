@@ -1,0 +1,22 @@
+import CodeBlock from '@/components/CodeBlock';
+import _AccessibleButton_ from '!!raw-loader!@/experiments/accessible-button/AccessibleButton';
+
+# AccessibleButton
+
+`AccessibleButton` is a custom component designed to function and appear like a standard button. It can be used in contexts where native `<button>` elements are not permitted, such as within other buttons.
+
+## Usage
+
+{render('./usage')}
+
+### Nested buttons
+
+A key use case for `AccessibleButton` is when you need button-like behavior in contexts where native buttons aren't allowed, such as having a button inside another button:
+
+{render('./nested-buttons')}
+
+## Source
+
+### AccessibleButton
+
+<CodeBlock code={_AccessibleButton_} />

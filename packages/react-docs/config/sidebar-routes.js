@@ -80,6 +80,7 @@ export const routes = [
       { title: 'Getting Started', path: 'experiments' },
 
       { title: 'FORM CONTROLS', heading: true },
+      { title: 'AccessibleButton', path: 'experiments/accessible-button' },
       { title: 'Dropdown', path: 'experiments/dropdown' },
       { title: 'DropdownBase', path: 'experiments/dropdown-base' },
       { title: 'SearchDropdown', path: 'experiments/search-dropdown' },
