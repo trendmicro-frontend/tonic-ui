@@ -11,11 +11,16 @@ const App = () => {
 
   return (
     <AccessibleButton
+      alignItems="center"
       border={1}
-      borderColor={colorStyle.divider}
+      borderColor="transparent"
+      _hover={{
+        borderColor: colorStyle.color.disabled,
+      }}
+      borderRadius="sm"
       px="4x"
       py="3x"
-      alignItems="center"
+      transition="border-color 200ms"
       onClick={() => {
         console.log('Clicked AccessibleButton');
       }}
