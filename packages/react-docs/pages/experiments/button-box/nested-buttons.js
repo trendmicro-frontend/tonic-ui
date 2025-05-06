@@ -4,14 +4,15 @@ import {
   useColorStyle,
 } from '@tonic-ui/react';
 import React from 'react';
-import { AccessibleButton } from '@/experiments/accessible-button';
+import { createVariantButtonBox } from './utils';
+
+const SecondaryButtonBox = createVariantButtonBox('secondary');
 
 const App = () => {
   const [colorStyle] = useColorStyle();
 
   return (
-    <AccessibleButton
-      alignItems="center"
+    <SecondaryButtonBox
       border={1}
       borderColor="transparent"
       _hover={{
@@ -21,21 +22,21 @@ const App = () => {
       px="4x"
       py="3x"
       transition="border-color 200ms"
-      onClick={() => {
-        console.log('Clicked AccessibleButton');
+      onClick={(event) => {
+        console.log('Clicked ButtonBox:', event);
       }}
     >
-      AccessibleButton
+      ButtonBox
       <Space width="4x" />
       <Button
         variant="secondary"
-        onClick={() => {
-          console.log('Clicked Button');
+        onClick={(event) => {
+          console.log('Clicked Button:', event);
         }}
       >
         Button
       </Button>
-    </AccessibleButton>
+    </SecondaryButtonBox>
   );
 };
 
