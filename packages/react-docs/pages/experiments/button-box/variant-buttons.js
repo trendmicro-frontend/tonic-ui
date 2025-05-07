@@ -26,7 +26,7 @@ const App = () => {
     <Flex>
       <Grid
         templateColumns="1fr 1fr"
-        columnGap="2x"
+        columnGap="4x"
         rowGap="4x"
       >
         <MutedText>Normal</MutedText>
