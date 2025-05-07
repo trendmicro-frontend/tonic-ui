@@ -33,6 +33,7 @@
     "@next/mdx": "^13.0.5",
     "@tanstack/react-table": "^8.9.1",
     "@tanstack/react-virtual": "^3.0.0-beta",
+    "@testing-library/jest-dom": "^6.0.0",
     "@tonic-ui/react": "workspace:^",
     "@tonic-ui/react-hooks": "workspace:^",
     "@tonic-ui/react-icons": "workspace:^",
@@ -95,9 +96,7 @@
   "jest": {
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "<rootDir>/components/**/*.{js,jsx}",
-      "<rootDir>/pages/**/*.{js,jsx}",
-      "<rootDir>/shared/**/*.js"
+      "<rootDir>/experiments/**/*.js"
     ],
     "coverageReporters": [
       "lcov",
@@ -111,7 +110,7 @@
     "setupFilesAfterEnv": [
       "<rootDir>/jest-setup.js"
     ],
-    "testEnvironment": "node",
+    "testEnvironment": "jsdom",
     "testMatch": [
       "<rootDir>/**/__tests__/**/*.test.js"
     ]
