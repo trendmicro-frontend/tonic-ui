@@ -31,6 +31,9 @@ const App = () => {
       <Button
         variant="secondary"
         onClick={(event) => {
+          // Prevent the click event from bubbling up to the ButtonBox
+          event.stopPropagation();
+
           console.log('Clicked Button:', event);
         }}
       >
