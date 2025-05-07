@@ -2,7 +2,7 @@
 
 ⚠️ This guide outlines the necessary steps to migrate from Tonic UI v0 to v1. Please review the breaking changes and assess the compatibility with your current setup before proceeding with the upgrade.
 
-## Fundamental Updates
+## Fundamental updates
 
 ### 1. Update the dependencies
 
@@ -162,7 +162,7 @@ The following components changed the `display` property internally. Check whethe
 | `Text` | `inline-block` | `block` | It might affect the layout according to your usage<br/>- To make inline text, use `<Text display="inline" />`<br/>- To make inline block text, use `<Text display="inline-block" />`<br/>- To make inline flex text, use `<Text display="inline-flex" />`<br/>- Use `<Flex direction="row" />` or `<Flex direction="column" />` if you need to render multiple components in the same row or column. |
 | `TextLabel` | `inline` | `block` | It might affect the layout according to your usage<br/>- To make inline text, use `<TextLabel display="inline" />`<br/>- To make inline block text, use `<TextLabel display="inline-block" />`<br/>- To make inline flex text, use `<TextLabel display="inline-flex" />`<br/>- Use `<Flex direction="row" />` or `<Flex direction="column" />` if you need to render multiple components in the same row or column. |
 
-## System Updates
+## System updates
 
 ### Theme
 
@@ -246,7 +246,7 @@ The `useColorMode` Hook now returns `[colorMode, setColorMode]` not the object `
 + const [colorMode, setColorMode] = useColorMode();
 ```
 
-## Component Updates
+## Component updates
 
 ### `Accordion`
 
@@ -352,7 +352,7 @@ The `useColorMode` Hook now returns `[colorMode, setColorMode]` not the object `
 * Renamed the `hideDelay` prop to `leaveDelay`
 * Removed the `shouldWrapChildren` prop. Use Function as Child Component (FaCC) to render the tooltip trigger instead.
 
-## Transition Updates
+## Transition updates
 
 The following components now have built-in transitions. Remember to remove all transitions from the following components:
 

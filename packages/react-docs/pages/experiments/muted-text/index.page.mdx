@@ -1,16 +1,20 @@
 import CodeBlock from '@/components/CodeBlock';
+import SourceCode from '@/components/SourceCode';
+import { List, ListItem } from '@/experiments/list';
 import _MutedText_ from '!!raw-loader!@/experiments/muted-text/MutedText';
 
 # MutedText
 
 A text component that displays muted text with a secondary color style.
 
-## Usage
+## Examples
 
 {render('./usage')}
 
-## Source
+## Source code
 
-### MutedText
-
-<CodeBlock code={_MutedText_} />
+<List>
+  <ListItem>
+    <SourceCode name="MutedText.js" code={_MutedText_} />
+  </ListItem>
+</List>

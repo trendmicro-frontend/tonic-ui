@@ -1,11 +1,13 @@
 import CodeBlock from '@/components/CodeBlock';
+import SourceCode from '@/components/SourceCode';
+import { List, ListItem } from '@/experiments/list';
 import rawSearchDropdown from '!!raw-loader!@/experiments/search-dropdown/SearchDropdown';
 
 # SearchDropdown
 
 A search dropdown component based on `Dropdown` and `SearchInput`, designed to render a menu with selectable items and handle selection logic through search functionality.
 
-## Usage
+## Examples
 
 ### Basic configuration
 
@@ -57,8 +59,10 @@ Here's a more advanced and commonly used configuration pattern:
 
 Check out the [Dropdown](../dropdown) and [DropdownBase](../dropdown-base) components for more details.
 
-## Source
+## Source code
 
-### SearchDropdown
-
-<CodeBlock code={rawSearchDropdown} />
+<List>
+  <ListItem>
+    <SourceCode name="SearchDropdown.js" code={rawSearchDropdown} />
+  </ListItem>
+</List>

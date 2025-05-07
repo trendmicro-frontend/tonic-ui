@@ -3,13 +3,13 @@ import ThemeParser from "@/components/ThemeParser";
 
 # Shadows
 
-## Design Tokens
+## Design tokens
 
 <ThemeParser theme="shadows" />
 
 > Shadow colors are defined in the color style object, not in the theme. Use the `useColorStyle` Hook to get the shadow color.
 
-## Color Style
+## Color style
 
 ```js
 const [colorMode] = useColorMode();
@@ -20,7 +20,7 @@ console.log(colorStyle.shadow.medium);
 console.log(colorStyle.shadow.thick);
 ```
 
-### Dark Mode
+### Dark mode
 
 ```js
 shadow: {
@@ -30,7 +30,7 @@ shadow: {
 }
 ```
 
-### Light Mode
+### Light mode
 
 ```js
 shadow: {

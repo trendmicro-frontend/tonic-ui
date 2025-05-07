@@ -1,11 +1,13 @@
 import CodeBlock from '@/components/CodeBlock';
+import SourceCode from '@/components/SourceCode';
+import { List, ListItem } from '@/experiments/list';
 import _DropdownBase_ from '!!raw-loader!@/experiments/dropdown/DropdownBase';
 
 # DropdownBase
 
 A foundational dropdown component that renders a menu with selectable items, supporting dynamic content rendering and custom selection behavior.
 
-## Usage
+## Examples
 
 ### Basic configuration
 
@@ -144,8 +146,6 @@ declare const DropdownBase: React.ForwardRefExoticComponent<
 export default DropdownBase;
 ```
 
-### `DropdownItem` object
-
 Each dropdown item is an object that may include the following fields:
 
 * `label` (optional): The label to display for the item.
@@ -205,7 +205,7 @@ Each dropdown item is an object that may include the following fields:
 * `props` (optional): Props passed directly to the underlying `MenuItem`, such as `disabled`, custom data attributes, or style props (`sx`).
 * `[key: string]: any` (optional): Additional custom fields for your internal use, which are passed along in the `onSelect` callback but are not used internally by the component.
 
-### Prop definitions
+### DropdownBase
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
@@ -242,8 +242,10 @@ Notes:
     const defaultRenderItem = (item) => isPlainObject(item) ? item.label : item;
     ```
 
-## Source
+## Source code
 
-### DropdownBase
-
-<CodeBlock code={_DropdownBase_} />
+<List>
+  <ListItem>
+    <SourceCode name="DropdownBase.js" code={_DropdownBase_} />
+  </ListItem>
+</List>

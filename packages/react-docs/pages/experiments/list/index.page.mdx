@@ -1,4 +1,6 @@
 import CodeBlock from '@/components/CodeBlock';
+import SourceCode from '@/components/SourceCode';
+import { List, ListItem } from '@/experiments/list';
 import _List_ from '!!raw-loader!@/experiments/list/List';
 import _ListItem_ from '!!raw-loader!@/experiments/list/ListItem';
 
@@ -6,16 +8,17 @@ import _ListItem_ from '!!raw-loader!@/experiments/list/ListItem';
 
 The `List` component is used to display a list of items. Each item is rendered with the `ListItem` component.
 
-## Usage
+## Examples
 
 {render('./usage')}
 
-## Source
+## Source code
 
-### List
-
-<CodeBlock code={_List_} />
-
-### ListItem
-
-<CodeBlock code={_ListItem_} />
+<List>
+  <ListItem>
+    <SourceCode name="List.js" code={_List_} />
+  </ListItem>
+  <ListItem>
+    <SourceCode name="ListItem.js" code={_ListItem_} />
+  </ListItem>
+</List>

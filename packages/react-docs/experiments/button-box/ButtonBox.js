@@ -59,4 +59,6 @@ const ButtonBox = forwardRef((
   );
 });
 
+ButtonBox.displayName = 'ButtonBox';
+
 export default ButtonBox;

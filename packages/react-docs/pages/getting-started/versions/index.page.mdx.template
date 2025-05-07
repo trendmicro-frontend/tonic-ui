@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Flex, Link, Table, TableHeader, TableBody, TableRow, TableCell, Tag, Text } from '@tonic-ui/react';
 
-# Tonic UI Versions
+# Versions
 
 You can come back to this page and switch the version of the docs you're reading at any time.
 
-## Current Versions
+## Current versions
 
 <Table>
   <TableHeader>
@@ -59,7 +59,7 @@ You can come back to this page and switch the version of the docs you're reading
   </TableBody>
 </Table>
 
-## Released Versions
+## Released versions
 
 The most recent stable version (✓) is recommended for use in production.
 
@@ -101,7 +101,7 @@ The most recent stable version (✓) is recommended for use in production.
   </TableBody>
 </Table>
 
-## Unreleased Changes
+## Unreleased changes
 
 <Table>
   <TableBody>
@@ -141,7 +141,7 @@ The most recent stable version (✓) is recommended for use in production.
   </TableBody>
 </Table>
 
-## Versioning Strategy
+## Versioning strategy
 
 Stability ensures that reusable components and libraries, tutorials, tools, and learned practices don't become obsolete unexpectedly.
 
@@ -151,7 +151,7 @@ This document contains the practices and guidelines for versioning. Tonic UI fol
 * **Minor releases** contain important new features. Minor releases are fully backward-compatible; no developer assistance is expected during update, but you can optionally modify your apps and libraries to begin using new APIs, features, and capabilities that were added in the release.
 * **Patch releases** are low risk, contain bug fixes and small new features. No developer assistance is expected during update.
 
-## Deprecation Practices
+## Deprecation practices
 
 Sometimes **"breaking changes"**, such as the removal of support for select APIs and features, are necessary.
 

@@ -1,19 +1,23 @@
 import CodeBlock from '@/components/CodeBlock';
+import SourceCode from '@/components/SourceCode';
+import { List, ListItem } from '@/experiments/list';
 import _Render_ from '!!raw-loader!@/experiments/render/Render';
 
 # Render
 
 The `Render` component is a utility for conditionally rendering UI content based on a boolean condition.
 
-## Usage
+## Examples
 
 * The `children` prop renders content when the condition evaluates to `true`.
 * The `fallback` prop renders alternative content when the condition evaluates to `false`.
 
 {render('./usage')}
 
-## Source
+## Source code
 
-### Render
-
-<CodeBlock code={_Render_} />
+<List>
+  <ListItem>
+    <SourceCode name="Render.js" code={_Render_} />
+  </ListItem>
+</List>
