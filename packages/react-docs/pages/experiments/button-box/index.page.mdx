@@ -1,0 +1,61 @@
+import CodeBlock from '@/components/CodeBlock';
+import SourceCode from '@/components/SourceCode';
+import { List, ListItem } from '@/experiments/list';
+import _ButtonBox_ from '!!raw-loader!@/experiments/button-box/ButtonBox';
+import _createVariantButtonBox_ from '!!raw-loader!@/pages/experiments/button-box/utils/createVariantButtonBox';
+import _styles_ from '!!raw-loader!@/experiments/button-box/styles';
+
+# ButtonBox
+
+`ButtonBox` is a custom component designed to function and appear like a button. It can be used in contexts where native `<button>` elements are not permitted, such as within other buttons.
+
+## Keyboard Interaction
+
+To support accessibility and expected user experience, `ButtonBox` emulates the keyboard behavior of a native button:
+
+- **Enter key**:
+  - Triggers the `onClick` handler on **keydown**.
+  - Ignores auto-repeat events (`event.repeat`) to avoid firing multiple times while the key is held down.
+
+- **Space key**:
+  - Prevents the default scrolling behavior on **keydown**.
+  - Triggers the `onClick` handler on **keyup**, matching the native `<button>` behavior.
+  - Ignores auto-repeat events (`event.repeat`) to avoid unintentional repeated clicks.
+
+## Examples
+
+### Variant buttons
+
+{render('./variant-buttons')}
+
+You can utilize the following utility function to create a `ButtonBox` that supports variants:
+
+```js
+const EmphasisButtonBox = createVariantButtonBox('emphasis');
+const PrimaryButtonBox = createVariantButtonBox('primary');
+const DefaultButtonBox = createVariantButtonBox('default');
+const SecondaryButtonBox = createVariantButtonBox('secondary');
+const GhostButtonBox = createVariantButtonBox('ghost');
+```
+
+<CodeBlock code={_createVariantButtonBox_} />
+
+### Nested buttons
+
+A key use case for `ButtonBox` is when you need button-like behavior in contexts where native buttons aren't allowed, such as having a button inside another button:
+
+{render('./nested-buttons')}
+
+## Source code
+
+<List>
+  <ListItem>
+    <SourceCode name="ButtonBox.js" code={_ButtonBox_} />
+  </ListItem>
+  <ListItem>
+    <SourceCode name="createVariantButtonBox.js" code={_createVariantButtonBox_} />
+  </ListItem>
+  <ListItem>
+    <SourceCode name="styles.js" code={_styles_} />
+  </ListItem>
+</List>

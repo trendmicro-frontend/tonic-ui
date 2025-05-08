@@ -22,18 +22,18 @@ import { MutedText } from '../experiments/muted-text';
 
 export const routes = [
   {
-    title: 'Getting Started',
+    title: 'Getting started',
     icon: (props) => (
       <RocketIcon size="4x" {...props} />
     ),
     routes: [
       { title: 'Installation', path: 'getting-started/installation' },
       { title: 'Usage', path: 'getting-started/usage' },
-      { title: 'Color Mode', path: 'getting-started/color-mode' },
-      { title: 'Color Style', path: 'getting-started/color-style' },
+      { title: 'Color mode', path: 'getting-started/color-mode' },
+      { title: 'Color style', path: 'getting-started/color-style' },
       { title: 'Icons', path: 'getting-started/icons' },
       { title: 'The sx prop', path: 'getting-started/the-sx-prop' },
-      { title: 'Tonic UI Versions', path: 'getting-started/versions' },
+      { title: 'Versions', path: 'getting-started/versions' },
     ],
   },
   {
@@ -42,19 +42,19 @@ export const routes = [
       <UserTeamIcon size="4x" {...props} />
     ),
     routes: [
-      { title: 'Contributing Guidelines', path: 'contributing' },
-      { title: 'Pull Request Review', path: 'contributing/pull-request-review' },
+      { title: 'Contributing guidelines', path: 'contributing' },
+      { title: 'Pull request review', path: 'contributing/pull-request-review' },
       { title: 'Publishing', path: 'contributing/publishing' },
-      { title: 'React Documentation Site', path: 'contributing/react-documentation-site' },
+      { title: 'React documentation site', path: 'contributing/react-documentation-site' },
       {
-        title: 'React Components - Part 1',
+        title: 'React components - part 1',
         path: 'contributing/react-components-part-1',
       },
       {
-        title: 'React Components - Part 2',
+        title: 'React components - part 2',
         path: 'contributing/react-components-part-2',
       },
-      { title: 'React Icons', path: 'contributing/react-icons' },
+      { title: 'React icons', path: 'contributing/react-icons' },
     ],
   },
   {
@@ -63,8 +63,8 @@ export const routes = [
       <ToolsConfigurationIcon size="4x" {...props} />
     ),
     routes: [
-      { title: 'Content Security Policy', path: 'customization/content-security-policy' },
-      { title: 'CSS Theme Variables', path: 'customization/css-theme-variables' },
+      { title: 'Content Security Policy (CSP)', path: 'customization/content-security-policy' },
+      { title: 'CSS theme variables', path: 'customization/css-theme-variables' },
       { title: 'Shadow DOM', path: 'customization/shadow-dom' },
     ],
   },
@@ -77,9 +77,10 @@ export const routes = [
       </Tag>
     ),
     routes: [
-      { title: 'Getting Started', path: 'experiments' },
+      { title: 'Getting started', path: 'experiments' },
 
       { title: 'FORM CONTROLS', heading: true },
+      { title: 'ButtonBox', path: 'experiments/button-box' },
       { title: 'Dropdown', path: 'experiments/dropdown' },
       { title: 'DropdownBase', path: 'experiments/dropdown-base' },
       { title: 'SearchDropdown', path: 'experiments/search-dropdown' },
@@ -119,18 +120,17 @@ export const routes = [
       </SVGIcon>
     ),
     routes: [
-      { title: 'Overview', path: 'patterns' },
       { title: 'Notification', path: 'patterns/notification' },
       { title: 'Table Display', path: 'patterns/table-display', },
     ],
   },
   {
-    title: 'React Components',
+    title: 'React components',
     icon: (props) => (
       <WidgetsIcon {...props} />
     ),
     routes: [
-      { title: 'Getting Started', path: 'components' },
+      { title: 'Getting started', path: 'components' },
 
       { title: 'COLOR MODE', heading: true },
       { title: 'Overview', path: 'components/color-mode' },
@@ -423,12 +423,12 @@ export const routes = [
     ],
   },
   {
-    title: 'React Hooks',
+    title: 'React hooks',
     icon: (props) => (
       <HookIcon size="$x" {...props} />
     ),
     routes: [
-      { title: 'Getting Started', path: 'hooks' },
+      { title: 'Getting started', path: 'hooks' },
       { title: 'useClickOutside', path: 'hooks/useClickOutside' },
       { title: 'useConst', path: 'hooks/useConst' },
       { title: 'useCopyToClipboard', path: 'hooks/useCopyToClipboard' },
@@ -455,25 +455,25 @@ export const routes = [
     ],
   },
   {
-    title: 'React Icons',
+    title: 'React icons',
     icon: (props) => (
       <FileImageOIcon size="4x" {...props} />
     ),
     routes: [
-      { title: 'Getting Started', path: 'icons' },
+      { title: 'Getting started', path: 'icons' },
       { title: 'SVGIcon', path: 'icons/svg-icon' },
     ],
   },
   {
-    title: 'Styled System',
+    title: 'Styled system',
     icon: (props) => (
       <WorkspaceIcon size="4x" {...props} />
     ),
     routes: [
-      { title: 'Getting Started', path: 'styled-system' },
-      { title: 'Style Props', path: 'styled-system/style-props' },
-      { title: 'Pseudo Style Props', path: 'styled-system/pseudo-style-props' },
-      { title: 'Responsive Values', path: 'styled-system/responsive-values' },
+      { title: 'Getting started', path: 'styled-system' },
+      { title: 'Style props', path: 'styled-system/style-props' },
+      { title: 'Pseudo style props', path: 'styled-system/pseudo-style-props' },
+      { title: 'Responsive values', path: 'styled-system/responsive-values' },
     ],
   },
   {
@@ -482,15 +482,15 @@ export const routes = [
       <ColorIcon size="4x" {...props} />
     ),
     routes: [
-      { title: 'Getting Started', path: 'theme' },
+      { title: 'Getting started', path: 'theme' },
       { title: 'Borders', path: 'theme/borders' },
       { title: 'Breakpoints', path: 'theme/breakpoints' },
       { title: 'Colors', path: 'theme/colors' },
       { title: 'Fonts', path: 'theme/fonts' },
-      { title: 'Font Sizes', path: 'theme/font-sizes' },
-      { title: 'Font Weights', path: 'theme/font-weights' },
-      { title: 'Letter Spacings', path: 'theme/letter-spacings' },
-      { title: 'Line Heights', path: 'theme/line-heights' },
+      { title: 'Font sizes', path: 'theme/font-sizes' },
+      { title: 'Font weights', path: 'theme/font-weights' },
+      { title: 'Letter spacings', path: 'theme/letter-spacings' },
+      { title: 'Line heights', path: 'theme/line-heights' },
       { title: 'Outlines', path: 'theme/outlines' },
       { title: 'Radii', path: 'theme/radii' },
       { title: 'Shadows', path: 'theme/shadows' },

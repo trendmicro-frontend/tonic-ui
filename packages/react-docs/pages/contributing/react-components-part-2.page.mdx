@@ -1,10 +1,10 @@
-# Contributing to React Components <sup>PART 2</sup>
+# Contributing to React components <sup>PART 2</sup>
 
-## Coding Style
+## Coding style
 
 The coding style guideline is provided here to help maintain consistency across the codebase. You can refer to the examples below for various types of components.
 
-### Basic Component
+### Basic component
 
 A basic component should be a functional component that is wrapped in `forwardRef`. The `displayName` is set for easier debugging and inspection.
 
@@ -64,7 +64,7 @@ Component.displayName = 'Component';
 export default Component;
 ```
 
-### Context Provider
+### Context provider
 
 When creating components that share state or methods via context, memoize the state to avoid unnecessary re-renders. You can use either `micro-memoize` or `useMemo` to achieve this. `micro-memoize` does not require specifying dependencies, making the code cleaner.
 
@@ -106,7 +106,7 @@ Component.displayName = 'Component';
 export default Component;
 ```
 
-### Controlled and Uncontrolled Component
+### Controlled and uncontrolled component
 
 For components that manage their own state but can also be controlled externally, use a reducer and effect hooks to synchronize state changes.
 
@@ -182,7 +182,7 @@ Component.displayName = 'Component';
 export default Component;
 ```
 
-## Naming Convention
+## Naming convention
 
 ### Ground rules
 

@@ -1,11 +1,13 @@
 import CodeBlock from '@/components/CodeBlock';
+import SourceCode from '@/components/SourceCode';
+import { List, ListItem } from '@/experiments/list';
 import _For_ from '!!raw-loader!@/experiments/for/For';
 
 # For
 
 The `For` component provides a declarative way to iterate over collections and render each item.
 
-## Usage
+## Examples
 
 ### Object
 
@@ -19,8 +21,10 @@ Use the `fallback` prop to render alternative content when the array is either e
 
 {render('./fallback')}
 
-## Source
+## Source code
 
-### For
-
-<CodeBlock code={_For_} />
+<List>
+  <ListItem>
+    <SourceCode name="For.js" code={_For_} />
+  </ListItem>
+</List>

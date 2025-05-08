@@ -1,4 +1,6 @@
 import CodeBlock from '@/components/CodeBlock';
+import SourceCode from '@/components/SourceCode';
+import { List, ListItem } from '@/experiments/list';
 import _Dropdown_ from '!!raw-loader!@/experiments/dropdown/Dropdown';
 import _MenuButtonToggle_ from '!!raw-loader!@/experiments/dropdown/MenuButtonToggle';
 import _TagToggle_ from '!!raw-loader!@/experiments/dropdown/TagToggle';
@@ -7,7 +9,7 @@ import _TagToggle_ from '!!raw-loader!@/experiments/dropdown/TagToggle';
 
 A dropdown component built on `DropdownBase` and `MenuButton` that renders a menu with selectable items and manages the selection behavior.
 
-## Usage
+## Examples
 
 ### Basic configuration
 
@@ -74,8 +76,10 @@ The toggle components below serve as useful examples — customize them as neede
 
 Check out the [DropdownBase](../dropdown-base) components for more details.
 
-## Source
+## Source code
 
-### Dropdown
-
-<CodeBlock code={_Dropdown_} />
+<List>
+  <ListItem>
+    <SourceCode name="Dropdown.js" code={_Dropdown_} />
+  </ListItem>
+</List>

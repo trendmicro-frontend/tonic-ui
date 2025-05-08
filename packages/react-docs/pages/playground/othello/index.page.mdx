@@ -6,11 +6,11 @@ Othello, also known as Reversi, is a strategy board game involving two players. 
 
 {render('./othello')}
 
-## Game Tree
+## Game tree
 
 The provided algorithm is designed to create an AI that can play Othello by evaluating potential moves and selecting the best one based on a set of criteria. This process involves several key components: board evaluation, move generation, and a search function utilizing the minimax algorithm with alpha-beta pruning. Let's explore each component in detail.
 
-### Board Evaluation Function
+### Board evaluation function
 
 The evaluation table assigns values to each cell on the board based on strategic importance. In the Othello game, corners and edges are highly valued, while cells adjacent to corners are penalized.
 
@@ -82,11 +82,11 @@ function minimax(node, depth)
     return α
 ```
 
-### Alpha-Beta Pruning
+### Alpha-Beta pruning
 
 Alpha-Beta pruning enhances the efficiency of the Minimax algorithm by eliminating branches that do not need to be explored. This focuses the search on potentially optimal subtrees, reducing the time spent on less promising branches.
 
-Process of Alpha-Beta Pruning
+Process of Alpha-Beta pruning
 1. Initialization: Start from an initial game state and initialize two variables, alpha and beta, representing the best already explored option along the path to the root for the maximizer and minimizer, respectively.
 2. Value Passing: These alpha and beta values are passed down to the child nodes. Each child node updates its alpha and beta values based on the results from its own child nodes.
 3. Terminal Node: When a terminal node is reached, the result updates the alpha or beta values of the parent node. This process continues upwards through the tree.
