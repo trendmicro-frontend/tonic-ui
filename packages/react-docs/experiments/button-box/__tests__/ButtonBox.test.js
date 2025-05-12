@@ -59,9 +59,9 @@ describe('ButtonBox', () => {
     expect(handleKeyUp).toHaveBeenCalledTimes(1);
   });
 
-  it('has tabIndex=-1 when disabled', () => {
+  it('should not include tabIndex attribute when disabled', () => {
     const { getByRole } = render(<ButtonBox disabled>Disabled</ButtonBox>);
-    expect(getByRole('button')).toHaveAttribute('tabindex', '-1');
+    expect(getByRole('button')).not.toHaveAttribute('tabindex');
   });
 
   it('has default tabIndex=0 when not disabled', () => {
