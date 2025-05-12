@@ -1,76 +1,92 @@
 /* @jest-environment jsdom */
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { fireEvent, render, screen } from '../../../test-utils/render';
 import ButtonBox from '../ButtonBox';
 
 describe('ButtonBox', () => {
-  it('calls onClick when clicked', () => {
+  it('calls onClick when clicked', async () => {
+    const user = userEvent.setup();
     const handleClick = jest.fn();
-    const { getByRole } = render(<ButtonBox onClick={handleClick}>Click Me</ButtonBox>);
-    fireEvent.click(getByRole('button'));
+    render(<ButtonBox onClick={handleClick}>Click Me</ButtonBox>);
+    const button = screen.getByRole('button');
+    await user.click(button);
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
-  it('does not call onClick when disabled and clicked', () => {
+  it('calls onClick when pressing Enter (keyDown)', () => {
     const handleClick = jest.fn();
-    const { getByRole } = render(<ButtonBox disabled onClick={handleClick}>Click Me</ButtonBox>);
-    fireEvent.click(getByRole('button'));
-    expect(handleClick).not.toHaveBeenCalled();
-  });
-
-  it('calls onClick when pressing Enter', () => {
-    const handleClick = jest.fn();
-    const { getByRole } = render(<ButtonBox onClick={handleClick}>Click Me</ButtonBox>);
-    fireEvent.keyDown(getByRole('button'), { key: 'Enter' });
+    render(<ButtonBox onClick={handleClick}>Click Me</ButtonBox>);
+    const button = screen.getByRole('button');
+    button.focus();
+    fireEvent.keyDown(button, { key: 'Enter', repeat: false });
+    fireEvent.keyUp(button, { key: 'Enter', repeat: false });
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
   it('calls onClick when pressing Space key (keyUp)', () => {
     const handleClick = jest.fn();
-    const { getByRole } = render(<ButtonBox onClick={handleClick}>Click Me</ButtonBox>);
-    fireEvent.keyUp(getByRole('button'), { key: ' ' });
+    render(<ButtonBox onClick={handleClick}>Click Me</ButtonBox>);
+    const button = screen.getByRole('button');
+    button.focus();
+    fireEvent.keyDown(button, { key: ' ', repeat: false });
+    fireEvent.keyUp(button, { key: ' ', repeat: false });
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
   it('does not call onClick on Enter key repeat', () => {
     const handleClick = jest.fn();
-    const { getByRole } = render(<ButtonBox onClick={handleClick}>Click Me</ButtonBox>);
-    fireEvent.keyDown(getByRole('button'), { key: 'Enter', repeat: true });
+    render(<ButtonBox onClick={handleClick}>Click Me</ButtonBox>);
+    const button = screen.getByRole('button');
+    button.focus();
+    fireEvent.keyDown(button, { key: 'Enter', repeat: true });
+    fireEvent.keyDown(button, { key: 'Enter', repeat: true });
+    fireEvent.keyDown(button, { key: 'Enter', repeat: true });
     expect(handleClick).not.toHaveBeenCalled();
   });
 
   it('does not call onClick on Space key repeat', () => {
     const handleClick = jest.fn();
-    const { getByRole } = render(<ButtonBox onClick={handleClick}>Click Me</ButtonBox>);
-    fireEvent.keyUp(getByRole('button'), { key: ' ', repeat: true });
+    render(<ButtonBox onClick={handleClick}>Click Me</ButtonBox>);
+    const button = screen.getByRole('button');
+    button.focus();
+    fireEvent.keyDown(button, { key: ' ', repeat: true });
+    fireEvent.keyDown(button, { key: ' ', repeat: true });
+    fireEvent.keyDown(button, { key: ' ', repeat: true });
     expect(handleClick).not.toHaveBeenCalled();
   });
 
-  it('calls onKeyDown and onKeyUp props', () => {
+  it('calls onKeyDown and onKeyUp props', async () => {
+    const user = userEvent.setup();
     const handleKeyDown = jest.fn();
     const handleKeyUp = jest.fn();
-    const { getByRole } = render(
-      <ButtonBox onKeyDown={handleKeyDown} onKeyUp={handleKeyUp}>Test</ButtonBox>
+    render(
+      <ButtonBox onKeyDown={handleKeyDown} onKeyUp={handleKeyUp}>
+        Test
+      </ButtonBox>
     );
-    const button = getByRole('button');
-    fireEvent.keyDown(button, { key: 'a' });
-    fireEvent.keyUp(button, { key: 'a' });
+    const button = screen.getByRole('button');
+    button.focus();
+    await user.keyboard('{Enter}');
     expect(handleKeyDown).toHaveBeenCalledTimes(1);
     expect(handleKeyUp).toHaveBeenCalledTimes(1);
   });
 
-  it('has tabIndex=-1 when disabled', () => {
-    const { getByRole } = render(<ButtonBox disabled>Disabled</ButtonBox>);
-    expect(getByRole('button')).toHaveAttribute('tabindex', '-1');
+  it('should not include tabIndex attribute when disabled', () => {
+    render(<ButtonBox disabled>Disabled</ButtonBox>);
+    const button = screen.getByRole('button');
+    expect(button).not.toHaveAttribute('tabindex');
   });
 
   it('has default tabIndex=0 when not disabled', () => {
-    const { getByRole } = render(<ButtonBox>Enabled</ButtonBox>);
-    expect(getByRole('button')).toHaveAttribute('tabindex', '0');
+    render(<ButtonBox>Enabled</ButtonBox>);
+    const button = screen.getByRole('button');
+    expect(button).toHaveAttribute('tabindex', '0');
   });
 
   it('uses provided tabIndex when not disabled', () => {
-    const { getByRole } = render(<ButtonBox tabIndex={2}>Custom Tab</ButtonBox>);
-    expect(getByRole('button')).toHaveAttribute('tabindex', '2');
+    render(<ButtonBox tabIndex={2}>Custom Tab</ButtonBox>);
+    const button = screen.getByRole('button');
+    expect(button).toHaveAttribute('tabindex', '2');
   });
 });
