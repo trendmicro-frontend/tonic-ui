@@ -2,6 +2,7 @@ import { Box } from '@tonic-ui/react';
 import { useEventCallback } from '@tonic-ui/react-hooks';
 import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
+import useButtonBoxClickHandlers from './useButtonBoxClickHandlers';
 import {
   useButtonBoxStyle,
 } from './styles';
@@ -18,50 +19,12 @@ const ButtonBox = forwardRef((
   },
   ref,
 ) => {
-  const onClick = useEventCallback((event) => {
-    if (disabled) {
-      event.preventDefault();
-      event.stopPropagation();
-      return;
-    }
-    onClickProp?.(event);
-  }, [disabled, onClickProp]);
-
-  const onKeyDown = useEventCallback((event) => {
-    if (disabled) {
-      event.preventDefault();
-      event.stopPropagation();
-      return;
-    }
-
-    if (event.key === ' ') {
-      // Prevent default scrolling behavior for the Space key
-      event.preventDefault();
-    } else if (event.key === 'Enter' && !event.repeat) {
-      // Prevent default behavior and trigger click handler only on first Enter key press
-      event.preventDefault();
-      onClickProp?.(event);
-    }
-
-    onKeyDownProp?.(event);
-  }, [disabled, onClickProp, onKeyDownProp]);
-
-  const onKeyUp = useEventCallback((event) => {
-    if (disabled) {
-      event.preventDefault();
-      event.stopPropagation();
-      return;
-    }
-
-    if (event.key === ' ' && !event.repeat) {
-      // Prevent default behavior and trigger click handler only on first Space key press
-      event.preventDefault();
-      onClickProp?.(event);
-    }
-
-    onKeyUpProp?.(event);
-  }, [disabled, onClickProp, onKeyUpProp]);
-
+  const { onClick, onKeyDown, onKeyUp } = useButtonBoxClickHandlers({
+    disabled,
+    onClick: onClickProp,
+    onKeyDown: onKeyDownProp,
+    onKeyUp: onKeyUpProp,
+  });
   const styleProps = useButtonBoxStyle({ disabled });
 
   return (
@@ -69,7 +32,7 @@ const ButtonBox = forwardRef((
       ref={ref}
       role="button"
       aria-disabled={ariaAttr(disabled)}
-      tabIndex={disabled ? -1 : (tabIndex ?? 0)}
+      tabIndex={disabled ? undefined : (tabIndex ?? 0)}
       onClick={onClick}
       onKeyDown={onKeyDown}
       onKeyUp={onKeyUp}
