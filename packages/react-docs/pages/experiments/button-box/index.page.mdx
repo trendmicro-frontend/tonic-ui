@@ -2,6 +2,7 @@ import CodeBlock from '@/components/CodeBlock';
 import SourceCode from '@/components/SourceCode';
 import { List, ListItem } from '@/experiments/list';
 import _ButtonBox_ from '!!raw-loader!@/experiments/button-box/ButtonBox';
+import _useButtonBoxClickHandlers_ from '!!raw-loader!@/experiments/button-box/useButtonBoxClickHandlers';
 import _createVariantButtonBox_ from '!!raw-loader!@/pages/experiments/button-box/utils/createVariantButtonBox';
 import _styles_ from '!!raw-loader!@/experiments/button-box/styles';
 
@@ -9,7 +10,7 @@ import _styles_ from '!!raw-loader!@/experiments/button-box/styles';
 
 `ButtonBox` is a custom component designed to function and appear like a button. It can be used in contexts where native `<button>` elements are not permitted, such as within other buttons.
 
-## Keyboard Interaction
+## Keyboard interaction
 
 To support accessibility and expected user experience, `ButtonBox` emulates the keyboard behavior of a native button:
 
@@ -53,9 +54,12 @@ A key use case for `ButtonBox` is when you need button-like behavior in contexts
     <SourceCode name="ButtonBox.js" code={_ButtonBox_} />
   </ListItem>
   <ListItem>
-    <SourceCode name="createVariantButtonBox.js" code={_createVariantButtonBox_} />
+    <SourceCode name="useButtonBoxClickHandlers.js" code={_useButtonBoxClickHandlers_} />
   </ListItem>
   <ListItem>
     <SourceCode name="styles.js" code={_styles_} />
+  </ListItem>
+  <ListItem>
+    <SourceCode name="createVariantButtonBox.js" code={_createVariantButtonBox_} />
   </ListItem>
 </List>
