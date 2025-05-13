@@ -110,6 +110,9 @@
     "setupFilesAfterEnv": [
       "<rootDir>/jest-setup.js"
     ],
+    "snapshotSerializers": [
+      "@emotion/jest/serializer"
+    ],
     "testEnvironment": "jsdom",
     "testMatch": [
       "<rootDir>/**/__tests__/**/*.test.js"
