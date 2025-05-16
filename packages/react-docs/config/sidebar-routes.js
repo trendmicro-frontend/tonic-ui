@@ -45,16 +45,16 @@ export const routes = [
       { title: 'Contributing guidelines', path: 'contributing' },
       { title: 'Pull request review', path: 'contributing/pull-request-review' },
       { title: 'Publishing', path: 'contributing/publishing' },
-      { title: 'React documentation site', path: 'contributing/react-documentation-site' },
+      { title: 'Documentation site', path: 'contributing/documentation-site' },
       {
-        title: 'React components - part 1',
-        path: 'contributing/react-components-part-1',
+        title: 'Components - part 1',
+        path: 'contributing/components-part-1',
       },
       {
-        title: 'React components - part 2',
-        path: 'contributing/react-components-part-2',
+        title: 'Components - part 2',
+        path: 'contributing/components-part-2',
       },
-      { title: 'React icons', path: 'contributing/react-icons' },
+      { title: 'Icons', path: 'contributing/icons' },
     ],
   },
   {
@@ -125,7 +125,7 @@ export const routes = [
     ],
   },
   {
-    title: 'React components',
+    title: 'Components',
     icon: (props) => (
       <WidgetsIcon {...props} />
     ),
@@ -423,7 +423,7 @@ export const routes = [
     ],
   },
   {
-    title: 'React hooks',
+    title: 'Hooks',
     icon: (props) => (
       <HookIcon size="$x" {...props} />
     ),
@@ -455,7 +455,7 @@ export const routes = [
     ],
   },
   {
-    title: 'React icons',
+    title: 'Icons',
     icon: (props) => (
       <FileImageOIcon size="4x" {...props} />
     ),
