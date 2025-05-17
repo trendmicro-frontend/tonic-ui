@@ -14,7 +14,7 @@ import { ensureFunction } from 'ensure-type';
  *   - onKeyDown: React.KeyboardEventHandler
  *   - onKeyUp: React.KeyboardEventHandler
  */
-function useActionHandlers({
+function useInteractiveActionHandlers({
   disabled = false,
   onAction,
 }) {
@@ -63,4 +63,4 @@ function useActionHandlers({
   };
 }
 
-export default useActionHandlers;
+export default useInteractiveActionHandlers;

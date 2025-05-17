@@ -2,10 +2,10 @@ import { screen, fireEvent } from '@testing-library/react';
 import { Box } from '@tonic-ui/react/src';
 import { render } from '@tonic-ui/react/test-utils/render';
 import React from 'react';
-import useActionHandlers from '../useActionHandlers';
+import useInteractiveActionHandlers from '../useInteractiveActionHandlers';
 
 function TestButtonBox({ disabled, onAction }) {
-  const handlers = useActionHandlers({ disabled, onAction });
+  const handlers = useInteractiveActionHandlers({ disabled, onAction });
   return (
     <Box
       role="button"
@@ -17,7 +17,7 @@ function TestButtonBox({ disabled, onAction }) {
   );
 }
 
-describe('useActionHandlers', () => {
+describe('useInteractiveActionHandlers', () => {
   test('calls onAction on mouse click when not disabled', () => {
     const onAction = jest.fn();
     render(<TestButtonBox onAction={onAction} />);
