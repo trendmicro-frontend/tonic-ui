@@ -1,9 +1,11 @@
 import { useEventCallback, useEventListener, useMergeRefs } from '@tonic-ui/react-hooks';
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
+import { ensureFunction } from 'ensure-type';
 import React, { cloneElement, forwardRef, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { mergeRefs } from '../utils/refs';
+import useInteractiveActionHandlers from '../utils/useInteractiveActionHandlers';
 import { usePopoverTriggerStyle } from './styles';
 import usePopover from './usePopover';
 
@@ -15,6 +17,7 @@ const PopoverTrigger = forwardRef((inProps, ref) => {
     onClick: onClickProp,
     onFocus: onFocusProp,
     onKeyDown: onKeyDownProp,
+    onKeyUp: onKeyUpProp,
     onMouseEnter: onMouseEnterProp,
     onMouseLeave: onMouseLeaveProp,
     onMouseMove: onMouseMoveProp,
@@ -40,20 +43,10 @@ const PopoverTrigger = forwardRef((inProps, ref) => {
   const [enableMouseMove, setEnableMouseMove] = useState(true);
   const mouseLeaveTimeoutRef = useRef();
 
-  const onClick = useEventCallback((event) => {
-    // No need to check for disabled here — it's already handled by `PopoverContent`.
-    togglePopover();
-  }, [togglePopover]);
-
-  const onKeyDown = useEventCallback((event) => {
-    // No need to check for disabled here — it's already handled by `PopoverContent`.
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault(); // Prevent default scrolling for Space
-
-      togglePopover();
-      return;
-    }
-  }, [togglePopover]);
+  const { onClick, onKeyDown, onKeyUp } = useInteractiveActionHandlers({
+    // Skip passing `disabled`; `PopoverContent` takes care of it internally
+    onAction: () => ensureFunction(togglePopover)(),
+  });
 
   const onBlur = useEventCallback((event) => {
     closePopover();
@@ -103,6 +96,7 @@ const PopoverTrigger = forwardRef((inProps, ref) => {
     'click': {
       onClick,
       onKeyDown,
+      onKeyUp,
     },
     'hover': {
       onBlur,
@@ -136,6 +130,7 @@ const PopoverTrigger = forwardRef((inProps, ref) => {
       onClick: callEventHandlers(ownProps?.onClick, onClickProp, eventHandler.onClick),
       onFocus: callEventHandlers(ownProps?.onFocus, onFocusProp, eventHandler.onFocus),
       onKeyDown: callEventHandlers(ownProps?.onKeyDown, onKeyDownProp, eventHandler.onKeyDown),
+      onKeyUp: callEventHandlers(ownProps?.onKeyUp, onKeyUpProp, eventHandler.onKeyUp),
       onMouseEnter: callEventHandlers(ownProps?.onMouseEnter, onMouseEnterProp, eventHandler.onMouseEnter),
       onMouseLeave: callEventHandlers(ownProps?.onMouseLeave, onMouseLeaveProp, eventHandler.onMouseLeave),
       onMouseMove: callEventHandlers(ownProps?.onMouseMove, onMouseMoveProp, eventHandler.onMouseMove),
