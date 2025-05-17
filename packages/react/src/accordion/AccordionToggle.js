@@ -1,9 +1,9 @@
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
-import { useEventCallback } from '@tonic-ui/react-hooks';
 import { ensureBoolean, ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
+import useInteractiveActionHandlers from '../utils/useInteractiveActionHandlers';
 import useAccordionItem from './useAccordionItem';
 import { useAccordionToggleStyle } from './styles';
 
@@ -13,6 +13,7 @@ const AccordionToggle = forwardRef((inProps, ref) => {
     disabled: disabledProp,
     onClick: onClickProp,
     onKeyDown: onKeyDownProp,
+    onKeyUp: onKeyUpProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'AccordionToggle' });
   const {
@@ -25,27 +26,10 @@ const AccordionToggle = forwardRef((inProps, ref) => {
   const disabled = ensureBoolean(disabledProp ?? accordionItemDisabled);
   const styleProps = useAccordionToggleStyle();
 
-  const onClick = useEventCallback((event) => {
-    if (disabled) {
-      event.preventDefault();
-      return;
-    }
-
-    ensureFunction(toggleAccordionItem)();
-  }, [disabled, toggleAccordionItem]);
-
-  const onKeyDown = useEventCallback((event) => {
-    if (disabled) {
-      event.preventDefault();
-      return;
-    }
-
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault(); // Prevent default scrolling for Space
-
-      ensureFunction(toggleAccordionItem)();
-    }
-  }, [disabled, toggleAccordionItem]);
+  const { onClick, onKeyDown, onKeyUp } = useInteractiveActionHandlers({
+    disabled,
+    onAction: () => ensureFunction(toggleAccordionItem)(),
+  });
 
   const getAccordionToggleProps = () => ({
     'aria-controls': accordionContentId,
@@ -55,6 +39,7 @@ const AccordionToggle = forwardRef((inProps, ref) => {
     id: accordionToggleId,
     onClick: callEventHandlers(onClickProp, onClick),
     onKeyDown: callEventHandlers(onKeyDownProp, onKeyDown),
+    onKeyUp: callEventHandlers(onKeyUpProp, onKeyUp),
     ref,
     role: 'button',
     tabIndex: 0,
