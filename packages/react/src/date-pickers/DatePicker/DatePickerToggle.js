@@ -14,6 +14,7 @@ const DatePickerToggle = forwardRef((
     disabled,
     onClick: onClickProp,
     onKeyDown: onKeyDownProp,
+    onKeyUp: onKeyUpProp,
     ...rest
   },
   ref,
@@ -24,7 +25,8 @@ const DatePickerToggle = forwardRef((
     datePickerToggleId,
     datePickerToggleRef,
     isOpen,
-    onToggle: toggleDatePicker,
+    onClose: closeDatePicker,
+    onOpen: openDatePicker,
   } = { ...datePickerContext };
   const styleProps = useDatePickerToggleStyle();
   const combinedRef = useMergeRefs(datePickerToggleRef, ref);
@@ -32,25 +34,43 @@ const DatePickerToggle = forwardRef((
   const onClick = useEventCallback((event) => {
     if (disabled) {
       event.preventDefault();
+      event.stopPropagation();
       return;
     }
-
-    ensureFunction(toggleDatePicker)();
-  }, [disabled, toggleDatePicker]);
+    ensureFunction(openDatePicker)();
+  }, [disabled, openDatePicker]);
 
   const onKeyDown = useEventCallback((event) => {
     if (disabled) {
       event.preventDefault();
+      event.stopPropagation();
       return;
     }
 
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault(); // Prevent default scrolling for Space
+    if (event.key === ' ') {
+      // Prevent page scroll on Space
+      event.preventDefault();
+    } else if (event.key === 'Escape') {
+      event.preventDefault();
+      ensureFunction(closeDatePicker)();
+    } else if (event.key === 'Enter' && !event.repeat) {
+      event.preventDefault();
+      ensureFunction(openDatePicker)();
+    }
+  }, [disabled, closeDatePicker, openDatePicker]);
 
-      ensureFunction(toggleDatePicker)();
+  const onKeyUp = useEventCallback((event) => {
+    if (disabled) {
+      event.preventDefault();
+      event.stopPropagation();
       return;
     }
-  }, [disabled, toggleDatePicker]);
+
+    if (event.key === ' ' && !event.repeat) {
+      event.preventDefault();
+      ensureFunction(openDatePicker)();
+    }
+  }, [disabled, openDatePicker]);
 
   const getDatePickerToggleProps = () => ({
     'aria-controls': datePickerContentId,
@@ -61,6 +81,7 @@ const DatePickerToggle = forwardRef((
     id: datePickerToggleId,
     onClick: callEventHandlers(onClickProp, onClick),
     onKeyDown: callEventHandlers(onKeyDownProp, onKeyDown),
+    onKeyUp: callEventHandlers(onKeyUpProp, onKeyUp),
     ref: combinedRef,
     role: 'button',
     tabIndex: 0,
