@@ -1,9 +1,9 @@
-import { useEventCallback } from '@tonic-ui/react-hooks';
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
+import useInteractiveActionHandlers from '../utils/useInteractiveActionHandlers';
 import { useMenuItemStyle } from './styles';
 import useMenu from './useMenu';
 
@@ -12,6 +12,7 @@ const MenuItem = forwardRef((inProps, ref) => {
     disabled,
     onClick: onClickProp,
     onKeyDown: onKeyDownProp,
+    onKeyUp: onKeyUpProp,
     role = 'menuitem',
     ...rest
   } = useDefaultProps({ props: inProps, name: 'MenuItem' });
@@ -23,25 +24,10 @@ const MenuItem = forwardRef((inProps, ref) => {
   const tabIndex = -1;
   const styleProps = useMenuItemStyle({ tabIndex });
 
-  const onClick = useEventCallback((event) => {
-    if (disabled) {
-      event.preventDefault();
-      return;
-    }
-
-    closeOnSelect && ensureFunction(closeMenu)();
-  }, [disabled, closeOnSelect, closeMenu]);
-
-  const onKeyDown = useEventCallback((event) => {
-    if (disabled) {
-      event.preventDefault();
-      return;
-    }
-
-    if (event.key === 'Enter') {
-      closeOnSelect && ensureFunction(closeMenu)();
-    }
-  }, [disabled, closeOnSelect, closeMenu]);
+  const { onClick, onKeyDown, onKeyUp } = useInteractiveActionHandlers({
+    disabled,
+    onAction: () => closeOnSelect && ensureFunction(closeMenu)(),
+  });
 
   return (
     <ButtonBase
@@ -52,6 +38,7 @@ const MenuItem = forwardRef((inProps, ref) => {
       aria-disabled={ariaAttr(disabled)}
       onClick={callEventHandlers(onClickProp, onClick)}
       onKeyDown={callEventHandlers(onKeyDownProp, onKeyDown)}
+      onKeyUp={callEventHandlers(onKeyUpProp, onKeyUp)}
       {...styleProps}
       {...rest}
     />
