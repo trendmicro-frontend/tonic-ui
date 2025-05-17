@@ -1,9 +1,10 @@
-import { useEventCallback, useMergeRefs } from '@tonic-ui/react-hooks';
+import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
+import useInteractiveActionHandlers from '../utils/useInteractiveActionHandlers';
 import {
   useMenuToggleStyle,
 } from './styles';
@@ -15,6 +16,7 @@ const MenuToggle = forwardRef((inProps, ref) => {
     disabled,
     onClick: onClickProp,
     onKeyDown: onKeyDownProp,
+    onKeyUp: onKeyUpProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'MenuToggle' });
   const menuContext = useMenu(); // context might be an undefined value
@@ -28,27 +30,10 @@ const MenuToggle = forwardRef((inProps, ref) => {
   const combinedRef = useMergeRefs(menuToggleRef, ref);
   const styleProps = useMenuToggleStyle();
 
-  const onClick = useEventCallback((event) => {
-    if (disabled) {
-      event.preventDefault();
-      return;
-    }
-
-    ensureFunction(toggleMenu)();
-  }, [disabled, toggleMenu]);
-
-  const onKeyDown = useEventCallback((event) => {
-    if (disabled) {
-      event.preventDefault();
-      return;
-    }
-
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault(); // Prevent default scrolling for Space
-
-      ensureFunction(toggleMenu)();
-    }
-  }, [disabled, toggleMenu]);
+  const { onClick, onKeyDown, onKeyUp } = useInteractiveActionHandlers({
+    disabled,
+    onAction: () => ensureFunction(toggleMenu)(),
+  });
 
   const getMenuToggleProps = () => ({
     'aria-controls': menuId,
@@ -59,6 +44,7 @@ const MenuToggle = forwardRef((inProps, ref) => {
     id: menuToggleId,
     onClick: callEventHandlers(onClickProp, onClick),
     onKeyDown: callEventHandlers(onKeyDownProp, onKeyDown),
+    onKeyUp: callEventHandlers(onKeyUpProp, onKeyUp),
     ref: combinedRef,
     role: 'button',
     tabIndex: 0,
