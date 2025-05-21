@@ -14,7 +14,6 @@ const DatePickerToggle = forwardRef((
     disabled,
     onClick: onClickProp,
     onKeyDown: onKeyDownProp,
-    onKeyUp: onKeyUpProp,
     ...rest
   },
   ref,
@@ -47,30 +46,21 @@ const DatePickerToggle = forwardRef((
       return;
     }
 
-    if (event.key === ' ') {
-      // Prevent page scroll on Space
-      event.preventDefault();
-    } else if (event.key === 'Escape') {
+    if (event.repeat) {
+      return;
+    }
+
+    const isEscape = (event.key === 'Escape');
+    const isEnterOrSpace = (event.key === 'Enter' || event.key === ' ');
+
+    if (isEscape) {
       event.preventDefault();
       ensureFunction(closeDatePicker)();
-    } else if (event.key === 'Enter' && !event.repeat) {
+    } else if (isEnterOrSpace) {
       event.preventDefault();
       ensureFunction(openDatePicker)();
     }
   }, [disabled, closeDatePicker, openDatePicker]);
-
-  const onKeyUp = useEventCallback((event) => {
-    if (disabled) {
-      event.preventDefault();
-      event.stopPropagation();
-      return;
-    }
-
-    if (event.key === ' ' && !event.repeat) {
-      event.preventDefault();
-      ensureFunction(openDatePicker)();
-    }
-  }, [disabled, openDatePicker]);
 
   const getDatePickerToggleProps = () => ({
     'aria-controls': datePickerContentId,
@@ -81,7 +71,6 @@ const DatePickerToggle = forwardRef((
     id: datePickerToggleId,
     onClick: callEventHandlers(onClickProp, onClick),
     onKeyDown: callEventHandlers(onKeyDownProp, onKeyDown),
-    onKeyUp: callEventHandlers(onKeyUpProp, onKeyUp),
     ref: combinedRef,
     role: 'button',
     tabIndex: 0,

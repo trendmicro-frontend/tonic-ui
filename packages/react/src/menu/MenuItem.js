@@ -3,7 +3,7 @@ import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
-import useInteractiveActionHandlers from '../utils/useInteractiveActionHandlers';
+import useButtonEventHandlers from '../utils/useButtonEventHandlers';
 import { useMenuItemStyle } from './styles';
 import useMenu from './useMenu';
 
@@ -12,7 +12,6 @@ const MenuItem = forwardRef((inProps, ref) => {
     disabled,
     onClick: onClickProp,
     onKeyDown: onKeyDownProp,
-    onKeyUp: onKeyUpProp,
     role = 'menuitem',
     ...rest
   } = useDefaultProps({ props: inProps, name: 'MenuItem' });
@@ -24,9 +23,9 @@ const MenuItem = forwardRef((inProps, ref) => {
   const tabIndex = -1;
   const styleProps = useMenuItemStyle({ tabIndex });
 
-  const { onClick, onKeyDown, onKeyUp } = useInteractiveActionHandlers({
+  const { onClick, onKeyDown } = useButtonEventHandlers({
     disabled,
-    onAction: () => closeOnSelect && ensureFunction(closeMenu)(),
+    onActivate: () => closeOnSelect && ensureFunction(closeMenu)(),
   });
 
   return (
@@ -38,7 +37,6 @@ const MenuItem = forwardRef((inProps, ref) => {
       aria-disabled={ariaAttr(disabled)}
       onClick={callEventHandlers(onClickProp, onClick)}
       onKeyDown={callEventHandlers(onKeyDownProp, onKeyDown)}
-      onKeyUp={callEventHandlers(onKeyUpProp, onKeyUp)}
       {...styleProps}
       {...rest}
     />

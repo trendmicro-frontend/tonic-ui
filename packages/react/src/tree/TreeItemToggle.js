@@ -3,7 +3,7 @@ import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useCallback } from 'react';
 import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
-import useInteractiveActionHandlers from '../utils/useInteractiveActionHandlers';
+import useButtonEventHandlers from '../utils/useButtonEventHandlers';
 import {
   useTreeItemToggleStyle,
 } from './styles';
@@ -15,7 +15,6 @@ const TreeItemToggle = forwardRef((inProps, ref) => {
     disabled,
     onClick: onClickProp,
     onKeyDown: onKeyDownProp,
-    onKeyUp: onKeyUpProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'TreeItemToggle' });
   const {
@@ -28,9 +27,9 @@ const TreeItemToggle = forwardRef((inProps, ref) => {
   }, []);
   const styleProps = useTreeItemToggleStyle();
 
-  const { onClick, onKeyDown, onKeyUp } = useInteractiveActionHandlers({
+  const { onClick, onKeyDown } = useButtonEventHandlers({
     disabled,
-    onAction: () => ensureFunction(toggleExpansion)(),
+    onActivate: () => ensureFunction(toggleExpansion)(),
   });
 
   const getTreeItemToggleProps = () => ({
@@ -39,7 +38,6 @@ const TreeItemToggle = forwardRef((inProps, ref) => {
     disabled,
     onClick: callEventHandlers(onClickProp, preventNodeSelection, onClick),
     onKeyDown: callEventHandlers(onKeyDownProp, preventNodeSelection, onKeyDown),
-    onKeyUp: callEventHandlers(onKeyUpProp, preventNodeSelection, onKeyUp),
     ref,
     role: 'button',
     tabIndex: 0,

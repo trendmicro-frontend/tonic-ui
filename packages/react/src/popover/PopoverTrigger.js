@@ -5,7 +5,7 @@ import React, { cloneElement, forwardRef, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { mergeRefs } from '../utils/refs';
-import useInteractiveActionHandlers from '../utils/useInteractiveActionHandlers';
+import useButtonEventHandlers from '../utils/useButtonEventHandlers';
 import { usePopoverTriggerStyle } from './styles';
 import usePopover from './usePopover';
 
@@ -17,7 +17,6 @@ const PopoverTrigger = forwardRef((inProps, ref) => {
     onClick: onClickProp,
     onFocus: onFocusProp,
     onKeyDown: onKeyDownProp,
-    onKeyUp: onKeyUpProp,
     onMouseEnter: onMouseEnterProp,
     onMouseLeave: onMouseLeaveProp,
     onMouseMove: onMouseMoveProp,
@@ -43,9 +42,9 @@ const PopoverTrigger = forwardRef((inProps, ref) => {
   const [enableMouseMove, setEnableMouseMove] = useState(true);
   const mouseLeaveTimeoutRef = useRef();
 
-  const { onClick, onKeyDown, onKeyUp } = useInteractiveActionHandlers({
+  const { onClick, onKeyDown } = useButtonEventHandlers({
     // Skip passing `disabled`; `PopoverContent` takes care of it internally
-    onAction: () => ensureFunction(togglePopover)(),
+    onActivate: () => ensureFunction(togglePopover)(),
   });
 
   const onBlur = useEventCallback((event) => {
@@ -96,7 +95,6 @@ const PopoverTrigger = forwardRef((inProps, ref) => {
     'click': {
       onClick,
       onKeyDown,
-      onKeyUp,
     },
     'hover': {
       onBlur,
@@ -130,7 +128,6 @@ const PopoverTrigger = forwardRef((inProps, ref) => {
       onClick: callEventHandlers(ownProps?.onClick, onClickProp, eventHandler.onClick),
       onFocus: callEventHandlers(ownProps?.onFocus, onFocusProp, eventHandler.onFocus),
       onKeyDown: callEventHandlers(ownProps?.onKeyDown, onKeyDownProp, eventHandler.onKeyDown),
-      onKeyUp: callEventHandlers(ownProps?.onKeyUp, onKeyUpProp, eventHandler.onKeyUp),
       onMouseEnter: callEventHandlers(ownProps?.onMouseEnter, onMouseEnterProp, eventHandler.onMouseEnter),
       onMouseLeave: callEventHandlers(ownProps?.onMouseLeave, onMouseLeaveProp, eventHandler.onMouseLeave),
       onMouseMove: callEventHandlers(ownProps?.onMouseMove, onMouseMoveProp, eventHandler.onMouseMove),

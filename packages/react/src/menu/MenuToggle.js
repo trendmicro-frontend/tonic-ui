@@ -4,7 +4,7 @@ import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
-import useInteractiveActionHandlers from '../utils/useInteractiveActionHandlers';
+import useButtonEventHandlers from '../utils/useButtonEventHandlers';
 import {
   useMenuToggleStyle,
 } from './styles';
@@ -16,7 +16,6 @@ const MenuToggle = forwardRef((inProps, ref) => {
     disabled,
     onClick: onClickProp,
     onKeyDown: onKeyDownProp,
-    onKeyUp: onKeyUpProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'MenuToggle' });
   const menuContext = useMenu(); // context might be an undefined value
@@ -30,9 +29,9 @@ const MenuToggle = forwardRef((inProps, ref) => {
   const combinedRef = useMergeRefs(menuToggleRef, ref);
   const styleProps = useMenuToggleStyle();
 
-  const { onClick, onKeyDown, onKeyUp } = useInteractiveActionHandlers({
+  const { onClick, onKeyDown } = useButtonEventHandlers({
     disabled,
-    onAction: () => ensureFunction(toggleMenu)(),
+    onActivate: () => ensureFunction(toggleMenu)(),
   });
 
   const getMenuToggleProps = () => ({
@@ -44,7 +43,6 @@ const MenuToggle = forwardRef((inProps, ref) => {
     id: menuToggleId,
     onClick: callEventHandlers(onClickProp, onClick),
     onKeyDown: callEventHandlers(onKeyDownProp, onKeyDown),
-    onKeyUp: callEventHandlers(onKeyUpProp, onKeyUp),
     ref: combinedRef,
     role: 'button',
     tabIndex: 0,
