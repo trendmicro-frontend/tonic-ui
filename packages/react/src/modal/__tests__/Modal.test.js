@@ -196,22 +196,44 @@ describe('Modal', () => {
     const NestedModalTest = () => {
       const [isOuterOpen, setIsOuterOpen] = useState(false);
       const [isInnerOpen, setIsInnerOpen] = useState(false);
+      const handleOpenOuterModal = useCallback(() => {
+        setIsOuterOpen(true);
+      }, []);
+      const handleCloseOuterModal = useCallback(() => {
+        setIsOuterOpen(false);
+      }, []);
+      const handleOpenInnerModal = useCallback(() => {
+        setIsInnerOpen(true);
+      }, []);
+      const handleCloseInnerModal = useCallback(() => {
+        setIsInnerOpen(false);
+      }, []);
 
       return (
         <>
-          <Button onClick={() => setIsOuterOpen(true)}>Open Outer Modal</Button>
-
-          <Modal isOpen={isOuterOpen} onClose={() => setIsOuterOpen(false)} closeOnOutsideClick>
+          <Button onClick={handleOpenOuterModal}>
+            Open Outer Modal
+          </Button>
+          <Modal
+            closeOnOutsideClick
+            isOpen={isOuterOpen}
+            onClose={handleCloseOuterModal}
+          >
             <ModalOverlay data-testid="outer-overlay" />
             <ModalContent>
               <ModalHeader>Outer Modal</ModalHeader>
               <ModalBody>
-                <Button onClick={() => setIsInnerOpen(true)}>Open Inner Modal</Button>
+                <Button onClick={handleOpenInnerModal}>
+                  Open Inner Modal
+                </Button>
               </ModalBody>
             </ModalContent>
           </Modal>
-
-          <Modal isOpen={isInnerOpen} onClose={() => setIsInnerOpen(false)} closeOnOutsideClick>
+          <Modal
+            closeOnOutsideClick
+            isOpen={isInnerOpen}
+            onClose={handleCloseInnerModal}
+          >
             <ModalOverlay data-testid="inner-overlay" />
             <ModalContent>
               <ModalHeader>Inner Modal</ModalHeader>
