@@ -189,4 +189,60 @@ describe('Modal', () => {
       expect(button).toHaveFocus();
     });
   });
+
+  it('should handle nested modal closing correctly with closeOnOutsideClick', async () => {
+    const user = userEvent.setup();
+
+    const NestedModalTest = () => {
+      const [isOuterOpen, setIsOuterOpen] = useState(false);
+      const [isInnerOpen, setIsInnerOpen] = useState(false);
+
+      return (
+        <>
+          <Button onClick={() => setIsOuterOpen(true)}>Open Outer Modal</Button>
+
+          <Modal isOpen={isOuterOpen} onClose={() => setIsOuterOpen(false)} closeOnOutsideClick>
+            <ModalOverlay data-testid="outer-overlay" />
+            <ModalContent>
+              <ModalHeader>Outer Modal</ModalHeader>
+              <ModalBody>
+                <Button onClick={() => setIsInnerOpen(true)}>Open Inner Modal</Button>
+              </ModalBody>
+            </ModalContent>
+          </Modal>
+
+          <Modal isOpen={isInnerOpen} onClose={() => setIsInnerOpen(false)} closeOnOutsideClick>
+            <ModalOverlay data-testid="inner-overlay" />
+            <ModalContent>
+              <ModalHeader>Inner Modal</ModalHeader>
+              <ModalBody>Inner modal content</ModalBody>
+            </ModalContent>
+          </Modal>
+        </>
+      );
+    };
+
+    render(<NestedModalTest />);
+
+    // Open outer modal
+    await user.click(screen.getByText('Open Outer Modal'));
+    expect(screen.getByText('Outer Modal')).toBeInTheDocument();
+
+    // Open inner modal
+    await user.click(screen.getByText('Open Inner Modal'));
+    expect(screen.getByText('Inner Modal')).toBeInTheDocument();
+
+    // Click outside inner modal
+    await user.click(screen.getByTestId('inner-overlay'));
+    await waitFor(() => {
+      expect(screen.queryByText('Inner Modal')).not.toBeInTheDocument();
+    });
+    expect(screen.getByText('Outer Modal')).toBeInTheDocument();
+
+    // Click outside outer modal
+    await user.click(screen.getByTestId('outer-overlay'));
+    await waitFor(() => {
+      expect(screen.queryByText('Outer Modal')).not.toBeInTheDocument();
+    });
+  });
 });
