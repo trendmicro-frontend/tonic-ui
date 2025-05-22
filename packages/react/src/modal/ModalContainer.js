@@ -22,7 +22,7 @@ const ModalContainer = forwardRef((inProps, ref) => {
     onClick: (event) => {
       event.stopPropagation();
       if (closeOnOutsideClick) {
-        // Close the modal when clicking outside the container
+        // Close the modal when clicking outside the modal content (on the container)
         (typeof onClose === 'function') && onClose(event);
       }
     },
