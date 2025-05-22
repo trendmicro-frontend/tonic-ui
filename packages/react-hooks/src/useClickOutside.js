@@ -58,7 +58,7 @@ const useClickOutside = (refs, handler, options = {}) => {
         return;
       }
       filteredEvents.forEach(eventName => {
-        doc.addEventListener?.(eventName, handleCheckIfOutside, true);
+        doc.addEventListener?.(eventName, handleCheckIfOutside);
       });
     });
 
@@ -69,7 +69,7 @@ const useClickOutside = (refs, handler, options = {}) => {
           return;
         }
         filteredEvents.forEach(eventName => {
-          doc.removeEventListener?.(eventName, handleCheckIfOutside, true);
+          doc.removeEventListener?.(eventName, handleCheckIfOutside);
         });
       });
     };
