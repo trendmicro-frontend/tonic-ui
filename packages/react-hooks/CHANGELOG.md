@@ -1,5 +1,11 @@
 # @tonic-ui/react-hooks
 
+## 2.1.1
+
+### Patch Changes
+
+- fix(react/modal): resolve `closeOnClickOutside` regression for nested modals and modal-drawer scenarios by [@cheton](https://github.com/cheton) in [#1027](https://github.com/trendmicro-frontend/tonic-ui/pull/1027)
+
 ## 2.1.0
 
 ### Minor Changes
