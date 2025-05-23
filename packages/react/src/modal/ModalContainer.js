@@ -11,12 +11,21 @@ const ModalContainer = forwardRef((inProps, ref) => {
   const props = useDefaultProps({ props: inProps, name: 'ModalContainer' });
   const modalContext = useModal(); // context might be an undefined value
   const {
+    closeOnOutsideClick,
     containerRef, // internal use only
+    onClose,
   } = { ...modalContext };
   const combinedRef = useMergeRefs(containerRef, ref);
   const styleProps = useModalContainerStyle();
   const containerProps = {
     ref: combinedRef,
+    onClick: (event) => {
+      event.stopPropagation();
+      if (closeOnOutsideClick) {
+        // Close the modal when clicking outside the modal content (on the container)
+        (typeof onClose === 'function') && onClose(event);
+      }
+    },
     ...styleProps,
     ...props,
   };
