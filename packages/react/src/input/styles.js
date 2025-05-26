@@ -839,6 +839,7 @@ const useInputControlBaseStyle = ({
   const baseStyle = {
     display: 'flex',
     alignItems: 'center',
+    outline: 0,
     position: 'relative',
     transition: createTransitionStyle('border-color', { duration: 200 }),
   };
