@@ -251,7 +251,6 @@ const DatePicker = forwardRef((inProps, ref) => {
             const datePickerToggleProps = getDatePickerToggleProps();
             const inputProps = {
               ...datePickerToggleProps,
-              cursor: undefined, // Remove cursor style
               onChange: callEventHandlers(
                 handleDateInputChange,
                 datePickerToggleProps?.onChange,
