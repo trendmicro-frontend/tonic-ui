@@ -139,6 +139,7 @@ const DropdownBase = forwardRef((
           minWidth: 'max-content',
           width: '100%',
         }}
+        {...slotProps?.content}
       >
         {(typeof renderContent === 'function')
           ? renderContent({ items, renderItem, renderItems })
