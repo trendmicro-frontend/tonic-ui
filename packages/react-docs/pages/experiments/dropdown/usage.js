@@ -19,7 +19,7 @@ import {
 import { produce } from 'immer';
 import React, { useMemo, useState } from 'react';
 import FormGroup from '@/components/FormGroup';
-import { Dropdown, MenuButtonToggle, TagToggle } from '@/experiments/dropdown';
+import { Dropdown, InputControlToggle, MenuButtonToggle, TagToggle } from '@/experiments/dropdown';
 import { FlexItem } from '@/experiments/flex-item';
 import { MutedText } from '@/experiments/muted-text';
 
@@ -29,6 +29,7 @@ const useSelection = (defaultValue) => {
   return [value, changeBy];
 };
 
+const DROPDOWN_TOGGLE_INPUT_CONTROL = 'InputControl';
 const DROPDOWN_TOGGLE_MENU_BUTTON = 'MenuButton';
 const DROPDOWN_TOGGLE_TAG = 'Tag';
 
@@ -36,10 +37,14 @@ const App = () => {
   const [width, changeWidthBy] = useSelection('auto');
   const [toggle, changeToggleBy] = useSelection(DROPDOWN_TOGGLE_MENU_BUTTON);
   const ToggleComponent = {
+    [DROPDOWN_TOGGLE_INPUT_CONTROL]: InputControlToggle,
     [DROPDOWN_TOGGLE_MENU_BUTTON]: MenuButtonToggle,
     [DROPDOWN_TOGGLE_TAG]: TagToggle,
   }[toggle];
   const [togglePropsMap, setTogglePropsMap] = useState({
+    [DROPDOWN_TOGGLE_INPUT_CONTROL]: {
+      disabled: false,
+    },
     [DROPDOWN_TOGGLE_MENU_BUTTON]: {
       disabled: false,
     },
@@ -71,6 +76,10 @@ const App = () => {
 
   const renderValue = (value) => {
     const label = itemValueToLabelMap[value];
+
+    if (toggle === DROPDOWN_TOGGLE_INPUT_CONTROL) {
+      return `Event status: ${label}`;
+    }
 
     return (
       <Flex alignItems="center" columnGap="1x" width="100%">
@@ -137,7 +146,7 @@ const App = () => {
             mb: '1x',
           }}
         >
-          {['MenuButton', 'Tag'].map(value => (
+          {[DROPDOWN_TOGGLE_INPUT_CONTROL, DROPDOWN_TOGGLE_MENU_BUTTON, DROPDOWN_TOGGLE_TAG].map(value => (
             <Button
               key={value}
               selected={value === toggle}
