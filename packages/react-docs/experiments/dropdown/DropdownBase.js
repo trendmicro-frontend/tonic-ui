@@ -81,18 +81,14 @@ const DropdownBase = forwardRef((
         return (
           <Submenu key={`${key}_submenu`}>
             <SubmenuToggle
-              sx={{
-                width: '100%',
-              }}
+              width="100%"
             >
               <MenuItem {...item.props}>
                 {renderItem?.(item)}
               </MenuItem>
             </SubmenuToggle>
             <SubmenuList
-              sx={{
-                width: 'max-content',
-              }}
+              width="max-content"
             >
               {renderItems(item.children, key)}
             </SubmenuList>
@@ -134,11 +130,10 @@ const DropdownBase = forwardRef((
         }}
       </MenuToggle>
       <MenuList
-        sx={{
-          // Set the minimum width to fit the menu's content while occupying full width
-          minWidth: 'max-content',
-          width: '100%',
-        }}
+        // Set the minimum width to fit the menu's content while occupying full width
+        minWidth="max-content"
+        width="100%"
+        {...slotProps?.content}
       >
         {(typeof renderContent === 'function')
           ? renderContent({ items, renderItem, renderItems })
