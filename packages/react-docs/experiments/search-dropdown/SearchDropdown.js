@@ -6,9 +6,10 @@ import { Dropdown } from '../dropdown';
 
 const SearchDropdown = forwardRef((
   {
+    items = [],
     onClose: onCloseProp,
     onSelect,
-    items = [],
+    portalled,
     renderContent: renderContentProp,
     renderItem: renderItemProp,
     slots = {},
@@ -97,9 +98,10 @@ const SearchDropdown = forwardRef((
   return (
     <Dropdown
       defaultActiveIndex={0}
-      onClose={callEventHandlers(onCloseProp, onClose)}
       items={filteredOptions}
+      onClose={callEventHandlers(onCloseProp, onClose)}
       onSelect={onSelect}
+      portalled={portalled}
       renderContent={renderContent}
       renderItem={renderItem}
       slots={slots}

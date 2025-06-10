@@ -197,6 +197,7 @@ const App = () => {
       <Divider my="4x" />
       <SearchDropdown
         closeOnSelect={false}
+        items={items}
         offset={toggleOffset}
         onClose={() => {
           if (isNoneSelected) {
@@ -204,7 +205,6 @@ const App = () => {
             setValues(items.map(item => item.value));
           }
         }}
-        items={items}
         renderContent={({ items, renderItems, renderSearchInput, searchKeyword }) => (
           <>
             <Box px="3x" mb="2x">

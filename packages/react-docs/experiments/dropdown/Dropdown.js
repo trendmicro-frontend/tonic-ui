@@ -7,6 +7,7 @@ const Dropdown = forwardRef((
     children,
     onSelect,
     items = [],
+    portalled,
     renderContent,
     renderItem,
     slots = {},
@@ -19,6 +20,7 @@ const Dropdown = forwardRef((
     <DropdownBase
       items={items}
       onSelect={onSelect}
+      portalled={portalled}
       renderContent={renderContent}
       renderItem={renderItem}
       slots={{

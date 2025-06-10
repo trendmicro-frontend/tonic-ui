@@ -66,8 +66,8 @@ const App = () => {
 
   return (
     <DropdownBase
-      onSelect={handleSelect}
       items={items}
+      onSelect={handleSelect}
       slots={{
         toggle: MenuButtonToggle,
       }}

@@ -8,6 +8,7 @@ import {
   Submenu,
   SubmenuToggle,
   SubmenuList,
+  useTheme,
 } from '@tonic-ui/react';
 import { isPlainObject, runIfFn } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
@@ -26,8 +27,9 @@ const defaultRenderItem = (item, context) => isPlainObject(item) ? item.label : 
 const DropdownBase = forwardRef((
   {
     children,
-    onSelect,
     items = [],
+    onSelect,
+    portalled = false,
     renderContent = null,
     renderItem: renderItemProp = defaultRenderItem,
     slots = {},
@@ -36,6 +38,7 @@ const DropdownBase = forwardRef((
   },
   ref,
 ) => {
+  const theme = useTheme();
   const handleClickBy = useCallback((item) => (event) => {
     onSelect?.(item);
   }, [onSelect]);
@@ -113,33 +116,51 @@ const DropdownBase = forwardRef((
       ref={ref}
       {...rest}
     >
-      <MenuToggle
-        {...slotProps?.toggle}
-      >
-        {({ getMenuToggleProps: getToggleProps }) => {
-          const Toggle = slots?.toggle;
-          if (isValidElementType(Toggle)) {
-            return (
-              // The `Toggle` component must be wrapped with `forwardRef` to ensure correct positioning
-              <Toggle {...getToggleProps()}>
-                {children}
-              </Toggle>
-            );
-          }
-          return runIfFn(children, { getToggleProps });
-        }}
-      </MenuToggle>
-      <MenuList
-        // Set the minimum width to fit the menu's content while occupying full width
-        minWidth="max-content"
-        width="100%"
-        {...slotProps?.content}
-      >
-        {(typeof renderContent === 'function')
-          ? renderContent({ items, renderItem, renderItems })
-          : renderItems(items)
-        }
-      </MenuList>
+      {({ menuToggleRef }) => {
+        const menuListProps = portalled
+          ? {
+              PopperProps: {
+                usePortal: true,
+              },
+              minWidth: menuToggleRef.current?.offsetWidth,
+              zIndex: theme?.zIndices?.modal + 1,
+            }
+          : {
+              // Set the minimum width to fit the menu's content while occupying full width
+              minWidth: 'max-content',
+              width: '100%',
+            };
+
+        return (
+          <>
+            <MenuToggle
+              {...slotProps?.toggle}
+            >
+              {({ getMenuToggleProps: getToggleProps }) => {
+                const Toggle = slots?.toggle;
+                if (isValidElementType(Toggle)) {
+                  return (
+                    // The `Toggle` component must be wrapped with `forwardRef` to ensure correct positioning
+                    <Toggle {...getToggleProps()}>
+                      {children}
+                    </Toggle>
+                  );
+                }
+                return runIfFn(children, { getToggleProps });
+              }}
+            </MenuToggle>
+            <MenuList
+              {...menuListProps}
+              {...slotProps?.content}
+            >
+              {(typeof renderContent === 'function')
+                ? renderContent({ items, renderItem, renderItems })
+                : renderItems(items)
+              }
+            </MenuList>
+          </>
+        );
+      }}
     </Menu>
   );
 });

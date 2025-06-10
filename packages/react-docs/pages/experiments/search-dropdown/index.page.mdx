@@ -15,13 +15,13 @@ Here's the simplest configuration to get started with the `SearchDropdown` compo
 
 ```jsx
 <SearchDropdown
-  onSelect={(item) => {
-    setItem(item);
-  }}
   items={[
     { label: 'Item 1', value: 1 },
     { label: 'Item 2', value: 2 },
   ]}
+  onSelect={(item) => {
+    setItem(item);
+  }}
   renderContent={({ items, renderItems, renderSearchInput }) => (
     <>
       <Box px="3x" mb="2x">
