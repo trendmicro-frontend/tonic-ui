@@ -102,6 +102,7 @@ const SearchDropdown = forwardRef((
       onClose={callEventHandlers(onCloseProp, onClose)}
       onSelect={onSelect}
       portalled={portalled}
+      ref={ref}
       renderContent={renderContent}
       renderItem={renderItem}
       slots={slots}

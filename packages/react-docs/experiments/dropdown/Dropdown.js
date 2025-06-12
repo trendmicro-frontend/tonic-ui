@@ -21,6 +21,7 @@ const Dropdown = forwardRef((
       items={items}
       onSelect={onSelect}
       portalled={portalled}
+      ref={ref}
       renderContent={renderContent}
       renderItem={renderItem}
       slots={{
