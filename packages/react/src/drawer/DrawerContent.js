@@ -41,8 +41,10 @@ const DrawerContent = forwardRef((inProps, ref) => {
     onKeyDown: event => {
       if (event.key === 'Escape') {
         event.stopPropagation();
-        if (closeOnEsc) {
-          (typeof onClose === 'function') && onClose(event);
+
+        const shouldClose = Boolean(closeOnEsc);
+        if (shouldClose) {
+          onClose?.(event);
         }
       }
     },
@@ -57,9 +59,10 @@ const DrawerContent = forwardRef((inProps, ref) => {
   }[placement];
 
   useClickOutside(contentRef, (event) => {
-    // Close the drawer when clicking outside the content
-    if (closeOnOutsideClick) {
-      (typeof onClose === 'function') && onClose(event);
+    const shouldClose = Boolean(closeOnOutsideClick);
+    if (shouldClose) {
+      // Close the drawer when clicking outside the content
+      onClose?.(event);
     }
   });
 

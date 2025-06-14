@@ -41,8 +41,10 @@ const ModalContent = forwardRef((inProps, ref) => {
     onKeyDown: event => {
       if (event.key === 'Escape') {
         event.stopPropagation();
-        if (closeOnEsc) {
-          (typeof onClose === 'function') && onClose(event);
+
+        const shouldClose = Boolean(closeOnEsc);
+        if (shouldClose) {
+          onClose?.(event);
         }
       }
     },

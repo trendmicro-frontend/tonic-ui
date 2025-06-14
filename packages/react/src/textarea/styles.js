@@ -49,6 +49,9 @@ const getOutlinedStyle = ({
     _focus: {
       borderColor: focusBorderColor,
     },
+    _focusVisible: {
+      borderColor: 'red',
+    },
     _disabled: {
       borderColor: disabledBorderColor,
       cursor: 'not-allowed',
