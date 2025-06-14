@@ -9,7 +9,6 @@ import { getOwnerDocument } from '@tonic-ui/utils';
  * @param {function(Event): void} handler - The callback function triggered when the click happens outside the referenced elements.
  * @param {Object} [options] - Optional configuration.
  * @param {Array<string>} [options.events=['mousedown', 'touchstart']] - List of event types to listen for.
- * @param {boolean} [options.shouldAllRefsOutside=true] - Whether to trigger the handler when all refs are clicked outside. Otherwise, trigger the handler when some (but not all) refs are clicked outside.
  */
 
 const useClickOutside = (refs, handler, options = {}) => {
