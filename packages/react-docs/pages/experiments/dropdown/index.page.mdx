@@ -17,13 +17,13 @@ Here's the simplest configuration to get started with the `Dropdown` component.
 
 ```jsx
 <Dropdown
-  onSelect={(item) => {
-    setItem(item);
-  }}
   items={[
     { label: 'Item 1', value: 1 },
     { label: 'Item 2', value: 2 },
   ]}
+  onSelect={(item) => {
+    setItem(item);
+  }}
 >
   {item.label}
 </Dropdown>
@@ -45,8 +45,8 @@ By default, the dropdown uses a `MenuButton` as its toggle. To customize the tog
 
 ```jsx
 <Dropdown
-  onSelect={onSelect}
   items={items}
+  onSelect={onSelect}
   slots={{
     toggle: CustomDropdownToggle,
   }}

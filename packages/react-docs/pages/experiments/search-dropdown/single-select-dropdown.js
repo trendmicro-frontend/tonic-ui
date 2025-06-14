@@ -154,9 +154,9 @@ const App = () => {
       </FormGroup>
       <Divider my="4x" />
       <SearchDropdown
+        items={items}
         offset={toggleOffset}
         onSelect={handleSelect}
-        items={items}
         renderContent={({ items, renderItems, renderSearchInput }) => (
           <>
             <Box px="3x" mb="2x">

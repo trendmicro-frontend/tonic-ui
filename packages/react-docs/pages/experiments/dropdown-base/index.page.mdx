@@ -15,13 +15,13 @@ Here's the simplest configuration to get started with the `DropdownBase` compone
 
 ```jsx
 <DropdownBase
-  onSelect={(item) => {
-    setItem(item);
-  }}
   items={[
     { label: 'Item 1', value: 1 },
     { label: 'Item 2', value: 2 },
   ]}
+  onSelect={(item) => {
+    setItem(item);
+  }}
   slots={{
     toggle: CustomDropdownToggle,
   }}
@@ -91,16 +91,21 @@ export interface DropdownBaseProps {
   children?: ((args: { getToggleProps: () => any }) => ReactNode) | ReactNode;
 
   /**
+   * Array of items to be rendered in the dropdown menu.
+   * Each item typically includes a `label`, and optionally a `type`, `props`, and `children`.
+   */
+  items?: DropdownItem[];
+
+  /**
    * Callback triggered when an item is selected.
    * Receives the full `item` object, allowing access to custom fields or props.
    */
   onSelect?: (item: DropdownItem) => void;
 
   /**
-   * Array of items to be rendered in the dropdown menu.
-   * Each item typically includes a `label`, and optionally a `type`, `props`, and `children`.
+   * Whether to render the dropdown menu in a portal.
    */
-  items?: DropdownItem[];
+  portalled?: boolean;
 
   /**
    * Optional custom render function for rendering individual items in the dropdown.
@@ -210,8 +215,9 @@ Each dropdown item is an object that may include the following fields:
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children <sub>[1]</sub> | ReactNode | | The content inside the dropdown toggle. Can be a React node or a function that returns a React node. |
-| onSelect | `(item: DropdownItem) => void` | | Callback triggered when an item is selected. Receives the full `item` object, allowing you to access any custom fields or props defined for the item. |
 | items | `Array<DropdownItem>` | [] | An array of items to be rendered in the dropdown menu. Each item should include a `value` (required), and optionally a `label`, `type`, `props`, and `children`. |
+| onSelect | `(item: DropdownItem) => void` | | Callback triggered when an item is selected. Receives the full `item` object, allowing you to access any custom fields or props defined for the item. |
+| portalled | boolean | false | Whether to render the dropdown menu in a portal. |
 | renderItem | `(item: DropdownItem) => ReactNode` | `defaultRenderItem` <sub>[2]</sub> | Optional custom render function for rendering dropdown items. |
 | renderContent | `(args: { items: DropdownItem[], renderItem: (item: DropdownItem) => ReactNode, renderItems: (items: DropdownItem[], prefix?: string) => ReactNode[] }) => ReactNode` | | Optional custom function to render the entire dropdown's content. Provides access to `items`, `renderItem`, and `renderItems`. Use this to fully customize the dropdown content beyond the default rendering behavior. |
 | slots	<sub>[1]</sub> | `{ toggle?: React.ComponentType<any> }` | \{\} |	The components used for each slot inside the `DropdownBase`. Either a string to use a HTML element or a component. |

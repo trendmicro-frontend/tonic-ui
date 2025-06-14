@@ -180,9 +180,9 @@ const App = () => {
       </FormGroup>
       <Divider my="4x" />
       <Dropdown
+        items={items}
         offset={toggleOffset}
         onSelect={handleSelect}
-        items={items}
         renderContent={({ items, renderItems }) => (
           <Scrollbar
             maxHeight={200}
