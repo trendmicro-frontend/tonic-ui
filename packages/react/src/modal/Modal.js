@@ -18,13 +18,15 @@ const Modal = forwardRef((inProps, ref) => {
     autoFocus = false,
     children,
     closeOnEsc = false,
-    closeOnOutsideClick = false,
+    closeOnInteractOutside = false,
+    closeOnOutsideClick = false, // deprecated
     ensureFocus = false,
     finalFocusRef,
     initialFocusRef,
     isClosable = false,
     isOpen = false,
     onClose,
+    onInteractOutside,
     portalProps,
     returnFocusOnClose = true,
     scrollBehavior = defaultScrollBehavior,
@@ -37,13 +39,15 @@ const Modal = forwardRef((inProps, ref) => {
   const context = getMemoizedState({
     autoFocus,
     closeOnEsc,
-    closeOnOutsideClick,
+    closeOnInteractOutside,
+    closeOnOutsideClick, // deprecated
     ensureFocus,
     finalFocusRef,
     initialFocusRef,
     isClosable,
     isOpen,
     onClose,
+    onInteractOutside,
     scrollBehavior,
     size,
     containerRef, // internal use only

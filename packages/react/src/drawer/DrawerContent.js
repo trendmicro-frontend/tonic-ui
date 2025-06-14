@@ -21,10 +21,12 @@ const DrawerContent = forwardRef((inProps, ref) => {
   const drawerContext = useDrawer(); // context might be an undefined value
   const {
     closeOnEsc,
-    closeOnOutsideClick,
+    closeOnInteractOutside,
+    closeOnOutsideClick, // deprecated
     isClosable,
     isOpen,
     onClose,
+    onInteractOutside,
     placement,
     size,
     contentRef, // internal use only
@@ -59,12 +61,14 @@ const DrawerContent = forwardRef((inProps, ref) => {
   }[placement];
 
   useClickOutside(contentRef, (event) => {
-    const shouldClose = Boolean(closeOnOutsideClick);
-    if (shouldClose) {
+    onInteractOutside?.(event);
+
+    const shouldClose = Boolean(closeOnInteractOutside) || Boolean(closeOnOutsideClick);
+    if (shouldClose && !event.defaultPrevented) {
       // Close the drawer when clicking outside the content
       onClose?.(event);
     }
-  });
+  }, { events: ['click'] });
 
   return (
     <TransitionComponent
