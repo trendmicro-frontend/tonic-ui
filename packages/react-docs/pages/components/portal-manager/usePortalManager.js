@@ -19,7 +19,7 @@ const MyModal = forwardRef((
 ) => (
   <Modal
     closeOnEsc
-    closeOnOutsideClick
+    closeOnInteractOutside
     isOpen
     onClose={onClose}
     size="sm"

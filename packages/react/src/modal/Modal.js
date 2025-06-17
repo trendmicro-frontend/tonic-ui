@@ -1,4 +1,5 @@
-import { getAllFocusable, runIfFn } from '@tonic-ui/utils';
+import { useOnceWhen } from '@tonic-ui/react-hooks';
+import { getAllFocusable, runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import FocusLock from 'react-focus-lock/dist/cjs';
@@ -15,11 +16,12 @@ const defaultSize = 'auto';
 
 const Modal = forwardRef((inProps, ref) => {
   const {
+    closeOnOutsideClick: closeOnOutsideClickProp, // deprecated
+
     autoFocus = false,
     children,
     closeOnEsc = false,
-    closeOnInteractOutside = false,
-    closeOnOutsideClick = false, // deprecated
+    closeOnInteractOutside: closeOnInteractOutsideProp = false,
     ensureFocus = false,
     finalFocusRef,
     initialFocusRef,
@@ -33,6 +35,21 @@ const Modal = forwardRef((inProps, ref) => {
     size = defaultSize,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Modal' });
+
+  { // deprecation warning
+    const prefix = `${Modal.displayName}:`;
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('closeOnOutsideClick', {
+        prefix,
+        alternative: 'closeOnInteractOutside',
+        willRemove: true,
+      });
+    }, (process.env.NODE_ENV !== 'production') && (closeOnOutsideClickProp !== undefined));
+  }
+
+  const closeOnInteractOutside = closeOnOutsideClickProp ?? closeOnInteractOutsideProp;
+
   const [isMounted, setIsMounted] = useState(isOpen);
   const containerRef = useRef();
   const contentRef = useRef();
@@ -40,7 +57,6 @@ const Modal = forwardRef((inProps, ref) => {
     autoFocus,
     closeOnEsc,
     closeOnInteractOutside,
-    closeOnOutsideClick, // deprecated
     ensureFocus,
     finalFocusRef,
     initialFocusRef,

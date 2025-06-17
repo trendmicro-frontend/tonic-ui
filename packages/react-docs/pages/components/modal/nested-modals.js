@@ -20,7 +20,7 @@ const App = () => {
       <Button onClick={() => toggleModal(true)}>Launch modal</Button>
       <Modal
         closeOnEsc
-        closeOnOutsideClick
+        closeOnInteractOutside
         isClosable
         isOpen={isOpen}
         onClose={() => toggleModal(false)}
@@ -52,7 +52,7 @@ const App = () => {
       </Modal>
       <Modal
         closeOnEsc
-        closeOnOutsideClick
+        closeOnInteractOutside
         isClosable
         isOpen={isNestedOpen}
         onClose={() => toggleNestedModal(false)}

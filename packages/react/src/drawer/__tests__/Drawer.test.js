@@ -14,9 +14,19 @@ import {
   DrawerCloseButton,
   Text,
 } from '@tonic-ui/react/src';
+import { warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { useCallback, useRef, useState } from 'react';
 
+jest.mock('@tonic-ui/utils', () => ({
+  ...jest.requireActual('@tonic-ui/utils'),
+  warnDeprecatedProps: jest.fn(),
+}));
+
 describe('Drawer', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should render correctly', async () => {
     const renderOptions = {};
     const { baseElement } = render((
@@ -118,13 +128,13 @@ describe('Drawer', () => {
     expect(onClose).toHaveBeenCalled();
   });
 
-  it('should close when clicking outside the drawer', async () => {
+  it('should close when interacting outside the drawer', async () => {
     const user = userEvent.setup();
     const onClose = jest.fn();
 
     render(
       <Drawer
-        closeOnOutsideClick
+        closeOnInteractOutside
         isOpen
         onClose={onClose}
         placement="right"
@@ -202,6 +212,18 @@ describe('Drawer', () => {
     // Wait for the button to be focused
     await waitFor(() => {
       expect(button).toHaveFocus();
+    });
+  });
+
+  describe('deprecated props', () => {
+    it('should show warning when using `closeOnOutsideClick` prop', () => {
+      render(<Drawer closeOnOutsideClick />);
+
+      expect(warnDeprecatedProps).toHaveBeenCalledWith('closeOnOutsideClick', {
+        prefix: 'Drawer:',
+        alternative: 'closeOnInteractOutside',
+        willRemove: true,
+      });
     });
   });
 });

@@ -60,6 +60,26 @@ Besides the default functionality of the `DrawerCloseButton`, you can also pass 
 </Drawer>
 ```
 
+## Commonly asked questions
+
+### Prevent the drawer from closing on outside interaction
+
+When `closeOnInteractOutside` is set to `true`, the drawer will close when users interact outside the drawer content. To prevent it from closing for specific interactions, check the event target inside the `onInteractOutside` handler and call `event.preventDefault()` when it matches a specific element.
+
+```jsx
+<Drawer
+  isOpen={isOpen}
+  onClose={handleClose}
+  closeOnInteractOutside
+  onInteractOutside={(event) => {
+    if (event.target.contains(element)) {
+      // Prevent the drawer from closing
+      event.preventDefault();
+    }
+  }}
+/>
+```
+
 ## Props
 
 ### Drawer
@@ -69,9 +89,9 @@ Besides the default functionality of the `DrawerCloseButton`, you can also pass 
 | autoFocus | boolean | false | If `true`, the drawer will automatically set focus on the first focusable element inside the drawer when it is opened.<br />⚠️ This only works if `initialFocusRef` is not defined and `ensureFocus` is set to `true`. |
 | backdrop | boolean | false | If `true`, a backdrop will be created for `DrawerOverlay` to function correctly. Otherwise, it will not expand to the entire screen. |
 | children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
-| closeOnEsc | boolean | false | If `true`, close the drawer when the `Escape` key is pressed. |
-| closeOnInteractOutside | boolean | false | If `true`, close the drawer when interacting outside the drawer content. |
-| closeOnOutsideClick (deprecated) | boolean | false | If `true`, close the drawer when clicking outside the drawer content. |
+| closeOnEsc | boolean | false | If `true`, closes the drawer when the `Escape` key is pressed. |
+| closeOnInteractOutside | boolean | false | If `true`, closes the drawer when interacting outside the drawer content. |
+| closeOnOutsideClick *(deprecated)* | boolean | false | If `true`, closes the drawer when clicking outside the drawer content.<br />⚠️️️️️️️️️ This prop is deprecated will be removed in a future release. Use `closeOnInteractOutside` instead. |
 | ensureFocus | boolean | false | If `true`, it ensures that the user's focus remains within the drawer when it is open, preventing them from interacting with elements outside the drawer. |
 | finalFocusRef | RefObject | | The `ref` of the element that should receive focus when the drawer closes.<br />⚠️ This only works if `ensureFocus` is set to `true`. |
 | initialFocusRef | RefObject | | The `ref` of the element that should receive focus when the drawer opens.<br />⚠️ This only works if `ensureFocus` is set to `true`. |

@@ -22,7 +22,6 @@ const DrawerContent = forwardRef((inProps, ref) => {
   const {
     closeOnEsc,
     closeOnInteractOutside,
-    closeOnOutsideClick, // deprecated
     isClosable,
     isOpen,
     onClose,
@@ -63,7 +62,7 @@ const DrawerContent = forwardRef((inProps, ref) => {
   useClickOutside(contentRef, (event) => {
     onInteractOutside?.(event);
 
-    const shouldClose = Boolean(closeOnInteractOutside) || Boolean(closeOnOutsideClick);
+    const shouldClose = Boolean(closeOnInteractOutside);
     if (shouldClose && !event.defaultPrevented) {
       // Close the drawer when clicking outside the content
       onClose?.(event);

@@ -37,7 +37,7 @@ const IconView = ({ component: IconComponent, name, ...rest }) => {
     portal((onClose) => (
       <Modal
         closeOnEsc
-        closeOnOutsideClick
+        closeOnInteractOutside
         isClosable
         isOpen
         onClose={onClose}
