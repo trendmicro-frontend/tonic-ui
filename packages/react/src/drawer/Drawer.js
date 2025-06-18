@@ -39,6 +39,7 @@ const Drawer = forwardRef((inProps, ref) => {
 
   { // deprecation warning
     const prefix = `${Drawer.displayName}:`;
+    const isTargetEnvironment = ['development', 'test'].includes(process.env.NODE_ENV);
 
     useOnceWhen(() => {
       warnDeprecatedProps('closeOnOutsideClick', {
@@ -46,7 +47,9 @@ const Drawer = forwardRef((inProps, ref) => {
         alternative: 'closeOnInteractOutside',
         willRemove: true,
       });
-    }, (process.env.NODE_ENV !== 'production') && (closeOnOutsideClickProp !== undefined));
+
+      // TODO: Remove the target environment check in the next major release
+    }, isTargetEnvironment && (closeOnOutsideClickProp !== undefined));
   }
 
   const closeOnInteractOutside = closeOnOutsideClickProp ?? closeOnInteractOutsideProp;
