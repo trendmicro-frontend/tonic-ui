@@ -1,5 +1,11 @@
 # @tonic-ui/react
 
+## 2.7.3
+
+### Patch Changes
+
+- revert(react/InputGroup): restore pseudo-class from 'first-of-type' to ':first-child' to align with ui spec by [@tinaClin](https://github.com/tinaClin) in [#1038](https://github.com/trendmicro-frontend/tonic-ui/pull/1038)
+
 ## 2.7.2
 
 ### Patch Changes
