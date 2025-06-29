@@ -234,6 +234,8 @@ const App = () => {
         />
         <Space width="2x" />
         <Text fontFamily="mono" whiteSpace="nowrap">closeOnOutsideClick (deprecated)</Text>
+        <Space width="2x" />
+        <Text color={colorStyle.color.primary}>⚠️</Text>
       </TextLabel>
     </FormGroup>
     <FormGroup>
