@@ -42,7 +42,7 @@ const DrawerComponent = ({ onClose }) => {
     <Drawer
       backdrop
       closeOnEsc
-      closeOnOutsideClick
+      closeOnInteractOutside
       isClosable
       isOpen
       onClose={onClose}
@@ -82,7 +82,7 @@ const ModalComponent = ({ onClose }) => {
   return (
     <Modal
       closeOnEsc
-      closeOnOutsideClick
+      closeOnInteractOutside
       isClosable
       isOpen
       onClose={onClose}

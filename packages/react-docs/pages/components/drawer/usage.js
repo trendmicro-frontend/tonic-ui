@@ -79,7 +79,8 @@ const App = () => {
   const [autoFocus, toggleAutoFocus] = useToggle(true);
   const [backdrop, toggleBackdrop] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
-  const [closeOnOutsideClick, toggleCloseOnOutsideClick] = useToggle(true);
+  const [closeOnInteractOutside, toggleCloseOnInteractOutside] = useToggle(true);
+  const [closeOnOutsideClick, toggleCloseOnOutsideClick] = useToggle(false);
   const [ensureFocus, toggleEnsureFocus] = useToggle(true);
   const [isClosable, toggleIsClosable] = useToggle(true);
   const [returnFocusOnClose, toggleReturnFocusOnClose] = useToggle(true);
@@ -209,7 +210,6 @@ const App = () => {
       <TextLabel display="flex" alignItems="center">
         <Checkbox
           checked={closeOnEsc}
-          disabled={!isClosable && !closeOnOutsideClick}
           onChange={() => toggleCloseOnEsc()}
         />
         <Space width="2x" />
@@ -219,12 +219,23 @@ const App = () => {
     <FormGroup>
       <TextLabel display="flex" alignItems="center">
         <Checkbox
+          checked={closeOnInteractOutside}
+          onChange={() => toggleCloseOnInteractOutside()}
+        />
+        <Space width="2x" />
+        <Text fontFamily="mono" whiteSpace="nowrap">closeOnInteractOutside</Text>
+      </TextLabel>
+    </FormGroup>
+    <FormGroup>
+      <TextLabel display="flex" alignItems="center">
+        <Checkbox
           checked={closeOnOutsideClick}
-          disabled={!isClosable && !closeOnEsc}
           onChange={() => toggleCloseOnOutsideClick()}
         />
         <Space width="2x" />
-        <Text fontFamily="mono" whiteSpace="nowrap">closeOnOutsideClick</Text>
+        <Text fontFamily="mono" whiteSpace="nowrap">closeOnOutsideClick (deprecated)</Text>
+        <Space width="2x" />
+        <Text color={colorStyle.color.primary}>⚠️</Text>
       </TextLabel>
     </FormGroup>
     <FormGroup>
@@ -241,7 +252,6 @@ const App = () => {
       <TextLabel display="flex" alignItems="center">
         <Checkbox
           checked={isClosable}
-          disabled={!closeOnEsc && !closeOnOutsideClick}
           onChange={() => toggleIsClosable()}
         />
         <Space width="2x" />
@@ -332,12 +342,17 @@ const App = () => {
       autoFocus={autoFocus}
       backdrop={backdrop}
       closeOnEsc={closeOnEsc}
+      closeOnInteractOutside={closeOnInteractOutside}
       closeOnOutsideClick={closeOnOutsideClick}
       ensureFocus={ensureFocus}
       initialFocusRef={initialFocusRef}
       isClosable={isClosable}
       isOpen={isOpen}
       onClose={() => toggleDrawer(false)}
+      onInteractOutside={(event) => {
+        // Call `event.preventDefault()` to prevent the drawer from closing
+        //event.preventDefault();
+      }}
       placement={placement}
       returnFocusOnClose={returnFocusOnClose}
       size={size}

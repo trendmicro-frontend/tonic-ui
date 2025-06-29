@@ -123,7 +123,7 @@ const DrawerExample = forwardRef((
       ref={ref}
       backdrop
       closeOnEsc
-      closeOnOutsideClick
+      closeOnInteractOutside
       isClosable
       isOpen={true}
       onClose={onClose}

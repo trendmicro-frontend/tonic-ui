@@ -1,4 +1,5 @@
-import { getAllFocusable, runIfFn } from '@tonic-ui/utils';
+import { useOnceWhen } from '@tonic-ui/react-hooks';
+import { getAllFocusable, runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import FocusLock from 'react-focus-lock/dist/cjs';
@@ -15,23 +16,44 @@ const defaultSize = 'auto';
 
 const Drawer = forwardRef((inProps, ref) => {
   const {
+    closeOnOutsideClick: closeOnOutsideClickProp, // deprecated
+
     autoFocus = false,
     backdrop = false,
     children,
     closeOnEsc = false,
-    closeOnOutsideClick = false,
+    closeOnInteractOutside: closeOnInteractOutsideProp = false,
     ensureFocus = false,
     finalFocusRef,
     initialFocusRef,
     isClosable = false,
     isOpen = false,
     onClose,
+    onInteractOutside,
     placement = defaultPlacement,
     portalProps,
     returnFocusOnClose = true,
     size = defaultSize,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Drawer' });
+
+  { // deprecation warning
+    const prefix = `${Drawer.displayName}:`;
+    const isTargetEnvironment = ['development', 'test'].includes(process.env.NODE_ENV);
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('closeOnOutsideClick', {
+        prefix,
+        alternative: 'closeOnInteractOutside',
+        willRemove: true,
+      });
+
+      // TODO: Remove the target environment check in the next major release
+    }, isTargetEnvironment && (closeOnOutsideClickProp !== undefined));
+  }
+
+  const closeOnInteractOutside = closeOnOutsideClickProp ?? closeOnInteractOutsideProp;
+
   const [isMounted, setIsMounted] = useState(isOpen);
   const containerRef = useRef();
   const contentRef = useRef(null);
@@ -39,13 +61,14 @@ const Drawer = forwardRef((inProps, ref) => {
     autoFocus,
     backdrop,
     closeOnEsc,
-    closeOnOutsideClick,
+    closeOnInteractOutside,
     ensureFocus,
     finalFocusRef,
     initialFocusRef,
     isClosable,
     isOpen,
     onClose,
+    onInteractOutside,
     placement,
     size,
     containerRef, // internal use only

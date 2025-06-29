@@ -14,9 +14,19 @@ import {
   ModalCloseButton,
   Text,
 } from '@tonic-ui/react/src';
+import { warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { useCallback, useRef, useState } from 'react';
 
+jest.mock('@tonic-ui/utils', () => ({
+  ...jest.requireActual('@tonic-ui/utils'),
+  warnDeprecatedProps: jest.fn(),
+}));
+
 describe('Modal', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should render correctly', async () => {
     const renderOptions = {};
     const { baseElement } = render((
@@ -105,13 +115,13 @@ describe('Modal', () => {
     expect(onClose).toHaveBeenCalled();
   });
 
-  it('should close when clicking outside the modal', async () => {
+  it('should close when interacting outside the modal', async () => {
     const user = userEvent.setup();
     const onClose = jest.fn();
 
     render(
       <Modal
-        closeOnOutsideClick
+        closeOnInteractOutside
         isOpen
         onClose={onClose}
       >
@@ -190,7 +200,7 @@ describe('Modal', () => {
     });
   });
 
-  it('should handle nested modal closing correctly with closeOnOutsideClick', async () => {
+  it('should handle nested modal closing correctly with closeOnInteractOutside', async () => {
     const user = userEvent.setup();
 
     const NestedModalTest = () => {
@@ -215,7 +225,7 @@ describe('Modal', () => {
             Open Outer Modal
           </Button>
           <Modal
-            closeOnOutsideClick
+            closeOnInteractOutside
             isOpen={isOuterOpen}
             onClose={handleCloseOuterModal}
           >
@@ -230,7 +240,7 @@ describe('Modal', () => {
             </ModalContent>
           </Modal>
           <Modal
-            closeOnOutsideClick
+            closeOnInteractOutside
             isOpen={isInnerOpen}
             onClose={handleCloseInnerModal}
           >
@@ -265,6 +275,18 @@ describe('Modal', () => {
     await user.click(screen.getByTestId('outer-overlay'));
     await waitFor(() => {
       expect(screen.queryByText('Outer Modal')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('deprecated props', () => {
+    it('should show warning when using `closeOnOutsideClick` prop', () => {
+      render(<Modal closeOnOutsideClick />);
+
+      expect(warnDeprecatedProps).toHaveBeenCalledWith('closeOnOutsideClick', {
+        prefix: 'Modal:',
+        alternative: 'closeOnInteractOutside',
+        willRemove: true,
+      });
     });
   });
 });

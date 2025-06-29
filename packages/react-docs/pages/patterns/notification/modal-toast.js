@@ -122,7 +122,7 @@ const ModalExample = forwardRef((
     <Modal
       ref={ref}
       closeOnEsc
-      closeOnOutsideClick
+      closeOnInteractOutside
       isClosable
       isOpen={true}
       onClose={onClose}
