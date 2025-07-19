@@ -1,5 +1,4 @@
-import { useEventCallback } from '@tonic-ui/react-hooks';
-import { dataAttr } from '@tonic-ui/utils';
+import { callEventHandlers, dataAttr } from '@tonic-ui/utils';
 import formatISO from 'date-fns/formatISO';
 import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
@@ -7,12 +6,15 @@ import isSameDay from 'date-fns/isSameDay';
 import isSameMonth from 'date-fns/isSameMonth';
 import React, { forwardRef } from 'react';
 import { Box } from '../../../box';
+import useButtonEventHandlers from '../../../utils/useButtonEventHandlers';
 import { useDayStyle } from '../styles';
 import useDateCalendar from '../useDateCalendar';
 
 const Day = forwardRef((
   {
     date,
+    onClick: onClickProp,
+    onKeyDown: onKeyDownProp,
     ...rest
   },
   ref,
@@ -50,19 +52,15 @@ const Day = forwardRef((
     isSelectable,
     isToday,
   });
-  const handleClick = useEventCallback((event) => {
-    setActiveDate(date);
-    onChange(date);
-  }, [date, setActiveDate, onChange]);
-  const handleKeyDown = useEventCallback((event) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      setActiveDate(date);
-      onChange(date);
 
-      // Prevent the default action
-      event.preventDefault();
-    }
-  }, [date, setActiveDate, onChange]);
+  const { onClick, onKeyDown } = useButtonEventHandlers({
+    onActivate: () => {
+      if (isSelectable) {
+        setActiveDate(date);
+        onChange(date);
+      }
+    },
+  });
 
   return (
     <Box
@@ -70,8 +68,8 @@ const Day = forwardRef((
       data-date={formatISO(date, { representation: 'date' })}
       // Only use `aria-selected` with these roles: `option`, `tab`, `menuitemradio`, `treeitem`, `gridcell`, `row`, `rowheader`, and `columnheader`.
       data-selected={dataAttr(isSelected)}
-      onClick={isSelectable ? handleClick : undefined}
-      onKeyDown={isSelectable ? handleKeyDown : undefined}
+      onClick={callEventHandlers(onClickProp, onClick)}
+      onKeyDown={callEventHandlers(onKeyDownProp, onKeyDown)}
       tabIndex={tabIndex}
       {...styleProps}
       {...rest}
