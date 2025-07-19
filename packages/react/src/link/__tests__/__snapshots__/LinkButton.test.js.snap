@@ -1,0 +1,213 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LinkButton should render correctly 1`] = `
+.emotion-1 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: inherit;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  outline: 0;
+  padding: 0;
+  color: var(--tonic-colors-blue-40);
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-1:focus-visible {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: 0;
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1q);
+}
+
+.emotion-1:visited {
+  color: var(--tonic-colors-purple-50);
+}
+
+.emotion-1:hover,
+.emotion-1[data-hover] {
+  color: var(--tonic-colors-blue-40);
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.emotion-1:active,
+.emotion-1[data-active] {
+  color: var(--tonic-colors-blue-60);
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.emotion-1:disabled,
+.emotion-1:disabled:focus,
+.emotion-1:disabled:hover,
+.emotion-1[aria-disabled=true],
+.emotion-1[aria-disabled=true]:focus,
+.emotion-1[aria-disabled=true]:hover,
+.emotion-1[data-disabled] {
+  color: var(--tonic-colors-white-disabled);
+  cursor: not-allowed;
+}
+
+.emotion-7 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: inherit;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  outline: 0;
+  padding: 0;
+  color: var(--tonic-colors-blue-40);
+  cursor: pointer;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-7:focus-visible {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: 0;
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1q);
+}
+
+.emotion-7:visited {
+  color: var(--tonic-colors-purple-50);
+}
+
+.emotion-7:hover,
+.emotion-7[data-hover] {
+  color: var(--tonic-colors-blue-40);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-7:active,
+.emotion-7[data-active] {
+  color: var(--tonic-colors-blue-60);
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.emotion-7:disabled,
+.emotion-7:disabled:focus,
+.emotion-7:disabled:hover,
+.emotion-7[aria-disabled=true],
+.emotion-7[aria-disabled=true]:focus,
+.emotion-7[aria-disabled=true]:hover,
+.emotion-7[data-disabled] {
+  color: var(--tonic-colors-white-disabled);
+  cursor: not-allowed;
+}
+
+.emotion-10 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: inherit;
+  border: none;
+  color: inherit;
+  cursor: not-allowed;
+  outline: 0;
+  padding: 0;
+  color: var(--tonic-colors-blue-40);
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-10:focus-visible {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: 0;
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1q);
+}
+
+.emotion-10:visited {
+  color: var(--tonic-colors-purple-50);
+}
+
+.emotion-10:hover,
+.emotion-10[data-hover] {
+  color: var(--tonic-colors-blue-40);
+}
+
+.emotion-10:active,
+.emotion-10[data-active] {
+  color: var(--tonic-colors-blue-60);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-10:disabled,
+.emotion-10:disabled:focus,
+.emotion-10:disabled:hover,
+.emotion-10[aria-disabled=true],
+.emotion-10[aria-disabled=true]:focus,
+.emotion-10[aria-disabled=true]:hover,
+.emotion-10[data-disabled] {
+  color: var(--tonic-colors-white-disabled);
+  cursor: not-allowed;
+}
+
+<div>
+  <button
+    class="emotion-0 emotion-1 emotion-0"
+    type="button"
+  >
+    GitHub
+  </button>
+  <button
+    class="emotion-0 emotion-1 emotion-0"
+    type="button"
+  >
+    Click me
+  </button>
+  <button
+    class="emotion-0 emotion-7 emotion-0"
+    type="button"
+  >
+    Home
+  </button>
+  <button
+    aria-disabled="true"
+    class="emotion-0 emotion-10 emotion-0"
+    disabled=""
+    type="button"
+  >
+    Disabled LinkButton
+  </button>
+</div>
+`;

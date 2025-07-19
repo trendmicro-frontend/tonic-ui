@@ -5,10 +5,26 @@ const useLinkStyle = ({
   textDecoration,
 }) => {
   const [colorMode] = useColorMode();
-  const color = { light: 'blue:60', dark: 'blue:40' }[colorMode];
-  const hoverColor = { light: 'blue:50', dark: 'blue:40' }[colorMode];
-  const visitedColor = { light: 'purple:60', dark: 'purple:50' }[colorMode];
-  const disabledColor = { light: 'black:disabled', dark: 'white:disabled' }[colorMode];
+  const color = {
+    dark: 'blue:40',
+    light: 'blue:60',
+  }[colorMode];
+  const hoverColor = {
+    dark: 'blue:40',
+    light: 'blue:50',
+  }[colorMode];
+  const visitedColor = {
+    dark: 'purple:50',
+    light: 'purple:60',
+  }[colorMode];
+  const disabledColor = {
+    dark: 'white:disabled',
+    light: 'black:disabled',
+  }[colorMode];
+  const focusVisibleOutlineColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
+  }[colorMode];
   const hoverTextDecoration = textDecoration ? 'none' : 'underline';
   const activeTextDecoration = !!disabled ? 'none' : 'underline';
 
@@ -33,13 +49,16 @@ const useLinkStyle = ({
       color: 'blue:60',
       textDecoration: textDecoration ?? activeTextDecoration,
     },
+    _focusVisible: {
+      outlineColor: focusVisibleOutlineColor,
+      outlineOffset: 0,
+      outlineStyle: 'solid',
+      outlineWidth: '1q',
+    },
   };
 };
 
-const useLinkButtonStyle = () => {
-  return {
-  };
-};
+const useLinkButtonStyle = useLinkStyle;
 
 export {
   useLinkStyle,

@@ -1,0 +1,183 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Link should render correctly 1`] = `
+.emotion-0 {
+  color: var(--tonic-colors-blue-40);
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-0:focus-visible {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: 0;
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1q);
+}
+
+.emotion-0:visited {
+  color: var(--tonic-colors-purple-50);
+}
+
+.emotion-0:hover,
+.emotion-0[data-hover] {
+  color: var(--tonic-colors-blue-40);
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.emotion-0:active,
+.emotion-0[data-active] {
+  color: var(--tonic-colors-blue-60);
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.emotion-0:disabled,
+.emotion-0:disabled:focus,
+.emotion-0:disabled:hover,
+.emotion-0[aria-disabled=true],
+.emotion-0[aria-disabled=true]:focus,
+.emotion-0[aria-disabled=true]:hover,
+.emotion-0[data-disabled] {
+  color: var(--tonic-colors-white-disabled);
+  cursor: not-allowed;
+}
+
+.emotion-4 {
+  color: var(--tonic-colors-blue-40);
+  cursor: pointer;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-4:focus-visible {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: 0;
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1q);
+}
+
+.emotion-4:visited {
+  color: var(--tonic-colors-purple-50);
+}
+
+.emotion-4:hover,
+.emotion-4[data-hover] {
+  color: var(--tonic-colors-blue-40);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-4:active,
+.emotion-4[data-active] {
+  color: var(--tonic-colors-blue-60);
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.emotion-4:disabled,
+.emotion-4:disabled:focus,
+.emotion-4:disabled:hover,
+.emotion-4[aria-disabled=true],
+.emotion-4[aria-disabled=true]:focus,
+.emotion-4[aria-disabled=true]:hover,
+.emotion-4[data-disabled] {
+  color: var(--tonic-colors-white-disabled);
+  cursor: not-allowed;
+}
+
+.emotion-6 {
+  color: var(--tonic-colors-blue-40);
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-6:focus-visible {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: 0;
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1q);
+}
+
+.emotion-6:visited {
+  color: var(--tonic-colors-purple-50);
+}
+
+.emotion-6:hover,
+.emotion-6[data-hover] {
+  color: var(--tonic-colors-blue-40);
+}
+
+.emotion-6:active,
+.emotion-6[data-active] {
+  color: var(--tonic-colors-blue-60);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-6:disabled,
+.emotion-6:disabled:focus,
+.emotion-6:disabled:hover,
+.emotion-6[aria-disabled=true],
+.emotion-6[aria-disabled=true]:focus,
+.emotion-6[aria-disabled=true]:hover,
+.emotion-6[data-disabled] {
+  color: var(--tonic-colors-white-disabled);
+  cursor: not-allowed;
+}
+
+<div>
+  <a
+    class="emotion-0 emotion-1"
+    href="https://github.com/trendmicro-frontend/tonic-ui"
+  >
+    GitHub
+  </a>
+  <a
+    class="emotion-0 emotion-1"
+    href="https://github.com/trendmicro-frontend/tonic-ui"
+    target="_blank"
+  >
+    GitHub (new tab)
+  </a>
+  <a
+    class="emotion-4 emotion-1"
+    href="/home"
+  >
+    Home
+  </a>
+  <a
+    aria-disabled="true"
+    class="emotion-6 emotion-1"
+    href="/disabled"
+  >
+    Disabled Link
+  </a>
+</div>
+`;
