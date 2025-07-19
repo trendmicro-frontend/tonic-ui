@@ -24,6 +24,10 @@ const useAccordionHeaderStyle = () => {
     dark: 'white:disabled',
     light: 'black:disabled',
   }[colorMode];
+  const focusVisibleOutlineColor = {
+    dark: 'blue:60',
+    light: 'blue:60',
+  }[colorMode];
   const px = sizes['4x'];
   const py = `calc(${sizes['3x']} - ${borderWidth})`;
 
@@ -39,6 +43,12 @@ const useAccordionHeaderStyle = () => {
     color,
     _disabled: {
       color: disabledColor,
+    },
+    _focusVisible: {
+      outlineColor: focusVisibleOutlineColor,
+      outlineOffset: '-1h',
+      outlineStyle: 'solid',
+      outlineWidth: '1h',
     },
     px,
     py,
