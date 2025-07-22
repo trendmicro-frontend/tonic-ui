@@ -40,7 +40,7 @@ const TreeItemToggle = forwardRef((inProps, ref) => {
     onKeyDown: callEventHandlers(onKeyDownProp, preventNodeSelection, onKeyDown),
     ref,
     role: 'button',
-    tabIndex: 0,
+    tabIndex: -1,
     ...styleProps,
     ...rest,
   });

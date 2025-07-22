@@ -724,8 +724,8 @@ const Tree = forwardRef((inProps, ref) => {
     treeId,
     unregisterNode,
   });
-  const tabIndex = 0;
   const styleProps = useTreeStyle();
+  const shouldBeAccessibleWithTab = !focusedNodeId;
 
   return (
     <TreeContext.Provider value={context}>
@@ -735,11 +735,11 @@ const Tree = forwardRef((inProps, ref) => {
           aria-activedescendant={activeDescendant}
           aria-multiselectable={ariaAttr(multiSelect)}
           id={treeId}
-          role="tree"
           onBlur={callEventHandlers(onBlurProp, onBlur)}
           onFocus={callEventHandlers(onFocusProp, onFocus)}
           onKeyDown={callEventHandlers(onKeyDownProp, onKeyDown)}
-          tabIndex={tabIndex}
+          role="tree"
+          tabIndex={shouldBeAccessibleWithTab ? 0 : -1}
           {...styleProps}
           {...rest}
         />
