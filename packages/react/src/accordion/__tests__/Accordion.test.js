@@ -184,4 +184,36 @@ describe('Accordion', () => {
     const accordionHeader = screen.getByTestId('accordion-header');
     expect(accordionHeader).toBeDisabled();
   });
+
+  it('should toggle accordion item with keyboard (Enter/Space)', async () => {
+    const user = userEvent.setup();
+    render(
+      <Accordion>
+        <AccordionItem>
+          <AccordionHeader data-testid="accordion-header">Section 1</AccordionHeader>
+          <AccordionBody data-testid="accordion-body">Content 1</AccordionBody>
+        </AccordionItem>
+      </Accordion>
+    );
+    const header = screen.getByTestId('accordion-header');
+    const body = screen.getByTestId('accordion-body');
+
+    header.focus();
+
+    // Press Enter to toggle accordion item
+    await user.keyboard('[Enter]');
+    expect(header).toHaveAttribute('aria-expanded', 'true');
+    expect(body).toBeVisible();
+    await user.keyboard('[Enter]');
+    expect(header).not.toHaveAttribute('aria-expanded');
+    expect(body).not.toBeVisible();
+
+    // Press Space to toggle accordion item
+    await user.keyboard('[Space]');
+    expect(header).toHaveAttribute('aria-expanded', 'true');
+    expect(body).toBeVisible();
+    await user.keyboard('[Space]');
+    expect(header).not.toHaveAttribute('aria-expanded');
+    expect(body).not.toBeVisible();
+  });
 });

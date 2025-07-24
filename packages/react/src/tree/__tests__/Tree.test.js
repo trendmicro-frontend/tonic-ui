@@ -506,6 +506,57 @@ describe('Tree', () => {
     expect(screen.getByTestId('node-1')).not.toHaveAttribute('aria-selected');
   });
 
+  it('should toggle tree item with keyboard (Enter and Space)', async () => {
+    const user = userEvent.setup();
+    const treeNodes = buildTreeNodes();
+
+    render(
+      <Tree
+        isSelectable
+        isUnselectable
+      >
+        {ensureArray(treeNodes).map(node => (
+          <TreeItemRender
+            key={node.id}
+            node={node}
+          />
+        ))}
+      </Tree>
+    );
+
+    act(() => {
+      screen.getByRole('tree').focus();
+    });
+
+    // Test Enter key for expand/collapse
+    expect(screen.getByTestId('node-1')).not.toHaveAttribute('aria-expanded');
+    await user.keyboard('[Enter]');
+    expect(screen.getByTestId('node-1')).toHaveAttribute('aria-expanded', 'true');
+    await user.keyboard('[Enter]');
+    expect(screen.getByTestId('node-1')).not.toHaveAttribute('aria-expanded');
+
+    // Test Space key for select/unselect
+    expect(screen.getByTestId('node-1')).not.toHaveAttribute('aria-selected');
+    await user.keyboard('[Space]');
+    expect(screen.getByTestId('node-1')).toHaveAttribute('aria-selected', 'true');
+    await user.keyboard('[Space]');
+    expect(screen.getByTestId('node-1')).not.toHaveAttribute('aria-selected');
+
+    // Navigate to an expandable node and test both keys
+    await user.keyboard('[ArrowDown]'); // Focus node-7
+    await user.keyboard('[ArrowDown]'); // Focus node-9
+
+    // Test Enter key on node-9
+    expect(screen.getByTestId('node-9')).not.toHaveAttribute('aria-expanded');
+    await user.keyboard('[Enter]');
+    expect(screen.getByTestId('node-9')).toHaveAttribute('aria-expanded', 'true');
+
+    // Test Space key on node-9
+    expect(screen.getByTestId('node-9')).not.toHaveAttribute('aria-selected');
+    await user.keyboard('[Space]');
+    expect(screen.getByTestId('node-9')).toHaveAttribute('aria-selected', 'true');
+  });
+
   it('should navigate the tree with specific keys', async () => {
     const user = userEvent.setup();
     const handleKeyDown = jest.fn();

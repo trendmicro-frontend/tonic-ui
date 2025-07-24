@@ -87,4 +87,37 @@ describe('Menu', () => {
       expect(button).toHaveFocus();
     });
   });
+
+  it('should toggle menu with keyboard (Enter and Space)', async () => {
+    const user = userEvent.setup();
+    render(<TestComponent />);
+
+    const button = screen.getByTestId('button');
+
+    // Focus the button
+    button.focus();
+    expect(button).toHaveFocus();
+
+    // Press Enter to open menu
+    await user.keyboard('[Enter]');
+    expect(await screen.findByRole('menu')).toBeInTheDocument();
+    expect(screen.getByTestId('menu-list')).toHaveFocus();
+
+    // Press Escape to close menu
+    await user.keyboard('[Escape]');
+    await waitFor(() => {
+      expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+    });
+
+    // Press Space to open menu
+    await user.keyboard('[Space]');
+    expect(await screen.findByRole('menu')).toBeInTheDocument();
+    expect(screen.getByTestId('menu-list')).toHaveFocus();
+
+    // Press Escape to close menu
+    await user.keyboard('[Escape]');
+    await waitFor(() => {
+      expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+    });
+  });
 });
