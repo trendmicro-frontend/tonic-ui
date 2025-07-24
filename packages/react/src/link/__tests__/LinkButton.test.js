@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { LinkButton } from '@tonic-ui/react/src';
+import { noop } from '@tonic-ui/utils/src';
 import React from 'react';
 
 describe('LinkButton', () => {
@@ -15,7 +16,7 @@ describe('LinkButton', () => {
         </LinkButton>
 
         {/* Link button with onClick */}
-        <LinkButton onClick={() => {}}>
+        <LinkButton onClick={noop}>
           Click me
         </LinkButton>
 
@@ -38,32 +39,32 @@ describe('LinkButton', () => {
   it('should handle click events when not disabled', async () => {
     const user = userEvent.setup();
     const handleClick = jest.fn();
-    
+
     render(
       <LinkButton onClick={handleClick}>
         Test LinkButton
       </LinkButton>
     );
-    
+
     const button = screen.getByRole('button', { name: /test linkbutton/i });
     await user.click(button);
-    
+
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
   it('should prevent click events when disabled', async () => {
     const user = userEvent.setup();
     const handleClick = jest.fn();
-    
+
     render(
       <LinkButton onClick={handleClick} disabled>
         Disabled LinkButton
       </LinkButton>
     );
-    
+
     const button = screen.getByRole('button', { name: /disabled linkbutton/i });
     await user.click(button);
-    
+
     expect(handleClick).not.toHaveBeenCalled();
   });
 
@@ -73,7 +74,7 @@ describe('LinkButton', () => {
         Disabled LinkButton
       </LinkButton>
     );
-    
+
     const button = screen.getByRole('button', { name: /disabled linkbutton/i });
     expect(button).toHaveAttribute('aria-disabled', 'true');
     expect(button).toBeDisabled();
@@ -92,7 +93,7 @@ describe('LinkButton', () => {
         Test LinkButton
       </LinkButton>
     );
-    
+
     expect(ref.current).toBeInstanceOf(HTMLButtonElement);
   });
 });

@@ -3,7 +3,6 @@ import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { Link } from '@tonic-ui/react/src';
-import { AngleRightIcon } from '@tonic-ui/react-icons/src';
 import React from 'react';
 
 describe('Link', () => {
@@ -42,32 +41,33 @@ describe('Link', () => {
   it('should handle click events when not disabled', async () => {
     const user = userEvent.setup();
     const handleClick = jest.fn();
-    
+
     render(
+      // eslint-disable-next-line jsx-a11y/anchor-is-valid
       <Link href="#" onClick={handleClick}>
         Test Link
       </Link>
     );
-    
+
     const link = screen.getByRole('link', { name: /test link/i });
     await user.click(link);
-    
+
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
   it('should prevent click events when disabled', async () => {
     const user = userEvent.setup();
     const handleClick = jest.fn();
-    
+
     render(
       <Link href="/test" onClick={handleClick} disabled>
         Disabled Link
       </Link>
     );
-    
+
     const link = screen.getByRole('link', { name: /disabled link/i });
     await user.click(link);
-    
+
     expect(handleClick).not.toHaveBeenCalled();
   });
 
@@ -77,15 +77,15 @@ describe('Link', () => {
         Disabled Link
       </Link>
     );
-    
+
     const link = screen.getByRole('link', { name: /disabled link/i });
     expect(link).toHaveAttribute('aria-disabled', 'true');
   });
 
   it('should render with custom props', () => {
     render(
-      <Link 
-        href="/test" 
+      <Link
+        href="/test"
         className="custom-class"
         id="test-link"
         rel="noopener"
@@ -94,7 +94,7 @@ describe('Link', () => {
         Custom Link
       </Link>
     );
-    
+
     const link = screen.getByRole('link', { name: /custom link/i });
     expect(link).toHaveClass('custom-class');
     expect(link).toHaveAttribute('id', 'test-link');
@@ -115,9 +115,8 @@ describe('Link', () => {
         Test Link
       </Link>
     );
-    
+
     expect(ref.current).toBeInstanceOf(HTMLAnchorElement);
     expect(ref.current?.href).toBe('http://localhost/test');
   });
-
 });
