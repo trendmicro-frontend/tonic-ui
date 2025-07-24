@@ -72,7 +72,7 @@ const DatePickerToggle = forwardRef((
     onClick: callEventHandlers(onClickProp, onClick),
     onKeyDown: callEventHandlers(onKeyDownProp, onKeyDown),
     ref: combinedRef,
-    role: 'group',
+    role: 'button',
     ...styleProps,
     ...rest,
   });

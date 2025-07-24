@@ -148,7 +148,7 @@ exports[`DatePicker should render correctly 1`] = `
         aria-haspopup="menu"
         class="emotion-4 emotion-1"
         data-testid="date-picker-input-control"
-        role="group"
+        role="button"
       >
         <div
           class="emotion-6 emotion-1"
