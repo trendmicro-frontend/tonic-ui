@@ -2,6 +2,7 @@ import { useColorMode } from '../color-mode';
 
 const useTreeItemStyle = () => {
   return {
+    // No default visual styles
   };
 };
 
@@ -92,7 +93,7 @@ const useTreeItemToggleIconStyle = ({
 
 const useTreeStyle = () => {
   return {
-    outline: 0,
+    // No default visual styles
   };
 };
 

@@ -46,6 +46,13 @@ exports[`Accordion should render correctly 1`] = `
   padding-bottom: calc(.75rem - .0625rem);
 }
 
+.emotion-4:focus-visible {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: calc(0px - var(--tonic-space-1h));
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1h);
+}
+
 .emotion-4:disabled,
 .emotion-4:disabled:focus,
 .emotion-4:disabled:hover,

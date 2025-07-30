@@ -117,4 +117,37 @@ describe('DatePicker', () => {
       },
     });
   });
+
+  it('should toggle datepicker with keyboard (Enter and Space)', async () => {
+    const user = userEvent.setup();
+    const defaultValue = new Date('2024-08-01');
+    const mockOnChange = jest.fn();
+    render(
+      <TestComponent
+        closeOnSelect={true}
+        defaultValue={defaultValue}
+        inputFormat="yyyy-MM-dd"
+        onChange={mockOnChange}
+      />
+    );
+
+    const datePickerInput = screen.getByTestId('date-picker-input-element');
+    datePickerInput.focus();
+
+    // Press Escape to close the date picker
+    await user.keyboard('[Escape]');
+    await waitForElementToBeRemoved(() => screen.queryByRole('menu'));
+
+    // Press Enter to open the date picker
+    await user.keyboard('[Enter]');
+    expect(await screen.findByRole('menu')).toBeInTheDocument();
+
+    // Press Escape to close the date picker
+    await user.keyboard('[Escape]');
+    await waitForElementToBeRemoved(() => screen.queryByRole('menu'));
+
+    // Press Space to open the date picker
+    await user.keyboard('[Space]');
+    expect(await screen.findByRole('menu')).toBeInTheDocument();
+  });
 });

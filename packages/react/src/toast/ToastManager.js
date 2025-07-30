@@ -5,7 +5,7 @@ import memoize from 'micro-memoize';
 import React, { useCallback, useState } from 'react';
 import { useDefaultProps } from '../default-props';
 import { Portal } from '../portal';
-import { renderComponentOrValue } from '../utils/renderComponentOrValue';
+import isValidComponent from '../utils/isValidComponent';
 import ToastContainer from './ToastContainer';
 import ToastController from './ToastController';
 import ToastTransition from './ToastTransition';
@@ -37,6 +37,14 @@ const getToastPlacementByState = (state, id) => {
     .reduce((acc, val) => acc.concat(val), [])
     .find((toast) => toast.id === id);
   return toast?.placement;
+};
+
+const renderComponentOrValue = (componentOrValue, props) => {
+  if (isValidComponent(componentOrValue)) {
+    const Component = componentOrValue;
+    return <Component {...props} />;
+  }
+  return componentOrValue;
 };
 
 const ToastManager = (inProps) => {

@@ -1,8 +1,9 @@
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
-import { ensureBoolean } from 'ensure-type';
+import { ensureBoolean, ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
+import useButtonEventHandlers from '../utils/useButtonEventHandlers';
 import useAccordionItem from './useAccordionItem';
 import { useAccordionToggleStyle } from './styles';
 
@@ -11,19 +12,32 @@ const AccordionToggle = forwardRef((inProps, ref) => {
     children,
     disabled: disabledProp,
     onClick: onClickProp,
+    onKeyDown: onKeyDownProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'AccordionToggle' });
-  const context = useAccordionItem(); // context might be an undefined value
-  const disabled = ensureBoolean(disabledProp ?? context?.disabled);
+  const {
+    accordionContentId,
+    accordionToggleId,
+    disabled: accordionItemDisabled,
+    isExpanded,
+    onToggle: toggleAccordionItem,
+  } = useAccordionItem();
+  const disabled = ensureBoolean(disabledProp ?? accordionItemDisabled);
   const styleProps = useAccordionToggleStyle();
 
-  const getAccordionToggleProps = () => ({
-    'aria-controls': context?.accordionContentId,
-    'aria-disabled': ariaAttr(disabled),
-    'aria-expanded': ariaAttr(context?.isExpanded),
+  const { onClick, onKeyDown } = useButtonEventHandlers({
     disabled,
-    id: context?.accordionToggleId,
-    onClick: callEventHandlers(onClickProp, context?.onToggle),
+    onActivate: () => ensureFunction(toggleAccordionItem)(),
+  });
+
+  const getAccordionToggleProps = () => ({
+    'aria-controls': accordionContentId,
+    'aria-disabled': ariaAttr(disabled),
+    'aria-expanded': ariaAttr(isExpanded),
+    disabled,
+    id: accordionToggleId,
+    onClick: callEventHandlers(onClickProp, onClick),
+    onKeyDown: callEventHandlers(onKeyDownProp, onKeyDown),
     ref,
     role: 'button',
     tabIndex: 0,

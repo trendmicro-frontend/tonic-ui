@@ -64,7 +64,7 @@ const SubmenuToggle = forwardRef((inProps, ref) => {
       if (!isHoveringSubmenuToggleRef.current && !isHoveringSubmenuContentRef.current) {
         ensureFunction(closeSubmenu)();
       }
-    }, 100); // XXX: keep opening popover when cursor quickly move between trigger and content
+    }, 100); // XXX: keep opening Submenu when cursor quickly move between SubmenuToggle and SubmenuContent
   };
 
   const getSubmenuToggleProps = () => ({

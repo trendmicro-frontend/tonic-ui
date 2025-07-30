@@ -1,6 +1,7 @@
-import { useMergeRefs } from '@tonic-ui/react-hooks';
+import { useEventCallback, useMergeRefs } from '@tonic-ui/react-hooks';
 import { callEventHandlers } from '@tonic-ui/utils';
-import React, { forwardRef, useCallback } from 'react';
+import { ensureFunction } from 'ensure-type';
+import React, { forwardRef } from 'react';
 import { Box } from '../../box';
 import {
   useDatePickerToggleStyle,
@@ -23,38 +24,43 @@ const DatePickerToggle = forwardRef((
     datePickerToggleId,
     datePickerToggleRef,
     isOpen,
-    onClose,
-    onOpen,
+    onClose: closeDatePicker,
+    onOpen: openDatePicker,
   } = { ...datePickerContext };
   const styleProps = useDatePickerToggleStyle();
   const combinedRef = useMergeRefs(datePickerToggleRef, ref);
-  const handleClick = callEventHandlers(onClickProp, useCallback((event) => {
-    // Don't handle `onClick` event when the `DatePickerToggle` is disabled
+
+  const onClick = useEventCallback((event) => {
     if (disabled) {
       event.preventDefault();
+      event.stopPropagation();
       return;
     }
+    ensureFunction(openDatePicker)();
+  }, [disabled, openDatePicker]);
 
-    onOpen?.();
-  }, [disabled, onOpen]));
-
-  const handleKeyDown = callEventHandlers(onKeyDownProp, useCallback((event) => {
-    // Don't handle `onKeyDown` event when the `DatePickerToggle` is disabled
+  const onKeyDown = useEventCallback((event) => {
     if (disabled) {
       event.preventDefault();
+      event.stopPropagation();
       return;
     }
 
-    if (event.key === 'Enter') {
-      onOpen?.();
+    if (event.repeat) {
       return;
     }
 
-    if (event.key === 'Escape') {
-      onClose?.();
-      return;
+    const isEscape = (event.key === 'Escape');
+    const isEnterOrSpace = (event.key === 'Enter' || event.key === ' ');
+
+    if (isEscape) {
+      event.preventDefault();
+      ensureFunction(closeDatePicker)();
+    } else if (isEnterOrSpace) {
+      event.preventDefault();
+      ensureFunction(openDatePicker)();
     }
-  }, [disabled, onClose, onOpen]));
+  }, [disabled, closeDatePicker, openDatePicker]);
 
   const getDatePickerToggleProps = () => ({
     'aria-controls': datePickerContentId,
@@ -63,11 +69,10 @@ const DatePickerToggle = forwardRef((
     'aria-haspopup': 'menu',
     disabled,
     id: datePickerToggleId,
-    onClick: handleClick,
-    onKeyDown: handleKeyDown,
+    onClick: callEventHandlers(onClickProp, onClick),
+    onKeyDown: callEventHandlers(onKeyDownProp, onKeyDown),
     ref: combinedRef,
     role: 'button',
-    tabIndex: 0,
     ...styleProps,
     ...rest,
   });

@@ -4,6 +4,7 @@ import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
+import useButtonEventHandlers from '../utils/useButtonEventHandlers';
 import {
   useMenuToggleStyle,
 } from './styles';
@@ -19,57 +20,18 @@ const MenuToggle = forwardRef((inProps, ref) => {
   } = useDefaultProps({ props: inProps, name: 'MenuToggle' });
   const menuContext = useMenu(); // context might be an undefined value
   const {
-    autoSelect,
-    focusOnLastItem,
-    focusOnFirstItem,
     isOpen,
     menuId,
     menuToggleId,
     menuToggleRef,
-    onClose: closeMenu,
-    onOpen: openMenu,
+    onToggle: toggleMenu,
   } = { ...menuContext };
   const combinedRef = useMergeRefs(menuToggleRef, ref);
   const styleProps = useMenuToggleStyle();
-  const handleClick = callEventHandlers(onClickProp, (event) => {
-    // Don't handle `onClick` event when the `MenuToggle` is disabled
-    if (disabled) {
-      event.preventDefault();
-      return;
-    }
 
-    if (isOpen) {
-      ensureFunction(closeMenu)();
-      return;
-    }
-
-    ensureFunction(openMenu)();
-
-    // If `autoSelect` is true, focus on the first item when the menu opens with a mouse click
-    autoSelect && focusOnFirstItem();
-  });
-  const handleKeyDown = callEventHandlers(onKeyDownProp, event => {
-    // Don't handle `onKeyDown` event when the `MenuToggle` is disabled
-    if (disabled) {
-      event.preventDefault();
-      return;
-    }
-
-    if (event.key === 'ArrowDown') {
-      ensureFunction(openMenu)();
-
-      // Focus on the first item when the menu opens with the down arrow
-      ensureFunction(focusOnFirstItem)();
-      return;
-    }
-
-    if (event.key === 'ArrowUp') {
-      ensureFunction(openMenu)();
-
-      // Focus on the last item when the menu opens with the up arrow
-      ensureFunction(focusOnLastItem)();
-      return;
-    }
+  const { onClick, onKeyDown } = useButtonEventHandlers({
+    disabled,
+    onActivate: () => ensureFunction(toggleMenu)(),
   });
 
   const getMenuToggleProps = () => ({
@@ -79,8 +41,8 @@ const MenuToggle = forwardRef((inProps, ref) => {
     'aria-haspopup': 'menu',
     disabled,
     id: menuToggleId,
-    onClick: handleClick,
-    onKeyDown: handleKeyDown,
+    onClick: callEventHandlers(onClickProp, onClick),
+    onKeyDown: callEventHandlers(onKeyDownProp, onKeyDown),
     ref: combinedRef,
     role: 'button',
     tabIndex: 0,

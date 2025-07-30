@@ -78,14 +78,18 @@ const DateInput = React.forwardRef((props, ref) => {
 | :--- | :--- | :------ | :---------- |
 | closeOnSelect | boolean | false | Determines if the date picker should close automatically after a date is selected. |
 | defaultValue | Date \| string | | The default selected date. If the `defaultValue` is a string, it will be parsed to a `Date` object in accordance with the `inputFormat`. |
+| defaultIsOpen | boolean | false | Whether the date picker is open by default. |
 | firstDayOfWeek | number | 0 | The first day of the week.<br/>0 = Sunday<br/>1 = Monday<br/>2 = Tuesday<br/>3 = Wednesday<br/>4 = Thursday<br/>5 = Friday<br/>6 = Saturday |
 | formatDate | function | | A callback called to return the formatted date string in the given format.<br/><br/><b>Signature</b><br/>`function(date, format, options) => void`<br/>_date_: The original date.<br/>_format_: The string of [format tokens](https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table).<br/>_options_: An object with options. |
 | inputFormat | string | 'yyyy-MM-dd' | The default date format is ISO 8601 (`yyyy-MM-dd`). You can change the input format in accordance with the locale. The input value will be parsed to a `Date` object with `dd` as day, `MM` as month, and `yyyy` as year. |
+| isOpen | boolean | | If `true`, the date picker will be open. |
 | offset | [skidding, distance] | [0, 0] | The skidding and distance of the date picker. |
 | minDate | Date | | The minimum date that can be selected. |
 | maxDate | Date | | The maximum date that can be selected. |
 | onChange | function | | A callback called when the value (the selected date) changes.<br/><br/><b>Signature:</b><br/>`function(value) => void`<br/>_value_: The selected date. |
+| onClose | function | | Callback when the date picker is closed. |
 | onError | function | | An error-first callback called when the date validation returns an error (or the date is valid after error).<br/><br/><b>Signature</b><br/>`function(error, value) => void`<br/>_error_: The error message. It will be `undefined` if the date is valid after error.<br/>_value_: The selected date. |
+| onOpen | function | | Callback when the date picker is opened. |
 | placement | string | 'bottom-start' | The placement of the date picker. One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end' |
 | renderInput | function | | The `renderInput` prop allows you to customize the rendered input.<br/>The `props` argument of this render prop contains props of [InputControl](../../components/input-control) that you need to forward.<br/><br/><b>Signature:</b><br/>`function(props) => ReactNode`<br/>_props_: The props of the input.<br/>_returns (ReactNode)_: The node to render as the input. |
 | shouldDisableDate | function | | Disable specific date.<br/><br/><b>Signature:</b><br/>`function(date) => boolean`<br/>_date_: The date to check.<br/>_returns (boolean)_: Return `true` if the date will be disabled. |

@@ -103,17 +103,6 @@ const Menu = forwardRef((inProps, ref) => {
     }
   }, [isOpen, activeIndex, getFocusableElements, menuContentRef, menuToggleRef, prevIsOpen, returnFocusOnClose]);
 
-  const onOpen = useCallback(() => {
-    const isControlled = (isOpenProp !== undefined);
-    if (!isControlled) {
-      setIsOpen(true);
-    }
-
-    if (typeof onOpenProp === 'function') {
-      onOpenProp();
-    }
-  }, [isOpenProp, onOpenProp]);
-
   const focusOnFirstItem = useCallback(() => {
     const focusableElements = getFocusableElements();
     if (focusableElements.length > 0) {
@@ -161,6 +150,28 @@ const Menu = forwardRef((inProps, ref) => {
     focusableElements.forEach(node => node.setAttribute('tabindex', -1));
   }, [getFocusableElements, isOpenProp, onCloseProp, defaultActiveIndex]);
 
+  const onOpen = useCallback(() => {
+    const isControlled = (isOpenProp !== undefined);
+    if (!isControlled) {
+      setIsOpen(true);
+    }
+
+    if (typeof onOpenProp === 'function') {
+      onOpenProp();
+    }
+  }, [isOpenProp, onOpenProp]);
+
+  const onToggle = useCallback(() => {
+    if (isOpen) {
+      onClose();
+    } else {
+      onOpen();
+
+      // If `autoSelect` is true, focus on the first item when the menu opens with a mouse click
+      autoSelect && focusOnFirstItem();
+    }
+  }, [autoSelect, isOpen, focusOnFirstItem, onClose, onOpen]);
+
   if (anchorEl) {
     menuToggleRef.current = anchorEl;
   }
@@ -182,6 +193,7 @@ const Menu = forwardRef((inProps, ref) => {
     offset,
     onClose,
     onOpen,
+    onToggle,
     placement,
     menuId,
     menuContentRef,

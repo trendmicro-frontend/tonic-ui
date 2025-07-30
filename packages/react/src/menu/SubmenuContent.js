@@ -58,7 +58,7 @@ const SubmenuContent = forwardRef((inProps, ref) => {
       if (!isHoveringSubmenuToggleRef.current && !isHoveringSubmenuContentRef.current) {
         ensureFunction(closeSubmenu)();
       }
-    }, 100); // XXX: keep opening submenu when cursor quickly move between SubmenuToggle and SubmenuContent
+    }, 100); // XXX: keep opening Submenu when cursor quickly move between SubmenuToggle and SubmenuContent
   };
 
   const tabIndex = -1;

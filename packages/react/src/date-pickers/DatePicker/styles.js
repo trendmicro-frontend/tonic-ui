@@ -13,7 +13,6 @@ const useDatePickerContentStyle = () => {
 
 const useDatePickerToggleStyle = () => {
   return {
-    cursor: 'pointer',
     display: 'inline-flex',
   };
 };

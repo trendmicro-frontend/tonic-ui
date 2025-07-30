@@ -83,6 +83,9 @@ const TreeItemRender = ({
           mr="2x"
         >
           <Checkbox
+            inputProps={{
+              tabIndex: -1, // Excluded from tab navigation; use the `Space` key to toggle selection.
+            }}
             checked={isSelected}
             onChange={() => {
               select();

@@ -18,6 +18,7 @@ exports[`DatePicker should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  outline: 0;
   position: relative;
   -webkit-transition: border-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
   transition: border-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -148,7 +149,6 @@ exports[`DatePicker should render correctly 1`] = `
         class="emotion-4 emotion-1"
         data-testid="date-picker-input-control"
         role="button"
-        tabindex="0"
       >
         <div
           class="emotion-6 emotion-1"

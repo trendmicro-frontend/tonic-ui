@@ -1,4 +1,4 @@
-import { useClickOutside, useConst, useEventCallback, useMergeRefs, usePrevious, useToggle } from '@tonic-ui/react-hooks';
+import { useClickOutside, useConst, useEventCallback, useMergeRefs, usePrevious } from '@tonic-ui/react-hooks';
 import { callEventHandlers, isNullOrUndefined } from '@tonic-ui/utils';
 import format from 'date-fns/format';
 import endOfDay from 'date-fns/endOfDay';
@@ -66,15 +66,19 @@ const DatePicker = forwardRef((inProps, ref) => {
   const {
     children, // eslint-disable-line no-unused-vars
     closeOnSelect = false, // Note: The default value will be changed to true in the next major release
+    defaultIsOpen = false,
     defaultValue: defaultValueProp,
     firstDayOfWeek,
     formatDate,
     inputFormat = 'yyyy-MM-dd',
+    isOpen: isOpenProp,
     offset,
     minDate: minDateProp,
     maxDate: maxDateProp,
     onChange: onChangeProp,
+    onClose: onCloseProp,
     onError: onErrorProp,
+    onOpen: onOpenProp,
     placement = 'bottom-start', // One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'
     renderInput,
     shouldDisableDate,
@@ -91,17 +95,48 @@ const DatePicker = forwardRef((inProps, ref) => {
   const maxDate = mapValueToEndOfDay(maxDateProp);
   const minDate = mapValueToStartOfDay(minDateProp);
   const [error, setError] = useState();
-  const [isOpen, toggleIsOpen] = useToggle(false);
+  const [isOpen, setIsOpen] = useState(isOpenProp ?? defaultIsOpen);
   const previousIsOpen = usePrevious(isOpen);
   const nodeRef = useRef();
   const combinedRef = useMergeRefs(nodeRef, ref);
   const previousInputFormat = usePrevious(inputFormat);
-  const onOpen = useEventCallback(() => {
-    !isOpen && toggleIsOpen(true);
-  }, [isOpen]);
-  const onClose = useEventCallback(() => {
-    isOpen && toggleIsOpen(false);
-  }, [isOpen]);
+
+  useEffect(() => {
+    const isControlled = (isOpenProp !== undefined);
+    if (isControlled) {
+      setIsOpen(isOpenProp);
+    }
+  }, [isOpenProp]);
+
+  const onClose = useCallback(() => {
+    const isControlled = (isOpenProp !== undefined);
+    if (!isControlled) {
+      setIsOpen(false);
+    }
+
+    if (typeof onCloseProp === 'function') {
+      onCloseProp();
+    }
+  }, [isOpenProp, onCloseProp]);
+
+  const onOpen = useCallback(() => {
+    const isControlled = (isOpenProp !== undefined);
+    if (!isControlled) {
+      setIsOpen(true);
+    }
+
+    if (typeof onOpenProp === 'function') {
+      onOpenProp();
+    }
+  }, [isOpenProp, onOpenProp]);
+
+  const onToggle = useCallback(() => {
+    if (isOpen) {
+      onClose();
+    } else {
+      onOpen();
+    }
+  }, [isOpen, onClose, onOpen]);
 
   useClickOutside(nodeRef, onClose);
 
@@ -195,6 +230,7 @@ const DatePicker = forwardRef((inProps, ref) => {
     offset,
     onClose,
     onOpen,
+    onToggle,
     placement,
     datePickerContentId,
     datePickerContentRef,
@@ -215,7 +251,6 @@ const DatePicker = forwardRef((inProps, ref) => {
             const datePickerToggleProps = getDatePickerToggleProps();
             const inputProps = {
               ...datePickerToggleProps,
-              cursor: undefined, // Remove cursor style
               onChange: callEventHandlers(
                 handleDateInputChange,
                 datePickerToggleProps?.onChange,

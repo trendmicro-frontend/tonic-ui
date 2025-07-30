@@ -33,7 +33,7 @@ const DatePickerContent = forwardRef((
     placement,
   } = { ...datePickerContext };
 
-  const handleKeyDown = useEventCallback((event) => {
+  const onKeyDown = useEventCallback((event) => {
     if (event.key === 'Escape') {
       ensureFunction(onClose)();
     }
@@ -42,7 +42,7 @@ const DatePickerContent = forwardRef((
   const styleProps = useDatePickerContentStyle();
 
   const eventHandler = {
-    onKeyDown: callEventHandlers(onKeyDownProp, handleKeyDown),
+    onKeyDown: callEventHandlers(onKeyDownProp, onKeyDown),
   };
 
   const [

@@ -1,10 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Tree should render correctly 1`] = `
-.emotion-0 {
-  outline: 0;
-}
-
 .emotion-4 {
   color: var(--tonic-colors-white-primary);
   cursor: pointer;
@@ -136,7 +132,7 @@ exports[`Tree should render correctly 1`] = `
     tabindex="0"
   >
     <div
-      class="emotion-2 emotion-1"
+      class="emotion-0 emotion-1"
       data-testid="node-1"
       id="4-1"
       role="treeitem"
@@ -154,7 +150,7 @@ exports[`Tree should render correctly 1`] = `
             class="emotion-8 emotion-1"
             data-testid="node-1-toggle"
             role="button"
-            tabindex="0"
+            tabindex="-1"
             type="button"
           >
             <div
@@ -184,7 +180,7 @@ exports[`Tree should render correctly 1`] = `
       </div>
     </div>
     <div
-      class="emotion-2 emotion-1"
+      class="emotion-0 emotion-1"
       data-testid="node-7"
       id="4-7"
       role="treeitem"
@@ -202,7 +198,7 @@ exports[`Tree should render correctly 1`] = `
             class="emotion-8 emotion-1"
             data-testid="node-7-toggle"
             role="button"
-            tabindex="0"
+            tabindex="-1"
             type="button"
           >
             <div
@@ -232,7 +228,7 @@ exports[`Tree should render correctly 1`] = `
       </div>
     </div>
     <div
-      class="emotion-2 emotion-1"
+      class="emotion-0 emotion-1"
       data-testid="node-9"
       id="4-9"
       role="treeitem"
@@ -250,7 +246,7 @@ exports[`Tree should render correctly 1`] = `
             class="emotion-8 emotion-1"
             data-testid="node-9-toggle"
             role="button"
-            tabindex="0"
+            tabindex="-1"
             type="button"
           >
             <div
