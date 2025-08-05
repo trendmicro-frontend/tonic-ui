@@ -1,5 +1,17 @@
 # @tonic-ui/react
 
+## 2.8.0
+
+### Minor Changes
+
+- feat: enable keyboard support (`Enter`, `Space`) for triggering clicks on a custom trigger element (e.g., a styled `<div>`) by [@cheton](https://github.com/cheton) in [#1003](https://github.com/trendmicro-frontend/tonic-ui/pull/1003)
+
+- feat: enable granular control over outside interactions for drawers and modals by [@cheton](https://github.com/cheton) in [#1033](https://github.com/trendmicro-frontend/tonic-ui/pull/1033)
+
+### Patch Changes
+
+- fix(react/accessibility): add missing `:focus-visible` outline styles for `Link` and `LinkButton` by [@cheton](https://github.com/cheton) in [`eea0dee`](https://github.com/trendmicro-frontend/tonic-ui/commit/eea0dee8f9073e04e1828e552c158058635c4c27)
+
 ## 2.7.3
 
 ### Patch Changes
