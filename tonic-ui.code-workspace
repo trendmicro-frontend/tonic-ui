@@ -1,0 +1,19 @@
+{
+  "folders": [
+    { "path": "." },
+    { "path": "packages/changelog-github" },
+    { "path": "packages/codemod" },
+    { "path": "packages/mcp" },
+    { "path": "packages/react" },
+    { "path": "packages/react-base" },
+    { "path": "packages/react-docs" },
+    { "path": "packages/react-hooks" },
+    { "path": "packages/react-icons" },
+    { "path": "packages/styled-system" },
+    { "path": "packages/theme" },
+    { "path": "packages/utils" }
+  ],
+  "settings": {
+    // Global workspace settings (optional)
+  }
+}

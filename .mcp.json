@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "tonic-ui": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "packages/mcp/bin/stdio.js",
+        "--config",
+        "tonic-ui-mcp.config.js"
+      ],
+      "env": {}
+    }
+  }
+}

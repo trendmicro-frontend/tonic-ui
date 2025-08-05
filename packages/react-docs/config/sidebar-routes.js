@@ -29,6 +29,15 @@ export const routes = [
     routes: [
       { title: 'Installation', path: 'getting-started/installation' },
       { title: 'Usage', path: 'getting-started/usage' },
+      {
+        title: 'MCP',
+        path: 'getting-started/mcp',
+        render: () => (
+          <Tag variant="outline" borderColor="yellow:50" color="yellow:50" size="sm">
+            NEW
+          </Tag>
+        ),
+      },
       { title: 'Color mode', path: 'getting-started/color-mode' },
       { title: 'Color style', path: 'getting-started/color-style' },
       { title: 'Icons', path: 'getting-started/icons' },

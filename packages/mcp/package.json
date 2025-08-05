@@ -1,0 +1,106 @@
+{
+  "private": true,
+  "name": "@tonic-ui/mcp",
+  "description": "A Model Context Protocol (MCP) server for Tonic UI",
+  "bin": "./bin/stdio.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "cross-env rollup --config rollup.config.mjs",
+    "clean": "del build coverage dist",
+    "dev": "rollup --config rollup.config.dev.mjs --watch",
+    "lint": "eslint --ext .js,.ts,.mjs .",
+    "start": "node src/stdio.js",
+    "test": "jest --maxWorkers=2 --passWithNoTests"
+  },
+  "keywords": [
+    "mcp",
+    "tonic-ui",
+    "components"
+  ],
+  "author": "Tonic UI Team",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.0",
+    "commander": "^14.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "lodash": "^4.17.21",
+    "morgan": "^1.10.1",
+    "zod": "3.x"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/eslint-parser": "^7.0.0",
+    "@babel/eslint-plugin": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-typescript": "^7.24.7",
+    "@rollup/plugin-babel": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-replace": "^6.0.2",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@trendmicro/babel-config": "^1.0.2",
+    "@types/lodash": "^4.17.20",
+    "@typescript-eslint/eslint-plugin": "^8.5.0",
+    "@typescript-eslint/parser": "^8.5.0",
+    "cross-env": "^7.0.3",
+    "del-cli": "^5.0.0",
+    "eslint": "^8.25.0",
+    "eslint-config-trendmicro": "^3.0.0",
+    "eslint-import-resolver-typescript": "3.6.3",
+    "eslint-plugin-import": "latest",
+    "jest": "^29.0.0",
+    "jest-axe": "^8.0.0",
+    "jest-environment-jsdom": "^29.0.0",
+    "jest-extended": "^4.0.0",
+    "rollup": "^3",
+    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-livereload": "^2.0.5",
+    "rollup-plugin-serve": "^1.1.1",
+    "typescript": "^5.8.3"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "<rootDir>/src/**/*.js",
+      "<rootDir>/src/**/*.ts"
+    ],
+    "coverageReporters": [
+      "lcov",
+      "text",
+      "html"
+    ],
+    "modulePathIgnorePatterns": [
+      "<rootDir>/build"
+    ],
+    "setupFiles": [],
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest-setup.js"
+    ],
+    "testEnvironment": "node",
+    "testMatch": [
+      "<rootDir>/**/__tests__/**/*.test.js",
+      "<rootDir>/**/__tests__/**/*.test.ts"
+    ]
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

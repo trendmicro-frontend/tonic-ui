@@ -1,0 +1,347 @@
+# @tonic-ui/react v2
+
+## Getting started
+
+[Installation]({{PAGE_BASE}}/getting-started/installation/): <classification>LLM should read this page when installing or setting up Tonic UI in a project, understanding package dependencies, or configuring the initial setup for a new application.</classification>
+
+[Usage]({{PAGE_BASE}}/getting-started/usage/): <classification>LLM should read this page when starting to use Tonic UI components, setting up the theme provider, or implementing basic component usage patterns in your application.</classification>
+
+[Color mode]({{PAGE_BASE}}/getting-started/color-mode/): <classification>LLM should read this page when implementing dark/light mode switching, understanding color mode context, or configuring theme-aware components that respond to color mode changes.</classification>
+
+[Color style]({{PAGE_BASE}}/getting-started/color-style/): <classification>LLM should read this page when working with color styling approaches, implementing custom color schemes, or using color tokens and semantic color naming conventions.</classification>
+
+[Icons]({{PAGE_BASE}}/getting-started/icons/): <classification>LLM should read this page when using icons in Tonic UI, implementing custom icon components, or working with the Icon and SVGIcon components for displaying iconography.</classification>
+
+[The sx prop]({{PAGE_BASE}}/getting-started/the-sx-prop/): <classification>LLM should read this page when using the sx prop for custom styling, applying theme-aware styles, or implementing responsive styling patterns across components.</classification>
+
+[Versions]({{PAGE_BASE}}/getting-started/versions/): <classification>LLM should read this page when understanding version differences, planning migration between Tonic UI versions, or resolving breaking changes during upgrades.</classification>
+
+## Contributing
+
+[Contributing guidelines]({{PAGE_BASE}}/contributing/): <classification>LLM should read this page when contributing to the Tonic UI project, understanding development workflows, coding standards, and contribution guidelines for submitting pull requests and issues.</classification>
+
+[Pull request review]({{PAGE_BASE}}/contributing/pull-request-review/): <classification>LLM should read this page when reviewing pull requests for Tonic UI, understanding the review process, quality standards, and best practices for code review and feedback.</classification>
+
+[Publishing]({{PAGE_BASE}}/contributing/publishing/): <classification>LLM should read this page when involved in the release process for Tonic UI packages, understanding versioning, publishing workflows, and release management procedures.</classification>
+
+[Contributing to documentation site]({{PAGE_BASE}}/contributing/documentation-site/): <classification>LLM should read this page when contributing to the Tonic UI documentation website, understanding the documentation structure, writing guidelines, and how to add or update documentation pages.</classification>
+
+[Contributing to components - part 1]({{PAGE_BASE}}/contributing/components-part-1/): <classification>LLM should read this page when contributing new React components to Tonic UI, understanding component development standards, API design principles, and implementation guidelines for the first part of component development.</classification>
+
+[Contributing to components - part 2]({{PAGE_BASE}}/contributing/components-part-2/): <classification>LLM should read this page when contributing React components to Tonic UI, understanding advanced component development topics, testing requirements, and finalization steps for the second part of component development.</classification>
+
+[Contributing to icons]({{PAGE_BASE}}/contributing/icons/): <classification>LLM should read this page when contributing new icons to the @tonic-ui/react-icons package, understanding icon design standards, SVG optimization, and the process for adding new icons to the icon library.</classification>
+
+## Customization
+
+[Content Security Policy (CSP)]({{PAGE_BASE}}/customization/content-security-policy/): <classification>LLM should read this page when implementing Content Security Policy with Tonic UI, understanding CSP requirements for styled-components, and configuring secure styling in applications with strict CSP policies.</classification>
+
+[CSS theme variables]({{PAGE_BASE}}/customization/css-theme-variables/): <classification>LLM should read this page when working with CSS custom properties and theme variables, implementing custom styling with CSS variables, or understanding how to use theme tokens in CSS-in-JS and regular CSS.</classification>
+
+[Shadow DOM]({{PAGE_BASE}}/customization/shadow-dom/): <classification>LLM should read this page when using Tonic UI components within Shadow DOM environments, understanding styling isolation, and implementing components in web components or other Shadow DOM contexts.</classification>
+
+## Experiments
+
+[Getting started]({{PAGE_BASE}}/experiments/): <classification>LLM should read this page when exploring experimental Tonic UI components, understanding the experimental component lifecycle, and learning about components that are in development or testing phases.</classification>
+
+### Form Controls
+
+[ButtonBox]({{PAGE_BASE}}/experiments/button-box/): <classification>LLM should read this page when using the experimental ButtonBox component for advanced button layouts, implementing button groups with complex arrangements, or exploring alternative button container patterns.</classification>
+
+[Dropdown]({{PAGE_BASE}}/experiments/dropdown/): <classification>LLM should read this page when using the experimental Dropdown component for dropdown menus and selection interfaces, implementing custom dropdown behavior, or exploring advanced dropdown patterns.</classification>
+
+[DropdownBase]({{PAGE_BASE}}/experiments/dropdown-base/): <classification>LLM should read this page when using the experimental DropdownBase component for building custom dropdown implementations, creating foundational dropdown functionality, or extending dropdown behavior.</classification>
+
+[SearchDropdown]({{PAGE_BASE}}/experiments/search-dropdown/): <classification>LLM should read this page when using the experimental SearchDropdown component for searchable dropdown interfaces, implementing filterable selection lists, or creating search-enabled dropdown menus.</classification>
+
+### Typography
+
+[List]({{PAGE_BASE}}/experiments/list/): <classification>LLM should read this page when using the experimental List component for structured list displays, implementing custom list layouts, or exploring advanced list formatting and styling options.</classification>
+
+[MutedText]({{PAGE_BASE}}/experiments/muted-text/): <classification>LLM should read this page when using the experimental MutedText component for subdued text display, implementing secondary text styling, or creating text with reduced visual emphasis.</classification>
+
+### Miscellaneous
+
+[FlexItem]({{PAGE_BASE}}/experiments/flex-item/): <classification>LLM should read this page when using the experimental FlexItem component for advanced flexbox item control, implementing complex flex layouts, or exploring enhanced flex item properties and behaviors.</classification>
+
+[For]({{PAGE_BASE}}/experiments/for/): <classification>LLM should read this page when using the experimental For component for declarative iteration rendering, implementing loop-based component rendering, or exploring alternative patterns for rendering lists of components.</classification>
+
+[Render]({{PAGE_BASE}}/experiments/render/): <classification>LLM should read this page when using the experimental Render component for conditional rendering patterns, implementing dynamic component rendering, or exploring advanced rendering control mechanisms.</classification>
+
+## Migrations
+
+[Migrating from v1 to v2]({{PAGE_BASE}}/migrations/migrating-from-v1-to-v2/): <classification>LLM should read this page when upgrading from Tonic UI v1 to v2, understanding breaking changes, migration steps, and code transformation requirements for the major version upgrade.</classification>
+
+[Migrating from v0 to v1]({{PAGE_BASE}}/migrations/migrating-from-v0-to-v1/): <classification>LLM should read this page when upgrading from Tonic UI v0 to v1, understanding the migration path, breaking changes, and necessary code updates for the version transition.</classification>
+
+## Patterns
+
+[Notification]({{PAGE_BASE}}/patterns/notification/): <classification>LLM should read this page when implementing notification patterns and user feedback systems, understanding best practices for toast notifications, alert patterns, and user communication strategies using Tonic UI components.</classification>
+
+[Table Display]({{PAGE_BASE}}/patterns/table-display/): <classification>LLM should read this page when implementing table display patterns, understanding best practices for data table layouts, responsive table design, and advanced table functionality using Tonic UI Table components.</classification>
+
+## React components
+
+[Getting started]({{PAGE_BASE}}/components/): <classification>LLM should read this page when needing an overview of all available React components, understanding component categories, or finding the right component for a specific use case.</classification>
+
+### Color Mode
+
+[Overview]({{PAGE_BASE}}/components/color-mode/): <classification>LLM should read this page when implementing color mode functionality, setting up dark/light mode switching, understanding color mode context and providers, or configuring color mode settings in TonicProvider.</classification>
+
+[DarkMode]({{PAGE_BASE}}/components/color-mode/dark-mode/): <classification>LLM should read this page when using the DarkMode component to force dark mode rendering for specific sections, overriding the current color mode to display children in dark mode regardless of the global color mode setting.</classification>
+
+[LightMode]({{PAGE_BASE}}/components/color-mode/light-mode/): <classification>LLM should read this page when using the LightMode component to force light mode rendering for specific sections, overriding the current color mode to display children in light mode regardless of the global color mode setting.</classification>
+
+[InvertedMode]({{PAGE_BASE}}/components/color-mode/inverted-mode/): <classification>LLM should read this page when using the InvertedMode component to invert the color mode of its children, commonly used for tooltip labels or other UI elements that need to display in the opposite color mode.</classification>
+
+[useColorMode]({{PAGE_BASE}}/components/color-mode/useColorMode/): <classification>LLM should read this page when using the useColorMode hook to access the current color mode and implement color mode toggling functionality, managing color mode state, or building color mode switching controls.</classification>
+
+### Color Style
+
+[Overview]({{PAGE_BASE}}/components/color-style/): <classification>LLM should read this page when working with the color style system, understanding functional color values, setting up color style providers, customizing color styles, or implementing semantic color naming conventions across different color modes.</classification>
+
+[useColorStyle]({{PAGE_BASE}}/components/color-style/useColorStyle/): <classification>LLM should read this page when using the useColorStyle hook to access color style objects for the current color mode, implementing theme-aware color styling, or working with semantic color tokens and functional color values.</classification>
+
+### Layout
+
+[Box]({{PAGE_BASE}}/components/box/): <classification>LLM should read this page when using the Box component for layout containers, applying custom styling with style props, or creating flexible wrapper elements. Box is the foundational component for most layouts and works well with Flex, Grid, and Stack components.</classification>
+
+[Flex]({{PAGE_BASE}}/components/flex/): <classification>LLM should read this page when using the Flex component for flexbox layouts, creating responsive flex containers, or aligning and distributing elements using flexbox properties. Often used with Box and Stack for complex layouts.</classification>
+
+[Grid]({{PAGE_BASE}}/components/grid/): <classification>LLM should read this page when using the Grid component for CSS grid layouts, creating responsive grid systems, or implementing complex two-dimensional layouts. Complements Box and Flex for advanced layout patterns.</classification>
+
+[Space]({{PAGE_BASE}}/components/space/): <classification>LLM should read this page when using the Space component for layout spacing and whitespace management, creating consistent spacing between elements, or managing layout gaps in conjunction with Stack and other layout components.</classification>
+
+[Stack]({{PAGE_BASE}}/components/stack/): <classification>LLM should read this page when using the Stack component for stacking elements with consistent spacing, creating vertical or horizontal layouts with gaps, or implementing simple one-dimensional layouts. Often used with Box and Flex components.</classification>
+
+### Data Display
+
+[Accordion]({{PAGE_BASE}}/components/accordion/): <classification>LLM should read this page when using the Accordion component for collapsible content sections, implementing expandable/collapsible panels, or creating space-efficient content organization with proper accessibility.</classification>
+
+[Badge]({{PAGE_BASE}}/components/badge/): <classification>LLM should read this page when using the Badge component for highlighting item status, displaying notification counts, creating status indicators, or implementing visual badges with various placements, colors, and variants including dot badges and standalone badges.</classification>
+
+[Divider]({{PAGE_BASE}}/components/divider/): <classification>LLM should read this page when using the Divider component for visually separating content, creating horizontal or vertical dividing lines, or implementing content separation in lists, groups, and layouts with different line styles.</classification>
+
+[Drawer]({{PAGE_BASE}}/components/drawer/): <classification>LLM should read this page when using the Drawer component for slide-out panels, implementing navigation sidebars, or creating off-canvas content areas with smooth animations and accessibility features.</classification>
+
+[Modal]({{PAGE_BASE}}/components/modal/): <classification>LLM should read this page when using the Modal component for dialog boxes and overlays, implementing modal workflows, or creating accessible popup interfaces. Often used with Portal and PortalManager for proper rendering.</classification>
+
+[Popover]({{PAGE_BASE}}/components/popover/): <classification>LLM should read this page when using the Popover component for floating content, implementing dropdown panels, or creating positioned overlays with custom content and interactive elements.</classification>
+
+[Table]({{PAGE_BASE}}/components/table/): <classification>LLM should read this page when using the Table component for displaying tabular data, implementing data tables with sorting and filtering, or creating accessible table interfaces with proper semantic markup.</classification>
+
+[Tag]({{PAGE_BASE}}/components/tag/): <classification>LLM should read this page when using the Tag component for labeling and categorization, implementing compact labels for tagging and metadata display, or creating interactive tag systems with various styling options and capabilities.</classification>
+
+[Tooltip]({{PAGE_BASE}}/components/tooltip/): <classification>LLM should read this page when using the Tooltip component for hover information, providing contextual help text, or implementing accessible tooltips with proper positioning and timing controls.</classification>
+
+[OverflowTooltip]({{PAGE_BASE}}/components/overflow-tooltip/): <classification>LLM should read this page when using the OverflowTooltip component for displaying tooltips only when text overflows its container, implementing text truncation with hover tooltips, or handling text overflow scenarios with automatic tooltip display and cursor positioning.</classification>
+
+### Date Pickers
+
+[Overview]({{PAGE_BASE}}/components/date-pickers/): <classification>LLM should read this page when working with date picker components, understanding date selection interfaces, implementing date input functionality, or choosing between native and custom date picker solutions.</classification>
+
+[DateCalendar]({{PAGE_BASE}}/components/date-pickers/date-calendar/): <classification>LLM should read this page when using the DateCalendar component for calendar-based date selection, implementing standalone calendar interfaces, or creating date selection with calendar views including date validation, min/max dates, and custom date formatting.</classification>
+
+[DatePicker]({{PAGE_BASE}}/components/date-pickers/date-picker/): <classification>LLM should read this page when using the DatePicker component for input-based date selection, implementing date picker dropdowns, or creating date input fields with calendar popups including custom input rendering, date validation, and range picker functionality.</classification>
+
+### Feedback
+
+[Alert]({{PAGE_BASE}}/components/alert/): <classification>LLM should read this page when using the Alert component for displaying important messages, implementing status indicators, or creating persistent notification banners with various severity levels and styling options.</classification>
+
+[Progress]({{PAGE_BASE}}/components/progress/): <classification>LLM should read this page when using Progress components for loading states, implementing progress indicators for ongoing processes, or creating determinate/indeterminate progress bars. Includes CircularProgress for circular progress indicators and LinearProgress for linear progress bars with customizable colors, sizes, and variants.</classification>
+
+[Skeleton]({{PAGE_BASE}}/components/skeleton/): <classification>LLM should read this page when using the Skeleton component for loading placeholders, displaying content previews before data loads, or reducing load-time frustration. Supports text, rectangle, and circle variants with optional wave or pulse animations and customizable colors for different backgrounds.</classification>
+
+[Spinner]({{PAGE_BASE}}/components/spinner/): <classification>LLM should read this page when using the Spinner component for loading states, displaying loading indicators while waiting for action results, or implementing simple circular loading animations. Provides predefined sizes (xs, sm, md, lg, xl) with customizable colors and thickness.</classification>
+
+[Toast]({{PAGE_BASE}}/components/toast/): <classification>LLM should read this page when using the Toast component for temporary notifications, implementing user feedback messages, or creating dismissible alerts. Used with ToastManager for managing multiple toasts and positioning.</classification>
+
+[ToastManager]({{PAGE_BASE}}/components/toast-manager/): <classification>LLM should read this page when setting up toast notifications in React applications, managing temporary messages that appear on screen, or implementing toast positioning and transitions. Provides the context and wrapper for toast functionality used with useToastManager hook.</classification>
+
+[useToastManager]({{PAGE_BASE}}/components/toast-manager/useToastManager/): <classification>LLM should read this page when using the useToastManager hook to create, manage, and control toast notifications programmatically. Includes methods for creating toasts, closing individual or all toasts, updating toast content, and managing toast state with various placement options and durations.</classification>
+
+### Form Controls
+
+[Button]({{PAGE_BASE}}/components/button/): <classification>LLM should read this page when using the Button component for clickable actions, implementing various button variants and sizes, or creating interactive elements. Related to ButtonGroup, ButtonBase, ButtonLink, and LinkButton components.</classification>
+
+[ButtonBase]({{PAGE_BASE}}/components/button-base/): <classification>LLM should read this page when using the ButtonBase component for custom button implementations, building custom button variants, or creating interactive elements with foundational button functionality. Used as the base for Button and related components.</classification>
+
+[ButtonGroup]({{PAGE_BASE}}/components/button-group/): <classification>LLM should read this page when using the ButtonGroup component for grouping related buttons, implementing button toolbars, or creating button sets with consistent spacing and styling. Provides proper visual grouping and accessibility for multiple related buttons.</classification>
+
+[Checkbox]({{PAGE_BASE}}/components/checkbox/): <classification>LLM should read this page when using the Checkbox component for boolean input, implementing multi-selection interfaces, or creating accessible checkbox controls. Often used with CheckboxGroup for related options and in form contexts.</classification>
+
+[CheckboxGroup]({{PAGE_BASE}}/components/checkbox-group/): <classification>LLM should read this page when using the CheckboxGroup component for grouping related checkboxes, implementing multi-selection interfaces with grouped checkbox controls, or creating accessible checkbox groups with shared state management. Supports arbitrary value types, controlled/uncontrolled modes, different orientations, colors, sizes, and states including asynchronous data loading scenarios.</classification>
+
+[Input]({{PAGE_BASE}}/components/input/): <classification>LLM should read this page when using the Input component for text input fields, implementing form controls with validation, or creating accessible input elements. Often used with InputGroup, InputControl, and form-related components.</classification>
+
+[InputBase]({{PAGE_BASE}}/components/input-base/): <classification>LLM should read this page when using the InputBase component for custom input implementations, creating custom form controls, or building input variants with foundational input functionality and built-in accessibility features. Used as the base for Input and related components.</classification>
+
+[InputControl]({{PAGE_BASE}}/components/input-control/): <classification>LLM should read this page when using the InputControl component for enhanced input functionality with adornments, implementing input fields with prefix/suffix elements, or creating custom input layouts. Built on top of the native Input component but allows convenient customization with InputAdornment components for adding icons, buttons, or text to the start or end of inputs.</classification>
+
+[InputGroup]({{PAGE_BASE}}/components/input-group/): <classification>LLM should read this page when using the InputGroup component for grouping related add-ons and inputs, implementing input fields with attached buttons or labels, or creating complex input layouts. Supports multiple add-ons, various sizes and variants (outline, filled, flush, unstyled), and can accommodate multiple inputs, date inputs, and button add-ons with proper visual integration.</classification>
+
+[LinkButton]({{PAGE_BASE}}/components/link-button/): <classification>LLM should read this page when using the LinkButton component for link-styled buttons, providing button functionality with link appearance, or implementing actions that look like links but perform button operations. Related to Button, Link, and ButtonLink components.</classification>
+
+[Radio]({{PAGE_BASE}}/components/radio/): <classification>LLM should read this page when using the Radio component for single selection input, implementing mutually exclusive options, or creating accessible radio button controls. Always used with RadioGroup for proper functionality and form integration.</classification>
+
+[RadioGroup]({{PAGE_BASE}}/components/radio-group/): <classification>LLM should read this page when using the RadioGroup component for grouping related radio buttons, implementing single-selection interfaces with mutually exclusive options, or creating accessible radio button groups with shared state management. Supports arbitrary value types, controlled/uncontrolled modes, different orientations, colors, sizes, and states including asynchronous data loading scenarios.</classification>
+
+[SearchInput]({{PAGE_BASE}}/components/search-input/): <classification>LLM should read this page when using the SearchInput component for search functionality, implementing specialized search input controls, or creating search interfaces with built-in search icons and clear functionality.</classification>
+
+[Select]({{PAGE_BASE}}/components/select/): <classification>LLM should read this page when using the Select component for dropdown selection, implementing single or multi-select interfaces, or creating accessible select controls with custom options and styling.</classification>
+
+[Switch]({{PAGE_BASE}}/components/switch/): <classification>LLM should read this page when using the Switch component for toggle functionality, implementing on/off toggle controls, or creating settings and preferences interfaces with proper accessibility and binary state controls.</classification>
+
+[Textarea]({{PAGE_BASE}}/components/textarea/): <classification>LLM should read this page when using the Textarea component for multi-line text input, implementing resizable text input areas, or creating form controls for longer text content with built-in validation and accessibility features.</classification>
+
+### Media and Icons
+
+[Icon]({{PAGE_BASE}}/components/icon/): <classification>LLM should read this page when using the Icon component for rendering SVG icons, implementing custom icons through theme configuration, or working with icon animations and rotations. The Icon component provides a convenient way to render SVG icons with built-in support for custom icons defined in theme.icons, animation properties like spin, and integration with @tonic-ui/react-icons components via the as prop.</classification>
+
+[Image]({{PAGE_BASE}}/components/image/): <classification>LLM should read this page when using the Image component as a replacement for the HTML img tag, displaying static images, or working with inline SVG content. The Image component provides a simple wrapper for image display with proper alt text support and src path specification.</classification>
+
+[SVGIcon]({{PAGE_BASE}}/icons/svg-icon/): <classification>LLM should read this page when using the SVGIcon component from @tonic-ui/react-icons for custom SVG icon implementation, creating accessible SVG icons with automatic scaling, or using the createSVGIcon utility. The SVGIcon component serves as a wrapper for custom SVG icons with built-in accessibility, automatic 16x16px viewport scaling, color inheritance, and support for direct SVG element children or external SVG files via the as prop.</classification>
+
+### Navigation
+
+[Link]({{PAGE_BASE}}/components/link/): <classification>LLM should read this page when using the Link component for navigation and hyperlinks, implementing accessible link functionality, or creating both internal and external navigation with proper styling. Related to ButtonLink and LinkButton components.</classification>
+
+[ButtonLink]({{PAGE_BASE}}/components/button-link/): <classification>LLM should read this page when using the ButtonLink component for button-styled links, combining button appearance with link functionality, or implementing call-to-action links and navigation buttons. Related to Button, Link, and LinkButton components.</classification>
+
+[Menu]({{PAGE_BASE}}/components/menu/): <classification>LLM should read this page when using the Menu component for dropdown menus, implementing context menus, or creating accessible navigation menus with keyboard support and proper focus management.</classification>
+
+[Pagination]({{PAGE_BASE}}/components/pagination/): <classification>LLM should read this page when using the Pagination component for page navigation, implementing navigation controls for paginated content, or handling large datasets and multi-page interfaces with proper accessibility.</classification>
+
+[usePagination]({{PAGE_BASE}}/components/pagination/usePagination/): <classification>LLM should read this page when using the usePagination hook for advanced pagination customization, building custom pagination components, or implementing pagination logic with custom rendering and behavior. This hook provides the core pagination functionality used by the Pagination component.</classification>
+
+[Tabs]({{PAGE_BASE}}/components/tabs/): <classification>LLM should read this page when using the Tabs component for tabbed interfaces, organizing content into switchable panels, or implementing navigation with tab-based layouts and keyboard accessibility.</classification>
+
+[Tree]({{PAGE_BASE}}/components/tree/): <classification>LLM should read this page when using the Tree component for hierarchical data display, implementing file system navigation, creating nested list structures, or building expandable/collapsible tree interfaces with selection, multi-selection, drag-and-drop, and keyboard navigation support.</classification>
+
+### Transitions
+
+[Transitions]({{PAGE_BASE}}/components/transitions/): <classification>LLM should read this page when working with transition components, understanding animation effects and timing, implementing smooth UI transitions, or choosing the appropriate transition component (Collapse, Fade, Grow, Scale, Slide, Zoom) for specific animation needs.</classification>
+
+[Collapse]({{PAGE_BASE}}/components/transitions/collapse/): <classification>LLM should read this page when using the Collapse transition for height-based animations, implementing expandable content sections, creating accordion-like behavior, or animating the vertical expansion and collapse of components. Used internally by Accordion and Menu components.</classification>
+
+[Fade]({{PAGE_BASE}}/components/transitions/fade/): <classification>LLM should read this page when using the Fade transition for opacity-based animations, implementing smooth fade in/out effects, creating modal overlays, or animating the visibility of components. Used internally by Modal component.</classification>
+
+[Grow]({{PAGE_BASE}}/components/transitions/grow/): <classification>LLM should read this page when using the Grow transition for scale-based animations with automatic sizing, implementing popup animations, creating tooltip and popover entrance effects, or animating components that grow from a point. Used internally by Popover and Tooltip components.</classification>
+
+[Scale]({{PAGE_BASE}}/components/transitions/scale/): <classification>LLM should read this page when using the Scale transition for precise scale-based animations, implementing custom scaling effects with configurable initial scale values, or creating smooth scale transitions for components that need controlled scaling behavior.</classification>
+
+[Slide]({{PAGE_BASE}}/components/transitions/slide/): <classification>LLM should read this page when using the Slide transition for directional slide animations, implementing drawer-like slide effects, creating off-canvas navigation, or animating components that slide in from specific directions (up, down, left, right). Used internally by Drawer component.</classification>
+
+[Zoom]({{PAGE_BASE}}/components/transitions/zoom/): <classification>LLM should read this page when using the Zoom transition for zoom-based animations, implementing smooth zoom in/out effects, creating dramatic entrance/exit animations, or animating components that need to scale from zero to full size with zoom-like behavior.</classification>
+
+### Typography
+
+[Code]({{PAGE_BASE}}/components/code/): <classification>LLM should read this page when using the Code component for displaying inline code or code snippets, formatting code content with monospace fonts, or implementing syntax highlighting and proper code presentation.</classification>
+
+[Text]({{PAGE_BASE}}/components/text/): <classification>LLM should read this page when using the Text component for typography and text display, rendering text content with consistent styling, or applying various text properties like size, weight, and color across the application.</classification>
+
+[TextLabel]({{PAGE_BASE}}/components/text-label/): <classification>LLM should read this page when using the TextLabel component for form labels and accessible text labeling, creating accessible forms, or providing proper semantic labeling for form controls like Input, Checkbox, and Radio.</classification>
+
+[Truncate]({{PAGE_BASE}}/components/truncate/): <classification>LLM should read this page when using the Truncate component for text overflow handling, implementing ellipsis truncation, or managing long text content in constrained spaces with proper text clipping functionality.</classification>
+
+### Utilities
+
+[CSSBaseline]({{PAGE_BASE}}/components/css-baseline/): <classification>LLM should read this page when implementing CSS normalization and baseline styles, setting up consistent cross-browser styling, or understanding how Tonic UI normalizes default HTML element styles using normalize.css for better browser consistency.</classification>
+
+[Portal]({{PAGE_BASE}}/components/portal/): <classification>LLM should read this page when rendering components outside the normal DOM hierarchy, implementing modals, drawers, popovers, or tooltips that need to appear above other elements, or when working with custom containers and nested portals.</classification>
+
+[PortalManager]({{PAGE_BASE}}/components/portal-manager/): <classification>LLM should read this page when setting up portal management in applications, creating and managing multiple portals programmatically, or implementing modal systems that require centralized portal control and lifecycle management.</classification>
+
+[usePortalManager]({{PAGE_BASE}}/components/portal-manager/usePortalManager/): <classification>LLM should read this page when using the usePortalManager hook to create, remove, and manage portals programmatically, implementing dynamic modal creation, or building custom overlay components that need portal functionality with lifecycle control.</classification>
+
+[ResizeHandle]({{PAGE_BASE}}/components/resize-handle/): <classification>LLM should read this page when implementing resizable UI elements, adding resize functionality to tables, tree views, or panels, or creating interactive resize handles withdrag-and-drop behavior and visual feedback.</classification>
+
+[Scrollbar]({{PAGE_BASE}}/components/scrollbar/): <classification>LLM should read this page when implementing custom scrollbars with consistent cross-platform appearance, creating scrollable content areas with custom styling, controlling scroll behavior, or integrating with virtualization libraries like React Virtuoso.</classification>
+
+[VisuallyHidden]({{PAGE_BASE}}/components/visually-hidden/): <classification>LLM should read this page when implementing accessibility features that hide content visually but keep it available to screen readers, creating accessible form labels, or providing screen reader-only content for better accessibility compliance.</classification>
+
+## React hooks
+
+[Getting started]({{PAGE_BASE}}/hooks/): <classification>LLM should read this page when needing an introduction to React hooks in Tonic UI, understanding the available custom hooks and their purposes, or learning how to integrate them into React applications for enhanced functionality.</classification>
+
+[useClickOutside]({{PAGE_BASE}}/hooks/useClickOutside/): <classification>LLM should read this page when detecting clicks outside a specific element, implementing dropdown closing behavior, or handling click-away functionality for modals, popovers, and other overlay components.</classification>
+
+[useConst]({{PAGE_BASE}}/hooks/useConst/): <classification>LLM should read this page when creating a constant value that persists across re-renders, initializing expensive computations only once, or ensuring referential stability for objects or functions.</classification>
+
+[useCopyToClipboard]({{PAGE_BASE}}/hooks/useCopyToClipboard/): <classification>LLM should read this page when implementing copy-to-clipboard functionality, providing user feedback for copy operations, or handling clipboard API interactions with proper error handling.</classification>
+
+[useEffectOnce]({{PAGE_BASE}}/hooks/useEffectOnce/): <classification>LLM should read this page when running an effect only once during the component lifecycle, performing one-time initialization, or ensuring side effects don't repeat on re-renders.</classification>
+
+[useEffectOnceWhen]({{PAGE_BASE}}/hooks/useEffectOnceWhen/): <classification>LLM should read this page when running an effect only once when a specific condition becomes true, implementing conditional one-time initialization, or triggering effects based on state changes.</classification>
+
+[useEventCallback]({{PAGE_BASE}}/hooks/useEventCallback/): <classification>LLM should read this page when creating stable callback references that don't cause unnecessary re-renders, optimizing performance in event handlers, or maintaining referential equality for callbacks.</classification>
+
+[useEventListener]({{PAGE_BASE}}/hooks/useEventListener/): <classification>LLM should read this page when attaching event listeners to DOM elements or the window object, handling keyboard shortcuts, or implementing custom event handling with proper cleanup.</classification>
+
+[useHydrated]({{PAGE_BASE}}/hooks/useHydrated/): <classification>LLM should read this page when detecting if the component has been hydrated on the client side, handling server-side rendering differences, or conditionally rendering content based on hydration status.</classification>
+
+[useIsomorphicEffect]({{PAGE_BASE}}/hooks/useIsomorphicEffect/): <classification>LLM should read this page when running effects that work consistently between server-side rendering and client-side rendering, handling SSR compatibility, or avoiding hydration mismatches.</classification>
+
+[useLatestRef]({{PAGE_BASE}}/hooks/useLatestRef/): <classification>LLM should read this page when accessing the latest value of a prop or state in callbacks without causing re-renders, maintaining current references in async operations, or avoiding stale closures.</classification>
+
+[useMediaQuery]({{PAGE_BASE}}/hooks/useMediaQuery/): <classification>LLM should read this page when implementing responsive behavior based on CSS media queries, detecting screen size changes, or conditionally rendering components based on viewport dimensions.</classification>
+
+[useMergeRefs]({{PAGE_BASE}}/hooks/useMergeRefs/): <classification>LLM should read this page when combining multiple refs into a single ref, forwarding refs while maintaining internal ref functionality, or handling complex ref scenarios with multiple ref sources.</classification>
+
+[useOnce]({{PAGE_BASE}}/hooks/useOnce/): <classification>LLM should read this page when executing a function only once during the component lifecycle, implementing one-time operations, or ensuring functions don't run multiple times on re-renders.</classification>
+
+[useOnceWhen]({{PAGE_BASE}}/hooks/useOnceWhen/): <classification>LLM should read this page when executing a function only once when a specific condition becomes true, implementing conditional one-time operations, or triggering actions based on state changes.</classification>
+
+[usePrevious]({{PAGE_BASE}}/hooks/usePrevious/): <classification>LLM should read this page when accessing the previous value of a prop or state, comparing current and previous values, or implementing functionality that depends on value changes over time.</classification>
+
+[useOutsideClick]({{PAGE_BASE}}/hooks/useOutsideClick/): <classification>LLM should read this page when using the deprecated useOutsideClick hook for detecting clicks outside elements. Note: This hook is deprecated in favor of useClickOutside. Use for legacy code maintenance or when migrating to the newer hook.</classification>
+
+[useToggle]({{PAGE_BASE}}/hooks/useToggle/): <classification>LLM should read this page when implementing toggle functionality, managing boolean state with toggle operations, or creating switches, checkboxes, or other binary state controls.</classification>
+
+## React Icons
+
+[Getting started]({{PAGE_BASE}}/icons/): <classification>LLM should read this page when working with React Icons, installing the @tonic-ui/react-icons package, understanding how to import and use icon components, or browsing available icons in the icon library.</classification>
+
+[SVGIcon]({{PAGE_BASE}}/icons/svg-icon/): <classification>LLM should read this page when using the SVGIcon component for custom SVG icons, creating accessible SVG icons with automatic scaling, implementing custom icon components with createSVGIcon utility, or working with external SVG files using the as prop with svgr loaders.</classification>
+
+## Styled system
+
+[Getting started]({{PAGE_BASE}}/styled-system/): <classification>LLM should read this page when needing an overview of the styled system in Tonic UI, understanding how style props work, or learning about the relationship between components and styling approaches.</classification>
+
+[Style props]({{PAGE_BASE}}/styled-system/style-props/): <classification>LLM should read this page when understanding and using style props for component styling, applying theme-aware styling directly to components, or working with shorthand style properties.</classification>
+
+[Pseudo style props]({{PAGE_BASE}}/styled-system/pseudo-style-props/): <classification>LLM should read this page when implementing pseudo-class and pseudo-element styling using style props, applying hover, focus, active, disabled, and other interactive states, or using underscore-prefixed props like _hover, _focus, _active for pseudo-classes and double-underscore props like __before, __after for pseudo-elements.</classification>
+
+[Responsive values]({{PAGE_BASE}}/styled-system/responsive-values/): <classification>LLM should read this page when implementing responsive design using breakpoint values, creating adaptive layouts, or applying different styles across various screen sizes and devices.</classification>
+
+## Theme
+
+[Getting started]({{PAGE_BASE}}/theme/): <classification>LLM should read this page when needing an overview of theming in Tonic UI, understanding theme structure and customization, or learning how to work with theme tokens and design system principles.</classification>
+
+[Borders]({{PAGE_BASE}}/theme/borders/): <classification>LLM should read this page when understanding and customizing border theme values, defining border styles and widths, or implementing consistent border styling throughout the component system.</classification>
+
+[Breakpoints]({{PAGE_BASE}}/theme/breakpoints/): <classification>LLM should read this page when understanding and customizing breakpoint theme values, implementing responsive design, or working with media queries and viewport-based styling.</classification>
+
+[Colors]({{PAGE_BASE}}/theme/colors/): <classification>LLM should read this page when understanding and customizing color theme values, working with color palettes, or implementing consistent color schemes across the application.</classification>
+
+[Fonts]({{PAGE_BASE}}/theme/fonts/): <classification>LLM should read this page when understanding and customizing font family theme values, working with typography design tokens, or implementing consistent font family styling across components using theme-based font definitions.</classification>
+
+[Font sizes]({{PAGE_BASE}}/theme/font-sizes/): <classification>LLM should read this page when understanding and customizing font size theme values, defining consistent typography scales, or implementing text sizing across all text-based components.</classification>
+
+[Font weights]({{PAGE_BASE}}/theme/font-weights/): <classification>LLM should read this page when understanding and customizing font weight theme values, defining typography hierarchy, or implementing text emphasis through consistent font weight scales.</classification>
+
+[Letter spacings]({{PAGE_BASE}}/theme/letter-spacings/): <classification>LLM should read this page when working with letter spacing theme values, understanding that no design tokens are currently defined for letter spacings, or implementing custom letter spacing configurations in the theme system.</classification>
+
+[Line heights]({{PAGE_BASE}}/theme/line-heights/): <classification>LLM should read this page when understanding and customizing line height theme values, working with typography spacing and vertical rhythm, or implementing consistent line height scales from xs (18px) to 4xl (40px) across text-based components.</classification>
+
+[Outlines]({{PAGE_BASE}}/theme/outlines/): <classification>LLM should read this page when understanding and customizing outline theme values, implementing focus indicators and accessibility outlines, working with outline styles, colors, and widths, or understanding the differences between borders and outlines in component styling.</classification>
+
+[Radii]({{PAGE_BASE}}/theme/radii/): <classification>LLM should read this page when understanding and customizing border radius theme values, defining consistent corner rounding, or implementing border radius values throughout the component system.</classification>
+
+[Shadows]({{PAGE_BASE}}/theme/shadows/): <classification>LLM should read this page when understanding and customizing shadow theme values, defining box shadows and elevation effects, or implementing depth and layering in components like modals, cards, and overlays.</classification>
+
+[Sizes]({{PAGE_BASE}}/theme/sizes/): <classification>LLM should read this page when understanding and customizing size theme values, defining consistent sizing scales, or implementing width, height, and other dimensional properties across components.</classification>
+
+[Space]({{PAGE_BASE}}/theme/space/): <classification>LLM should read this page when understanding and customizing spacing theme values, implementing consistent spacing scales, or working with margin, padding, and gap properties across components.</classification>
+
+[zIndices]({{PAGE_BASE}}/theme/z-indices/): <classification>LLM should read this page when understanding and customizing z-index theme values, implementing proper layering and stacking context for overlays, modals, tooltips, and other positioned elements, or working with component depth and visual hierarchy.</classification>
