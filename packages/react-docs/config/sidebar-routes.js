@@ -130,7 +130,7 @@ export const routes = [
     ),
     routes: [
       { title: 'Notification', path: 'patterns/notification' },
-      { title: 'Table Display', path: 'patterns/table-display', },
+      { title: 'Table display', path: 'patterns/table-display', },
     ],
   },
   {
