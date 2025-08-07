@@ -166,7 +166,7 @@ async function main() {
           }
         };
 
-        const mcpServer = createMcpServer({
+        const mcpServer = await createMcpServer({
           name: MCP_SERVER_NAME,
           version: MCP_SERVER_VERSION,
           configPath: resolvedConfigPath,
@@ -220,7 +220,7 @@ async function main() {
       });
 
       // Create new server instance for stateless mode
-      const mcpServer = createMcpServer({
+      const mcpServer = await createMcpServer({
         name: MCP_SERVER_NAME,
         version: MCP_SERVER_VERSION,
         configPath: resolvedConfigPath,
