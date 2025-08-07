@@ -6,6 +6,8 @@
 
 [Usage]({{PAGE_BASE}}/getting-started/usage/): <classification>LLM should read this page when starting to use Tonic UI components, setting up the theme provider, or implementing basic component usage patterns in your application.</classification>
 
+[MCP]({{PAGE_BASE}}/getting-started/mcp/): <classification>LLM should read this page when accessing the Model Context Protocol (MCP) server for Tonic UI documentation and resources.</classification>
+
 [Color mode]({{PAGE_BASE}}/getting-started/color-mode/): <classification>LLM should read this page when implementing dark/light mode switching, understanding color mode context, or configuring theme-aware components that respond to color mode changes.</classification>
 
 [Color style]({{PAGE_BASE}}/getting-started/color-style/): <classification>LLM should read this page when working with color styling approaches, implementing custom color schemes, or using color tokens and semantic color naming conventions.</classification>
@@ -24,13 +26,13 @@
 
 [Publishing]({{PAGE_BASE}}/contributing/publishing/): <classification>LLM should read this page when involved in the release process for Tonic UI packages, understanding versioning, publishing workflows, and release management procedures.</classification>
 
-[Contributing to documentation site]({{PAGE_BASE}}/contributing/documentation-site/): <classification>LLM should read this page when contributing to the Tonic UI documentation website, understanding the documentation structure, writing guidelines, and how to add or update documentation pages.</classification>
+[Documentation site]({{PAGE_BASE}}/contributing/documentation-site/): <classification>LLM should read this page when contributing to the Tonic UI documentation website, understanding the documentation structure, writing guidelines, and how to add or update documentation pages.</classification>
 
-[Contributing to components - part 1]({{PAGE_BASE}}/contributing/components-part-1/): <classification>LLM should read this page when contributing new React components to Tonic UI, understanding component development standards, API design principles, and implementation guidelines for the first part of component development.</classification>
+[Components - part 1]({{PAGE_BASE}}/contributing/components-part-1/): <classification>LLM should read this page when contributing new React components to Tonic UI, understanding component development standards, API design principles, and implementation guidelines for the first part of component development.</classification>
 
-[Contributing to components - part 2]({{PAGE_BASE}}/contributing/components-part-2/): <classification>LLM should read this page when contributing React components to Tonic UI, understanding advanced component development topics, testing requirements, and finalization steps for the second part of component development.</classification>
+[Components - part 2]({{PAGE_BASE}}/contributing/components-part-2/): <classification>LLM should read this page when contributing React components to Tonic UI, understanding advanced component development topics, testing requirements, and finalization steps for the second part of component development.</classification>
 
-[Contributing to icons]({{PAGE_BASE}}/contributing/icons/): <classification>LLM should read this page when contributing new icons to the @tonic-ui/react-icons package, understanding icon design standards, SVG optimization, and the process for adding new icons to the icon library.</classification>
+[Icons]({{PAGE_BASE}}/contributing/icons/): <classification>LLM should read this page when contributing new icons to the @tonic-ui/react-icons package, understanding icon design standards, SVG optimization, and the process for adding new icons to the icon library.</classification>
 
 ## Customization
 
@@ -44,7 +46,7 @@
 
 [Getting started]({{PAGE_BASE}}/experiments/): <classification>LLM should read this page when exploring experimental Tonic UI components, understanding the experimental component lifecycle, and learning about components that are in development or testing phases.</classification>
 
-### Form Controls
+### Form controls
 
 [ButtonBox]({{PAGE_BASE}}/experiments/button-box/): <classification>LLM should read this page when using the experimental ButtonBox component for advanced button layouts, implementing button groups with complex arrangements, or exploring alternative button container patterns.</classification>
 
@@ -78,13 +80,13 @@
 
 [Notification]({{PAGE_BASE}}/patterns/notification/): <classification>LLM should read this page when implementing notification patterns and user feedback systems, understanding best practices for toast notifications, alert patterns, and user communication strategies using Tonic UI components.</classification>
 
-[Table Display]({{PAGE_BASE}}/patterns/table-display/): <classification>LLM should read this page when implementing table display patterns, understanding best practices for data table layouts, responsive table design, and advanced table functionality using Tonic UI Table components.</classification>
+[Table display]({{PAGE_BASE}}/patterns/table-display/): <classification>LLM should read this page when implementing table display patterns, understanding best practices for data table layouts, responsive table design, and advanced table functionality using Tonic UI Table components.</classification>
 
-## React components
+## Components
 
 [Getting started]({{PAGE_BASE}}/components/): <classification>LLM should read this page when needing an overview of all available React components, understanding component categories, or finding the right component for a specific use case.</classification>
 
-### Color Mode
+### Color mode
 
 [Overview]({{PAGE_BASE}}/components/color-mode/): <classification>LLM should read this page when implementing color mode functionality, setting up dark/light mode switching, understanding color mode context and providers, or configuring color mode settings in TonicProvider.</classification>
 
@@ -96,7 +98,7 @@
 
 [useColorMode]({{PAGE_BASE}}/components/color-mode/useColorMode/): <classification>LLM should read this page when using the useColorMode hook to access the current color mode and implement color mode toggling functionality, managing color mode state, or building color mode switching controls.</classification>
 
-### Color Style
+### Color style
 
 [Overview]({{PAGE_BASE}}/components/color-style/): <classification>LLM should read this page when working with the color style system, understanding functional color values, setting up color style providers, customizing color styles, or implementing semantic color naming conventions across different color modes.</classification>
 
@@ -114,7 +116,7 @@
 
 [Stack]({{PAGE_BASE}}/components/stack/): <classification>LLM should read this page when using the Stack component for stacking elements with consistent spacing, creating vertical or horizontal layouts with gaps, or implementing simple one-dimensional layouts. Often used with Box and Flex components.</classification>
 
-### Data Display
+### Data display
 
 [Accordion]({{PAGE_BASE}}/components/accordion/): <classification>LLM should read this page when using the Accordion component for collapsible content sections, implementing expandable/collapsible panels, or creating space-efficient content organization with proper accessibility.</classification>
 
@@ -136,7 +138,7 @@
 
 [OverflowTooltip]({{PAGE_BASE}}/components/overflow-tooltip/): <classification>LLM should read this page when using the OverflowTooltip component for displaying tooltips only when text overflows its container, implementing text truncation with hover tooltips, or handling text overflow scenarios with automatic tooltip display and cursor positioning.</classification>
 
-### Date Pickers
+### Date pickers
 
 [Overview]({{PAGE_BASE}}/components/date-pickers/): <classification>LLM should read this page when working with date picker components, understanding date selection interfaces, implementing date input functionality, or choosing between native and custom date picker solutions.</classification>
 
@@ -160,7 +162,7 @@
 
 [useToastManager]({{PAGE_BASE}}/components/toast-manager/useToastManager/): <classification>LLM should read this page when using the useToastManager hook to create, manage, and control toast notifications programmatically. Includes methods for creating toasts, closing individual or all toasts, updating toast content, and managing toast state with various placement options and durations.</classification>
 
-### Form Controls
+### Form controls
 
 [Button]({{PAGE_BASE}}/components/button/): <classification>LLM should read this page when using the Button component for clickable actions, implementing various button variants and sizes, or creating interactive elements. Related to ButtonGroup, ButtonBase, ButtonLink, and LinkButton components.</classification>
 
@@ -194,7 +196,7 @@
 
 [Textarea]({{PAGE_BASE}}/components/textarea/): <classification>LLM should read this page when using the Textarea component for multi-line text input, implementing resizable text input areas, or creating form controls for longer text content with built-in validation and accessibility features.</classification>
 
-### Media and Icons
+### Media and icons
 
 [Icon]({{PAGE_BASE}}/components/icon/): <classification>LLM should read this page when using the Icon component for rendering SVG icons, implementing custom icons through theme configuration, or working with icon animations and rotations. The Icon component provides a convenient way to render SVG icons with built-in support for custom icons defined in theme.icons, animation properties like spin, and integration with @tonic-ui/react-icons components via the as prop.</classification>
 
@@ -260,7 +262,7 @@
 
 [VisuallyHidden]({{PAGE_BASE}}/components/visually-hidden/): <classification>LLM should read this page when implementing accessibility features that hide content visually but keep it available to screen readers, creating accessible form labels, or providing screen reader-only content for better accessibility compliance.</classification>
 
-## React hooks
+## Hooks
 
 [Getting started]({{PAGE_BASE}}/hooks/): <classification>LLM should read this page when needing an introduction to React hooks in Tonic UI, understanding the available custom hooks and their purposes, or learning how to integrate them into React applications for enhanced functionality.</classification>
 
@@ -292,13 +294,13 @@
 
 [useOnceWhen]({{PAGE_BASE}}/hooks/useOnceWhen/): <classification>LLM should read this page when executing a function only once when a specific condition becomes true, implementing conditional one-time operations, or triggering actions based on state changes.</classification>
 
-[usePrevious]({{PAGE_BASE}}/hooks/usePrevious/): <classification>LLM should read this page when accessing the previous value of a prop or state, comparing current and previous values, or implementing functionality that depends on value changes over time.</classification>
+[useOutsideClick]({{PAGE_BASE}}/hooks/useOutsideClick/): <classification>LLM should read this page when understanding that the `useOutsideClick` hook has been renamed to `useClickOutside` as of @tonic-ui/react-hooks v2.1.0, and when learning how to migrate existing code or implement the updated hook for handling click events outside a specified element.</classification>
 
-[useOutsideClick]({{PAGE_BASE}}/hooks/useOutsideClick/): <classification>LLM should read this page when using the deprecated useOutsideClick hook for detecting clicks outside elements. Note: This hook is deprecated in favor of useClickOutside. Use for legacy code maintenance or when migrating to the newer hook.</classification>
+[usePrevious]({{PAGE_BASE}}/hooks/usePrevious/): <classification>LLM should read this page when accessing the previous value of a prop or state, comparing current and previous values, or implementing functionality that depends on value changes over time.</classification>
 
 [useToggle]({{PAGE_BASE}}/hooks/useToggle/): <classification>LLM should read this page when implementing toggle functionality, managing boolean state with toggle operations, or creating switches, checkboxes, or other binary state controls.</classification>
 
-## React Icons
+## Icons
 
 [Getting started]({{PAGE_BASE}}/icons/): <classification>LLM should read this page when working with React Icons, installing the @tonic-ui/react-icons package, understanding how to import and use icon components, or browsing available icons in the icon library.</classification>
 

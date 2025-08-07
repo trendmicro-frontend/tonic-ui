@@ -41,7 +41,7 @@ module.exports = {
     {
       name: '@tonic-ui/react',
       version: 'latest',
-      llms: '/path/to/tonic-ui/packages/react-docs/llms/llms.txt',
+      llms: '/path/to/tonic-ui/packages/react-docs/pages/llms.txt',
       pageBase: '/path/to/tonic-ui/packages/react-docs/pages/'
     }
   ]
