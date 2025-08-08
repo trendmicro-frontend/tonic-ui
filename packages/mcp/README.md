@@ -1,6 +1,10 @@
 # @tonic-ui/mcp
 
-A Model Context Protocol (MCP) server for Tonic UI. It enables AI agents to access detailed information about Tonic UI, including:
+A Model Context Protocol (MCP) server for Tonic UI.
+
+## Overview
+
+The MCP server provides structured access to Tonic UI documentation and resources. It enables AI agents and tools to retrieve detailed information about Tonic UI, including:
 * Accurate, official documentation
 * Up-to-date information directly from the source
 * Reliable answers based on authoritative content
@@ -87,5 +91,84 @@ VS Code requires specific settings to enable MCP functionality:
 {
   "chat.mcp.enabled": true,
   "chat.mcp.discovery.enabled": true
+}
+```
+
+## MCP inspector
+
+Use the [MCP inspector](https://modelcontextprotocol.io/docs/tools/inspector) to verify your setup:
+
+1. Install MCP inspector:
+  ```bash
+  npm install -g @modelcontextprotocol/inspector
+  ```
+
+2. Run with entry point:
+  ```bash
+  mcp-inspector packages/mcp/bin/stdio.js
+  ```
+
+3. In the MCP inspector UI, paste the following to the argument field:
+  ```bash
+  --config /path/to/tonic-ui/tonic-ui-mcp.config.js
+  ```
+
+## Transports
+
+### stdio
+
+Configure your client with the stdio transport:
+
+```json
+{
+  "mcpServers": {
+    "tonic-ui": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "@tonic-ui/mcp",
+        "--config",
+        "/path/to/tonic-ui/tonic-ui-mcp.config.js"
+      ]
+    }
+  }
+}
+```
+
+### Streamable HTTP
+
+1. Start the server:
+```bash
+./packages/mcp/tonic-ui-mcp-server --config ./tonic-ui-mcp.config.js
+```
+
+2. Open MCP configuration and add a new MCP:
+```json
+{
+  "mcpServers": {
+    "tonic-ui": {
+      "type": "streamable-http",
+      "url": "http://127.0.0.1:3000/mcp"
+    }
+  }
+}
+```
+
+### SSE
+
+1. Start the server:
+```bash
+./packages/mcp/tonic-ui-mcp-server --config ./tonic-ui-mcp.config.js
+```
+
+2. Open MCP configuration and add a new MCP:
+```json
+{
+  "mcpServers": {
+    "tonic-ui": {
+      "type": "sse",
+      "url": "http://127.0.0.1:3000/sse"
+    }
+  }
 }
 ```

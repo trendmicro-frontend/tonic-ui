@@ -1,6 +1,10 @@
-# Model Context Protocol (MCP) for Tonic UI
+# AI assistant with MCP
 
-A Model Context Protocol (MCP) server that provides access to Tonic UI documentation and resources. It enables AI agents to access detailed information about Tonic UI, including:
+A Model Context Protocol (MCP) server for Tonic UI.
+
+## Overview
+
+The MCP server provides structured access to Tonic UI documentation and resources. It enables AI agents and tools to retrieve detailed information about Tonic UI, including:
 * Accurate, official documentation
 * Up-to-date information directly from the source
 * Reliable answers based on authoritative content
@@ -41,7 +45,7 @@ module.exports = {
     {
       name: '@tonic-ui/react',
       version: 'latest',
-      llms: '/path/to/tonic-ui/packages/react-docs/llms/llms.txt',
+      llms: '/path/to/tonic-ui/packages/react-docs/pages/llms.txt',
       pageBase: '/path/to/tonic-ui/packages/react-docs/pages/'
     }
   ]
@@ -168,7 +172,3 @@ Configure your client with the stdio transport:
   }
 }
 ```
-
-## Example
-
-TODO

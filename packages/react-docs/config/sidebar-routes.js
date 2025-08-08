@@ -30,7 +30,7 @@ export const routes = [
       { title: 'Installation', path: 'getting-started/installation' },
       { title: 'Usage', path: 'getting-started/usage' },
       {
-        title: 'MCP',
+        title: 'AI assistant with MCP',
         path: 'getting-started/mcp',
         render: () => (
           <Tag variant="outline" borderColor="yellow:50" color="yellow:50" size="sm">

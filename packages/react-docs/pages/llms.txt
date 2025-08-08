@@ -6,7 +6,7 @@
 
 [Usage]({{PAGE_BASE}}/getting-started/usage/): <classification>LLM should read this page when starting to use Tonic UI components, setting up the theme provider, or implementing basic component usage patterns in your application.</classification>
 
-[MCP]({{PAGE_BASE}}/getting-started/mcp/): <classification>LLM should read this page when accessing the Model Context Protocol (MCP) server for Tonic UI documentation and resources.</classification>
+[AI assistant with MCP]({{PAGE_BASE}}/getting-started/mcp/): <classification>LLM should read this page when accessing the Model Context Protocol (MCP) server for Tonic UI documentation and resources.</classification>
 
 [Color mode]({{PAGE_BASE}}/getting-started/color-mode/): <classification>LLM should read this page when implementing dark/light mode switching, understanding color mode context, or configuring theme-aware components that respond to color mode changes.</classification>
 
