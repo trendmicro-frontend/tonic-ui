@@ -72,11 +72,11 @@ To integrate the MCP server with Claude Code, create a `.mcp.json` file at the r
       "type": "stdio",
       "command": "npx",
       "args": [
+        "-y",
         "@tonic-ui/mcp",
         "--config",
         "/path/to/tonic-ui/tonic-ui-mcp.config.js"
-      ],
-      "env": {}
+      ]
     }
   }
 }
@@ -128,6 +128,7 @@ Configure your client with the stdio transport:
       "type": "stdio",
       "command": "npx",
       "args": [
+        "-y",
         "@tonic-ui/mcp",
         "--config",
         "/path/to/tonic-ui/tonic-ui-mcp.config.js"
