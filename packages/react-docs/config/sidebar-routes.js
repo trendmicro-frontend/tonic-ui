@@ -29,6 +29,15 @@ export const routes = [
     routes: [
       { title: 'Installation', path: 'getting-started/installation' },
       { title: 'Usage', path: 'getting-started/usage' },
+      {
+        title: 'AI assistant with MCP',
+        path: 'getting-started/mcp',
+        render: () => (
+          <Tag variant="outline" borderColor="yellow:50" color="yellow:50" size="sm">
+            NEW
+          </Tag>
+        ),
+      },
       { title: 'Color mode', path: 'getting-started/color-mode' },
       { title: 'Color style', path: 'getting-started/color-style' },
       { title: 'Icons', path: 'getting-started/icons' },
@@ -121,7 +130,7 @@ export const routes = [
     ),
     routes: [
       { title: 'Notification', path: 'patterns/notification' },
-      { title: 'Table Display', path: 'patterns/table-display', },
+      { title: 'Table display', path: 'patterns/table-display', },
     ],
   },
   {
