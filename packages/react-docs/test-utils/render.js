@@ -7,7 +7,7 @@ import {
   ToastManager,
   TonicProvider,
   createTheme,
-} from '@tonic-ui/react/src';
+} from '@tonic-ui/react';
 
 // https://emotion.sh/docs/@emotion/jest#tohavestylerule
 //
