@@ -94,7 +94,7 @@ VS Code requires specific settings to enable MCP functionality:
 }
 ```
 
-## MCP inspector
+## Testing with MCP inspector
 
 Use the [MCP inspector](https://modelcontextprotocol.io/docs/tools/inspector) to verify your setup:
 
@@ -105,7 +105,7 @@ Use the [MCP inspector](https://modelcontextprotocol.io/docs/tools/inspector) to
 
 2. Run with entry point:
   ```bash
-  mcp-inspector packages/mcp/bin/stdio.js
+  mcp-inspector /path/to/tonic-ui/packages/mcp/bin/stdio.js
   ```
 
 3. In the MCP inspector UI, paste the following to the argument field:
@@ -113,7 +113,9 @@ Use the [MCP inspector](https://modelcontextprotocol.io/docs/tools/inspector) to
   --config /path/to/tonic-ui/tonic-ui-mcp.config.js
   ```
 
-## Transports
+## Supported transports
+
+The MCP server supports multiple transports for connecting clients and servers: stdio, streamable HTTP, and Server-Sent Events (SSE).
 
 ### stdio
 
@@ -154,7 +156,7 @@ Configure your client with the stdio transport:
 }
 ```
 
-### SSE
+### Server-Sent Events (SSE)
 
 1. Start the server:
 ```bash
