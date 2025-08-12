@@ -1,0 +1,157 @@
+import CodeBlock from '@/components/CodeBlock';
+import SourceCode from '@/components/SourceCode';
+import { List, ListItem } from '@/experiments/list';
+import _Form_ from '!!raw-loader!@/experiments/form-control/FormControl';
+import _FormLabel_ from '!!raw-loader!@/experiments/form-control/FormLabel';
+import _FormErrorMessage_ from '!!raw-loader!@/experiments/form-control/FormErrorMessage';
+import _FormHelperText_ from '!!raw-loader!@/experiments/form-control/FormHelperText';
+import _CharacterCount_ from '!!raw-loader!@/experiments/form-control/FormCharacterCount';
+
+# FormControl
+
+A comprehensive form control system that provides accessible, composable form fields with automatic context management and consistent styling.
+
+## Features
+
+- **Automatic ID generation and association**: Labels and inputs are automatically linked for accessibility
+- **Accessible by default**: Built-in ARIA attribute support including `aria-invalid` and `aria-describedby`
+- **Flexible composition**: Compose only the components you need to build form fields flexibly
+- **Character counting**: Built-in character limit functionality with over-limit state display
+- **Horizontal layouts**: Support for horizontally arranged form design patterns
+- **Multiple error messages**: Support for multiple error messages in string or array format
+
+## Components
+
+- **FormControl**: Provides context and wrapper structure, manages form state
+- **FormLabel**: Label component with required indicator support and automatic association
+- **FormHelperText**: Helper text component that provides form guidance
+- **FormErrorMessage**: Error message display supporting single or multiple errors
+- **FormCharacterCount**: Character counter displaying character limits and over-limit states
+
+## Examples
+
+### Basic usage
+
+Here's the simplest configuration to get started with the `FormControl` system.
+
+{render('./basic-usage')}
+
+### Complex form
+
+A more complex form example with validation, helper text, and character counting.
+
+{render('./complex-form')}
+
+### Custom styling
+
+Examples of horizontal layouts, custom required indicators, and advanced styling patterns.
+
+{render('./custom-styling')}
+
+## Props
+
+### FormControl
+
+Provides context and wrapper structure, managing form field state and accessibility attributes.
+
+| Prop        | Type                       | Default    | Description                                                        |
+| ----------- | -------------------------- | ---------- | ------------------------------------------------------------------ |
+| error       | boolean                    | false      | Sets error state, affects styling and behavior of child components |
+| disabled    | boolean                    | false      | Disables the entire form field including all child components      |
+| readOnly    | boolean                    | false      | Sets the field to read-only state                                  |
+| orientation | "horizontal" \| "vertical" | "vertical" | The orientation of the component                                   |
+| children    | ReactNode                  | -          | Child component content                                            |
+
+### FormLabel
+
+Label component that automatically associates with input fields and supports required indicators.
+
+| Prop     | Type      | Default | Description                                              |
+| -------- | --------- | ------- | -------------------------------------------------------- |
+| required | boolean   | false   | Whether to display the required indicator (red asterisk) |
+| children | ReactNode | -       | Label text content                                       |
+
+**Note**: This component automatically sets the `htmlFor` attribute, associating with the input ID from `FormControl` context.
+
+### FormHelperText
+
+Helper text component that provides additional form guidance.
+
+| Prop     | Type      | Default | Description         |
+| -------- | --------- | ------- | ------------------- |
+| children | ReactNode | -       | Helper text content |
+
+### FormErrorMessage
+
+Error message display supporting single or multiple error messages.
+
+| Prop   | Type                     | Default | Description                                     |
+| ------ | ------------------------ | ------- | ----------------------------------------------- |
+| errors | ReactNode[] \| ReactNode | []      | Error messages, supports string or string array |
+
+**Features**:
+
+- Only displays when FormControl `error={true}`
+- Single error: displays text directly
+- Multiple errors: automatically generates `<ul><li>` list format
+- Automatically sets `role="alert"` for screen readers
+
+### FormCharacterCount
+
+Character counter displaying current character count and limits, with over-limit state support.
+
+| Prop  | Type   | Default | Description                          |
+| ----- | ------ | ------- | ------------------------------------ |
+| value | string | ''      | Text content to count characters for |
+| max   | number | 0       | Maximum character limit              |
+
+## Usage
+
+```jsx
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  FormErrorMessage,
+  FormCharacterCount,
+} from '@/experiments/form-control';
+
+function MyForm() {
+  const [value, setValue] = useState('');
+  const [errors, setErrors] = useState([]);
+
+  return (
+    <FormControl error={errors.length > 0}>
+      <FormLabel required>Username</FormLabel>
+      <Input value={value} onChange={(e) => setValue(e.target.value)} />
+      <Flex justifyContent="space-between">
+        <Stack flexDirection="column" gap="1x">
+          <FormErrorMessage errors={errors} />
+          <FormHelperText>Choose a unique username</FormHelperText>{' '}
+        </Stack>
+        <FormCharacterCount value={value} max={50} />
+      </Flex>
+    </FormControl>
+  );
+}
+```
+
+## Source code
+
+<List>
+  <ListItem>
+    <SourceCode name="FormControl.js" code={_Form_} />
+  </ListItem>
+  <ListItem>
+    <SourceCode name="FormLabel.js" code={_FormLabel_} />
+  </ListItem>
+  <ListItem>
+    <SourceCode name="FormErrorMessage.js" code={_FormErrorMessage_} />
+  </ListItem>
+  <ListItem>
+    <SourceCode name="FormHelperText.js" code={_FormHelperText_} />
+  </ListItem>
+  <ListItem>
+    <SourceCode name="FormCharacterCount.js" code={_CharacterCount_} />
+  </ListItem>
+</List>
