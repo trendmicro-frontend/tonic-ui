@@ -22,6 +22,7 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
+    'no-return-await': 0,
   },
   settings: {
     'import/parsers': {
