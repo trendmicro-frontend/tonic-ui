@@ -1,0 +1,39 @@
+# useId
+
+A custom Hook that returns a unique ID string.
+
+Autogenerate IDs to facilitate WAI-ARIA and server rendering. Uses React's built-in `useId` when available (React 18+), otherwise falls back to a custom implementation that is SSR-safe.
+
+This hook is useful for generating unique IDs for form elements, ARIA attributes, and other scenarios where you need stable, unique identifiers.
+
+## Import
+
+```js
+import { useId } from '@tonic-one/react-hooks';
+```
+
+## Usage
+
+```js
+// Auto-generate unique ID
+const id = useId();
+```
+
+### Returns
+
+Returns a unique ID string, or `undefined` during initial server-side rendering to prevent hydration mismatches.
+
+**Implementation:**
+
+- **React 18+** - Uses React's built-in `useId()` directly
+- **React 16-17** - Falls back to SSR-safe custom implementation
+
+**Behavior:**
+
+- When using React 18+, returns React's built-in `useId()` result
+- When using React 16-17, returns a custom-generated unique ID
+- During SSR, initially returns `undefined` to prevent hydration mismatches, then updates to a unique ID after hydration
+
+## Demos
+
+{render('./useId')}

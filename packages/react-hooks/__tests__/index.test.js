@@ -11,6 +11,7 @@ test('should match expected exports', () => {
     'useEventCallback',
     'useEventListener',
     'useHydrated',
+    'useId',
     'useIsomorphicEffect',
     'useLatest', // deprecated: replaced by useLatestRef
     'useLatestRef',

@@ -446,6 +446,7 @@ export const routes = [
       { title: 'useEventCallback', path: 'hooks/useEventCallback' },
       { title: 'useEventListener', path: 'hooks/useEventListener' },
       { title: 'useHydrated', path: 'hooks/useHydrated' },
+      { title: 'useId', path: 'hooks/useId' },
       { title: 'useIsomorphicEffect', path: 'hooks/useIsomorphicEffect' },
       { title: 'useLatestRef', path: 'hooks/useLatestRef' },
       { title: 'useMediaQuery', path: 'hooks/useMediaQuery' },
