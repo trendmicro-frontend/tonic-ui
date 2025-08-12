@@ -155,7 +155,7 @@ ${config.packages.map(pkg => `- ${pkg.name}@${pkg.version}`).join('\n')}
     'fetch-codes',
     {
       title: 'fetch codes',
-      description: 'Fetch codes for one or more "render(\'./example\')" calls extracted from the "fetch-pages" tool calls responses. The URLs should be passed as an array in the "urls" argument.',
+      description: 'Fetch codes for one or more "render(\'./example\')" calls extracted from responses of the "fetch-pages" tool. Each URL must be an absolute path. The first argument of a render call is a path string relative to the corresponding URL in the "fetch-pages" tool. Provide the URLs as an array in the "urls" argument.',
       inputSchema: {
         urls: z
           .array(z.string())
