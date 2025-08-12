@@ -1,10 +1,16 @@
+import { Image } from '@tonic-ui/react';
+import roocodeMCPServersImage from './roocode/mcp-servers.png';
+import CopilotSVGIcon from './copilot/copilot.svg';
+import copilotMCPStartButtonImage from './copilot/mcp-start-server-button.webp';
+import copilotChatAgentOptionImage from './copilot/copilot-chat-agent-option.webp';
+
 # AI assistant with MCP
 
 A Model Context Protocol (MCP) server for Tonic UI.
 
 ## Overview
 
-The MCP server provides structured access to Tonic UI documentation and resources. It enables AI agents and tools to retrieve detailed information about Tonic UI, including:
+The Tonic UI MCP server provides structured access to Tonic UI documentation and resources. It enables AI agents and tools to retrieve detailed information about Tonic UI, including:
 * Accurate, official documentation
 * Up-to-date information directly from the source
 * Reliable answers based on authoritative content
@@ -20,46 +26,34 @@ To get started, first clone the Tonic UI repository by running:
 git clone https://github.com/trendmicro-frontend/tonic-ui.git
 ```
 
+Be sure to replace the `/path/to/tonic-ui` placeholder with the actual location of your repository when following this guide.
+
 > ⚠️ The current MCP solution for Tonic UI is not a cloud-hosted service. You must clone the repository and run the MCP server locally in order to use it.
 
-### Create a configuration file
+### Configure MCP servers in AI coding assistants
 
-The MCP server requires a configuration file to specify the documentation packages it will serve. A sample `tonic-ui-mcp.config.js` file is included in the root directory of the Tonic UI repository.
+For use with the Tonic UI MCP server, the recommended AI coding assistants are **Claude Code** and **Roo Code**.
 
-```js
-// tonic-ui-mcp.config.js
-module.exports = {
-  packages: [
-    {
-      // The name of the package.
-      name: '@tonic-ui/react',
+#### Claude Code
 
-      // The version of the package.
-      version: 'v2',
+Claude Code supports three different scopes. Choose one based on your requirements:
 
-      // An absolute URL or file path to the LLMs documentation file.
-      // Must be a valid `file://`, `http://`, or `https://` URL, or a local path.
-      llms: '/path/to/tonic-ui/packages/react-docs/pages/llms.txt',
-
-      // An absolute URL or file path pointing to the root directory of the documentation pages.
-      // Valid values include `file://`, `http://`, or `https://` URLs, or a local path.
-      // This is used to substitute `{{PAGE_BASE}}` placeholders in the LLMs documentation.
-      pageBase: '/path/to/tonic-ui/packages/react-docs/pages/',
-    }
-  ]
-};
-```
-
-The configuration file can be written in JavaScript (`.js`) or JSON (`.json`) format and must be specified via the `--config` command-line option when running the MCP server:
-
+**Local scope** *(default)*
+* Accessible only to you.
 ```bash
-npx -y @tonic-ui/mcp --config /path/to/tonic-ui/tonic-ui-mcp.config.js
+claude mcp add tonic-ui npx -- -y @tonic-ui/mcp --config /path/to/tonic-ui/tonic-ui-mcp.config.js
+
+# Or explicitly specify local scope
+claude mcp add -s local tonic-ui npx -- -y @tonic-ui/mcp --config /path/to/tonic-ui/tonic-ui-mcp.config.js
 ```
 
-### Configure the MCP server
+**Project scope**
+* Shared within the team
+```bash
+claude mcp add -s project tonic-ui npx -- -y @tonic-ui/mcp --config /path/to/tonic-ui/tonic-ui-mcp.config.js
+```
 
-To integrate the MCP server with Claude Code, create a `.mcp.json` file at the root of your project. For other MCP-compatible clients, refer to their setup instructions.
-
+This will generate a `.mcp.json` file similar to the following:
 ```json
 {
   "mcpServers": {
@@ -77,7 +71,84 @@ To integrate the MCP server with Claude Code, create a `.mcp.json` file at the r
 }
 ```
 
-VS Code requires specific settings to enable MCP functionality:
+**User scope**
+* Accessible only to you.
+* Usable across all projects.
+```bash
+claude mcp add -s user tonic-ui npx -- -y @tonic-ui/mcp --config /path/to/tonic-ui/tonic-ui-mcp.config.js
+```
+
+#### Roo Code
+
+Roo Code is an open-source Visual Studio Code extension designed to enhance the coding workflow with AI capabilities.
+
+Once Roo Code is properly configured:
+1. Open the "View and More Actions..." dropdown at the top right and choose "MCP Servers"
+
+2. Click **Edit Global MCP** to modify global MCP server settings
+
+<Image src={roocodeMCPServersImage.src} />
+
+Paste the following into your `mcp_settings.json` file:
+
+```json
+{
+  "mcpServers": {
+    "tonic-ui": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@tonic-ui/mcp",
+        "--config",
+        "/path/to/tonic-ui/tonic-ui-mcp.config.js"
+      ]
+    },
+  }
+}
+```
+
+#### GitHub Copilot
+
+For information on configuring the GitHub MCP server, see [Using the GitHub MCP Server](https://docs.github.com/en/copilot/customizing-copilot/using-model-context-protocol/using-the-github-mcp-server).
+
+1. Add the following configuration to your `.vscode/mcp.json` file:
+    ```json
+    {
+      "servers": {
+        "tonic-ui": {
+          "type": "stdio",
+          "command": "npx",
+          "args": [
+            "-y",
+            "@tonic-ui/mcp",
+            "--config",
+            "/path/to/tonic-ui/tonic-ui-mcp.config.js"
+          ]
+        },
+      }
+    }
+    ```
+
+2. Save the `.vscode/mcp.json` file.
+
+3. A "Start" button will appear in your `.vscode/mcp.json` file, at the top of the list of servers. Click the "Start" button to start the MCP servers. This will trigger the input dialog and discover the server tools, which are then stored for later sessions.
+
+    <Image src={copilotMCPStartButtonImage.src} width="400px" />
+
+4. Open Copilot Chat by clicking the <CopilotSVGIcon /> icon in the title bar of Visual Studio Code.
+
+5. In the Copilot Chat box, select **Agent** from the popup menu.
+
+    <Image src={copilotChatAgentOptionImage.src} width="400px" />
+
+6. To view your list of available MCP servers, click the gear icon at the top right and choose "MCP Servers". This will display the MCP server list, where you can see all the MCP servers and associated tools that are currently available in your Visual Studio Code instance.
+
+For more information on configuring MCP servers in Visual Studio Code, see [Use MCP servers in Visual Studio Code](https://aka.ms/vscode-add-mcp) in the Visual Studio Code documentation.
+
+---
+
+Visual Studio Code requires specific settings to enable MCP functionality:
 
 1. Enable Agent mode (for Copilot Chat)
 2. Add the following configuration to your `settings.json`:
@@ -88,28 +159,9 @@ VS Code requires specific settings to enable MCP functionality:
     }
     ```
 
-## Testing with MCP inspector
-
-Use the [MCP inspector](https://modelcontextprotocol.io/docs/tools/inspector) to verify your setup:
-
-1. Install the MCP Inspector globally:
-    ```bash
-    npm install -g @modelcontextprotocol/inspector
-    ```
-
-2. Launch the MCP Inspector:
-    ```bash
-    mcp-inspector
-    ```
-
-3. In the MCP Inspector UI, enter the following values:
-   * Transport Type: `STDIO`
-   * Command: `npx`
-   * Arguments: `@tonic-ui/mcp --config /path/to/tonic-ui/tonic-ui-mcp.config.js`
-
 ## Supported transports
 
-The MCP server supports multiple transports for connecting clients and servers: stdio, Streamable HTTP, and Server-Sent Events (SSE).
+The Tonic UI MCP server supports multiple transports for connecting clients and servers: stdio, Streamable HTTP, and Server-Sent Events (SSE).
 
 Currently, the server using Streamable HTTP and Server-Sent Events (SSE) transports is not available via npx `@tonic-ui/mcp`. To run it, you need to build the code locally:
 ```bash
@@ -162,3 +214,55 @@ node tonic-ui-mcp-server --config /path/to/tonic-ui/tonic-ui-mcp.config.js
   }
 }
 ```
+
+## Testing with MCP inspector
+
+Use the [MCP inspector](https://modelcontextprotocol.io/docs/tools/inspector) to verify your setup:
+
+1. Install the MCP Inspector globally:
+    ```bash
+    npm install -g @modelcontextprotocol/inspector
+    ```
+
+2. Launch the MCP Inspector:
+    ```bash
+    mcp-inspector
+    ```
+
+3. In the MCP Inspector UI, enter the following values:
+   * Transport Type: `STDIO`
+   * Command: `npx`
+   * Arguments: `@tonic-ui/mcp --config /path/to/tonic-ui/tonic-ui-mcp.config.js`
+
+## Customize configuration file
+
+The Tonic UI MCP server requires a configuration file to specify the documentation packages it will serve. A sample `tonic-ui-mcp.config.js` file is included in the root directory of the Tonic UI repository.
+
+```js
+// tonic-ui-mcp.config.js
+module.exports = {
+  packages: [
+    {
+      // The name of the package.
+      name: '@tonic-ui/react',
+
+      // The version of the package.
+      version: 'v2',
+
+      // An absolute URL or file path to the LLMs documentation file.
+      // Must be a valid `file://`, `http://`, or `https://` URL, or a local path.
+      llms: '/path/to/tonic-ui/packages/react-docs/pages/llms.txt',
+
+      // An absolute URL or file path pointing to the root directory of the documentation pages.
+      // Valid values include `file://`, `http://`, or `https://` URLs, or a local path.
+      // This is used to substitute `{{PAGE_BASE}}` placeholders in the LLMs documentation.
+      pageBase: '/path/to/tonic-ui/packages/react-docs/pages/',
+    }
+  ]
+};
+```
+
+The configuration file can be written in JavaScript (`.js`) or JSON (`.json`) format and must be specified via the `--config` command-line option when running the MCP server:
+
+```bash
+npx -y @tonic-ui/mcp --config /path/to/tonic-ui/tonic-ui-mcp.config.js
