@@ -74,8 +74,11 @@ ${config.packages.map(pkg => `- ${pkg.name}@${pkg.version}`).join('\n')}
 
         // Remove trailing slash from pageBase and remove leading/trailing whitespace
         const pageBaseWithoutTrailingSlash = trimEnd(firstPackageConfig?.pageBase, '/').trim();
+        const absolutePageBase = path.isAbsolute(pageBaseWithoutTrailingSlash)
+          ? pageBaseWithoutTrailingSlash
+          : path.resolve(rootPath, pageBaseWithoutTrailingSlash);
         const combinedContent = contents
-          .map(x => x.replaceAll('{{PAGE_BASE}}', pageBaseWithoutTrailingSlash))
+          .map(x => x.replaceAll('{{PAGE_BASE}}', absolutePageBase))
           .join('\n\n---\n\n')
           .trim();
 
