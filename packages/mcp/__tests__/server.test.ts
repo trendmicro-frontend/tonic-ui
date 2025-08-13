@@ -74,7 +74,17 @@ The description of the tool contains the available packages, as listed below:
     // Check the fetchCodes tool
     expect(tools.fetchCodes).toBeDefined();
     expect(tools.fetchCodes.title).toBe('fetch codes');
-    expect(tools.fetchCodes.description).toBe('Fetch codes for one or more "render(\'./example\')" calls extracted from the "fetch-pages" tool calls responses. The URLs should be passed as an array in the "urls" argument.');
+    expect(tools.fetchCodes.description).toBe(`Fetch codes for one or more "render('./example')" calls found in responses from the "fetch-pages" tool. The first argument inside a render call is relative to the corresponding URL returned by the "fetch-pages" tool.
+
+For example, for "render('./example')":
+* pageBase="/path/to/"
+  url="/path/to/example"
+* pageBase="https://example.com/path/to/"
+  url="https://example.com/path/to/example"
+* pageBase="file:///path/to/"
+  url="file:///path/to/example"
+
+Pass an array of **absolute URLs** in the "urls" argument.`);
   });
 
   describe('registered tool: use-docs', () => {

@@ -40,7 +40,7 @@ ${config.packages.map(pkg => `- ${pkg.name}@${pkg.version}`).join('\n')}
       inputSchema: {
         packages: z
           .array(z.string())
-          .describe('The list of packages to fetch the documentation from'),
+          .describe('Array of packages to fetch docs from'),
       },
     },
     async ({ packages }) => {
@@ -110,7 +110,7 @@ ${config.packages.map(pkg => `- ${pkg.name}@${pkg.version}`).join('\n')}
       inputSchema: {
         urls: z
           .array(z.string())
-          .describe('The list of URLs to fetch pages'),
+          .describe('Array of absolute URLs to fetch pages from'),
       },
     },
     async ({ urls }) => {
@@ -155,11 +155,21 @@ ${config.packages.map(pkg => `- ${pkg.name}@${pkg.version}`).join('\n')}
     'fetch-codes',
     {
       title: 'fetch codes',
-      description: 'Fetch codes for one or more "render(\'./example\')" calls extracted from responses of the "fetch-pages" tool. Each URL must be an absolute path. The first argument of a render call is a path string relative to the corresponding URL in the "fetch-pages" tool. Provide the URLs as an array in the "urls" argument.',
+      description: `Fetch codes for one or more "render('./example')" calls found in responses from the "fetch-pages" tool. The first argument inside a render call is relative to the corresponding URL returned by the "fetch-pages" tool.
+
+For example, for "render('./example')":
+* pageBase="/path/to/"
+  url="/path/to/example"
+* pageBase="https://example.com/path/to/"
+  url="https://example.com/path/to/example"
+* pageBase="file:///path/to/"
+  url="file:///path/to/example"
+
+Pass an array of **absolute URLs** in the "urls" argument.`,
       inputSchema: {
         urls: z
           .array(z.string())
-          .describe('The list of URLs to fetch codes'),
+          .describe('Array of absolute URLs to fetch codes from'),
       },
     },
     async ({ urls }) => {
