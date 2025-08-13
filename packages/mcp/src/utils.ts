@@ -41,21 +41,68 @@ async function fetchFromUrl(urlString: string): Promise<string> {
   }
 }
 
-/**
- * Load content from a file path with proper error handling.
- * If the filePath points to a directory, try resolving to "index.page.mdx".
- */
-async function loadFromFilePath(filePath: string): Promise<string> {
+async function exists(path: string): Promise<boolean> {
   try {
-    const stats = await fs.stat(filePath);
-    if (stats.isDirectory()) {
-      filePath = path.join(filePath, 'index.page.mdx');
-    }
-
-    return await fs.readFile(filePath, 'utf-8');
-  } catch (err) {
-    throw new Error(`Failed to load content from file path: ${filePath}\n${getErrorMessage(err)}`);
+    await fs.stat(path);
+    return true;
+  } catch {
+    return false;
   }
+}
+
+/**
+ * Loads file content based on the resource type:
+ * - For "doc": reads the file at the given path as plain text.
+ * - For "page": if the path is a file, reads it; if a directory, reads "index.page.mdx" inside.
+ * - For "code": tries appending common code file extensions to the path and reads the first existing file.
+ *
+ * Throws an error if no matching file is found or if the resource type is unsupported.
+ */
+async function loadFromFilePath(
+  filePath: string,
+  resourceType: 'doc' | 'page' | 'code' = 'doc',
+): Promise<string> {
+  const extensions = ['.js', '.jsx', '.ts', '.tsx'];
+
+  if (resourceType === 'doc') {
+    if (await exists(filePath)) {
+      return await fs.readFile(filePath, 'utf-8');
+    }
+    throw new Error(`doc not found: ${filePath}`);
+  }
+
+  if (resourceType === 'page') {
+    if (await exists(filePath)) {
+      const stats = await fs.stat(filePath);
+      if (stats.isFile()) {
+        return await fs.readFile(filePath, 'utf-8');
+      }
+      if (stats.isDirectory()) {
+        const indexPagePath = path.join(filePath, 'index.page.mdx');
+        if (await exists(indexPagePath)) {
+          return await fs.readFile(indexPagePath, 'utf-8');
+        }
+      }
+    }
+    throw new Error(`page not found: ${filePath}`);
+  }
+
+  if (resourceType === 'code') {
+    if (await exists(filePath)) {
+      return await fs.readFile(filePath, 'utf-8');
+    }
+    for (const ext of extensions) {
+      const candidate = filePath + ext;
+      // eslint-disable-next-line no-await-in-loop
+      if (await exists(candidate)) {
+        // eslint-disable-next-line no-await-in-loop
+        return await fs.readFile(candidate, 'utf-8');
+      }
+    }
+    throw new Error(`code not found: ${filePath} with extensions ${extensions.join(', ')}`);
+  }
+
+  throw new Error(`Unsupported resourceType: ${resourceType}`);
 }
 
 /**
@@ -63,31 +110,31 @@ async function loadFromFilePath(filePath: string): Promise<string> {
  */
 export async function processUrls(
   urls: string[],
-  { allowedDomains, rootPath }: { allowedDomains: string[], rootPath: string }
+  { resourceType, allowedDomains, rootPath }: { resourceType: string, allowedDomains: string[], rootPath: string }
 ): Promise<{ contents: string[]; errors: string[] }> {
   const contents = [];
   const errors = [];
 
-  const _processUrl = (url: string) => {
+  const _processUrl = async (url: string) => {
     const normalizedUrl = url.toLowerCase().trim();
 
     if (normalizedUrl.startsWith('http://') || normalizedUrl.startsWith('https://')) {
       if (!isAllowedDomain(url, allowedDomains)) {
         throw new Error(`Domain not allowed: ${new URL(url).hostname}`);
       }
-      return fetchFromUrl(url);
+      return await fetchFromUrl(url);
     }
 
     if (normalizedUrl.startsWith('file://')) {
       const filePath = fileURLToPath(url);
-      return loadFromFilePath(filePath);
+      return await loadFromFilePath(filePath, resourceType);
     }
 
     const normalizedPath = path.normalize(url);
     const filePath = path.isAbsolute(normalizedPath)
       ? normalizedPath
       : path.resolve(rootPath, normalizedPath);
-    return loadFromFilePath(filePath);
+    return await loadFromFilePath(filePath, resourceType);
   };
 
   for (const url of urls) {

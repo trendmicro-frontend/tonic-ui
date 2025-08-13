@@ -38,9 +38,10 @@ describe('Utility Functions', () => {
       } as Response);
 
       const result = await processUrls(
-        ['https://tonic-one-docs.vercel.app/test'],
+        ['https://tonic-ui-docs.vercel.app/test'],
         {
-          allowedDomains: ['tonic-one-docs.vercel.app'],
+          resourceType: 'doc',
+          allowedDomains: ['tonic-ui-docs.vercel.app'],
           rootPath: '/path/to',
         }
       );
@@ -53,7 +54,8 @@ describe('Utility Functions', () => {
       const result = await processUrls(
         ['https://blocked-url/test'],
         {
-          allowedDomains: ['tonic-one-docs.vercel.app'],
+          resourceType: 'doc',
+          allowedDomains: ['tonic-ui-docs.vercel.app'],
           rootPath: '/path/to',
         }
       );
@@ -70,9 +72,10 @@ describe('Utility Functions', () => {
       } as Response);
 
       const result = await processUrls(
-        ['https://tonic-one-docs.vercel.app/notfound'],
+        ['https://tonic-ui-docs.vercel.app/notfound'],
         {
-          allowedDomains: ['tonic-one-docs.vercel.app'],
+          resourceType: 'doc',
+          allowedDomains: ['tonic-ui-docs.vercel.app'],
           rootPath: '/path/to',
         }
       );
@@ -85,12 +88,13 @@ describe('Utility Functions', () => {
       const mockStat = fs.stat as jest.MockedFunction<typeof fs.stat>;
       const mockReadFile = fs.readFile as jest.MockedFunction<typeof fs.readFile>;
 
-      mockStat.mockResolvedValue({ isDirectory: () => false } as Partial<Stats> as Stats);
+      mockStat.mockResolvedValue({ isFile: () => true, isDirectory: () => false } as Stats);
       mockReadFile.mockResolvedValue('File content from local filesystem');
 
       const result = await processUrls(
-        ['file:///path/to/index.page.mdx'],
+        ['file:///path/to/components/button/index.page.mdx'],
         {
+          resourceType: 'page',
           allowedDomains: [],
           rootPath: '/path/to',
         }
@@ -104,12 +108,13 @@ describe('Utility Functions', () => {
       const mockStat = fs.stat as jest.MockedFunction<typeof fs.stat>;
       const mockReadFile = fs.readFile as jest.MockedFunction<typeof fs.readFile>;
 
-      mockStat.mockResolvedValue({ isDirectory: () => true } as Partial<Stats> as Stats);
+      mockStat.mockResolvedValue({ isFile: () => false, isDirectory: () => true } as Stats);
       mockReadFile.mockResolvedValue('Index page content');
 
       const result = await processUrls(
-        ['file:///path/to/directory/'],
+        ['file:///path/to/components/button/'],
         {
+          resourceType: 'page',
           allowedDomains: [],
           rootPath: '/path/to',
         }
@@ -127,6 +132,7 @@ describe('Utility Functions', () => {
       const result = await processUrls(
         ['file:///path/to/nonexistent/file.txt'],
         {
+          resourceType: 'doc',
           allowedDomains: [],
           rootPath: '/path/to',
         }
@@ -146,6 +152,7 @@ describe('Utility Functions', () => {
       const result = await processUrls(
         ['file:///path/to/protected/file.txt'],
         {
+          resourceType: 'doc',
           allowedDomains: [],
           rootPath: '/path/to',
         }

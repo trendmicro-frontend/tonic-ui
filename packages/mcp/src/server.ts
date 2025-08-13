@@ -28,7 +28,7 @@ export const createMcpServer = async ({ name, version, configPath }: McpServerOp
   server.registerTool(
     'use-docs',
     {
-      title: 'Use documentation',
+      title: 'use docs',
       description: `You must use this tool to answer any questions related to Tonic UI components or documentation.
 
 The description of the tool contains the available packages, as listed below:
@@ -36,11 +36,11 @@ ${config.packages.map(pkg => `- ${pkg.name}@${pkg.version}`).join('\n')}
 
 1. Pick the most suitable package from the above list, and use that as the "packages" argument for this tool's execution, to get the docs content. If it's just one, let it be an array with one package.
 2. Analyze the URLs listed in the content.
-3. Then use "fetch-docs" tool to fetch specific documentation pages relevant to the user's question with the subsequent tool call.`,
+3. Then use "fetch-pages" tool to fetch specific documentation pages relevant to the user's question with the subsequent tool call.`,
       inputSchema: {
         packages: z
           .array(z.string())
-          .describe('The list of packages to fetch the documentation from'),
+          .describe('Array of packages to fetch docs from'),
       },
     },
     async ({ packages }) => {
@@ -59,6 +59,7 @@ ${config.packages.map(pkg => `- ${pkg.name}@${pkg.version}`).join('\n')}
         }, []);
 
         const { contents, errors } = await processUrls(urls, {
+          resourceType: 'doc',
           allowedDomains: defaultDomains,
           rootPath: rootPath
         });
@@ -102,14 +103,14 @@ ${config.packages.map(pkg => `- ${pkg.name}@${pkg.version}`).join('\n')}
   );
 
   server.registerTool(
-    'fetch-docs',
+    'fetch-pages',
     {
-      title: 'Fetch documentation',
-      description: 'Fetch documentation for one or more URLs extracted from previous tool calls responses. The URLs should be passed as an array in the "urls" argument.',
+      title: 'fetch pages',
+      description: 'Fetch pages for one or more URLs extracted from the "use-docs" tool call responses. The URLs should be passed as an array in the "urls" argument.',
       inputSchema: {
         urls: z
           .array(z.string())
-          .describe('The list of URLs to fetch the documentation from'),
+          .describe('Array of absolute URLs to fetch pages from'),
       },
     },
     async ({ urls }) => {
@@ -119,6 +120,66 @@ ${config.packages.map(pkg => `- ${pkg.name}@${pkg.version}`).join('\n')}
         }
 
         const { contents, errors } = await processUrls(urls, {
+          resourceType: 'page',
+          allowedDomains: defaultDomains,
+          rootPath: rootPath,
+        });
+
+        if (contents.length === 0 && errors.length > 0) {
+          throw new Error(errors.join('\n'));
+        }
+
+        const combinedContent = contents
+          .join('\n\n---\n\n')
+          .trim();
+        return {
+          content: [{
+            type: 'text',
+            text: combinedContent,
+          }]
+        };
+      } catch (error) {
+        const errorMessage = getErrorMessage(error);
+        return {
+          content: [{
+            type: 'text',
+            text: `Error: ${errorMessage}`,
+          }],
+          isError: true,
+        };
+      }
+    }
+  );
+
+  server.registerTool(
+    'fetch-codes',
+    {
+      title: 'fetch codes',
+      description: `Fetch codes for one or more "render('./example')" calls found in responses from the "fetch-pages" tool. The first argument inside a render call is relative to the corresponding URL returned by the "fetch-pages" tool.
+
+For example, for "render('./example')":
+* pageBase="/path/to/"
+  url="/path/to/example"
+* pageBase="https://example.com/path/to/"
+  url="https://example.com/path/to/example"
+* pageBase="file:///path/to/"
+  url="file:///path/to/example"
+
+Pass an array of **absolute URLs** in the "urls" argument.`,
+      inputSchema: {
+        urls: z
+          .array(z.string())
+          .describe('Array of absolute URLs to fetch codes from'),
+      },
+    },
+    async ({ urls }) => {
+      try {
+        if (!Array.isArray(urls) || urls.length === 0) {
+          throw new Error('"urls" must be a non-empty array');
+        }
+
+        const { contents, errors } = await processUrls(urls, {
+          resourceType: 'code',
           allowedDomains: defaultDomains,
           rootPath: rootPath,
         });
