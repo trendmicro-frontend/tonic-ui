@@ -20,7 +20,7 @@ const genId = () => ++id;
  *
  * @return The unique ID string, or undefined during SSR
  */
-const useId = ReactUseId ?? ((): string | undefined => {
+const useId = ReactUseId ?? (() => {
   /*
    * If this instance isn't part of the initial render, we don't have to do the
    * double render/patch-up dance. We can just generate the ID and return it.
@@ -52,7 +52,7 @@ const useId = ReactUseId ?? ((): string | undefined => {
     }
   }, []);
 
-  return generatedId != null ? String(generatedId) : undefined;
+  return id != null ? String(id) : undefined;
 });
 
 export default useId;

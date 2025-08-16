@@ -9,6 +9,7 @@ export useEffectOnceWhen from './useEffectOnceWhen';
 export useEventCallback from './useEventCallback';
 export useEventListener from './useEventListener';
 export useHydrated from './useHydrated';
+export useId from './useId';
 export useIsomorphicEffect from './useIsomorphicEffect';
 export useLatestRef from './useLatestRef';
 export useMediaQuery from './useMediaQuery';

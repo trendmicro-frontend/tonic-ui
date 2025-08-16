@@ -1,5 +1,5 @@
-import { Box, TextLabel, Input, Stack } from '@tonic-one/react';
-import { useId } from '@tonic-one/react-hooks';
+import { Box, TextLabel, Input, Stack } from '@tonic-ui/react';
+import { useId } from '@tonic-ui/react-hooks';
 import React from 'react';
 
 const App = () => {
