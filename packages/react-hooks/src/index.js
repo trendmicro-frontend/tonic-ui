@@ -9,7 +9,7 @@ export useEffectOnceWhen from './useEffectOnceWhen';
 export useEventCallback from './useEventCallback';
 export useEventListener from './useEventListener';
 export useHydrated from './useHydrated';
-export useId from './useId';
+export useId from './useId'; // Uses "React.useId" when available (React 18+), otherwise falls back to deprecated "useSSRSafeId"
 export useIsomorphicEffect from './useIsomorphicEffect';
 export useLatestRef from './useLatestRef';
 export useMediaQuery from './useMediaQuery';
