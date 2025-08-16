@@ -26,7 +26,7 @@ const useId = ReactUseId ?? (() => {
    * double render/patch-up dance. We can just generate the ID and return it.
    */
   const initialId = serverHandoffComplete ? genId() : null;
-  const [generatedId, setGeneratedId] = useState<number | null>(initialId);
+  const [generatedId, setGeneratedId] = useState(initialId);
 
   useIsomorphicEffect(() => {
     if (generatedId === null) {
@@ -52,7 +52,7 @@ const useId = ReactUseId ?? (() => {
     }
   }, []);
 
-  return id != null ? String(id) : undefined;
+  return generatedId != null ? String(generatedId) : undefined;
 });
 
 export default useId;

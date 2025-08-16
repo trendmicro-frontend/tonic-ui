@@ -1,10 +1,10 @@
+import { useId } from '@tonic-ui/react-hooks';
 import { ensureFunction } from 'ensure-type';
 import { useContext, useEffect } from 'react';
-import useAutoId from '../useAutoId';
 import { AnimatePresenceContext } from './context';
 
 const useAnimatePresence = () => {
-  const id = useAutoId();
+  const id = useId();
 
   if (!useContext) {
     throw new Error('The `useContext` hook is not available with your React version.');

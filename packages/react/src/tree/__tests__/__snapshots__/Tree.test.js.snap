@@ -127,14 +127,14 @@ exports[`Tree should render correctly 1`] = `
     aria-label="tree"
     aria-multiselectable="true"
     class="emotion-0 emotion-1"
-    id="4"
+    id=":r0:"
     role="tree"
     tabindex="0"
   >
     <div
       class="emotion-0 emotion-1"
       data-testid="node-1"
-      id="4-1"
+      id=":r0:-1"
       role="treeitem"
     >
       <div
@@ -173,7 +173,7 @@ exports[`Tree should render correctly 1`] = `
         </div>
         <div
           class="emotion-14 emotion-1"
-          id="@tonic-ui/react:TooltipTrigger-1"
+          id="@tonic-ui/react:TooltipTrigger-:r1:"
         >
           Node 1
         </div>
@@ -182,7 +182,7 @@ exports[`Tree should render correctly 1`] = `
     <div
       class="emotion-0 emotion-1"
       data-testid="node-7"
-      id="4-7"
+      id=":r0:-7"
       role="treeitem"
     >
       <div
@@ -221,7 +221,7 @@ exports[`Tree should render correctly 1`] = `
         </div>
         <div
           class="emotion-14 emotion-1"
-          id="@tonic-ui/react:TooltipTrigger-2"
+          id="@tonic-ui/react:TooltipTrigger-:r2:"
         >
           Node 7
         </div>
@@ -230,7 +230,7 @@ exports[`Tree should render correctly 1`] = `
     <div
       class="emotion-0 emotion-1"
       data-testid="node-9"
-      id="4-9"
+      id=":r0:-9"
       role="treeitem"
     >
       <div
@@ -269,7 +269,7 @@ exports[`Tree should render correctly 1`] = `
         </div>
         <div
           class="emotion-14 emotion-1"
-          id="@tonic-ui/react:TooltipTrigger-3"
+          id="@tonic-ui/react:TooltipTrigger-:r3:"
         >
           Node 9
         </div>

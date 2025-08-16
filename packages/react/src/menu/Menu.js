@@ -1,4 +1,4 @@
-import { usePrevious } from '@tonic-ui/react-hooks';
+import { useId, usePrevious } from '@tonic-ui/react-hooks';
 import { getAllFocusable, runIfFn } from '@tonic-ui/utils';
 import { ensureString } from 'ensure-type';
 import memoize from 'micro-memoize';
@@ -6,7 +6,6 @@ import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'rea
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import config from '../shared/config';
-import useAutoId from '../utils/useAutoId';
 import { MenuContext } from './context';
 import { useMenuStyle } from './styles';
 
@@ -176,7 +175,7 @@ const Menu = forwardRef((inProps, ref) => {
     menuToggleRef.current = anchorEl;
   }
 
-  const defaultId = useAutoId();
+  const defaultId = useId();
   const menuId = `${config.name}:Menu-${defaultId}`;
   const menuToggleId = `${config.name}:MenuToggle-${defaultId}`;
   const direction = mapPlacementToDirection(placement);

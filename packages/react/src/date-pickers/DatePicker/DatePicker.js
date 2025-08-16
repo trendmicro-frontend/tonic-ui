@@ -1,4 +1,4 @@
-import { useClickOutside, useConst, useEventCallback, useMergeRefs, usePrevious } from '@tonic-ui/react-hooks';
+import { useClickOutside, useConst, useEventCallback, useId, useMergeRefs, usePrevious } from '@tonic-ui/react-hooks';
 import { callEventHandlers, isNullOrUndefined } from '@tonic-ui/utils';
 import format from 'date-fns/format';
 import endOfDay from 'date-fns/endOfDay';
@@ -11,7 +11,6 @@ import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'rea
 import { Box } from '../../box';
 import { useDefaultProps } from '../../default-props';
 import config from '../../shared/config';
-import useAutoId from '../../utils/useAutoId';
 import DateCalendar from '../DateCalendar';
 import { validateDate } from '../validation';
 import DatePickerContent from './DatePickerContent';
@@ -222,7 +221,7 @@ const DatePicker = forwardRef((inProps, ref) => {
     onOpen();
   }, [onOpen]);
 
-  const defaultId = useAutoId();
+  const defaultId = useId();
   const datePickerContentId = `${config.name}:DatePickerContent-${defaultId}`;
   const datePickerToggleId = `${config.name}:DatePickerToggle-${defaultId}`;
   const context = getMemoizedState({

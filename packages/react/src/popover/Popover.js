@@ -1,10 +1,9 @@
-import { usePrevious } from '@tonic-ui/react-hooks';
+import { useId, usePrevious } from '@tonic-ui/react-hooks';
 import { runIfFn } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDefaultProps } from '../default-props';
 import config from '../shared/config';
-import useAutoId from '../utils/useAutoId';
 import { PopoverContext } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
@@ -156,7 +155,7 @@ const Popover = (inProps) => {
     };
   }, []);
 
-  const defaultId = useAutoId();
+  const defaultId = useId();
   const popoverId = `${config.name}:Popover-${defaultId}`;
   const popoverTriggerId = `${config.name}:PopoverTrigger-${defaultId}`;
   const context = getMemoizedState({

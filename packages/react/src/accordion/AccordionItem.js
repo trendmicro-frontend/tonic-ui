@@ -1,3 +1,4 @@
+import { useId } from '@tonic-ui/react-hooks';
 import { runIfFn } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import memoize from 'micro-memoize';
@@ -5,7 +6,6 @@ import React, { forwardRef, useCallback, useEffect, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import config from '../shared/config';
-import useAutoId from '../utils/useAutoId';
 import { AccordionItemContext } from './context';
 import useAccordion from './useAccordion';
 
@@ -21,7 +21,7 @@ const AccordionItem = forwardRef((inProps, ref) => {
     ...rest
   } = useDefaultProps({ props: inProps, name: 'AccordionItem' });
   const accordionContext = useAccordion();
-  const defaultId = useAutoId();
+  const defaultId = useId();
   const accordionToggleId = `${config.name}:AccordionToggle-${defaultId}`;
   const accordionContentId = `${config.name}:AccordionContent-${defaultId}`;
   const [isExpanded, setIsExpanded] = useState(isExpandedProp ?? defaultIsExpandedProp);

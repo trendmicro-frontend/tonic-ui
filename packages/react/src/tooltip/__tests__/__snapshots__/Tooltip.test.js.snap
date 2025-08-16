@@ -187,20 +187,20 @@ exports[`Tooltip should render correctly 1`] = `
 
 <div>
   <button
-    aria-describedby="@tonic-ui/react:Tooltip-1"
+    aria-describedby="@tonic-ui/react:Tooltip-:r0:"
     class="emotion-0 emotion-1"
-    id="@tonic-ui/react:TooltipTrigger-1"
+    id="@tonic-ui/react:TooltipTrigger-:r0:"
     type="button"
   >
     button label
   </button>
   <div
-    aria-labelledby="@tonic-ui/react:TooltipTrigger-1"
+    aria-labelledby="@tonic-ui/react:TooltipTrigger-:r0:"
     class="emotion-2 emotion-1"
     data-popper-escaped=""
     data-popper-placement="bottom"
     data-popper-reference-hidden=""
-    id="@tonic-ui/react:Tooltip-1"
+    id="@tonic-ui/react:Tooltip-:r0:"
     role="tooltip"
     style="position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(0px, 8px);"
   >
