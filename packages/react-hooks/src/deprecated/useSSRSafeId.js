@@ -1,7 +1,10 @@
+import { isNullish } from '@tonic-ui/utils';
 import { useState, useEffect } from 'react';
 import useIsomorphicEffect from '../useIsomorphicEffect';
 
 /**
+ * @deprecated This hook is deprecated. Use `useId` from the main package instead.
+ *
  * A custom Hook that returns a unique ID string.
  *
  * Autogenerates IDs to facilitate WAI-ARIA and server rendering.
@@ -17,9 +20,9 @@ const useSSRSafeId = (() => {
 
   /**
    * Generates a new unique ID by incrementing the global counter
-   * @returns {number} A unique numeric ID
+   * @returns {string} A unique ID string
    */
-  const generateId = () => ++globalIdCounter;
+  const generateId = () => `:r${globalIdCounter++}:`;
 
   return () => {
     /*
@@ -53,7 +56,7 @@ const useSSRSafeId = (() => {
       }
     }, []);
 
-    return generatedId != null ? String(generatedId) : undefined;
+    return !isNullish(generatedId) ? generatedId : undefined;
   };
 })();
 

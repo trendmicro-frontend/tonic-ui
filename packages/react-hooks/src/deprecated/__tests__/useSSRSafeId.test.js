@@ -12,7 +12,7 @@ describe('useSSRSafeId', () => {
 
     expect(result.current).toBeDefined();
     expect(typeof result.current).toBe('string');
-    expect(result.current).toMatch(/^\d+$/); // Should be a numeric string
+    expect(result.current).toMatch(/^:r\d+:$/); // Should match the format :r{number}:
   });
 
   it('should generate unique IDs for multiple instances', () => {
@@ -50,7 +50,11 @@ describe('useSSRSafeId', () => {
     for (let i = 0; i < 5; i++) {
       const { result } = renderHook(() => useSSRSafeId());
       if (result.current) {
-        ids.push(parseInt(result.current, 10));
+        // Extract the numeric part from :r{number}:
+        const match = result.current.match(/^:r(\d+):$/);
+        if (match) {
+          ids.push(parseInt(match[1], 10));
+        }
       }
     }
 
