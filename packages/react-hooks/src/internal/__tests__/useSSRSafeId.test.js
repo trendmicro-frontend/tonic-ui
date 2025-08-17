@@ -12,7 +12,7 @@ describe('useSSRSafeId', () => {
 
     expect(result.current).toBeDefined();
     expect(typeof result.current).toBe('string');
-    expect(result.current).toMatch(/^:r\d+:$/); // Should match the format :r{number}:
+    expect(result.current).toMatch(/^:r[0-9a-z]+:$/); // Should match the format :r{base36}:
   });
 
   it('should generate unique IDs for multiple instances', () => {
@@ -43,26 +43,32 @@ describe('useSSRSafeId', () => {
     expect(result.current).toBe(firstId);
   });
 
-  it('should generate sequential numeric IDs', () => {
+  it('should generate sequential base36 IDs', () => {
     const ids = [];
 
     // Create multiple hooks to test sequential generation
     for (let i = 0; i < 5; i++) {
       const { result } = renderHook(() => useSSRSafeId());
       if (result.current) {
-        // Extract the numeric part from :r{number}:
-        const match = result.current.match(/^:r(\d+):$/);
+        // Extract the base36 part from :r{base36}:
+        const match = result.current.match(/^:r([0-9a-z]+):$/);
         if (match) {
-          ids.push(parseInt(match[1], 10));
+          ids.push(match[1]);
         }
       }
     }
 
     expect(ids.length).toBe(5);
 
-    // IDs should be sequential
-    for (let i = 1; i < ids.length; i++) {
-      expect(ids[i]).toBe(ids[i - 1] + 1);
+    // Convert base36 IDs back to numbers to verify they are sequential
+    const numbers = ids.map(id => parseInt(id, 36));
+    for (let i = 1; i < numbers.length; i++) {
+      expect(numbers[i]).toBe(numbers[i - 1] + 1);
+    }
+
+    // Verify the format is base36 (contains only 0-9 and a-z)
+    for (const id of ids) {
+      expect(id).toMatch(/^[0-9a-z]+$/);
     }
   });
 });

@@ -1,28 +1,28 @@
 import { isNullish } from '@tonic-ui/utils';
 import { useState, useEffect } from 'react';
 import useIsomorphicEffect from '../useIsomorphicEffect';
-
 /**
- * @deprecated This hook is deprecated. Use `useId` from the main package instead.
+ * This hook is for internal use only. Use `useId` from the main package instead.
  *
- * A custom Hook that returns a unique ID string.
+ * A custom hook that generates unique IDs for accessibility and server-side rendering.
  *
- * Autogenerates IDs to facilitate WAI-ARIA and server rendering.
+ * Behavior:
+ * - Returns `undefined` on the server to avoid hydration mismatches.
+ * - Provides a stable unique ID after the component mounts.
+ * - For consistent SSR values, provide your own ID instead of relying on this hook.
  *
- * Note: The returned ID will initially be `undefined` and will update after a component mounts.
- * Users may need to supply their own ID if they need consistent values for SSR.
- *
- * @returns {string | undefined} The unique ID string, or undefined during SSR
+ * @returns {string | undefined} A unique ID string, or `undefined` during initial SSR.
  */
 const useSSRSafeId = (() => {
   let isServerHandoffComplete = false;
   let globalIdCounter = 0;
 
   /**
-   * Generates a new unique ID by incrementing the global counter
-   * @returns {string} A unique ID string
+   * Generates a unique ID using a global counter with base36 encoding.
+   * Format: `:r[0-9a-z]+:` (e.g., `:r0:`, `:r1:`, …, `:ra:`, `:rb:`, …, `:r10:`).
+   * @returns {string} A unique ID string.
    */
-  const generateId = () => `:r${globalIdCounter++}:`;
+  const generateId = () => `:r${(globalIdCounter++).toString(36)}:`;
 
   return () => {
     /*

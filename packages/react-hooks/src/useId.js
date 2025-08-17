@@ -1,12 +1,15 @@
 import React from 'react';
-import useSSRSafeId from './deprecated/useSSRSafeId';
+import useSSRSafeId from './internal/useSSRSafeId';
 
 /**
- * A hook that returns a unique ID string.
+ * A custom hook that generates unique IDs for accessibility and server-side rendering.
  *
- * Uses React's built-in useId when available (React 18+),
- * otherwise falls back to a custom implementation that is SSR-safe.
+ * React 18+:
+ * Uses React's built-in `useId()`, which generates deterministic IDs that match between server and client.
+ * @returns {string} A unique ID string
  *
+ * React < 18:
+ * Falls back to an internal implementation (`useSSRSafeId`). During SSR, it may return `undefined` to avoid hydration mismatches. The ID stabilizes after the component mounts.
  * @returns {string | undefined} A unique ID string
  */
 const useId = React.useId ?? useSSRSafeId;

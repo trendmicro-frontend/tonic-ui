@@ -1,6 +1,6 @@
 # useId
 
-A custom Hook that generates a unique ID string for accessibility and server-side rendering.
+A custom hook that generates unique IDs for accessibility and server-side rendering.
 
 ## Overview
 
@@ -28,14 +28,21 @@ const id = useId();
 
 ### Returns
 
-Returns a unique ID string. May return `undefined` during SSR with React < 18.
+Returns a unique ID string.
 
-* For React 18+:<br/>
-  Uses React's built-in `useId()` and always returns the same deterministic string on both server and client.
-
-* For React < 18:<br/>
-  Falls back to a custom implementation that may return `undefined` on initial server render to prevent hydration mismatches.
+| React version | Description |
+| :------------ | :---------- |
+| React 18+     | Uses React's built-in `useId()`, which generates deterministic IDs that match between server and client. |
+| React < 18    | Falls back to an internal implementation (`useSSRSafeId`). During SSR, it may return `undefined` to avoid hydration mismatches. The ID stabilizes after the component mounts. |
 
 ## Demos
 
+### React 18+
+
 {render('./useId')}
+
+### React < 18
+
+This example shows the internal `useSSRSafeId` hook:
+
+{render('./useSSRSafeId')}

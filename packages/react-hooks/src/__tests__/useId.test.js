@@ -28,7 +28,7 @@ describe('useId', () => {
     }));
 
     const useId = require('../useId').default;
-    const useSSRSafeId = require('../deprecated/useSSRSafeId').default;
+    const useSSRSafeId = require('../internal/useSSRSafeId').default;
     expect(useId).toBe(useSSRSafeId);
     expect(typeof useId).toBe('function');
   });
