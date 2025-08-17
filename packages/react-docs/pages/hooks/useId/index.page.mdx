@@ -1,0 +1,48 @@
+# useId
+
+A custom hook that generates unique IDs for accessibility and server-side rendering.
+
+## Overview
+
+Common Use Cases:
+- Form elements: Associate labels with inputs
+- ARIA attributes: Link elements with `aria-labelledby`, `aria-describedby`
+- Component instances: Provide unique identifiers when multiple instances are rendered
+
+Best Practices:
+- Use to create accessibility relationships between elements
+- Avoid using as React keys in lists (prefer stable data keys instead)
+- Generate separate IDs for each relationship you need
+
+## Import
+
+```js
+import { useId } from '@tonic-ui/react-hooks';
+```
+
+## Usage
+
+```js
+const id = useId();
+```
+
+### Returns
+
+Returns a unique ID string.
+
+| React version | Description |
+| :------------ | :---------- |
+| React 18+     | Uses React's built-in `useId()`, which generates deterministic IDs that match between server and client. |
+| React < 18    | Falls back to an internal implementation (`useSSRSafeId`). During SSR, it may return `undefined` to avoid hydration mismatches. The ID stabilizes after the component mounts. |
+
+## Demos
+
+### React 18+
+
+{render('./useId')}
+
+### React < 18
+
+This example shows the internal `useSSRSafeId` hook:
+
+{render('./useSSRSafeId')}

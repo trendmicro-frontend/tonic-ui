@@ -193,24 +193,24 @@ exports[`Popover should render correctly 1`] = `
 
 <div>
   <button
-    aria-controls="@tonic-ui/react:Popover-1"
-    aria-describedby="@tonic-ui/react:Popover-1"
+    aria-controls="@tonic-ui/react:Popover-:r0:"
+    aria-describedby="@tonic-ui/react:Popover-:r0:"
     aria-expanded="true"
     aria-haspopup="dialog"
     class="emotion-0 emotion-1"
     data-testid="popover-trigger"
-    id="@tonic-ui/react:PopoverTrigger-1"
+    id="@tonic-ui/react:PopoverTrigger-:r0:"
     type="button"
   >
     Hover me
   </button>
   <div
-    aria-labelledby="@tonic-ui/react:PopoverTrigger-1"
+    aria-labelledby="@tonic-ui/react:PopoverTrigger-:r0:"
     class="emotion-2 emotion-1"
     data-popper-escaped=""
     data-popper-placement="bottom"
     data-popper-reference-hidden=""
-    id="@tonic-ui/react:Popover-1"
+    id="@tonic-ui/react:Popover-:r0:"
     role="dialog"
     style="position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(0px, 12px);"
   >

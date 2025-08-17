@@ -143,7 +143,7 @@ exports[`DatePicker should render correctly 1`] = `
       class="emotion-2 emotion-1"
     >
       <div
-        aria-controls="@tonic-ui/react:DatePickerContent-1"
+        aria-controls="@tonic-ui/react:DatePickerContent-:r0:"
         aria-expanded="false"
         aria-haspopup="menu"
         class="emotion-4 emotion-1"
@@ -169,7 +169,7 @@ exports[`DatePicker should render correctly 1`] = `
         <input
           class="emotion-10 emotion-1"
           data-testid="date-picker-input-element"
-          id="@tonic-ui/react:DatePickerToggle-1"
+          id="@tonic-ui/react:DatePickerToggle-:r0:"
           placeholder="yyyy-MM-dd"
           value="2024-08-15"
         />

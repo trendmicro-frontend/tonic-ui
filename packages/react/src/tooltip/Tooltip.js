@@ -1,10 +1,10 @@
+import { useId } from '@tonic-ui/react-hooks';
 import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { useDefaultProps } from '../default-props';
 import { Popper } from '../popper';
 import config from '../shared/config';
 import { Grow } from '../transitions';
-import useAutoId from '../utils/useAutoId';
 import TooltipArrow from './TooltipArrow';
 import TooltipContent from './TooltipContent';
 import TooltipTrigger from './TooltipTrigger';
@@ -135,7 +135,7 @@ const Tooltip = forwardRef((inProps, ref) => {
     };
   }, []);
 
-  const defaultId = useAutoId();
+  const defaultId = useId();
   const tooltipId = `${config.name}:Tooltip-${defaultId}`;
   const tooltipTriggerId = `${config.name}:TooltipTrigger-${defaultId}`;
   const context = getMemoizedState({

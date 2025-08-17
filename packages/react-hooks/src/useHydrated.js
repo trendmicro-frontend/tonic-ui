@@ -9,10 +9,10 @@ import { useEffect, useState } from 'react';
  * • When doing Client-Side Rendering (CSR), the result will always be false on the first render, and true on subsequent renders.
  */
 const useHydrated = () => {
-  const [isHydrated, setHydrated] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
-    setHydrated(true);
+    setIsHydrated(true);
   }, []);
 
   return isHydrated;

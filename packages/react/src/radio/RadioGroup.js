@@ -1,9 +1,9 @@
+import { useId } from '@tonic-ui/react-hooks';
 import { runIfFn } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDefaultProps } from '../default-props';
 import config from '../shared/config';
-import useAutoId from '../utils/useAutoId';
 import { RadioGroupContext } from './context';
 
 const getMemoizedState = memoize(state => ({ ...state }));
@@ -19,7 +19,7 @@ const RadioGroup = (inProps) => {
     value: valueProp,
     variantColor,
   } = useDefaultProps({ props: inProps, name: 'RadioGroup' });
-  const defaultId = useAutoId();
+  const defaultId = useId();
   const name = nameProp ?? `${config.name}:RadioGroup-${defaultId}`;
 
   const [state, setState] = useState({

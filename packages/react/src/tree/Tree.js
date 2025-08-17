@@ -1,4 +1,4 @@
-import { useConst } from '@tonic-ui/react-hooks';
+import { useConst, useId } from '@tonic-ui/react-hooks';
 import { ariaAttr, callEventHandlers, isNullish } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import memoize from 'micro-memoize';
@@ -6,7 +6,6 @@ import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'rea
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { Descendant } from '../utils/descendant';
-import useAutoId from '../utils/useAutoId';
 import { TreeContext } from './context';
 import { useTreeStyle } from './styles';
 
@@ -30,7 +29,8 @@ const Tree = forwardRef((inProps, ref) => {
     selected: selectedProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Tree' });
-  const treeId = useAutoId(idProp);
+  const defaultId = useId();
+  const treeId = idProp ?? defaultId;
   const [focusedNodeId, setFocusedNodeId] = useState(null);
   const [expandedNodeIds, setExpandedNodeIds] = useState(ensureArray(expandedProp ?? defaultExpanded));
   const [selectedNodeIds, setSelectedNodeIds] = useState(ensureArray(selectedProp ?? defaultSelected));

@@ -119,7 +119,7 @@ input[type="radio"]:checked:disabled+.emotion-4 {
     <input
       checked=""
       class="emotion-2 emotion-1"
-      name="@tonic-ui/react:RadioGroup-1"
+      name="@tonic-ui/react:RadioGroup-:r0:"
       type="radio"
       value="1"
     />
@@ -143,7 +143,7 @@ input[type="radio"]:checked:disabled+.emotion-4 {
   >
     <input
       class="emotion-2 emotion-1"
-      name="@tonic-ui/react:RadioGroup-1"
+      name="@tonic-ui/react:RadioGroup-:r0:"
       type="radio"
       value="2"
     />
@@ -167,7 +167,7 @@ input[type="radio"]:checked:disabled+.emotion-4 {
   >
     <input
       class="emotion-2 emotion-1"
-      name="@tonic-ui/react:RadioGroup-1"
+      name="@tonic-ui/react:RadioGroup-:r0:"
       type="radio"
       value="3"
     />

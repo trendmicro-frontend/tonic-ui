@@ -145,7 +145,7 @@ input[type="checkbox"]:checked:disabled+.emotion-4 {
     <input
       checked=""
       class="emotion-2 emotion-1"
-      name="@tonic-ui/react:CheckboxGroup-1"
+      name="@tonic-ui/react:CheckboxGroup-:r0:"
       type="checkbox"
       value="1"
     />
@@ -181,7 +181,7 @@ input[type="checkbox"]:checked:disabled+.emotion-4 {
   >
     <input
       class="emotion-2 emotion-1"
-      name="@tonic-ui/react:CheckboxGroup-1"
+      name="@tonic-ui/react:CheckboxGroup-:r0:"
       type="checkbox"
       value="2"
     />
@@ -217,7 +217,7 @@ input[type="checkbox"]:checked:disabled+.emotion-4 {
   >
     <input
       class="emotion-2 emotion-1"
-      name="@tonic-ui/react:CheckboxGroup-1"
+      name="@tonic-ui/react:CheckboxGroup-:r0:"
       type="checkbox"
       value="3"
     />
