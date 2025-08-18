@@ -1,8 +1,9 @@
 /* @jest-environment jsdom */
-import React, { useState } from 'react';
-import { render, screen } from '../../../test-utils/render';
 import userEvent from '@testing-library/user-event';
 import { Input } from '@tonic-ui/react';
+import { ariaAttr } from '@tonic-ui/utils';
+import React, { useState } from 'react';
+import { render, screen } from '../../../test-utils/render';
 import {
   FormControl,
   FormLabel,
@@ -13,21 +14,28 @@ import {
 import useFormControl from '../useFormControl';
 
 const FormInput = React.forwardRef((props, ref) => {
-  const formContext = useFormControl();
-
-  const { id, error, disabled, readOnly, errorId, helperId, countId } =
-    formContext;
-  const describedByIds = [errorId, helperId, countId].filter(Boolean);
+  const {
+    disabled,
+    error,
+    readOnly,
+    formCharacterCountId,
+    formErrorMessageId,
+    formHelperTextId,
+    formInputId,
+  } = useFormControl();
+  const ariaDescribedby = [
+    formCharacterCountId,
+    formErrorMessageId,
+    formHelperTextId,
+  ].filter(Boolean).join(' ');
 
   return (
     <Input
       ref={ref}
-      id={id}
-      aria-invalid={error}
-      aria-describedby={
-        describedByIds.length > 0 ? describedByIds.join(' ') : undefined
-      }
+      id={formInputId}
+      aria-describedby={ariaAttr(ariaDescribedby)}
       disabled={disabled}
+      error={error}
       readOnly={readOnly}
       {...props}
     />

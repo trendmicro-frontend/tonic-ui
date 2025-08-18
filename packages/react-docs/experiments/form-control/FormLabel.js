@@ -1,14 +1,17 @@
-import React, { forwardRef } from 'react';
 import { TextLabel, Box } from '@tonic-ui/react';
 import { ariaAttr } from '@tonic-ui/utils';
+import React, { forwardRef } from 'react';
 import useFormControl from './useFormControl';
 import { useFormLabelStyle, useFormLabelRequiredStyle } from './styles';
 
-const FormLabel = forwardRef(({ children, required = false, ...rest }, ref) => {
-  const { id } = useFormControl();
+const FormLabel = forwardRef(({
+  children,
+  required = false,
+  ...rest
+}, ref) => {
+  const { formInputId } = useFormControl() ?? {};
   const labelStyleProps = useFormLabelStyle();
   const requiredStyleProps = useFormLabelRequiredStyle();
-
   const ariaProps = {
     'aria-required': ariaAttr(required),
   };
@@ -16,7 +19,7 @@ const FormLabel = forwardRef(({ children, required = false, ...rest }, ref) => {
   return (
     <TextLabel
       ref={ref}
-      htmlFor={id}
+      htmlFor={formInputId}
       {...ariaProps}
       {...labelStyleProps}
       {...rest}

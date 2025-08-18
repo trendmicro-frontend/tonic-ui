@@ -1,5 +1,6 @@
-import React, { forwardRef } from 'react';
 import { Text, Box } from '@tonic-ui/react';
+import { useId } from '@tonic-ui/react-hooks';
+import React, { forwardRef } from 'react';
 import { ensureArray } from 'ensure-type';
 import useFormControl from './useFormControl';
 import {
@@ -8,7 +9,12 @@ import {
 } from './styles';
 
 const FormErrorMessage = forwardRef(({ errors = [], ...rest }, ref) => {
-  const { error, errorId } = useFormControl();
+  const defaultId = useId();
+  const {
+    error,
+    formErrorMessageId,
+  } = useFormControl() ?? {};
+  const id = formErrorMessageId ?? defaultId;
   const styleProps = useFormErrorMessageStyle();
   const listStyleProps = useFormErrorMessageListStyle();
 
@@ -25,7 +31,7 @@ const FormErrorMessage = forwardRef(({ errors = [], ...rest }, ref) => {
   const isSingleError = normalizedErrors.length === 1;
 
   return (
-    <Text ref={ref} id={errorId} role="alert" {...styleProps} {...rest}>
+    <Text ref={ref} id={id} role="alert" {...styleProps} {...rest}>
       {isSingleError ? (
         normalizedErrors[0]
       ) : (

@@ -2,39 +2,13 @@ import React, { useState, forwardRef } from 'react';
 import { Box, Flex, Stack, Input } from '@tonic-ui/react';
 import {
   FormControl,
+  FormInput,
   FormLabel,
   FormErrorMessage,
   FormHelperText,
   FormCharacterCount,
 } from '@/experiments/form-control';
 import useFormControl from '@/experiments/form-control/useFormControl';
-
-const FormInput = forwardRef((props, ref) => {
-  const formContext = useFormControl();
-  const { id, error, disabled, readOnly, errorId, helperId, countId } =
-    formContext || {};
-
-  const describedByIds = [];
-  if (error) describedByIds.push(errorId);
-  if (helperId) describedByIds.push(helperId);
-  if (countId) describedByIds.push(countId);
-
-  return (
-    <Input
-      ref={ref}
-      id={id}
-      aria-invalid={error}
-      aria-describedby={
-        describedByIds.length > 0 ? describedByIds.join(' ') : undefined
-      }
-      disabled={disabled}
-      readOnly={readOnly}
-      {...props}
-    />
-  );
-});
-
-FormInput.displayName = 'FormInput';
 
 const App = () => {
   const [bio, setBio] = useState('');
