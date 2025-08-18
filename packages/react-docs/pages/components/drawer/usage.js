@@ -80,7 +80,6 @@ const App = () => {
   const [backdrop, toggleBackdrop] = useToggle(true);
   const [closeOnEsc, toggleCloseOnEsc] = useToggle(true);
   const [closeOnInteractOutside, toggleCloseOnInteractOutside] = useToggle(true);
-  const [closeOnOutsideClick, toggleCloseOnOutsideClick] = useToggle(false);
   const [ensureFocus, toggleEnsureFocus] = useToggle(true);
   const [isClosable, toggleIsClosable] = useToggle(true);
   const [returnFocusOnClose, toggleReturnFocusOnClose] = useToggle(true);
@@ -228,10 +227,7 @@ const App = () => {
     </FormGroup>
     <FormGroup>
       <TextLabel display="flex" alignItems="center">
-        <Checkbox
-          checked={closeOnOutsideClick}
-          onChange={() => toggleCloseOnOutsideClick()}
-        />
+        <Checkbox disabled />
         <Space width="2x" />
         <Text fontFamily="mono" whiteSpace="nowrap">closeOnOutsideClick (deprecated)</Text>
         <Space width="2x" />
@@ -343,7 +339,6 @@ const App = () => {
       backdrop={backdrop}
       closeOnEsc={closeOnEsc}
       closeOnInteractOutside={closeOnInteractOutside}
-      closeOnOutsideClick={closeOnOutsideClick}
       ensureFocus={ensureFocus}
       initialFocusRef={initialFocusRef}
       isClosable={isClosable}
