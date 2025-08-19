@@ -21,7 +21,7 @@ describe('RadioGroup', () => {
     const onChange = jest.fn();
     const user = userEvent.setup();
     render(
-      <RadioGroup onChange={onChange}>
+      <RadioGroup defaultValue="" onChange={onChange}>
         <Radio value="apple">Apple</Radio>
         <Radio value="banana">Banana</Radio>
       </RadioGroup>
@@ -38,7 +38,7 @@ describe('RadioGroup', () => {
     const onChange = jest.fn();
     const user = userEvent.setup();
     render(
-      <RadioGroup onChange={onChange}>
+      <RadioGroup defaultValue="" onChange={onChange}>
         <Radio value={1}>One</Radio>
         <Radio value={2}>Two</Radio>
       </RadioGroup>
@@ -55,7 +55,7 @@ describe('RadioGroup', () => {
     const onChange = jest.fn();
     const user = userEvent.setup();
     render(
-      <RadioGroup onChange={onChange}>
+      <RadioGroup defaultValue="" onChange={onChange}>
         <Radio value={true}>True</Radio>
         <Radio value={false}>False</Radio>
       </RadioGroup>
@@ -75,7 +75,7 @@ describe('RadioGroup', () => {
     const value2 = { id: 2, name: 'Option 2' };
 
     render(
-      <RadioGroup onChange={onChange}>
+      <RadioGroup defaultValue="" onChange={onChange}>
         <Radio value={value1}>Option 1</Radio>
         <Radio value={value2}>Option 2</Radio>
       </RadioGroup>
@@ -132,7 +132,7 @@ describe('RadioGroup', () => {
     const onChange = jest.fn();
     const user = userEvent.setup();
     render(
-      <RadioGroup disabled onChange={onChange}>
+      <RadioGroup disabled defaultValue="" onChange={onChange}>
         <Radio value="1">Option 1</Radio>
         <Radio value="2">Option 2</Radio>
       </RadioGroup>
