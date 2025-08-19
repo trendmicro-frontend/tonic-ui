@@ -1,4 +1,4 @@
-import get from '../utils/get';
+import { get } from '@tonic-ui/utils';
 
 /**
  * Returns a CSS variable name formatted from the given name and options.

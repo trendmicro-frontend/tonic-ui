@@ -1,7 +1,6 @@
-import { isNullish } from '@tonic-ui/utils';
+import { get, isNullish } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import system from './system';
-import get from './utils/get';
 import { pseudoClassSelector, pseudoElementSelector } from './pseudo';
 
 const createPseudoResolver = (theme) => (styleProps) => {
