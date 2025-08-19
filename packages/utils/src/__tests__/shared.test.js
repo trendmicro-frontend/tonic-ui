@@ -110,7 +110,7 @@ describe('get', () => {
     }
   };
 
-  it('should ensure lodash compatibility', () => {
+  it('matches lodash.get behavior', () => {
     const testCases = [
       // Basic property access
       [testObject, 'foo', undefined],
@@ -204,6 +204,62 @@ describe('get', () => {
       const expectedResult = _get(object, path, defaultValue);
       expect(actualResult).toBe(expectedResult);
     }
+  });
+
+  describe('Default value handling', () => {
+    const obj = { a: { b: { c: 42 } } };
+    const defaultValue = 'default';
+
+    it('returns default value for missing paths', () => {
+      expect(get(obj, 'a.b.c.d', defaultValue)).toBe(defaultValue);
+      expect(get(obj, ['a', 'b', 'c', 'd'], defaultValue)).toBe(defaultValue);
+      expect(get(obj, 'a.b.x', defaultValue)).toBe(defaultValue);
+    });
+
+    it('returns default value for null or undefined input', () => {
+      expect(get(obj, null, defaultValue)).toBe(defaultValue);
+      expect(get(obj, undefined, defaultValue)).toBe(defaultValue);
+      expect(get(null, 'a.b.c', defaultValue)).toBe(defaultValue);
+      expect(get(undefined, 'a.b.c', defaultValue)).toBe(defaultValue);
+    });
+
+    it('returns default value for empty or undefined paths', () => {
+      expect(get(obj, '', defaultValue)).toBe(defaultValue);
+      expect(get(obj, ['a', 'b', 'x'], defaultValue)).toBe(defaultValue);
+      expect(get({ a: { b: undefined } }, 'a.b', defaultValue)).toBe(defaultValue);
+    });
+  });
+
+  describe('Value retrieval', () => {
+    it('returns a deeply nested value', () => {
+      const result = get(
+        { colors: { blue: ['#0cf', '#0be', '#09d', '#07c'] } },
+        'colors.blue.3'
+      );
+      expect(result).toBe('#07c');
+    });
+
+    it('supports fallback values', () => {
+      expect(get({}, 'hi', 'nope')).toBe('nope');
+    });
+
+    it('handles number indices in arrays', () => {
+      expect(get([1, 2, 3], 0)).toBe(1);
+    });
+
+    it('returns 0 index items from arrays', () => {
+      expect(get(['a', 'b', 'c'], 0)).toBe('a');
+    });
+  });
+
+  describe('Custom edge cases', () => {
+    it('handles undefined path gracefully', () => {
+      expect(get({}, undefined)).toBe(undefined);
+    });
+
+    it('handles null path gracefully', () => {
+      expect(get({}, null)).toBe(undefined);
+    });
   });
 });
 
