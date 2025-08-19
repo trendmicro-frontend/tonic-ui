@@ -1,19 +1,5 @@
 import { ensureArray, ensureBoolean, ensureString } from 'ensure-type';
-import { isPlainObject } from './assertion';
-
-const _joinWords = (words) => {
-  words = ensureArray(words);
-  if (words.length === 0) {
-    return '';
-  }
-  if (words.length === 1) {
-    return `'${words[0]}'`;
-  }
-  if (words.length === 2) {
-    return `'${words[0]}' and '${words[1]}'`;
-  }
-  return `'${words.slice(0, -1).join('\', \'')}', and '${words.slice(-1)}'`;
-};
+import { isNullish, isPlainObject } from './assertion';
 
 const _deepClone = (source, seen = new WeakMap()) => {
   // Use a `WeakMap` to track objects and detect circular references.
@@ -44,6 +30,42 @@ const _deepClone = (source, seen = new WeakMap()) => {
   return source;
 };
 
+/**
+ * Converts a path string into an array of keys.
+ * Supports:
+ *  - Dot notation: foo.bar
+ *  - Bracket notation: foo["bar.baz"]
+ *  - Array indexes: foo[0]
+ *  - Mixed usage: foo.bar[0]["baz.qux"]
+ */
+function _parsePath(path) {
+  const pattern = /[^.[\]'"]+|\[(?:(-?\d+(?=]))|(['"])(.*?)\2)\]/g;
+  const parts = [];
+  let match;
+
+  while ((match = pattern.exec(path))) {
+    // match[1] is a numeric index
+    // match[3] is a quoted string key
+    parts.push(match[1] ?? match[3] ?? match[0]);
+  }
+
+  return parts;
+}
+
+const _joinWords = (words) => {
+  words = ensureArray(words);
+  if (words.length === 0) {
+    return '';
+  }
+  if (words.length === 1) {
+    return `'${words[0]}'`;
+  }
+  if (words.length === 2) {
+    return `'${words[0]}' and '${words[1]}'`;
+  }
+  return `'${words.slice(0, -1).join('\', \'')}', and '${words.slice(-1)}'`;
+};
+
 export const ariaAttr = (condition) => {
   return ensureBoolean(condition) ? true : undefined;
 };
@@ -67,6 +89,34 @@ export const callEventHandlers = (...fns) => {
 
 export const dataAttr = (condition) => {
   return condition ? '' : undefined;
+};
+
+export const get = (object, path, defaultValue) => {
+  if (!isPlainObject(object) && !Array.isArray(object)) {
+    return defaultValue;
+  }
+
+  // Handle null/undefined path specifically
+  if (isNullish(path)) {
+    return defaultValue;
+  }
+
+  const keys = Array.isArray(path) ? path : _parsePath(String(path));
+
+  // Handle empty path after parsing
+  if (keys.length === 0) {
+    return defaultValue;
+  }
+
+  let current = object;
+  for (const key of keys) {
+    if (current === undefined) {
+      return defaultValue;
+    }
+    current = current?.[key];
+  }
+
+  return current === undefined ? defaultValue : current;
 };
 
 export const merge = (target, source, options = { clone: true }) => {

@@ -4,6 +4,7 @@ import {
   callAll,
   callEventHandlers,
   dataAttr,
+  get,
   merge,
   noop,
   once,
@@ -11,6 +12,7 @@ import {
   warnDeprecatedProps,
   warnRemovedProps,
 } from '@tonic-ui/utils/src';
+import _get from 'lodash/get';
 
 afterEach(() => {
   jest.resetAllMocks();
@@ -83,6 +85,125 @@ describe('dataAttr', () => {
     };
     expect(dataAttrs['data-disabled']).toBe('');
     expect(dataAttrs['data-selected']).toBe(undefined);
+  });
+});
+
+describe('get', () => {
+  const testObject = {
+    foo: {
+      bar: {
+        'baz.foo': 1,
+        'baz.boo': 2
+      },
+      list: [
+        { 'weird.key': 42 }
+      ]
+    },
+    nullValue: null,
+    zeroValue: 0,
+    falseValue: false,
+    emptyString: '',
+    nested: {
+      deep: {
+        value: 'found'
+      }
+    }
+  };
+
+  it('should ensure lodash compatibility', () => {
+    const testCases = [
+      // Basic property access
+      [testObject, 'foo', undefined],
+      [testObject, 'nested.deep.value', undefined],
+      [testObject, 'foo.bar.baz.foo', 'default'],
+
+      // Bracket notation
+      [testObject, 'foo.bar["baz.foo"]', undefined],
+      [testObject, 'foo.bar["baz.boo"]', undefined],
+      [testObject, 'foo.list[0]["weird.key"]', undefined],
+
+      // Array paths
+      [testObject, ['foo', 'bar', 'baz.foo'], undefined],
+      [testObject, ['foo', 'list', '0', 'weird.key'], undefined],
+      [testObject, [], 'default'],
+
+      // Falsy values
+      [testObject, 'nullValue', 'default'],
+      [testObject, 'zeroValue', 'default'],
+      [testObject, 'falseValue', 'default'],
+      [testObject, 'emptyString', 'default'],
+
+      // Missing properties
+      [testObject, 'foo.missing', 'default'],
+      [testObject, 'nonexistent.path', 'default'],
+      [testObject, 'foo.bar.undefined', 'default'],
+
+      // Edge cases with objects
+      [null, 'foo', 'default'],
+      [undefined, 'foo', 'default'],
+      ['string', 'foo', 'default'],
+      [123, 'foo', 'default'],
+      [true, 'foo', 'default'],
+
+      // Edge cases with paths
+      [testObject, null, 'default'],
+      [testObject, undefined, 'default'],
+      [testObject, '', 'default'],
+      [testObject, 0, 'default'],
+      [testObject, false, 'default'],
+
+      // Arrays
+      [['first', 'second', 'third'], '-1', 'default'],
+      [['first', 'second', 'third'], '0', 'default'],
+      [['first', 'second', 'third'], '1', 'default'],
+      [['first', 'second', 'third'], '2', 'default'],
+      [['first', 'second', 'third'], '3', 'default'],
+      [['first', 'second', 'third'], -1, 'default'],
+      [['first', 'second', 'third'], 0, 'default'],
+      [['first', 'second', 'third'], 1, 'default'],
+      [['first', 'second', 'third'], 2, 'default'],
+      [['first', 'second', 'third'], 3, 'default'],
+
+      // Array of objects
+      [[{ name: 'first' }, { name: 'second' }], '0.name', 'default'],
+      [[{ name: 'first' }, { name: 'second' }], '1.name', 'default'],
+      [[{ name: 'first' }, { name: 'second' }], 'length', 'default'],
+
+      // Deep nesting
+      [{ a: { b: { c: { d: { e: 'deep' } } } } }, 'a.b.c.d.e', 'default'],
+      [{ a: { b: { c: { d: { e: 'deep' } } } } }, 'a.b.c.d.f', 'default'],
+
+      // Special characters in keys
+      [{ 'key.with.dots': 'value1' }, '["key.with.dots"]', 'default'],
+      [{ 'key with spaces': 'value2' }, '["key with spaces"]', 'default'],
+      [{ 'key[with]brackets': 'value3' }, '["key[with]brackets"]', 'default'],
+
+      // Numeric indices
+      [['a', 'b', 'c'], '[-1]', 'default'],
+      [['a', 'b', 'c'], '[0]', 'default'],
+      [['a', 'b', 'c'], '[1]', 'default'],
+      [['a', 'b', 'c'], '[2]', 'default'],
+      [['a', 'b', 'c'], '[3]', 'default'],
+      [['a', 'b', 'c'], [-1], 'default'],
+      [['a', 'b', 'c'], [0], 'default'],
+      [['a', 'b', 'c'], [1], 'default'],
+      [['a', 'b', 'c'], [2], 'default'],
+      [['a', 'b', 'c'], [3], 'default'],
+      [['a', 'b', 'c'], ['-1'], 'default'],
+      [['a', 'b', 'c'], ['0'], 'default'],
+      [['a', 'b', 'c'], ['1'], 'default'],
+      [['a', 'b', 'c'], ['2'], 'default'],
+      [['a', 'b', 'c'], ['3'], 'default'],
+
+      // Complex paths
+      [testObject, 'foo.bar.baz.qux.missing.deep', 'default'],
+    ];
+
+    for (const [object, path, defaultValue] of testCases) {
+      const actualResult = get(object, path, defaultValue);
+      const expectedResult = _get(object, path, defaultValue);
+      expect(actualResult).toBe(expectedResult);
+    }
   });
 });
 
