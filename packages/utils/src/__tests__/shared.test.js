@@ -303,7 +303,7 @@ describe('get', () => {
 
     it('should still work correctly with normal quoted keys', () => {
       expect(get(testObject, '["key.with.dots"]')).toBe('dotted');
-      expect(get(testObject, "['key with spaces']")).toBe('spaced');
+      expect(get(testObject, "['key with spaces']")).toBe('spaced'); // eslint-disable-line quotes
       expect(get(testObject, 'arr[2].x')).toBe('nested');
     });
   });
