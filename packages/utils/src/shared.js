@@ -39,14 +39,15 @@ const _deepClone = (source, seen = new WeakMap()) => {
  *  - Mixed usage: foo.bar[0]["baz.qux"]
  */
 function _parsePath(path) {
-  const pattern = /[^.[\]'"]+|\[(?:(-?\d+(?=]))|(['"])(.*?)\2)\]/g;
+  const pattern = /[^.[\]'"]+|\[(-?\d+)\]|\["([^"]*)"\]|\['([^']*)'\]/g;
   const parts = [];
   let match;
 
   while ((match = pattern.exec(path))) {
     // match[1] is a numeric index
-    // match[3] is a quoted string key
-    parts.push(match[1] ?? match[3] ?? match[0]);
+    // match[2] is a double-quoted string key
+    // match[3] is a single-quoted string key
+    parts.push(match[1] ?? match[2] ?? match[3] ?? match[0]);
   }
 
   return parts;

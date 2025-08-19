@@ -89,148 +89,29 @@ describe('dataAttr', () => {
 });
 
 describe('get', () => {
-  const testObject = {
-    foo: {
-      bar: {
-        'baz.foo': 1,
-        'baz.boo': 2
-      },
-      list: [
-        { 'weird.key': 42 }
-      ]
-    },
-    nullValue: null,
-    zeroValue: 0,
-    falseValue: false,
-    emptyString: '',
-    nested: {
-      deep: {
-        value: 'found'
-      }
-    }
-  };
-
-  it('matches lodash.get behavior', () => {
-    const testCases = [
-      // Basic property access
-      [testObject, 'foo', undefined],
-      [testObject, 'nested.deep.value', undefined],
-      [testObject, 'foo.bar.baz.foo', 'default'],
-
-      // Bracket notation
-      [testObject, 'foo.bar["baz.foo"]', undefined],
-      [testObject, 'foo.bar["baz.boo"]', undefined],
-      [testObject, 'foo.list[0]["weird.key"]', undefined],
-
-      // Array paths
-      [testObject, ['foo', 'bar', 'baz.foo'], undefined],
-      [testObject, ['foo', 'list', '0', 'weird.key'], undefined],
-      [testObject, [], 'default'],
-
-      // Falsy values
-      [testObject, 'nullValue', 'default'],
-      [testObject, 'zeroValue', 'default'],
-      [testObject, 'falseValue', 'default'],
-      [testObject, 'emptyString', 'default'],
-
-      // Missing properties
-      [testObject, 'foo.missing', 'default'],
-      [testObject, 'nonexistent.path', 'default'],
-      [testObject, 'foo.bar.undefined', 'default'],
-
-      // Edge cases with objects
-      [null, 'foo', 'default'],
-      [undefined, 'foo', 'default'],
-      ['string', 'foo', 'default'],
-      [123, 'foo', 'default'],
-      [true, 'foo', 'default'],
-
-      // Edge cases with paths
-      [testObject, null, 'default'],
-      [testObject, undefined, 'default'],
-      [testObject, '', 'default'],
-      [testObject, 0, 'default'],
-      [testObject, false, 'default'],
-
-      // Arrays
-      [['first', 'second', 'third'], '-1', 'default'],
-      [['first', 'second', 'third'], '0', 'default'],
-      [['first', 'second', 'third'], '1', 'default'],
-      [['first', 'second', 'third'], '2', 'default'],
-      [['first', 'second', 'third'], '3', 'default'],
-      [['first', 'second', 'third'], -1, 'default'],
-      [['first', 'second', 'third'], 0, 'default'],
-      [['first', 'second', 'third'], 1, 'default'],
-      [['first', 'second', 'third'], 2, 'default'],
-      [['first', 'second', 'third'], 3, 'default'],
-
-      // Array of objects
-      [[{ name: 'first' }, { name: 'second' }], '0.name', 'default'],
-      [[{ name: 'first' }, { name: 'second' }], '1.name', 'default'],
-      [[{ name: 'first' }, { name: 'second' }], 'length', 'default'],
-
-      // Deep nesting
-      [{ a: { b: { c: { d: { e: 'deep' } } } } }, 'a.b.c.d.e', 'default'],
-      [{ a: { b: { c: { d: { e: 'deep' } } } } }, 'a.b.c.d.f', 'default'],
-
-      // Special characters in keys
-      [{ 'key.with.dots': 'value1' }, '["key.with.dots"]', 'default'],
-      [{ 'key with spaces': 'value2' }, '["key with spaces"]', 'default'],
-      [{ 'key[with]brackets': 'value3' }, '["key[with]brackets"]', 'default'],
-
-      // Numeric indices
-      [['a', 'b', 'c'], '[-1]', 'default'],
-      [['a', 'b', 'c'], '[0]', 'default'],
-      [['a', 'b', 'c'], '[1]', 'default'],
-      [['a', 'b', 'c'], '[2]', 'default'],
-      [['a', 'b', 'c'], '[3]', 'default'],
-      [['a', 'b', 'c'], [-1], 'default'],
-      [['a', 'b', 'c'], [0], 'default'],
-      [['a', 'b', 'c'], [1], 'default'],
-      [['a', 'b', 'c'], [2], 'default'],
-      [['a', 'b', 'c'], [3], 'default'],
-      [['a', 'b', 'c'], ['-1'], 'default'],
-      [['a', 'b', 'c'], ['0'], 'default'],
-      [['a', 'b', 'c'], ['1'], 'default'],
-      [['a', 'b', 'c'], ['2'], 'default'],
-      [['a', 'b', 'c'], ['3'], 'default'],
-
-      // Complex paths
-      [testObject, 'foo.bar.baz.qux.missing.deep', 'default'],
-    ];
-
-    for (const [object, path, defaultValue] of testCases) {
-      const actualResult = get(object, path, defaultValue);
-      const expectedResult = _get(object, path, defaultValue);
-      expect(actualResult).toBe(expectedResult);
-    }
-  });
-
-  describe('Default value handling', () => {
-    const obj = { a: { b: { c: 42 } } };
+  describe('general usage', () => {
+    const testObject = { a: { b: { c: 42 } } };
     const defaultValue = 'default';
 
     it('returns default value for missing paths', () => {
-      expect(get(obj, 'a.b.c.d', defaultValue)).toBe(defaultValue);
-      expect(get(obj, ['a', 'b', 'c', 'd'], defaultValue)).toBe(defaultValue);
-      expect(get(obj, 'a.b.x', defaultValue)).toBe(defaultValue);
+      expect(get(testObject, 'a.b.c.d', defaultValue)).toBe(defaultValue);
+      expect(get(testObject, ['a', 'b', 'c', 'd'], defaultValue)).toBe(defaultValue);
+      expect(get(testObject, 'a.b.x', defaultValue)).toBe(defaultValue);
     });
 
     it('returns default value for null or undefined input', () => {
-      expect(get(obj, null, defaultValue)).toBe(defaultValue);
-      expect(get(obj, undefined, defaultValue)).toBe(defaultValue);
+      expect(get(testObject, null, defaultValue)).toBe(defaultValue);
+      expect(get(testObject, undefined, defaultValue)).toBe(defaultValue);
       expect(get(null, 'a.b.c', defaultValue)).toBe(defaultValue);
       expect(get(undefined, 'a.b.c', defaultValue)).toBe(defaultValue);
     });
 
     it('returns default value for empty or undefined paths', () => {
-      expect(get(obj, '', defaultValue)).toBe(defaultValue);
-      expect(get(obj, ['a', 'b', 'x'], defaultValue)).toBe(defaultValue);
+      expect(get(testObject, '', defaultValue)).toBe(defaultValue);
+      expect(get(testObject, ['a', 'b', 'x'], defaultValue)).toBe(defaultValue);
       expect(get({ a: { b: undefined } }, 'a.b', defaultValue)).toBe(defaultValue);
     });
-  });
 
-  describe('Value retrieval', () => {
     it('returns a deeply nested value', () => {
       const result = get(
         { colors: { blue: ['#0cf', '#0be', '#09d', '#07c'] } },
@@ -250,15 +131,180 @@ describe('get', () => {
     it('returns 0 index items from arrays', () => {
       expect(get(['a', 'b', 'c'], 0)).toBe('a');
     });
-  });
 
-  describe('Custom edge cases', () => {
     it('handles undefined path gracefully', () => {
       expect(get({}, undefined)).toBe(undefined);
     });
 
     it('handles null path gracefully', () => {
       expect(get({}, null)).toBe(undefined);
+    });
+  });
+
+  describe('lodash.get compatibility', () => {
+    const testObject = {
+      foo: {
+        bar: {
+          'baz.foo': 1,
+          'baz.boo': 2
+        },
+        list: [
+          { 'weird.key': 42 }
+        ]
+      },
+      nullValue: null,
+      zeroValue: 0,
+      falseValue: false,
+      emptyString: '',
+      nested: {
+        deep: {
+          value: 'found'
+        }
+      }
+    };
+
+    it('matches lodash.get behavior across diverse cases', () => {
+      const testCases = [
+        // Basic property access
+        [testObject, 'foo', undefined],
+        [testObject, 'nested.deep.value', undefined],
+        [testObject, 'foo.bar.baz.foo', 'default'],
+
+        // Bracket notation
+        [testObject, 'foo.bar["baz.foo"]', undefined],
+        [testObject, 'foo.bar["baz.boo"]', undefined],
+        [testObject, 'foo.list[0]["weird.key"]', undefined],
+
+        // Array paths
+        [testObject, ['foo', 'bar', 'baz.foo'], undefined],
+        [testObject, ['foo', 'list', '0', 'weird.key'], undefined],
+        [testObject, [], 'default'],
+
+        // Falsy values
+        [testObject, 'nullValue', 'default'],
+        [testObject, 'zeroValue', 'default'],
+        [testObject, 'falseValue', 'default'],
+        [testObject, 'emptyString', 'default'],
+
+        // Missing properties
+        [testObject, 'foo.missing', 'default'],
+        [testObject, 'nonexistent.path', 'default'],
+        [testObject, 'foo.bar.undefined', 'default'],
+
+        // Edge cases with objects
+        [null, 'foo', 'default'],
+        [undefined, 'foo', 'default'],
+        ['string', 'foo', 'default'],
+        [123, 'foo', 'default'],
+        [true, 'foo', 'default'],
+
+        // Edge cases with paths
+        [testObject, null, 'default'],
+        [testObject, undefined, 'default'],
+        [testObject, '', 'default'],
+        [testObject, 0, 'default'],
+        [testObject, false, 'default'],
+
+        // Arrays
+        [['first', 'second', 'third'], '-1', 'default'],
+        [['first', 'second', 'third'], '0', 'default'],
+        [['first', 'second', 'third'], '1', 'default'],
+        [['first', 'second', 'third'], '2', 'default'],
+        [['first', 'second', 'third'], '3', 'default'],
+        [['first', 'second', 'third'], -1, 'default'],
+        [['first', 'second', 'third'], 0, 'default'],
+        [['first', 'second', 'third'], 1, 'default'],
+        [['first', 'second', 'third'], 2, 'default'],
+        [['first', 'second', 'third'], 3, 'default'],
+
+        // Array of objects
+        [[{ name: 'first' }, { name: 'second' }], '0.name', 'default'],
+        [[{ name: 'first' }, { name: 'second' }], '1.name', 'default'],
+        [[{ name: 'first' }, { name: 'second' }], 'length', 'default'],
+
+        // Deep nesting
+        [{ a: { b: { c: { d: { e: 'deep' } } } } }, 'a.b.c.d.e', 'default'],
+        [{ a: { b: { c: { d: { e: 'deep' } } } } }, 'a.b.c.d.f', 'default'],
+
+        // Special characters in keys
+        [{ 'key.with.dots': 'value1' }, '["key.with.dots"]', 'default'],
+        [{ 'key with spaces': 'value2' }, '["key with spaces"]', 'default'],
+        [{ 'key[with]brackets': 'value3' }, '["key[with]brackets"]', 'default'],
+
+        // Numeric indices
+        [['a', 'b', 'c'], '[-1]', 'default'],
+        [['a', 'b', 'c'], '[0]', 'default'],
+        [['a', 'b', 'c'], '[1]', 'default'],
+        [['a', 'b', 'c'], '[2]', 'default'],
+        [['a', 'b', 'c'], '[3]', 'default'],
+        [['a', 'b', 'c'], [-1], 'default'],
+        [['a', 'b', 'c'], [0], 'default'],
+        [['a', 'b', 'c'], [1], 'default'],
+        [['a', 'b', 'c'], [2], 'default'],
+        [['a', 'b', 'c'], [3], 'default'],
+        [['a', 'b', 'c'], ['-1'], 'default'],
+        [['a', 'b', 'c'], ['0'], 'default'],
+        [['a', 'b', 'c'], ['1'], 'default'],
+        [['a', 'b', 'c'], ['2'], 'default'],
+        [['a', 'b', 'c'], ['3'], 'default'],
+
+        // Complex paths
+        [testObject, 'foo.bar.baz.qux.missing.deep', 'default'],
+      ];
+
+      for (const [object, path, defaultValue] of testCases) {
+        const actualResult = get(object, path, defaultValue);
+        const expectedResult = _get(object, path, defaultValue);
+        expect(actualResult).toBe(expectedResult);
+      }
+    });
+  });
+
+  describe('ReDoS vulnerability protection', () => {
+    const testObject = {
+      a: { b: { c: 'value' } },
+      arr: [1, 2, { x: 'nested' }],
+      'key.with.dots': 'dotted',
+      'key with spaces': 'spaced'
+    };
+
+    it('should handle long paths without performance degradation', () => {
+      const start = Date.now();
+      const longPath = 'a'.repeat(1000) + '.b';
+      const result = get(testObject, longPath, 'default');
+      const end = Date.now();
+
+      // Should complete quickly (under 100ms) and return default value
+      expect(end - start).toBeLessThan(100);
+      expect(result).toBe('default');
+    });
+
+    it('should handle complex bracket notation without ReDoS', () => {
+      const start = Date.now();
+      const complexPath = '[' + '"'.repeat(100) + 'key' + '"'.repeat(100) + ']';
+      const result = get(testObject, complexPath, 'default');
+      const end = Date.now();
+
+      // Should complete quickly and return default value
+      expect(end - start).toBeLessThan(100);
+      expect(result).toBe('default');
+    });
+
+    it('should handle mixed notation with repetition efficiently', () => {
+      const start = Date.now();
+      const mixedPath = 'a.b.c' + '["nonexistent"]'.repeat(50);
+      const result = get(testObject, mixedPath, 'default');
+      const end = Date.now();
+
+      // Should complete quickly and return default value
+      expect(end - start).toBeLessThan(100);
+      expect(result).toBe('default');
+    });
+
+    it('should still work correctly with normal quoted keys', () => {
+      expect(get(testObject, '["key.with.dots"]')).toBe('dotted');
+      expect(get(testObject, "['key with spaces']")).toBe('spaced');
+      expect(get(testObject, 'arr[2].x')).toBe('nested');
     });
   });
 });
