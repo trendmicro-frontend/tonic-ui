@@ -36,10 +36,11 @@ const _deepClone = (source, seen = new WeakMap()) => {
  *  - Dot notation: foo.bar
  *  - Bracket notation: foo["bar.baz"]
  *  - Array indexes: foo[0]
+ *  - Floating point numbers: arr[0.1], arr[-1.5]
  *  - Mixed usage: foo.bar[0]["baz.qux"]
  */
 function _parsePath(path) {
-  const pattern = /[^.[\]'"]+|\[(-?\d+)\]|\["([^"]*)"\]|\['([^']*)'\]/g;
+  const pattern = /[^.[\]'"]+|\[(-?\d+(?:\.\d*)?)\]|\["([^"]*)"\]|\['([^']*)'\]/g;
   const parts = [];
   let match;
 
@@ -100,6 +101,14 @@ export const get = (object, path, defaultValue) => {
   // Handle null/undefined path specifically
   if (isNullish(path)) {
     return defaultValue;
+  }
+
+  // If path is not an array, try direct property access first
+  if (!Array.isArray(path)) {
+    const pathStr = String(path);
+    if (Object.prototype.hasOwnProperty.call(object, pathStr)) {
+      return object?.[pathStr];
+    }
   }
 
   const keys = Array.isArray(path) ? path : _parsePath(String(path));

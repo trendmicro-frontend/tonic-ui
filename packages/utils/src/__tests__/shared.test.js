@@ -159,11 +159,35 @@ describe('get', () => {
       nested: {
         deep: {
           value: 'found'
-        }
-      }
+        },
+        float: {
+          '0.1': 'decimal',
+          '.1': 'leading-decimal',
+          '-.1': 'negative-leading-decimal',
+          '-0.1': 'negative-decimal',
+          1.5E+3: 'positive-scientific (converted to 1500)',
+          '1.5E+3': 'positive-scientific',
+          '-1.5E+3': 'negative-scientific',
+        },
+      },
+      // Floating point number keys
+      '0.1': 'decimal',
+      '.1': 'leading-decimal',
+      '-.1': 'negative-leading-decimal',
+      '-0.1': 'negative-decimal',
+      '1.5E+3': 'positive-scientific',
+      '-1.5E+3': 'negative-scientific',
+      '1.5e-3': 'positive-lowercase-scientific',
+      '-1.5e-3': 'negative-lowercase-scientific',
     };
 
-    it('matches lodash.get behavior across diverse cases', () => {
+    const testArray = [];
+    testArray[0.1] = 'array-decimal';
+    testArray[1500] = 'array-integer'; // This is the same as 1.5E+3
+    testArray[Infinity] = Infinity;
+    testArray[-Infinity] = -Infinity;
+
+    it('matches lodash.get result', () => {
       const testCases = [
         // Basic property access
         [testObject, 'foo', undefined],
@@ -250,7 +274,58 @@ describe('get', () => {
 
         // Complex paths
         [testObject, 'foo.bar.baz.qux.missing.deep', 'default'],
+
+        // Object with floating point numbers as keys
+        [testObject, 'nested.float[0.1]', 'default'],
+        [testObject, 'nested.float[.1]', 'default'],
+        [testObject, 'nested.float[-.1]', 'default'],
+        [testObject, 'nested.float[-0.1]', 'default'],
+        [testObject, 'nested.float["0.1"]', 'default'],
+        [testObject, 'nested.float[".1"]', 'default'],
+        [testObject, 'nested.float["-.1"]', 'default'],
+        [testObject, 'nested.float["-0.1"]', 'default'],
+        [testObject, 'nested.float[1500]', 'default'],
+        [testObject, 'nested.float[1.5E+3]', 'default'],
+        [testObject, 'nested.float[-1.5E+3]', 'default'],
+        [testObject, 'nested.float["1.5E+3"]', 'default'],
+        [testObject, 'nested.float["-1.5E+3"]', 'default'],
+        [testObject, '0.1', 'default'],
+        [testObject, '.1', 'default'],
+        [testObject, '-.1', 'default'],
+        [testObject, '-0.1', 'default'],
+        [testObject, '1.5E+3', 'default'],
+        [testObject, '-1.5E+3', 'default'],
+        [testObject, '1.5e-3', 'default'],
+        [testObject, '-1.5e-3', 'default'],
+        [testObject, '[0.1]', 'default'],
+        [testObject, '[.1]', 'default'],
+        [testObject, '[-.1]', 'default'],
+        [testObject, '[-0.1]', 'default'],
+        [testObject, '[1.5E+3]', 'default'],
+        [testObject, '[-1.5E+3]', 'default'],
+        [testObject, '[1.5e-3]', 'default'],
+        [testObject, '[-1.5e-3]', 'default'],
+
+        // Array with floating point numbers as keys
+        [testArray, '0.1', 'default'],
+        [testArray, '1500', 'default'],
+        [testArray, '1.5E+3', 'default'],
+        [testArray, 'Infinity', 'default'],
+        [testArray, '-Infinity', 'default'],
+        [testArray, '[0.1]', 'default'],
+        [testArray, '[1500]', 'default'],
+        [testArray, '[1.5E+3]', 'default'],
+        [testArray, '[Infinity]', 'default'],
+        [testArray, '[-Infinity]', 'default'],
       ];
+
+      for (const [object, path, defaultValue] of testCases) {
+        const actualResult = get(object, path, defaultValue);
+        const expectedResult = _get(object, path, defaultValue);
+        if (actualResult !== expectedResult) {
+          console.error(`lodash.get compatibility: path="${path}", expected="${expectedResult}", actual="${actualResult}"`);
+        }
+      }
 
       for (const [object, path, defaultValue] of testCases) {
         const actualResult = get(object, path, defaultValue);
