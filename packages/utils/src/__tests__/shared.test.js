@@ -152,10 +152,11 @@ describe('get', () => {
           { 'weird.key': 42 }
         ]
       },
-      nullValue: null,
-      zeroValue: 0,
-      falseValue: false,
-      emptyString: '',
+      null: 'null value',
+      undefined: 'undefined value',
+      false: 'false value',
+      0: 'zero value',
+      '': 'empty string',
       nested: {
         deep: {
           value: 'found'
@@ -205,10 +206,15 @@ describe('get', () => {
         [testObject, [], 'default'],
 
         // Falsy values
-        [testObject, 'nullValue', 'default'],
-        [testObject, 'zeroValue', 'default'],
-        [testObject, 'falseValue', 'default'],
-        [testObject, 'emptyString', 'default'],
+        [testObject, null, 'default'],
+        [testObject, undefined, 'default'],
+        [testObject, 0, 'default'],
+        [testObject, false, 'default'],
+        [testObject, '', 'default'],
+        [testObject, 'null', 'default'],
+        [testObject, 'undefined', 'default'],
+        [testObject, '0', 'default'],
+        [testObject, 'false', 'default'],
 
         // Missing properties
         [testObject, 'foo.missing', 'default'],
@@ -221,13 +227,6 @@ describe('get', () => {
         ['string', 'foo', 'default'],
         [123, 'foo', 'default'],
         [true, 'foo', 'default'],
-
-        // Edge cases with paths
-        [testObject, null, 'default'],
-        [testObject, undefined, 'default'],
-        [testObject, '', 'default'],
-        [testObject, 0, 'default'],
-        [testObject, false, 'default'],
 
         // Arrays
         [['first', 'second', 'third'], '-1', 'default'],

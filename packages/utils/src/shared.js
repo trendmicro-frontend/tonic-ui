@@ -1,5 +1,5 @@
 import { ensureArray, ensureBoolean, ensureString } from 'ensure-type';
-import { isNullish, isPlainObject } from './assertion';
+import { isPlainObject } from './assertion';
 
 const _deepClone = (source, seen = new WeakMap()) => {
   // Use a `WeakMap` to track objects and detect circular references.
@@ -94,26 +94,24 @@ export const dataAttr = (condition) => {
 };
 
 export const get = (object, path, defaultValue) => {
+  // Guard: object must be a plain object or array
   if (!isPlainObject(object) && !Array.isArray(object)) {
     return defaultValue;
   }
 
-  // Handle null/undefined path specifically
-  if (isNullish(path)) {
-    return defaultValue;
-  }
-
-  // If path is not an array, try direct property access first
+  // If path is not an array, attempt direct property access first
   if (!Array.isArray(path)) {
-    const pathStr = String(path);
+    const pathStr = String(path); // null/undefined → "null"/"undefined"
     if (Object.prototype.hasOwnProperty.call(object, pathStr)) {
-      return object?.[pathStr];
+      return object[pathStr];
     }
   }
 
-  const keys = Array.isArray(path) ? path : _parsePath(String(path));
+  const keys = Array.isArray(path)
+    ? path
+    : _parsePath(String(path)); // null/undefined → "null"/"undefined"
 
-  // Handle empty path after parsing
+  // Return default value if no valid keys are resolved
   if (keys.length === 0) {
     return defaultValue;
   }
@@ -123,7 +121,7 @@ export const get = (object, path, defaultValue) => {
     if (current === undefined) {
       return defaultValue;
     }
-    current = current?.[key];
+    current = current[key];
   }
 
   return current === undefined ? defaultValue : current;
