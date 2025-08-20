@@ -1,7 +1,7 @@
 import { Text, Flex } from '@tonic-ui/react';
 import { useId } from '@tonic-ui/react-hooks';
-import React, { forwardRef } from 'react';
 import { ensureString } from 'ensure-type';
+import React, { forwardRef } from 'react';
 import useFormControl from './useFormControl';
 import {
   useFormCharacterCountColors,
