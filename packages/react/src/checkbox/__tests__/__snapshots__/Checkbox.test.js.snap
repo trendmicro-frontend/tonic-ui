@@ -53,7 +53,7 @@ exports[`Checkbox should render correctly 1`] = `
   z-index: 0;
   background-color: var(--tonic-colors-transparent);
   border-color: var(--tonic-colors-gray-50);
-  color: var(--tonic-colors-white-emphasis);
+  color: var(--tonic-colors-white-primary);
 }
 
 input[type="checkbox"]+.emotion-4>* {
@@ -71,13 +71,13 @@ input[type="checkbox"][data-indeterminate]+.emotion-4>* {
 input[type="checkbox"]:hover+.emotion-4 {
   background-color: var(--tonic-colors-transparent);
   border-color: var(--tonic-colors-blue-50);
-  color: var(--tonic-colors-white-emphasis);
+  color: var(--tonic-colors-white-primary);
 }
 
 input[type="checkbox"]:disabled+.emotion-4 {
   background-color: var(--tonic-colors-transparent);
   border-color: var(--tonic-colors-gray-60);
-  color: var(--tonic-colors-white-emphasis);
+  color: var(--tonic-colors-white-primary);
   opacity: 0.28;
 }
 
@@ -90,19 +90,26 @@ input[type="checkbox"]:focus-visible+.emotion-4 {
 input[type="checkbox"]:checked+.emotion-4 {
   background-color: var(--tonic-colors-blue-60);
   border-color: var(--tonic-colors-blue-60);
-  color: var(--tonic-colors-white-emphasis);
+  color: var(--tonic-colors-white-primary);
 }
 
 input[type="checkbox"]:checked:hover:not(:disabled)+.emotion-4 {
   background-color: var(--tonic-colors-blue-50);
   border-color: var(--tonic-colors-blue-50);
-  color: var(--tonic-colors-white-emphasis);
+  color: var(--tonic-colors-white-primary);
 }
 
 input[type="checkbox"]:checked:focus-visible+.emotion-4 {
-  background-color: inherit;
-  border-color: var(--tonic-colors-transparent);
-  color: var(--tonic-colors-white-emphasis);
+  border-color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: 0;
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1h);
+}
+
+input[type="checkbox"]:checked:focus-visible:hover+.emotion-4 {
+  border-color: var(--tonic-colors-black-primary);
 }
 
 input[type="checkbox"]:checked:focus-visible+.emotion-4>div:first-of-type {
@@ -112,7 +119,7 @@ input[type="checkbox"]:checked:focus-visible+.emotion-4>div:first-of-type {
 input[type="checkbox"]:checked:disabled+.emotion-4 {
   background-color: var(--tonic-colors-gray-60);
   border-color: var(--tonic-colors-gray-60);
-  color: var(--tonic-colors-white-emphasis);
+  color: var(--tonic-colors-white-primary);
   opacity: 0.28;
 }
 
@@ -165,7 +172,7 @@ input[type="checkbox"]:checked:disabled+.emotion-4 {
   z-index: 0;
   background-color: var(--tonic-colors-transparent);
   border-color: var(--tonic-colors-gray-50);
-  color: var(--tonic-colors-white-emphasis);
+  color: var(--tonic-colors-white-primary);
 }
 
 input[type="checkbox"]+.emotion-14>* {
@@ -183,13 +190,13 @@ input[type="checkbox"][data-indeterminate]+.emotion-14>* {
 input[type="checkbox"]:hover+.emotion-14 {
   background-color: var(--tonic-colors-transparent);
   border-color: var(--tonic-colors-blue-50);
-  color: var(--tonic-colors-white-emphasis);
+  color: var(--tonic-colors-white-primary);
 }
 
 input[type="checkbox"]:disabled+.emotion-14 {
   background-color: var(--tonic-colors-transparent);
   border-color: var(--tonic-colors-gray-60);
-  color: var(--tonic-colors-white-emphasis);
+  color: var(--tonic-colors-white-primary);
   opacity: 0.28;
 }
 
@@ -202,19 +209,26 @@ input[type="checkbox"]:focus-visible+.emotion-14 {
 input[type="checkbox"]:checked+.emotion-14 {
   background-color: var(--tonic-colors-blue-60);
   border-color: var(--tonic-colors-blue-60);
-  color: var(--tonic-colors-white-emphasis);
+  color: var(--tonic-colors-white-primary);
 }
 
 input[type="checkbox"]:checked:hover:not(:disabled)+.emotion-14 {
   background-color: var(--tonic-colors-blue-50);
   border-color: var(--tonic-colors-blue-50);
-  color: var(--tonic-colors-white-emphasis);
+  color: var(--tonic-colors-white-primary);
 }
 
 input[type="checkbox"]:checked:focus-visible+.emotion-14 {
-  background-color: inherit;
-  border-color: var(--tonic-colors-transparent);
-  color: var(--tonic-colors-white-emphasis);
+  border-color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: 0;
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1h);
+}
+
+input[type="checkbox"]:checked:focus-visible:hover+.emotion-14 {
+  border-color: var(--tonic-colors-black-primary);
 }
 
 input[type="checkbox"]:checked:focus-visible+.emotion-14>div:first-of-type {
@@ -224,7 +238,7 @@ input[type="checkbox"]:checked:focus-visible+.emotion-14>div:first-of-type {
 input[type="checkbox"]:checked:disabled+.emotion-14 {
   background-color: var(--tonic-colors-gray-60);
   border-color: var(--tonic-colors-gray-60);
-  color: var(--tonic-colors-white-emphasis);
+  color: var(--tonic-colors-white-primary);
   opacity: 0.28;
 }
 
@@ -268,7 +282,7 @@ input[type="checkbox"]:checked:disabled+.emotion-14 {
   z-index: 0;
   background-color: var(--tonic-colors-transparent);
   border-color: var(--tonic-colors-gray-50);
-  color: var(--tonic-colors-white-emphasis);
+  color: var(--tonic-colors-white-primary);
 }
 
 input[type="checkbox"]+.emotion-24>* {
@@ -286,13 +300,13 @@ input[type="checkbox"][data-indeterminate]+.emotion-24>* {
 input[type="checkbox"]:hover+.emotion-24 {
   background-color: var(--tonic-colors-transparent);
   border-color: var(--tonic-colors-blue-50);
-  color: var(--tonic-colors-white-emphasis);
+  color: var(--tonic-colors-white-primary);
 }
 
 input[type="checkbox"]:disabled+.emotion-24 {
   background-color: var(--tonic-colors-transparent);
   border-color: var(--tonic-colors-gray-60);
-  color: var(--tonic-colors-white-emphasis);
+  color: var(--tonic-colors-white-primary);
   opacity: 0.28;
 }
 
@@ -305,19 +319,26 @@ input[type="checkbox"]:focus-visible+.emotion-24 {
 input[type="checkbox"]:checked+.emotion-24 {
   background-color: var(--tonic-colors-blue-60);
   border-color: var(--tonic-colors-blue-60);
-  color: var(--tonic-colors-white-emphasis);
+  color: var(--tonic-colors-white-primary);
 }
 
 input[type="checkbox"]:checked:hover:not(:disabled)+.emotion-24 {
   background-color: var(--tonic-colors-blue-50);
   border-color: var(--tonic-colors-blue-50);
-  color: var(--tonic-colors-white-emphasis);
+  color: var(--tonic-colors-white-primary);
 }
 
 input[type="checkbox"]:checked:focus-visible+.emotion-24 {
-  background-color: inherit;
-  border-color: var(--tonic-colors-transparent);
-  color: var(--tonic-colors-white-emphasis);
+  border-color: var(--tonic-colors-black-primary);
+  color: var(--tonic-colors-white-primary);
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: 0;
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1h);
+}
+
+input[type="checkbox"]:checked:focus-visible:hover+.emotion-24 {
+  border-color: var(--tonic-colors-black-primary);
 }
 
 input[type="checkbox"]:checked:focus-visible+.emotion-24>div:first-of-type {
@@ -327,7 +348,7 @@ input[type="checkbox"]:checked:focus-visible+.emotion-24>div:first-of-type {
 input[type="checkbox"]:checked:disabled+.emotion-24 {
   background-color: var(--tonic-colors-gray-60);
   border-color: var(--tonic-colors-gray-60);
-  color: var(--tonic-colors-white-emphasis);
+  color: var(--tonic-colors-white-primary);
   opacity: 0.28;
 }
 
@@ -394,7 +415,10 @@ input[type="checkbox"][data-indeterminate]:hover:not(:disabled)+.emotion-44 {
 }
 
 input[type="checkbox"][data-indeterminate]:focus-visible+.emotion-44 {
+  border-color: var(--tonic-colors-gray-50);
+  color: var(--tonic-colors-blue-60);
   outline-color: var(--tonic-colors-blue-60);
+  outline-offset: 0;
   outline-style: solid;
   outline-width: var(--tonic-sizes-1h);
 }
@@ -587,16 +611,16 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
         class="emotion-16 emotion-1"
         fill="currentColor"
         focusable="false"
-        viewBox="0 0 24 24"
+        viewBox="0 0 16 16"
       >
         <g
           fill="currentColor"
         >
           <rect
-            height="18"
-            width="18"
-            x="3"
-            y="3"
+            height="8"
+            width="8"
+            x="4"
+            y="4"
           />
         </g>
       </svg>
@@ -699,16 +723,16 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
         class="emotion-16 emotion-1"
         fill="currentColor"
         focusable="false"
-        viewBox="0 0 24 24"
+        viewBox="0 0 16 16"
       >
         <g
           fill="currentColor"
         >
           <rect
-            height="18"
-            width="18"
-            x="3"
-            y="3"
+            height="8"
+            width="8"
+            x="4"
+            y="4"
           />
         </g>
       </svg>

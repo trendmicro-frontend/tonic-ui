@@ -3,14 +3,9 @@ import { SVGIcon } from '../icon';
 
 const IconIndeterminate = (props) => {
   return (
-    <SVGIcon viewBox="0 0 24 24" {...props}>
+    <SVGIcon viewBox="0 0 16 16" {...props}>
       <g fill="currentColor">
-        <rect
-          height="18"
-          width="18"
-          x="3"
-          y="3"
-        />
+        <rect x="4" y="4" width="8" height="8" />
       </g>
     </SVGIcon>
   );
