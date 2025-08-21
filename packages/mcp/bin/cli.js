@@ -9,15 +9,16 @@ const { Command } = require('commander');
 
 const { StreamableHTTPServerTransport } = require('@modelcontextprotocol/sdk/server/streamableHttp.js');
 const { SSEServerTransport } = require('@modelcontextprotocol/sdk/server/sse.js');
+const { StdioServerTransport } = require('@modelcontextprotocol/sdk/server/stdio.js');
 const { isInitializeRequest } = require('@modelcontextprotocol/sdk/types.js');
 const cors = require('cors');
 const express = require('express');
 const morgan = require('morgan');
 
-const { createMcpServer } = require('./dist/index.cjs');
+const { createMcpServer } = require('../dist/index.cjs');
 
 // Read version from package.json
-const packageJsonPath = path.join(__dirname, 'package.json');
+const packageJsonPath = path.join(__dirname, '..', 'package.json');
 const packageJsonContent = fs.readFileSync(packageJsonPath, 'utf-8');
 const packageJson = JSON.parse(packageJsonContent);
 
@@ -32,9 +33,12 @@ function parseArgs() {
   const program = new Command();
 
   program
+    .name(`npx ${MCP_SERVER_NAME}`)
     .description(MCP_SERVER_DESCRIPTION)
     .version(MCP_SERVER_VERSION)
     .option('-c, --config <path>', 'path to configuration file (JavaScript or JSON format)')
+    .option('-t, --type <type>', 'transport type (choices: stdio, streamable-http, sse)', 'stdio')
+    .option('-p, --port <port>', 'port number for HTTP-based transports (streamable-http, sse) (default: 3000)', parseInt)
     .helpOption('-h, --help', 'display help for command');
 
   program.parse();
@@ -43,6 +47,20 @@ function parseArgs() {
 
   if (!options.config) {
     console.error('Error: Configuration file is required.\n');
+    program.outputHelp();
+    process.exit(1);
+  }
+
+  // Validate transport type
+  const validTypes = ['stdio', 'streamable-http', 'sse'];
+  if (!validTypes.includes(options.type)) {
+    console.error(`Error: Invalid transport type "${options.type}". Valid choices are: ${validTypes.join(', ')}\n`);
+    program.outputHelp();
+    process.exit(1);
+  }
+
+  if (options.port && (options.port < 1 || options.port > 65535)) {
+    console.error(`Error: Port must be between 1 and 65535, got ${options.port}\n`);
     program.outputHelp();
     process.exit(1);
   }
@@ -91,37 +109,36 @@ function findAvailablePort(startPort, maxAttempts = 10) {
   });
 }
 
-async function main() {
+async function runStdioServer(resolvedConfigPath) {
   try {
-    const options = parseArgs();
-    const resolvedConfigPath = path.isAbsolute(options.config)
-      ? options.config
-      : path.resolve(process.cwd(), options.config);
+    const server = await createMcpServer({
+      name: MCP_SERVER_NAME,
+      version: MCP_SERVER_VERSION,
+      configPath: resolvedConfigPath,
+    });
+    const transport = new StdioServerTransport();
+    await server.connect(transport);
 
-    let port;
-    let requestedPort;
-
-    if (process.env.MCP_PORT) {
-      // If MCP_PORT is explicitly set, use that exact port (don't search for alternatives)
-      port = parseInt(process.env.MCP_PORT, 10);
-      requestedPort = port;
-    } else {
-      // If MCP_PORT is not set, find an available port starting from 3000
-      requestedPort = 3000;
-      try {
-        // Attempt to find an available port starting from the requested port
-        port = await findAvailablePort(requestedPort);
-      } catch (error) {
-        console.error('Failed to find an available port:', error.message);
-        process.exit(1);
-      }
+    console.error('🚀 Tonic UI MCP server running on stdio');
+    console.error(`Loaded config file: ${resolvedConfigPath}`);
+  } catch (error) {
+    console.error('Failed to start MCP server:', error.message);
+    if (error.code) {
+      console.error(`• Error code: ${error.code}`);
     }
-
-    // Store transports for each session type
-    const transports = {
-      streamable: {},
-      sse: {},
-    };
+    if (error.validationErrors) {
+      console.error('• Validation errors:');
+      error.validationErrors.forEach(err => {
+        console.error(`  - ${err.field}: ${err.message}`);
+      });
+    }
+    process.exit(1);
+  }
+}
+async function runStreamableHTTPServer(resolvedConfigPath, port = 3000) {
+  try {
+    const serverPort = await findAvailablePort(port);
+    const transportMap = new Map();
 
     const app = express();
     app.use(express.json());
@@ -141,28 +158,23 @@ async function main() {
       const sessionId = req.headers['mcp-session-id'];
       let transport = null;
 
-      if (sessionId && transports.streamable[sessionId]) {
+      if (sessionId && transportMap.has(sessionId)) {
         // Reuse existing transport if sessionId is provided
-        transport = transports.streamable[sessionId];
-        //console.log(`Reusing existing transport for sessionId: ${sessionId}`);
+        transport = transportMap.get(sessionId);
       } else if (!sessionId && isInitializeRequest(req.body)) {
         // Create a new transport for the request
         transport = new StreamableHTTPServerTransport({
           sessionIdGenerator: () => randomUUID(),
           onsessioninitialized: (sessionId) => {
             // Store the transport by session ID
-            transports.streamable[sessionId] = transport;
+            transportMap.set(sessionId, transport);
           },
-          // DNS rebinding protection is disabled by default for backwards compatibility.
-          // If you are running this server locally, make sure to set:
-          //enableDnsRebindingProtection: true,
-          //allowedHosts: ['127.0.0.1'],
         });
 
         // Clean up transport when closed
         transport.onclose = () => {
           if (transport.sessionId) {
-            delete transports.streamable[transport.sessionId];
+            transportMap.delete(transport.sessionId);
           }
         };
 
@@ -194,14 +206,26 @@ async function main() {
     // Reusable handler for GET and DELETE requests
     const handleSessionRequest = async (req, res) => {
       const sessionId = req.headers['mcp-session-id'];
-      if (!sessionId || !transports.streamable[sessionId]) {
+      if (!sessionId || !transportMap.has(sessionId)) {
         res.status(400).send('Invalid or missing session ID');
         return;
       }
 
-      const transport = transports.streamable[sessionId];
+      const transport = transportMap.get(sessionId);
       await transport.handleRequest(req, res);
     };
+
+    // Root endpoint
+    app.get('/', (req, res) => {
+      res.json({
+        name: packageJson.name,
+        version: packageJson.version ?? '1.0.0',
+        transport: 'streamable-http',
+        endpoints: {
+          mcp: 'POST /mcp',
+        }
+      });
+    });
 
     // Handle GET requests for server-to-client notifications via SSE
     app.get('/mcp', handleSessionRequest);
@@ -209,54 +233,12 @@ async function main() {
     // Handle DELETE requests for session termination
     app.delete('/mcp', handleSessionRequest);
 
-    // [deprecated] Legacy SSE endpoint for older clients
-    app.get('/sse', async (req, res) => {
-      // Create SSE transport for legacy clients
-      const transport = new SSEServerTransport('/messages', res);
-      transports.sse[transport.sessionId] = transport;
-
-      res.on('close', () => {
-        delete transports.sse[transport.sessionId];
-      });
-
-      // Create new server instance for stateless mode
-      const mcpServer = await createMcpServer({
-        name: MCP_SERVER_NAME,
-        version: MCP_SERVER_VERSION,
-        configPath: resolvedConfigPath,
-      });
-      await mcpServer.connect(transport);
-    });
-
-    // [deprecated] Legacy message endpoint for older clients
-    app.post('/messages', async (req, res) => {
-      const sessionId = req.query.sessionId;
-      const transport = transports.sse[sessionId];
-      if (transport) {
-        await transport.handlePostMessage(req, res, req.body);
-      } else {
-        res.status(400).send('No transport found for sessionId');
-      }
-    });
-
-    // Root endpoint - Server info
-    app.get('/', (req, res) => {
-      res.json({
-        name: 'tonic-ui-mcp',
-        version: packageJson.version ?? '1.0.0',
-        endpoints: {
-          mcp: 'POST /mcp',
-          sse: 'GET /sse',
-        }
-      });
-    });
-
     app.use('*', (req, res) => {
       res.status(404).end();
     });
 
     // Global error handler
-    app.use((error, req, res) => {
+    app.use((error, req, res, next) => {
       console.error('Express error handler:', error);
       if (!res.headersSent) {
         res.status(500).json({
@@ -267,12 +249,11 @@ async function main() {
     });
 
     // Start the server
-    const server = app.listen(port, () => {
-      console.log(`🚀 Tonic UI MCP server is running on HTTP port ${port}`);
+    const server = app.listen(serverPort, () => {
+      console.log(`🚀 Tonic UI MCP server is running on HTTP port ${serverPort} (streamable-http)`);
       console.log(`Loaded config file: ${resolvedConfigPath}`);
       console.log('Available endpoints:');
-      console.log(`• Streamable HTTP: http://127.0.0.1:${port}/mcp`);
-      console.log(`• SSE (deprecated): http://127.0.0.1:${port}/sse`);
+      console.log(`• Streamable HTTP: http://127.0.0.1:${serverPort}/mcp`);
     });
 
     // Handle server errors
@@ -292,6 +273,126 @@ async function main() {
       });
     }
     process.exit(1);
+  }
+}
+
+async function runSSEServer(resolvedConfigPath, port = 3000) {
+  try {
+    const serverPort = await findAvailablePort(port);
+    const transportMap = new Map();
+
+    const app = express();
+    app.use(express.json());
+    app.use(morgan('common'));
+
+    // Configure CORS with required headers
+    app.use(cors({
+      origin: '*',
+      methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'mcp-session-id'],
+      exposedHeaders: ['Mcp-Session-Id'],
+      credentials: false
+    }));
+
+    // Root endpoint
+    app.get('/', (req, res) => {
+      res.json({
+        name: packageJson.name,
+        version: packageJson.version ?? '1.0.0',
+        transport: 'sse',
+        endpoints: {
+          sse: 'GET /sse',
+          messages: 'POST /messages',
+        }
+      });
+    });
+
+    // SSE endpoint
+    app.get('/sse', async (req, res) => {
+      // Create SSE transport
+      const transport = new SSEServerTransport('/messages', res);
+      transportMap.set(transport.sessionId, transport);
+
+      res.on('close', () => {
+        transportMap.delete(transport.sessionId);
+      });
+
+      // Create new server instance for stateless mode
+      const mcpServer = await createMcpServer({
+        name: MCP_SERVER_NAME,
+        version: MCP_SERVER_VERSION,
+        configPath: resolvedConfigPath,
+      });
+      await mcpServer.connect(transport);
+    });
+
+    // Message endpoint for SSE
+    app.post('/messages', async (req, res) => {
+      const sessionId = req.query.sessionId;
+      const transport = transportMap.get(sessionId);
+      if (transport) {
+        await transport.handlePostMessage(req, res, req.body);
+      } else {
+        res.status(400).send('No transport found for sessionId');
+      }
+    });
+
+    app.use('*', (req, res) => {
+      res.status(404).end();
+    });
+
+    // Global error handler
+    app.use((error, req, res, next) => {
+      console.error('Express error handler:', error);
+      if (!res.headersSent) {
+        res.status(500).json({
+          error: 'Internal Server Error',
+          message: 'An unexpected error occurred',
+        });
+      }
+    });
+
+    // Start the server
+    const server = app.listen(serverPort, () => {
+      console.log(`🚀 Tonic UI MCP server is running on HTTP port ${serverPort} (sse)`);
+      console.log(`Loaded config file: ${resolvedConfigPath}`);
+      console.log('Available endpoints:');
+      console.log(`• SSE: http://127.0.0.1:${serverPort}/sse`);
+      console.log(`• Messages: http://127.0.0.1:${serverPort}/messages`);
+    });
+
+    // Handle server errors
+    server.on('error', (error) => {
+      console.error('HTTP server error:', error);
+      process.exit(1);
+    });
+  } catch (error) {
+    console.error('Failed to start MCP server:', error.message);
+    if (error.code) {
+      console.error(`• Error code: ${error.code}`);
+    }
+    if (error.validationErrors) {
+      console.error('• Validation errors:');
+      error.validationErrors.forEach(err => {
+        console.error(`  - ${err.field}: ${err.message}`);
+      });
+    }
+    process.exit(1);
+  }
+}
+
+async function main() {
+  const options = parseArgs();
+  const resolvedConfigPath = path.isAbsolute(options.config)
+    ? options.config
+    : path.resolve(process.cwd(), options.config);
+
+  if (options.type === 'streamable-http') {
+    await runStreamableHTTPServer(resolvedConfigPath, options.port);
+  } else if (options.type === 'sse') {
+    await runSSEServer(resolvedConfigPath, options.port);
+  } else { // stdio (default)
+    await runStdioServer(resolvedConfigPath);
   }
 }
 
