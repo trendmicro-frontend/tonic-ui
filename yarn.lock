@@ -4962,7 +4962,7 @@ __metadata:
     typescript: ^5.8.3
     zod: 3.x
   bin:
-    mcp: ./bin/stdio.js
+    mcp: ./bin/cli.js
   languageName: unknown
   linkType: soft
 

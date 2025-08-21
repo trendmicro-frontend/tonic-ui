@@ -23,6 +23,7 @@ module.exports = {
   ],
   rules: {
     'no-return-await': 0,
+    '@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }],
   },
   settings: {
     'import/parsers': {

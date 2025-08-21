@@ -161,17 +161,16 @@ Visual Studio Code requires specific settings to enable MCP functionality:
 
 ## Supported transports
 
-The Tonic UI MCP server supports multiple transports for connecting clients and servers: stdio, Streamable HTTP, and Server-Sent Events (SSE).
+The Tonic UI MCP server supports **stdio**, **Streamable HTTP**, and **Server-Sent Events (SSE)**. The transport can be specified via the `--type` option. For HTTP-based transports, if the designated port is unavailable, the server will automatically bind to the next available port.
 
-Currently, the server using Streamable HTTP and Server-Sent Events (SSE) transports is not available via npx `@tonic-ui/mcp`. To run it, you need to build the code locally:
+### stdio (default)
+
+Run the server with stdio transport (default):
 ```bash
-cd /path/to/tonic-ui/packages/mcp
-yarn && yarn build
-node tonic-ui-mcp-server --config /path/to/tonic-ui/tonic-ui-mcp.config.js
+npx -y @tonic-ui/mcp --config /path/to/tonic-ui/tonic-ui-mcp.config.js
 ```
 
-### stdio
-
+Configuration for stdio transport:
 ```json
 {
   "mcpServers": {
@@ -191,6 +190,12 @@ node tonic-ui-mcp-server --config /path/to/tonic-ui/tonic-ui-mcp.config.js
 
 ### Streamable HTTP
 
+Run the server with Streamable HTTP transport:
+```bash
+npx -y @tonic-ui/mcp --config /path/to/tonic-ui/tonic-ui-mcp.config.js --type streamable-http --port 3000
+```
+
+Configuration for Streamable HTTP transport:
 ```json
 {
   "mcpServers": {
@@ -204,6 +209,12 @@ node tonic-ui-mcp-server --config /path/to/tonic-ui/tonic-ui-mcp.config.js
 
 ### Server-Sent Events (SSE)
 
+Run the server with SSE transport:
+```bash
+npx -y @tonic-ui/mcp --config /path/to/tonic-ui/tonic-ui-mcp.config.js --type sse --port 3000
+```
+
+Configuration for SSE transport:
 ```json
 {
   "mcpServers": {
@@ -229,10 +240,10 @@ Use the [MCP inspector](https://modelcontextprotocol.io/docs/tools/inspector) to
     mcp-inspector
     ```
 
-3. In the MCP Inspector UI, enter the following values:
+3. In the MCP Inspector UI, enter the following values for stdio transport:
    * Transport Type: `STDIO`
    * Command: `npx`
-   * Arguments: `@tonic-ui/mcp --config /path/to/tonic-ui/tonic-ui-mcp.config.js`
+   * Arguments: `-y @tonic-ui/mcp --config /path/to/tonic-ui/tonic-ui-mcp.config.js`
 
 ## Customize configuration file
 
@@ -266,3 +277,4 @@ The configuration file can be written in JavaScript (`.js`) or JSON (`.json`) fo
 
 ```bash
 npx -y @tonic-ui/mcp --config /path/to/tonic-ui/tonic-ui-mcp.config.js
+```
