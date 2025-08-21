@@ -5,12 +5,11 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { randomUUID } = require('node:crypto');
-const { Command } = require('commander');
-
 const { StreamableHTTPServerTransport } = require('@modelcontextprotocol/sdk/server/streamableHttp.js');
 const { SSEServerTransport } = require('@modelcontextprotocol/sdk/server/sse.js');
 const { StdioServerTransport } = require('@modelcontextprotocol/sdk/server/stdio.js');
 const { isInitializeRequest } = require('@modelcontextprotocol/sdk/types.js');
+const { Command } = require('commander');
 const cors = require('cors');
 const express = require('express');
 const morgan = require('morgan');
