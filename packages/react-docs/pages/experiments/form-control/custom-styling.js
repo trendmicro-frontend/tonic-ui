@@ -1,11 +1,10 @@
-import React, { forwardRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Stack,
   Flex,
   Text,
   Divider,
-  Input,
   Tooltip,
 } from '@tonic-ui/react';
 import { InfoOIcon } from '@tonic-ui/react-icons';
@@ -17,7 +16,6 @@ import {
   FormHelperText,
   FormCharacterCount,
 } from '@/experiments/form-control';
-import useFormControl from '@/experiments/form-control/useFormControl';
 
 // InfoTip component using Tooltip
 const InfoTip = ({ label }) => {

@@ -1,5 +1,5 @@
-import React, { useState, forwardRef } from 'react';
-import { Box, Flex, Stack, Input } from '@tonic-ui/react';
+import React, { useState } from 'react';
+import { Box, Flex, Stack } from '@tonic-ui/react';
 import {
   FormControl,
   FormInput,
@@ -8,7 +8,6 @@ import {
   FormHelperText,
   FormCharacterCount,
 } from '@/experiments/form-control';
-import useFormControl from '@/experiments/form-control/useFormControl';
 
 const App = () => {
   const [bio, setBio] = useState('');

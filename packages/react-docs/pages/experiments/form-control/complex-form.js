@@ -1,6 +1,6 @@
-import React, { useState, forwardRef } from 'react';
+import React, { useState } from 'react';
 import { ensureArray } from 'ensure-type';
-import { Box, Stack, Input, Button, Text } from '@tonic-ui/react';
+import { Box, Stack, Button, Text } from '@tonic-ui/react';
 import {
   FormControl,
   FormInput,
@@ -8,7 +8,6 @@ import {
   FormErrorMessage,
   FormHelperText,
 } from '@/experiments/form-control';
-import useFormControl from '@/experiments/form-control/useFormControl';
 
 const App = () => {
   const [formData, setFormData] = useState({
