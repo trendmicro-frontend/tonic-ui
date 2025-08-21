@@ -1,5 +1,4 @@
 ---
-"@tonic-ui/mcp": patch
 "@tonic-ui/react": patch
 "@tonic-ui/react-base": patch
 "@tonic-ui/styled-system": patch
