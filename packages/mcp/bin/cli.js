@@ -342,7 +342,7 @@ async function runSSEServer(resolvedConfigPath, port = 3000) {
     });
 
     // Global error handler
-    app.use((error, req, res, next) => {
+    app.use((error, req, res, _next) => {
       console.error('Express error handler:', error);
       if (!res.headersSent) {
         res.status(500).json({
