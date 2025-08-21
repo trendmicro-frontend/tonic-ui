@@ -1,4 +1,4 @@
-import { screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { act, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
@@ -132,7 +132,9 @@ describe('DatePicker', () => {
     );
 
     const datePickerInput = screen.getByTestId('date-picker-input-element');
-    datePickerInput.focus();
+    act(() => {
+      datePickerInput.focus();
+    });
 
     // Press Escape to close the date picker
     await user.keyboard('[Escape]');

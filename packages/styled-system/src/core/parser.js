@@ -1,5 +1,4 @@
-import { merge } from '@tonic-ui/utils';
-import get from '../utils/get';
+import { get, merge } from '@tonic-ui/utils';
 
 const defaultBreakpoints = [];
 const createMediaQuery = n => `@media screen and (min-width: ${n})`;

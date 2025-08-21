@@ -1,20 +1,6 @@
 import { ensureArray, ensureBoolean, ensureString } from 'ensure-type';
 import { isPlainObject } from './assertion';
 
-const _joinWords = (words) => {
-  words = ensureArray(words);
-  if (words.length === 0) {
-    return '';
-  }
-  if (words.length === 1) {
-    return `'${words[0]}'`;
-  }
-  if (words.length === 2) {
-    return `'${words[0]}' and '${words[1]}'`;
-  }
-  return `'${words.slice(0, -1).join('\', \'')}', and '${words.slice(-1)}'`;
-};
-
 const _deepClone = (source, seen = new WeakMap()) => {
   // Use a `WeakMap` to track objects and detect circular references.
   // If the object has been cloned before, return the cached cloned version.
@@ -44,6 +30,44 @@ const _deepClone = (source, seen = new WeakMap()) => {
   return source;
 };
 
+/**
+ * Converts a path string into an array of keys.
+ * Supports:
+ *  - Dot notation: foo.bar
+ *  - Bracket notation: foo["bar.baz"]
+ *  - Array indexes: foo[0]
+ *  - Floating point numbers: arr[0.1], arr[-1.5]
+ *  - Mixed usage: foo.bar[0]["baz.qux"]
+ */
+function _parsePath(path) {
+  const pattern = /[^.[\]'"]+|\[(-?\d+(?:\.\d*)?)\]|\["([^"]*)"\]|\['([^']*)'\]/g;
+  const parts = [];
+  let match;
+
+  while ((match = pattern.exec(path))) {
+    // match[1] is a numeric index
+    // match[2] is a double-quoted string key
+    // match[3] is a single-quoted string key
+    parts.push(match[1] ?? match[2] ?? match[3] ?? match[0]);
+  }
+
+  return parts;
+}
+
+const _joinWords = (words) => {
+  words = ensureArray(words);
+  if (words.length === 0) {
+    return '';
+  }
+  if (words.length === 1) {
+    return `'${words[0]}'`;
+  }
+  if (words.length === 2) {
+    return `'${words[0]}' and '${words[1]}'`;
+  }
+  return `'${words.slice(0, -1).join('\', \'')}', and '${words.slice(-1)}'`;
+};
+
 export const ariaAttr = (condition) => {
   return ensureBoolean(condition) ? true : undefined;
 };
@@ -67,6 +91,40 @@ export const callEventHandlers = (...fns) => {
 
 export const dataAttr = (condition) => {
   return condition ? '' : undefined;
+};
+
+export const get = (object, path, defaultValue) => {
+  // Guard: object must be a plain object or array
+  if (!isPlainObject(object) && !Array.isArray(object)) {
+    return defaultValue;
+  }
+
+  // If path is not an array, attempt direct property access first
+  if (!Array.isArray(path)) {
+    const pathStr = String(path); // null/undefined → "null"/"undefined"
+    if (Object.prototype.hasOwnProperty.call(object, pathStr)) {
+      return object[pathStr];
+    }
+  }
+
+  const keys = Array.isArray(path)
+    ? path
+    : _parsePath(String(path)); // null/undefined → "null"/"undefined"
+
+  // Return default value if no valid keys are resolved
+  if (keys.length === 0) {
+    return defaultValue;
+  }
+
+  let current = object;
+  for (const key of keys) {
+    if (current === undefined) {
+      return defaultValue;
+    }
+    current = current[key];
+  }
+
+  return current === undefined ? defaultValue : current;
 };
 
 export const merge = (target, source, options = { clone: true }) => {
