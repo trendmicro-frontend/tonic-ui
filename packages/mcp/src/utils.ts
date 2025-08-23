@@ -110,7 +110,7 @@ export function trimTrailingSlashAndWhitespace(url: string | undefined): string 
   if (typeof url !== 'string') {
     return '';
   }
-  return url.trimEnd().replace(/\/+$/, '').trimEnd();
+  return url.replace(/[\/\s]+$/, '');
 }
 
 /**

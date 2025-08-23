@@ -1,31 +1,26 @@
-import fs from 'node:fs';
+import path from 'node:path';
 import { loadConfig } from '../src/config-loader';
 
-jest.mock('node:fs');
-
 describe('loadConfig', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
+  it('should load config in JSON format', async () => {
+    const configPath = path.resolve(__dirname, '__fixtures__', 'tonic-ui-mcp.config.json');
+    const config = await loadConfig(configPath);
+    expect(config.packages).toEqual([{
+      name: '@tonic-ui/react',
+      version: '2.0.0',
+      llms: 'packages/react-docs/pages/llms.txt',
+      pageBase: 'packages/react-docs/pages/',
+    }]);
   });
 
-  it('should load and enhance valid JSON config', async () => {
-    const inputConfig = {
-      allowedDomains: ['tonic-ui-docs.vercel.app'],
-      packages: [
-        {
-          name: '@tonic-ui/react',
-          version: '2.0.0',
-          llms: 'https://tonic-ui-docs.vercel.app/v2/react/llms/llms.txt',
-          pageBase: 'https://tonic-ui-docs.vercel.app/v2/react/pages/',
-        },
-      ],
-    };
-
-    (fs.existsSync as jest.MockedFunction<typeof fs.existsSync>).mockReturnValue(true);
-    (fs.readFileSync as jest.MockedFunction<typeof fs.readFileSync>).mockReturnValue(JSON.stringify(inputConfig));
-
-    const config = await loadConfig('/path/config.json');
-
-    expect(config.packages).toEqual(inputConfig.packages);
+  it('should load config in JavaScript format', async () => {
+    const configPath = path.resolve(__dirname, '__fixtures__', 'tonic-ui-mcp.config.js');
+    const config = await loadConfig(configPath);
+    expect(config.packages).toEqual([{
+      name: '@tonic-ui/react',
+      version: '2.0.0',
+      llms: 'packages/react-docs/pages/llms.txt',
+      pageBase: 'packages/react-docs/pages/',
+    }]);
   });
 });

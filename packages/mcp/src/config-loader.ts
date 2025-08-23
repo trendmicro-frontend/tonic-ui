@@ -5,6 +5,24 @@ import type { Config, ConfigValidationError } from './types/config';
 import { ConfigError } from './types/config';
 
 /**
+ * Dynamically load a module from a file path.
+ * @param filepath The path to the module file.
+ * @returns The imported module.
+ */
+async function loadModule(filepath: string) {
+  try {
+    // Convert the file path to a file URL for ESM import
+    const fileUrl = pathToFileURL(filepath).href;
+    const module = await import(fileUrl);
+    return module;
+  } catch {
+    // Fallback: attempt to import as a CommonJS module
+    const module = await import(filepath);
+    return module;
+  }
+}
+
+/**
  * Validate the config structure
  */
 function validateConfig(config: unknown): ConfigValidationError[] {
@@ -62,40 +80,39 @@ function validateConfig(config: unknown): ConfigValidationError[] {
  * Load and validate config from a file
  */
 export async function loadConfig(configPath: string): Promise<Config> {
+  const resolvedConfigPath = path.resolve(configPath);
+
   try {
     // Check if file exists
-    if (!fs.existsSync(configPath)) {
+    if (!fs.existsSync(resolvedConfigPath)) {
       throw new ConfigError(
-        `Config file not found: ${configPath}`,
+        `Config file not found: ${resolvedConfigPath}`,
         'FILE_NOT_FOUND'
       );
     }
 
-    const ext = path.extname(configPath).toLowerCase();
+    const ext = path.extname(resolvedConfigPath).toLowerCase();
     let parsedConfig: unknown;
 
     if (ext === '.js') {
       // Handle JavaScript config files
       try {
-        // Convert to file URL for dynamic import
-        const fileUrl = pathToFileURL(path.resolve(configPath)).href;
-        // Use dynamic import to load the module
-        const module = await import(fileUrl);
+        const module = await loadModule(resolvedConfigPath);
         parsedConfig = module.default || module;
       } catch (error) {
         throw new ConfigError(
-          `Failed to load JavaScript config file: ${configPath}. Error: ${error instanceof Error ? error.message : String(error)}`,
+          `Failed to load JavaScript config file: ${resolvedConfigPath}. Error: ${error instanceof Error ? error.message : String(error)}`,
           'INVALID_JS'
         );
       }
     } else if (ext === '.json') {
       // Handle JSON config files
-      const configContent = fs.readFileSync(configPath, 'utf-8');
+      const configContent = fs.readFileSync(resolvedConfigPath, 'utf-8');
       try {
         parsedConfig = JSON.parse(configContent);
       } catch {
         throw new ConfigError(
-          `Invalid JSON in config file: ${configPath}`,
+          `Failed to load JSON config file: ${resolvedConfigPath}`,
           'INVALID_JSON'
         );
       }
@@ -129,7 +146,7 @@ export async function loadConfig(configPath: string): Promise<Config> {
       throw error;
     }
     throw new ConfigError(
-      `Failed to load config from ${configPath}: ${error instanceof Error ? error.message : String(error)}`,
+      `Failed to load config from ${resolvedConfigPath}: ${error instanceof Error ? error.message : String(error)}`,
       'LOAD_FAILED'
     );
   }
