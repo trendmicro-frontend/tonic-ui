@@ -10,10 +10,7 @@ import _FormLabel_ from '!!raw-loader!@/experiments/form-control/FormLabel';
 
 # FormControl
 
-A comprehensive form control system that provides accessible, composable form fields with automatic context management and consistent styling.
-
-## Features
-
+A comprehensive form control system providing accessible, composable form fields with automatic context management and consistent styling:
 * **Automatic ID generation and association**: Labels and inputs are automatically linked for accessibility
 * **Accessible by default**: Built-in ARIA attribute support including `aria-invalid` and `aria-describedby`
 * **Flexible composition**: Compose only the components you need to build form fields flexibly
@@ -23,33 +20,12 @@ A comprehensive form control system that provides accessible, composable form fi
 
 ## Components
 
-* `FormControl`: Provides context and wrapper structure, manages form state
-* `FormLabel`: Renders a label with required indicator support and automatic association
-* `FormInput`: Renders an input component automatically associated with label, error message, helper text, and character count for accessibility
-* `FormErrorMessage`: Displays one or multiple error messages
-* `FormHelperText`: Provides helper text for additional guidance
-* `FormCharacterCount`: Displays character limits and over-limit states
-
-```jsx
-function MyForm() {
-  const [value, setValue] = useState('');
-  const [errors, setErrors] = useState([]);
-
-  return (
-    <FormControl error={errors.length > 0}>
-      <FormLabel required>Username</FormLabel>
-      <FormInput value={value} onChange={(e) => setValue(e.target.value)} />
-      <Flex justifyContent="space-between">
-        <Stack flexDirection="column" gap="1x">
-          <FormErrorMessage errors={errors} />
-          <FormHelperText>Choose a unique username</FormHelperText>{' '}
-        </Stack>
-        <FormCharacterCount value={value} max={50} />
-      </Flex>
-    </FormControl>
-  );
-}
-```
+* `FormControl`: Provides context and a wrapper structure, managing form state.
+* `FormLabel`: Renders a label with required indicator support and automatic association.
+* `FormInput`: Renders an input automatically associated with the `FormControl` context. Supports `disabled`, `readOnly`, and `error` states, and links to `FormLabel`, `FormErrorMessage`, `FormHelperText`, and `FormCharacterCount` for accessibility.
+* `FormErrorMessage`: Displays one or multiple error messages.
+* `FormHelperText`: Provides helper text for additional guidance.
+* `FormCharacterCount`: Displays character limits and over-limit states.
 
 ## Examples
 
