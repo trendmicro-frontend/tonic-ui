@@ -2,12 +2,8 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-/**
- * Extracts a string error message from any thrown value.
- */
-export function getErrorMessage(error: unknown): string {
-  return error instanceof Error ? error.message : String(error);
-}
+// Define resource type
+type ResourceType = 'doc' | 'page' | 'code';
 
 /**
  * Validate if a URL is from an allowed domain
@@ -60,7 +56,7 @@ async function exists(path: string): Promise<boolean> {
  */
 async function loadFromFilePath(
   filePath: string,
-  resourceType: 'doc' | 'page' | 'code' = 'doc',
+  resourceType: ResourceType = 'doc',
 ): Promise<string> {
   const extensions = ['.js', '.jsx', '.ts', '.tsx'];
 
@@ -106,12 +102,50 @@ async function loadFromFilePath(
 }
 
 /**
- * Common method to process multiple URLs and combine content
+ * Trims trailing slashes and whitespace from a URL.
+ * @param url The URL to trim.
+ * @returns The trimmed URL.
+ */
+export function trimTrailingSlashAndWhitespace(url: string | undefined): string {
+  if (typeof url !== 'string') {
+    return '';
+  }
+  return url.replace(/[\/\s]+$/, '');
+}
+
+/**
+ * Extracts a string error message from any thrown value.
+ * @param error The error to extract the message from.
+ * @returns The extracted error message.
+ */
+export function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
+}
+
+/**
+ * Processes multiple URLs and retrieves their contents, supporting HTTP(S), file URLs,
+ * and relative/absolute file paths. Results are aggregated into a single response.
+ *
+ * @param urls - List of URLs or paths to process.
+ * @param [options] - Optional processing settings.
+ * @param [options.resourceType] - Type of resource to fetch or load
+ * @param [options.allowedDomains] - List of allowed domains
+ * @param [options.rootPath] - Root directory for resolving relative file paths.
+ * @returns An object containing:
+ *   - contents: Array of successfully retrieved contents.
+ *   - errors: Array of error messages for failed URLs.
  */
 export async function processUrls(
   urls: string[],
-  { resourceType, allowedDomains, rootPath }: { resourceType: string, allowedDomains: string[], rootPath: string }
+  options: {
+    resourceType?: ResourceType;
+    allowedDomains?: string[];
+    rootPath?: string;
+  } = {}
 ): Promise<{ contents: string[]; errors: string[] }> {
+  const resourceType = options?.resourceType ?? 'doc';
+  const allowedDomains = Array.isArray(options?.allowedDomains) ? options.allowedDomains : [];
+  const rootPath = (typeof options?.rootPath === 'string') ? options?.rootPath : '';
   const contents = [];
   const errors = [];
 

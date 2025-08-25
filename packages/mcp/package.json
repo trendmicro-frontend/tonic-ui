@@ -23,12 +23,13 @@
   },
   "sideEffects": false,
   "scripts": {
-    "build": "cross-env rollup --config rollup.config.mjs",
+    "build": "cross-env rollup --config rollup.config.mjs && yarn test-cli",
     "clean": "del build coverage dist",
     "lint": "eslint --ext .js,.ts,.mjs .",
     "pre-push": "bash -c 'echo -e \"=> \\e[1;33m$npm_package_name\\e[0m\"' && yarn run build && yarn run lint && yarn run test",
     "prepublishOnly": "yarn run build",
-    "test": "jest --maxWorkers=2 --passWithNoTests"
+    "test": "jest --maxWorkers=2 --passWithNoTests",
+    "test-cli": "node --test tests/cli.test.mjs"
   },
   "keywords": [
     "mcp",
@@ -42,7 +43,6 @@
     "commander": "^14.0.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "lodash": "^4.0.0",
     "morgan": "^1.10.1",
     "zod": "3.x"
   },
@@ -59,7 +59,7 @@
     "@rollup/plugin-replace": "^6.0.2",
     "@rollup/plugin-typescript": "^11.0.0",
     "@trendmicro/babel-config": "^1.0.2",
-    "@types/lodash": "^4.17.20",
+    "@types/jest": "^30.0.0",
     "@typescript-eslint/eslint-plugin": "^8.5.0",
     "@typescript-eslint/parser": "^8.5.0",
     "cross-env": "^7.0.3",

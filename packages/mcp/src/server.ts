@@ -1,8 +1,7 @@
 import path from 'node:path';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import trimEnd from 'lodash/trimEnd';
 import { z } from 'zod';
-import { getErrorMessage, processUrls } from './utils';
+import { getErrorMessage, processUrls, trimTrailingSlashAndWhitespace } from './utils';
 import { loadConfig } from './config-loader';
 
 interface McpServerOptions {
@@ -74,7 +73,7 @@ ${config.packages.map(pkg => `- ${pkg.name}@${pkg.version}`).join('\n')}
         });
 
         // Remove trailing slash from pageBase and remove leading/trailing whitespace
-        const pageBaseWithoutTrailingSlash = trimEnd(firstPackageConfig?.pageBase, '/').trim();
+        const pageBaseWithoutTrailingSlash = trimTrailingSlashAndWhitespace(firstPackageConfig?.pageBase);
         const absolutePageBase = path.isAbsolute(pageBaseWithoutTrailingSlash)
           ? pageBaseWithoutTrailingSlash
           : path.resolve(rootPath, pageBaseWithoutTrailingSlash);
