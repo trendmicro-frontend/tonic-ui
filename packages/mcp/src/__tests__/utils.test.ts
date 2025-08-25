@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import { Stats } from 'node:fs';
-import { getErrorMessage, processUrls, trimTrailingSlashAndWhitespace } from '../src/utils';
+import { getErrorMessage, processUrls, trimTrailingSlashAndWhitespace } from '../utils';
 
 // Mock node:fs/promises for file:// URL tests
 jest.mock('node:fs/promises');

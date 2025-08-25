@@ -1,13 +1,12 @@
-import { loadConfig } from '../src/config-loader';
-import { createMcpServer } from '../src/server';
-import { Config } from '../src/types/config';
-import { processUrls } from '../src/utils';
-import pkg from '../package.json';
+import { loadConfig } from '../config-loader';
+import { createMcpServer } from '../server';
+import { Config } from '../types/config';
+import { processUrls } from '../utils';
 
-jest.mock('../src/config-loader');
+jest.mock('../config-loader');
 
-jest.mock('../src/utils', () => {
-  const actual = jest.requireActual('../src/utils');
+jest.mock('../utils', () => {
+  const actual = jest.requireActual('../utils');
   return {
     ...actual, // keep all original exports
     processUrls: jest.fn(),
@@ -18,6 +17,7 @@ jest.mock('../src/utils', () => {
 const mockLoadConfig = loadConfig as jest.MockedFunction<typeof loadConfig>;
 const mockProcessUrls = processUrls as jest.MockedFunction<typeof processUrls>;
 
+const pkg = jest.requireActual('../../package.json');
 const defaultServerName = pkg.name;
 const defaultServerVersion = pkg.version;
 const defaultServerConfigPath = '/path/to/tonic-ui/tonic-ui-mcp.config.js';

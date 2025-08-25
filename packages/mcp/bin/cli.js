@@ -118,7 +118,7 @@ async function runStdioServer(resolvedConfigPath) {
     const transport = new StdioServerTransport();
     await server.connect(transport);
 
-    console.error('🚀 Tonic UI MCP server running on stdio');
+    console.error('🚀 Tonic UI MCP server is running on stdio');
     console.error(`Loaded config file: ${resolvedConfigPath}`);
   } catch (error) {
     console.error('Failed to start MCP server:', error.message);

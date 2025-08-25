@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { loadConfig } from '../src/config-loader';
+import { loadConfig } from '../config-loader';
 
 describe('loadConfig', () => {
   it('should load config in JSON format', async () => {
