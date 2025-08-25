@@ -14,35 +14,56 @@ A comprehensive form control system that provides accessible, composable form fi
 
 ## Features
 
-- **Automatic ID generation and association**: Labels and inputs are automatically linked for accessibility
-- **Accessible by default**: Built-in ARIA attribute support including `aria-invalid` and `aria-describedby`
-- **Flexible composition**: Compose only the components you need to build form fields flexibly
-- **Character counting**: Built-in character limit functionality with over-limit state display
-- **Horizontal layouts**: Support for horizontally arranged form design patterns
-- **Multiple error messages**: Support for multiple error messages in string or array format
+* **Automatic ID generation and association**: Labels and inputs are automatically linked for accessibility
+* **Accessible by default**: Built-in ARIA attribute support including `aria-invalid` and `aria-describedby`
+* **Flexible composition**: Compose only the components you need to build form fields flexibly
+* **Character counting**: Built-in character limit functionality with over-limit state display
+* **Horizontal layouts**: Support for horizontally arranged form design patterns
+* **Multiple error messages**: Support for multiple error messages in string or array format
 
 ## Components
 
-- `FormCharacterCount`: Displays character limits and over-limit states  
-- `FormControl`: Provides context and wrapper structure, manages form state  
-- `FormInput`: Renders an input component automatically associated with label, error message, helper text, and character count for accessibility  
-- `FormErrorMessage`: Displays one or multiple error messages  
-- `FormHelperText`: Provides helper text for additional guidance  
-- `FormLabel`: Renders a label with required indicator support and automatic association
+* `FormControl`: Provides context and wrapper structure, manages form state
+* `FormLabel`: Renders a label with required indicator support and automatic association
+* `FormInput`: Renders an input component automatically associated with label, error message, helper text, and character count for accessibility
+* `FormErrorMessage`: Displays one or multiple error messages
+* `FormHelperText`: Provides helper text for additional guidance
+* `FormCharacterCount`: Displays character limits and over-limit states
+
+```jsx
+function MyForm() {
+  const [value, setValue] = useState('');
+  const [errors, setErrors] = useState([]);
+
+  return (
+    <FormControl error={errors.length > 0}>
+      <FormLabel required>Username</FormLabel>
+      <FormInput value={value} onChange={(e) => setValue(e.target.value)} />
+      <Flex justifyContent="space-between">
+        <Stack flexDirection="column" gap="1x">
+          <FormErrorMessage errors={errors} />
+          <FormHelperText>Choose a unique username</FormHelperText>{' '}
+        </Stack>
+        <FormCharacterCount value={value} max={50} />
+      </Flex>
+    </FormControl>
+  );
+}
+```
 
 ## Examples
 
-### Basic usage
+### Basic setup
 
-Here's the simplest configuration to get started with the `FormControl` system.
+Here’s the basic setup for using the `FormControl` system.
 
-{render('./basic-usage')}
+{render('./basic-setup')}
 
-### Complex form
+### Advanced setup
 
-A more complex form example with validation, helper text, and character counting.
+An advanced example showcasing validation, helper text, and character counting.
 
-{render('./complex-form')}
+{render('./advanced-setup')}
 
 ### Custom styling
 
@@ -56,18 +77,18 @@ Examples of horizontal layouts, custom required indicators, and advanced styling
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| value | string | '' | Text content to count characters for |
 | max | number | 0 | Maximum character limit |
+| value | string | '' | Text content to count characters for |
 
 ### FormControl
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| error | boolean | false | Sets error state, affects styling and behavior of child components |
+| children | ReactNode | | |
 | disabled | boolean | false | Disables the entire form field including all child components |
+| error | boolean | false | Sets error state, affects styling and behavior of child components |
+| orientation | string | 'vertical' | The orientation of the component. One of: 'horizontal', 'vertical' |
 | readOnly | boolean | false | Sets the field to read-only state |
-| orientation | "horizontal" \| "vertical" | "vertical" | The orientation of the component |
-| children | ReactNode | - | Child component content |
 
 ### FormErrorMessage
 
@@ -75,17 +96,16 @@ Examples of horizontal layouts, custom required indicators, and advanced styling
 | :--- | :--- | :------ | :---------- |
 | errors | ReactNode[] \| ReactNode | [] | Error messages, supports string or string array |
 
-**Features**:
-- Displays only when `FormControl` has `error={true}`
-- Single error: renders text directly
-- Multiple errors: automatically generates a `<ul><li>` list
-- Automatically sets `role="alert"` for screen reader accessibility
+* Displayed only when `FormControl` has `error={true}`
+* A single error message is rendered as text
+* Multiple error messages are rendered as a `<ul><li>` list
+* Automatically applies `role="alert"` for accessibility
 
 ### FormHelperText
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode | - | Helper text content |
+| children | ReactNode | | |
 
 ### FormInput
 
@@ -101,41 +121,10 @@ Examples of horizontal layouts, custom required indicators, and advanced styling
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
 | required | boolean | false | Whether to display the required indicator (red asterisk) |
-| children | ReactNode | - | Label text content |
 
 **Note**: This component automatically sets the `htmlFor` attribute, associating with the input ID from `FormControl` context.
-
-## Usage
-
-```jsx
-import {
-  FormControl,
-  FormLabel,
-  FormHelperText,
-  FormErrorMessage,
-  FormCharacterCount,
-} from '@/experiments/form-control';
-
-function MyForm() {
-  const [value, setValue] = useState('');
-  const [errors, setErrors] = useState([]);
-
-  return (
-    <FormControl error={errors.length > 0}>
-      <FormLabel required>Username</FormLabel>
-      <Input value={value} onChange={(e) => setValue(e.target.value)} />
-      <Flex justifyContent="space-between">
-        <Stack flexDirection="column" gap="1x">
-          <FormErrorMessage errors={errors} />
-          <FormHelperText>Choose a unique username</FormHelperText>{' '}
-        </Stack>
-        <FormCharacterCount value={value} max={50} />
-      </Flex>
-    </FormControl>
-  );
-}
-```
 
 ## Source code
 
