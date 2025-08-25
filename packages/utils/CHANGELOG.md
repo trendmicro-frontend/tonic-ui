@@ -1,5 +1,11 @@
 # @tonic-ui/utils
 
+## 2.2.0
+
+### Minor Changes
+
+- feat(utils): add a lodash-compatible `get` function by [@cheton](https://github.com/cheton) in [#1057](https://github.com/trendmicro-frontend/tonic-ui/pull/1057)
+
 ## 2.1.1
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @tonic-ui/react
 
+## 2.8.1
+
+### Patch Changes
+
+- feat(utils): add a lodash-compatible `get` function by [@cheton](https://github.com/cheton) in [#1057](https://github.com/trendmicro-frontend/tonic-ui/pull/1057)
+
+- feat(react/checkbox): ensure consistent styling and correct indeterminate styles by [@cheton](https://github.com/cheton) in [#1058](https://github.com/trendmicro-frontend/tonic-ui/pull/1058)
+- Updated dependencies [[`f4e783d`](https://github.com/trendmicro-frontend/tonic-ui/commit/f4e783dd3cac3db3111e876e94b497fc28fccf79), [`e9c5fa6`](https://github.com/trendmicro-frontend/tonic-ui/commit/e9c5fa60db6481cf7fc00b0706f6b12b195c7797)]
+  - @tonic-ui/react-base@2.0.3
+  - @tonic-ui/react-icons@2.1.2
+  - @tonic-ui/styled-system@2.2.1
+  - @tonic-ui/utils@2.2.0
+  - @tonic-ui/react-hooks@2.2.0
+
 ## 2.8.0
 
 ### Minor Changes

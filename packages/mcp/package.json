@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/mcp",
-  "version": "2.0.0-beta",
+  "version": "2.0.0",
   "description": "A Model Context Protocol (MCP) server for Tonic UI.",
   "bin": "./bin/cli.js",
   "main": "dist/index.cjs.js",
