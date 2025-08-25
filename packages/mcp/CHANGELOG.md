@@ -1,5 +1,13 @@
 # @tonic-ui/mcp
 
+## 2.0.0
+
+### Patch Changes
+
+- feat: refactor MCP server to enable Streamable HTTP and SSE transport support by [@cheton](https://github.com/cheton) in [#1059](https://github.com/trendmicro-frontend/tonic-ui/pull/1059)
+
+- feat(mcp): enhance config loader and improve test coverage by [@cheton](https://github.com/cheton) in [#1060](https://github.com/trendmicro-frontend/tonic-ui/pull/1060)
+
 ## 2.0.0-beta
 
 ### Prerelease Changes

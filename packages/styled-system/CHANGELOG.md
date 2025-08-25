@@ -1,5 +1,13 @@
 # @tonic-ui/styled-system
 
+## 2.2.1
+
+### Patch Changes
+
+- feat(utils): add a lodash-compatible `get` function by [@cheton](https://github.com/cheton) in [#1057](https://github.com/trendmicro-frontend/tonic-ui/pull/1057)
+- Updated dependencies [[`f4e783d`](https://github.com/trendmicro-frontend/tonic-ui/commit/f4e783dd3cac3db3111e876e94b497fc28fccf79)]
+  - @tonic-ui/utils@2.2.0
+
 ## 2.2.0
 
 ### Minor Changes
