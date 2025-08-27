@@ -1,0 +1,126 @@
+import CodeBlock from '@/components/CodeBlock';
+import SourceCode from '@/components/SourceCode';
+import { List, ListItem } from '@/experiments/list';
+import _FormCharacterCount_ from '!!raw-loader!@/experiments/form-control/FormCharacterCount';
+import _FormControl_ from '!!raw-loader!@/experiments/form-control/FormControl';
+import _FormErrorMessage_ from '!!raw-loader!@/experiments/form-control/FormErrorMessage';
+import _FormHelperText_ from '!!raw-loader!@/experiments/form-control/FormHelperText';
+import _FormInput_ from '!!raw-loader!@/experiments/form-control/FormInput';
+import _FormLabel_ from '!!raw-loader!@/experiments/form-control/FormLabel';
+
+# FormControl
+
+A complete set of form control components that deliver accessible, composable form fields with built-in context management and consistent styling:
+* **Automatic ID generation and association**: Labels and inputs are automatically linked for accessibility
+* **Accessible by default**: Built-in ARIA attribute support including `aria-invalid` and `aria-describedby`
+* **Flexible composition**: Compose only the components you need to build form fields flexibly
+* **Character counting**: Built-in character limit functionality with over-limit state display
+* **Horizontal layouts**: Support for horizontally arranged form design patterns
+* **Multiple error messages**: Support for multiple error messages in string or array format
+
+## Components
+
+* `FormControl`: Provides context and a wrapper structure, managing form state.
+* `FormLabel`: Renders a label with required indicator support and automatic association.
+* `FormInput`: Renders an input automatically associated with the `FormControl` context. Supports `disabled`, `readOnly`, and `error` states, and links to `FormLabel`, `FormErrorMessage`, `FormHelperText`, and `FormCharacterCount` for accessibility.
+* `FormErrorMessage`: Displays one or multiple error messages.
+* `FormHelperText`: Provides helper text for additional guidance.
+* `FormCharacterCount`: Displays character limits and over-limit states.
+
+## Examples
+
+### Basic setup
+
+A set of straightforward examples to get you started with the `FormControl` components:
+
+{render('./basic-setup')}
+
+### Advanced setup
+
+An advanced example showcasing validation, helper text, and character counting:
+
+{render('./advanced-setup')}
+
+### Custom styling
+
+Examples of horizontal layouts, custom required indicators, and advanced styling patterns.
+
+{render('./custom-styling')}
+
+## Props
+
+### FormCharacterCount
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| max | number | 0 | Maximum character limit |
+| value | string | '' | Text content to count characters for |
+
+### FormControl
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| disabled | boolean | false | Disables the entire form field including all child components |
+| error | boolean | false | Sets error state, affects styling and behavior of child components |
+| orientation | string | 'vertical' | The orientation of the component. One of: 'horizontal', 'vertical' |
+| readOnly | boolean | false | Sets the field to read-only state |
+
+### FormErrorMessage
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| errors | ReactNode[] \| ReactNode | [] | Error messages, supports string or string array |
+
+* Displayed only when `FormControl` has `error={true}`
+* A single error message is rendered as text
+* Multiple error messages are rendered as a `<ul><li>` list
+* Automatically applies `role="alert"` for accessibility
+
+### FormHelperText
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+
+### FormInput
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| disabled | boolean | | If `true`, the input is disabled and the user cannot interact with it. |
+| error | boolean | | If `true`, the input displays a red border to indicate an error. |
+| readOnly | boolean | | If `true`, the value of the input cannot be edited. |
+| size | string | 'md' | The visual size of the `input` element. One of: 'sm', 'md', 'lg' |
+| variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'flush', 'unstyled' |
+
+### FormLabel
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | |
+| required | boolean | false | Whether to display the required indicator (red asterisk) |
+
+**Note**: This component automatically sets the `htmlFor` attribute, associating with the input ID from `FormControl` context.
+
+## Source code
+
+<List>
+  <ListItem>
+    <SourceCode name="FormCharacterCount.js" code={_FormCharacterCount_} />
+  </ListItem>
+  <ListItem>
+    <SourceCode name="FormControl.js" code={_FormControl_} />
+  </ListItem>
+  <ListItem>
+    <SourceCode name="FormErrorMessage.js" code={_FormErrorMessage_} />
+  </ListItem>
+  <ListItem>
+    <SourceCode name="FormHelperText.js" code={_FormHelperText_} />
+  </ListItem>
+  <ListItem>
+    <SourceCode name="FormInput.js" code={_FormInput_} />
+  </ListItem>
+  <ListItem>
+    <SourceCode name="FormLabel.js" code={_FormLabel_} />
+  </ListItem>
+</List>

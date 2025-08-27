@@ -89,6 +89,7 @@ export const routes = [
       { title: 'Getting started', path: 'experiments' },
 
       { title: 'FORM CONTROLS', heading: true },
+      { title: 'FormControl', path: 'experiments/form-control' },
       { title: 'ButtonBox', path: 'experiments/button-box' },
       { title: 'Dropdown', path: 'experiments/dropdown' },
       { title: 'DropdownBase', path: 'experiments/dropdown-base' },
