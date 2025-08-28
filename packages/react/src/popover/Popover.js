@@ -1,4 +1,4 @@
-import { useId, usePrevious } from '@tonic-ui/react-hooks';
+import { useId, useOnceWhen, usePrevious } from '@tonic-ui/react-hooks';
 import { runIfFn } from '@tonic-ui/utils';
 import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -31,6 +31,15 @@ const Popover = (inProps) => {
     returnFocusOnClose = true,
     trigger = 'click',
   } = useDefaultProps({ props: inProps, name: 'Popover' });
+
+  { // validation warnings
+    const prefix = `${Popover.displayName}:`;
+
+    useOnceWhen(() => {
+      console.error(`[${prefix}] Invalid trigger "${trigger}". Use either "click" or "hover".`);
+    }, (trigger !== 'click' && trigger !== 'hover'));
+  }
+
   const popoverContentRef = useRef();
   const popoverTriggerRef = useRef();
   const isHoveringContentRef = useRef();
