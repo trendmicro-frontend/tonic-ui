@@ -1,5 +1,11 @@
 # @tonic-ui/react
 
+## 2.8.2
+
+### Patch Changes
+
+- refactor(react/popover): improve trigger validation and event handler logic by [@cheton](https://github.com/cheton) in [#1061](https://github.com/trendmicro-frontend/tonic-ui/pull/1061)
+
 ## 2.8.1
 
 ### Patch Changes
