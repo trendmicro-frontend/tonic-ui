@@ -47,6 +47,8 @@ const PopoverTrigger = forwardRef((inProps, ref) => {
     onActivate: () => ensureFunction(togglePopover)(),
   });
 
+  const eventHandler = {};
+
   const onBlur = useEventCallback((event) => {
     closePopover();
   }, [closePopover]);
@@ -91,19 +93,16 @@ const PopoverTrigger = forwardRef((inProps, ref) => {
     }
   }, [followCursor, setMousePageX, setMousePageY]);
 
-  const eventHandler = {
-    'click': {
-      onClick,
-      onKeyDown,
-    },
-    'hover': {
-      onBlur,
-      onFocus,
-      onMouseEnter,
-      onMouseLeave,
-      onMouseMove,
-    },
-  }[trigger];
+  if (trigger === 'click') {
+    eventHandler.onClick = onClick;
+    eventHandler.onKeyDown = onKeyDown;
+  } else if (trigger === 'hover') {
+    eventHandler.onBlur = onBlur;
+    eventHandler.onFocus = onFocus;
+    eventHandler.onMouseEnter = onMouseEnter;
+    eventHandler.onMouseLeave = onMouseLeave;
+    eventHandler.onMouseMove = onMouseMove;
+  }
 
   /**
    * This allows for catching the "mouseleave" event when the popover trigger is disabled.
