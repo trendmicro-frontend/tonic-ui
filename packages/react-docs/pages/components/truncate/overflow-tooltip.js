@@ -1,6 +1,6 @@
 import { Box, Tooltip, Truncate } from '@tonic-ui/react';
 import { useEventListener, useToggle } from '@tonic-ui/react-hooks';
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 const App = () => {
   const textRef = useRef();
@@ -8,7 +8,7 @@ const App = () => {
   useEventListener(
     () => textRef.current,
     'mouseenter', // It can be either 'mouseleave' or 'pointerleave'
-    React.useCallback((event) => {
+    useCallback((event) => {
       const isOverflowing = (event.currentTarget.scrollWidth > event.currentTarget.clientWidth);
       isOverflowing && toggleIsOpen(true);
     }, [toggleIsOpen]),
@@ -16,7 +16,7 @@ const App = () => {
   useEventListener(
     () => textRef.current,
     'mouseleave', // It can be either 'mouseleave' or 'pointerleave'
-    React.useCallback((event) => {
+    useCallback((event) => {
       toggleIsOpen(false);
     }, [toggleIsOpen]),
   );
