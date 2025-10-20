@@ -42,13 +42,13 @@
     "eslint-plugin-react-hooks": "latest",
     "jest": "^29.0.0",
     "jest-extended": "^4.0.0",
-    "react": "^16.14.0 || ^17 || ^18",
-    "react-dom": "^16.14.0 || ^17 || ^18",
+    "react": "^16.14.0 || ^17 || ^18 || ^19",
+    "react-dom": "^16.14.0 || ^17 || ^18 || ^19",
     "rollup": "^3"
   },
   "peerDependencies": {
-    "react": "^16.14.0 || ^17 || ^18",
-    "react-dom": "^16.14.0 || ^17 || ^18"
+    "react": "^16.14.0 || ^17 || ^18 || ^19",
+    "react-dom": "^16.14.0 || ^17 || ^18 || ^19"
   },
   "jest": {
     "collectCoverage": true,
