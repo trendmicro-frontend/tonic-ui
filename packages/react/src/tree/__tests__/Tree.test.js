@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-bind */
-import { act, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
@@ -15,7 +15,7 @@ import {
   useColorStyle,
 } from '@tonic-ui/react/src';
 import { ensureArray } from 'ensure-type';
-import React from 'react';
+import React, { act } from 'react';
 
 const buildTreeNodes = () => {
   const treeNodes = [

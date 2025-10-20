@@ -1,5 +1,5 @@
-import { act, renderHook } from '@testing-library/react';
-import { useRef, useState } from 'react';
+import { renderHook } from '@testing-library/react';
+import { act, useRef, useState } from 'react';
 import { useOnce } from '@tonic-ui/react-hooks/src';
 
 describe('useOnce', () => {
