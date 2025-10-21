@@ -4,7 +4,7 @@ import React from 'react';
 const App = () => (
   <Link
     href="https://github.com/trendmicro-frontend"
-    textDecoration="underline"
+    variant="underline"
   >
     Trend Micro Frontend
   </Link>

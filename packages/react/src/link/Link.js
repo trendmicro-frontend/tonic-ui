@@ -2,6 +2,7 @@ import { ariaAttr } from '@tonic-ui/utils';
 import React, { forwardRef, useCallback } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import { defaultVariant } from './constants';
 import { useLinkStyle } from './styles';
 
 const Link = forwardRef((inProps, ref) => {
@@ -9,11 +10,13 @@ const Link = forwardRef((inProps, ref) => {
     disabled,
     onClick,
     textDecoration,
+    variant = defaultVariant,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Link' });
   const styleProps = useLinkStyle({
     disabled,
     textDecoration,
+    variant,
   });
   const preventDefaultCallback = useCallback((event) => event.preventDefault(), []);
 

@@ -2,10 +2,6 @@
 
 exports[`Link should render correctly 1`] = `
 .emotion-0 {
-  color: var(--tonic-colors-blue-40);
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -14,6 +10,10 @@ exports[`Link should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  color: var(--tonic-colors-blue-40);
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
 }
 
 .emotion-0:focus-visible {
@@ -41,22 +41,7 @@ exports[`Link should render correctly 1`] = `
   text-decoration: underline;
 }
 
-.emotion-0:disabled,
-.emotion-0:disabled:focus,
-.emotion-0:disabled:hover,
-.emotion-0[aria-disabled=true],
-.emotion-0[aria-disabled=true]:focus,
-.emotion-0[aria-disabled=true]:hover,
-.emotion-0[data-disabled] {
-  color: var(--tonic-colors-white-disabled);
-  cursor: not-allowed;
-}
-
 .emotion-4 {
-  color: var(--tonic-colors-blue-40);
-  cursor: pointer;
-  -webkit-text-decoration: underline;
-  text-decoration: underline;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -65,6 +50,10 @@ exports[`Link should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  color: var(--tonic-colors-blue-40);
+  cursor: pointer;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
 }
 
 .emotion-4:focus-visible {
@@ -88,26 +77,11 @@ exports[`Link should render correctly 1`] = `
 .emotion-4:active,
 .emotion-4[data-active] {
   color: var(--tonic-colors-blue-60);
-  -webkit-text-decoration: underline;
-  text-decoration: underline;
-}
-
-.emotion-4:disabled,
-.emotion-4:disabled:focus,
-.emotion-4:disabled:hover,
-.emotion-4[aria-disabled=true],
-.emotion-4[aria-disabled=true]:focus,
-.emotion-4[aria-disabled=true]:hover,
-.emotion-4[data-disabled] {
-  color: var(--tonic-colors-white-disabled);
-  cursor: not-allowed;
+  -webkit-text-decoration: none;
+  text-decoration: none;
 }
 
 .emotion-6 {
-  color: var(--tonic-colors-blue-40);
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -116,6 +90,10 @@ exports[`Link should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  color: var(--tonic-colors-blue-40);
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
 }
 
 .emotion-6:focus-visible {
@@ -132,13 +110,15 @@ exports[`Link should render correctly 1`] = `
 .emotion-6:hover,
 .emotion-6[data-hover] {
   color: var(--tonic-colors-blue-40);
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
 }
 
 .emotion-6:active,
 .emotion-6[data-active] {
   color: var(--tonic-colors-blue-60);
-  -webkit-text-decoration: none;
-  text-decoration: none;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
 }
 
 .emotion-6:disabled,

@@ -10,26 +10,34 @@ import { Link } from '@tonic-ui/react';
 
 ## Usage
 
-### Default
+### Variants
 
-{render('./default')}
+The `Link` component supports two variants — `default` and `underline`. Use the `variant` prop to specify which variant to use.
+
+#### `default`
+
+{render('./variant-default')}
+
+#### `underline`
+
+{render('./variant-underline')}
 
 
-### Underlined link
+### Attributes
 
-{render('./underlined-link')}
+#### `disabled`
 
-### Link with icon
+The `disabled` attribute is not natively supported by the anchor (`<a>`) element. The `Link` component adds it for styling purposes only.
 
-{render('./link-with-icon')}
+{render('./attribute-disabled')}
 
-### Link with `disabled` attribute
+### Icon links
 
-{render('./link-with-disabled-attribute')}
+{render('./icon-links')}
 
-### Link to another page
+### External links
 
-{render('./link-to-another-page')}
+{render('./external-links')}
 
 ## Props
 

@@ -22,8 +22,8 @@ describe('Link', () => {
           GitHub (new tab)
         </Link>
 
-        {/* Link with text decoration */}
-        <Link href="/home" textDecoration="underline">
+        {/* Link with underline variant */}
+        <Link href="/home" variant="underline">
           Home
         </Link>
 
@@ -118,5 +118,47 @@ describe('Link', () => {
 
     expect(ref.current).toBeInstanceOf(HTMLAnchorElement);
     expect(ref.current?.href).toBe('http://localhost/test');
+  });
+
+  it('should apply default variant styles correctly', () => {
+    render(
+      <Link href="/test" data-testid="link">
+        default variant link
+      </Link>
+    );
+
+    const link = screen.getByTestId('link');
+
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveStyleRule('text-decoration', 'none');
+
+    // :hover
+    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-blue-40)', { target: ':hover' });
+    expect(link).toHaveStyleRule('text-decoration', 'underline', { target: ':hover' });
+
+    // :active
+    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-blue-60)', { target: ':active' });
+    expect(link).toHaveStyleRule('text-decoration', 'underline', { target: ':active' });
+  });
+
+  it('should apply underline variant styles correctly', () => {
+    render(
+      <Link href="/test" variant="underline" data-testid="link">
+        underline variant link
+      </Link>
+    );
+
+    const link = screen.getByTestId('link');
+
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveStyleRule('text-decoration', 'underline');
+
+    // :hover
+    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-blue-40)', { target: ':hover' });
+    expect(link).toHaveStyleRule('text-decoration', 'none', { target: ':hover' });
+
+    // :active
+    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-blue-60)', { target: ':active' });
+    expect(link).toHaveStyleRule('text-decoration', 'none', { target: ':active' });
   });
 });
