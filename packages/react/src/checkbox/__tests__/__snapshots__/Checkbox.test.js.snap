@@ -458,7 +458,6 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
     <input
       class="emotion-2 emotion-1"
       type="checkbox"
-      value=""
     />
     <div
       aria-hidden="true"
@@ -493,7 +492,6 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
     <input
       class="emotion-2 emotion-1"
       type="checkbox"
-      value=""
     />
     <div
       aria-hidden="true"
@@ -528,7 +526,6 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
     <input
       class="emotion-2 emotion-1"
       type="checkbox"
-      value=""
     />
     <div
       aria-hidden="true"
@@ -563,7 +560,6 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
     <input
       class="emotion-2 emotion-1"
       type="checkbox"
-      value=""
     />
     <div
       aria-hidden="true"
@@ -599,7 +595,6 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
       class="emotion-2 emotion-1"
       data-indeterminate=""
       type="checkbox"
-      value=""
     />
     <div
       aria-hidden="true"
@@ -638,7 +633,6 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
       checked=""
       class="emotion-2 emotion-1"
       type="checkbox"
-      value=""
     />
     <div
       aria-hidden="true"
@@ -674,7 +668,6 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
       class="emotion-2 emotion-1"
       disabled=""
       type="checkbox"
-      value=""
     />
     <div
       aria-hidden="true"
@@ -711,7 +704,6 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
       data-indeterminate=""
       disabled=""
       type="checkbox"
-      value=""
     />
     <div
       aria-hidden="true"
@@ -751,7 +743,6 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
       class="emotion-2 emotion-1"
       disabled=""
       type="checkbox"
-      value=""
     />
     <div
       aria-hidden="true"

@@ -342,7 +342,6 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
       name="sizes"
       role="switch"
       type="checkbox"
-      value=""
     />
     <div
       aria-hidden="true"
@@ -400,7 +399,6 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
       name="sizes"
       role="switch"
       type="checkbox"
-      value=""
     />
     <div
       aria-hidden="true"
@@ -458,7 +456,6 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
       name="sizes"
       role="switch"
       type="checkbox"
-      value=""
     />
     <div
       aria-hidden="true"
@@ -515,7 +512,6 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
       class="emotion-2 emotion-1"
       role="switch"
       type="checkbox"
-      value=""
     />
     <div
       aria-hidden="true"
@@ -573,7 +569,6 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
       class="emotion-2 emotion-1"
       role="switch"
       type="checkbox"
-      value=""
     />
     <div
       aria-hidden="true"
@@ -631,7 +626,6 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
       disabled=""
       role="switch"
       type="checkbox"
-      value=""
     />
     <div
       aria-hidden="true"
@@ -690,7 +684,6 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
       disabled=""
       role="switch"
       type="checkbox"
-      value=""
     />
     <div
       aria-hidden="true"

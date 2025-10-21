@@ -227,12 +227,12 @@ exports[`Menu should render correctly 1`] = `
     class="emotion-0 emotion-1"
   >
     <button
-      aria-controls="@tonic-ui/react:Menu-:r0:"
+      aria-controls="@tonic-ui/react:Menu-_r_0_"
       aria-expanded="true"
       aria-haspopup="menu"
       class="emotion-2 emotion-1"
       data-testid="button"
-      id="@tonic-ui/react:MenuToggle-:r0:"
+      id="@tonic-ui/react:MenuToggle-_r_0_"
       role="button"
       tabindex="0"
       type="button"
@@ -260,14 +260,14 @@ exports[`Menu should render correctly 1`] = `
       </div>
     </button>
     <div
-      aria-labelledby="@tonic-ui/react:MenuToggle-:r0:"
+      aria-labelledby="@tonic-ui/react:MenuToggle-_r_0_"
       class="emotion-10 emotion-1"
-      data-menu-id="@tonic-ui/react:Menu-:r0:"
+      data-menu-id="@tonic-ui/react:Menu-_r_0_"
       data-popper-escaped=""
       data-popper-placement="bottom-start"
       data-popper-reference-hidden=""
       data-testid="menu-list"
-      id="@tonic-ui/react:Menu-:r0:"
+      id="@tonic-ui/react:Menu-_r_0_"
       role="menu"
       style="position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(0px, 0px);"
       tabindex="-1"

@@ -892,7 +892,6 @@ exports[`InputControl should render correctly 1`] = `
   >
     <input
       class="emotion-2 emotion-1"
-      value=""
     />
   </div>
   <div
@@ -901,7 +900,6 @@ exports[`InputControl should render correctly 1`] = `
   >
     <input
       class="emotion-2 emotion-1"
-      value=""
     />
   </div>
   <div
@@ -910,7 +908,6 @@ exports[`InputControl should render correctly 1`] = `
   >
     <input
       class="emotion-10 emotion-1"
-      value=""
     />
   </div>
   <div
@@ -919,7 +916,6 @@ exports[`InputControl should render correctly 1`] = `
   >
     <input
       class="emotion-10 emotion-1"
-      value=""
     />
   </div>
   <div
@@ -928,7 +924,6 @@ exports[`InputControl should render correctly 1`] = `
   >
     <input
       class="emotion-2 emotion-1"
-      value=""
     />
   </div>
   <div
@@ -937,7 +932,6 @@ exports[`InputControl should render correctly 1`] = `
   >
     <input
       class="emotion-2 emotion-1"
-      value=""
     />
   </div>
   <div
@@ -946,7 +940,6 @@ exports[`InputControl should render correctly 1`] = `
   >
     <input
       class="emotion-10 emotion-1"
-      value=""
     />
   </div>
   <div
@@ -955,7 +948,6 @@ exports[`InputControl should render correctly 1`] = `
   >
     <input
       class="emotion-10 emotion-1"
-      value=""
     />
   </div>
   <div
@@ -964,7 +956,6 @@ exports[`InputControl should render correctly 1`] = `
   >
     <input
       class="emotion-34 emotion-1"
-      value=""
     />
   </div>
   <div
@@ -973,7 +964,6 @@ exports[`InputControl should render correctly 1`] = `
   >
     <input
       class="emotion-34 emotion-1"
-      value=""
     />
   </div>
   <div
@@ -982,7 +972,6 @@ exports[`InputControl should render correctly 1`] = `
   >
     <input
       class="emotion-42 emotion-1"
-      value=""
     />
   </div>
   <div
@@ -991,7 +980,6 @@ exports[`InputControl should render correctly 1`] = `
   >
     <input
       class="emotion-42 emotion-1"
-      value=""
     />
   </div>
 </div>
