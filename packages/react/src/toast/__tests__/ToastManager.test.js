@@ -364,7 +364,9 @@ describe('ToastManager', () => {
 
     const toastPlacementElement = document.querySelector(`[data-toast-placement="${placement}"]`);
 
-    expect(toastPlacementElement.childNodes.length).toBe(maxToasts);
+    await waitFor(() => {
+      expect(toastPlacementElement.childNodes.length).toBe(maxToasts);
+    });
   });
 
   it('should find a toast by ID using find()', async () => {
