@@ -5214,7 +5214,6 @@ __metadata:
     "@emotion/react": 11.x
     "@tonic-ui/react-base": ^2.0.3
     "@trendmicro/babel-config": ^1.0.2
-    "@trendmicro/tmicon": 1.41.0
     cross-env: ^7.0.3
     del-cli: ^5.0.0
     eslint: ^8.25.0
@@ -5410,15 +5409,6 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0
   checksum: 6fd244817c083c8e352ac60906cbe3496c3bb524ebe908f4049b9ac0343bfc984c62f0729673bda67f5053bf63cb173f7523089b6227499449b1e15dc5492aee
-  languageName: node
-  linkType: hard
-
-"@trendmicro/tmicon@npm:1.41.0":
-  version: 1.41.0
-  resolution: "@trendmicro/tmicon@npm:1.41.0"
-  dependencies:
-    lodash: ^4.17.21
-  checksum: bd13e06ca1e66f46ce0ba0b8742cc615891fd2b674b99adf2f8e2fe13c985787c6654e26f57639b3a7b7ce42ce37e70cafaa04a9b985552b8dfa6699d4558876
   languageName: node
   linkType: hard
 
