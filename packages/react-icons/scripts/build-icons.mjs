@@ -1,7 +1,8 @@
+#!/usr/bin/env node
+
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as url from 'node:url';
-import * as tmicon from '@trendmicro/tmicon';
 
 const deprecatedIconNames = [
   'api',
@@ -31,34 +32,49 @@ const transformIconName = (iconName) => {
   return {
     // deprecated icons
     'api': 'API',
-    'api-management': 'API-management',
-    'connect-noip': 'connect-NoIP',
-    'file-pdf-o': 'file-PDF-o',
-    'file-ppt-o': 'file-PPT-o',
+    'api-management': 'API-Management',
+    'connect-noip': 'Connect-NoIP',
+    'file-pdf-o': 'File-PDF-o',
+    'file-ppt-o': 'File-PPT-o',
     'iam': 'IAM',
     'ie': 'IE',
     'ioc': 'IOC',
     'ip': 'IP',
-    'list-ol': 'list-OL',
-    'list-ul': 'list-UL',
+    'list-ol': 'List-OL',
+    'list-ul': 'List-UL',
     'nas': 'NAS',
     'rca': 'RCA',
-    'resize-nesw': 'resize-NESW',
-    'resize-nwse': 'resize-NWSE',
+    'resize-nesw': 'Resize-NESW',
+    'resize-nwse': 'Resize-NWSE',
     'tv': 'TV',
     'url': 'URL',
     'usb': 'USB',
     'wmi': 'WMI',
 
-    // new icons
-    'ai-security': 'AI-security',
-    'security-ai': 'security-AI',
+    // default icons
+    'ai-security': 'AI-Security',
+    'security-ai': 'Security-AI',
   }[iconName] ?? iconName;
 };
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const outputDirectory = path.resolve(__dirname, '../src/icons');
+
+// --- Helpers ---
+const cleanOutputDirectory = (directoryPath) => {
+  fs.readdirSync(directoryPath).forEach((file) => {
+    const filePath = path.resolve(directoryPath, file);
+    const stats = fs.statSync(filePath);
+
+    if (stats.isDirectory()) {
+      cleanOutputDirectory(filePath);
+      fs.rmdirSync(filePath);
+    } else if (stats.isFile()) {
+      fs.unlinkSync(filePath);
+    }
+  });
+};
 
 const mapKebabCaseToCapitalizedCamelCase = (str) => {
   return str
@@ -108,33 +124,47 @@ ${defaultImports.map(defaultImport => (`export { default as ${defaultImport} } f
 ${deprecatedDefaultImports.map(defaultImport => (`export { default as ${defaultImport} } from './deprecated/${defaultImport}';`)).join('\n')}
 `.trimStart();
 
-const generateIcons = () => {
+const extractSVGData = (svgContent) => {
+  const matchViewBox = svgContent.match(/viewBox="([^"]+)"/);
+  const viewBox = matchViewBox ? matchViewBox[1] : '0 0 16 16';
+  const paths = Array.from(svgContent.matchAll(/<path\s+[^>]*d="([^"]+)"[^>]*>/g)).map((m) => m[1]);
+  return { viewBox, paths };
+};
+
+const generateIcons = (svgFiles) => {
   const deprecatedIcons = [];
-  const icons = tmicon.icons
-    .map(icon => {
-      if (deprecatedIconNames.includes(icon.name)) {
-        deprecatedIcons.push({
-          deprecatedName: mapKebabCaseToCapitalizedCamelCase(icon.name),
-          name: mapKebabCaseToCapitalizedCamelCase(transformIconName(icon.name)),
-        });
-      }
+  const icons = [];
 
-      return {
-        name: mapKebabCaseToCapitalizedCamelCase(transformIconName(icon.name)),
-        paths: icon.paths,
-      };
-    });
+  for (const filePath of svgFiles) {
+    const fileName = path.basename(filePath, '.svg');
+    const raw = fs.readFileSync(filePath, 'utf8');
+    const { paths } = extractSVGData(raw);
+    const transformedName = transformIconName(fileName);
+    const name = mapKebabCaseToCapitalizedCamelCase(transformedName);
 
-  // generate icon component files
+    if (deprecatedIconNames.includes(fileName)) {
+      deprecatedIcons.push({
+        deprecatedName: mapKebabCaseToCapitalizedCamelCase(fileName),
+        name,
+      });
+    }
+
+    icons.push({ name, paths });
+  }
+
+  // generate icon files
   for (const icon of icons) {
     const displayName = `${icon.name}Icon`;
     const file = path.resolve(outputDirectory, `${displayName}.js`);
-    const svgCode = icon.paths.map(path => `<path d="${path}" />`).join('');
-    const data = renderIconComponentFile(displayName, (icon.paths.length > 1) ? `<>${svgCode}</>` : svgCode);
+    const svgCode = icon.paths.map((p) => `<path d="${p}" />`).join('');
+    const data = renderIconComponentFile(
+      displayName,
+      (icon.paths.length > 1) ? `<>${svgCode}</>` : svgCode,
+    );
     fs.writeFileSync(file, data, { encoding: 'utf8' });
   }
 
-  // generate deprecated icon component files
+  // generate deprecated icons
   if (deprecatedIcons.length > 0) {
     fs.mkdirSync(path.resolve(outputDirectory, './deprecated'));
   }
@@ -146,7 +176,7 @@ const generateIcons = () => {
     fs.writeFileSync(iconPath, iconData, { encoding: 'utf8' });
   }
 
-  // generate index.js file
+  // Generate index.js file
   const file = path.resolve(outputDirectory, 'index.js');
   const data = renderIndexFile({
     defaultImports: icons.map(icon => `${icon.name}Icon`).sort(),
@@ -155,27 +185,19 @@ const generateIcons = () => {
   fs.writeFileSync(file, data, { encoding: 'utf8' });
 };
 
-// check if the output directory exists and create it if not
+const args = process.argv.slice(2);
+if (args.length === 0) {
+  console.error('Usage: generate-icons.mjs <svg-file> [svg-file ...]');
+  process.exit(1);
+}
+
+// Check if the output directory exists and create it if not
 try {
   fs.accessSync(outputDirectory);
 } catch (err) {
   fs.mkdirSync(outputDirectory);
 }
 
-const cleanOutputDirectory = (directoryPath) => {
-  fs.readdirSync(directoryPath).forEach((file) => {
-    const filePath = path.resolve(directoryPath, file);
-    const stats = fs.statSync(filePath);
-
-    if (stats.isDirectory()) {
-      cleanOutputDirectory(filePath);
-      fs.rmdirSync(filePath);
-    } else if (stats.isFile()) {
-      fs.unlinkSync(filePath);
-    }
-  });
-};
-
 cleanOutputDirectory(outputDirectory);
 
-generateIcons();
+generateIcons(args);
