@@ -3,7 +3,6 @@ import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { LinkButton } from '@tonic-ui/react/src';
-import { noop } from '@tonic-ui/utils/src';
 import React from 'react';
 
 describe('LinkButton', () => {
@@ -110,7 +109,8 @@ describe('LinkButton', () => {
 
     // Should show deprecation warning
     expect(consoleSpy).toHaveBeenCalledWith(
-      "LinkButton: 'textDecoration' is deprecated. Use 'variant=\"inline\"' instead."
+      // eslint-disable-next-line
+      `LinkButton: 'textDecoration' is deprecated. Use 'variant="inline"' instead.`
     );
 
     consoleSpy.mockRestore();
@@ -186,8 +186,6 @@ describe('LinkButton', () => {
         Disabled LinkButton
       </LinkButton>
     );
-
-    const button = screen.getByRole('button', { name: /disabled linkbutton/i });
 
     // Test Enter key
     await user.keyboard('{Enter}');

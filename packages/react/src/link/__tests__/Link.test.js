@@ -9,22 +9,22 @@ describe('Link', () => {
   it('should render correctly', async () => {
     const { container } = render(
       <>
-        <Link variant="default">
+        <Link variant="default" href="/default">
           Default Link
         </Link>
-        <Link variant="inline">
+        <Link variant="inline" href="/inline">
           Inline Link
         </Link>
-        <Link variant="subtle">
+        <Link variant="subtle" href="/subtle">
           Subtle Link
         </Link>
-        <Link variant="default" disabled>
+        <Link variant="default" disabled href="/default">
           Default Link (disabled)
         </Link>
-        <Link variant="inline" disabled>
+        <Link variant="inline" disabled href="/inline">
           Inline Link (disabled)
         </Link>
-        <Link variant="subtle" disabled>
+        <Link variant="subtle" disabled href="/subtle">
           Subtle Link (disabled)
         </Link>
       </>
@@ -193,7 +193,8 @@ describe('Link', () => {
 
     // Should show deprecation warning
     expect(consoleSpy).toHaveBeenCalledWith(
-      "Link: 'textDecoration' is deprecated. Use 'variant=\"inline\"' instead."
+      // eslint-disable-next-line quotes
+      `Link: 'textDecoration' is deprecated. Use 'variant="inline"' instead.`
     );
 
     consoleSpy.mockRestore();
