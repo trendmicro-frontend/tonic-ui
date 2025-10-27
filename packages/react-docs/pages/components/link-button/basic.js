@@ -20,7 +20,7 @@ const App = () => {
 
   return (
     <Text>
-      If the email does not arrive in your inbox or spam folder, <LinkButton onClick={handleClick}>click here to resend ({timeLeft}s)</LinkButton>.
+      If the email does not arrive in your inbox or spam folder, <LinkButton onClick={handleClick} variant="inline">click here to resend ({timeLeft}s)</LinkButton>.
     </Text>
   );
 };

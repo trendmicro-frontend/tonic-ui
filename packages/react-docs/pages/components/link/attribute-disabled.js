@@ -2,19 +2,15 @@ import { Link, Stack } from '@tonic-ui/react';
 import React from 'react';
 
 const App = () => (
-  <Stack shouldWrapChildren direction="column" spacing="2x">
-    <Link
-      href="https://github.com/trendmicro-frontend"
-      disabled
-    >
-      Trend Micro Frontend
+  <Stack rowGap="4x">
+    <Link href="#" disabled variant="default">
+      Default link
     </Link>
-    <Link
-      href="https://github.com/trendmicro-frontend"
-      textDecoration="underline"
-      disabled
-    >
-      Trend Micro Frontend
+    <Link href="#" disabled variant="inline">
+      Inline link
+    </Link>
+    <Link href="#" disabled variant="subtle">
+      Subtle link
     </Link>
   </Stack>
 );

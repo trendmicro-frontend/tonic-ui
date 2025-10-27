@@ -12,16 +12,23 @@ import { Link } from '@tonic-ui/react';
 
 ### Variants
 
-The `Link` component supports two variants — `default` and `underline`. Use the `variant` prop to specify which variant to use.
-
 #### `default`
+
+Use the `default` variant for standalone links or navigation items.
 
 {render('./variant-default')}
 
-#### `underline`
+#### `inline`
 
-{render('./variant-underline')}
+Use the `inline` variant for inline links that appear within text or paragraphs.
 
+{render('./variant-inline')}
+
+#### `subtle`
+
+Use the `subtle` variant for links that should appear interactive but with reduced visual emphasis.
+
+{render('./variant-subtle')}
 
 ### Attributes
 
@@ -31,13 +38,25 @@ The `disabled` attribute is not natively supported by the anchor (`<a>`) element
 
 {render('./attribute-disabled')}
 
-### Icon links
+### Links with icons
 
-{render('./icon-links')}
+#### Action links
 
-### External links
+Action links are used to trigger actions, such as opening a modal or performing a task, rather than navigating to another page.
+
+{render('./action-links')}
+
+#### External links
+
+External links indicate navigation to an external website or resource.
 
 {render('./external-links')}
+
+#### Internal links
+
+Internal links indicate navigation within the same application or domain.
+
+{render('./internal-links')}
 
 ## Props
 
@@ -46,5 +65,6 @@ The `disabled` attribute is not natively supported by the anchor (`<a>`) element
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
-| disabled | boolean | | If `true`, the link will be disabled. This sets `aria-disabled=true` and you can style this state by using the `_disabled` prop. |
+| disabled | boolean | | If `true`, the link is displayed as disabled. |
 | onClick | function | | A callback called when the link is clicked. |
+| variant | string | 'default' | Defines the visual style of the link: <br />- 'default': For standalone links or navigation items.<br />- 'inline': For inline links within text or paragraphs.<br />- 'subtle': For links with reduced visual emphasis but still interactive. |

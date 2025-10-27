@@ -1,5 +1,5 @@
 import { useColorMode } from '../color-mode';
-import { VARIANT_UNDERLINE } from './constants';
+import { VARIANT_INLINE, VARIANT_SUBTLE } from './constants';
 
 const useLinkStyle = ({
   disabled,
@@ -9,6 +9,10 @@ const useLinkStyle = ({
   const color = {
     dark: 'blue:40',
     light: 'blue:60',
+  }[colorMode];
+  const secondaryColor = {
+    dark: 'white:secondary',
+    light: 'black:secondary',
   }[colorMode];
   const visitedColor = {
     dark: 'purple:50',
@@ -60,10 +64,15 @@ const useLinkStyle = ({
   };
   const variantStyle = { ...baseStyle };
 
-  if (variant === VARIANT_UNDERLINE) {
+  if (variant === VARIANT_INLINE) {
     variantStyle.textDecoration = 'underline';
     variantStyle._hover.textDecoration = 'none';
     variantStyle._active.textDecoration = 'none';
+  } else if (variant === VARIANT_SUBTLE) {
+    variantStyle.color = secondaryColor;
+    variantStyle.textDecoration = 'underline';
+    variantStyle._hover.textDecoration = 'underline';
+    variantStyle._active.textDecoration = 'underline';
   } else {
     variantStyle.textDecoration = 'none';
     variantStyle._hover.textDecoration = 'underline';

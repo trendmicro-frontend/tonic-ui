@@ -3,10 +3,10 @@ import React from 'react';
 
 const App = () => (
   <Link
-    href="https://github.com/trendmicro-frontend"
-    variant="underline"
+    href="#"
+    variant="subtle"
   >
-    Trend Micro Frontend
+    Subtle link
   </Link>
 );
 
