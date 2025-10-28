@@ -5,11 +5,13 @@ import React from 'react';
 function ExternalLinkIcon(props) {
   return (
     <SVGIcon
-      viewBox="0 0 16 16"
+      viewBox="0 0 20 20"
+      width="5x"
+      height="5x"
       {...props}
     >
-      <path d="M13 9H12V13H4V5H8V4H4C3.5 4 3 4.5 3 5V13C3 13.5 3.5 14 4 14H12C12.5 14 13 13.5 13 13V9Z" />
-      <path d="M13 4V8L11.3536 6.35356L7.35353 10.3536L6.64642 9.64648L10.6465 5.64645L9 4H13Z" />
+      <path d="M15 10H14V14H6V6H10V5H6C5.5 5 5 5.5 5 6V14C5 14.5 5.5 15 6 15H14C14.5 15 15 14.5 15 14V10Z" />
+      <path d="M15 5V9L13.3536 7.35356L9.35353 11.3536L8.64642 10.6465L12.6465 6.64645L11 5H15Z" />
     </SVGIcon>
   );
 }
@@ -18,7 +20,7 @@ function ExternalLink({ children, ...rest }) {
   return (
     <Link {...rest}>
       {children}
-      <ExternalLinkIcon viewBox="0 0 16 20" width="5x" height="5x" />
+      <ExternalLinkIcon />
     </Link>
   );
 }
