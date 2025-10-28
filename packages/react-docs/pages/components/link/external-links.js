@@ -1,4 +1,4 @@
-import { Flex, Link } from '@tonic-ui/react';
+import { Link } from '@tonic-ui/react';
 import { SVGIcon } from '@tonic-ui/react-icons';
 import React from 'react';
 
