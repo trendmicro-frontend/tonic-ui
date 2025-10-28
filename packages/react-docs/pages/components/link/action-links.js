@@ -4,8 +4,8 @@ import React from 'react';
 
 const App = () => (
   <Link href="#">
-    <EditIcon ml="2x" />
-    Edit
+    <EditIcon mr="2x" />
+    Action link
   </Link>
 );
 

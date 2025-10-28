@@ -3,6 +3,7 @@ import { SVGIcon } from '@tonic-ui/react-icons';
 import React from 'react';
 
 function ExternalLinkIcon(props) {
+  // open-link-small.svg
   return (
     <SVGIcon
       viewBox="0 0 20 20"
@@ -26,7 +27,7 @@ function ExternalLink({ children, ...rest }) {
 }
 
 const App = () => (
-  <ExternalLink href="https://github.com/trendmicro-frontend/tonic-ui">
+  <ExternalLink href={window.location.href} target="_blank">
     External link
   </ExternalLink>
 );

@@ -3,6 +3,7 @@ import { SVGIcon } from '@tonic-ui/react-icons';
 import React from 'react';
 
 function InternalLinkIcon(props) {
+  // arrow-right-small.svg
   return (
     <SVGIcon
       viewBox="0 0 20 20"
@@ -25,7 +26,7 @@ function InternalLink({ children, ...rest }) {
 }
 
 const App = () => (
-  <InternalLink href="https://github.com/trendmicro-frontend/tonic-ui">
+  <InternalLink href={window.location.href}>
     Internal link
   </InternalLink>
 );
