@@ -1,9 +1,9 @@
-import { act, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
+import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Box, Button, Toast, ToastCloseButton, ToastManager, useToastManager } from '@tonic-ui/react/src';
 import { transitionDuration } from '@tonic-ui/utils/src';
-import React, { useCallback, useRef } from 'react';
+import React, { act, useCallback, useRef } from 'react';
 
 describe('ToastManager', () => {
   it('should render correctly', async () => {
@@ -364,7 +364,9 @@ describe('ToastManager', () => {
 
     const toastPlacementElement = document.querySelector(`[data-toast-placement="${placement}"]`);
 
-    expect(toastPlacementElement.childNodes.length).toBe(maxToasts);
+    await waitFor(() => {
+      expect(toastPlacementElement.childNodes.length).toBe(maxToasts);
+    });
   });
 
   it('should find a toast by ID using find()', async () => {

@@ -10,7 +10,7 @@ import {
   Box,
   Text,
 } from '@tonic-ui/react/src';
-import React from 'react';
+import React, { useState } from 'react';
 
 describe('Accordion', () => {
   it('should render correctly', async () => {
@@ -96,7 +96,7 @@ describe('Accordion', () => {
   it('should handle multiple accordion items independently', async () => {
     const user = userEvent.setup();
     const TestComponent = () => {
-      const [expandedItem, setExpandedItem] = React.useState('item1');
+      const [expandedItem, setExpandedItem] = useState('item1');
       const handleToggle = item => ({ isExpanded }) => {
         setExpandedItem(isExpanded ? item : null);
       };

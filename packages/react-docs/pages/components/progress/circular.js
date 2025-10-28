@@ -20,7 +20,7 @@ const FormGroup = (props) => (
 );
 
 const useSelection = (defaultValue) => {
-  const [value, setValue] = React.useState(defaultValue);
+  const [value, setValue] = useState(defaultValue);
   const changeBy = (value) => () => setValue(value);
   return [value, changeBy];
 };

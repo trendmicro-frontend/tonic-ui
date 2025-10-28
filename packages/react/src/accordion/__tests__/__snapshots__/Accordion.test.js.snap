@@ -156,10 +156,10 @@ exports[`Accordion should render correctly 1`] = `
       class="emotion-2 emotion-1"
     >
       <button
-        aria-controls="@tonic-ui/react:AccordionContent-:r0:"
+        aria-controls="@tonic-ui/react:AccordionContent-_r_0_"
         aria-expanded="true"
         class="emotion-4 emotion-1"
-        id="@tonic-ui/react:AccordionToggle-:r0:"
+        id="@tonic-ui/react:AccordionToggle-_r_0_"
         role="button"
         tabindex="0"
         type="button"
@@ -191,9 +191,9 @@ exports[`Accordion should render correctly 1`] = `
         </div>
       </button>
       <div
-        aria-labelledby="@tonic-ui/react:AccordionToggle-:r0:"
+        aria-labelledby="@tonic-ui/react:AccordionToggle-_r_0_"
         class="emotion-14 emotion-1"
-        id="@tonic-ui/react:AccordionContent-:r0:"
+        id="@tonic-ui/react:AccordionContent-_r_0_"
         role="region"
       >
         <div
@@ -209,9 +209,9 @@ exports[`Accordion should render correctly 1`] = `
       class="emotion-2 emotion-1"
     >
       <button
-        aria-controls="@tonic-ui/react:AccordionContent-:r1:"
+        aria-controls="@tonic-ui/react:AccordionContent-_r_1_"
         class="emotion-4 emotion-1"
-        id="@tonic-ui/react:AccordionToggle-:r1:"
+        id="@tonic-ui/react:AccordionToggle-_r_1_"
         role="button"
         tabindex="0"
         type="button"
@@ -244,9 +244,9 @@ exports[`Accordion should render correctly 1`] = `
       </button>
       <div
         aria-hidden="true"
-        aria-labelledby="@tonic-ui/react:AccordionToggle-:r1:"
+        aria-labelledby="@tonic-ui/react:AccordionToggle-_r_1_"
         class="emotion-32 emotion-1"
-        id="@tonic-ui/react:AccordionContent-:r1:"
+        id="@tonic-ui/react:AccordionContent-_r_1_"
         role="region"
       >
         <div

@@ -41,7 +41,7 @@ const App = () => {
     },
   ], []);
 
-  const data = React.useMemo(() => [
+  const data = useMemo(() => [
     { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
     { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
     { id: 3, eventType: 'URL Filtering', affectedDevices: 15, detections: 598 },

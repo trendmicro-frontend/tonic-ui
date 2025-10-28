@@ -1,11 +1,11 @@
-import { renderHook, act } from '@testing-library/react';
+import { renderHook } from '@testing-library/react';
 import {
   ColorModeProvider,
   ColorStyleProvider,
   colorStyle as defaultColorStyle,
   useColorStyle,
 } from '@tonic-ui/react/src';
-import React, { useState } from 'react';
+import React, { act, useState } from 'react';
 
 describe('ColorStyleProvider', () => {
   it('should return the correct color style based on the specified dark mode', () => {

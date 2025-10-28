@@ -296,7 +296,6 @@ input[type="radio"]:checked:disabled+.emotion-24 {
       class="emotion-2 emotion-1"
       name="sizes"
       type="radio"
-      value=""
     />
     <div
       aria-hidden="true"
@@ -320,7 +319,6 @@ input[type="radio"]:checked:disabled+.emotion-24 {
       class="emotion-2 emotion-1"
       name="sizes"
       type="radio"
-      value=""
     />
     <div
       aria-hidden="true"
@@ -344,7 +342,6 @@ input[type="radio"]:checked:disabled+.emotion-24 {
       class="emotion-2 emotion-1"
       name="sizes"
       type="radio"
-      value=""
     />
     <div
       aria-hidden="true"
@@ -367,7 +364,6 @@ input[type="radio"]:checked:disabled+.emotion-24 {
     <input
       class="emotion-2 emotion-1"
       type="radio"
-      value=""
     />
     <div
       aria-hidden="true"
@@ -391,7 +387,6 @@ input[type="radio"]:checked:disabled+.emotion-24 {
       checked=""
       class="emotion-2 emotion-1"
       type="radio"
-      value=""
     />
     <div
       aria-hidden="true"
@@ -415,7 +410,6 @@ input[type="radio"]:checked:disabled+.emotion-24 {
       class="emotion-2 emotion-1"
       disabled=""
       type="radio"
-      value=""
     />
     <div
       aria-hidden="true"
@@ -440,7 +434,6 @@ input[type="radio"]:checked:disabled+.emotion-24 {
       class="emotion-2 emotion-1"
       disabled=""
       type="radio"
-      value=""
     />
     <div
       aria-hidden="true"

@@ -23,7 +23,7 @@ import { AlertIcon, ClockIcon } from '@tonic-ui/react-icons';
 import { useEffectOnce, useToggle } from '@tonic-ui/react-hooks';
 import { formatDistance, formatISO, startOfToday, subDays, subMinutes, subSeconds } from 'date-fns';
 import { ensureString } from 'ensure-type';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const BASE_PATH = ensureString(process.env.TONIC_UI_REACT_DOCS_BASE_PATH);
 
@@ -182,7 +182,7 @@ const NavigationBar = (props) => {
     alignItems: 'center',
     justifyContent: 'space-between',
   };
-  const [date, setDate] = React.useState(new Date());
+  const [date, setDate] = useState(new Date());
 
   useEffect(() => {
     const t = setInterval(() => {

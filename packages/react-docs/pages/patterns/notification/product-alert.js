@@ -238,7 +238,7 @@ const NavigationBar = (props) => {
     alignItems: 'center',
     justifyContent: 'space-between',
   };
-  const [date, setDate] = React.useState(new Date());
+  const [date, setDate] = useState(new Date());
 
   useEffect(() => {
     const t = setInterval(() => {

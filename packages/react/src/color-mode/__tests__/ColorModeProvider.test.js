@@ -1,7 +1,7 @@
-import { act, render, renderHook, screen } from '@testing-library/react';
+import { render, renderHook, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ColorModeProvider, useColorMode } from '@tonic-ui/react/src';
-import React, { useCallback, useState } from 'react';
+import React, { act, useCallback, useState } from 'react';
 import * as colorModeUtils from '../utils';
 
 Object.defineProperty(window, 'matchMedia', {

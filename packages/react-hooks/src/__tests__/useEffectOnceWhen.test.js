@@ -1,5 +1,5 @@
-import { act, renderHook } from '@testing-library/react';
-import { useState } from 'react';
+import { renderHook } from '@testing-library/react';
+import { act, useState } from 'react';
 import { useEffectOnceWhen } from '@tonic-ui/react-hooks/src';
 
 describe('useEffectOnceWhen', () => {

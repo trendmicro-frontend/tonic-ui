@@ -17,7 +17,7 @@ import {
   useColorStyle,
 } from '@tonic-ui/react';
 import { AngleRightIcon, CalendarIcon, ChevronLeftIcon, ClockIcon } from '@tonic-ui/react-icons';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 
 const CustomDateInput = ({
   inputFormat = 'yyyy-MM-dd',
@@ -277,7 +277,7 @@ const formatTime = (date) => {
 const App = () => {
   const inputFormat = 'yyyy-MM-dd';
   const today = new Date();
-  const [state, setState] = React.useReducer(stateReducer, {
+  const [state, setState] = useReducer(stateReducer, {
     value: '1d',
     isDateTimePickerVisible: false,
     startDate: today,

@@ -64,7 +64,7 @@ const App = () => {
 
   // If you want to manage your own state and override the state manager, you can uncomment and modify the following code:
   /*
-  const [state, setState] = React.useState(table.initialState);
+  const [state, setState] = useState(table.initialState);
   table.setOptions(prevOptions => ({
     ...prevOptions,
     state,
