@@ -80,15 +80,18 @@ const CheckboxControlBox = forwardRef((inProps, ref) => {
       light: `${variantColor}:50`,
     }[colorMode];
     const disabledBorderColor = {
-      dark: 'gray:60',
-      light: 'gray:60',
+      dark: 'gray:50',
+      light: 'gray:40',
     }[colorMode];
     const checkedBorderColor = {
       dark: `${variantColor}:60`,
       light: `${variantColor}:60`,
     }[colorMode];
     const checkedAndHoverBorderColor = hoverBorderColor;
-    const checkedAndDisabledBorderColor = disabledBorderColor;
+    const checkedAndDisabledBorderColor = { // same as "checkedAndDisabledBackgroundColor"
+      dark: 'gray:60',
+      light: 'gray:60',
+    }[colorMode];
 
     // :focus-visible
     const focusVisibleBorderColor = {
@@ -182,8 +185,8 @@ const CheckboxControlBox = forwardRef((inProps, ref) => {
       light: `${variantColor}:50`,
     }[colorMode];
     const disabledBorderColor = {
-      dark: 'gray:60',
-      light: 'gray:60',
+      dark: 'gray:50',
+      light: 'gray:40',
     }[colorMode];
 
     // :focus-visible

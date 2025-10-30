@@ -76,7 +76,7 @@ input[type="checkbox"]:hover+.emotion-4 {
 
 input[type="checkbox"]:disabled+.emotion-4 {
   background-color: var(--tonic-colors-transparent);
-  border-color: var(--tonic-colors-gray-60);
+  border-color: var(--tonic-colors-gray-50);
   color: var(--tonic-colors-white-primary);
   opacity: 0.28;
 }
@@ -195,7 +195,7 @@ input[type="checkbox"]:hover+.emotion-14 {
 
 input[type="checkbox"]:disabled+.emotion-14 {
   background-color: var(--tonic-colors-transparent);
-  border-color: var(--tonic-colors-gray-60);
+  border-color: var(--tonic-colors-gray-50);
   color: var(--tonic-colors-white-primary);
   opacity: 0.28;
 }
@@ -305,7 +305,7 @@ input[type="checkbox"]:hover+.emotion-24 {
 
 input[type="checkbox"]:disabled+.emotion-24 {
   background-color: var(--tonic-colors-transparent);
-  border-color: var(--tonic-colors-gray-60);
+  border-color: var(--tonic-colors-gray-50);
   color: var(--tonic-colors-white-primary);
   opacity: 0.28;
 }
@@ -424,7 +424,7 @@ input[type="checkbox"][data-indeterminate]:focus-visible+.emotion-44 {
 }
 
 input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
-  border-color: var(--tonic-colors-gray-60);
+  border-color: var(--tonic-colors-gray-50);
   color: var(--tonic-colors-gray-60);
   opacity: 0.28;
 }
