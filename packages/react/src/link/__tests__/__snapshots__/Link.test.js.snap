@@ -2,10 +2,6 @@
 
 exports[`Link should render correctly 1`] = `
 .emotion-0 {
-  color: var(--tonic-colors-blue-40);
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -14,6 +10,10 @@ exports[`Link should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  color: var(--tonic-colors-blue-40);
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
 }
 
 .emotion-0:focus-visible {
@@ -41,22 +41,7 @@ exports[`Link should render correctly 1`] = `
   text-decoration: underline;
 }
 
-.emotion-0:disabled,
-.emotion-0:disabled:focus,
-.emotion-0:disabled:hover,
-.emotion-0[aria-disabled=true],
-.emotion-0[aria-disabled=true]:focus,
-.emotion-0[aria-disabled=true]:hover,
-.emotion-0[data-disabled] {
-  color: var(--tonic-colors-white-disabled);
-  cursor: not-allowed;
-}
-
-.emotion-4 {
-  color: var(--tonic-colors-blue-40);
-  cursor: pointer;
-  -webkit-text-decoration: underline;
-  text-decoration: underline;
+.emotion-2 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -65,6 +50,50 @@ exports[`Link should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  color: var(--tonic-colors-blue-40);
+  cursor: pointer;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.emotion-2:focus-visible {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: 0;
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1q);
+}
+
+.emotion-2:visited {
+  color: var(--tonic-colors-purple-50);
+}
+
+.emotion-2:hover,
+.emotion-2[data-hover] {
+  color: var(--tonic-colors-blue-40);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-2:active,
+.emotion-2[data-active] {
+  color: var(--tonic-colors-blue-60);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: var(--tonic-colors-white-secondary);
+  cursor: pointer;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
 }
 
 .emotion-4:focus-visible {
@@ -81,8 +110,8 @@ exports[`Link should render correctly 1`] = `
 .emotion-4:hover,
 .emotion-4[data-hover] {
   color: var(--tonic-colors-blue-40);
-  -webkit-text-decoration: none;
-  text-decoration: none;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
 }
 
 .emotion-4:active,
@@ -92,22 +121,7 @@ exports[`Link should render correctly 1`] = `
   text-decoration: underline;
 }
 
-.emotion-4:disabled,
-.emotion-4:disabled:focus,
-.emotion-4:disabled:hover,
-.emotion-4[aria-disabled=true],
-.emotion-4[aria-disabled=true]:focus,
-.emotion-4[aria-disabled=true]:hover,
-.emotion-4[data-disabled] {
-  color: var(--tonic-colors-white-disabled);
-  cursor: not-allowed;
-}
-
 .emotion-6 {
-  color: var(--tonic-colors-blue-40);
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -116,6 +130,10 @@ exports[`Link should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  color: var(--tonic-colors-blue-40);
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
 }
 
 .emotion-6:focus-visible {
@@ -132,13 +150,15 @@ exports[`Link should render correctly 1`] = `
 .emotion-6:hover,
 .emotion-6[data-hover] {
   color: var(--tonic-colors-blue-40);
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
 }
 
 .emotion-6:active,
 .emotion-6[data-active] {
   color: var(--tonic-colors-blue-60);
-  -webkit-text-decoration: none;
-  text-decoration: none;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
 }
 
 .emotion-6:disabled,
@@ -152,32 +172,147 @@ exports[`Link should render correctly 1`] = `
   cursor: not-allowed;
 }
 
+.emotion-8 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: var(--tonic-colors-blue-40);
+  cursor: pointer;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.emotion-8:focus-visible {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: 0;
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1q);
+}
+
+.emotion-8:visited {
+  color: var(--tonic-colors-purple-50);
+}
+
+.emotion-8:hover,
+.emotion-8[data-hover] {
+  color: var(--tonic-colors-blue-40);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-8:active,
+.emotion-8[data-active] {
+  color: var(--tonic-colors-blue-60);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-8:disabled,
+.emotion-8:disabled:focus,
+.emotion-8:disabled:hover,
+.emotion-8[aria-disabled=true],
+.emotion-8[aria-disabled=true]:focus,
+.emotion-8[aria-disabled=true]:hover,
+.emotion-8[data-disabled] {
+  color: var(--tonic-colors-white-disabled);
+  cursor: not-allowed;
+}
+
+.emotion-10 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: var(--tonic-colors-white-secondary);
+  cursor: pointer;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.emotion-10:focus-visible {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: 0;
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1q);
+}
+
+.emotion-10:visited {
+  color: var(--tonic-colors-purple-50);
+}
+
+.emotion-10:hover,
+.emotion-10[data-hover] {
+  color: var(--tonic-colors-blue-40);
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.emotion-10:active,
+.emotion-10[data-active] {
+  color: var(--tonic-colors-blue-60);
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.emotion-10:disabled,
+.emotion-10:disabled:focus,
+.emotion-10:disabled:hover,
+.emotion-10[aria-disabled=true],
+.emotion-10[aria-disabled=true]:focus,
+.emotion-10[aria-disabled=true]:hover,
+.emotion-10[data-disabled] {
+  color: var(--tonic-colors-white-disabled);
+  cursor: not-allowed;
+}
+
 <div>
   <a
     class="emotion-0 emotion-1"
-    href="https://github.com/trendmicro-frontend/tonic-ui"
+    href="/default"
   >
-    GitHub
+    Default Link
   </a>
   <a
-    class="emotion-0 emotion-1"
-    href="https://github.com/trendmicro-frontend/tonic-ui"
-    target="_blank"
+    class="emotion-2 emotion-1"
+    href="/inline"
   >
-    GitHub (new tab)
+    Inline Link
   </a>
   <a
     class="emotion-4 emotion-1"
-    href="/home"
+    href="/subtle"
   >
-    Home
+    Subtle Link
   </a>
   <a
     aria-disabled="true"
     class="emotion-6 emotion-1"
-    href="/disabled"
+    href="/default"
   >
-    Disabled Link
+    Default Link (disabled)
+  </a>
+  <a
+    aria-disabled="true"
+    class="emotion-8 emotion-1"
+    href="/inline"
+  >
+    Inline Link (disabled)
+  </a>
+  <a
+    aria-disabled="true"
+    class="emotion-10 emotion-1"
+    href="/subtle"
+  >
+    Subtle Link (disabled)
   </a>
 </div>
 `;

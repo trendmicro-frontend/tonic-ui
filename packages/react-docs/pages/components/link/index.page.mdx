@@ -1,6 +1,8 @@
 # Link
 
-Links are accessible elements used primarily for navigation. This component is styled to resemble a hyperlink and semantically renders an `<a>`.
+A link is an interactive text element that enables users to navigate to another destination — such as a different application, website, resource, or a specific section on the same page.
+
+Links are intended primarily for navigation, not for performing actions.
 
 ## Import
 
@@ -10,26 +12,47 @@ import { Link } from '@tonic-ui/react';
 
 ## Usage
 
-### Default
+### Variants
 
-{render('./default')}
+#### `default`
 
+Use the `default` variant for standalone links or navigation items.
 
-### Underlined link
+{render('./variant-default')}
 
-{render('./underlined-link')}
+#### `inline`
 
-### Link with icon
+Use the `inline` variant for inline links that appear within text or paragraphs.
 
-{render('./link-with-icon')}
+{render('./variant-inline')}
 
-### Link with `disabled` attribute
+#### `subtle`
 
-{render('./link-with-disabled-attribute')}
+Use the `subtle` variant for links that should appear interactive but with reduced visual emphasis.
 
-### Link to another page
+{render('./variant-subtle')}
 
-{render('./link-to-another-page')}
+### Attributes
+
+#### `disabled`
+
+The `disabled` attribute is not natively supported by the anchor (`<a>`) element. The `Link` component adds it for styling purposes only.
+
+{render('./attribute-disabled')}
+
+### Examples
+
+#### External links
+
+External links indicate navigation to an external website or resource.
+
+{render('./external-links')}
+
+#### Internal links
+
+Internal links indicate navigation within the same application or domain.
+
+{render('./internal-links')}
 
 ## Props
 
@@ -38,5 +61,6 @@ import { Link } from '@tonic-ui/react';
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
-| disabled | boolean | | If `true`, the link will be disabled. This sets `aria-disabled=true` and you can style this state by using the `_disabled` prop. |
+| disabled | boolean | | If `true`, the link is displayed as disabled. |
 | onClick | function | | A callback called when the link is clicked. |
+| variant | string | 'default' | Defines the visual style of the link: <br />- 'default': For standalone links or navigation items.<br />- 'inline': For inline links within text or paragraphs.<br />- 'subtle': For links with reduced visual emphasis but still interactive. |

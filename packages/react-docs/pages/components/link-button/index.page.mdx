@@ -19,5 +19,6 @@ import { LinkButton } from '@tonic-ui/react';
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
-| disabled | boolean | | If `true`, the link button will be disabled. This sets `aria-disabled=true` and you can style this state by using the `_disabled` prop. |
-| onClick | function | | A callback called when the link button is clicked. |
+| disabled | boolean | | If `true`, the link is displayed as disabled. |
+| onClick | function | | A callback called when the link is clicked. |
+| variant | string | 'default' | Defines the visual style of the link: <br />- 'default': For standalone links or navigation items.<br />- 'inline': For inline links within text or paragraphs.<br />- 'subtle': For links with reduced visual emphasis but still interactive. |

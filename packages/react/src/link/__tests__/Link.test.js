@@ -9,27 +9,23 @@ describe('Link', () => {
   it('should render correctly', async () => {
     const { container } = render(
       <>
-        {/* Basic link */}
-        <Link href="https://github.com/trendmicro-frontend/tonic-ui">
-          GitHub
+        <Link variant="default" href="/default">
+          Default Link
         </Link>
-
-        {/* Link with target */}
-        <Link
-          href="https://github.com/trendmicro-frontend/tonic-ui"
-          target="_blank"
-        >
-          GitHub (new tab)
+        <Link variant="inline" href="/inline">
+          Inline Link
         </Link>
-
-        {/* Link with text decoration */}
-        <Link href="/home" textDecoration="underline">
-          Home
+        <Link variant="subtle" href="/subtle">
+          Subtle Link
         </Link>
-
-        {/* Disabled link */}
-        <Link href="/disabled" disabled>
-          Disabled Link
+        <Link variant="default" disabled href="/default">
+          Default Link (disabled)
+        </Link>
+        <Link variant="inline" disabled href="/inline">
+          Inline Link (disabled)
+        </Link>
+        <Link variant="subtle" disabled href="/subtle">
+          Subtle Link (disabled)
         </Link>
       </>
     );
@@ -118,5 +114,112 @@ describe('Link', () => {
 
     expect(ref.current).toBeInstanceOf(HTMLAnchorElement);
     expect(ref.current?.href).toBe('http://localhost/test');
+  });
+
+  it('should apply default variant styles correctly', () => {
+    render(
+      <Link href="/test" data-testid="link">
+        default variant link
+      </Link>
+    );
+
+    const link = screen.getByTestId('link');
+
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveStyleRule('text-decoration', 'none');
+
+    // :hover
+    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-blue-40)', { target: ':hover' });
+    expect(link).toHaveStyleRule('text-decoration', 'underline', { target: ':hover' });
+
+    // :active
+    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-blue-60)', { target: ':active' });
+    expect(link).toHaveStyleRule('text-decoration', 'underline', { target: ':active' });
+  });
+
+  it('should apply inline variant styles correctly', () => {
+    render(
+      <Link href="/test" variant="inline" data-testid="link">
+        inline variant link
+      </Link>
+    );
+
+    const link = screen.getByTestId('link');
+
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveStyleRule('text-decoration', 'underline');
+
+    // :hover
+    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-blue-40)', { target: ':hover' });
+    expect(link).toHaveStyleRule('text-decoration', 'none', { target: ':hover' });
+
+    // :active
+    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-blue-60)', { target: ':active' });
+    expect(link).toHaveStyleRule('text-decoration', 'none', { target: ':active' });
+  });
+
+  it('should apply subtle variant styles correctly', () => {
+    render(
+      <Link href="/test" variant="subtle" data-testid="link">
+        subtle variant link
+      </Link>
+    );
+
+    const link = screen.getByTestId('link');
+
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveStyleRule('text-decoration', 'underline');
+
+    // :hover
+    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-blue-40)', { target: ':hover' });
+    expect(link).toHaveStyleRule('text-decoration', 'underline', { target: ':hover' });
+
+    // :active
+    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-blue-60)', { target: ':active' });
+    expect(link).toHaveStyleRule('text-decoration', 'underline', { target: ':active' });
+  });
+
+  it('should handle deprecated textDecoration prop and show warning', () => {
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    render(
+      <Link href="/test" textDecoration="underline" data-testid="link">
+        deprecated textDecoration link
+      </Link>
+    );
+
+    const link = screen.getByTestId('link');
+    expect(link).toBeInTheDocument();
+
+    // Should show deprecation warning
+    expect(consoleSpy).toHaveBeenCalledWith(
+      // eslint-disable-next-line quotes
+      `Link: 'textDecoration' is deprecated. Use 'variant="inline"' instead.`
+    );
+
+    consoleSpy.mockRestore();
+  });
+
+  it('should prevent default behavior when disabled', async () => {
+    const user = userEvent.setup();
+    const handleClick = jest.fn();
+
+    render(
+      <Link href="/test" onClick={handleClick} disabled>
+        Disabled Link
+      </Link>
+    );
+
+    const link = screen.getByRole('link', { name: /disabled link/i });
+
+    // Mock preventDefault to verify it's called
+    const preventDefaultSpy = jest.fn();
+    link.addEventListener('click', (e) => {
+      e.preventDefault = preventDefaultSpy;
+    });
+
+    await user.click(link);
+
+    expect(handleClick).not.toHaveBeenCalled();
   });
 });

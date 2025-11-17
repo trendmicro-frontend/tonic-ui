@@ -1,17 +1,18 @@
 import { useColorMode } from '../color-mode';
+import { VARIANT_INLINE, VARIANT_SUBTLE } from './constants';
 
 const useLinkStyle = ({
   disabled,
-  textDecoration,
+  variant,
 }) => {
   const [colorMode] = useColorMode();
   const color = {
     dark: 'blue:40',
     light: 'blue:60',
   }[colorMode];
-  const hoverColor = {
-    dark: 'blue:40',
-    light: 'blue:50',
+  const secondaryColor = {
+    dark: 'white:secondary',
+    light: 'black:secondary',
   }[colorMode];
   const visitedColor = {
     dark: 'purple:50',
@@ -21,33 +22,38 @@ const useLinkStyle = ({
     dark: 'white:disabled',
     light: 'black:disabled',
   }[colorMode];
-  const focusVisibleOutlineColor = {
-    dark: 'blue:60',
+  const hoverColor = {
+    dark: 'blue:40',
     light: 'blue:60',
   }[colorMode];
-  const hoverTextDecoration = textDecoration ? 'none' : 'underline';
-  const activeTextDecoration = !!disabled ? 'none' : 'underline';
+  const activeColor = {
+    dark: 'blue:60',
+    light: 'blue:70',
+  }[colorMode];
+  const focusVisibleOutlineColor = {
+    dark: 'blue:60',
+    light: 'blue:70',
+  }[colorMode];
 
-  return {
-    color,
-    cursor: 'pointer',
-    textDecoration: textDecoration ?? 'none',
+  const baseStyle = {
     display: 'inline-flex',
     alignItems: 'center',
-    _disabled: {
-      color: disabledColor,
-      cursor: 'not-allowed',
-    },
+    color,
+    cursor: 'pointer',
+    ...(disabled && {
+      _disabled: {
+        color: disabledColor,
+        cursor: 'not-allowed',
+      },
+    }),
     _visited: {
       color: visitedColor,
     },
     _hover: {
       color: hoverColor,
-      textDecoration: !!disabled ? textDecoration : hoverTextDecoration
     },
     _active: {
-      color: 'blue:60',
-      textDecoration: textDecoration ?? activeTextDecoration,
+      color: activeColor,
     },
     _focusVisible: {
       outlineColor: focusVisibleOutlineColor,
@@ -55,6 +61,26 @@ const useLinkStyle = ({
       outlineStyle: 'solid',
       outlineWidth: '1q',
     },
+  };
+  const variantStyle = { ...baseStyle };
+
+  if (variant === VARIANT_INLINE) {
+    variantStyle.textDecoration = 'underline';
+    variantStyle._hover.textDecoration = 'none';
+    variantStyle._active.textDecoration = 'none';
+  } else if (variant === VARIANT_SUBTLE) {
+    variantStyle.color = secondaryColor;
+    variantStyle.textDecoration = 'underline';
+    variantStyle._hover.textDecoration = 'underline';
+    variantStyle._active.textDecoration = 'underline';
+  } else {
+    variantStyle.textDecoration = 'none';
+    variantStyle._hover.textDecoration = 'underline';
+    variantStyle._active.textDecoration = 'underline';
+  }
+
+  return {
+    ...variantStyle,
   };
 };
 
