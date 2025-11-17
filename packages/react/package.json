@@ -20,9 +20,8 @@
     "test": "jest --maxWorkers=2"
   },
   "dependencies": {
-    "@emotion/is-prop-valid": "1.x",
-    "@emotion/react": "11.x",
-    "@emotion/styled": "11.x",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@popperjs/core": "2.x",
     "@tonic-ui/react-base": "^2.0.3",
     "@tonic-ui/react-hooks": "^2.2.0",
@@ -46,8 +45,8 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@codecov/rollup-plugin": "^1.5.1",
-    "@emotion/babel-plugin": "^11.10.0",
-    "@emotion/jest": "^11.10.0",
+    "@emotion/babel-plugin": "^11.13.0",
+    "@emotion/jest": "^11.14.0",
     "@rollup/plugin-babel": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@testing-library/jest-dom": "^6.0.0",

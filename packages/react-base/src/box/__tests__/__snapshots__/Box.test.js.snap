@@ -3,7 +3,7 @@
 exports[`Box should render correctly 1`] = `
 <div>
   <div
-    class="emotion-0 emotion-1"
+    class="css-1et0url-Box emotion-0"
   >
     This is a box
   </div>

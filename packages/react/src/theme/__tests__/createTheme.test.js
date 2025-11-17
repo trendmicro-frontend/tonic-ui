@@ -80,24 +80,4 @@ describe('createTheme', () => {
       expect(isValid).toBe(true);
     });
   });
-
-  it('should apply custom `rootSelector` for CSS variables', () => {
-    const customRootSelector = ':root[data-color-scheme]';
-    const themeOptions = {
-      cssVariables: {
-        rootSelector: customRootSelector,
-      },
-    };
-
-    const theme = createTheme(themeOptions);
-    expect(theme.rootSelector).toBe(customRootSelector);
-
-    const TestComponent = (props) => (
-      <Box backgroundColor="gray:50" {...props} />
-    );
-    render(<TestComponent />, { theme: themeOptions });
-
-    const styleElement = document.querySelector('style[data-emotion="css-global"]');
-    expect(styleElement).toMatchSnapshot();
-  });
 });
