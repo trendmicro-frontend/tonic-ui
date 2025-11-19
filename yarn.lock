@@ -5263,7 +5263,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/react-base@^2.0.3, @tonic-ui/react-base@workspace:packages/react-base":
+"@tonic-ui/react-base@^2.0.4, @tonic-ui/react-base@workspace:packages/react-base":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/react-base@workspace:packages/react-base"
   dependencies:
@@ -5398,7 +5398,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/react-hooks@^2.2.0, @tonic-ui/react-hooks@workspace:^, @tonic-ui/react-hooks@workspace:packages/react-hooks":
+"@tonic-ui/react-hooks@^2.2.1, @tonic-ui/react-hooks@workspace:^, @tonic-ui/react-hooks@workspace:packages/react-hooks":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/react-hooks@workspace:packages/react-hooks"
   dependencies:
@@ -5438,7 +5438,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/react-icons@^2.1.2, @tonic-ui/react-icons@workspace:^, @tonic-ui/react-icons@workspace:packages/react-icons":
+"@tonic-ui/react-icons@^2.1.3, @tonic-ui/react-icons@workspace:^, @tonic-ui/react-icons@workspace:packages/react-icons":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/react-icons@workspace:packages/react-icons"
   dependencies:
@@ -5448,7 +5448,7 @@ __metadata:
     "@codecov/rollup-plugin": ^1.5.1
     "@emotion/babel-plugin": ^11.13.0
     "@emotion/react": ^11.14.0
-    "@tonic-ui/react-base": ^2.0.3
+    "@tonic-ui/react-base": ^2.0.4
     "@trendmicro/babel-config": ^1.0.2
     cross-env: ^7.0.3
     del-cli: ^5.0.0
@@ -5491,9 +5491,9 @@ __metadata:
     "@testing-library/jest-dom": ^6.0.0
     "@testing-library/react": ^14.0.0
     "@testing-library/user-event": ^14.4.3
-    "@tonic-ui/react-base": ^2.0.3
-    "@tonic-ui/react-hooks": ^2.2.0
-    "@tonic-ui/react-icons": ^2.1.2
+    "@tonic-ui/react-base": ^2.0.4
+    "@tonic-ui/react-hooks": ^2.2.1
+    "@tonic-ui/react-icons": ^2.1.3
     "@tonic-ui/styled-system": ^2.2.1
     "@tonic-ui/theme": ^2.0.1
     "@tonic-ui/utils": ^2.2.0

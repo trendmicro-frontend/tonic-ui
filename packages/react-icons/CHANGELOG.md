@@ -1,5 +1,15 @@
 # @tonic-ui/react-icons
 
+## 2.1.3
+
+### Patch Changes
+
+- chore: update React dependencies to support v19 by [@cheton](https://github.com/cheton) in [#1065](https://github.com/trendmicro-frontend/tonic-ui/pull/1065)
+
+- feat: upgrade Emotion packages to support React 19 compatibility by [@cheton](https://github.com/cheton) in [#1076](https://github.com/trendmicro-frontend/tonic-ui/pull/1076)
+- Updated dependencies [[`322fcbd`](https://github.com/trendmicro-frontend/tonic-ui/commit/322fcbd0ed811953ddd36c1e080d4acb0a009838), [`bfcb4a0`](https://github.com/trendmicro-frontend/tonic-ui/commit/bfcb4a08e04dea80aa68923eff217402ce135ef7)]
+  - @tonic-ui/react-base@2.0.4
+
 ## 2.1.2
 
 ### Patch Changes
