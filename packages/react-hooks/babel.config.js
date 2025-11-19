@@ -6,9 +6,15 @@ if (process.env.NODE_ENV === 'test') {
 
 module.exports = {
   extends: '@trendmicro/babel-config',
-  plugins,
+  plugins: [
+    ...plugins,
+    '@emotion/babel-plugin',
+  ],
   presets: [
     '@babel/preset-env',
-    '@babel/preset-react',
+    ['@babel/preset-react', {
+      'runtime': 'automatic',
+      'importSource': '@emotion/react',
+    }],
   ],
 };

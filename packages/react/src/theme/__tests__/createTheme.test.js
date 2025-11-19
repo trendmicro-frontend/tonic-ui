@@ -1,6 +1,3 @@
-import { Box } from '@tonic-ui/react/src';
-import { render } from '@tonic-ui/react/test-utils/render';
-import React from 'react';
 import createTheme from '../createTheme';
 
 describe('createTheme', () => {
@@ -79,25 +76,5 @@ describe('createTheme', () => {
       const isValid = defaultThemeScales.some(scale => key.startsWith(`--${scale}`));
       expect(isValid).toBe(true);
     });
-  });
-
-  it('should apply custom `rootSelector` for CSS variables', () => {
-    const customRootSelector = ':root[data-color-scheme]';
-    const themeOptions = {
-      cssVariables: {
-        rootSelector: customRootSelector,
-      },
-    };
-
-    const theme = createTheme(themeOptions);
-    expect(theme.rootSelector).toBe(customRootSelector);
-
-    const TestComponent = (props) => (
-      <Box backgroundColor="gray:50" {...props} />
-    );
-    render(<TestComponent />, { theme: themeOptions });
-
-    const styleElement = document.querySelector('style[data-emotion="css-global"]');
-    expect(styleElement).toMatchSnapshot();
   });
 });

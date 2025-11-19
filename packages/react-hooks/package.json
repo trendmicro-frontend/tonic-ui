@@ -31,6 +31,8 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@codecov/rollup-plugin": "^1.5.1",
+    "@emotion/babel-plugin": "^11.13.0",
+    "@emotion/react": "^11.14.0",
     "@rollup/plugin-babel": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@testing-library/jest-dom": "^6.0.0",
