@@ -1,6 +1,3 @@
-import { Box } from '@tonic-ui/react/src';
-import { render } from '@tonic-ui/react/test-utils/render';
-import React from 'react';
 import createTheme from '../createTheme';
 
 describe('createTheme', () => {
