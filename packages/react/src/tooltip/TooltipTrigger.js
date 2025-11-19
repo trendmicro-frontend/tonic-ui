@@ -132,7 +132,21 @@ const TooltipTrigger = forwardRef((inProps, ref) => {
 
   // Ensure tooltip has only one child node
   const child = React.Children.only(children);
-  const tooltipTriggerProps = getTooltipTriggerProps(child?.props, child?.ref);
+
+  // Access the child's props for later use
+  const childProps = child?.props;
+
+  // In React 19, `ref` on function components is passed as a normal prop.
+  // This fallback maintains compatibility with both React 18 and 19.
+  //
+  // React 19 will not throw an error if `ref` is `null` or `undefined`:
+  // ```
+  // Accessing `element.ref` was removed in React 19. `ref` is now a regular prop.
+  // It will be removed from the JSX Element type in a future release.
+  // ```
+  const childRef = child?.props?.ref ?? child?.ref;
+
+  const tooltipTriggerProps = getTooltipTriggerProps(childProps, childRef);
 
   return cloneElement(child, tooltipTriggerProps);
 });
