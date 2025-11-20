@@ -14,35 +14,31 @@ describe('Mark', () => {
     expect(container).toHaveTextContent('Hello World');
   });
 
-  it('should render with default variant (highlight)', () => {
+  it('should render with "highlight" variant', () => {
     const { container } = render(
-      <Mark>Hello World</Mark>
+      <Mark variant="highlight">Hello World</Mark>
     );
 
-    expect(container.firstChild).toHaveStyle({
-      backgroundColor: '#fce79e',
-      color: 'black:primary',
-    });
+    expect(container.firstChild).toHaveStyleRule('background-color', '#fce79e');
+    expect(container.firstChild).toHaveStyleRule('color', 'var(--tonic-colors-black-primary)');
   });
 
-  it('should render with selection variant', () => {
-    const { container } = render(
-      <Mark variant="selection">Hello World</Mark>
-    );
-
-    // Note: specific colors might depend on theme, but we can check if it renders
-    expect(container.firstChild).toBeInTheDocument();
-  });
-
-  it('should render with emphasis variant', () => {
+  it('should render with "emphasis" variant', () => {
     const { container } = render(
       <Mark variant="emphasis">Hello World</Mark>
     );
 
-    expect(container.firstChild).toHaveStyle({
-      fontWeight: 'semibold',
-      backgroundColor: 'inherit',
-    });
+    expect(container.firstChild).toHaveStyleRule('font-weight', 'var(--tonic-fontWeights-semibold)');
+    expect(container.firstChild).toHaveStyleRule('background-color', 'inherit');
+  });
+
+  it('should render with "selection" variant', () => {
+    const { container } = render(
+      <Mark variant="selection">Hello World</Mark>
+    );
+
+    expect(container.firstChild).toHaveStyleRule('background-color', 'var(--tonic-colors-blue-60)');
+    expect(container.firstChild).toHaveStyleRule('color', 'var(--tonic-colors-white-primary)');
   });
 
   it('should forward additional props', () => {
