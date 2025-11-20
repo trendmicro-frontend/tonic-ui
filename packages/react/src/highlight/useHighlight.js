@@ -2,10 +2,9 @@ import { ensureArray, ensureString } from 'ensure-type';
 import { findAll } from 'highlight-words-core';
 
 const useHighlight = ({
-  autoEscape,
   caseSensitive,
   query: queryProp,
-  sanitize,
+  transform,
   text: textProp,
 }) => {
   const query = ensureArray(queryProp);
@@ -14,8 +13,8 @@ const useHighlight = ({
   // Use highlight-words-core to find chunks
   const chunks = findAll({
     autoEscape: true,
-    caseSensitive: false,
-    sanitize,
+    caseSensitive,
+    sanitize: transform,
     searchWords: query,
     textToHighlight: text,
   });

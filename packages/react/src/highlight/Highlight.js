@@ -13,9 +13,9 @@ const Highlight = forwardRef((inProps, ref) => {
     children,
     caseSensitive = defaultCaseSensitive,
     query,
-    sanitize,
     slots = {},
     slotProps = {},
+    transform,
     variant = VARIANT_HIGHLIGHT,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Highlight' });
@@ -31,7 +31,7 @@ const Highlight = forwardRef((inProps, ref) => {
     text,
     query,
     caseSensitive,
-    sanitize,
+    transform,
   });
 
   const MarkComponent = slots?.mark ?? Mark;

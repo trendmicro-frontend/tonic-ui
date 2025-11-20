@@ -10,39 +10,53 @@ import { Highlight } from '@tonic-ui/react';
 
 ## Usage
 
-### Basic
-
 The `Highlight` component searches for text that matches the query and highlights it using the `Mark` component.
 
-{render('./basic')}
+{render('./query')}
 
-You can highlight multiple search terms by passing an array of queries.
+You can highlight multiple search words by passing an array of strings.
 
 {render('./multiple-queries')}
 
 ### Variants
 
-The `Highlight` component supports the same variants as the `Mark` component. Typically, only the `highlight` (default) and `emphasis` variants are used for emphasizing text.
+The `Highlight` component supports the same variants as the `Mark` component.
 
-{render('./variants')}
+#### `highlight`
+
+{render('./variant-highlight')}
+
+#### `emphasis`
+
+{render('./variant-emphasis')}
 
 ### Case sensitivity
 
 By default, the search is case-insensitive. You can enable case-sensitive matching with the `caseSensitive` prop.
 
-{render('./case-sensitivity')}
+#### Case-insensitive matching
 
-### Accent handling
+{render('./case-insensitive-matching')}
 
-Enable accent-insensitive matching to match characters regardless of their accents or diacritical marks.
+#### Case-sensitive matching
 
-{render('./accent-handling')}
+{render('./case-sensitive-matching')}
 
-### Match all occurrences
+### Using the `transform` function
 
-By default, the `Highlight` component highlights all occurrences of the query. Set `matchAll` to `false` to highlight only the first occurrence.
+The `transform` function allows you to transform search words before matching. This enables custom matching behavior such as accent-insensitive search, case normalization, or any other text transformation needed for your use case.
 
-{render('./match-all')}
+```js
+const transformAccents = (x) => {
+  if (typeof x !== 'string') {
+    return x;
+  }
+  // Convert to NFD (base letters + combining marks), then strip diacritics
+  return x.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+};
+```
+
+{render('./using-the-transform-function')}
 
 ## Props
 
@@ -50,10 +64,10 @@ By default, the `Highlight` component highlights all occurrences of the query. S
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode | | The text content to search within. Can be a string or React elements. |
-| query | string \| string[] | | The search query or array of queries to highlight |
-| variant | string | 'highlight' | The variant style for highlighted text. Passed to the `Mark` component. One of: 'highlight', 'emphasis' |
-| caseSensitive | boolean | false | Whether the search should be case-sensitive |
-| sanitize | function | | Optional function to sanitize search words before matching |
-| slots | object | | Custom components to use for rendering. Supports `slots.mark` to replace the default `Mark` component. |
-| slotProps | object | | Props to pass to slot components. Use `slotProps.mark` to pass props to the `Mark` component. |
+| children | ReactNode | | The content to search and highlight. It can be a plain string or React elements containing text. |
+| caseSensitive | boolean | false | Whether matching should be case-sensitive. |
+| query | string \| string[] | | The search word(s) to highlight within the content. |
+| slots | object | | Custom components used for rendering. Use `slots.mark` to replace the default `Mark` component. |
+| slotProps | object | | Props forwarded to slot components. Use `slotProps.mark` to pass additional props to the `Mark` component. |
+| transform | function | | A function that transforms each search word before matching. Useful for implementing custom matching behavior such as accent-insensitive search, text normalization, or other preprocessing. |
+| variant | string | 'highlight' | The visual style applied to highlighted text. Passed to the `Mark` component. Supported variants: 'highlight', 'emphasis'. |
