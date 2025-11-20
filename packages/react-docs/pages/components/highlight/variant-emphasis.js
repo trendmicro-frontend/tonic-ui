@@ -4,7 +4,6 @@ import {
   SearchInput,
   Menu,
   MenuButton,
-  MenuContent,
   MenuItem,
   MenuList,
   OverflowTooltip,
