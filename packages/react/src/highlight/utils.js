@@ -25,4 +25,4 @@ function transformTextNodes(children, callback) {
 
 export {
   transformTextNodes,
-}
+};
