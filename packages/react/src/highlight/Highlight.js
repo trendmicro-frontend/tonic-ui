@@ -1,11 +1,10 @@
 import { ensureArray } from 'ensure-type';
-import { findAll } from 'highlight-words-core';
 import React, { forwardRef, useMemo } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { Mark } from '../mark';
 import { VARIANT_HIGHLIGHT } from '../mark/constants';
-import { transformJSXTextNodes } from './utils';
+import { findAllChunks, transformJSXTextNodes } from './utils';
 
 const defaultCaseSensitive = false;
 
@@ -21,26 +20,19 @@ const Highlight = forwardRef((inProps, ref) => {
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Highlight' });
 
-  // Memoize processed search words once
-  const searchWords = useMemo(() => ensureArray(query).filter(Boolean), [query]);
-
   const transformedChildren = useMemo(() => {
-    if (searchWords.length === 0) {
-      return children;
-    }
-
     const MarkComponent = slots?.mark ?? Mark;
 
     return transformJSXTextNodes(children, (text) => {
-      const chunks = findAll({
+      const chunks = findAllChunks({
         autoEscape: true,
         caseSensitive,
-        sanitize: transform,
-        searchWords,
-        textToHighlight: text,
+        transform,
+        searchWords: ensureArray(query),
+        text,
       });
 
-      return chunks.map(({ start, end, highlight: match }, chunkIndex) => {
+      return chunks.map(({ start, end, match }, chunkIndex) => {
         const chunkText = text.slice(start, end);
         const key = `${start}-${end}-${chunkIndex}`;
 
@@ -54,7 +46,7 @@ const Highlight = forwardRef((inProps, ref) => {
         return chunkText;
       });
     });
-  }, [children, searchWords, caseSensitive, transform, variant, slots, slotProps]);
+  }, [children, query, caseSensitive, transform, variant, slots, slotProps]);
 
   return (
     <Box ref={ref} {...rest}>

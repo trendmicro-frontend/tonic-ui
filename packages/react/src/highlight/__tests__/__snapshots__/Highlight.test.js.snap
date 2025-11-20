@@ -1,242 +1,84 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Highlight matchAll snapshots should match snapshot with matchAll=false 1`] = `
-.emotion-0 {
-  display: inline;
-}
-
+exports[`Highlight should render correctly 1`] = `
 .emotion-2 {
   background-color: #fce79e;
   color: var(--tonic-colors-black-primary);
 }
 
-<div
-  class="emotion-0 emotion-1"
->
-  This is a 
-  <mark
-    class="emotion-2 emotion-1"
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-testid="highlight"
   >
-    test
-  </mark>
-  . Another test here.
+    <mark
+      class="emotion-2 emotion-1"
+    >
+      hello
+    </mark>
+     world
+  </div>
 </div>
 `;
 
-exports[`Highlight matchAll snapshots should match snapshot with matchAll=true 1`] = `
-.emotion-0 {
-  display: inline;
-}
-
+exports[`Highlight slots and slotProps should pass slotProps to mark component 1`] = `
 .emotion-2 {
   background-color: #fce79e;
   color: var(--tonic-colors-black-primary);
 }
 
-<div
-  class="emotion-0 emotion-1"
->
-  This is a 
-  <mark
-    class="emotion-2 emotion-1"
+<div>
+  <div
+    class="emotion-0 emotion-1"
   >
-    test
-  </mark>
-  . Another 
-  <mark
-    class="emotion-2 emotion-1"
-  >
-    test
-  </mark>
-   here.
+    <mark
+      class="custom-highlight emotion-2 emotion-1"
+      data-testid="highlight-mark"
+    >
+      hello
+    </mark>
+     world
+  </div>
 </div>
 `;
 
-exports[`Highlight snapshots should match snapshot with accent insensitive 1`] = `
-.emotion-0 {
-  display: inline;
-}
-
-.emotion-2 {
-  background-color: #fce79e;
-  color: var(--tonic-colors-black-primary);
-}
-
-<div
-  class="emotion-0 emotion-1"
->
-  <mark
-    class="emotion-2 emotion-1"
-  >
-    café
-  </mark>
-   and 
-  <mark
-    class="emotion-2 emotion-1"
-  >
-    cafe
-  </mark>
-</div>
-`;
-
-exports[`Highlight snapshots should match snapshot with basic highlighting 1`] = `
-.emotion-0 {
-  display: inline;
-}
-
-.emotion-2 {
-  background-color: #fce79e;
-  color: var(--tonic-colors-black-primary);
-}
-
-<div
-  class="emotion-0 emotion-1"
->
-  <mark
-    class="emotion-2 emotion-1"
-  >
-    hello
-  </mark>
-   world
-</div>
-`;
-
-exports[`Highlight snapshots should match snapshot with bold variant 1`] = `
-.emotion-0 {
-  display: inline;
-}
-
+exports[`Highlight variants should apply "emphasis" variant 1`] = `
 .emotion-2 {
   background-color: inherit;
-  color: inherit;
+  color: var(--tonic-colors-white-emphasis);
+  font-weight: var(--tonic-fontWeights-semibold);
 }
 
-<div
-  class="emotion-0 emotion-1"
->
-  <mark
-    class="emotion-2 emotion-1"
+<div>
+  <div
+    class="emotion-0 emotion-1"
   >
-    hello
-  </mark>
-   world
+    <mark
+      class="emotion-2 emotion-1"
+    >
+      hello
+    </mark>
+     world
+  </div>
 </div>
 `;
 
-exports[`Highlight snapshots should match snapshot with case sensitivity 1`] = `
-.emotion-0 {
-  display: inline;
-}
-
+exports[`Highlight variants should apply "highlight" variant 1`] = `
 .emotion-2 {
   background-color: #fce79e;
   color: var(--tonic-colors-black-primary);
 }
 
-<div
-  class="emotion-0 emotion-1"
->
-  <mark
-    class="emotion-2 emotion-1"
+<div>
+  <div
+    class="emotion-0 emotion-1"
   >
-    Hello
-  </mark>
-   world 
-  <mark
-    class="emotion-2 emotion-1"
-  >
-    hello
-  </mark>
-</div>
-`;
-
-exports[`Highlight snapshots should match snapshot with highlight variant 1`] = `
-.emotion-0 {
-  display: inline;
-}
-
-.emotion-2 {
-  background-color: #fce79e;
-  color: var(--tonic-colors-black-primary);
-}
-
-<div
-  class="emotion-0 emotion-1"
->
-  <mark
-    class="emotion-2 emotion-1"
-  >
-    hello
-  </mark>
-   world
-</div>
-`;
-
-exports[`Highlight snapshots should match snapshot with multiple queries 1`] = `
-.emotion-0 {
-  display: inline;
-}
-
-<div
-  class="emotion-0 emotion-1"
->
-  hello beautiful world
-</div>
-`;
-
-exports[`Highlight snapshots should match snapshot with no matches 1`] = `
-.emotion-0 {
-  display: inline;
-}
-
-<div
-  class="emotion-0 emotion-1"
->
-  hello world
-</div>
-`;
-
-exports[`Highlight snapshots should match snapshot with selection variant 1`] = `
-.emotion-0 {
-  display: inline;
-}
-
-.emotion-2 {
-  background-color: var(--tonic-colors-blue-60);
-  color: var(--tonic-colors-white-primary);
-}
-
-<div
-  class="emotion-0 emotion-1"
->
-  <mark
-    class="emotion-2 emotion-1"
-  >
-    hello
-  </mark>
-   world
-</div>
-`;
-
-exports[`Highlight snapshots should match snapshot with slotProps 1`] = `
-.emotion-0 {
-  display: inline;
-}
-
-.emotion-2 {
-  background-color: #fce79e;
-  color: var(--tonic-colors-black-primary);
-}
-
-<div
-  class="emotion-0 emotion-1"
->
-  <mark
-    class="custom-highlight emotion-2 emotion-1"
-    data-testid="highlight-mark"
-  >
-    hello
-  </mark>
-   world
+    <mark
+      class="emotion-2 emotion-1"
+    >
+      hello
+    </mark>
+     world
+  </div>
 </div>
 `;

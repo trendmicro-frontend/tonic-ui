@@ -5509,7 +5509,6 @@ __metadata:
     eslint-plugin-react: latest
     eslint-plugin-react-hooks: latest
     glob: ^11.0.0
-    highlight-words-core: ^1.2.3
     jest: ^29.0.0
     jest-axe: ^8.0.0
     jest-environment-jsdom: ^29.0.0
@@ -11073,13 +11072,6 @@ __metadata:
   version: 1.2.2
   resolution: "highlight-words-core@npm:1.2.2"
   checksum: 737758a8a572c82919552b031df300016164b7d0db6a819d24bc6c7ca2279d3cd6d03497728930d6402423c7a3fc2f42c628a9b01b025c704a0b56a635377511
-  languageName: node
-  linkType: hard
-
-"highlight-words-core@npm:^1.2.3":
-  version: 1.2.3
-  resolution: "highlight-words-core@npm:1.2.3"
-  checksum: 1cd522406c5875ba2fdd82d47c1211f5db8df0f78166d2a5d3b6cfb77797e636428d8d79993c77827825cc6d35bbc3252d390e7efaaff5b28b3e5022ee16fd2c
   languageName: node
   linkType: hard
 
