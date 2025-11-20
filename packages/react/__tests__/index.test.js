@@ -89,6 +89,9 @@ test('should match expected exports', () => {
     // grid
     'Grid',
 
+    // highlight
+    'Highlight',
+
     // icon
     'Icon',
     'SVGIcon', // imported from '@tonic-ui/react-icons'
@@ -110,6 +113,9 @@ test('should match expected exports', () => {
     // link
     'Link',
     'LinkButton',
+
+    // mark
+    'Mark',
 
     // menu
     'Menu',

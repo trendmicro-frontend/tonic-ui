@@ -1,0 +1,59 @@
+# Highlight
+
+The `Highlight` component is used to highlight text that matches a search query. It supports multiple search terms, case-sensitive/insensitive matching, and accent-insensitive matching.
+
+## Import
+
+```js
+import { Highlight } from '@tonic-ui/react';
+```
+
+## Usage
+
+### Basic
+
+The `Highlight` component searches for text that matches the query and highlights it using the `Mark` component.
+
+{render('./basic')}
+
+You can highlight multiple search terms by passing an array of queries.
+
+{render('./multiple-queries')}
+
+### Variants
+
+The `Highlight` component supports the same variants as the `Mark` component. Typically, only the `highlight` (default) and `emphasis` variants are used for emphasizing text.
+
+{render('./variants')}
+
+### Case sensitivity
+
+By default, the search is case-insensitive. You can enable case-sensitive matching with the `caseSensitive` prop.
+
+{render('./case-sensitivity')}
+
+### Accent handling
+
+Enable accent-insensitive matching to match characters regardless of their accents or diacritical marks.
+
+{render('./accent-handling')}
+
+### Match all occurrences
+
+By default, the `Highlight` component highlights all occurrences of the query. Set `matchAll` to `false` to highlight only the first occurrence.
+
+{render('./match-all')}
+
+## Props
+
+### Highlight
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | The text content to search within. Can be a string or React elements. |
+| query | string \| string[] | | The search query or array of queries to highlight |
+| variant | string | 'highlight' | The variant style for highlighted text. Passed to the `Mark` component. One of: 'highlight', 'emphasis' |
+| caseSensitive | boolean | false | Whether the search should be case-sensitive |
+| sanitize | function | | Optional function to sanitize search words before matching |
+| slots | object | | Custom components to use for rendering. Supports `slots.mark` to replace the default `Mark` component. |
+| slotProps | object | | Props to pass to slot components. Use `slotProps.mark` to pass props to the `Mark` component. |
