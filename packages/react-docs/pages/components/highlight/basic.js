@@ -7,7 +7,7 @@ const App = () => (
       This text contains the word highlight which will be highlighted.
     </Highlight>
     <Highlight query="highlight">
-      The "Highlight" component is useful for search results and text matching.
+      The &ldquo;Highlight&rdquo; component is useful for search results and text matching.
     </Highlight>
   </Stack>
 );

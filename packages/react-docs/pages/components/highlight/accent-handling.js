@@ -13,7 +13,7 @@ const App = () => (
     <Stack direction="column" spacing="2x">
       <Text fontWeight="semibold">Accent-insensitive:</Text>
       <Highlight query="cafe" ignoreAccents>
-        Now café, cafe, càfé, and cafè will all match when searching for cafe with "ignoreAccents" enabled.
+        Now café, cafe, càfé, and cafè will all match when searching for cafe with &ldquo;ignoreAccents&rdquo; enabled.
       </Highlight>
     </Stack>
     
