@@ -1,6 +1,6 @@
 # Highlight
 
-The `Highlight` component is used to highlight text that matches a search query. It supports multiple search terms, case-sensitive/insensitive matching, and accent-insensitive matching.
+The `Highlight` component is used to highlight text that matches a search query.
 
 ## Import
 
@@ -24,9 +24,13 @@ The `Highlight` component supports the same variants as the `Mark` component.
 
 #### `highlight`
 
+The `highlight` variant highlights search keywords with a yellow background. It is commonly used for table search results.
+
 {render('./variant-highlight')}
 
 #### `emphasis`
+
+The `emphasis` variant is used to emphasize text, such as in dropdown search results.
 
 {render('./variant-emphasis')}
 
@@ -64,8 +68,8 @@ const transformAccents = (x) => {
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| children | ReactNode | | The content to search and highlight. It can be a plain string or React elements containing text. |
 | caseSensitive | boolean | false | Whether matching should be case-sensitive. |
+| children | ReactNode | | The content to search and highlight. It can be a plain string or React elements containing text. |
 | query | string \| string[] | | The search word(s) to highlight within the content. |
 | slots | object | | Custom components used for rendering. Use `slots.mark` to replace the default `Mark` component. |
 | slotProps | object | | Props forwarded to slot components. Use `slotProps.mark` to pass additional props to the `Mark` component. |

@@ -6,7 +6,7 @@ import React from 'react';
  * @param {(text: string) => React.ReactNode | null} callback - Function to transform text content
  * @returns {React.ReactNode} - JSX with transformed text nodes
  */
-function transformTextNodes(children, callback) {
+function transformJSXTextNodes(children, callback) {
   return React.Children.toArray(children)
     .map((child) => {
       if (typeof child === 'string') {
@@ -15,7 +15,7 @@ function transformTextNodes(children, callback) {
       } else if (React.isValidElement(child)) {
         // Recursively transform nested children
         return React.cloneElement(child, {
-          children: transformTextNodes(child.props.children, callback),
+          children: transformJSXTextNodes(child.props.children, callback),
         });
       }
       return child; // leave non-text, non-element nodes as-is
@@ -24,5 +24,5 @@ function transformTextNodes(children, callback) {
 }
 
 export {
-  transformTextNodes,
+  transformJSXTextNodes,
 };
