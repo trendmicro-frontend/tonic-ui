@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Highlight should render correctly 1`] = `
+.emotion-2 {
+  background-color: #fce79e;
+  color: var(--tonic-colors-black-primary);
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-testid="highlight"
+  >
+    <mark
+      class="emotion-2 emotion-1"
+    >
+      hello
+    </mark>
+     world
+  </div>
+</div>
+`;
+
+exports[`Highlight slots and slotProps should pass slotProps to mark component 1`] = `
+.emotion-2 {
+  background-color: #fce79e;
+  color: var(--tonic-colors-black-primary);
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+  >
+    <mark
+      class="custom-highlight emotion-2 emotion-1"
+      data-testid="highlight-mark"
+    >
+      hello
+    </mark>
+     world
+  </div>
+</div>
+`;
+
+exports[`Highlight variants should apply "emphasis" variant 1`] = `
+.emotion-2 {
+  background-color: inherit;
+  color: var(--tonic-colors-white-emphasis);
+  font-weight: var(--tonic-fontWeights-semibold);
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+  >
+    <mark
+      class="emotion-2 emotion-1"
+    >
+      hello
+    </mark>
+     world
+  </div>
+</div>
+`;
+
+exports[`Highlight variants should apply "highlight" variant 1`] = `
+.emotion-2 {
+  background-color: #fce79e;
+  color: var(--tonic-colors-black-primary);
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+  >
+    <mark
+      class="emotion-2 emotion-1"
+    >
+      hello
+    </mark>
+     world
+  </div>
+</div>
+`;

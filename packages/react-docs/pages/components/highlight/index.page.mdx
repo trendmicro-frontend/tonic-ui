@@ -1,0 +1,99 @@
+# Highlight
+
+The `Highlight` component is used to highlight text that matches a search query.
+
+## Import
+
+```js
+import { Highlight } from '@tonic-ui/react';
+```
+
+## Usage
+
+The `Highlight` component searches for text that matches the query and highlights it using the `Mark` component.
+
+{render('./query')}
+
+You can highlight multiple search words by passing an array of strings.
+
+{render('./multiple-queries')}
+
+### Variants
+
+The `Highlight` component supports the same variants as the `Mark` component.
+
+#### `emphasis`
+
+The `emphasis` variant applies stronger visual emphasis to matched text. It is often used in dropdown search results.
+
+{render('./variant-emphasis')}
+
+#### `highlight`
+
+The `highlight` variant applies a yellow background to text that matches the search query. It is commonly used in table search results.
+
+{render('./variant-highlight')}
+
+#### `none`
+
+The `none` variant does not apply any default visual styling to matched text. You can fully customize the appearance of highlighted text through `slotProps.mark`.
+
+```jsx
+<Highlight
+  variant="none"
+  query="text"
+  slotProps={{
+    mark: {
+      sx: {
+        // Add your custom styles here
+      },
+    },
+  }}
+>
+  Text to highlight
+</Highlight>
+```
+
+{render('./variant-none')}
+
+### Case sensitivity
+
+By default, matching is case-insensitive. You can enable case-sensitive matching using the `caseSensitive` prop.
+
+#### Case-insensitive matching
+
+{render('./case-insensitive-matching')}
+
+#### Case-sensitive matching
+
+{render('./case-sensitive-matching')}
+
+### Using the `transform` function
+
+The `transform` function allows you to transform search words before matching. This enables custom matching behavior such as accent-insensitive search, case normalization, or any other text transformation needed for your use case.
+
+```js
+const transformAccents = (x) => {
+  if (typeof x !== 'string') {
+    return x;
+  }
+  // Convert to NFD (base letters + combining marks), then strip diacritics
+  return x.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+};
+```
+
+{render('./using-the-transform-function')}
+
+## Props
+
+### Highlight
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| caseSensitive | boolean | false | Whether matching should be case-sensitive. |
+| children | ReactNode | | The content to search and highlight. It can be a plain string or React elements containing text. |
+| query | string \| string[] | | The search word(s) to highlight within the content. |
+| slots | object | | Custom components used for rendering. Use `slots.mark` to replace the default `Mark` component. |
+| slotProps | object | | Props forwarded to slot components. Use `slotProps.mark` to pass additional props to the `Mark` component. |
+| transform | function | | A function that transforms each search word before matching. Useful for implementing custom matching behavior such as accent-insensitive search, text normalization, or other preprocessing. |
+| variant | string | 'highlight' | The visual style applied to highlighted text. Passed to the `Mark` component. Supported variants: 'emphasis', 'highlight', 'none'. |

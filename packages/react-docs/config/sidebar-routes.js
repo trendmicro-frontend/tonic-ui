@@ -408,6 +408,18 @@ export const routes = [
           );
         },
       },
+      { title: 'Highlight', path: 'components/highlight' },
+      {
+        title: 'Mark',
+        path: 'components/mark',
+        render: () => {
+          return (
+            <Tooltip label={<Text>{`tag: mark`}</Text>}>
+              <CodeIcon cursor="default" />
+            </Tooltip>
+          );
+        },
+      },
       { title: 'Text', path: 'components/text' },
       {
         title: 'TextLabel',
