@@ -1,5 +1,5 @@
 import { useColorMode } from '../color-mode';
-import { VARIANT_EMPHASIS, VARIANT_HIGHLIGHT, VARIANT_SELECTION } from './constants';
+import { VARIANT_EMPHASIS, VARIANT_HIGHLIGHT } from './constants';
 
 const useMarkStyle = ({ variant }) => {
   const [colorMode] = useColorMode();
@@ -29,10 +29,6 @@ const useMarkStyle = ({ variant }) => {
     [VARIANT_HIGHLIGHT]: {
       backgroundColor: '#fce79e',
       color: 'black:primary',
-    },
-    [VARIANT_SELECTION]: {
-      backgroundColor: 'blue:60',
-      color: 'white:primary',
     },
   }[variant];
 

@@ -1,6 +1,6 @@
 # Mark
 
-The `Mark` component is used to emphasize or draw attention to specific text. It offers multiple variants for different purposes, such as emphasizing content, marking search keywords, or indicating text selection.
+The `Mark` component is used to emphasize or draw attention to specific text. It offers multiple variants for different purposes, such as emphasizing content or marking search keywords.
 
 ## Import
 
@@ -12,7 +12,7 @@ import { Mark } from '@tonic-ui/react';
 
 ### Variants
 
-The `Mark` component supports the following variants: `none`, `highlight`, `selection`, and `emphasis`.
+The `Mark` component supports the following variants: `emphasis`, `highlight`, and `none`.
 If no variant is specified, it defaults to `none`.
 
 {render('./variants')}
@@ -30,4 +30,4 @@ You can customize the appearance of the `Mark` component using style props to ov
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
-| variant | string | 'none' | The variant to use. Defaults to 'none' if not provided. Available options: 'none', 'emphasis', 'highlight', 'selection'. |
+| variant | string | 'none' | The variant to use. One of: 'emphasis', 'highlight', 'none'. |
