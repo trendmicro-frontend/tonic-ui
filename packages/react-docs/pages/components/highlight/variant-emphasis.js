@@ -8,6 +8,7 @@ import {
   MenuList,
   OverflowTooltip,
   Text,
+  useColorStyle,
 } from '@tonic-ui/react';
 import React, { useState } from 'react';
 
@@ -42,6 +43,7 @@ const fruits = [
 ];
 
 const App = () => {
+  const [colorStyle] = useColorStyle();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFruit, setSelectedFruit] = useState('');
 
@@ -102,7 +104,7 @@ const App = () => {
               }}
             />
           </Box>
-          {filteredFruits.length > 0 ? (
+          {filteredFruits.length > 0 && (
             filteredFruits.map((fruit) => (
               <MenuItem
                 key={fruit}
@@ -113,10 +115,11 @@ const App = () => {
                 </Highlight>
               </MenuItem>
             ))
-          ) : (
-            <MenuItem disabled>
-              <Text color="gray:50">No results found</Text>
-            </MenuItem>
+          )}
+          {filteredFruits.length === 0 && (
+            <Box px="3x" py="2x" textAlign="center">
+              <Text color={colorStyle.color.secondary}>No matches found.</Text>
+            </Box>
           )}
         </MenuList>
       </Menu>
