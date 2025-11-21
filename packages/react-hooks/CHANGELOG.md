@@ -1,5 +1,13 @@
 # @tonic-ui/react-hooks
 
+## 2.2.1
+
+### Patch Changes
+
+- chore: update React dependencies to support v19 by [@cheton](https://github.com/cheton) in [#1065](https://github.com/trendmicro-frontend/tonic-ui/pull/1065)
+
+- feat: upgrade Emotion packages to support React 19 compatibility by [@cheton](https://github.com/cheton) in [#1076](https://github.com/trendmicro-frontend/tonic-ui/pull/1076)
+
 ## 2.2.0
 
 ### Minor Changes
