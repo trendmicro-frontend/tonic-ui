@@ -1,5 +1,11 @@
 # @tonic-ui/react
 
+## 2.10.0
+
+### Minor Changes
+
+- feat: add `Highlight` and `Mark` components by [@cheton](https://github.com/cheton) in [#1074](https://github.com/trendmicro-frontend/tonic-ui/pull/1074)
+
 ## 2.9.0
 
 ### Minor Changes
