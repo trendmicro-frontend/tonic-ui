@@ -14,7 +14,7 @@ import {
   SubmenuToggle,
   Text,
 } from '@tonic-ui/react/src';
-import React from 'react';
+import React, { act } from 'react';
 
 describe('Menu', () => {
   const TestComponent = (props) => {
@@ -132,7 +132,141 @@ describe('Menu', () => {
     });
   });
 
+  describe('Keyboard navigation', () => {
+    it('should navigate menu items with ArrowDown and ArrowUp keys', async () => {
+      const user = userEvent.setup();
+      render(<TestComponent />);
+
+      const button = screen.getByTestId('button');
+
+      // Open the menu
+      await user.click(button);
+      expect(await screen.findByRole('menu')).toBeInTheDocument();
+
+      // The menu list should have focus
+      const menuList = screen.getByTestId('menu-list');
+      expect(menuList).toHaveFocus();
+
+      // Press ArrowDown to focus the first menu item
+      await user.keyboard('[ArrowDown]');
+      const menuItems = screen.getAllByRole('menuitem');
+      expect(menuItems[0]).toHaveFocus();
+
+      // Press ArrowDown to focus the second menu item
+      await user.keyboard('[ArrowDown]');
+      expect(menuItems[1]).toHaveFocus();
+
+      // Press ArrowUp to go back to the first menu item
+      await user.keyboard('[ArrowUp]');
+      expect(menuItems[0]).toHaveFocus();
+    });
+
+    it('should navigate to first/last item with Home and End keys', async () => {
+      const user = userEvent.setup();
+      render(<TestComponent />);
+
+      const button = screen.getByTestId('button');
+
+      // Open the menu
+      await user.click(button);
+      expect(await screen.findByRole('menu')).toBeInTheDocument();
+
+      // Press ArrowDown to focus the first menu item
+      await user.keyboard('[ArrowDown]');
+      const menuItems = screen.getAllByRole('menuitem');
+      expect(menuItems[0]).toHaveFocus();
+
+      // Press End to go to the last menu item
+      await user.keyboard('[End]');
+      // The last non-disabled item should be focused
+      expect(menuItems[1]).toHaveFocus();
+
+      // Press Home to go back to the first menu item
+      await user.keyboard('[Home]');
+      expect(menuItems[0]).toHaveFocus();
+    });
+
+  });
+
   describe('Submenu with portal', () => {
+    // NOTE: Test that uses fake timers must run last to avoid test isolation issues
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    it('should close the menu when clicking outside both menu and submenu content', async () => {
+      const user = userEvent.setup();
+
+      const SubmenuTestComponent = () => {
+        return (
+          <Menu>
+            <MenuButton data-testid="menu-button">
+              Options
+            </MenuButton>
+            <MenuList
+              data-testid="menu-list"
+              PopperProps={{
+                usePortal: true,
+              }}
+            >
+              <MenuItem data-testid="menu-item-1">Menu item 1</MenuItem>
+              <MenuDivider />
+              <Submenu>
+                <SubmenuToggle data-testid="submenu-toggle">
+                  <MenuItem>
+                    <Flex alignItems="center" justifyContent="space-between" width="100%">
+                      <Text>Submenu</Text>
+                    </Flex>
+                  </MenuItem>
+                </SubmenuToggle>
+                <SubmenuList
+                  data-testid="submenu-list"
+                  PopperProps={{
+                    usePortal: true,
+                  }}
+                >
+                  <MenuItem data-testid="submenu-item-1">Submenu item 1</MenuItem>
+                </SubmenuList>
+              </Submenu>
+            </MenuList>
+          </Menu>
+        );
+      };
+
+      render(
+        <>
+          <SubmenuTestComponent />
+          <button data-testid="outside-button">Outside</button>
+        </>
+      );
+
+      const menuButton = screen.getByTestId('menu-button');
+
+      // Open the menu
+      await user.click(menuButton);
+
+      // The menu should be open
+      expect(await screen.findByTestId('menu-list')).toBeInTheDocument();
+
+      // Hover over the submenu toggle to open the submenu
+      const submenuToggle = screen.getByTestId('submenu-toggle');
+      await user.hover(submenuToggle);
+
+      // The submenu should be open
+      await waitFor(() => {
+        expect(screen.getByTestId('submenu-list')).toBeInTheDocument();
+      });
+
+      // Click outside the menu and submenu
+      const outsideButton = screen.getByTestId('outside-button');
+      await user.click(outsideButton);
+
+      // The menu should be closed
+      await waitFor(() => {
+        expect(screen.queryByTestId('menu-list')).not.toBeInTheDocument();
+      });
+    });
+
     it('should receive click events when clicking submenu items rendered in a portal', async () => {
       const user = userEvent.setup();
       const handleMenuListClick = jest.fn();
@@ -212,8 +346,9 @@ describe('Menu', () => {
       expect(screen.getByTestId('menu-list')).toBeInTheDocument();
     });
 
-    it('should close the menu when clicking outside both menu and submenu content', async () => {
-      const user = userEvent.setup();
+    it('should close submenu when mouse leaves both toggle and content', async () => {
+      jest.useFakeTimers();
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
       const SubmenuTestComponent = () => {
         return (
@@ -251,12 +386,7 @@ describe('Menu', () => {
         );
       };
 
-      render(
-        <>
-          <SubmenuTestComponent />
-          <button data-testid="outside-button">Outside</button>
-        </>
-      );
+      render(<SubmenuTestComponent />);
 
       const menuButton = screen.getByTestId('menu-button');
 
@@ -275,13 +405,24 @@ describe('Menu', () => {
         expect(screen.getByTestId('submenu-list')).toBeInTheDocument();
       });
 
-      // Click outside the menu and submenu
-      const outsideButton = screen.getByTestId('outside-button');
-      await user.click(outsideButton);
+      // Move to submenu content
+      const submenuList = screen.getByTestId('submenu-list');
+      await user.hover(submenuList);
 
-      // The menu should be closed
+      // The submenu should still be open
+      expect(screen.getByTestId('submenu-list')).toBeInTheDocument();
+
+      // Move mouse away from submenu
+      await user.unhover(submenuList);
+
+      // Advance timers to trigger the close timeout
+      await act(async () => {
+        jest.advanceTimersByTime(150);
+      });
+
+      // The submenu should be closed after the timeout
       await waitFor(() => {
-        expect(screen.queryByTestId('menu-list')).not.toBeInTheDocument();
+        expect(screen.queryByTestId('submenu-list')).not.toBeInTheDocument();
       });
     });
   });
