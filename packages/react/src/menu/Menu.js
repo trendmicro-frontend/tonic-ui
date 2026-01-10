@@ -40,6 +40,8 @@ const Menu = forwardRef((inProps, ref) => {
   } = useDefaultProps({ props: inProps, name: 'Menu' });
   const menuContentRef = useRef(null);
   const menuToggleRef = useRef(null);
+  // The `submenuContentRefs` is used to store refs of submenu contents for detecting clicks outside the menu and its submenus
+  const submenuContentRefs = useRef(new Set());
   const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
   const [isOpen, setIsOpen] = useState(isOpenProp ?? defaultIsOpen);
   const prevIsOpen = usePrevious(isOpen);
@@ -198,6 +200,7 @@ const Menu = forwardRef((inProps, ref) => {
     menuContentRef,
     menuToggleId,
     menuToggleRef,
+    submenuContentRefs,
   });
   const styleProps = useMenuStyle({});
 

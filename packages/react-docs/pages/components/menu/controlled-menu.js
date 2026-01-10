@@ -33,6 +33,9 @@ const App = () => {
           Options
         </MenuButton>
         <MenuList
+          PopperProps={{
+            usePortal: true,
+          }}
           onClick={handleClickMenuItem}
           width="max-content"
         >
@@ -57,7 +60,12 @@ const App = () => {
                 </Flex>
               </MenuItem>
             </SubmenuToggle>
-            <SubmenuList width="max-content">
+            <SubmenuList
+              PopperProps={{
+                usePortal: true,
+              }}
+              width="max-content"
+            >
               <MenuItem value={3}>
                 List item 3
               </MenuItem>
@@ -68,7 +76,7 @@ const App = () => {
           </Submenu>
         </MenuList>
       </Menu>
-      <Text>Selected: {selectedValue}</Text>
+      <Text>Selected value: {selectedValue}</Text>
     </Flex>
   );
 };

@@ -1,11 +1,12 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { callAll, callEventHandlers } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
-import React, { forwardRef, useMemo, useRef } from 'react';
+import React, { forwardRef, useEffect, useMemo, useRef } from 'react';
 import { useDefaultProps } from '../default-props';
 import { Popper } from '../popper';
 import { Collapse } from '../transitions';
 import { useSubmenuContentStyle } from './styles';
+import useMenu from './useMenu';
 import useSubmenu from './useSubmenu';
 
 const SubmenuContent = forwardRef((inProps, ref) => {
@@ -22,7 +23,11 @@ const SubmenuContent = forwardRef((inProps, ref) => {
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);
   const mouseLeaveTimeoutRef = useRef();
+  const menuContext = useMenu(); // context might be an undefined value
   const submenuContext = useSubmenu(); // context might be an undefined value
+  const {
+    submenuContentRefs,
+  } = { ...menuContext };
   const {
     isHoveringSubmenuContentRef,
     isHoveringSubmenuToggleRef,
@@ -35,6 +40,20 @@ const SubmenuContent = forwardRef((inProps, ref) => {
     submenuToggleRef,
     submenuContentRef,
   } = { ...submenuContext };
+
+  // Register/unregister submenu content ref with parent menu to handle portal-rendered submenus
+  useEffect(() => { // eslint-disable-line consistent-return
+    const submenuContentSet = submenuContentRefs?.current;
+    if (submenuContentSet && submenuContentRef) {
+      // Register submenu content ref
+      submenuContentSet.add(submenuContentRef);
+      return () => {
+        // Unregister submenu content ref
+        submenuContentSet.delete(submenuContentRef);
+      };
+    }
+  }, [submenuContentRefs, submenuContentRef]);
+
   const eventHandler = {};
 
   eventHandler.onMouseEnter = function (event) {

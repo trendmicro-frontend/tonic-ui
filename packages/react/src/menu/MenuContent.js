@@ -36,6 +36,7 @@ const MenuContent = forwardRef((inProps, ref) => {
     offset,
     onClose: closeMenu,
     placement,
+    submenuContentRefs,
   } = { ...menuContext };
   const eventHandler = {};
 
@@ -46,7 +47,29 @@ const MenuContent = forwardRef((inProps, ref) => {
     const focusTarget = event.relatedTarget || document.activeElement; // `relatedTarget` is the `EventTarget` receiving focus (if any)
     const isOutsideMenuToggle = !(menuToggleRef.current?.contains?.(focusTarget));
     const isOutsideMenuContent = !(menuContentRef.current?.contains?.(focusTarget));
-    const shouldClose = isOpen && closeOnBlur && !!focusTarget && isOutsideMenuToggle && isOutsideMenuContent;
+
+    // Check if focus target is outside all submenu contents rendered in portals
+    let isOutsideSubmenuContent = true;
+    if (submenuContentRefs?.current) {
+      for (const submenuContentRef of submenuContentRefs.current) {
+        if (submenuContentRef.current?.contains?.(focusTarget)) {
+          isOutsideSubmenuContent = false;
+          break;
+        }
+      }
+    }
+
+    // Close the menu only if focus moves outside the menu toggle, menu content, and all submenu contents
+    //
+    // | Scenario        | isOutsideMenuToggle | isOutsideMenuContent | isOutsideSubmenuContent | shouldClose |
+    // | --------------- | ------------------- | -------------------- | ----------------------- | ----------- |
+    // | Click menu item | true                | false                | true                    | false       |
+    // | Click toggle    | false               | true                 | true                    | false       |
+    // | Click submenu   | true                | true                 | false                   | false       |
+    // | Click outside   | true                | true                 | true                    | true        |
+    //
+    const isOutsideMenu = isOutsideMenuToggle && isOutsideMenuContent && isOutsideSubmenuContent;
+    const shouldClose = isOpen && closeOnBlur && !!focusTarget && isOutsideMenu;
 
     if (shouldClose) {
       ensureFunction(closeMenu)();
