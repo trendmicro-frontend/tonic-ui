@@ -9,6 +9,9 @@ const useIconButtonStyle = ({
     color: color,
     width: size,
     height: size,
+    _disabled: {
+      color: color,
+    },
   };
 };
 
