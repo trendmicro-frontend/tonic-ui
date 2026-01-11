@@ -1,5 +1,5 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
-import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
+import { ariaAttr, callEventHandlers, getAllFocusable } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useRef } from 'react';
 import { Box } from '../box';
@@ -81,9 +81,10 @@ const SubmenuToggle = forwardRef((inProps, ref) => {
     const wrapper = event.currentTarget;
     if (event.target === wrapper) {
       // Find the first focusable element inside the wrapper
-      const focusableElement = wrapper.querySelector('[tabindex], button, a, input, select, textarea');
-      if (focusableElement && focusableElement !== wrapper) {
-        focusableElement.focus();
+      const focusableElements = getAllFocusable(wrapper);
+      const firstFocusable = focusableElements[0];
+      if (firstFocusable && firstFocusable !== wrapper) {
+        firstFocusable.focus();
       }
     }
   };
