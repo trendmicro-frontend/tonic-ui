@@ -13,6 +13,8 @@ const SubmenuToggle = forwardRef((inProps, ref) => {
   const {
     children,
     disabled,
+    onFocus: onFocusProp,
+    onKeyDown: onKeyDownProp,
     onMouseEnter: onMouseEnterProp,
     onMouseLeave: onMouseLeaveProp,
     ...rest
@@ -20,11 +22,13 @@ const SubmenuToggle = forwardRef((inProps, ref) => {
   const mouseLeaveTimeoutRef = useRef();
   const submenuContext = useSubmenu(); // context might be an undefined value
   const {
+    focusOnFirstItem,
     isHoveringSubmenuContentRef,
     isHoveringSubmenuToggleRef,
     isOpen,
     onClose: closeSubmenu,
     onOpen: openSubmenu,
+    placement,
     submenuId,
     submenuToggleId,
     submenuToggleRef,
@@ -67,6 +71,53 @@ const SubmenuToggle = forwardRef((inProps, ref) => {
     }, 100); // XXX: keep opening Submenu when cursor quickly move between SubmenuToggle and SubmenuContent
   };
 
+  // When used as a wrapper, forward focus to the first focusable element (MenuItem) inside
+  eventHandler.onFocus = function (event) {
+    if (disabled) {
+      return;
+    }
+
+    // Only forward focus if the event target is the wrapper itself
+    const wrapper = event.currentTarget;
+    if (event.target === wrapper) {
+      // Find the first focusable element inside the wrapper
+      const focusableElement = wrapper.querySelector('[tabindex], button, a, input, select, textarea');
+      if (focusableElement && focusableElement !== wrapper) {
+        focusableElement.focus();
+      }
+    }
+  };
+
+  // Keyboard navigation for submenu toggle
+  eventHandler.onKeyDown = function (event) {
+    if (disabled) {
+      return;
+    }
+
+    const key = event?.key;
+
+    // Determine the open/close direction based on placement
+    // For 'right-start' or 'right-end', ArrowRight opens the submenu
+    // For 'left-start' or 'left-end', ArrowLeft opens the submenu
+    const isRightPlacement = placement?.startsWith('right');
+    const openKey = isRightPlacement ? 'ArrowRight' : 'ArrowLeft';
+    const closeKey = isRightPlacement ? 'ArrowLeft' : 'ArrowRight';
+
+    if (key === openKey || key === 'Enter' || key === ' ') {
+      event.preventDefault();
+      event.stopPropagation();
+      ensureFunction(openSubmenu)();
+      ensureFunction(focusOnFirstItem)();
+    }
+
+    // Close submenu with closeKey (ArrowLeft for right placement) or Escape when submenu is open
+    if ((key === closeKey || key === 'Escape') && isOpen) {
+      event.preventDefault();
+      event.stopPropagation();
+      ensureFunction(closeSubmenu)();
+    }
+  };
+
   const getSubmenuToggleProps = () => ({
     'aria-controls': submenuId,
     'aria-disabled': ariaAttr(disabled),
@@ -74,10 +125,13 @@ const SubmenuToggle = forwardRef((inProps, ref) => {
     'aria-haspopup': 'menu',
     disabled,
     id: submenuToggleId,
+    onFocus: callEventHandlers(onFocusProp, eventHandler.onFocus),
+    onKeyDown: callEventHandlers(onKeyDownProp, eventHandler.onKeyDown),
     onMouseEnter: callEventHandlers(onMouseEnterProp, eventHandler.onMouseEnter),
     onMouseLeave: callEventHandlers(onMouseLeaveProp, eventHandler.onMouseLeave),
     ref: combinedRef,
-    role: 'presentation',
+    role: 'menuitem',
+    tabIndex: -1,
     ...styleProps,
     ...rest,
   });
@@ -88,8 +142,13 @@ const SubmenuToggle = forwardRef((inProps, ref) => {
     });
   }
 
+  // When used as a wrapper, use role="presentation" since the child MenuItem
+  // has its own role="menuitem"
   return (
-    <Box {...getSubmenuToggleProps()}>
+    <Box
+      {...getSubmenuToggleProps()}
+      role="presentation"
+    >
       {children}
     </Box>
   );
