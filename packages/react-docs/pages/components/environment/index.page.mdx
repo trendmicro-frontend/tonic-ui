@@ -1,0 +1,126 @@
+# Environment
+
+The `EnvironmentProvider` enables Tonic UI components to work correctly in non-standard DOM environments such as iframes, Shadow DOM, or Electron applications.
+
+## Why do I need this?
+
+**TL;DR:** If your app renders in a standard browser environment, you don't need to configure anything. The environment context is automatically provided by default.
+
+Many Tonic UI components internally use DOM APIs like `document.querySelector()` or `window.getComputedStyle()`. In standard environments, these work fine. However, in special contexts like iframes or Shadow DOM, the global `document` and `window` objects don't reference the correct context, causing components to malfunction.
+
+The `EnvironmentProvider` solves this by providing the correct DOM context to all components.
+
+## When do I need to configure this?
+
+You need to configure the environment when rendering your application in:
+
+- **Shadow DOM** - Components are rendered inside a shadow root
+- **iframes** - Components are rendered inside an iframe's document
+- **Electron apps** - When using multiple browser windows
+- **Web Components** - When building custom elements with isolated DOM trees
+
+For standard browser applications, the default configuration works out of the box.
+
+## Setup
+
+By using `TonicProvider` at root of your application, it will add `EnvironmentProvider` internally to provide the environment context to all components.
+
+To get environment working correctly in non-standard DOM contexts, you need to pass the `environment` config to `TonicProvider` with `value` set to your custom root node.
+
+```jsx
+import React from 'react';
+import { Box, TonicProvider } from '@tonic-ui/react';
+
+function App(props) {
+  return (
+    <TonicProvider
+      /**
+       * The `environment` config
+       * @param {RootNode | (() => RootNode)} value The root node or a function that returns the root node.
+       */
+      environment={{
+        value: () => document
+      }}
+    >
+      <Box {...props} />
+    </TonicProvider>
+  );
+}
+```
+
+The above setup is equivalent to:
+
+```jsx
+<EnvironmentProvider value={document}>
+  <Box {...props} />
+</EnvironmentProvider>
+```
+
+**Note:** Use a function `() => rootNode` when the root node might change or isn't available during initial render.
+
+## Examples
+
+### Usage with Shadow DOM
+
+When rendering components inside a Shadow DOM, pass the shadow root to the `EnvironmentProvider`:
+
+{render('./usage-in-shadow-dom')}
+
+### Usage with iframe
+
+When rendering components inside an iframe, pass the iframe's document to the `EnvironmentProvider`:
+
+{render('./usage-in-iframe')}
+
+## Using the environment context
+
+Use the `useEnvironment` hook to access the environment context in your custom components. This is useful when you need to interact with the DOM directly:
+
+```jsx disabled
+import { useEnvironment } from '@tonic-ui/react';
+
+const MyCustomComponent = () => {
+  const { getDocument, getWindow } = useEnvironment();
+
+  const handleClick = () => {
+    const doc = getDocument();
+    const win = getWindow();
+
+    // Use the correct document/window for the current environment
+    const element = doc.querySelector('#my-element');
+    const styles = win.getComputedStyle(element);
+  };
+
+  return (
+    <button onClick={handleClick}>
+      Interact with DOM
+    </button>
+  );
+};
+```
+
+**Common use cases:**
+
+- Querying DOM elements in the correct context
+- Adding event listeners to the correct window/document
+- Measuring elements using the correct viewport
+- Portal rendering to the correct document
+
+## API reference
+
+### EnvironmentProvider
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | The content of the component. |
+| value | RootNode \| (() => RootNode) | `document` | The root node or a function that returns the root node. Can be a `Document`, `ShadowRoot`, or any `Node`. Use a function when the node might not be available during initial render. |
+
+### useEnvironment
+
+The `useEnvironment` hook returns an object with the following methods:
+
+| Method | Return Type | Description |
+| :----- | :---------- | :---------- |
+| getRootNode | () => RootNode | Returns the root node of the current environment. |
+| getDocument | () => Document | Returns the document object for the current environment. |
+| getWindow | () => Window | Returns the window object for the current environment. |

@@ -152,6 +152,10 @@ export const routes = [
       { title: 'Overview', path: 'components/color-style' },
       { title: 'useColorStyle', path: 'components/color-style/useColorStyle' },
 
+      { title: 'ENVIRONMENT', heading: true },
+      { title: 'Overview', path: 'components/environment' },
+      { title: 'useEnvironment', path: 'components/environment/useEnvironment' },
+
       { title: 'LAYOUT', heading: true },
       { title: 'Box', path: 'components/box' },
       { title: 'Flex', path: 'components/flex' },
