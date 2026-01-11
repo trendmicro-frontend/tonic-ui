@@ -14,7 +14,7 @@ import {
   SubmenuToggle,
   Text,
 } from '@tonic-ui/react/src';
-import React, { act } from 'react';
+import React from 'react';
 
 describe('Menu', () => {
   const TestComponent = (props) => {
@@ -185,7 +185,6 @@ describe('Menu', () => {
       await user.keyboard('[Home]');
       expect(menuItems[0]).toHaveFocus();
     });
-
   });
 
   describe('Submenu with portal', () => {
@@ -416,9 +415,7 @@ describe('Menu', () => {
       await user.unhover(submenuList);
 
       // Advance timers to trigger the close timeout
-      await act(async () => {
-        jest.advanceTimersByTime(150);
-      });
+      jest.advanceTimersByTime(150);
 
       // The submenu should be closed after the timeout
       await waitFor(() => {
