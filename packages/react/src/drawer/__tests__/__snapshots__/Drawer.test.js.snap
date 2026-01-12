@@ -142,6 +142,16 @@ exports[`Drawer should render correctly 1`] = `
   color: var(--tonic-colors-white-emphasis);
 }
 
+.emotion-12:disabled,
+.emotion-12:disabled:focus,
+.emotion-12:disabled:hover,
+.emotion-12[aria-disabled=true],
+.emotion-12[aria-disabled=true]:focus,
+.emotion-12[aria-disabled=true]:hover,
+.emotion-12[data-disabled] {
+  color: var(--tonic-colors-white-tertiary);
+}
+
 .emotion-14 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
