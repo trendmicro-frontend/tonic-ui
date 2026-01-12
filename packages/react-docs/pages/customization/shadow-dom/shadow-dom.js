@@ -28,23 +28,25 @@ import {
   Tooltip,
   createTheme,
   useColorMode,
-  usePortalManager,
   useToastManager,
 } from '@tonic-ui/react';
+import {
+  useToggle,
+} from '@tonic-ui/react-hooks';
 import BorderedBox from '@/components/BorderedBox';
 import { useEffect, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
 
 const NONCE = process.env.NONCE ?? '';
 
-const DrawerComponent = ({ onClose }) => {
+const DrawerComponent = ({ isOpen, onClose }) => {
   return (
     <Drawer
       backdrop
       closeOnEsc
       closeOnInteractOutside
       isClosable
-      isOpen
+      isOpen={isOpen}
       onClose={onClose}
       size="sm"
     >
@@ -78,13 +80,13 @@ const DrawerComponent = ({ onClose }) => {
   );
 };
 
-const ModalComponent = ({ onClose }) => {
+const ModalComponent = ({ isOpen, onClose }) => {
   return (
     <Modal
       closeOnEsc
       closeOnInteractOutside
       isClosable
-      isOpen
+      isOpen={isOpen}
       onClose={onClose}
       size="sm"
     >
@@ -208,6 +210,9 @@ const ShadowDOMContainer = ({ children, colorMode, ...rest }) => {
           colorMode={{
             value: colorMode,
           }}
+          environment={{
+            value: () => shadowContainer.getRootNode(),
+          }}
           theme={shadowTheme}
         >
           <ToastManager
@@ -245,13 +250,20 @@ const ShadowDOMContainer = ({ children, colorMode, ...rest }) => {
 };
 
 const InsideShadowDOMComponent = () => {
-  const portal = usePortalManager();
+  const [isDrawerOpen, setIsDrawerOpen] = useToggle(false);
+  const [isModalOpen, setIsModalOpen] = useToggle(false);
   const toast = useToastManager();
-  const handleClickDrawer = () => {
-    portal((close) => <DrawerComponent onClose={close} />);
+  const handleOpenDrawer = () => {
+    setIsDrawerOpen(true);
   };
-  const handleClickModal = () => {
-    portal((close) => <ModalComponent onClose={close} />);
+  const handleCloseDrawer = () => {
+    setIsDrawerOpen(false);
+  };
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
   const handleClickToast = () => {
     const render = ({ id, onClose, placement }) => {
@@ -289,13 +301,13 @@ const InsideShadowDOMComponent = () => {
       <Flex columnGap="4x">
         <Button
           variant="secondary"
-          onClick={handleClickDrawer}
+          onClick={handleOpenDrawer}
         >
           Open Drawer
         </Button>
         <Button
           variant="secondary"
-          onClick={handleClickModal}
+          onClick={handleOpenModal}
         >
           Open Modal
         </Button>
@@ -314,18 +326,27 @@ const InsideShadowDOMComponent = () => {
           </Button>
         </Tooltip>
       </Flex>
+      <DrawerComponent isOpen={isDrawerOpen} onClose={handleCloseDrawer} />
+      <ModalComponent isOpen={isModalOpen} onClose={handleCloseModal} />
     </BorderedBox>
   );
 };
 
 const OutsideShadowDOMComponent = () => {
-  const portal = usePortalManager();
+  const [isDrawerOpen, setIsDrawerOpen] = useToggle(false);
+  const [isModalOpen, setIsModalOpen] = useToggle(false);
   const toast = useToastManager();
-  const handleClickDrawer = () => {
-    portal((close) => <DrawerComponent onClose={close} />);
+  const handleOpenDrawer = () => {
+    setIsDrawerOpen(true);
   };
-  const handleClickModal = () => {
-    portal((close) => <ModalComponent onClose={close} />);
+  const handleCloseDrawer = () => {
+    setIsDrawerOpen(false);
+  };
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
   const handleClickToast = () => {
     const render = ({ id, onClose, placement }) => {
@@ -363,13 +384,13 @@ const OutsideShadowDOMComponent = () => {
       <Flex columnGap="4x">
         <Button
           variant="secondary"
-          onClick={handleClickDrawer}
+          onClick={handleOpenDrawer}
         >
           Open Drawer
         </Button>
         <Button
           variant="secondary"
-          onClick={handleClickModal}
+          onClick={handleOpenModal}
         >
           Open Modal
         </Button>
@@ -388,6 +409,8 @@ const OutsideShadowDOMComponent = () => {
           </Button>
         </Tooltip>
       </Flex>
+      <DrawerComponent isOpen={isDrawerOpen} onClose={handleCloseDrawer} />
+      <ModalComponent isOpen={isModalOpen} onClose={handleCloseModal} />
     </BorderedBox>
   );
 };
