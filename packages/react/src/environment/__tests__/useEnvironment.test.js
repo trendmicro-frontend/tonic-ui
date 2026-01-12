@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import { renderHook } from '@testing-library/react';
 import React from 'react';
 import EnvironmentProvider from '../EnvironmentProvider';

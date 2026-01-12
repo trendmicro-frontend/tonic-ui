@@ -1,5 +1,5 @@
-import { render } from '@testing-library/react';
-import { renderHook } from '@testing-library/react';
+/* eslint-disable react/jsx-no-bind */
+import { render, renderHook } from '@testing-library/react';
 import React from 'react';
 import { Text } from '@tonic-ui/react/src';
 import EnvironmentProvider from '../EnvironmentProvider';
