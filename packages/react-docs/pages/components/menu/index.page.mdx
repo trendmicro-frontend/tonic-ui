@@ -16,7 +16,8 @@ A menu is used to display a list of options to the user. It appears when the use
 - `Submenu`: The component that provides the submenu functionality.
 - `SubmenuContent`: An unstyled component that provides the submenu content.
 - `SubmenuList`: A styled `SubmenuContent` that wraps the submenu items.
-- `SubmenuToggle`: The toggle that opens the submenu when the menu item is hovered over.
+- `SubmenuTrigger`: A trigger that opens a submenu when interacted with.
+- `SubmenuToggle`: (Deprecated) Use `SubmenuTrigger` instead.
 
 ```js
 import {
@@ -32,7 +33,7 @@ import {
   Submenu,
   SubmenuContent,
   SubmenuList,
-  SubmenuToggle,
+  SubmenuTrigger,
   useMenu,
   useSubmenu,
 } from '@tonic-ui/react';
@@ -352,7 +353,18 @@ Check out the following components for more details:
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
 
-### SubmenuToggle
+### SubmenuTrigger
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | The content of the submenu trigger. |
+| disabled | boolean | | Whether the submenu trigger is disabled. |
+| onClick | function | | Callback when the submenu trigger is clicked. |
+| onKeyDown | function | | Callback when a key is pressed. |
+
+### SubmenuToggle (Deprecated)
+
+**Deprecated:** Use `SubmenuTrigger` instead.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
