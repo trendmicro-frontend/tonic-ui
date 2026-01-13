@@ -239,6 +239,9 @@ const useSubmenuListStyle = ({
   };
 };
 
+const useSubmenuTriggerStyle = useMenuItemStyle;
+
+// deprecated
 const useSubmenuToggleStyle = () => {
   return {
     cursor: 'pointer',
@@ -260,5 +263,8 @@ export {
   useSubmenuStyle,
   useSubmenuContentStyle,
   useSubmenuListStyle,
+  useSubmenuTriggerStyle,
+
+  // deprecated
   useSubmenuToggleStyle,
 };
