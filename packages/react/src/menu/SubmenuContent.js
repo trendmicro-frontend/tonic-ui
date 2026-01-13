@@ -16,6 +16,7 @@ const SubmenuContent = forwardRef((inProps, ref) => {
     TransitionComponent = Collapse,
     TransitionProps,
     children,
+    onKeyDown: onKeyDownProp,
     onMouseEnter: onMouseEnterProp,
     onMouseLeave: onMouseLeaveProp,
     ...rest
@@ -29,6 +30,11 @@ const SubmenuContent = forwardRef((inProps, ref) => {
     submenuContentRefs,
   } = { ...menuContext };
   const {
+    focusOnFirstItem,
+    focusOnLastItem,
+    focusOnNextItem,
+    focusOnPreviousItem,
+    focusOnSubmenuToggle,
     isHoveringSubmenuContentRef,
     isHoveringSubmenuToggleRef,
     isOpen,
@@ -80,6 +86,48 @@ const SubmenuContent = forwardRef((inProps, ref) => {
     }, 100); // XXX: keep opening Submenu when cursor quickly move between SubmenuToggle and SubmenuContent
   };
 
+  // Keyboard navigation for submenu content
+  eventHandler.onKeyDown = function (event) {
+    const key = event?.key;
+    const shiftKey = event?.shiftKey;
+
+    // Determine the close direction based on placement
+    // For 'right-start' or 'right-end', ArrowLeft closes the submenu
+    // For 'left-start' or 'left-end', ArrowRight closes the submenu
+    const isRightPlacement = placement?.startsWith('right');
+    const closeKey = isRightPlacement ? 'ArrowLeft' : 'ArrowRight';
+
+    // Navigate submenu items using keyboard
+    if (key === 'ArrowDown') {
+      event.preventDefault();
+      ensureFunction(focusOnNextItem)();
+    }
+    if (key === 'ArrowUp') {
+      event.preventDefault();
+      ensureFunction(focusOnPreviousItem)();
+    }
+    if (key === 'End') {
+      event.preventDefault();
+      ensureFunction(focusOnLastItem)();
+    }
+    if (key === 'Home') {
+      event.preventDefault();
+      ensureFunction(focusOnFirstItem)();
+    }
+    if (key === 'Tab') {
+      event.preventDefault();
+      ensureFunction(shiftKey ? focusOnPreviousItem : focusOnNextItem)();
+    }
+
+    // Close submenu and return focus to toggle
+    if (key === closeKey || key === 'Escape') {
+      event.preventDefault();
+      event.stopPropagation();
+      ensureFunction(focusOnSubmenuToggle)();
+      ensureFunction(closeSubmenu)();
+    }
+  };
+
   const tabIndex = -1;
   const styleProps = useSubmenuContentStyle({ tabIndex });
 
@@ -126,6 +174,7 @@ const SubmenuContent = forwardRef((inProps, ref) => {
       usePortal={false} // Pass `true` in `PopperProps` to render menu in a portal
       willUseTransition={true}
       zIndex="dropdown"
+      onKeyDown={callEventHandlers(onKeyDownProp, eventHandler.onKeyDown)}
       onMouseEnter={callEventHandlers(onMouseEnterProp, eventHandler.onMouseEnter)}
       onMouseLeave={callEventHandlers(onMouseLeaveProp, eventHandler.onMouseLeave)}
       {...PopperProps}
