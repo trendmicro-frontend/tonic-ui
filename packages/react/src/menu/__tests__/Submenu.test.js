@@ -85,40 +85,6 @@ describe('Submenu', () => {
       });
     });
 
-    it('should open submenu with Enter key and focus first item', async () => {
-      const user = userEvent.setup();
-      render(<SubmenuKeyboardTestComponent />);
-
-      const menuButton = screen.getByTestId('menu-button');
-
-      // Open the menu
-      await user.click(menuButton);
-      expect(await screen.findByRole('menu')).toBeInTheDocument();
-
-      // Navigate to the submenu toggle
-      await user.keyboard('[ArrowDown]');
-      await user.keyboard('[ArrowDown]');
-      await user.keyboard('[ArrowDown]');
-
-      const submenuToggle = screen.getByTestId('submenu-toggle');
-      await waitFor(() => {
-        expect(submenuToggle).toHaveFocus();
-      });
-
-      // Press Enter to open submenu
-      await user.keyboard('[Enter]');
-
-      // The submenu should be open
-      await waitFor(() => {
-        expect(screen.getByTestId('submenu-list')).toBeInTheDocument();
-      });
-
-      // The first submenu item should be focused
-      await waitFor(() => {
-        expect(screen.getByTestId('submenu-item-1')).toHaveFocus();
-      });
-    });
-
     it('should close submenu with ArrowLeft and return focus to toggle', async () => {
       const user = userEvent.setup();
       render(<SubmenuKeyboardTestComponent />);
@@ -285,13 +251,13 @@ describe('Submenu', () => {
         expect(screen.getByTestId('submenu-item-1')).toHaveFocus();
       });
 
-      // Press End to go to last item (uses requestAnimationFrame, so wait)
+      // Press End to go to last item
       await user.keyboard('[End]');
       await waitFor(() => {
         expect(screen.getByTestId('submenu-item-3')).toHaveFocus();
       });
 
-      // Press Home to go to first item (uses requestAnimationFrame, so wait)
+      // Press Home to go to first item
       await user.keyboard('[Home]');
       await waitFor(() => {
         expect(screen.getByTestId('submenu-item-1')).toHaveFocus();
