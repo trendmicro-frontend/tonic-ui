@@ -72,33 +72,28 @@ const Submenu = forwardRef((inProps, ref) => {
   }, [isOpenProp, onOpenProp]);
 
   const focusOnFirstItem = useCallback(() => {
-    // Use requestAnimationFrame to ensure submenu content is rendered
-    requestAnimationFrame(() => {
-      const focusableElements = getFocusableElements();
-      if (focusableElements.length > 0) {
-        setActiveIndex(0);
-        const el = focusableElements[0];
-        el && el.focus();
-        focusableElements.forEach((node, index) => {
-          node.setAttribute('tabindex', index === 0 ? 0 : -1);
-        });
-      }
-    });
+    const focusableElements = getFocusableElements();
+    if (focusableElements.length > 0) {
+      setActiveIndex(0);
+      const el = focusableElements[0];
+      el && el.focus();
+      focusableElements.forEach((node, index) => {
+        node.setAttribute('tabindex', index === 0 ? 0 : -1);
+      });
+    }
   }, [getFocusableElements]);
 
   const focusOnLastItem = useCallback(() => {
-    requestAnimationFrame(() => {
-      const focusableElements = getFocusableElements();
-      if (focusableElements.length > 0) {
-        const lastIndex = focusableElements.length - 1;
-        setActiveIndex(lastIndex);
-        const el = focusableElements[lastIndex];
-        el && el.focus();
-        focusableElements.forEach((node, index) => {
-          node.setAttribute('tabindex', index === lastIndex ? 0 : -1);
-        });
-      }
-    });
+    const focusableElements = getFocusableElements();
+    if (focusableElements.length > 0) {
+      const lastIndex = focusableElements.length - 1;
+      setActiveIndex(lastIndex);
+      const el = focusableElements[lastIndex];
+      el && el.focus();
+      focusableElements.forEach((node, index) => {
+        node.setAttribute('tabindex', index === lastIndex ? 0 : -1);
+      });
+    }
   }, [getFocusableElements]);
 
   const focusOnNextItem = useCallback(() => {
