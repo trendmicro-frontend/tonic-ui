@@ -4,6 +4,7 @@ import {
   MenuItem,
   MenuList,
   Scrollbar,
+  Space,
   Submenu,
   SubmenuList,
   SubmenuTrigger,
@@ -31,6 +32,7 @@ const App = () => (
           >
             <SubmenuTrigger width="100%">
               <Text>List Item {key + 1}</Text>
+              <Space width="1x" />
               <AngleRightIcon ml="auto" />
             </SubmenuTrigger>
             <SubmenuList

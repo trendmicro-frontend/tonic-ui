@@ -3,9 +3,10 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Space,
   Submenu,
-  SubmenuTrigger,
   SubmenuList,
+  SubmenuTrigger,
   Text,
 } from '@tonic-ui/react';
 import { AngleRightIcon } from '@tonic-ui/react-icons';
@@ -33,6 +34,7 @@ const App = () => (
         >
           <SubmenuTrigger width="100%">
             <Text>List Item {key + 1}</Text>
+            <Space width="1x" />
             <AngleRightIcon ml="auto" />
           </SubmenuTrigger>
           <SubmenuList

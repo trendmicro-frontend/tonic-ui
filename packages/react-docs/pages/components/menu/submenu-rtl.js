@@ -4,6 +4,7 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Space,
   Submenu,
   SubmenuList,
   SubmenuTrigger,
@@ -33,6 +34,7 @@ const App = () => (
       <Submenu placement="left-start">
         <SubmenuTrigger>
           <AngleLeftIcon mr="auto" />
+          <Space width="1x" />
           <Text>Submenu</Text>
         </SubmenuTrigger>
         <SubmenuList
@@ -55,6 +57,7 @@ const App = () => (
           <Submenu placement="left-start">
             <SubmenuTrigger>
               <AngleLeftIcon mr="auto" />
+              <Space width="1x" />
               <Text>Submenu</Text>
             </SubmenuTrigger>
             <SubmenuList
