@@ -2,7 +2,6 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import {
-  Flex,
   Menu,
   MenuButton,
   MenuDivider,
@@ -10,7 +9,6 @@ import {
   MenuItem,
   Submenu,
   SubmenuList,
-  SubmenuToggle,
   SubmenuTrigger,
   Text,
 } from '@tonic-ui/react/src';
@@ -18,8 +16,6 @@ import React from 'react';
 
 describe('Submenu', () => {
   describe('Submenu keyboard navigation', () => {
-    // Note: Use the render function pattern so MenuItem receives the props (role, tabIndex, aria attributes)
-    // This ensures focus-visible styling appears on MenuItem, not on a wrapper element
     const SubmenuKeyboardTestComponent = (props) => {
       return (
         <Menu {...props}>
@@ -31,15 +27,9 @@ describe('Submenu', () => {
             <MenuItem data-testid="menu-item-2">Menu item 2</MenuItem>
             <MenuDivider />
             <Submenu>
-              <SubmenuToggle>
-                {({ getSubmenuToggleProps }) => (
-                  <MenuItem data-testid="submenu-toggle" {...getSubmenuToggleProps()}>
-                    <Flex alignItems="center" justifyContent="space-between" width="100%">
-                      <Text>Submenu</Text>
-                    </Flex>
-                  </MenuItem>
-                )}
-              </SubmenuToggle>
+              <SubmenuTrigger data-testid="submenu-trigger">
+                <Text>Submenu</Text>
+              </SubmenuTrigger>
               <SubmenuList data-testid="submenu-list">
                 <MenuItem data-testid="submenu-item-1">Submenu item 1</MenuItem>
                 <MenuItem data-testid="submenu-item-2">Submenu item 2</MenuItem>
@@ -65,9 +55,9 @@ describe('Submenu', () => {
       // Navigate to the submenu toggle using keyboard
       await user.keyboard('[ArrowDown]'); // Focus menu-item-1
       await user.keyboard('[ArrowDown]'); // Focus menu-item-2
-      await user.keyboard('[ArrowDown]'); // Focus submenu-toggle
+      await user.keyboard('[ArrowDown]'); // Focus submenu-trigger
 
-      const submenuToggle = screen.getByTestId('submenu-toggle');
+      const submenuToggle = screen.getByTestId('submenu-trigger');
       await waitFor(() => {
         expect(submenuToggle).toHaveFocus();
       });
@@ -101,7 +91,7 @@ describe('Submenu', () => {
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
 
-      const submenuToggle = screen.getByTestId('submenu-toggle');
+      const submenuToggle = screen.getByTestId('submenu-trigger');
       await waitFor(() => {
         expect(submenuToggle).toHaveFocus();
       });
@@ -128,7 +118,7 @@ describe('Submenu', () => {
 
       // The submenu toggle should be focused again
       await waitFor(() => {
-        expect(screen.getByTestId('submenu-toggle')).toHaveFocus();
+        expect(screen.getByTestId('submenu-trigger')).toHaveFocus();
       });
 
       // IMPORTANT: The parent menu should still be open
@@ -150,7 +140,7 @@ describe('Submenu', () => {
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
 
-      const submenuToggle = screen.getByTestId('submenu-toggle');
+      const submenuToggle = screen.getByTestId('submenu-trigger');
       await waitFor(() => {
         expect(submenuToggle).toHaveFocus();
       });
@@ -172,7 +162,7 @@ describe('Submenu', () => {
 
       // The submenu toggle should be focused again
       await waitFor(() => {
-        expect(screen.getByTestId('submenu-toggle')).toHaveFocus();
+        expect(screen.getByTestId('submenu-trigger')).toHaveFocus();
       });
 
       // IMPORTANT: The parent menu should still be open
@@ -194,7 +184,7 @@ describe('Submenu', () => {
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
 
-      const submenuToggle = screen.getByTestId('submenu-toggle');
+      const submenuToggle = screen.getByTestId('submenu-trigger');
       await waitFor(() => {
         expect(submenuToggle).toHaveFocus();
       });
@@ -240,7 +230,7 @@ describe('Submenu', () => {
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
 
-      const submenuToggle = screen.getByTestId('submenu-toggle');
+      const submenuToggle = screen.getByTestId('submenu-trigger');
       await waitFor(() => {
         expect(submenuToggle).toHaveFocus();
       });
@@ -276,7 +266,7 @@ describe('Submenu', () => {
       expect(await screen.findByRole('menu')).toBeInTheDocument();
 
       // The submenu toggle should have role="menuitem"
-      const submenuToggle = screen.getByTestId('submenu-toggle');
+      const submenuToggle = screen.getByTestId('submenu-trigger');
       expect(submenuToggle).toHaveAttribute('role', 'menuitem');
       expect(submenuToggle).toHaveAttribute('aria-haspopup', 'menu');
       // aria-expanded is not present when false (ariaAttr returns undefined for false values)
@@ -324,13 +314,9 @@ describe('Submenu', () => {
               <MenuItem data-testid="menu-item-1">Menu item 1</MenuItem>
               <MenuDivider />
               <Submenu>
-                <SubmenuToggle data-testid="submenu-toggle">
-                  <MenuItem>
-                    <Flex alignItems="center" justifyContent="space-between" width="100%">
-                      <Text>Submenu</Text>
-                    </Flex>
-                  </MenuItem>
-                </SubmenuToggle>
+                <SubmenuTrigger data-testid="submenu-trigger">
+                  <Text>Submenu</Text>
+                </SubmenuTrigger>
                 <SubmenuList
                   data-testid="submenu-list"
                   PopperProps={{
@@ -361,7 +347,7 @@ describe('Submenu', () => {
       expect(await screen.findByTestId('menu-list')).toBeInTheDocument();
 
       // Hover over the submenu toggle to open the submenu
-      const submenuToggle = screen.getByTestId('submenu-toggle');
+      const submenuToggle = screen.getByTestId('submenu-trigger');
       await user.hover(submenuToggle);
 
       // The submenu should be open
@@ -400,13 +386,9 @@ describe('Submenu', () => {
               <MenuItem value="2">Menu item 2</MenuItem>
               <MenuDivider />
               <Submenu>
-                <SubmenuToggle data-testid="submenu-toggle">
-                  <MenuItem>
-                    <Flex alignItems="center" justifyContent="space-between" width="100%">
-                      <Text>Submenu</Text>
-                    </Flex>
-                  </MenuItem>
-                </SubmenuToggle>
+                <SubmenuTrigger data-testid="submenu-trigger">
+                  <Text>Submenu</Text>
+                </SubmenuTrigger>
                 <SubmenuList
                   data-testid="submenu-list"
                   PopperProps={{
@@ -435,7 +417,7 @@ describe('Submenu', () => {
       expect(await screen.findByTestId('menu-list')).toBeInTheDocument();
 
       // Hover over the submenu toggle to open the submenu
-      const submenuToggle = screen.getByTestId('submenu-toggle');
+      const submenuToggle = screen.getByTestId('submenu-trigger');
       await user.hover(submenuToggle);
 
       // The submenu should be open
@@ -477,13 +459,9 @@ describe('Submenu', () => {
               <MenuItem data-testid="menu-item-1">Menu item 1</MenuItem>
               <MenuDivider />
               <Submenu>
-                <SubmenuToggle data-testid="submenu-toggle">
-                  <MenuItem>
-                    <Flex alignItems="center" justifyContent="space-between" width="100%">
-                      <Text>Submenu</Text>
-                    </Flex>
-                  </MenuItem>
-                </SubmenuToggle>
+                <SubmenuTrigger data-testid="submenu-trigger">
+                  <Text>Submenu</Text>
+                </SubmenuTrigger>
                 <SubmenuList
                   data-testid="submenu-list"
                   PopperProps={{
@@ -509,7 +487,7 @@ describe('Submenu', () => {
       expect(await screen.findByTestId('menu-list')).toBeInTheDocument();
 
       // Hover over the submenu toggle to open the submenu
-      const submenuToggle = screen.getByTestId('submenu-toggle');
+      const submenuToggle = screen.getByTestId('submenu-trigger');
       await user.hover(submenuToggle);
 
       // The submenu should be open
