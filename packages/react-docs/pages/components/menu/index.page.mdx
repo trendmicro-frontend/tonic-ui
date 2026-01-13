@@ -40,27 +40,44 @@ import {
 
 ## Usage
 
-### Basic menus
+### Basic menu
 
-Below is a simple example that shows the basic menu structure.
+{render('./basic-menu')}
 
-{render('./basic')}
+### Submenu
 
-### Cascading submenus
+A submenu can be used to display nested menu items. Use the `placement` prop to control the direction of the submenu.
 
-The following example shows a menu with cascading submenus.
+#### Left-to-right
 
-{render('./cascading-submenus')}
+{render('./submenu-ltr')}
+
+#### Right-to-left
+
+{render('./submenu-rtl')}
+
+By default, the submenu is rendered within the same container as its parent menu. To avoid issues with `overflow: hidden`, you can render the submenu in a portal by passing `usePortal: true` to the `PopperProps` of `SubmenuList`.
+
+```jsx
+<SubmenuList
+  PopperProps={{
+    usePortal: true,
+  }}
+>
+  <MenuItem>Submenu item 1</MenuItem>
+  <MenuItem>Submenu item 2</MenuItem>
+</SubmenuList>
+```
 
 ### Controlled and uncontrolled menu
 
 Pass `isOpen` to the `Menu` component to control the state of the menu.
 
-{render('./controlled')}
+{render('./controlled-menu')}
 
 Menu is uncontrolled by default. You can set `defaultIsOpen` to `true` to have the menu open for the first render.
 
-{render('./uncontrolled')}
+{render('./uncontrolled-menu')}
 
 ### MenuToggle
 
@@ -123,7 +140,7 @@ To group related menu items, wrap them in a `MenuGroup` and pass a `title` prop 
 
 {render('./menugroup')}
 
-### Menu sizing
+### Sizing
 
 To change the width of the menu, pass `width` prop to the `MenuList` component.
 
