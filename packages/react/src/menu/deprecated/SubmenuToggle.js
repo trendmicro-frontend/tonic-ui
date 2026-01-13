@@ -2,12 +2,12 @@ import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { ariaAttr, callEventHandlers, getAllFocusable } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import React, { forwardRef, useRef } from 'react';
-import { Box } from '../box';
-import { useDefaultProps } from '../default-props';
+import { Box } from '../../box';
+import { useDefaultProps } from '../../default-props';
+import useSubmenu from '../useSubmenu';
 import {
   useSubmenuToggleStyle,
 } from './styles';
-import useSubmenu from './useSubmenu';
 
 /**
  * @deprecated SubmenuToggle is deprecated and will be removed in a future version.
@@ -37,14 +37,14 @@ const SubmenuToggle = forwardRef((inProps, ref) => {
   const {
     focusOnFirstItem,
     isHoveringSubmenuContentRef,
-    isHoveringSubmenuToggleRef,
+    isHoveringSubmenuTriggerRef: isHoveringSubmenuToggleRef,
     isOpen,
     onClose: closeSubmenu,
     onOpen: openSubmenu,
     placement,
     submenuId,
-    submenuToggleId,
-    submenuToggleRef,
+    submenuTriggerId: submenuToggleId,
+    submenuTriggerRef: submenuToggleRef,
   } = { ...submenuContext };
   const combinedRef = useMergeRefs(submenuToggleRef, ref);
   const styleProps = useSubmenuToggleStyle();

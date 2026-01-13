@@ -10,10 +10,11 @@ import MenuToggleIcon from './MenuToggleIcon';
 import Submenu from './Submenu';
 import SubmenuContent from './SubmenuContent';
 import SubmenuList from './SubmenuList';
-import SubmenuToggle from './SubmenuToggle';
 import SubmenuTrigger from './SubmenuTrigger';
 import useMenu from './useMenu';
 import useSubmenu from './useSubmenu';
+
+import SubmenuToggle from './deprecated/SubmenuToggle'; // deprecated
 
 Menu.Button = MenuButton;
 Menu.Content = MenuContent;
@@ -26,7 +27,7 @@ Menu.Toggle.Icon = MenuToggleIcon;
 
 Submenu.Content = SubmenuContent;
 Submenu.List = SubmenuList;
-Submenu.Toggle = SubmenuToggle; // deprecated - Use Submenu.Trigger instead
+Submenu.Toggle = SubmenuToggle; // deprecated
 Submenu.Trigger = SubmenuTrigger;
 
 export {
@@ -42,7 +43,7 @@ export {
   Submenu,
   SubmenuContent,
   SubmenuList,
-  SubmenuToggle, // deprecated - Use SubmenuTrigger instead
+  SubmenuToggle, // deprecated
   SubmenuTrigger,
   useMenu,
   useSubmenu,
