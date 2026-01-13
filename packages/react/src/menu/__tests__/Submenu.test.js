@@ -7,11 +7,13 @@ import {
   MenuDivider,
   MenuList,
   MenuItem,
+  Space,
   Submenu,
   SubmenuList,
   SubmenuTrigger,
   Text,
 } from '@tonic-ui/react/src';
+import { AngleRightIcon } from '@tonic-ui/react-icons';
 import React from 'react';
 
 describe('Submenu', () => {
@@ -29,6 +31,8 @@ describe('Submenu', () => {
             <Submenu>
               <SubmenuTrigger data-testid="submenu-trigger">
                 <Text>Submenu</Text>
+                <Space width="1x" />
+                <AngleRightIcon ml="auto" />
               </SubmenuTrigger>
               <SubmenuList data-testid="submenu-list">
                 <MenuItem data-testid="submenu-item-1">Submenu item 1</MenuItem>
@@ -57,9 +61,9 @@ describe('Submenu', () => {
       await user.keyboard('[ArrowDown]'); // Focus menu-item-2
       await user.keyboard('[ArrowDown]'); // Focus submenu-trigger
 
-      const submenuToggle = screen.getByTestId('submenu-trigger');
+      const submenuTrigger = screen.getByTestId('submenu-trigger');
       await waitFor(() => {
-        expect(submenuToggle).toHaveFocus();
+        expect(submenuTrigger).toHaveFocus();
       });
 
       // Press ArrowRight to open submenu
@@ -91,9 +95,9 @@ describe('Submenu', () => {
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
 
-      const submenuToggle = screen.getByTestId('submenu-trigger');
+      const submenuTrigger = screen.getByTestId('submenu-trigger');
       await waitFor(() => {
-        expect(submenuToggle).toHaveFocus();
+        expect(submenuTrigger).toHaveFocus();
       });
 
       await user.keyboard('[ArrowRight]');
@@ -140,9 +144,9 @@ describe('Submenu', () => {
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
 
-      const submenuToggle = screen.getByTestId('submenu-trigger');
+      const submenuTrigger = screen.getByTestId('submenu-trigger');
       await waitFor(() => {
-        expect(submenuToggle).toHaveFocus();
+        expect(submenuTrigger).toHaveFocus();
       });
 
       await user.keyboard('[ArrowRight]');
@@ -184,9 +188,9 @@ describe('Submenu', () => {
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
 
-      const submenuToggle = screen.getByTestId('submenu-trigger');
+      const submenuTrigger = screen.getByTestId('submenu-trigger');
       await waitFor(() => {
-        expect(submenuToggle).toHaveFocus();
+        expect(submenuTrigger).toHaveFocus();
       });
 
       // Open the submenu
@@ -230,9 +234,9 @@ describe('Submenu', () => {
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
 
-      const submenuToggle = screen.getByTestId('submenu-trigger');
+      const submenuTrigger = screen.getByTestId('submenu-trigger');
       await waitFor(() => {
-        expect(submenuToggle).toHaveFocus();
+        expect(submenuTrigger).toHaveFocus();
       });
 
       await user.keyboard('[ArrowRight]');
@@ -266,11 +270,11 @@ describe('Submenu', () => {
       expect(await screen.findByRole('menu')).toBeInTheDocument();
 
       // The submenu toggle should have role="menuitem"
-      const submenuToggle = screen.getByTestId('submenu-trigger');
-      expect(submenuToggle).toHaveAttribute('role', 'menuitem');
-      expect(submenuToggle).toHaveAttribute('aria-haspopup', 'menu');
+      const submenuTrigger = screen.getByTestId('submenu-trigger');
+      expect(submenuTrigger).toHaveAttribute('role', 'menuitem');
+      expect(submenuTrigger).toHaveAttribute('aria-haspopup', 'menu');
       // aria-expanded is not present when false (ariaAttr returns undefined for false values)
-      expect(submenuToggle).not.toHaveAttribute('aria-expanded');
+      expect(submenuTrigger).not.toHaveAttribute('aria-expanded');
 
       // Open the submenu and check aria-expanded is now "true"
       await user.keyboard('[ArrowDown]');
@@ -279,13 +283,13 @@ describe('Submenu', () => {
 
       // Wait for submenu toggle to have focus before opening it
       await waitFor(() => {
-        expect(submenuToggle).toHaveFocus();
+        expect(submenuTrigger).toHaveFocus();
       });
 
       await user.keyboard('[ArrowRight]');
 
       await waitFor(() => {
-        expect(submenuToggle).toHaveAttribute('aria-expanded', 'true');
+        expect(submenuTrigger).toHaveAttribute('aria-expanded', 'true');
       });
     });
   });
@@ -316,6 +320,8 @@ describe('Submenu', () => {
               <Submenu>
                 <SubmenuTrigger data-testid="submenu-trigger">
                   <Text>Submenu</Text>
+                  <Space width="1x" />
+                  <AngleRightIcon ml="auto" />
                 </SubmenuTrigger>
                 <SubmenuList
                   data-testid="submenu-list"
@@ -347,8 +353,8 @@ describe('Submenu', () => {
       expect(await screen.findByTestId('menu-list')).toBeInTheDocument();
 
       // Hover over the submenu toggle to open the submenu
-      const submenuToggle = screen.getByTestId('submenu-trigger');
-      await user.hover(submenuToggle);
+      const submenuTrigger = screen.getByTestId('submenu-trigger');
+      await user.hover(submenuTrigger);
 
       // The submenu should be open
       await waitFor(() => {
@@ -388,6 +394,8 @@ describe('Submenu', () => {
               <Submenu>
                 <SubmenuTrigger data-testid="submenu-trigger">
                   <Text>Submenu</Text>
+                  <Space width="1x" />
+                  <AngleRightIcon ml="auto" />
                 </SubmenuTrigger>
                 <SubmenuList
                   data-testid="submenu-list"
@@ -417,8 +425,8 @@ describe('Submenu', () => {
       expect(await screen.findByTestId('menu-list')).toBeInTheDocument();
 
       // Hover over the submenu toggle to open the submenu
-      const submenuToggle = screen.getByTestId('submenu-trigger');
-      await user.hover(submenuToggle);
+      const submenuTrigger = screen.getByTestId('submenu-trigger');
+      await user.hover(submenuTrigger);
 
       // The submenu should be open
       await waitFor(() => {
@@ -461,6 +469,8 @@ describe('Submenu', () => {
               <Submenu>
                 <SubmenuTrigger data-testid="submenu-trigger">
                   <Text>Submenu</Text>
+                  <Space width="1x" />
+                  <AngleRightIcon ml="auto" />
                 </SubmenuTrigger>
                 <SubmenuList
                   data-testid="submenu-list"
@@ -487,8 +497,8 @@ describe('Submenu', () => {
       expect(await screen.findByTestId('menu-list')).toBeInTheDocument();
 
       // Hover over the submenu toggle to open the submenu
-      const submenuToggle = screen.getByTestId('submenu-trigger');
-      await user.hover(submenuToggle);
+      const submenuTrigger = screen.getByTestId('submenu-trigger');
+      await user.hover(submenuTrigger);
 
       // The submenu should be open
       await waitFor(() => {
@@ -529,7 +539,9 @@ describe('Submenu', () => {
               <MenuItem data-testid="menu-item-1">Menu item 1</MenuItem>
               <Submenu>
                 <SubmenuTrigger data-testid="submenu-trigger">
-                  Submenu
+                  <Text>Submenu</Text>
+                  <Space width="1x" />
+                  <AngleRightIcon ml="auto" />
                 </SubmenuTrigger>
                 <SubmenuList data-testid="submenu-list">
                   <MenuItem data-testid="submenu-item-1">Submenu item 1</MenuItem>
@@ -589,6 +601,8 @@ describe('Submenu', () => {
               <Submenu>
                 <SubmenuTrigger data-testid="submenu-trigger">
                   <Text>Simple Submenu</Text>
+                  <Space width="1x" />
+                  <AngleRightIcon ml="auto" />
                 </SubmenuTrigger>
                 <SubmenuList data-testid="submenu-list">
                   <MenuItem>Item 1</MenuItem>
