@@ -6,7 +6,7 @@ import {
   MenuList,
   MenuToggle,
   Submenu,
-  SubmenuToggle,
+  SubmenuTrigger,
   SubmenuList,
   useTheme,
 } from '@tonic-ui/react';
@@ -83,13 +83,12 @@ const DropdownBase = forwardRef((
       if (item.type === 'submenu') {
         return (
           <Submenu key={`${key}_submenu`}>
-            <SubmenuToggle
+            <SubmenuTrigger
               width="100%"
+              {...item.props}
             >
-              <MenuItem {...item.props}>
-                {renderItem?.(item)}
-              </MenuItem>
-            </SubmenuToggle>
+              {renderItem?.(item)}
+            </SubmenuTrigger>
             <SubmenuList
               width="max-content"
             >

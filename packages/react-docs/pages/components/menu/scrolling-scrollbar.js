@@ -1,5 +1,4 @@
 import {
-  Flex,
   Menu,
   MenuButton,
   MenuItem,
@@ -7,7 +6,7 @@ import {
   Scrollbar,
   Submenu,
   SubmenuList,
-  SubmenuToggle,
+  SubmenuTrigger,
   Text,
 } from '@tonic-ui/react';
 import { AngleRightIcon } from '@tonic-ui/react-icons';
@@ -30,19 +29,10 @@ const App = () => (
             key={key}
             placement="right-start"
           >
-            <SubmenuToggle width="100%">
-              <MenuItem>
-                <Flex
-                  alignItems="center"
-                  columnGap="2x"
-                  justifyContent="space-between"
-                  width="100%"
-                >
-                  <Text>List Item {key + 1}</Text>
-                  <AngleRightIcon />
-                </Flex>
-              </MenuItem>
-            </SubmenuToggle>
+            <SubmenuTrigger width="100%">
+              <Text>List Item {key + 1}</Text>
+              <AngleRightIcon ml="auto" />
+            </SubmenuTrigger>
             <SubmenuList
               PopperProps={{
                 usePortal: true,

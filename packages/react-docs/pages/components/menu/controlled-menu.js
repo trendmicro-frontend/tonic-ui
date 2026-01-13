@@ -7,7 +7,7 @@ import {
   MenuList,
   Submenu,
   SubmenuList,
-  SubmenuToggle,
+  SubmenuTrigger,
   Text,
 } from '@tonic-ui/react';
 import { AngleRightIcon } from '@tonic-ui/react-icons';
@@ -47,19 +47,10 @@ const App = () => {
           </MenuItem>
           <MenuDivider />
           <Submenu>
-            <SubmenuToggle>
-              <MenuItem>
-                <Flex
-                  alignItems="center"
-                  columnGap="2x"
-                  justifyContent="space-between"
-                  width="100%"
-                >
-                  Submenu
-                  <AngleRightIcon />
-                </Flex>
-              </MenuItem>
-            </SubmenuToggle>
+            <SubmenuTrigger>
+              Submenu
+              <AngleRightIcon ml="auto" />
+            </SubmenuTrigger>
             <SubmenuList
               PopperProps={{
                 usePortal: true,
