@@ -53,19 +53,10 @@ const App = () => (
             <Text>List item</Text>
           </MenuItem>
           <Submenu placement="left-start">
-            <SubmenuToggle>
-              <MenuItem>
-                <Flex
-                  alignItems="center"
-                  columnGap="2x"
-                  justifyContent="space-between"
-                  width="100%"
-                >
-                  <AngleLeftIcon />
-                  <Text>Submenu</Text>
-                </Flex>
-              </MenuItem>
-            </SubmenuToggle>
+            <SubmenuTrigger>
+              <AngleLeftIcon mr="auto" />
+              <Text>Submenu</Text>
+            </SubmenuTrigger>
             <SubmenuList
               PopperProps={{
                 usePortal: true,

@@ -52,10 +52,9 @@ const SubmenuTrigger = forwardRef((inProps, ref) => {
   const mouseLeaveTimeoutRef = React.useRef();
 
   // Use button event handlers for click and Enter/Space key activation
-  // Unlike regular MenuItem, we don't close the parent menu when clicking the submenu trigger
   const { onClick, onKeyDown } = useButtonEventHandlers({
     disabled,
-    onActivate: () => {}, // No-op: submenu triggers don't close the parent menu
+    onActivate: () => closeOnSelect && ensureFunction(closeMenu)(),
   });
 
   const eventHandler = {};
