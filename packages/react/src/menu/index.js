@@ -11,6 +11,7 @@ import Submenu from './Submenu';
 import SubmenuContent from './SubmenuContent';
 import SubmenuList from './SubmenuList';
 import SubmenuToggle from './SubmenuToggle';
+import SubmenuTrigger from './SubmenuTrigger';
 import useMenu from './useMenu';
 import useSubmenu from './useSubmenu';
 
@@ -25,7 +26,8 @@ Menu.Toggle.Icon = MenuToggleIcon;
 
 Submenu.Content = SubmenuContent;
 Submenu.List = SubmenuList;
-Submenu.Toggle = SubmenuToggle;
+Submenu.Toggle = SubmenuToggle; // deprecated - Use Submenu.Trigger instead
+Submenu.Trigger = SubmenuTrigger;
 
 export {
   Menu,
@@ -40,7 +42,8 @@ export {
   Submenu,
   SubmenuContent,
   SubmenuList,
-  SubmenuToggle,
+  SubmenuToggle, // deprecated - Use SubmenuTrigger instead
+  SubmenuTrigger,
   useMenu,
   useSubmenu,
 };

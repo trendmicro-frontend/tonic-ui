@@ -11,6 +11,7 @@ import {
   Submenu,
   SubmenuList,
   SubmenuToggle,
+  SubmenuTrigger,
   Text,
 } from '@tonic-ui/react/src';
 import React from 'react';
@@ -533,6 +534,101 @@ describe('Submenu', () => {
       await waitFor(() => {
         expect(screen.queryByTestId('submenu-list')).not.toBeInTheDocument();
       });
+    });
+  });
+
+  describe('SubmenuTrigger', () => {
+    it('should work as a combined MenuItem and submenu trigger', async () => {
+      const user = userEvent.setup();
+
+      const SubmenuTriggerTestComponent = () => {
+        return (
+          <Menu>
+            <MenuButton data-testid="menu-button">
+              Options
+            </MenuButton>
+            <MenuList data-testid="menu-list">
+              <MenuItem data-testid="menu-item-1">Menu item 1</MenuItem>
+              <Submenu>
+                <SubmenuTrigger data-testid="submenu-trigger">
+                  Submenu
+                </SubmenuTrigger>
+                <SubmenuList data-testid="submenu-list">
+                  <MenuItem data-testid="submenu-item-1">Submenu item 1</MenuItem>
+                  <MenuItem data-testid="submenu-item-2">Submenu item 2</MenuItem>
+                </SubmenuList>
+              </Submenu>
+            </MenuList>
+          </Menu>
+        );
+      };
+
+      render(<SubmenuTriggerTestComponent />);
+
+      const menuButton = screen.getByTestId('menu-button');
+
+      // Open the menu
+      await user.click(menuButton);
+      expect(await screen.findByRole('menu')).toBeInTheDocument();
+
+      // Navigate to the submenu trigger
+      await user.keyboard('[ArrowDown]');
+      await user.keyboard('[ArrowDown]');
+
+      const submenuTrigger = screen.getByTestId('submenu-trigger');
+      await waitFor(() => {
+        expect(submenuTrigger).toHaveFocus();
+      });
+
+      // Verify it has the correct ARIA attributes
+      expect(submenuTrigger).toHaveAttribute('role', 'menuitem');
+      expect(submenuTrigger).toHaveAttribute('aria-haspopup', 'menu');
+
+      // Press ArrowRight to open submenu
+      await user.keyboard('[ArrowRight]');
+
+      // The submenu should be open
+      await waitFor(() => {
+        expect(screen.getByTestId('submenu-list')).toBeInTheDocument();
+      });
+
+      // The first submenu item should be focused
+      await waitFor(() => {
+        expect(screen.getByTestId('submenu-item-1')).toHaveFocus();
+      });
+    });
+
+    it('should render children directly without requiring MenuItem wrapper', async () => {
+      const user = userEvent.setup();
+
+      const SubmenuTriggerSimpleComponent = () => {
+        return (
+          <Menu>
+            <MenuButton data-testid="menu-button">
+              Options
+            </MenuButton>
+            <MenuList>
+              <Submenu>
+                <SubmenuTrigger data-testid="submenu-trigger">
+                  <Text>Simple Submenu</Text>
+                </SubmenuTrigger>
+                <SubmenuList data-testid="submenu-list">
+                  <MenuItem>Item 1</MenuItem>
+                </SubmenuList>
+              </Submenu>
+            </MenuList>
+          </Menu>
+        );
+      };
+
+      render(<SubmenuTriggerSimpleComponent />);
+
+      const menuButton = screen.getByTestId('menu-button');
+      await user.click(menuButton);
+
+      const submenuTrigger = screen.getByTestId('submenu-trigger');
+      expect(submenuTrigger).toBeInTheDocument();
+      expect(submenuTrigger.textContent).toBe('Simple Submenu');
     });
   });
 });
