@@ -35,17 +35,17 @@ const SubmenuTrigger = forwardRef((inProps, ref) => {
   const {
     focusOnFirstItem,
     isHoveringSubmenuContentRef,
-    isHoveringSubmenuToggleRef,
+    isHoveringSubmenuTriggerRef,
     isOpen,
     onClose: closeSubmenu,
     onOpen: openSubmenu,
     placement,
     submenuId,
-    submenuToggleId,
-    submenuToggleRef,
+    submenuTriggerId,
+    submenuTriggerRef,
   } = { ...submenuContext };
 
-  const combinedRef = useMergeRefs(submenuToggleRef, ref);
+  const combinedRef = useMergeRefs(submenuTriggerRef, ref);
   const tabIndex = -1;
   const styleProps = useMenuItemStyle({ tabIndex });
 
@@ -65,7 +65,7 @@ const SubmenuTrigger = forwardRef((inProps, ref) => {
       return;
     }
 
-    isHoveringSubmenuToggleRef.current = true;
+    isHoveringSubmenuTriggerRef.current = true;
     if (mouseLeaveTimeoutRef.current) {
       clearTimeout(mouseLeaveTimeoutRef.current);
       mouseLeaveTimeoutRef.current = undefined;
@@ -80,14 +80,14 @@ const SubmenuTrigger = forwardRef((inProps, ref) => {
       return;
     }
 
-    isHoveringSubmenuToggleRef.current = false;
+    isHoveringSubmenuTriggerRef.current = false;
     if (mouseLeaveTimeoutRef.current) {
       clearTimeout(mouseLeaveTimeoutRef.current);
       mouseLeaveTimeoutRef.current = undefined;
     }
     mouseLeaveTimeoutRef.current = setTimeout(() => {
       mouseLeaveTimeoutRef.current = undefined;
-      if (!isHoveringSubmenuToggleRef.current && !isHoveringSubmenuContentRef.current) {
+      if (!isHoveringSubmenuTriggerRef.current && !isHoveringSubmenuContentRef.current) {
         ensureFunction(closeSubmenu)();
       }
     }, 100);
@@ -138,7 +138,7 @@ const SubmenuTrigger = forwardRef((inProps, ref) => {
       aria-controls={submenuId}
       aria-expanded={ariaAttr(isOpen)}
       aria-haspopup="menu"
-      id={submenuToggleId}
+      id={submenuTriggerId}
       onClick={callEventHandlers(onClickProp, onClick)}
       onFocus={callEventHandlers(onFocusProp, eventHandler.onFocus)}
       onKeyDown={callEventHandlers(onKeyDownProp, onKeyDown, eventHandler.onKeyDown)}

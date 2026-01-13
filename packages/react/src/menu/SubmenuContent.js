@@ -34,16 +34,16 @@ const SubmenuContent = forwardRef((inProps, ref) => {
     focusOnLastItem,
     focusOnNextItem,
     focusOnPreviousItem,
-    focusOnSubmenuToggle,
+    focusOnSubmenuTrigger,
     isHoveringSubmenuContentRef,
-    isHoveringSubmenuToggleRef,
+    isHoveringSubmenuTriggerRef,
     isOpen,
     offset,
     onClose: closeSubmenu,
     placement,
     submenuId,
-    submenuToggleId,
-    submenuToggleRef,
+    submenuTriggerId,
+    submenuTriggerRef,
     submenuContentRef,
   } = { ...submenuContext };
 
@@ -80,7 +80,7 @@ const SubmenuContent = forwardRef((inProps, ref) => {
     }
     mouseLeaveTimeoutRef.current = setTimeout(() => {
       mouseLeaveTimeoutRef.current = undefined;
-      if (!isHoveringSubmenuToggleRef.current && !isHoveringSubmenuContentRef.current) {
+      if (!isHoveringSubmenuTriggerRef.current && !isHoveringSubmenuContentRef.current) {
         ensureFunction(closeSubmenu)();
       }
     }, 100); // XXX: keep opening Submenu when cursor quickly move between SubmenuToggle and SubmenuContent
@@ -123,7 +123,7 @@ const SubmenuContent = forwardRef((inProps, ref) => {
     if (key === closeKey || key === 'Escape') {
       event.preventDefault();
       event.stopPropagation();
-      ensureFunction(focusOnSubmenuToggle)();
+      ensureFunction(focusOnSubmenuTrigger)();
       ensureFunction(closeSubmenu)();
     }
   };
@@ -161,13 +161,13 @@ const SubmenuContent = forwardRef((inProps, ref) => {
 
   return (
     <PopperComponent
-      aria-labelledby={submenuToggleId}
+      aria-labelledby={submenuTriggerId}
       data-submenu-id={submenuId}
       id={submenuId}
       isOpen={isOpen}
       placement={placement}
       ref={submenuContentRef}
-      referenceRef={submenuToggleRef}
+      referenceRef={submenuTriggerRef}
       role="menu"
       tabIndex={tabIndex}
       unmountOnExit={true}

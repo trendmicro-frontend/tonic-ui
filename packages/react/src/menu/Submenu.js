@@ -22,9 +22,9 @@ const Submenu = forwardRef((inProps, ref) => {
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Submenu' });
   const submenuContentRef = useRef(null);
-  const submenuToggleRef = useRef(null);
+  const submenuTriggerRef = useRef(null);
   const isHoveringSubmenuContentRef = useRef();
-  const isHoveringSubmenuToggleRef = useRef();
+  const isHoveringSubmenuTriggerRef = useRef();
   const [isOpen, setIsOpen] = useState(isOpenProp ?? defaultIsOpen);
   const [activeIndex, setActiveIndex] = useState(-1);
 
@@ -122,14 +122,14 @@ const Submenu = forwardRef((inProps, ref) => {
     }
   }, [activeIndex, getFocusableElements]);
 
-  const focusOnSubmenuToggle = useCallback(() => {
-    const el = submenuToggleRef.current;
+  const focusOnSubmenuTrigger = useCallback(() => {
+    const el = submenuTriggerRef.current;
     el && el.focus();
   }, []);
 
   const defaultId = useId();
   const submenuId = `${config.name}:Submenu-${defaultId}`;
-  const submenuToggleId = `${config.name}:SubmenuToggle-${defaultId}`;
+  const submenuTriggerId = `${config.name}:SubmenuTrigger-${defaultId}`;
   const styleProps = useSubmenuStyle();
 
   const context = getMemoizedState({
@@ -137,18 +137,18 @@ const Submenu = forwardRef((inProps, ref) => {
     focusOnLastItem,
     focusOnNextItem,
     focusOnPreviousItem,
-    focusOnSubmenuToggle,
+    focusOnSubmenuTrigger,
     isHoveringSubmenuContentRef,
-    isHoveringSubmenuToggleRef,
+    isHoveringSubmenuTriggerRef,
     isOpen,
     offset,
     onClose,
     onOpen,
     placement,
     submenuId,
-    submenuToggleId,
     submenuContentRef,
-    submenuToggleRef,
+    submenuTriggerId,
+    submenuTriggerRef,
   });
 
   return (
