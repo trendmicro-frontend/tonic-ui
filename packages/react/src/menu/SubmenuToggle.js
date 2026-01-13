@@ -104,11 +104,16 @@ const SubmenuToggle = forwardRef((inProps, ref) => {
     const openKey = isRightPlacement ? 'ArrowRight' : 'ArrowLeft';
     const closeKey = isRightPlacement ? 'ArrowLeft' : 'ArrowRight';
 
-    if (key === openKey || key === 'Enter' || key === ' ') {
+    if (key === openKey) {
       event.preventDefault();
       event.stopPropagation();
       ensureFunction(openSubmenu)();
-      ensureFunction(focusOnFirstItem)();
+      // Use requestAnimationFrame to ensure the submenu content is rendered in the DOM
+      // before attempting to focus. Without this, focusOnFirstItem would run before
+      // React has painted the newly opened submenu, resulting in an empty element list.
+      requestAnimationFrame(() => {
+        ensureFunction(focusOnFirstItem)();
+      });
     }
 
     // Close submenu with closeKey (ArrowLeft for right placement) or Escape when submenu is open
