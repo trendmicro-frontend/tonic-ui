@@ -4,22 +4,32 @@ import { ensureFunction } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
+import useButtonEventHandlers from '../utils/useButtonEventHandlers';
 import { useMenuItemStyle } from './styles';
+import useMenu from './useMenu';
 import useSubmenu from './useSubmenu';
 
 /**
  * SubmenuTrigger acts as a menu item that opens a submenu when interacted with.
+ * It combines MenuItem functionality with submenu trigger behavior for a cleaner API.
  */
 const SubmenuTrigger = forwardRef((inProps, ref) => {
   const {
     children,
     disabled,
+    onClick: onClickProp,
     onFocus: onFocusProp,
     onKeyDown: onKeyDownProp,
     onMouseEnter: onMouseEnterProp,
     onMouseLeave: onMouseLeaveProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'SubmenuTrigger' });
+
+  const menuContext = useMenu(); // context might be an undefined value
+  const {
+    closeOnSelect,
+    onClose: closeMenu,
+  } = { ...menuContext };
 
   const submenuContext = useSubmenu(); // context might be an undefined value
   const {
@@ -40,6 +50,13 @@ const SubmenuTrigger = forwardRef((inProps, ref) => {
   const styleProps = useMenuItemStyle({ tabIndex });
 
   const mouseLeaveTimeoutRef = React.useRef();
+
+  // Use button event handlers for click and Enter/Space key activation
+  // Unlike regular MenuItem, we don't close the parent menu when clicking the submenu trigger
+  const { onClick, onKeyDown } = useButtonEventHandlers({
+    disabled,
+    onActivate: () => {}, // No-op: submenu triggers don't close the parent menu
+  });
 
   const eventHandler = {};
 
@@ -123,8 +140,9 @@ const SubmenuTrigger = forwardRef((inProps, ref) => {
       aria-expanded={ariaAttr(isOpen)}
       aria-haspopup="menu"
       id={submenuToggleId}
+      onClick={callEventHandlers(onClickProp, onClick)}
       onFocus={callEventHandlers(onFocusProp, eventHandler.onFocus)}
-      onKeyDown={callEventHandlers(onKeyDownProp, eventHandler.onKeyDown)}
+      onKeyDown={callEventHandlers(onKeyDownProp, onKeyDown, eventHandler.onKeyDown)}
       onMouseEnter={callEventHandlers(onMouseEnterProp, eventHandler.onMouseEnter)}
       onMouseLeave={callEventHandlers(onMouseLeaveProp, eventHandler.onMouseLeave)}
       {...styleProps}
