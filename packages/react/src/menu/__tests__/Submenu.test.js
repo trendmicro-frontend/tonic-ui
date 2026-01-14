@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import {
@@ -621,6 +621,210 @@ describe('Submenu', () => {
       const submenuTrigger = screen.getByTestId('submenu-trigger');
       expect(submenuTrigger).toBeInTheDocument();
       expect(submenuTrigger.textContent).toBe('Simple Submenu');
+    });
+
+    it('should not respond to mouse events when disabled', async () => {
+      const user = userEvent.setup();
+
+      const DisabledSubmenuTriggerComponent = () => {
+        return (
+          <Menu>
+            <MenuButton data-testid="menu-button">
+              Options
+            </MenuButton>
+            <MenuList data-testid="menu-list">
+              <MenuItem data-testid="menu-item-1">Menu item 1</MenuItem>
+              <Submenu>
+                <SubmenuTrigger disabled data-testid="submenu-trigger">
+                  <Text>Disabled Submenu</Text>
+                  <Space width="1x" />
+                  <AngleRightIcon ml="auto" />
+                </SubmenuTrigger>
+                <SubmenuList data-testid="submenu-list">
+                  <MenuItem data-testid="submenu-item-1">Submenu item 1</MenuItem>
+                </SubmenuList>
+              </Submenu>
+            </MenuList>
+          </Menu>
+        );
+      };
+
+      render(<DisabledSubmenuTriggerComponent />);
+
+      const menuButton = screen.getByTestId('menu-button');
+      await user.click(menuButton);
+      expect(await screen.findByRole('menu')).toBeInTheDocument();
+
+      // Use fireEvent to directly trigger mouse events on disabled element
+      const submenuTrigger = screen.getByTestId('submenu-trigger');
+      fireEvent.mouseEnter(submenuTrigger);
+
+      // The submenu should NOT open because the trigger is disabled
+      expect(screen.queryByTestId('submenu-list')).not.toBeInTheDocument();
+
+      // Also test mouseLeave on disabled element
+      fireEvent.mouseLeave(submenuTrigger);
+
+      // Verify the trigger has aria-disabled attribute
+      expect(submenuTrigger).toHaveAttribute('aria-disabled', 'true');
+    });
+
+    it('should not respond to keyboard events when disabled', async () => {
+      const user = userEvent.setup();
+
+      const DisabledSubmenuTriggerComponent = () => {
+        return (
+          <Menu>
+            <MenuButton data-testid="menu-button">
+              Options
+            </MenuButton>
+            <MenuList data-testid="menu-list">
+              <MenuItem data-testid="menu-item-1">Menu item 1</MenuItem>
+              <Submenu>
+                <SubmenuTrigger disabled data-testid="submenu-trigger">
+                  <Text>Disabled Submenu</Text>
+                  <Space width="1x" />
+                  <AngleRightIcon ml="auto" />
+                </SubmenuTrigger>
+                <SubmenuList data-testid="submenu-list">
+                  <MenuItem data-testid="submenu-item-1">Submenu item 1</MenuItem>
+                </SubmenuList>
+              </Submenu>
+            </MenuList>
+          </Menu>
+        );
+      };
+
+      render(<DisabledSubmenuTriggerComponent />);
+
+      const menuButton = screen.getByTestId('menu-button');
+      await user.click(menuButton);
+      expect(await screen.findByRole('menu')).toBeInTheDocument();
+
+      // Use fireEvent to directly trigger keyboard event on disabled element
+      const submenuTrigger = screen.getByTestId('submenu-trigger');
+      fireEvent.keyDown(submenuTrigger, { key: 'ArrowRight' });
+
+      // The submenu should NOT open because the trigger is disabled
+      expect(screen.queryByTestId('submenu-list')).not.toBeInTheDocument();
+    });
+
+    it('should close submenu with ArrowLeft when trigger is focused and submenu is open', async () => {
+      const user = userEvent.setup();
+
+      const SubmenuTriggerTestComponent = () => {
+        return (
+          <Menu>
+            <MenuButton data-testid="menu-button">
+              Options
+            </MenuButton>
+            <MenuList data-testid="menu-list">
+              <MenuItem data-testid="menu-item-1">Menu item 1</MenuItem>
+              <Submenu>
+                <SubmenuTrigger data-testid="submenu-trigger">
+                  <Text>Submenu</Text>
+                  <Space width="1x" />
+                  <AngleRightIcon ml="auto" />
+                </SubmenuTrigger>
+                <SubmenuList data-testid="submenu-list">
+                  <MenuItem data-testid="submenu-item-1">Submenu item 1</MenuItem>
+                  <MenuItem data-testid="submenu-item-2">Submenu item 2</MenuItem>
+                </SubmenuList>
+              </Submenu>
+            </MenuList>
+          </Menu>
+        );
+      };
+
+      render(<SubmenuTriggerTestComponent />);
+
+      const menuButton = screen.getByTestId('menu-button');
+      await user.click(menuButton);
+      expect(await screen.findByRole('menu')).toBeInTheDocument();
+
+      // Navigate to the submenu trigger
+      await user.keyboard('[ArrowDown]');
+      await user.keyboard('[ArrowDown]');
+
+      const submenuTrigger = screen.getByTestId('submenu-trigger');
+      await waitFor(() => {
+        expect(submenuTrigger).toHaveFocus();
+      });
+
+      // Open the submenu via mouse hover (keeps focus on trigger)
+      fireEvent.mouseEnter(submenuTrigger);
+
+      await waitFor(() => {
+        expect(screen.getByTestId('submenu-list')).toBeInTheDocument();
+      });
+
+      // The trigger should still have focus
+      expect(submenuTrigger).toHaveFocus();
+
+      // Close with ArrowLeft while trigger is focused and submenu is open
+      fireEvent.keyDown(submenuTrigger, { key: 'ArrowLeft' });
+
+      // The submenu should close
+      await waitFor(() => {
+        expect(screen.queryByTestId('submenu-list')).not.toBeInTheDocument();
+      });
+    });
+
+    it('should close submenu with Escape when trigger is focused', async () => {
+      const user = userEvent.setup();
+
+      const SubmenuTriggerTestComponent = () => {
+        return (
+          <Menu>
+            <MenuButton data-testid="menu-button">
+              Options
+            </MenuButton>
+            <MenuList data-testid="menu-list">
+              <MenuItem data-testid="menu-item-1">Menu item 1</MenuItem>
+              <Submenu>
+                <SubmenuTrigger data-testid="submenu-trigger">
+                  <Text>Submenu</Text>
+                  <Space width="1x" />
+                  <AngleRightIcon ml="auto" />
+                </SubmenuTrigger>
+                <SubmenuList data-testid="submenu-list">
+                  <MenuItem data-testid="submenu-item-1">Submenu item 1</MenuItem>
+                </SubmenuList>
+              </Submenu>
+            </MenuList>
+          </Menu>
+        );
+      };
+
+      render(<SubmenuTriggerTestComponent />);
+
+      const menuButton = screen.getByTestId('menu-button');
+      await user.click(menuButton);
+      expect(await screen.findByRole('menu')).toBeInTheDocument();
+
+      // Navigate to the submenu trigger
+      await user.keyboard('[ArrowDown]');
+      await user.keyboard('[ArrowDown]');
+
+      const submenuTrigger = screen.getByTestId('submenu-trigger');
+      await waitFor(() => {
+        expect(submenuTrigger).toHaveFocus();
+      });
+
+      // Open the submenu via mouse hover
+      fireEvent.mouseEnter(submenuTrigger);
+
+      await waitFor(() => {
+        expect(screen.getByTestId('submenu-list')).toBeInTheDocument();
+      });
+
+      // Close with Escape while trigger is focused
+      fireEvent.keyDown(submenuTrigger, { key: 'Escape' });
+
+      // The submenu should close
+      await waitFor(() => {
+        expect(screen.queryByTestId('submenu-list')).not.toBeInTheDocument();
+      });
     });
   });
 });
