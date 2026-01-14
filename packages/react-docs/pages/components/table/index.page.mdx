@@ -14,9 +14,9 @@ import {
   TableCell,
   TableScrollbar,
 
-  // Deprecated components
-  TableHeaderRow, // Deprecated in v2: use `TableRow` instead.
-  TableHeaderCell, // Deprecated in v2: use `TableCell` instead.
+  // deprecated
+  TableHeaderRow, // Use `TableRow` instead
+  TableHeaderCell, // Use `TableCell` instead
 } from '@tonic-ui/react';
 ```
 
@@ -156,8 +156,8 @@ const tableHeight = headerHeight + rowsToDisplay * cellHeight;
 >
   <TableHeader>
     <TableRow>
-      <TableHeaderCell>Cell<TableHeaderCell>
-      <TableHeaderCell>Cell<TableHeaderCell>
+      <TableCell>Cell</TableCell>
+      <TableCell>Cell</TableCell>
     </TableRow>
   </TableHeader>
   <TableScrollbar
@@ -166,8 +166,8 @@ const tableHeight = headerHeight + rowsToDisplay * cellHeight;
   >
     <TableBody>
       <TableRow>
-        <TableCell>Cell<TableCell>
-        <TableCell>Cell<TableCell>
+        <TableCell>Cell</TableCell>
+        <TableCell>Cell</TableCell>
       </TableRow>
     </TableBody>
   </TableScrollbar>
@@ -198,8 +198,8 @@ And here's how you can use it in your code:
 >
   <TableHeader>
     <TableRow>
-      <TableHeaderCell>Cell<TableHeaderCell>
-      <TableHeaderCell>Cell<TableHeaderCell>
+      <TableCell>Cell</TableCell>
+      <TableCell>Cell</TableCell>
     </TableRow>
   </TableHeader>
   <ConditionalWrapper
@@ -215,8 +215,8 @@ And here's how you can use it in your code:
   >
     <TableBody>
       <TableRow>
-        <TableCell>Cell<TableCell>
-        <TableCell>Cell<TableCell>
+        <TableCell>Cell</TableCell>
+        <TableCell>Cell</TableCell>
       </TableRow>
     </TableBody>
   </ConditionalWrapper>  
