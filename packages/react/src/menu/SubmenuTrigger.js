@@ -5,7 +5,7 @@ import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
 import useButtonEventHandlers from '../utils/useButtonEventHandlers';
-import { useMenuItemStyle } from './styles';
+import { useSubmenuTriggerStyle } from './styles';
 import useMenu from './useMenu';
 import useSubmenu from './useSubmenu';
 
@@ -47,7 +47,7 @@ const SubmenuTrigger = forwardRef((inProps, ref) => {
 
   const combinedRef = useMergeRefs(submenuTriggerRef, ref);
   const tabIndex = -1;
-  const styleProps = useMenuItemStyle({ tabIndex });
+  const styleProps = useSubmenuTriggerStyle({ tabIndex });
 
   const mouseLeaveTimeoutRef = React.useRef();
 
