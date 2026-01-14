@@ -1,5 +1,4 @@
 import {
-  Flex,
   Space,
   Text,
 } from '@tonic-ui/react';
@@ -23,7 +22,7 @@ const items = [
     label: (
       <>
         <Text>Export</Text>
-	<Space width="1x" />
+        <Space width="1x" />
         <AngleRightIcon ml="auto" />
       </>
     ),
