@@ -42,6 +42,11 @@ const DropdownBase = forwardRef((
   const handleClickBy = useCallback((item) => (event) => {
     onSelect?.(item);
   }, [onSelect]);
+  const handleKeyDownBy = useCallback((item) => (event) => {
+    if ((event.key === ' ' || event.key === 'Enter') && !event.repeat) {
+      onSelect?.(item);
+    }
+  }, [onSelect]);
 
   const renderItem = (item) => (typeof renderItemProp === 'function') ? renderItemProp(item) : null;
 
@@ -102,6 +107,7 @@ const DropdownBase = forwardRef((
         <MenuItem
           key={key}
           onClick={handleClickBy(item)}
+          onKeyDown={handleKeyDownBy(item)}
           {...item.props}
         >
           {renderItem?.(item)}
