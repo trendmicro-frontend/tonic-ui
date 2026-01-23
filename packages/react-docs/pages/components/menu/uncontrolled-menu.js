@@ -23,6 +23,14 @@ const App = () => {
       setSelectedValue(value);
     }
   };
+  const handleKeyDownMenuItem = (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      const value = event.target.getAttribute('value');
+      if (!isNullish(value)) {
+        setSelectedValue(value);
+      }
+    }
+  };
 
   return (
     <Flex columnGap="4x" alignItems="center">
@@ -35,6 +43,7 @@ const App = () => {
             usePortal: true,
           }}
           onClick={handleClickMenuItem}
+          onKeyDown={handleKeyDownMenuItem}
           width="max-content"
         >
           <MenuItem value={1}>

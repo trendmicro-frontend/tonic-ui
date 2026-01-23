@@ -20,17 +20,34 @@ const App = () => {
   const [isOpen, toggleIsOpen] = useToggle(false);
   const onClose = () => toggleIsOpen(false);
   const [selectedValue, setSelectedValue] = useState(null);
+
   const handleClickMenuItem = (event) => {
     const value = event.target.getAttribute('value');
     if (!isNullish(value)) {
       setSelectedValue(value);
     }
   };
+  const handleKeyDownMenuItem = (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      const value = event.target.getAttribute('value');
+      if (!isNullish(value)) {
+        setSelectedValue(value);
+      }
+    }
+  };
 
   return (
     <Flex columnGap="4x" alignItems="center">
       <Menu isOpen={isOpen} onClose={onClose}>
-        <MenuButton onClick={toggleIsOpen}>
+        <MenuButton
+          onClick={toggleIsOpen}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              toggleIsOpen();
+            }
+          }}
+        >
           Options
         </MenuButton>
         <MenuList
@@ -38,6 +55,7 @@ const App = () => {
             usePortal: true,
           }}
           onClick={handleClickMenuItem}
+          onKeyDown={handleKeyDownMenuItem}
           width="max-content"
         >
           <MenuItem value={1}>
