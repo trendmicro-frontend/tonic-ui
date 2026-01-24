@@ -124,7 +124,7 @@ Pass an array of **absolute URLs** in the "urls" argument.`);
         errors: [],
       });
 
-      const result = await tools.useDocs.callback({
+      const result = await tools.useDocs.handler({
         packages: ['@tonic-ui/react@2.0.0'],
       });
 
@@ -148,7 +148,7 @@ Pass an array of **absolute URLs** in the "urls" argument.`);
         errors: ['Failed to fetch LLMs content'],
       });
 
-      const result = await tools.useDocs.callback({
+      const result = await tools.useDocs.handler({
         packages: ['@tonic-ui/react@2.0.0'],
       });
 
@@ -198,7 +198,7 @@ Pass an array of **absolute URLs** in the "urls" argument.`);
         errors: [],
       });
 
-      const result = await tools.fetchPages.callback({
+      const result = await tools.fetchPages.handler({
         urls: [
           'file:///path/to/tonic-ui/packages/react-docs/pages/components/button/index.page.mdx',
           'file:///path/to/tonic-ui/packages/react-docs/pages/components/input/index.page.mdx',
@@ -221,7 +221,7 @@ Pass an array of **absolute URLs** in the "urls" argument.`);
         errors: ['Error fetching URL'],
       });
 
-      const result = await tools.fetchPages.callback({
+      const result = await tools.fetchPages.handler({
         urls: [
           'file:///path/to/tonic-one/packages/react-docs/pages/components/button/index.page.mdx',
         ],
@@ -273,7 +273,7 @@ Pass an array of **absolute URLs** in the "urls" argument.`);
         errors: [],
       });
 
-      const result = await tools.fetchCodes.callback({
+      const result = await tools.fetchCodes.handler({
         urls: [
           'file:///path/to/tonic-ui/packages/react-docs/pages/components/button/usage.js',
           'file:///path/to/tonic-ui/packages/react-docs/pages/components/input/usage.js',
@@ -299,7 +299,7 @@ Pass an array of **absolute URLs** in the "urls" argument.`);
         errors: ['Error fetching code'],
       });
 
-      const result = await tools.fetchCodes.callback({
+      const result = await tools.fetchCodes.handler({
         urls: [
           'file:///path/to/tonic-ui/packages/react-docs/pages/components/code.js',
         ],
@@ -317,7 +317,7 @@ Pass an array of **absolute URLs** in the "urls" argument.`);
     });
 
     it('validates urls parameter', async () => {
-      const result = await tools.fetchCodes.callback({
+      const result = await tools.fetchCodes.handler({
         urls: [],
       });
 
@@ -333,7 +333,7 @@ Pass an array of **absolute URLs** in the "urls" argument.`);
     });
 
     it('validates urls parameter for fetch-pages', async () => {
-      const result = await tools.fetchPages.callback({
+      const result = await tools.fetchPages.handler({
         urls: [],
       });
 
@@ -349,7 +349,7 @@ Pass an array of **absolute URLs** in the "urls" argument.`);
     });
 
     it('handles non-array urls parameter for fetch-pages', async () => {
-      const result = await tools.fetchPages.callback({
+      const result = await tools.fetchPages.handler({
         urls: 'not-an-array' as unknown as string[],
       });
 
@@ -365,7 +365,7 @@ Pass an array of **absolute URLs** in the "urls" argument.`);
     });
 
     it('handles non-array urls parameter for fetch-codes', async () => {
-      const result = await tools.fetchCodes.callback({
+      const result = await tools.fetchCodes.handler({
         urls: 'not-an-array' as unknown as string[],
       });
 
@@ -383,7 +383,7 @@ Pass an array of **absolute URLs** in the "urls" argument.`);
     it('handles processUrls throwing error for use-docs', async () => {
       mockProcessUrls.mockRejectedValue(new Error('Network timeout'));
 
-      const result = await tools.useDocs.callback({
+      const result = await tools.useDocs.handler({
         packages: ['@tonic-ui/react@2.0.0'],
       });
 
@@ -401,7 +401,7 @@ Pass an array of **absolute URLs** in the "urls" argument.`);
     it('handles processUrls throwing error for fetch-pages', async () => {
       mockProcessUrls.mockRejectedValue(new Error('File system error'));
 
-      const result = await tools.fetchPages.callback({
+      const result = await tools.fetchPages.handler({
         urls: ['file:///path/to/index.page.mdx'],
       });
 
@@ -419,7 +419,7 @@ Pass an array of **absolute URLs** in the "urls" argument.`);
     it('handles processUrls throwing error for fetch-codes', async () => {
       mockProcessUrls.mockRejectedValue(new Error('Code file not found'));
 
-      const result = await tools.fetchCodes.callback({
+      const result = await tools.fetchCodes.handler({
         urls: ['file:///path/to/code.js'],
       });
 
@@ -440,7 +440,7 @@ Pass an array of **absolute URLs** in the "urls" argument.`);
         errors: [],
       });
 
-      const result = await tools.useDocs.callback({
+      const result = await tools.useDocs.handler({
         packages: [],
       });
 
@@ -457,7 +457,7 @@ Pass an array of **absolute URLs** in the "urls" argument.`);
         errors: [],
       });
 
-      const result = await tools.useDocs.callback({
+      const result = await tools.useDocs.handler({
         packages: ['@non-existent/package@1.0.0'],
       });
 
@@ -504,7 +504,7 @@ Pass an array of **absolute URLs** in the "urls" argument.`);
         errors: [],
       });
 
-      const result = await tools.useDocs.callback({
+      const result = await tools.useDocs.handler({
         packages: ['@tonic-ui/react@2.0.0'],
       });
 
@@ -517,7 +517,7 @@ Pass an array of **absolute URLs** in the "urls" argument.`);
         errors: [],
       });
 
-      const result = await tools.fetchPages.callback({
+      const result = await tools.fetchPages.handler({
         urls: ['url1', 'url2', 'url3'],
       });
 
