@@ -1,5 +1,19 @@
 # @tonic-ui/react
 
+## 2.11.0
+
+### Minor Changes
+
+- feat(react/menu): add keyboard navigation support to `Submenu` component by [@cheton](https://github.com/cheton) in [#1086](https://github.com/trendmicro-frontend/tonic-ui/pull/1086)
+
+- feat(react/menu): add `SubmenuTrigger` component to combine `MenuItem` functionality with submenu trigger behavior by [@cheton](https://github.com/cheton) in [#1091](https://github.com/trendmicro-frontend/tonic-ui/pull/1091)
+
+### Patch Changes
+
+- fix(react/menu): fix issue where menu does not receive click events when clicking submenu items in a portal by [@cheton](https://github.com/cheton) in [#1085](https://github.com/trendmicro-frontend/tonic-ui/pull/1085)
+
+- fix(react/tag): correct disabled close icon color on hover state by [@cheton](https://github.com/cheton) in [#1087](https://github.com/trendmicro-frontend/tonic-ui/pull/1087)
+
 ## 2.10.0
 
 ### Minor Changes
