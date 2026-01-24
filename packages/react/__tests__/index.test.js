@@ -130,7 +130,8 @@ test('should match expected exports', () => {
     'Submenu',
     'SubmenuContent',
     'SubmenuList',
-    'SubmenuToggle',
+    'SubmenuToggle', // deprecated
+    'SubmenuTrigger',
     'useMenu',
     'useSubmenu',
 

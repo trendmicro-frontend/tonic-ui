@@ -1,5 +1,6 @@
 import {
-  Flex,
+  Space,
+  Text,
 } from '@tonic-ui/react';
 import {
   AngleRightIcon,
@@ -19,15 +20,11 @@ const items = [
   {
     type: 'submenu',
     label: (
-      <Flex
-        alignItems="center"
-        columnGap="2x"
-        justifyContent="space-between"
-        width="100%"
-      >
-        Export
-        <AngleRightIcon />
-      </Flex>
+      <>
+        <Text>Export</Text>
+        <Space width="1x" />
+        <AngleRightIcon ml="auto" />
+      </>
     ),
     children: [
       { value: 'pdf', label: 'Export as PDF' },

@@ -1,23 +1,24 @@
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import {
+  Flex,
   Menu,
   MenuButton,
   MenuDivider,
   MenuList,
   MenuItem,
-  Space,
   Submenu,
   SubmenuList,
-  SubmenuTrigger,
   Text,
 } from '@tonic-ui/react/src';
-import { AngleRightIcon } from '@tonic-ui/react-icons';
 import React from 'react';
+import SubmenuToggle from '../SubmenuToggle';
 
-describe('Submenu', () => {
-  describe('Submenu keyboard navigation', () => {
+describe('SubmenuToggle', () => {
+  describe('SubmenuToggle keyboard navigation', () => {
+    // Note: Use the render function pattern so MenuItem receives the props (role, tabIndex, aria attributes)
+    // This ensures focus-visible styling appears on MenuItem, not on a wrapper element
     const SubmenuKeyboardTestComponent = (props) => {
       return (
         <Menu {...props}>
@@ -29,11 +30,15 @@ describe('Submenu', () => {
             <MenuItem data-testid="menu-item-2">Menu item 2</MenuItem>
             <MenuDivider />
             <Submenu>
-              <SubmenuTrigger data-testid="submenu-trigger">
-                <Text>Submenu</Text>
-                <Space width="1x" />
-                <AngleRightIcon ml="auto" />
-              </SubmenuTrigger>
+              <SubmenuToggle>
+                {({ getSubmenuToggleProps }) => (
+                  <MenuItem data-testid="submenu-toggle" {...getSubmenuToggleProps()}>
+                    <Flex alignItems="center" justifyContent="space-between" width="100%">
+                      <Text>Submenu</Text>
+                    </Flex>
+                  </MenuItem>
+                )}
+              </SubmenuToggle>
               <SubmenuList data-testid="submenu-list">
                 <MenuItem data-testid="submenu-item-1">Submenu item 1</MenuItem>
                 <MenuItem data-testid="submenu-item-2">Submenu item 2</MenuItem>
@@ -59,11 +64,11 @@ describe('Submenu', () => {
       // Navigate to the submenu toggle using keyboard
       await user.keyboard('[ArrowDown]'); // Focus menu-item-1
       await user.keyboard('[ArrowDown]'); // Focus menu-item-2
-      await user.keyboard('[ArrowDown]'); // Focus submenu-trigger
+      await user.keyboard('[ArrowDown]'); // Focus submenu-toggle
 
-      const submenuTrigger = screen.getByTestId('submenu-trigger');
+      const submenuToggle = screen.getByTestId('submenu-toggle');
       await waitFor(() => {
-        expect(submenuTrigger).toHaveFocus();
+        expect(submenuToggle).toHaveFocus();
       });
 
       // Press ArrowRight to open submenu
@@ -95,9 +100,9 @@ describe('Submenu', () => {
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
 
-      const submenuTrigger = screen.getByTestId('submenu-trigger');
+      const submenuToggle = screen.getByTestId('submenu-toggle');
       await waitFor(() => {
-        expect(submenuTrigger).toHaveFocus();
+        expect(submenuToggle).toHaveFocus();
       });
 
       await user.keyboard('[ArrowRight]');
@@ -122,7 +127,7 @@ describe('Submenu', () => {
 
       // The submenu toggle should be focused again
       await waitFor(() => {
-        expect(screen.getByTestId('submenu-trigger')).toHaveFocus();
+        expect(screen.getByTestId('submenu-toggle')).toHaveFocus();
       });
 
       // IMPORTANT: The parent menu should still be open
@@ -144,9 +149,9 @@ describe('Submenu', () => {
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
 
-      const submenuTrigger = screen.getByTestId('submenu-trigger');
+      const submenuToggle = screen.getByTestId('submenu-toggle');
       await waitFor(() => {
-        expect(submenuTrigger).toHaveFocus();
+        expect(submenuToggle).toHaveFocus();
       });
 
       await user.keyboard('[ArrowRight]');
@@ -166,7 +171,7 @@ describe('Submenu', () => {
 
       // The submenu toggle should be focused again
       await waitFor(() => {
-        expect(screen.getByTestId('submenu-trigger')).toHaveFocus();
+        expect(screen.getByTestId('submenu-toggle')).toHaveFocus();
       });
 
       // IMPORTANT: The parent menu should still be open
@@ -188,9 +193,9 @@ describe('Submenu', () => {
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
 
-      const submenuTrigger = screen.getByTestId('submenu-trigger');
+      const submenuToggle = screen.getByTestId('submenu-toggle');
       await waitFor(() => {
-        expect(submenuTrigger).toHaveFocus();
+        expect(submenuToggle).toHaveFocus();
       });
 
       // Open the submenu
@@ -234,9 +239,9 @@ describe('Submenu', () => {
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
 
-      const submenuTrigger = screen.getByTestId('submenu-trigger');
+      const submenuToggle = screen.getByTestId('submenu-toggle');
       await waitFor(() => {
-        expect(submenuTrigger).toHaveFocus();
+        expect(submenuToggle).toHaveFocus();
       });
 
       await user.keyboard('[ArrowRight]');
@@ -270,11 +275,11 @@ describe('Submenu', () => {
       expect(await screen.findByRole('menu')).toBeInTheDocument();
 
       // The submenu toggle should have role="menuitem"
-      const submenuTrigger = screen.getByTestId('submenu-trigger');
-      expect(submenuTrigger).toHaveAttribute('role', 'menuitem');
-      expect(submenuTrigger).toHaveAttribute('aria-haspopup', 'menu');
+      const submenuToggle = screen.getByTestId('submenu-toggle');
+      expect(submenuToggle).toHaveAttribute('role', 'menuitem');
+      expect(submenuToggle).toHaveAttribute('aria-haspopup', 'menu');
       // aria-expanded is not present when false (ariaAttr returns undefined for false values)
-      expect(submenuTrigger).not.toHaveAttribute('aria-expanded');
+      expect(submenuToggle).not.toHaveAttribute('aria-expanded');
 
       // Open the submenu and check aria-expanded is now "true"
       await user.keyboard('[ArrowDown]');
@@ -283,18 +288,83 @@ describe('Submenu', () => {
 
       // Wait for submenu toggle to have focus before opening it
       await waitFor(() => {
-        expect(submenuTrigger).toHaveFocus();
+        expect(submenuToggle).toHaveFocus();
       });
 
       await user.keyboard('[ArrowRight]');
 
       await waitFor(() => {
-        expect(submenuTrigger).toHaveAttribute('aria-expanded', 'true');
+        expect(submenuToggle).toHaveAttribute('aria-expanded', 'true');
+      });
+    });
+
+    it('should work with wrapper pattern and have role="presentation" on wrapper', async () => {
+      const user = userEvent.setup();
+
+      const WrapperPatternComponent = () => {
+        return (
+          <Menu>
+            <MenuButton data-testid="menu-button">
+              Options
+            </MenuButton>
+            <MenuList data-testid="menu-list">
+              <Submenu>
+                <SubmenuToggle data-testid="submenu-toggle-wrapper">
+                  <MenuItem data-testid="submenu-toggle">
+                    <Flex alignItems="center" justifyContent="space-between" width="100%">
+                      <Text>Submenu</Text>
+                    </Flex>
+                  </MenuItem>
+                </SubmenuToggle>
+                <SubmenuList data-testid="submenu-list">
+                  <MenuItem data-testid="submenu-item-1">Submenu item 1</MenuItem>
+                </SubmenuList>
+              </Submenu>
+            </MenuList>
+          </Menu>
+        );
+      };
+
+      render(<WrapperPatternComponent />);
+
+      const menuButton = screen.getByTestId('menu-button');
+
+      // Open the menu
+      await user.click(menuButton);
+      expect(await screen.findByRole('menu')).toBeInTheDocument();
+
+      // The wrapper should have role="presentation"
+      const submenuToggleWrapper = screen.getByTestId('submenu-toggle-wrapper');
+      expect(submenuToggleWrapper).toHaveAttribute('role', 'presentation');
+      expect(submenuToggleWrapper).toHaveAttribute('aria-haspopup', 'menu');
+
+      // The inner MenuItem should have role="menuitem"
+      const submenuToggle = screen.getByTestId('submenu-toggle');
+      expect(submenuToggle).toHaveAttribute('role', 'menuitem');
+
+      // Navigate to the submenu toggle
+      await user.keyboard('[ArrowDown]');
+
+      await waitFor(() => {
+        expect(submenuToggle).toHaveFocus();
+      });
+
+      // Press ArrowRight to open submenu
+      await user.keyboard('[ArrowRight]');
+
+      // The submenu should be open
+      await waitFor(() => {
+        expect(screen.getByTestId('submenu-list')).toBeInTheDocument();
+      });
+
+      // The wrapper should have aria-expanded="true"
+      await waitFor(() => {
+        expect(submenuToggleWrapper).toHaveAttribute('aria-expanded', 'true');
       });
     });
   });
 
-  describe('Submenu with portal', () => {
+  describe('SubmenuToggle with portal', () => {
     // NOTE: Test that uses fake timers must run last to avoid test isolation issues
     afterEach(() => {
       jest.useRealTimers();
@@ -318,11 +388,15 @@ describe('Submenu', () => {
               <MenuItem data-testid="menu-item-1">Menu item 1</MenuItem>
               <MenuDivider />
               <Submenu>
-                <SubmenuTrigger data-testid="submenu-trigger">
-                  <Text>Submenu</Text>
-                  <Space width="1x" />
-                  <AngleRightIcon ml="auto" />
-                </SubmenuTrigger>
+                <SubmenuToggle>
+                  {({ getSubmenuToggleProps }) => (
+                    <MenuItem data-testid="submenu-toggle" {...getSubmenuToggleProps()}>
+                      <Flex alignItems="center" justifyContent="space-between" width="100%">
+                        <Text>Submenu</Text>
+                      </Flex>
+                    </MenuItem>
+                  )}
+                </SubmenuToggle>
                 <SubmenuList
                   data-testid="submenu-list"
                   PopperProps={{
@@ -353,8 +427,8 @@ describe('Submenu', () => {
       expect(await screen.findByTestId('menu-list')).toBeInTheDocument();
 
       // Hover over the submenu toggle to open the submenu
-      const submenuTrigger = screen.getByTestId('submenu-trigger');
-      await user.hover(submenuTrigger);
+      const submenuToggle = screen.getByTestId('submenu-toggle');
+      await user.hover(submenuToggle);
 
       // The submenu should be open
       await waitFor(() => {
@@ -392,11 +466,15 @@ describe('Submenu', () => {
               <MenuItem value="2">Menu item 2</MenuItem>
               <MenuDivider />
               <Submenu>
-                <SubmenuTrigger data-testid="submenu-trigger">
-                  <Text>Submenu</Text>
-                  <Space width="1x" />
-                  <AngleRightIcon ml="auto" />
-                </SubmenuTrigger>
+                <SubmenuToggle>
+                  {({ getSubmenuToggleProps }) => (
+                    <MenuItem data-testid="submenu-toggle" {...getSubmenuToggleProps()}>
+                      <Flex alignItems="center" justifyContent="space-between" width="100%">
+                        <Text>Submenu</Text>
+                      </Flex>
+                    </MenuItem>
+                  )}
+                </SubmenuToggle>
                 <SubmenuList
                   data-testid="submenu-list"
                   PopperProps={{
@@ -425,8 +503,8 @@ describe('Submenu', () => {
       expect(await screen.findByTestId('menu-list')).toBeInTheDocument();
 
       // Hover over the submenu toggle to open the submenu
-      const submenuTrigger = screen.getByTestId('submenu-trigger');
-      await user.hover(submenuTrigger);
+      const submenuToggle = screen.getByTestId('submenu-toggle');
+      await user.hover(submenuToggle);
 
       // The submenu should be open
       await waitFor(() => {
@@ -467,11 +545,15 @@ describe('Submenu', () => {
               <MenuItem data-testid="menu-item-1">Menu item 1</MenuItem>
               <MenuDivider />
               <Submenu>
-                <SubmenuTrigger data-testid="submenu-trigger">
-                  <Text>Submenu</Text>
-                  <Space width="1x" />
-                  <AngleRightIcon ml="auto" />
-                </SubmenuTrigger>
+                <SubmenuToggle>
+                  {({ getSubmenuToggleProps }) => (
+                    <MenuItem data-testid="submenu-toggle" {...getSubmenuToggleProps()}>
+                      <Flex alignItems="center" justifyContent="space-between" width="100%">
+                        <Text>Submenu</Text>
+                      </Flex>
+                    </MenuItem>
+                  )}
+                </SubmenuToggle>
                 <SubmenuList
                   data-testid="submenu-list"
                   PopperProps={{
@@ -497,8 +579,8 @@ describe('Submenu', () => {
       expect(await screen.findByTestId('menu-list')).toBeInTheDocument();
 
       // Hover over the submenu toggle to open the submenu
-      const submenuTrigger = screen.getByTestId('submenu-trigger');
-      await user.hover(submenuTrigger);
+      const submenuToggle = screen.getByTestId('submenu-toggle');
+      await user.hover(submenuToggle);
 
       // The submenu should be open
       await waitFor(() => {
@@ -519,309 +601,6 @@ describe('Submenu', () => {
       jest.advanceTimersByTime(150);
 
       // The submenu should be closed after the timeout
-      await waitFor(() => {
-        expect(screen.queryByTestId('submenu-list')).not.toBeInTheDocument();
-      });
-    });
-  });
-
-  describe('SubmenuTrigger', () => {
-    it('should work as a combined MenuItem and submenu trigger', async () => {
-      const user = userEvent.setup();
-
-      const SubmenuTriggerTestComponent = () => {
-        return (
-          <Menu>
-            <MenuButton data-testid="menu-button">
-              Options
-            </MenuButton>
-            <MenuList data-testid="menu-list">
-              <MenuItem data-testid="menu-item-1">Menu item 1</MenuItem>
-              <Submenu>
-                <SubmenuTrigger data-testid="submenu-trigger">
-                  <Text>Submenu</Text>
-                  <Space width="1x" />
-                  <AngleRightIcon ml="auto" />
-                </SubmenuTrigger>
-                <SubmenuList data-testid="submenu-list">
-                  <MenuItem data-testid="submenu-item-1">Submenu item 1</MenuItem>
-                  <MenuItem data-testid="submenu-item-2">Submenu item 2</MenuItem>
-                </SubmenuList>
-              </Submenu>
-            </MenuList>
-          </Menu>
-        );
-      };
-
-      render(<SubmenuTriggerTestComponent />);
-
-      const menuButton = screen.getByTestId('menu-button');
-
-      // Open the menu
-      await user.click(menuButton);
-      expect(await screen.findByRole('menu')).toBeInTheDocument();
-
-      // Navigate to the submenu trigger
-      await user.keyboard('[ArrowDown]');
-      await user.keyboard('[ArrowDown]');
-
-      const submenuTrigger = screen.getByTestId('submenu-trigger');
-      await waitFor(() => {
-        expect(submenuTrigger).toHaveFocus();
-      });
-
-      // Verify it has the correct ARIA attributes
-      expect(submenuTrigger).toHaveAttribute('role', 'menuitem');
-      expect(submenuTrigger).toHaveAttribute('aria-haspopup', 'menu');
-
-      // Press ArrowRight to open submenu
-      await user.keyboard('[ArrowRight]');
-
-      // The submenu should be open
-      await waitFor(() => {
-        expect(screen.getByTestId('submenu-list')).toBeInTheDocument();
-      });
-
-      // The first submenu item should be focused
-      await waitFor(() => {
-        expect(screen.getByTestId('submenu-item-1')).toHaveFocus();
-      });
-    });
-
-    it('should render children directly without requiring MenuItem wrapper', async () => {
-      const user = userEvent.setup();
-
-      const SubmenuTriggerSimpleComponent = () => {
-        return (
-          <Menu>
-            <MenuButton data-testid="menu-button">
-              Options
-            </MenuButton>
-            <MenuList>
-              <Submenu>
-                <SubmenuTrigger data-testid="submenu-trigger">
-                  <Text>Simple Submenu</Text>
-                  <Space width="1x" />
-                  <AngleRightIcon ml="auto" />
-                </SubmenuTrigger>
-                <SubmenuList data-testid="submenu-list">
-                  <MenuItem>Item 1</MenuItem>
-                </SubmenuList>
-              </Submenu>
-            </MenuList>
-          </Menu>
-        );
-      };
-
-      render(<SubmenuTriggerSimpleComponent />);
-
-      const menuButton = screen.getByTestId('menu-button');
-      await user.click(menuButton);
-
-      const submenuTrigger = screen.getByTestId('submenu-trigger');
-      expect(submenuTrigger).toBeInTheDocument();
-      expect(submenuTrigger.textContent).toBe('Simple Submenu');
-    });
-
-    it('should not respond to mouse events when disabled', async () => {
-      const user = userEvent.setup();
-
-      const DisabledSubmenuTriggerComponent = () => {
-        return (
-          <Menu>
-            <MenuButton data-testid="menu-button">
-              Options
-            </MenuButton>
-            <MenuList data-testid="menu-list">
-              <MenuItem data-testid="menu-item-1">Menu item 1</MenuItem>
-              <Submenu>
-                <SubmenuTrigger disabled data-testid="submenu-trigger">
-                  <Text>Disabled Submenu</Text>
-                  <Space width="1x" />
-                  <AngleRightIcon ml="auto" />
-                </SubmenuTrigger>
-                <SubmenuList data-testid="submenu-list">
-                  <MenuItem data-testid="submenu-item-1">Submenu item 1</MenuItem>
-                </SubmenuList>
-              </Submenu>
-            </MenuList>
-          </Menu>
-        );
-      };
-
-      render(<DisabledSubmenuTriggerComponent />);
-
-      const menuButton = screen.getByTestId('menu-button');
-      await user.click(menuButton);
-      expect(await screen.findByRole('menu')).toBeInTheDocument();
-
-      // Use fireEvent to directly trigger mouse events on disabled element
-      const submenuTrigger = screen.getByTestId('submenu-trigger');
-      fireEvent.mouseEnter(submenuTrigger);
-
-      // The submenu should NOT open because the trigger is disabled
-      expect(screen.queryByTestId('submenu-list')).not.toBeInTheDocument();
-
-      // Also test mouseLeave on disabled element
-      fireEvent.mouseLeave(submenuTrigger);
-
-      // Verify the trigger has aria-disabled attribute
-      expect(submenuTrigger).toHaveAttribute('aria-disabled', 'true');
-    });
-
-    it('should not respond to keyboard events when disabled', async () => {
-      const user = userEvent.setup();
-
-      const DisabledSubmenuTriggerComponent = () => {
-        return (
-          <Menu>
-            <MenuButton data-testid="menu-button">
-              Options
-            </MenuButton>
-            <MenuList data-testid="menu-list">
-              <MenuItem data-testid="menu-item-1">Menu item 1</MenuItem>
-              <Submenu>
-                <SubmenuTrigger disabled data-testid="submenu-trigger">
-                  <Text>Disabled Submenu</Text>
-                  <Space width="1x" />
-                  <AngleRightIcon ml="auto" />
-                </SubmenuTrigger>
-                <SubmenuList data-testid="submenu-list">
-                  <MenuItem data-testid="submenu-item-1">Submenu item 1</MenuItem>
-                </SubmenuList>
-              </Submenu>
-            </MenuList>
-          </Menu>
-        );
-      };
-
-      render(<DisabledSubmenuTriggerComponent />);
-
-      const menuButton = screen.getByTestId('menu-button');
-      await user.click(menuButton);
-      expect(await screen.findByRole('menu')).toBeInTheDocument();
-
-      // Use fireEvent to directly trigger keyboard event on disabled element
-      const submenuTrigger = screen.getByTestId('submenu-trigger');
-      fireEvent.keyDown(submenuTrigger, { key: 'ArrowRight' });
-
-      // The submenu should NOT open because the trigger is disabled
-      expect(screen.queryByTestId('submenu-list')).not.toBeInTheDocument();
-    });
-
-    it('should close submenu with ArrowLeft when trigger is focused and submenu is open', async () => {
-      const user = userEvent.setup();
-
-      const SubmenuTriggerTestComponent = () => {
-        return (
-          <Menu>
-            <MenuButton data-testid="menu-button">
-              Options
-            </MenuButton>
-            <MenuList data-testid="menu-list">
-              <MenuItem data-testid="menu-item-1">Menu item 1</MenuItem>
-              <Submenu>
-                <SubmenuTrigger data-testid="submenu-trigger">
-                  <Text>Submenu</Text>
-                  <Space width="1x" />
-                  <AngleRightIcon ml="auto" />
-                </SubmenuTrigger>
-                <SubmenuList data-testid="submenu-list">
-                  <MenuItem data-testid="submenu-item-1">Submenu item 1</MenuItem>
-                  <MenuItem data-testid="submenu-item-2">Submenu item 2</MenuItem>
-                </SubmenuList>
-              </Submenu>
-            </MenuList>
-          </Menu>
-        );
-      };
-
-      render(<SubmenuTriggerTestComponent />);
-
-      const menuButton = screen.getByTestId('menu-button');
-      await user.click(menuButton);
-      expect(await screen.findByRole('menu')).toBeInTheDocument();
-
-      // Navigate to the submenu trigger
-      await user.keyboard('[ArrowDown]');
-      await user.keyboard('[ArrowDown]');
-
-      const submenuTrigger = screen.getByTestId('submenu-trigger');
-      await waitFor(() => {
-        expect(submenuTrigger).toHaveFocus();
-      });
-
-      // Open the submenu via mouse hover (keeps focus on trigger)
-      fireEvent.mouseEnter(submenuTrigger);
-
-      await waitFor(() => {
-        expect(screen.getByTestId('submenu-list')).toBeInTheDocument();
-      });
-
-      // The trigger should still have focus
-      expect(submenuTrigger).toHaveFocus();
-
-      // Close with ArrowLeft while trigger is focused and submenu is open
-      fireEvent.keyDown(submenuTrigger, { key: 'ArrowLeft' });
-
-      // The submenu should close
-      await waitFor(() => {
-        expect(screen.queryByTestId('submenu-list')).not.toBeInTheDocument();
-      });
-    });
-
-    it('should close submenu with Escape when trigger is focused', async () => {
-      const user = userEvent.setup();
-
-      const SubmenuTriggerTestComponent = () => {
-        return (
-          <Menu>
-            <MenuButton data-testid="menu-button">
-              Options
-            </MenuButton>
-            <MenuList data-testid="menu-list">
-              <MenuItem data-testid="menu-item-1">Menu item 1</MenuItem>
-              <Submenu>
-                <SubmenuTrigger data-testid="submenu-trigger">
-                  <Text>Submenu</Text>
-                  <Space width="1x" />
-                  <AngleRightIcon ml="auto" />
-                </SubmenuTrigger>
-                <SubmenuList data-testid="submenu-list">
-                  <MenuItem data-testid="submenu-item-1">Submenu item 1</MenuItem>
-                </SubmenuList>
-              </Submenu>
-            </MenuList>
-          </Menu>
-        );
-      };
-
-      render(<SubmenuTriggerTestComponent />);
-
-      const menuButton = screen.getByTestId('menu-button');
-      await user.click(menuButton);
-      expect(await screen.findByRole('menu')).toBeInTheDocument();
-
-      // Navigate to the submenu trigger
-      await user.keyboard('[ArrowDown]');
-      await user.keyboard('[ArrowDown]');
-
-      const submenuTrigger = screen.getByTestId('submenu-trigger');
-      await waitFor(() => {
-        expect(submenuTrigger).toHaveFocus();
-      });
-
-      // Open the submenu via mouse hover
-      fireEvent.mouseEnter(submenuTrigger);
-
-      await waitFor(() => {
-        expect(screen.getByTestId('submenu-list')).toBeInTheDocument();
-      });
-
-      // Close with Escape while trigger is focused
-      fireEvent.keyDown(submenuTrigger, { key: 'Escape' });
-
-      // The submenu should close
       await waitFor(() => {
         expect(screen.queryByTestId('submenu-list')).not.toBeInTheDocument();
       });

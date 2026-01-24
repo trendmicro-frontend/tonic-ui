@@ -239,10 +239,11 @@ const useSubmenuListStyle = ({
   };
 };
 
-const useSubmenuToggleStyle = () => {
+const useSubmenuTriggerStyle = ({ tabIndex }) => {
+  const menuItemStyle = useMenuItemStyle({ tabIndex });
+
   return {
-    cursor: 'pointer',
-    display: 'inline-flex',
+    ...menuItemStyle,
   };
 };
 
@@ -260,5 +261,5 @@ export {
   useSubmenuStyle,
   useSubmenuContentStyle,
   useSubmenuListStyle,
-  useSubmenuToggleStyle,
+  useSubmenuTriggerStyle,
 };

@@ -6,7 +6,7 @@ import {
   MenuList,
   MenuToggle,
   Submenu,
-  SubmenuToggle,
+  SubmenuTrigger,
   SubmenuList,
   useTheme,
 } from '@tonic-ui/react';
@@ -41,6 +41,11 @@ const DropdownBase = forwardRef((
   const theme = useTheme();
   const handleClickBy = useCallback((item) => (event) => {
     onSelect?.(item);
+  }, [onSelect]);
+  const handleKeyDownBy = useCallback((item) => (event) => {
+    if ((event.key === ' ' || event.key === 'Enter') && !event.repeat) {
+      onSelect?.(item);
+    }
   }, [onSelect]);
 
   const renderItem = (item) => (typeof renderItemProp === 'function') ? renderItemProp(item) : null;
@@ -83,13 +88,12 @@ const DropdownBase = forwardRef((
       if (item.type === 'submenu') {
         return (
           <Submenu key={`${key}_submenu`}>
-            <SubmenuToggle
+            <SubmenuTrigger
               width="100%"
+              {...item.props}
             >
-              <MenuItem {...item.props}>
-                {renderItem?.(item)}
-              </MenuItem>
-            </SubmenuToggle>
+              {renderItem?.(item)}
+            </SubmenuTrigger>
             <SubmenuList
               width="max-content"
             >
@@ -103,6 +107,7 @@ const DropdownBase = forwardRef((
         <MenuItem
           key={key}
           onClick={handleClickBy(item)}
+          onKeyDown={handleKeyDownBy(item)}
           {...item.props}
         >
           {renderItem?.(item)}

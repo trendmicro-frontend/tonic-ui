@@ -1,40 +1,62 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
-import { ariaAttr, callEventHandlers, getAllFocusable } from '@tonic-ui/utils';
+import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
-import React, { forwardRef, useRef } from 'react';
-import { Box } from '../box';
+import React, { forwardRef } from 'react';
+import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
-import {
-  useSubmenuToggleStyle,
-} from './styles';
+import useButtonEventHandlers from '../utils/useButtonEventHandlers';
+import { useSubmenuTriggerStyle } from './styles';
+import useMenu from './useMenu';
 import useSubmenu from './useSubmenu';
 
-const SubmenuToggle = forwardRef((inProps, ref) => {
+/**
+ * SubmenuTrigger acts as a menu item that opens a submenu when interacted with.
+ * It combines MenuItem functionality with submenu trigger behavior for a cleaner API.
+ */
+const SubmenuTrigger = forwardRef((inProps, ref) => {
   const {
     children,
     disabled,
+    onClick: onClickProp,
     onFocus: onFocusProp,
     onKeyDown: onKeyDownProp,
     onMouseEnter: onMouseEnterProp,
     onMouseLeave: onMouseLeaveProp,
     ...rest
-  } = useDefaultProps({ props: inProps, name: 'SubmenuToggle' });
-  const mouseLeaveTimeoutRef = useRef();
+  } = useDefaultProps({ props: inProps, name: 'SubmenuTrigger' });
+
+  const menuContext = useMenu(); // context might be an undefined value
+  const {
+    closeOnSelect,
+    onClose: closeMenu,
+  } = { ...menuContext };
+
   const submenuContext = useSubmenu(); // context might be an undefined value
   const {
     focusOnFirstItem,
     isHoveringSubmenuContentRef,
-    isHoveringSubmenuToggleRef,
+    isHoveringSubmenuTriggerRef,
     isOpen,
     onClose: closeSubmenu,
     onOpen: openSubmenu,
     placement,
     submenuId,
-    submenuToggleId,
-    submenuToggleRef,
+    submenuTriggerId,
+    submenuTriggerRef,
   } = { ...submenuContext };
-  const combinedRef = useMergeRefs(submenuToggleRef, ref);
-  const styleProps = useSubmenuToggleStyle();
+
+  const combinedRef = useMergeRefs(submenuTriggerRef, ref);
+  const tabIndex = -1;
+  const styleProps = useSubmenuTriggerStyle({ tabIndex });
+
+  const mouseLeaveTimeoutRef = React.useRef();
+
+  // Use button event handlers for click and Enter/Space key activation
+  const { onClick, onKeyDown } = useButtonEventHandlers({
+    disabled,
+    onActivate: () => closeOnSelect && ensureFunction(closeMenu)(),
+  });
+
   const eventHandler = {};
 
   eventHandler.onMouseEnter = function (event) {
@@ -43,7 +65,7 @@ const SubmenuToggle = forwardRef((inProps, ref) => {
       return;
     }
 
-    isHoveringSubmenuToggleRef.current = true;
+    isHoveringSubmenuTriggerRef.current = true;
     if (mouseLeaveTimeoutRef.current) {
       clearTimeout(mouseLeaveTimeoutRef.current);
       mouseLeaveTimeoutRef.current = undefined;
@@ -58,38 +80,20 @@ const SubmenuToggle = forwardRef((inProps, ref) => {
       return;
     }
 
-    isHoveringSubmenuToggleRef.current = false;
+    isHoveringSubmenuTriggerRef.current = false;
     if (mouseLeaveTimeoutRef.current) {
       clearTimeout(mouseLeaveTimeoutRef.current);
       mouseLeaveTimeoutRef.current = undefined;
     }
     mouseLeaveTimeoutRef.current = setTimeout(() => {
       mouseLeaveTimeoutRef.current = undefined;
-      if (!isHoveringSubmenuToggleRef.current && !isHoveringSubmenuContentRef.current) {
+      if (!isHoveringSubmenuTriggerRef.current && !isHoveringSubmenuContentRef.current) {
         ensureFunction(closeSubmenu)();
       }
-    }, 100); // XXX: keep opening Submenu when cursor quickly move between SubmenuToggle and SubmenuContent
+    }, 100);
   };
 
-  // When used as a wrapper, forward focus to the first focusable element (MenuItem) inside
-  eventHandler.onFocus = function (event) {
-    if (disabled) {
-      return;
-    }
-
-    // Only forward focus if the event target is the wrapper itself
-    const wrapper = event.currentTarget;
-    if (event.target === wrapper) {
-      // Find the first focusable element inside the wrapper
-      const focusableElements = getAllFocusable(wrapper);
-      const firstFocusable = focusableElements[0];
-      if (firstFocusable && firstFocusable !== wrapper) {
-        firstFocusable.focus();
-      }
-    }
-  };
-
-  // Keyboard navigation for submenu toggle
+  // Keyboard navigation for submenu trigger
   eventHandler.onKeyDown = function (event) {
     if (disabled) {
       return;
@@ -124,42 +128,30 @@ const SubmenuToggle = forwardRef((inProps, ref) => {
     }
   };
 
-  const getSubmenuToggleProps = () => ({
-    'aria-controls': submenuId,
-    'aria-disabled': ariaAttr(disabled),
-    'aria-expanded': ariaAttr(isOpen),
-    'aria-haspopup': 'menu',
-    disabled,
-    id: submenuToggleId,
-    onFocus: callEventHandlers(onFocusProp, eventHandler.onFocus),
-    onKeyDown: callEventHandlers(onKeyDownProp, eventHandler.onKeyDown),
-    onMouseEnter: callEventHandlers(onMouseEnterProp, eventHandler.onMouseEnter),
-    onMouseLeave: callEventHandlers(onMouseLeaveProp, eventHandler.onMouseLeave),
-    ref: combinedRef,
-    role: 'menuitem',
-    tabIndex: -1,
-    ...styleProps,
-    ...rest,
-  });
-
-  if (typeof children === 'function') {
-    return children({
-      getSubmenuToggleProps,
-    });
-  }
-
-  // When used as a wrapper, use role="presentation" since the child MenuItem
-  // has its own role="menuitem"
   return (
-    <Box
-      {...getSubmenuToggleProps()}
-      role="presentation"
+    <ButtonBase
+      ref={combinedRef}
+      role="menuitem"
+      tabIndex={tabIndex}
+      disabled={disabled}
+      aria-disabled={ariaAttr(disabled)}
+      aria-controls={submenuId}
+      aria-expanded={ariaAttr(isOpen)}
+      aria-haspopup="menu"
+      id={submenuTriggerId}
+      onClick={callEventHandlers(onClickProp, onClick)}
+      onFocus={callEventHandlers(onFocusProp, eventHandler.onFocus)}
+      onKeyDown={callEventHandlers(onKeyDownProp, onKeyDown, eventHandler.onKeyDown)}
+      onMouseEnter={callEventHandlers(onMouseEnterProp, eventHandler.onMouseEnter)}
+      onMouseLeave={callEventHandlers(onMouseLeaveProp, eventHandler.onMouseLeave)}
+      {...styleProps}
+      {...rest}
     >
       {children}
-    </Box>
+    </ButtonBase>
   );
 });
 
-SubmenuToggle.displayName = 'SubmenuToggle';
+SubmenuTrigger.displayName = 'SubmenuTrigger';
 
-export default SubmenuToggle;
+export default SubmenuTrigger;

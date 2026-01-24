@@ -5,9 +5,10 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Space,
   Submenu,
   SubmenuList,
-  SubmenuToggle,
+  SubmenuTrigger,
   Text,
 } from '@tonic-ui/react';
 import { AngleRightIcon } from '@tonic-ui/react-icons';
@@ -22,6 +23,14 @@ const App = () => {
       setSelectedValue(value);
     }
   };
+  const handleKeyDownMenuItem = (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      const value = event.target.getAttribute('value');
+      if (!isNullish(value)) {
+        setSelectedValue(value);
+      }
+    }
+  };
 
   return (
     <Flex columnGap="4x" alignItems="center">
@@ -34,6 +43,7 @@ const App = () => {
             usePortal: true,
           }}
           onClick={handleClickMenuItem}
+          onKeyDown={handleKeyDownMenuItem}
           width="max-content"
         >
           <MenuItem value={1}>
@@ -44,19 +54,11 @@ const App = () => {
           </MenuItem>
           <MenuDivider />
           <Submenu>
-            <SubmenuToggle>
-              <MenuItem>
-                <Flex
-                  alignItems="center"
-                  columnGap="2x"
-                  justifyContent="space-between"
-                  width="100%"
-                >
-                  Submenu
-                  <AngleRightIcon />
-                </Flex>
-              </MenuItem>
-            </SubmenuToggle>
+            <SubmenuTrigger>
+              <Text>Submenu</Text>
+              <Space width="1x" />
+              <AngleRightIcon ml="auto" />
+            </SubmenuTrigger>
             <SubmenuList
               PopperProps={{
                 usePortal: true,
