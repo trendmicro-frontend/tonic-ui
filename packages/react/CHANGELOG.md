@@ -1,5 +1,11 @@
 # @tonic-ui/react
 
+## 2.12.0
+
+### Minor Changes
+
+- feat: Add `FormControl` components with comprehensive accessibility support by [@cheton](https://github.com/cheton) in [#1098](https://github.com/trendmicro-frontend/tonic-ui/pull/1098)
+
 ## 2.11.0
 
 ### Minor Changes
