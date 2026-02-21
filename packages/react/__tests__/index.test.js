@@ -86,6 +86,16 @@ test('should match expected exports', () => {
     // flex
     'Flex',
 
+    // form-control
+    'FormCharacterCount',
+    'FormControl',
+    'FormErrorMessage',
+    'FormHelperText',
+    'FormInput',
+    'FormLabel',
+    'FormTextarea',
+    'useFormControl',
+
     // grid
     'Grid',
 

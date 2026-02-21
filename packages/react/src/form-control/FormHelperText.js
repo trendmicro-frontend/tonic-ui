@@ -1,6 +1,6 @@
-import { Text } from '@tonic-ui/react';
-import { useId } from '@tonic-ui/react-hooks';
 import React, { forwardRef } from 'react';
+import { useId } from '@tonic-ui/react-hooks';
+import { Text } from '../text';
 import useFormControl from './useFormControl';
 import { useFormHelperTextStyle } from './styles';
 

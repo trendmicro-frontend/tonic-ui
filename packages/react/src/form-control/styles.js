@@ -1,4 +1,4 @@
-import { useColorStyle } from '@tonic-ui/react';
+import { useColorStyle } from '../color-style';
 import useFormControl from './useFormControl';
 
 const useFormLabelStyle = () => {
@@ -89,7 +89,7 @@ const useFormCharacterCountStyle = () => {
 
   const styles = {
     fontSize: 'sm',
-    justifyContent: 'flex-end',
+    marginLeft: 'auto',
   };
 
   if (orientation === 'horizontal') {

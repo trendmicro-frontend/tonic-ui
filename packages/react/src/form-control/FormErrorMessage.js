@@ -1,7 +1,8 @@
-import { Text, Box } from '@tonic-ui/react';
-import { useId } from '@tonic-ui/react-hooks';
 import React, { forwardRef } from 'react';
 import { ensureArray } from 'ensure-type';
+import { useId } from '@tonic-ui/react-hooks';
+import { Text } from '../text';
+import { Box } from '../box';
 import useFormControl from './useFormControl';
 import {
   useFormErrorMessageStyle,
@@ -10,10 +11,7 @@ import {
 
 const FormErrorMessage = forwardRef(({ errors = [], ...rest }, ref) => {
   const defaultId = useId();
-  const {
-    error,
-    formErrorMessageId,
-  } = useFormControl() ?? {};
+  const { error, formErrorMessageId } = useFormControl() ?? {};
   const id = formErrorMessageId ?? defaultId;
   const styleProps = useFormErrorMessageStyle();
   const listStyleProps = useFormErrorMessageListStyle();
