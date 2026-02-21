@@ -14,6 +14,7 @@ export * from './default-props';
 export * from './divider';
 export * from './drawer';
 export * from './flex';
+export * from './form-control';
 export * from './grid';
 export * from './highlight';
 export * from './icon';

@@ -39,7 +39,7 @@
   "author": "Tonic UI Team",
   "license": "MIT",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.25.3",
+    "@modelcontextprotocol/sdk": "^1.26.0",
     "commander": "^14.0.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",

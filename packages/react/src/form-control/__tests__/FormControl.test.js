@@ -1,48 +1,16 @@
 /* @jest-environment jsdom */
+import React, { useState, useCallback } from 'react';
+import { screen } from '@testing-library/react';
+import { render } from '@tonic-ui/react/test-utils/render';
 import userEvent from '@testing-library/user-event';
-import { Input } from '@tonic-ui/react';
-import { ariaAttr } from '@tonic-ui/utils';
-import React, { useState } from 'react';
-import { render, screen } from '../../../test-utils/render';
 import {
   FormControl,
   FormLabel,
   FormHelperText,
   FormErrorMessage,
   FormCharacterCount,
-} from '../index';
-import useFormControl from '../useFormControl';
-
-const FormInput = React.forwardRef((props, ref) => {
-  const {
-    disabled,
-    error,
-    readOnly,
-    formCharacterCountId,
-    formErrorMessageId,
-    formHelperTextId,
-    formInputId,
-  } = useFormControl();
-  const ariaDescribedby = [
-    formCharacterCountId,
-    formErrorMessageId,
-    formHelperTextId,
-  ].filter(Boolean).join(' ');
-
-  return (
-    <Input
-      ref={ref}
-      id={formInputId}
-      aria-describedby={ariaAttr(ariaDescribedby)}
-      disabled={disabled}
-      error={error}
-      readOnly={readOnly}
-      {...props}
-    />
-  );
-});
-
-FormInput.displayName = 'FormInput';
+  FormInput,
+} from '@tonic-ui/react/src';
 
 describe('Form Control ', () => {
   it('renders basic form control', () => {
@@ -163,7 +131,7 @@ describe('Form Control ', () => {
         <FormControl>
           <FormLabel>Bio</FormLabel>
           <FormInput />
-          <FormCharacterCount value="" max={100} />
+          <FormCharacterCount count={0} maxCount={100} />
         </FormControl>
       );
 
@@ -178,7 +146,7 @@ describe('Form Control ', () => {
         <FormControl>
           <FormLabel>Bio</FormLabel>
           <FormInput />
-          <FormCharacterCount value="test" />
+          <FormCharacterCount count={4} />
         </FormControl>
       );
 
@@ -196,14 +164,17 @@ describe('Form Control ', () => {
 
       const TestComponent = () => {
         const [value, setValue] = useState('');
+        const handleChange = useCallback((e) => {
+          setValue(e.target.value);
+        }, []);
         return (
           <FormControl>
             <FormLabel>Bio</FormLabel>
             <FormInput
               value={value}
-              onChange={(e) => setValue(e.target.value)}
+              onChange={handleChange}
             />
-            <FormCharacterCount value={value} max={maxLength} />
+            <FormCharacterCount count={value.length} maxCount={maxLength} />
           </FormControl>
         );
       };

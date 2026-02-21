@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
 import { ensureArray } from 'ensure-type';
-import { Box, Stack, Button, Text } from '@tonic-ui/react';
 import {
+  Box,
+  Stack,
+  Button,
+  Text,
+  Flex,
   FormControl,
-  FormInput,
   FormLabel,
+  FormInput,
+  FormTextarea,
   FormErrorMessage,
   FormHelperText,
-} from '@/experiments/form-control';
+  FormCharacterCount,
+} from '@tonic-ui/react';
 
 const App = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
+    country: '',
+    bio: '',
   });
 
   const [errors, setErrors] = useState({});
@@ -38,6 +46,19 @@ const App = () => {
           passwordErrors.push('Must include lowercase letter');
         }
         return passwordErrors;
+      }
+      case 'country': {
+        return !value ? 'Please select your experience level' : '';
+      }
+      case 'bio': {
+        const bioErrors = [];
+        if (value.length < 10) {
+          bioErrors.push('Bio must be at least 10 characters');
+        }
+        if (value.length > 200) {
+          bioErrors.push('Bio must not exceed 200 characters');
+        }
+        return bioErrors;
       }
       default:
         return '';
@@ -133,6 +154,26 @@ const App = () => {
             <FormHelperText>
               Must be at least 8 characters with mixed case
             </FormHelperText>
+          </FormControl>
+
+          {/* Bio textarea with character validation */}
+          <FormControl error={hasError('bio')}>
+            <FormLabel>Bio</FormLabel>
+            <FormTextarea
+              name="bio"
+              value={formData.bio}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder="Tell us about yourself..."
+              rows={4}
+            />
+            <FormErrorMessage errors={ensureArray(errors.bio)} />
+            <Flex justifyContent="space-between">
+              <FormHelperText>
+                Write a brief bio (10-200 characters)
+              </FormHelperText>
+              <FormCharacterCount count={formData.bio.length} maxCount={200} />
+            </Flex>
           </FormControl>
 
           {/* Submit Button */}
