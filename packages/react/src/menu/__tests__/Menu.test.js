@@ -68,7 +68,9 @@ describe('Menu', () => {
     });
 
     // Wait for the Collapse transition to complete (entering → entered)
-    await act(() => new Promise((resolve) => setTimeout(resolve, 300)));
+    await act(() => new Promise((resolve) => {
+      setTimeout(resolve, 300);
+    }));
 
     expect(container).toMatchSnapshot();
 
