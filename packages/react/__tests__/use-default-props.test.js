@@ -71,7 +71,7 @@ test('the `name` property in `useDefaultProps` should match the component name',
 
                 try {
                   expect(namePropertyValue).toEqual(componentName);
-                } catch (err) {
+                } catch (_err) { // eslint-disable-line no-unused-vars
                   throw new Error(`Mismatch in file "${file}": Expected component name '${componentName}' but found '${namePropertyValue}'`);
                 }
 

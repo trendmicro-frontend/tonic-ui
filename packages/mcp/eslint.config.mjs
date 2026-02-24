@@ -2,14 +2,13 @@ import { defineConfig } from 'eslint/config';
 import globals from 'globals';
 import tsParser from '@typescript-eslint/parser';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
-import babelPlugin from '@babel/eslint-plugin';
 import trendmicroConfig from 'eslint-config-trendmicro';
 
 export default defineConfig([
   ...trendmicroConfig,
   // @typescript-eslint v8+ has native flat config support
-  ...tsPlugin.configs['recommended'],
-  ...tsPlugin.configs['stylistic'],
+  tsPlugin.configs['flat/recommended'],
+  tsPlugin.configs['flat/stylistic'],
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx', '**/*.mjs'],
     languageOptions: {
@@ -24,7 +23,6 @@ export default defineConfig([
       },
     },
     plugins: {
-      '@babel': babelPlugin,
       '@typescript-eslint': tsPlugin,
     },
     rules: {
@@ -45,10 +43,9 @@ export default defineConfig([
   },
   {
     ignores: [
-      'dist/**/*',
-      'build/**/*',
-      'coverage/**/*',
-      'node_modules/**/*'
+      'build',
+      'dist',
+      'node_modules',
     ],
   },
 ]);

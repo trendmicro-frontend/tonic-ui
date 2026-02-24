@@ -1,7 +1,6 @@
 import { defineConfig } from 'eslint/config';
 import globals from 'globals';
 import babelParser from '@babel/eslint-parser';
-import babelPlugin from '@babel/eslint-plugin';
 import trendmicroConfig from 'eslint-config-trendmicro';
 
 export default defineConfig([
@@ -16,10 +15,14 @@ export default defineConfig([
         ...globals.jest,
       },
     },
-    plugins: {
-      '@babel': babelPlugin,
-    },
     rules: {
     },
+  },
+  {
+    ignores: [
+      'build',
+      'dist',
+      'node_modules',
+    ],
   },
 ]);

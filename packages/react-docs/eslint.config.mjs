@@ -1,13 +1,16 @@
 import { defineConfig } from 'eslint/config';
+import { FlatCompat } from '@eslint/eslintrc';
 import globals from 'globals';
 import babelParser from '@babel/eslint-parser';
-import babelPlugin from '@babel/eslint-plugin';
 import js from '@eslint/js';
-import nextConfig from 'eslint-config-next/core-web-vitals';
+
+const compat = new FlatCompat({
+  baseDirectory: import.meta.dirname,
+});
 
 export default defineConfig([
   js.configs.recommended,
-  nextConfig,  // eslint-config-next v16+ has native flat config support
+  ...compat.extends('next/core-web-vitals'),
   {
     files: ['**/*.js', '**/*.jsx', '**/*.mjs'],
     languageOptions: {
@@ -21,9 +24,6 @@ export default defineConfig([
         ...globals.jest,
       },
     },
-    plugins: {
-      '@babel': babelPlugin,
-    },
     rules: {
       'react/prop-types': 0,
       'no-unused-vars': ['error', {
@@ -31,5 +31,14 @@ export default defineConfig([
         args: 'none', // do not check arguments
       }],
     },
+  },
+  {
+    ignores: [
+      '.next',
+      'build',
+      'dist',
+      'node_modules',
+      'docs',
+    ],
   },
 ]);

@@ -16,7 +16,7 @@ const assignRef = (ref, value) => {
 
   try {
     ref.current = value;
-  } catch (error) {
+  } catch (_error) { // eslint-disable-line no-unused-vars
     throw new Error(`Cannot assign value '${value}' to ref '${ref}'`);
   }
 };
