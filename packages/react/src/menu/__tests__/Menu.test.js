@@ -8,7 +8,7 @@ import {
   MenuList,
   MenuItem,
 } from '@tonic-ui/react/src';
-import React from 'react';
+import React, { act } from 'react';
 
 describe('Menu', () => {
   const TestComponent = (props) => {
@@ -60,6 +60,15 @@ describe('Menu', () => {
 
     // The menu should be in the document
     expect(await screen.findByRole('menu')).toBeInTheDocument();
+
+    // Wait for focus and Collapse transition to stabilize
+    await waitFor(() => {
+      const firstMenuItem = screen.getByText('Menu item 1');
+      expect(firstMenuItem).toBeInTheDocument();
+    });
+
+    // Wait for the Collapse transition to complete (entering → entered)
+    await act(() => new Promise((resolve) => setTimeout(resolve, 300)));
 
     expect(container).toMatchSnapshot();
 
