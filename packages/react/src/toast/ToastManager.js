@@ -1,9 +1,9 @@
 import { useHydrated } from '@tonic-ui/react-hooks';
 import { isNullish, runIfFn } from '@tonic-ui/utils';
 import { ensureArray, ensureString } from 'ensure-type';
-import memoize from 'micro-memoize';
 import React, { useCallback, useState } from 'react';
 import { useDefaultProps } from '../default-props';
+import useShallowMemo from '../utils/useShallowMemo';
 import { Portal } from '../portal';
 import isValidComponent from '../utils/isValidComponent';
 import ToastContainer from './ToastContainer';
@@ -20,7 +20,6 @@ const uniqueId = (() => {
   };
 })();
 
-const getMemoizedState = memoize(state => ({ ...state }));
 
 const defaultPlacement = 'bottom-right';
 const placements = [
@@ -55,6 +54,7 @@ const ToastManager = (inProps) => {
     containerRef,
     placement: placementProp = defaultPlacement,
   } = useDefaultProps({ props: inProps, name: 'ToastManager' });
+  const shallowMemo = useShallowMemo();
   const isHydrated = useHydrated();
   const [state, setState] = useState(() => (
     placements.reduce((acc, placement) => {
@@ -199,7 +199,7 @@ const ToastManager = (inProps) => {
     return toast.id;
   }, [placementProp]);
 
-  const context = getMemoizedState({
+  const context = shallowMemo({
     // Methods
     close,
     closeAll,

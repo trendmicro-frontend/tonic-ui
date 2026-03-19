@@ -6,10 +6,10 @@ import isDate from 'date-fns/isDate';
 import isValid from 'date-fns/isValid';
 import parse from 'date-fns/parse';
 import startOfDay from 'date-fns/startOfDay';
-import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../../box';
 import { useDefaultProps } from '../../default-props';
+import useShallowMemo from '../../utils/useShallowMemo';
 import config from '../../shared/config';
 import DateCalendar from '../DateCalendar';
 import { validateDate } from '../validation';
@@ -18,7 +18,6 @@ import DatePickerToggle from './DatePickerToggle';
 import { DatePickerProvider } from './context';
 import { useDatePickerStyle } from './styles';
 
-const getMemoizedState = memoize(state => ({ ...state }));
 
 /**
  * Convert a value to a Date object in accordance with the format string.
@@ -84,6 +83,7 @@ const DatePicker = forwardRef((inProps, ref) => {
     value: valueProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'DatePicker' });
+  const shallowMemo = useShallowMemo();
   const datePickerContentRef = useRef(null);
   const datePickerToggleRef = useRef(null);
   const initialValue = useConst(() => {
@@ -224,7 +224,8 @@ const DatePicker = forwardRef((inProps, ref) => {
   const defaultId = useId();
   const datePickerContentId = `${config.name}:DatePickerContent-${defaultId}`;
   const datePickerToggleId = `${config.name}:DatePickerToggle-${defaultId}`;
-  const context = getMemoizedState({
+
+  const context = shallowMemo({
     isOpen,
     offset,
     onClose,

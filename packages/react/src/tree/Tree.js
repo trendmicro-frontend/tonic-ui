@@ -1,15 +1,14 @@
 import { useConst, useId } from '@tonic-ui/react-hooks';
 import { ariaAttr, callEventHandlers, isNullish } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
-import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import useShallowMemo from '../utils/useShallowMemo';
 import { Descendant } from '../utils/descendant';
 import { TreeContext } from './context';
 import { useTreeStyle } from './styles';
 
-const getMemoizedState = memoize(state => ({ ...state }));
 
 const Tree = forwardRef((inProps, ref) => {
   const {
@@ -29,6 +28,7 @@ const Tree = forwardRef((inProps, ref) => {
     selected: selectedProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Tree' });
+  const shallowMemo = useShallowMemo();
   const defaultId = useId();
   const treeId = idProp ?? defaultId;
   const [focusedNodeId, setFocusedNodeId] = useState(null);
@@ -705,7 +705,8 @@ const Tree = forwardRef((inProps, ref) => {
    * Context
    */
 
-  const context = getMemoizedState({
+
+  const context = shallowMemo({
     focusNode,
     getIsNodeDisabled,
     getIsNodeExpandable,

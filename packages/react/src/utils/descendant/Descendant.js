@@ -1,11 +1,10 @@
 /**
  * Credit: https://github.com/reach/reach-ui/tree/dev/packages/descendants
  */
-import memoize from 'micro-memoize';
 import React, { useCallback, useState } from 'react';
 import { DescendantContext } from './context';
+import useShallowMemo from '../useShallowMemo';
 
-const getMemoizedState = memoize(state => ({ ...state }));
 
 const binaryFindElement = (array, element) => {
   let start = 0;
@@ -94,7 +93,10 @@ const Descendant = ({
     });
   }, []);
 
-  const context = getMemoizedState({
+  const shallowMemo = useShallowMemo();
+
+
+  const context = shallowMemo({
     descendants,
     depth,
     id,

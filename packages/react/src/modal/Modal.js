@@ -1,15 +1,14 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
 import { getAllFocusable, runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
-import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import FocusLock from 'react-focus-lock/dist/cjs';
 import { useDefaultProps } from '../default-props';
+import useShallowMemo from '../utils/useShallowMemo';
 import { Portal } from '../portal';
 import { AnimatePresence } from '../utils/animate-presence';
 import ModalContainer from './ModalContainer';
 import { ModalContext } from './context';
 
-const getMemoizedState = memoize(state => ({ ...state }));
 
 const defaultScrollBehavior = 'inside';
 const defaultSize = 'auto';
@@ -35,6 +34,7 @@ const Modal = forwardRef((inProps, ref) => {
     size = defaultSize,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Modal' });
+  const shallowMemo = useShallowMemo();
 
   { // deprecation warning
     const prefix = `${Modal.displayName}:`;
@@ -56,7 +56,8 @@ const Modal = forwardRef((inProps, ref) => {
   const [isMounted, setIsMounted] = useState(isOpen);
   const containerRef = useRef();
   const contentRef = useRef();
-  const context = getMemoizedState({
+
+  const context = shallowMemo({
     autoFocus,
     closeOnEsc,
     closeOnInteractOutside,

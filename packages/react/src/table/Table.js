@@ -1,12 +1,11 @@
-import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import useShallowMemo from '../utils/useShallowMemo';
 import { LAYOUT_FLEXBOX, LAYOUT_TABLE, SIZE_MEDIUM, VARIANT_DEFAULT } from './constants';
 import { TableContext } from './context';
 import { useTableStyle } from './styles';
 
-const getMemoizedState = memoize(state => ({ ...state }));
 
 const Table = forwardRef((inProps, ref) => {
   const {
@@ -18,7 +17,9 @@ const Table = forwardRef((inProps, ref) => {
   } = useDefaultProps({ props: inProps, name: 'Table' });
   const as = layout === LAYOUT_TABLE ? 'table' : undefined;
   const role = roleProp ?? 'table';
-  const context = getMemoizedState({
+  const shallowMemo = useShallowMemo();
+
+  const context = shallowMemo({
     layout,
     size,
     variant,

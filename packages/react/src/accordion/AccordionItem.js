@@ -1,15 +1,14 @@
 import { useId } from '@tonic-ui/react-hooks';
 import { runIfFn } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
-import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import useShallowMemo from '../utils/useShallowMemo';
 import config from '../shared/config';
 import { AccordionItemContext } from './context';
 import useAccordion from './useAccordion';
 
-const getMemoizedState = memoize(state => ({ ...state }));
 
 const AccordionItem = forwardRef((inProps, ref) => {
   const {
@@ -20,6 +19,7 @@ const AccordionItem = forwardRef((inProps, ref) => {
     onToggle: onToggleProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'AccordionItem' });
+  const shallowMemo = useShallowMemo();
   const accordionContext = useAccordion();
   const defaultId = useId();
   const accordionToggleId = `${config.name}:AccordionToggle-${defaultId}`;
@@ -44,7 +44,7 @@ const AccordionItem = forwardRef((inProps, ref) => {
     });
   }, [isExpanded, isExpandedProp, onToggleProp]);
 
-  const context = getMemoizedState({
+  const context = shallowMemo({
     accordionToggleId,
     accordionContentId,
     disabled,

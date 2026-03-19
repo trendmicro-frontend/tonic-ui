@@ -1,17 +1,16 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { ariaAttr, isNullish, runIfFn } from '@tonic-ui/utils';
 import { ensureFiniteNumber } from 'ensure-type';
-import memoize from 'micro-memoize';
 import React, { forwardRef, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import useShallowMemo from '../utils/useShallowMemo';
 import { Collapse } from '../transitions';
 import { Descendant, useDescendant } from '../utils/descendant';
 import { TreeItemContext } from './context';
 import { useTreeItemStyle } from './styles';
 import useTree from './useTree';
 
-const getMemoizedState = memoize(state => ({ ...state }));
 
 const TreeItem = forwardRef((inProps, ref) => {
   const {
@@ -24,6 +23,7 @@ const TreeItem = forwardRef((inProps, ref) => {
     render,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'TreeItem' });
+  const shallowMemo = useShallowMemo();
   const {
     focusNode,
     getIsNodeDisabled,
@@ -149,7 +149,8 @@ const TreeItem = forwardRef((inProps, ref) => {
   }, [nodeId, getIsNodeDisabled, getIsNodeFocused, focusNode, toggleSelection]);
 
   const styleProps = useTreeItemStyle();
-  const context = getMemoizedState({
+
+  const context = shallowMemo({
     contentRef, // internal use only
     isDisabled,
     isExpandable,

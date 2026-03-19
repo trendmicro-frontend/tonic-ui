@@ -1,14 +1,13 @@
 import { useConst } from '@tonic-ui/react-hooks';
 import { isNullOrUndefined, runIfFn } from '@tonic-ui/utils';
-import memoize from 'micro-memoize';
 import React, { forwardRef, useEffect, useReducer } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import useShallowMemo from '../utils/useShallowMemo';
 import { defaultOrientation, defaultVariant } from './constants';
 import { TabsContext } from './context';
 import { useTabsStyle } from './styles';
 
-const getMemoizedState = memoize(state => ({ ...state }));
 
 const stateReducer = (prevState, nextState) => ({
   ...prevState,
@@ -26,6 +25,7 @@ const Tabs = forwardRef((inProps, ref) => {
     variant = defaultVariant,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Tabs' });
+  const shallowMemo = useShallowMemo();
   const tabMap = useConst(() => new Map());
   const tabPanelMap = useConst(() => new Map());
   const [state, setState] = useReducer(stateReducer, {
@@ -70,7 +70,8 @@ const Tabs = forwardRef((inProps, ref) => {
     return tabPanelMap.delete(index);
   };
 
-  const context = getMemoizedState({
+
+  const context = shallowMemo({
     disabled,
     index: state.index,
     onChange: handleChange,

@@ -21,17 +21,16 @@ import startOfDay from 'date-fns/startOfDay';
 import startOfMonth from 'date-fns/startOfMonth';
 import startOfWeek from 'date-fns/startOfWeek';
 import subMonths from 'date-fns/subMonths';
-import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../../box';
 import { useDefaultProps } from '../../default-props';
+import useShallowMemo from '../../utils/useShallowMemo';
 import { validateDate } from '../validation';
 import { DateCalendarProvider } from './context';
 import MonthDate from './MonthDate';
 import YearMonthPicker from './YearMonthPicker';
 import { useDateCalendarStyle } from './styles';
 
-const getMemoizedState = memoize(state => ({ ...state }));
 
 const mapValueToDate = (value) => {
   if (isNullOrUndefined(value)) {
@@ -68,6 +67,7 @@ const DateCalendar = forwardRef((inProps, ref) => {
     value: valueProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'DateCalendar' });
+  const shallowMemo = useShallowMemo();
 
   { // deprecation warning
     const prefix = `${DateCalendar.displayName}:`;
@@ -448,7 +448,7 @@ const DateCalendar = forwardRef((inProps, ref) => {
     }
   }, [date, firstDayOfWeek]);
 
-  const context = getMemoizedState({
+  const context = shallowMemo({
     activeDate,
     date,
     firstDayOfWeek,

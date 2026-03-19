@@ -1,7 +1,7 @@
 import { ensurePlainObject } from 'ensure-type';
-import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDefaultProps } from '../default-props';
+import useShallowMemo from '../utils/useShallowMemo';
 import defaultColorStyle from './color-style';
 import { ColorStyleContext } from './context';
 
@@ -9,7 +9,6 @@ const ensureColorStyle = (colorStyle) => {
   return ensurePlainObject(colorStyle);
 };
 
-const getMemoizedState = memoize(state => ({ ...state }));
 
 const ColorStyleProvider = (inProps) => {
   const {
@@ -18,6 +17,7 @@ const ColorStyleProvider = (inProps) => {
     value: valueProp,
     onChange: onChangeProp,
   } = useDefaultProps({ props: inProps, name: 'ColorStyleProvider' });
+  const shallowMemo = useShallowMemo();
   const [colorStyle, setColorStyle] = useState(ensureColorStyle(valueProp ?? (defaultValueProp ?? defaultColorStyle)));
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const ColorStyleProvider = (inProps) => {
     }
   }, [valueProp, onChangeProp]);
 
-  const colorStyleState = getMemoizedState({
+  const colorStyleState = shallowMemo({
     colorStyle,
     onChange,
   });

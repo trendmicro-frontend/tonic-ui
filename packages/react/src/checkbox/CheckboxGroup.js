@@ -1,13 +1,12 @@
 import { useId } from '@tonic-ui/react-hooks';
 import { runIfFn } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
-import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDefaultProps } from '../default-props';
+import useShallowMemo from '../utils/useShallowMemo';
 import config from '../shared/config';
 import { CheckboxGroupContext } from './context';
 
-const getMemoizedState = memoize(state => ({ ...state }));
 
 const CheckboxGroup = (inProps) => {
   const {
@@ -20,6 +19,7 @@ const CheckboxGroup = (inProps) => {
     value: valueProp,
     variantColor,
   } = useDefaultProps({ props: inProps, name: 'CheckboxGroup' });
+  const shallowMemo = useShallowMemo();
   const defaultId = useId();
   const name = nameProp ?? `${config.name}:CheckboxGroup-${defaultId}`;
 
@@ -50,7 +50,7 @@ const CheckboxGroup = (inProps) => {
     }
   }, [onChangeProp, state.value, valueProp]);
 
-  const context = getMemoizedState({
+  const context = shallowMemo({
     disabled,
     name,
     onChange,
