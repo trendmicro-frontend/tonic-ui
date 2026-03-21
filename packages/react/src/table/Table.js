@@ -14,9 +14,9 @@ const Table = forwardRef((inProps, ref) => {
     variant = VARIANT_DEFAULT,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Table' });
+  const shallowMemo = useShallowMemo();
   const as = layout === LAYOUT_TABLE ? 'table' : undefined;
   const role = roleProp ?? 'table';
-  const shallowMemo = useShallowMemo();
 
   const context = shallowMemo({
     layout,

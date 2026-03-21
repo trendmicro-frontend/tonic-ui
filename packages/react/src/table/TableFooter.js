@@ -12,11 +12,11 @@ const TableFooter = forwardRef((inProps, ref) => {
     role: roleProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'TableFooter' });
+  const shallowMemo = useShallowMemo();
   const { layout } = useTable();
   const as = layout === LAYOUT_TABLE ? 'tfoot' : undefined;
   const role = roleProp ?? 'rowgroup';
   const groupVariant = GROUP_VARIANT_FOOTER;
-  const shallowMemo = useShallowMemo();
 
   const context = shallowMemo({
     groupVariant,

@@ -12,11 +12,11 @@ const TableHeader = forwardRef((inProps, ref) => {
     role: roleProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'TableHeader' });
+  const shallowMemo = useShallowMemo();
   const { layout } = useTable();
   const as = layout === LAYOUT_TABLE ? 'thead' : undefined;
   const role = roleProp ?? 'rowgroup';
   const groupVariant = GROUP_VARIANT_HEADER;
-  const shallowMemo = useShallowMemo();
 
   const context = shallowMemo({
     groupVariant,
