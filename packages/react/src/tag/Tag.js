@@ -1,13 +1,11 @@
 import { ariaAttr, runIfFn } from '@tonic-ui/utils';
-import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import useShallowMemo from '../utils/useShallowMemo';
 import { useTagStyle } from './styles';
 import TagCloseButton from './TagCloseButton';
 import { TagContext } from './context';
-
-const getMemoizedState = memoize(state => ({ ...state }));
 
 const Tag = forwardRef((inProps, ref) => {
   const {
@@ -20,11 +18,13 @@ const Tag = forwardRef((inProps, ref) => {
     variant = 'solid',
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Tag' });
+  const shallowMemo = useShallowMemo();
   const ariaProps = {
     'aria-disabled': ariaAttr(disabled),
     'aria-invalid': ariaAttr(error),
   };
-  const context = getMemoizedState({
+
+  const context = shallowMemo({
     disabled,
     error,
     isClosable,

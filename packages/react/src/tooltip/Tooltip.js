@@ -1,7 +1,7 @@
 import { useId } from '@tonic-ui/react-hooks';
-import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { useDefaultProps } from '../default-props';
+import useShallowMemo from '../utils/useShallowMemo';
 import { Popper } from '../popper';
 import config from '../shared/config';
 import { Grow } from '../transitions';
@@ -9,8 +9,6 @@ import TooltipArrow from './TooltipArrow';
 import TooltipContent from './TooltipContent';
 import TooltipTrigger from './TooltipTrigger';
 import { TooltipContext } from './context';
-
-const getMemoizedState = memoize(state => ({ ...state }));
 
 const defaultPlacement = 'bottom';
 
@@ -48,6 +46,7 @@ const Tooltip = forwardRef((inProps, ref) => {
     placement = defaultPlacement,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Tooltip' });
+  const shallowMemo = useShallowMemo();
   const tooltipContentRef = useRef(null);
   const tooltipTriggerRef = useRef(null);
   const [mousePageX, setMousePageX] = useState(0);
@@ -138,7 +137,8 @@ const Tooltip = forwardRef((inProps, ref) => {
   const defaultId = useId();
   const tooltipId = `${config.name}:Tooltip-${defaultId}`;
   const tooltipTriggerId = `${config.name}:TooltipTrigger-${defaultId}`;
-  const context = getMemoizedState({
+
+  const context = shallowMemo({
     arrow: (followCursor || nextToCursor) ? false : arrow,
     closeOnClick,
     closeOnEsc,

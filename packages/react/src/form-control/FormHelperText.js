@@ -11,7 +11,13 @@ const FormHelperText = forwardRef(({ children, ...rest }, ref) => {
   const styleProps = useFormHelperTextStyle();
 
   return (
-    <Text ref={ref} id={id} role="note" {...styleProps} {...rest}>
+    <Text
+      ref={ref}
+      id={id}
+      role="note"
+      {...styleProps}
+      {...rest}
+    >
       {children}
     </Text>
   );

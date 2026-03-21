@@ -1,12 +1,10 @@
 import { useId, useOnceWhen, usePrevious } from '@tonic-ui/react-hooks';
 import { runIfFn } from '@tonic-ui/utils';
-import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDefaultProps } from '../default-props';
+import useShallowMemo from '../utils/useShallowMemo';
 import config from '../shared/config';
 import { PopoverContext } from './context';
-
-const getMemoizedState = memoize(state => ({ ...state }));
 
 const defaultPlacement = 'bottom';
 
@@ -31,6 +29,7 @@ const Popover = (inProps) => {
     returnFocusOnClose = true,
     trigger = 'click',
   } = useDefaultProps({ props: inProps, name: 'Popover' });
+  const shallowMemo = useShallowMemo();
 
   { // validation warnings
     const prefix = `${Popover.displayName}:`;
@@ -167,7 +166,8 @@ const Popover = (inProps) => {
   const defaultId = useId();
   const popoverId = `${config.name}:Popover-${defaultId}`;
   const popoverTriggerId = `${config.name}:PopoverTrigger-${defaultId}`;
-  const context = getMemoizedState({
+
+  const context = shallowMemo({
     closeOnBlur,
     closeOnEsc,
     disabled,

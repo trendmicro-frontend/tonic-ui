@@ -1,12 +1,10 @@
 import { useId } from '@tonic-ui/react-hooks';
 import { runIfFn } from '@tonic-ui/utils';
-import memoize from 'micro-memoize';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDefaultProps } from '../default-props';
+import useShallowMemo from '../utils/useShallowMemo';
 import config from '../shared/config';
 import { RadioGroupContext } from './context';
-
-const getMemoizedState = memoize(state => ({ ...state }));
 
 const RadioGroup = (inProps) => {
   const {
@@ -19,6 +17,7 @@ const RadioGroup = (inProps) => {
     value: valueProp,
     variantColor,
   } = useDefaultProps({ props: inProps, name: 'RadioGroup' });
+  const shallowMemo = useShallowMemo();
   const defaultId = useId();
   const name = nameProp ?? `${config.name}:RadioGroup-${defaultId}`;
 
@@ -47,7 +46,7 @@ const RadioGroup = (inProps) => {
     }
   }, [onChangeProp, valueProp]);
 
-  const context = getMemoizedState({
+  const context = shallowMemo({
     disabled,
     name,
     onChange,

@@ -1,8 +1,8 @@
 import { runIfFn } from '@tonic-ui/utils';
-import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import useShallowMemo from '../utils/useShallowMemo';
 import AlertCloseButton from './AlertCloseButton';
 import AlertIcon from './AlertIcon';
 import AlertMessage from './AlertMessage';
@@ -15,8 +15,6 @@ import {
   useAlertStyle,
 } from './styles';
 
-const getMemoizedState = memoize(state => ({ ...state }));
-
 const Alert = forwardRef((inProps, ref) => {
   const {
     isClosable = false,
@@ -27,7 +25,9 @@ const Alert = forwardRef((inProps, ref) => {
     children,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Alert' });
-  const context = getMemoizedState({
+  const shallowMemo = useShallowMemo();
+
+  const context = shallowMemo({
     icon,
     isClosable,
     onClose,

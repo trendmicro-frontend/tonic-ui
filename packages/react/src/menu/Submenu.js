@@ -1,14 +1,12 @@
 import { useId } from '@tonic-ui/react-hooks';
 import { getAllFocusable, runIfFn } from '@tonic-ui/utils';
-import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import useShallowMemo from '../utils/useShallowMemo';
 import config from '../shared/config';
 import { SubmenuContext } from './context';
 import { useSubmenuStyle } from './styles';
-
-const getMemoizedState = memoize(state => ({ ...state }));
 
 const Submenu = forwardRef((inProps, ref) => {
   const {
@@ -21,6 +19,7 @@ const Submenu = forwardRef((inProps, ref) => {
     placement = 'right-start', // One of: 'right-start', 'right-end', 'left-start', 'left-end'
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Submenu' });
+  const shallowMemo = useShallowMemo();
   const submenuContentRef = useRef(null);
   const submenuTriggerRef = useRef(null);
   const isHoveringSubmenuContentRef = useRef();
@@ -132,7 +131,7 @@ const Submenu = forwardRef((inProps, ref) => {
   const submenuTriggerId = `${config.name}:SubmenuTrigger-${defaultId}`;
   const styleProps = useSubmenuStyle();
 
-  const context = getMemoizedState({
+  const context = shallowMemo({
     focusOnFirstItem,
     focusOnLastItem,
     focusOnNextItem,
