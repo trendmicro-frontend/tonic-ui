@@ -9,7 +9,6 @@ import { AnimatePresence } from '../utils/animate-presence';
 import ModalContainer from './ModalContainer';
 import { ModalContext } from './context';
 
-
 const defaultScrollBehavior = 'inside';
 const defaultSize = 'auto';
 

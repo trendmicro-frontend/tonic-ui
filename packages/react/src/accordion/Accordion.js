@@ -6,7 +6,6 @@ import useShallowMemo from '../utils/useShallowMemo';
 import { AccordionContext } from './context';
 import { useAccordionStyle } from './styles';
 
-
 const Accordion = forwardRef((inProps, ref) => {
   const {
     children,

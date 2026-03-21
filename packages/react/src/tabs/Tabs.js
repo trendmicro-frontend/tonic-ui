@@ -8,7 +8,6 @@ import { defaultOrientation, defaultVariant } from './constants';
 import { TabsContext } from './context';
 import { useTabsStyle } from './styles';
 
-
 const stateReducer = (prevState, nextState) => ({
   ...prevState,
   ...(typeof nextState === 'function' ? nextState(prevState) : nextState),
@@ -69,7 +68,6 @@ const Tabs = forwardRef((inProps, ref) => {
   const unregisterTabPanel = (index) => {
     return tabPanelMap.delete(index);
   };
-
 
   const context = shallowMemo({
     disabled,

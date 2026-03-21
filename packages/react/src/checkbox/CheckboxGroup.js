@@ -7,7 +7,6 @@ import useShallowMemo from '../utils/useShallowMemo';
 import config from '../shared/config';
 import { CheckboxGroupContext } from './context';
 
-
 const CheckboxGroup = (inProps) => {
   const {
     children,

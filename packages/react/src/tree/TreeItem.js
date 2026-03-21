@@ -11,7 +11,6 @@ import { TreeItemContext } from './context';
 import { useTreeItemStyle } from './styles';
 import useTree from './useTree';
 
-
 const TreeItem = forwardRef((inProps, ref) => {
   const {
     TransitionComponent = Collapse,

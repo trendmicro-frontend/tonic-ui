@@ -9,7 +9,6 @@ import { Descendant } from '../utils/descendant';
 import { TreeContext } from './context';
 import { useTreeStyle } from './styles';
 
-
 const Tree = forwardRef((inProps, ref) => {
   const {
     defaultExpanded = [],
@@ -704,7 +703,6 @@ const Tree = forwardRef((inProps, ref) => {
   /**
    * Context
    */
-
 
   const context = shallowMemo({
     focusNode,

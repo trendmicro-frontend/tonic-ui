@@ -7,7 +7,6 @@ import { TableGroupContext } from './context';
 import { useTableFooterStyle } from './styles';
 import useTable from './useTable';
 
-
 const TableFooter = forwardRef((inProps, ref) => {
   const {
     role: roleProp,

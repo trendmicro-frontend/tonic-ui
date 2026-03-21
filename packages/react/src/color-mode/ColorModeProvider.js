@@ -9,7 +9,6 @@ const ensureColorMode = (colorMode) => {
   return colorMode === 'dark' ? 'dark' : 'light';
 };
 
-
 const colorModeReducer = (state, nextValue) => {
   if (nextValue === undefined) {
     const colorMode = state;

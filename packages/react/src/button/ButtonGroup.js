@@ -6,7 +6,6 @@ import useShallowMemo from '../utils/useShallowMemo';
 import { ButtonGroupContext } from './context';
 import { useButtonGroupStyle } from './styles';
 
-
 const defaultOrientation = 'horizontal';
 const defaultSize = 'md';
 const defaultVariant = 'default';

@@ -12,7 +12,6 @@ const uniqueId = (() => {
   };
 })();
 
-
 const PortalManager = (inProps) => {
   const {
     children,

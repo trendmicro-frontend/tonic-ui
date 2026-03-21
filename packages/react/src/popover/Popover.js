@@ -6,7 +6,6 @@ import useShallowMemo from '../utils/useShallowMemo';
 import config from '../shared/config';
 import { PopoverContext } from './context';
 
-
 const defaultPlacement = 'bottom';
 
 const Popover = (inProps) => {

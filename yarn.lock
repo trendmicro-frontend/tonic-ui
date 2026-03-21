@@ -5539,7 +5539,7 @@ __metadata:
     jest-axe: ^8.0.0
     jest-environment-jsdom: ^29.0.0
     jest-extended: ^4.0.0
-    micro-memoize: 4.x
+    micro-memoize: 5.x
     react: ^16.14.0 || ^17 || ^18 || ^19
     react-dom: ^16.14.0 || ^17 || ^18 || ^19
     react-focus-lock: 2.x
@@ -10002,6 +10002,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fast-equals@npm:^5.3.3":
+  version: 5.4.0
+  resolution: "fast-equals@npm:5.4.0"
+  checksum: c6661f8b606ba3cb99c42aa23e3367c2ef9843c5564c81e79f1fcba5d299978feeed335fce16ea8a1e3fe609ca4caa1f7624eb808d6e01061a36011f07186ab2
+  languageName: node
+  linkType: hard
+
 "fast-glob@npm:^3.2.9, fast-glob@npm:^3.3.0, fast-glob@npm:^3.3.1":
   version: 3.3.2
   resolution: "fast-glob@npm:3.3.2"
@@ -10039,6 +10046,13 @@ __metadata:
   version: 2.0.6
   resolution: "fast-levenshtein@npm:2.0.6"
   checksum: 92cfec0a8dfafd9c7a15fba8f2cc29cd0b62b85f056d99ce448bbcd9f708e18ab2764bda4dd5158364f4145a7c72788538994f0d1787b956ef0d1062b0f7c24c
+  languageName: node
+  linkType: hard
+
+"fast-stringify@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "fast-stringify@npm:4.0.0"
+  checksum: 14476c22602a6afc27f7faf301ec098fec5546a2291caa57d4373d0d8232a0be4a3429c9517bd1c7e821d47fdd157088a1e9ae69ade37cd8e099e5b66ebf745d
   languageName: node
   linkType: hard
 
@@ -14136,10 +14150,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"micro-memoize@npm:4.x":
-  version: 4.1.2
-  resolution: "micro-memoize@npm:4.1.2"
-  checksum: 4b02750622d44b5ab31573c629b5d91927dd0c2727743ff75e790c223ab6cd02c48cc3bddea69da0dffb688091a0a71a17944947dd165f8ba9e03728bc30a76d
+"micro-memoize@npm:5.x":
+  version: 5.1.1
+  resolution: "micro-memoize@npm:5.1.1"
+  dependencies:
+    fast-equals: ^5.3.3
+    fast-stringify: ^4.0.0
+  checksum: 6fea5c00f59df98bf01eed256fcd11f54929188082300ae130fd41739c4fabeff1dc1cfe231c4497f59b170ab19d9d532ff6b5e260af34c8cb6b781a28231cee
   languageName: node
   linkType: hard
 

@@ -8,7 +8,6 @@ import config from '../shared/config';
 import { SubmenuContext } from './context';
 import { useSubmenuStyle } from './styles';
 
-
 const Submenu = forwardRef((inProps, ref) => {
   const {
     children,

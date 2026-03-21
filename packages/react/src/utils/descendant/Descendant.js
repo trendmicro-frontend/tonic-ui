@@ -5,7 +5,6 @@ import React, { useCallback, useState } from 'react';
 import { DescendantContext } from './context';
 import useShallowMemo from '../useShallowMemo';
 
-
 const binaryFindElement = (array, element) => {
   let start = 0;
   let end = array.length - 1;
@@ -94,7 +93,6 @@ const Descendant = ({
   }, []);
 
   const shallowMemo = useShallowMemo();
-
 
   const context = shallowMemo({
     descendants,

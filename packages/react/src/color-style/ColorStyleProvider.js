@@ -9,7 +9,6 @@ const ensureColorStyle = (colorStyle) => {
   return ensurePlainObject(colorStyle);
 };
 
-
 const ColorStyleProvider = (inProps) => {
   const {
     children,

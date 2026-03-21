@@ -6,7 +6,6 @@ import useShallowMemo from '../utils/useShallowMemo';
 import { InputGroupContext } from './context';
 import { useInputGroupStyle } from './styles';
 
-
 const InputGroup = forwardRef((inProps, ref) => {
   const {
     children,

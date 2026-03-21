@@ -9,7 +9,6 @@ import { AnimatePresence } from '../utils/animate-presence';
 import DrawerContainer from './DrawerContainer';
 import { DrawerContext } from './context';
 
-
 const defaultPlacement = 'right';
 const defaultSize = 'auto';
 

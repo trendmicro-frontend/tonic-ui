@@ -18,7 +18,6 @@ import DatePickerToggle from './DatePickerToggle';
 import { DatePickerProvider } from './context';
 import { useDatePickerStyle } from './styles';
 
-
 /**
  * Convert a value to a Date object in accordance with the format string.
  */

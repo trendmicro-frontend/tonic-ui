@@ -15,7 +15,6 @@ import {
   useAlertStyle,
 } from './styles';
 
-
 const Alert = forwardRef((inProps, ref) => {
   const {
     isClosable = false,

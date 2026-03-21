@@ -9,7 +9,6 @@ import config from '../shared/config';
 import { AccordionItemContext } from './context';
 import useAccordion from './useAccordion';
 
-
 const AccordionItem = forwardRef((inProps, ref) => {
   const {
     children,

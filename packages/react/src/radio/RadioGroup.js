@@ -6,7 +6,6 @@ import useShallowMemo from '../utils/useShallowMemo';
 import config from '../shared/config';
 import { RadioGroupContext } from './context';
 
-
 const RadioGroup = (inProps) => {
   const {
     children,

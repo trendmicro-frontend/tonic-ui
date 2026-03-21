@@ -14,7 +14,6 @@ import {
   useToastStyle,
 } from './styles';
 
-
 const Toast = forwardRef((inProps, ref) => {
   const {
     appearance = defaultAppearance,

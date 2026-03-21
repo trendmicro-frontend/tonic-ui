@@ -10,7 +10,6 @@ import TooltipContent from './TooltipContent';
 import TooltipTrigger from './TooltipTrigger';
 import { TooltipContext } from './context';
 
-
 const defaultPlacement = 'bottom';
 
 const Tooltip = forwardRef((inProps, ref) => {

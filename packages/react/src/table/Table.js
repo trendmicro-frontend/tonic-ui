@@ -6,7 +6,6 @@ import { LAYOUT_FLEXBOX, LAYOUT_TABLE, SIZE_MEDIUM, VARIANT_DEFAULT } from './co
 import { TableContext } from './context';
 import { useTableStyle } from './styles';
 
-
 const Table = forwardRef((inProps, ref) => {
   const {
     layout = LAYOUT_FLEXBOX,

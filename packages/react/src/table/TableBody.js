@@ -7,7 +7,6 @@ import { TableGroupContext } from './context';
 import { useTableBodyStyle } from './styles';
 import useTable from './useTable';
 
-
 const TableBody = forwardRef((inProps, ref) => {
   const {
     role: roleProp,

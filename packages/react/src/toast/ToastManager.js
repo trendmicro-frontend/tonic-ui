@@ -20,7 +20,6 @@ const uniqueId = (() => {
   };
 })();
 
-
 const defaultPlacement = 'bottom-right';
 const placements = [
   'bottom',

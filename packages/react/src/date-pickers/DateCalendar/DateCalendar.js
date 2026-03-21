@@ -31,7 +31,6 @@ import MonthDate from './MonthDate';
 import YearMonthPicker from './YearMonthPicker';
 import { useDateCalendarStyle } from './styles';
 
-
 const mapValueToDate = (value) => {
   if (isNullOrUndefined(value)) {
     return null;

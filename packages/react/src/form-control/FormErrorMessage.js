@@ -29,13 +29,19 @@ const FormErrorMessage = forwardRef(({ errors = [], ...rest }, ref) => {
   const isSingleError = normalizedErrors.length === 1;
 
   return (
-    <Text ref={ref} id={id} role="alert" {...styleProps} {...rest}>
+    <Text
+      ref={ref}
+      id={id}
+      role="alert"
+      {...styleProps}
+      {...rest}
+    >
       {isSingleError ? (
         normalizedErrors[0]
       ) : (
         <Box as="ul" {...listStyleProps}>
           {normalizedErrors.map((error, index) => (
-            <Box as="li" key={index}>
+            <Box as="li" key={`error_${index}`}>
               {error}
             </Box>
           ))}

@@ -7,7 +7,6 @@ import { useTagStyle } from './styles';
 import TagCloseButton from './TagCloseButton';
 import { TagContext } from './context';
 
-
 const Tag = forwardRef((inProps, ref) => {
   const {
     children,

@@ -9,7 +9,6 @@ import config from '../shared/config';
 import { MenuContext } from './context';
 import { useMenuStyle } from './styles';
 
-
 const mapPlacementToDirection = (placement) => {
   const p0 = ensureString(placement).split('-')[0];
   const direction = {
