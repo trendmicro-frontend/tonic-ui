@@ -1,5 +1,13 @@
 # @tonic-ui/react
 
+## 2.12.1
+
+### Patch Changes
+
+- feat(react): replace `getMemoizedState` with `useShallowMemo` hook by [@cheton](https://github.com/cheton) in [#1120](https://github.com/trendmicro-frontend/tonic-ui/pull/1120)
+
+- feat(react): use fully rounded border-radius for `Badge` and `Tag` by [@cheton](https://github.com/cheton) in [#1125](https://github.com/trendmicro-frontend/tonic-ui/pull/1125)
+
 ## 2.12.0
 
 ### Minor Changes
