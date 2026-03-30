@@ -137,6 +137,14 @@ export interface DropdownBaseProps {
    */
   slotProps?: {
     toggle?: Record<string, any>;
+    content?: {
+      /**
+       * If `true`, the dropdown menu width will match the toggle width exactly.
+       * If `false` or omitted, the dropdown menu will use `min-width` equal to the toggle width,
+       * `width` set to `max-content`, and `max-width` of 640px.
+       */
+      fitToggleWidth?: boolean;
+    } & Record<string, any>;
   };
 }
 
@@ -221,7 +229,7 @@ Each dropdown item is an object that may include the following fields:
 | renderItem | `(item: DropdownItem) => ReactNode` | `defaultRenderItem` <sub>[2]</sub> | Optional custom render function for rendering dropdown items. |
 | renderContent | `(args: { items: DropdownItem[], renderItem: (item: DropdownItem) => ReactNode, renderItems: (items: DropdownItem[], prefix?: string) => ReactNode[] }) => ReactNode` | | Optional custom function to render the entire dropdown's content. Provides access to `items`, `renderItem`, and `renderItems`. Use this to fully customize the dropdown content beyond the default rendering behavior. |
 | slots	<sub>[1]</sub> | `{ toggle?: React.ComponentType<any> }` | \{\} |	The components used for each slot inside the `DropdownBase`. Either a string to use a HTML element or a component. |
-| slotProps	| `{ toggle?: Record<string, any> }` | \{\} | The props used for each slot inside the `DropdownBase`. |
+| slotProps	| `{ toggle?: Record<string, any>, content?: { fitToggleWidth?: boolean } & Record<string, any> }` | \{\} | The props used for each slot inside the `DropdownBase`. See the **slotProps** section below for details. |
 
 Notes:
 1. If `slots.toggle` is a valid React component, it wraps the `children`. Otherwise, it executes the `children` function, passing in `getToggleProps`. This allows for full customization of the toggle's appearance and behavior.
@@ -247,6 +255,38 @@ Notes:
     ```js
     const defaultRenderItem = (item) => isPlainObject(item) ? item.label : item;
     ```
+
+#### slotProps
+
+**slotProps.toggle**
+
+Props passed directly to the `MenuToggle` component.
+
+**slotProps.content**
+
+Props passed to the `MenuList` component that renders the dropdown content. In addition to standard `MenuList` props, the following custom props are supported:
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| fitToggleWidth | boolean | false | If `true`, the dropdown menu width will match the toggle width exactly. If `false` or omitted, the dropdown menu will use `min-width` equal to the toggle width, `width` set to `max-content`, and `max-width` of `640px`. |
+
+**Example:**
+```jsx
+<DropdownBase
+  items={items}
+  onSelect={handleSelect}
+  slots={{
+    toggle: MenuButtonToggle,
+  }}
+  slotProps={{
+    content: {
+      fitToggleWidth: true, // Dropdown content width matches toggle width
+    },
+  }}
+>
+  {value}
+</DropdownBase>
+```
 
 ## Source code
 
