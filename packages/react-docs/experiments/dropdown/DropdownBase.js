@@ -10,7 +10,7 @@ import {
   SubmenuList,
   useTheme,
 } from '@tonic-ui/react';
-import { isPlainObject, runIfFn } from '@tonic-ui/utils';
+import { callEventHandlers, isPlainObject, runIfFn } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import React, { Fragment, forwardRef, useCallback } from 'react';
 
@@ -40,9 +40,15 @@ const DropdownBase = forwardRef((
 ) => {
   const theme = useTheme();
   const handleClickBy = useCallback((item) => (event) => {
+    if (event.defaultPrevented) {
+      return;
+    }
     onSelect?.(item);
   }, [onSelect]);
   const handleKeyDownBy = useCallback((item) => (event) => {
+    if (event.defaultPrevented) {
+      return;
+    }
     if ((event.key === ' ' || event.key === 'Enter') && !event.repeat) {
       onSelect?.(item);
     }
@@ -103,12 +109,14 @@ const DropdownBase = forwardRef((
         );
       }
 
+      const { onClick: onClickProp, onKeyDown: onKeyDownProp, ...restItemProps } = { ...item.props };
+
       return (
         <MenuItem
           key={key}
-          onClick={handleClickBy(item)}
-          onKeyDown={handleKeyDownBy(item)}
-          {...item.props}
+          onClick={callEventHandlers(onClickProp, handleClickBy(item))}
+          onKeyDown={callEventHandlers(onKeyDownProp, handleKeyDownBy(item))}
+          {...restItemProps}
         >
           {renderItem?.(item)}
         </MenuItem>
@@ -122,19 +130,15 @@ const DropdownBase = forwardRef((
       {...rest}
     >
       {({ menuToggleRef }) => {
-        const menuListProps = portalled
-          ? {
-              PopperProps: {
-                usePortal: true,
-              },
-              minWidth: menuToggleRef.current?.offsetWidth,
-              zIndex: theme?.zIndices?.modal + 1,
-            }
-          : {
-              // Set the minimum width to fit the menu's content while occupying full width
-              minWidth: 'max-content',
-              width: '100%',
-            };
+        const { fitToggleWidth, ...restContentProps } = { ...slotProps?.content };
+        const toggleWidth = menuToggleRef.current?.offsetWidth;
+        const menuListStyle = {
+          ...(fitToggleWidth
+            ? { width: toggleWidth }
+            : { minWidth: toggleWidth, width: 'max-content', maxWidth: 640 }
+          ),
+          ...(portalled && { zIndex: theme?.zIndices?.modal + 1 }),
+        };
 
         return (
           <>
@@ -155,8 +159,12 @@ const DropdownBase = forwardRef((
               }}
             </MenuToggle>
             <MenuList
-              {...menuListProps}
-              {...slotProps?.content}
+              {...menuListStyle}
+              {...restContentProps}
+              PopperProps={{
+                usePortal: portalled,
+                ...restContentProps?.PopperProps,
+              }}
             >
               {(typeof renderContent === 'function')
                 ? renderContent({ items, renderItem, renderItems })
