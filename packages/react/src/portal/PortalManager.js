@@ -1,6 +1,6 @@
-import memoize from 'micro-memoize';
 import React, { useCallback, useState } from 'react';
 import { useDefaultProps } from '../default-props';
+import useShallowMemo from '../utils/useShallowMemo';
 import Portal from './Portal';
 import { PortalManagerContext } from './context';
 
@@ -12,13 +12,12 @@ const uniqueId = (() => {
   };
 })();
 
-const getMemoizedState = memoize(state => ({ ...state }));
-
 const PortalManager = (inProps) => {
   const {
     children,
     containerRef: containerRefProp,
   } = useDefaultProps({ props: inProps, name: 'PortalManager' });
+  const shallowMemo = useShallowMemo();
   const [portals, setPortals] = useState([]);
   const add = useCallback((render, options) => {
     const id = options?.id ?? uniqueId();
@@ -33,7 +32,8 @@ const PortalManager = (inProps) => {
   const remove = useCallback(id => {
     setPortals(portals => portals.filter(portal => portal.id !== id));
   }, []);
-  const context = getMemoizedState({ add, remove });
+
+  const context = shallowMemo({ add, remove });
 
   return (
     <PortalManagerContext.Provider value={context}>

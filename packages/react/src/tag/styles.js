@@ -119,7 +119,7 @@ const useTagStyle = ({
   const baseStyle = {
     alignItems: 'center',
     borderColor: 'transparent',
-    borderRadius: 'sm',
+    borderRadius: 'calc(infinity * 1px)', // creates a fully rounded (pill) shape
     borderStyle: 'solid',
     borderWidth,
     display: 'inline-flex',

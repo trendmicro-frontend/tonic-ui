@@ -1,12 +1,10 @@
 import { runIfFn } from '@tonic-ui/utils';
-import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import useShallowMemo from '../utils/useShallowMemo';
 import { ButtonGroupContext } from './context';
 import { useButtonGroupStyle } from './styles';
-
-const getMemoizedState = memoize(state => ({ ...state }));
 
 const defaultOrientation = 'horizontal';
 const defaultSize = 'md';
@@ -21,8 +19,10 @@ const ButtonGroup = forwardRef((inProps, ref) => {
     variant = defaultVariant,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'ButtonGroup' });
+  const shallowMemo = useShallowMemo();
   const styleProps = useButtonGroupStyle({ orientation });
-  const context = getMemoizedState({
+
+  const context = shallowMemo({
     disabled,
     orientation,
     size,

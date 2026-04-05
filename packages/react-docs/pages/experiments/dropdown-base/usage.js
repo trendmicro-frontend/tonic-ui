@@ -69,7 +69,8 @@ const App = () => {
         toggle: MenuButtonToggle,
       }}
       slotProps={{
-        // Additional props to pass to the toggle component
+        toggle: {}, // additional toggle props
+        content: {}, // additional content props
       }}
       width={200}
     >

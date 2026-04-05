@@ -14,7 +14,7 @@ import {
   Text,
 } from '@tonic-ui/react/src';
 import { AngleRightIcon } from '@tonic-ui/react-icons';
-import React from 'react';
+import React, { act } from 'react';
 
 describe('Submenu', () => {
   describe('Submenu keyboard navigation', () => {
@@ -68,6 +68,9 @@ describe('Submenu', () => {
 
       // Press ArrowRight to open submenu
       await user.keyboard('[ArrowRight]');
+      await act(() => new Promise(resolve => {
+        requestAnimationFrame(resolve);
+      }));
 
       // The submenu should be open
       await waitFor(() => {
@@ -101,6 +104,9 @@ describe('Submenu', () => {
       });
 
       await user.keyboard('[ArrowRight]');
+      await act(() => new Promise(resolve => {
+        requestAnimationFrame(resolve);
+      }));
 
       // The submenu should be open
       await waitFor(() => {
@@ -150,6 +156,9 @@ describe('Submenu', () => {
       });
 
       await user.keyboard('[ArrowRight]');
+      await act(() => new Promise(resolve => {
+        requestAnimationFrame(resolve);
+      }));
 
       // The submenu should be open
       await waitFor(() => {
@@ -195,6 +204,9 @@ describe('Submenu', () => {
 
       // Open the submenu
       await user.keyboard('[ArrowRight]');
+      await act(() => new Promise(resolve => {
+        requestAnimationFrame(resolve);
+      }));
 
       // Wait for submenu to open and first item to be focused
       await waitFor(() => {
@@ -240,6 +252,9 @@ describe('Submenu', () => {
       });
 
       await user.keyboard('[ArrowRight]');
+      await act(() => new Promise(resolve => {
+        requestAnimationFrame(resolve);
+      }));
 
       // Wait for submenu to open
       await waitFor(() => {
@@ -287,6 +302,9 @@ describe('Submenu', () => {
       });
 
       await user.keyboard('[ArrowRight]');
+      await act(() => new Promise(resolve => {
+        requestAnimationFrame(resolve);
+      }));
 
       await waitFor(() => {
         expect(submenuTrigger).toHaveAttribute('aria-expanded', 'true');
@@ -516,7 +534,9 @@ describe('Submenu', () => {
       await user.unhover(submenuList);
 
       // Advance timers to trigger the close timeout
-      jest.advanceTimersByTime(150);
+      await act(() => {
+        jest.advanceTimersByTime(150);
+      });
 
       // The submenu should be closed after the timeout
       await waitFor(() => {
@@ -576,6 +596,9 @@ describe('Submenu', () => {
 
       // Press ArrowRight to open submenu
       await user.keyboard('[ArrowRight]');
+      await act(() => new Promise(resolve => {
+        requestAnimationFrame(resolve);
+      }));
 
       // The submenu should be open
       await waitFor(() => {

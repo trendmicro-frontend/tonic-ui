@@ -19,7 +19,12 @@ const FormCharacterCount = forwardRef(
     const styleProps = useFormCharacterCountStyle();
 
     return (
-      <Flex ref={ref} id={id} {...styleProps} {...rest}>
+      <Flex
+        ref={ref}
+        id={id}
+        {...styleProps}
+        {...rest}
+      >
         <Text color={lengthColor}>{count}</Text>
         <Text color={maxColor}>/{maxCount}</Text>
       </Flex>

@@ -9,7 +9,6 @@ const getSolidBadgeContentStyle = ({
     dark: 'red:60',
     light: 'red:60',
   }[colorMode];
-  const borderRadius = theme?.sizes?.['4x'];
   const boxShadowSpreadRadius = theme?.sizes?.['1q'];
   const boxShadowColor = {
     dark: theme?.colors?.['gray:100'],
@@ -20,16 +19,17 @@ const getSolidBadgeContentStyle = ({
     dark: 'white:primary',
     light: 'white:primary',
   }[colorMode];
+  const size = theme?.sizes?.['4x'];
 
   return {
     backgroundColor,
-    borderRadius,
+    borderRadius: 'calc(infinity * 1px)', // creates a fully rounded (pill) shape
     boxShadow,
     color,
     fontSize: 'xs',
-    height: borderRadius,
+    height: size,
     lineHeight: '1',
-    minWidth: borderRadius,
+    minWidth: size,
     px: '1x',
   };
 };

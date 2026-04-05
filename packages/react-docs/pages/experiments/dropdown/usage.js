@@ -53,6 +53,9 @@ const App = () => {
   const setToggleProps = (updater) => {
     setTogglePropsMap((prevState) => produce(prevState, draft => updater(draft[toggle])));
   };
+  const [contentProps, setContentProps] = useState({
+    fitToggleWidth: false,
+  });
   const [value, setValue] = useState('all');
   const items = useConst(() => [
     { value: 'all', label: 'All' },
@@ -178,6 +181,26 @@ const App = () => {
           )}
         </Stack>
       </FormGroup>
+      <FormGroup>
+        <Stack spacing="2x" shouldWrapChildren>
+          <MutedText>
+            Dropdown content props:
+          </MutedText>
+          <Checkbox
+            checked={contentProps.fitToggleWidth}
+            onChange={() => {
+              setContentProps(prevState => {
+                return {
+                  ...prevState,
+                  fitToggleWidth: !prevState.fitToggleWidth,
+                };
+              });
+            }}
+          >
+            <MutedText fontFamily="mono" whiteSpace="nowrap">fitToggleWidth</MutedText>
+          </Checkbox>
+        </Stack>
+      </FormGroup>
       <Divider my="4x" />
       <Dropdown
         items={items}
@@ -196,8 +219,8 @@ const App = () => {
           toggle: ToggleComponent,
         }}
         slotProps={{
-          // Additional props to pass to the toggle component
           toggle: toggleProps,
+          content: contentProps,
         }}
         width={width}
       >

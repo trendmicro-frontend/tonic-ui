@@ -1,15 +1,13 @@
 import { useId, usePrevious } from '@tonic-ui/react-hooks';
 import { getAllFocusable, runIfFn } from '@tonic-ui/utils';
 import { ensureString } from 'ensure-type';
-import memoize from 'micro-memoize';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import useShallowMemo from '../utils/useShallowMemo';
 import config from '../shared/config';
 import { MenuContext } from './context';
 import { useMenuStyle } from './styles';
-
-const getMemoizedState = memoize(state => ({ ...state }));
 
 const mapPlacementToDirection = (placement) => {
   const p0 = ensureString(placement).split('-')[0];
@@ -38,6 +36,7 @@ const Menu = forwardRef((inProps, ref) => {
     returnFocusOnClose = true,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Menu' });
+  const shallowMemo = useShallowMemo();
   const menuContentRef = useRef(null);
   const menuToggleRef = useRef(null);
   // The `submenuContentRefs` is used to store refs of submenu contents for detecting clicks outside the menu and its submenus
@@ -181,7 +180,8 @@ const Menu = forwardRef((inProps, ref) => {
   const menuId = `${config.name}:Menu-${defaultId}`;
   const menuToggleId = `${config.name}:MenuToggle-${defaultId}`;
   const direction = mapPlacementToDirection(placement);
-  const context = getMemoizedState({
+
+  const context = shallowMemo({
     autoSelect,
     closeOnBlur,
     closeOnSelect,

@@ -1,0 +1,423 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tag should render correctly 1`] = `
+.emotion-0 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-color: var(--tonic-colors-transparent);
+  border-radius: calc(infinity * 1px);
+  border-style: solid;
+  border-width: .0625rem;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  position: relative;
+  padding-left: calc(.5rem - .0625rem);
+  padding-right: calc(.5rem - .0625rem);
+  font-size: var(--tonic-fontSizes-xs);
+  line-height: var(--tonic-lineHeights-xs);
+  min-height: var(--tonic-sizes-6x);
+  padding-top: calc(.125rem - .0625rem);
+  padding-bottom: calc(.125rem - .0625rem);
+  background-color: var(--tonic-colors-gray-70);
+  color: var(--tonic-colors-gray-20);
+}
+
+.emotion-0:focus-visible {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: calc(0px - var(--tonic-space-1h));
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1h);
+}
+
+.emotion-0:invalid,
+.emotion-0[aria-invalid=true] {
+  background-color: var(--tonic-colors-red-60);
+  color: var(--tonic-colors-white-emphasis);
+}
+
+.emotion-0:disabled,
+.emotion-0:disabled:focus,
+.emotion-0:disabled:hover,
+.emotion-0[aria-disabled=true],
+.emotion-0[aria-disabled=true]:focus,
+.emotion-0[aria-disabled=true]:hover,
+.emotion-0[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.28;
+}
+
+.emotion-2 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-color: var(--tonic-colors-gray-40);
+  border-radius: calc(infinity * 1px);
+  border-style: solid;
+  border-width: .0625rem;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  position: relative;
+  padding-left: calc(.5rem - .0625rem);
+  padding-right: calc(.5rem - .0625rem);
+  font-size: var(--tonic-fontSizes-xs);
+  line-height: var(--tonic-lineHeights-xs);
+  min-height: var(--tonic-sizes-6x);
+  padding-top: calc(.125rem - .0625rem);
+  padding-bottom: calc(.125rem - .0625rem);
+  color: var(--tonic-colors-gray-40);
+}
+
+.emotion-2:focus-visible {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: calc(0px - var(--tonic-space-1h));
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1h);
+}
+
+.emotion-2:invalid,
+.emotion-2[aria-invalid=true] {
+  border-color: var(--tonic-colors-red-60);
+  background-color: var(--tonic-colors-red-60);
+  color: var(--tonic-colors-white-emphasis);
+}
+
+.emotion-2:disabled,
+.emotion-2:disabled:focus,
+.emotion-2:disabled:hover,
+.emotion-2[aria-disabled=true],
+.emotion-2[aria-disabled=true]:focus,
+.emotion-2[aria-disabled=true]:hover,
+.emotion-2[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.28;
+}
+
+.emotion-4 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-color: var(--tonic-colors-transparent);
+  border-radius: calc(infinity * 1px);
+  border-style: solid;
+  border-width: .0625rem;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  position: relative;
+  padding-left: calc(.5rem - .0625rem);
+  padding-right: calc(.5rem - .0625rem);
+  font-size: var(--tonic-fontSizes-xs);
+  line-height: 1;
+  min-height: var(--tonic-sizes-4x);
+  background-color: var(--tonic-colors-gray-70);
+  color: var(--tonic-colors-gray-20);
+}
+
+.emotion-4:focus-visible {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: calc(0px - var(--tonic-space-1h));
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1h);
+}
+
+.emotion-4:invalid,
+.emotion-4[aria-invalid=true] {
+  background-color: var(--tonic-colors-red-60);
+  color: var(--tonic-colors-white-emphasis);
+}
+
+.emotion-4:disabled,
+.emotion-4:disabled:focus,
+.emotion-4:disabled:hover,
+.emotion-4[aria-disabled=true],
+.emotion-4[aria-disabled=true]:focus,
+.emotion-4[aria-disabled=true]:hover,
+.emotion-4[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.28;
+}
+
+.emotion-8 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-color: var(--tonic-colors-transparent);
+  border-radius: calc(infinity * 1px);
+  border-style: solid;
+  border-width: .0625rem;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  position: relative;
+  padding-left: calc(.5rem - .0625rem);
+  padding-right: calc(.5rem - .0625rem);
+  font-size: var(--tonic-fontSizes-md);
+  line-height: var(--tonic-lineHeights-md);
+  min-height: var(--tonic-sizes-8x);
+  padding-top: calc(.25rem - .0625rem);
+  padding-bottom: calc(.25rem - .0625rem);
+  background-color: var(--tonic-colors-gray-70);
+  color: var(--tonic-colors-gray-20);
+}
+
+.emotion-8:focus-visible {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: calc(0px - var(--tonic-space-1h));
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1h);
+}
+
+.emotion-8:invalid,
+.emotion-8[aria-invalid=true] {
+  background-color: var(--tonic-colors-red-60);
+  color: var(--tonic-colors-white-emphasis);
+}
+
+.emotion-8:disabled,
+.emotion-8:disabled:focus,
+.emotion-8:disabled:hover,
+.emotion-8[aria-disabled=true],
+.emotion-8[aria-disabled=true]:focus,
+.emotion-8[aria-disabled=true]:hover,
+.emotion-8[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.28;
+}
+
+.emotion-16 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: inherit;
+  border: none;
+  color: var(--tonic-colors-white-tertiary);
+  cursor: pointer;
+  outline: 0;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: var(--tonic-sizes-4x);
+  height: var(--tonic-sizes-4x);
+  margin-left: var(--tonic-space-2x);
+}
+
+.emotion-16:focus-visible {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: calc(0px - var(--tonic-space-1q));
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1q);
+}
+
+.emotion-16:hover,
+.emotion-16[data-hover] {
+  color: var(--tonic-colors-white-emphasis);
+}
+
+.emotion-16:disabled,
+.emotion-16:disabled:focus,
+.emotion-16:disabled:hover,
+.emotion-16[aria-disabled=true],
+.emotion-16[aria-disabled=true]:focus,
+.emotion-16[aria-disabled=true]:hover,
+.emotion-16[data-disabled] {
+  color: var(--tonic-colors-white-tertiary);
+}
+
+.emotion-18 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: var(--tonic-sizes-4x);
+  height: var(--tonic-sizes-4x);
+  vertical-align: middle;
+}
+
+.emotion-22 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: inherit;
+  border: none;
+  color: var(--tonic-colors-white-tertiary);
+  cursor: not-allowed;
+  outline: 0;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: var(--tonic-sizes-4x);
+  height: var(--tonic-sizes-4x);
+  margin-left: var(--tonic-space-2x);
+}
+
+.emotion-22:focus-visible {
+  outline-color: var(--tonic-colors-blue-60);
+  outline-offset: calc(0px - var(--tonic-space-1q));
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1q);
+}
+
+.emotion-22:hover,
+.emotion-22[data-hover] {
+  color: var(--tonic-colors-white-emphasis);
+}
+
+.emotion-22:disabled,
+.emotion-22:disabled:focus,
+.emotion-22:disabled:hover,
+.emotion-22[aria-disabled=true],
+.emotion-22[aria-disabled=true]:focus,
+.emotion-22[aria-disabled=true]:hover,
+.emotion-22[data-disabled] {
+  color: var(--tonic-colors-white-tertiary);
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+  >
+    Solid
+  </div>
+  <div
+    class="emotion-2 emotion-1"
+  >
+    Outline
+  </div>
+  <div
+    class="emotion-4 emotion-1"
+  >
+    Small
+  </div>
+  <div
+    class="emotion-0 emotion-1"
+  >
+    Medium
+  </div>
+  <div
+    class="emotion-8 emotion-1"
+  >
+    Large
+  </div>
+  <div
+    aria-disabled="true"
+    class="emotion-0 emotion-1"
+  >
+    Disabled
+  </div>
+  <div
+    aria-invalid="true"
+    class="emotion-0 emotion-1"
+  >
+    Error
+  </div>
+  <div
+    class="emotion-0 emotion-1"
+  >
+    Closable
+    <button
+      aria-label="Close"
+      class="emotion-16 emotion-1"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="emotion-18 emotion-1"
+        data-icon="CloseSIcon"
+        fill="currentColor"
+        focusable="false"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M9 8l4-4-1-1-4 4-4-4-1 1 4 4-4 4 1 1 4-4 4 4 1-1-4-4z"
+        />
+      </svg>
+    </button>
+  </div>
+  <div
+    aria-disabled="true"
+    class="emotion-2 emotion-1"
+  >
+    Outline Disabled Closable
+    <button
+      aria-disabled="true"
+      aria-label="Close"
+      class="emotion-22 emotion-1"
+      disabled=""
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="emotion-18 emotion-1"
+        data-icon="CloseSIcon"
+        fill="currentColor"
+        focusable="false"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M9 8l4-4-1-1-4 4-4-4-1 1 4 4-4 4 1 1 4-4 4 4 1-1-4-4z"
+        />
+      </svg>
+    </button>
+  </div>
+  <div
+    aria-invalid="true"
+    class="emotion-2 emotion-1"
+  >
+    Outline Error Closable
+    <button
+      aria-label="Close"
+      class="emotion-16 emotion-1"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="emotion-18 emotion-1"
+        data-icon="CloseSIcon"
+        fill="currentColor"
+        focusable="false"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M9 8l4-4-1-1-4 4-4-4-1 1 4 4-4 4 1 1 4-4 4 4 1-1-4-4z"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
+`;

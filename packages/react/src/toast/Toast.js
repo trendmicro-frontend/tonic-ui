@@ -1,8 +1,8 @@
 import { runIfFn } from '@tonic-ui/utils';
-import memoize from 'micro-memoize';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import useShallowMemo from '../utils/useShallowMemo';
 import ToastCloseButton from './ToastCloseButton';
 import ToastIcon from './ToastIcon';
 import ToastMessage from './ToastMessage';
@@ -14,8 +14,6 @@ import {
   useToastStyle,
 } from './styles';
 
-const getMemoizedState = memoize(state => ({ ...state }));
-
 const Toast = forwardRef((inProps, ref) => {
   const {
     appearance = defaultAppearance,
@@ -25,7 +23,9 @@ const Toast = forwardRef((inProps, ref) => {
     children,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Toast' });
-  const context = getMemoizedState({
+  const shallowMemo = useShallowMemo();
+
+  const context = shallowMemo({
     appearance,
     icon,
     isClosable,

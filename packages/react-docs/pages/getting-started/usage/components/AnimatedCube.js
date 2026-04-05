@@ -38,7 +38,7 @@ const AnimatedCube = ({ size = 128, ...rest }) => {
         <Cube.Front
           backgroundColor="white"
         >
-          <Image alt="" src={`${BASE_PATH}/images/Trend-Micro-Logo.svg`} width="80%" />
+          <Image alt="" src={`${BASE_PATH}/images/TrendAI-Logo.svg`} width="80%" />
         </Cube.Front>
         <Cube.Back>
           <Box

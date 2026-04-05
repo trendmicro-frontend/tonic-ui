@@ -51,9 +51,8 @@ By default, the dropdown uses a `MenuButton` as its toggle. To customize the tog
     toggle: CustomDropdownToggle,
   }}
   slotProps={{
-    toggle: {
-      // Additional props to pass to the toggle component
-    },
+    toggle: {}, // additional toggle props
+    content: {}, // additional content props
   }}
 >
   {selectedItem.label}
