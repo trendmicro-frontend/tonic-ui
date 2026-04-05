@@ -46,7 +46,7 @@ const assignRef = (ref, value) => {
 
   try {
     ref.current = value;
-  } catch (error) {
+  } catch {
     throw new Error(`Cannot assign value '${value}' to ref '${ref}'`);
   }
 };
@@ -169,6 +169,7 @@ const App = () => {
     },
   ], []);
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data: items,
     columns,

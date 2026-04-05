@@ -32,7 +32,7 @@
     "@mdx-js/mdx": "^2.1.2",
     "@mdx-js/react": "^2.1.2",
     "@next/mdx": "^13.0.5",
-    "@tanstack/react-table": "^8.9.1",
+    "@tanstack/react-table": "^8.21.3",
     "@tanstack/react-virtual": "^3.0.0-beta",
     "@testing-library/jest-dom": "^6.0.0",
     "@tonic-ui/react": "workspace:^",

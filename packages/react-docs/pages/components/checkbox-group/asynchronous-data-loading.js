@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { Box, Checkbox, CheckboxGroup, Flex, LinkButton, Space, Stack } from '@tonic-ui/react';
 import { RedoIcon } from '@tonic-ui/react-icons';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
