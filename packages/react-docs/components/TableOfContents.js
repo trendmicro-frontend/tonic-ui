@@ -67,7 +67,6 @@ const TableOfContents = (props) => {
       }
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.pathname]); // update nodes on routing change
 
   const [activeIndex, setActiveIndex] = useState(null);

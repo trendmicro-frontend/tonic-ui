@@ -14,7 +14,6 @@ const baseHeight = 120;
 const ColorStyleBlock = ({
   colorLabel,
   colorType,
-  colorKey, // eslint-disable-line no-unused-vars
   colorTokens,
   colorValues,
   ...props

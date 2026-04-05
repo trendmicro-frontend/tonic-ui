@@ -88,7 +88,6 @@ const ColorStyleBody = ({
             key={colorKey}
             colorLabel={colorLabel}
             colorType={colorType}
-            colorKey={colorKey}
             colorTokens={colorTokens}
             colorValues={colorValues}
           />
