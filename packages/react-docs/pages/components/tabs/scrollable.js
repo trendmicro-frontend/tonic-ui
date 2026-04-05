@@ -14,7 +14,7 @@ import { AngleLeftIcon, AngleRightIcon } from '@tonic-ui/react-icons';
 import {
   useEffectOnce,
 } from '@tonic-ui/react-hooks';
-import React, { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 
 const easeInOutSin = (time) => {
   return (1 + Math.sin(Math.PI * time - Math.PI / 2)) / 2;
@@ -281,18 +281,22 @@ const App = () => {
     }
   }, []);
 
-  const handleScrollTabs = useMemo(() => {
-    return debounce(() => {
+  const handleScrollTabsRef = useRef(null);
+
+  useEffect(() => {
+    const fn = debounce(() => {
       updateScrollButtonState();
       updateScrollIndicatorOpacity();
     }, Math.floor(1000 / 60));
+    handleScrollTabsRef.current = fn;
+    return () => {
+      fn.clear();
+    };
   }, [updateScrollButtonState, updateScrollIndicatorOpacity]);
 
-  useEffect(() => {
-    return () => {
-      handleScrollTabs.clear();
-    };
-  }, [handleScrollTabs]);
+  const handleScrollTabs = useCallback(() => {
+    handleScrollTabsRef.current?.();
+  }, []);
 
   useEffectOnce(() => {
     updateScrollButtonState();
