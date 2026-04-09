@@ -10,13 +10,13 @@ const App = () => (
           color: 'white:primary',
         },
       },
-      true && {
+      {
         '&:hover': {
           backgroundColor: 'gray:50',
           color: 'white:primary',
         },
       },
-      true && {
+      {
         '&:hover': {
           backgroundColor: 'yellow:50',
           color: 'black:primary',

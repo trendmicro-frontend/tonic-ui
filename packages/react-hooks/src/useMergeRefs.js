@@ -23,7 +23,7 @@ const useMergeRefs = (...refs) => {
 
         try {
           ref.current = node;
-        } catch (error) {
+        } catch (_error) { // eslint-disable-line no-unused-vars
           throw new Error(`Cannot assign value '${node}' to ref '${ref}'`);
         }
       });

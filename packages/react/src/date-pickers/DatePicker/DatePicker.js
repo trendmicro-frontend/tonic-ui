@@ -25,7 +25,7 @@ const mapFormattedValueToDate = (value, formatString, referenceDate = new Date()
   if (typeof value === 'string') {
     try {
       return parse(value, formatString, referenceDate);
-    } catch (e) {
+    } catch (_e) { // eslint-disable-line no-unused-vars
       return new Date(''); // Invalid Date
     }
   }

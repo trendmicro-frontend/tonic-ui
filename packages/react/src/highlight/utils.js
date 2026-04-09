@@ -117,7 +117,7 @@ function transformJSXTextNodes(children, callback) {
       }
       return child; // leave non-text, non-element nodes as-is
     })
-    .filter((child) => child != null); // remove null/undefined if callback returns null
+    .filter((child) => child !== null && child !== undefined); // remove null/undefined if callback returns null
 }
 
 export {

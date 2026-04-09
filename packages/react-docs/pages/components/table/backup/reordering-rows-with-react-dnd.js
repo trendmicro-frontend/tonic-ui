@@ -66,11 +66,10 @@ const TR = ({ id, row, index, moveTr, ...otherProps }) => {
     }),
   });
 
-  drag(drop(ref));
-
   useEffect(() => {
+    drag(drop(ref));
     preview(getEmptyImage(), { captureDraggingState: true });
-  }, [preview]);
+  }, [drag, drop, preview]);
 
   return (
     <TableRow

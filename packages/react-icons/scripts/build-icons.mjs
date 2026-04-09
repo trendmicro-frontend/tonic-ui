@@ -194,7 +194,7 @@ if (args.length === 0) {
 // Check if the output directory exists and create it if not
 try {
   fs.accessSync(outputDirectory);
-} catch (err) {
+} catch (_err) { // eslint-disable-line no-unused-vars
   fs.mkdirSync(outputDirectory);
 }
 
