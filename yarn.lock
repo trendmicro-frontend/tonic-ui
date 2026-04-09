@@ -5433,6 +5433,7 @@ __metadata:
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
     eslint-plugin-react-hooks: ^7.0.1
+    globals: ^15.0.0
     jest: ^29.0.0
     jest-environment-node: ^29.0.0
     rollup: ^3
@@ -5458,6 +5459,7 @@ __metadata:
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
     eslint-plugin-react-hooks: ^7.0.1
+    globals: ^15.0.0
     jest: ^29.0.0
     jest-environment-node: ^29.0.0
     jscodeshift: ^0.15.2
@@ -5496,6 +5498,7 @@ __metadata:
     eslint-import-resolver-typescript: 3.6.3
     eslint-plugin-import: ^2.32.0
     express: ^4.18.2
+    globals: ^15.0.0
     jest: ^29.0.0
     jest-axe: ^8.0.0
     jest-environment-jsdom: ^29.0.0
@@ -5545,6 +5548,7 @@ __metadata:
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
     eslint-plugin-react-hooks: ^7.0.1
+    globals: ^15.0.0
     jest: ^29.0.0
     jest-axe: ^8.0.0
     jest-environment-jsdom: ^29.0.0
@@ -5604,6 +5608,7 @@ __metadata:
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
+    globals: ^15.0.0
     hastscript: ^8.0.0
     immer: ^10.1.1
     immutability-helper: ^3.1.1
@@ -5676,6 +5681,7 @@ __metadata:
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
     eslint-plugin-react-hooks: ^7.0.1
+    globals: ^15.0.0
     jest: ^29.0.0
     jest-environment-jsdom: ^29.0.0
     jest-extended: ^4.0.0
@@ -5707,6 +5713,7 @@ __metadata:
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
     eslint-plugin-react-hooks: ^7.0.1
+    globals: ^15.0.0
     jest: ^29.0.0
     jest-extended: ^4.0.0
     react: ^16.14.0 || ^17 || ^18 || ^19
@@ -5758,6 +5765,7 @@ __metadata:
     eslint-plugin-react: ^7.37.5
     eslint-plugin-react-hooks: ^7.0.1
     glob: ^11.0.0
+    globals: ^15.0.0
     jest: ^29.0.0
     jest-axe: ^8.0.0
     jest-environment-jsdom: ^29.0.0
@@ -5799,6 +5807,7 @@ __metadata:
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
     eslint-plugin-react-hooks: ^7.0.1
+    globals: ^15.0.0
     jest: ^29.0.0
     jest-environment-node: ^29.0.0
     rollup: ^3
@@ -5827,6 +5836,7 @@ __metadata:
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
     eslint-plugin-react-hooks: ^7.0.1
+    globals: ^15.0.0
     jest: ^29.0.0
     jest-environment-node: ^29.0.0
     rollup: ^3
@@ -5856,6 +5866,7 @@ __metadata:
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
     eslint-plugin-react-hooks: ^7.0.1
+    globals: ^15.0.0
     jest: ^29.0.0
     jest-environment-jsdom: ^29.0.0
     rollup: ^3
@@ -20054,7 +20065,6 @@ __metadata:
     "@commitlint/cli": 17.x
     "@commitlint/config-conventional": 17.x
     "@tonic-ui/changelog-github": "workspace:*"
-    globals: ^15.0.0
     husky: 8.x
     lerna: 7.x
   languageName: unknown
