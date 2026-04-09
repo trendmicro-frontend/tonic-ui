@@ -588,3 +588,23 @@ test('should pass', () => {
     },
   });
 });
+
+test('should skip null and undefined values in responsive arrays at breakpoints', () => {
+  const theme = {
+    ...defaultTheme,
+  };
+
+  // null at breakpoint index 1 (640px), undefined at breakpoint index 2 (1024px)
+  const style = sx({
+    fontSize: ['sm', null, undefined, 'xl'],
+  })({ theme });
+
+  expect(style).toEqual({
+    fontSize: '.875rem',
+    '@media screen and (min-width: 320px)': {},
+    '@media screen and (min-width: 640px)': {},
+    '@media screen and (min-width: 1024px)': {
+      fontSize: '1.25rem',
+    },
+  });
+});
