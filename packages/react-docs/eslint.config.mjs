@@ -15,11 +15,10 @@ export default defineConfig([
     files: ['**/*.js', '**/*.jsx', '**/*.mjs'],
     languageOptions: {
       parser: babelParser,
-      ecmaVersion: 'latest',
       sourceType: 'module',
       globals: {
+        ...globals.es2025,
         ...globals.browser,
-        ...globals.es2015,
         ...globals.node,
         ...globals.jest,
       },

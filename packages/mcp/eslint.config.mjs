@@ -6,20 +6,20 @@ import trendmicroConfig from 'eslint-config-trendmicro';
 
 export default defineConfig([
   ...trendmicroConfig,
-  // @typescript-eslint v8+ has native flat config support
-  tsPlugin.configs['flat/recommended'],
-  tsPlugin.configs['flat/stylistic'],
+  tsPlugin.configs['flat/recommended'], // TypeScript-specific error rules
+  tsPlugin.configs['flat/stylistic'], // TypeScript style rules
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx', '**/*.mjs'],
     languageOptions: {
+      // @typescript-eslint/parser handles TypeScript syntax (types, decorators,
+      // generics) and also works for plain JS files in a TS project.
       parser: tsParser,
-      ecmaVersion: 2020,
       sourceType: 'module',
       globals: {
+        ...globals.es2025,
         ...globals.browser,
         ...globals.node,
         ...globals.jest,
-        globalThis: 'readonly',
       },
     },
     plugins: {
@@ -35,7 +35,7 @@ export default defineConfig([
       },
       'import/resolver': {
         'typescript': {
-          'alwaysTryTypes': true,
+          'alwaysTryTypes': true, // resolve @types/* packages
           'project': './tsconfig.json',
         }
       }

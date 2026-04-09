@@ -9,7 +9,9 @@ export default defineConfig([
     files: ['**/*.js', '**/*.jsx', '**/*.mjs'],
     languageOptions: {
       parser: babelParser,
+      sourceType: 'module',
       globals: {
+        ...globals.es2025,
         ...globals.browser,
         ...globals.node,
         ...globals.jest,
