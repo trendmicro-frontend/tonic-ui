@@ -5,9 +5,9 @@ import tsPlugin from '@typescript-eslint/eslint-plugin';
 import trendmicroConfig from 'eslint-config-trendmicro';
 
 export default defineConfig([
-  ...trendmicroConfig,
   tsPlugin.configs['flat/recommended'], // TypeScript-specific error rules
   tsPlugin.configs['flat/stylistic'], // TypeScript style rules
+  ...trendmicroConfig,
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx', '**/*.mjs'],
     languageOptions: {
