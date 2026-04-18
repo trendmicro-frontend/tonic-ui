@@ -23,7 +23,7 @@ describe('useEventCallback', () => {
       }, [value, onChange, memoizedEventCallback]);
 
       return (
-        <input value={value} onChange={onChange} placeholder="Enter your text" />
+        <input aria-label="Enter your text" value={value} onChange={onChange} />
       );
     };
 
