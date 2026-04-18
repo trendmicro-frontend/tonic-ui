@@ -1,7 +1,6 @@
 import { testA11y } from '@tonic-ui/react-base/test-utils/accessibility';
 import { render } from '@tonic-ui/react-base/test-utils/render';
 import { Box } from '@tonic-ui/react-base/src';
-import React from 'react';
 
 describe('Box', () => {
   it('should render correctly', async () => {
