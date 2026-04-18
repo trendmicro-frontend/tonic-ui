@@ -22,7 +22,7 @@ import {
 } from '@tonic-ui/react/src';
 import { useToggle } from '@tonic-ui/react-hooks/src';
 import { callEventHandlers, transitionDuration } from '@tonic-ui/utils/src';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const InlineToastContainer = (props) => (
   <Flex

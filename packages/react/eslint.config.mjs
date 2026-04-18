@@ -19,6 +19,7 @@ export default defineConfig([
     },
     rules: {
       'camelcase': ['error', { 'allow': ['^DEPRECATED_'] }],
+      'react/jsx-max-props-per-line': [1, { maximum: 8 }],
       'react/jsx-no-bind': 2,
       'react/prop-types': 0,
       'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks

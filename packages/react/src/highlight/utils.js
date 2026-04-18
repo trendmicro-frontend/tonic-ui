@@ -1,5 +1,5 @@
 import { ensureArray } from 'ensure-type';
-import React from 'react';
+import { Children, cloneElement, isValidElement } from 'react';
 
 /**
  * Escape RegExp special characters in a string.
@@ -104,14 +104,14 @@ function findAllChunks({
  * @returns {React.ReactNode} - JSX with transformed text nodes
  */
 function transformJSXTextNodes(children, callback) {
-  return React.Children.toArray(children)
+  return Children.toArray(children)
     .map((child) => {
       if (typeof child === 'string') {
         // Apply callback to text nodes
         return callback(child);
-      } else if (React.isValidElement(child)) {
+      } else if (isValidElement(child)) {
         // Recursively transform nested children
-        return React.cloneElement(child, {
+        return cloneElement(child, {
           children: transformJSXTextNodes(child.props.children, callback),
         });
       }

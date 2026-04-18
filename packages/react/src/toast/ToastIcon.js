@@ -4,7 +4,7 @@ import {
   WarningMinorIcon,
   ErrorIcon,
 } from '@tonic-ui/react-icons';
-import React, { forwardRef, useMemo } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { Icon } from '../icon';

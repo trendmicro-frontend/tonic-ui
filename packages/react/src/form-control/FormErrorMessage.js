@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { ensureArray } from 'ensure-type';
 import { useId } from '@tonic-ui/react-hooks';
 import { Text } from '../text';
@@ -40,9 +40,9 @@ const FormErrorMessage = forwardRef(({ errors = [], ...rest }, ref) => {
         normalizedErrors[0]
       ) : (
         <Box as="ul" {...listStyleProps}>
-          {normalizedErrors.map((error, index) => (
-            <Box as="li" key={`error_${index}`}>
-              {error}
+          {normalizedErrors.map((errorMessage) => (
+            <Box as="li" key={errorMessage}>
+              {errorMessage}
             </Box>
           ))}
         </Box>

@@ -6,7 +6,7 @@ import isDate from 'date-fns/isDate';
 import isValid from 'date-fns/isValid';
 import parse from 'date-fns/parse';
 import startOfDay from 'date-fns/startOfDay';
-import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../../box';
 import { useDefaultProps } from '../../default-props';
 import useShallowMemo from '../../utils/useShallowMemo';

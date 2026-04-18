@@ -49,7 +49,7 @@ test('the `name` property in `useDefaultProps` should match the component name',
     });
 
     traverse(ast, {
-      VariableDeclarator(path) { // eslint-disable-line no-loop-func
+      VariableDeclarator(path) {
         if (!path.node.init) {
           return;
         }
@@ -71,8 +71,8 @@ test('the `name` property in `useDefaultProps` should match the component name',
 
                 try {
                   expect(namePropertyValue).toEqual(componentName);
-                } catch (_err) { // eslint-disable-line no-unused-vars
-                  throw new Error(`Mismatch in file "${file}": Expected component name '${componentName}' but found '${namePropertyValue}'`);
+                } catch (_err) {
+                  throw new Error(`Mismatch in file "${file}": Expected component name '${componentName}' but found '${namePropertyValue}'`, { cause: _err });
                 }
 
                 passCount++;

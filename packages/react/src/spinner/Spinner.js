@@ -1,7 +1,7 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureFiniteNumber } from 'ensure-type';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { CircularProgress } from '../progress';
 import { useDefaultProps } from '../default-props';
 

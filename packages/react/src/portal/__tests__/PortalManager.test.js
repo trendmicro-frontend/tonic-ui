@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Box, Button, PortalManager, usePortalManager } from '@tonic-ui/react/src';
-import React, { useCallback, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 
 describe('PortalManager', () => {
   it('should add a portal to the PortalManager and later removed by calling the close function', async () => {

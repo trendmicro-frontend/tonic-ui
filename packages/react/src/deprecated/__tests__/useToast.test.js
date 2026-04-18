@@ -1,6 +1,5 @@
 import { renderHook } from '@testing-library/react';
 import { ToastManager, useToast } from '@tonic-ui/react/src';
-import React from 'react';
 
 describe('useToast hook', () => {
   it('logs a deprecation warning when used', () => {

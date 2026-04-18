@@ -1,5 +1,5 @@
 import { callEventHandlers } from '@tonic-ui/utils';
-import React, { forwardRef, useCallback, useState } from 'react';
+import { forwardRef, useCallback, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { useResizeHandleStyle } from './styles';

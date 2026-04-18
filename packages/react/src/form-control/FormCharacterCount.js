@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { useId } from '@tonic-ui/react-hooks';
 import { Text } from '../text';
 import { Flex } from '../flex';

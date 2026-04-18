@@ -8,7 +8,7 @@ import {
   MenuList,
   MenuItem,
 } from '@tonic-ui/react/src';
-import React, { act } from 'react';
+import { act } from 'react';
 
 describe('Menu', () => {
   const TestComponent = (props) => {

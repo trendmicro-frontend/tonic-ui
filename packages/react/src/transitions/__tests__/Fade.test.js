@@ -1,7 +1,6 @@
 import { screen } from '@testing-library/react';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Box, Fade } from '@tonic-ui/react/src';
-import React from 'react';
 
 describe('Fade', () => {
   it('applies correct styles when entering', () => {

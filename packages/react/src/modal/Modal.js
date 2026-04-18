@@ -1,6 +1,6 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
 import { getAllFocusable, runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
-import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import FocusLock from 'react-focus-lock/dist/cjs';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';

@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Radio, RadioGroup } from '@tonic-ui/react/src';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 describe('Radio', () => {
   it('should render correctly', async () => {

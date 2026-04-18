@@ -10,7 +10,7 @@ import addMonths from 'date-fns/addMonths';
 import addYears from 'date-fns/addYears';
 import subMonths from 'date-fns/subMonths';
 import subYears from 'date-fns/subYears';
-import React, { forwardRef, useCallback, useRef } from 'react';
+import { forwardRef, useCallback, useRef } from 'react';
 import { Box } from '../../../box';
 import { Button } from '../../../button';
 import { Text } from '../../../text';

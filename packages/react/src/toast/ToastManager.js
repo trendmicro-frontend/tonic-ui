@@ -1,7 +1,7 @@
 import { useHydrated } from '@tonic-ui/react-hooks';
 import { isNullish, runIfFn } from '@tonic-ui/utils';
 import { ensureArray, ensureString } from 'ensure-type';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
 import { Portal } from '../portal';
@@ -178,7 +178,7 @@ const ToastManager = (inProps) => {
        *   toast #3 ← the most recent
        */
       const prevToasts = [...ensureArray(prevState[toast.placement])];
-      let toasts = [];
+      let toasts = []; // eslint-disable-line no-useless-assignment
       if (isTop) {
         const begin = 0;
         const end = limit > 0 ? limit : undefined;

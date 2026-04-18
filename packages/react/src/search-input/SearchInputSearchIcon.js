@@ -1,5 +1,5 @@
 import { SearchOIcon } from '@tonic-ui/react-icons';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { Box } from '../box';
 import { useSearchInputSearchIconStyle } from './styles';
 

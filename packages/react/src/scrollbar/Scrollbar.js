@@ -1,7 +1,7 @@
 import { useHydrated, useMergeRefs } from '@tonic-ui/react-hooks';
 import { callEventHandlers } from '@tonic-ui/utils';
 import { ensurePositiveFiniteNumber } from 'ensure-type';
-import React, { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
+import { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import {

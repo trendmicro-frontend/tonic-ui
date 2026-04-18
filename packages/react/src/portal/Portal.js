@@ -1,6 +1,6 @@
 import { useIsomorphicEffect } from '@tonic-ui/react-hooks';
 import { getOwnerDocument, noop } from '@tonic-ui/utils';
-import React, { useContext, useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';

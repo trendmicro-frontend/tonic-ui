@@ -1,5 +1,5 @@
 import { canUseDOM, noop } from '@tonic-ui/utils';
-import React, { useCallback, useEffect, useReducer } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
 import { ColorModeContext } from './context';

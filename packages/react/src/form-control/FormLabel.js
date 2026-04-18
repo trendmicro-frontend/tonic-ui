@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { ariaAttr } from '@tonic-ui/utils';
 import { TextLabel } from '../text';
 import { Box } from '../box';
@@ -22,7 +22,7 @@ const FormLabel = forwardRef(({ children, required = false, ...rest }, ref) => {
       {...rest}
     >
       {children}
-      {required && <Box {...requiredStyleProps}>*</Box>}
+      {required ? <Box {...requiredStyleProps}>*</Box> : null}
     </TextLabel>
   );
 });

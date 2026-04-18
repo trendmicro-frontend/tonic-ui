@@ -1,5 +1,5 @@
+import { Component, createContext, forwardRef, lazy, memo } from 'react';
 import { Box } from '@tonic-ui/react/src';
-import React from 'react';
 import isValidComponent from '../isValidComponent';
 
 describe('isValidComponent', () => {
@@ -9,7 +9,7 @@ describe('isValidComponent', () => {
   });
 
   it('should return true for class components', () => {
-    class MyClassComponent extends React.Component {
+    class MyClassComponent extends Component {
       render() {
         return <div>Hello</div>;
       }
@@ -17,19 +17,19 @@ describe('isValidComponent', () => {
     expect(isValidComponent(MyClassComponent)).toBe(true);
   });
 
-  it('should return true for React.memo wrapped components', () => {
+  it('should return true for memo wrapped components', () => {
     const MyComponent = () => <div>Hello</div>;
-    const MemoComponent = React.memo(MyComponent);
+    const MemoComponent = memo(MyComponent);
     expect(isValidComponent(MemoComponent)).toBe(true);
   });
 
-  it('should return true for React.forwardRef wrapped components', () => {
-    const MyComponent = React.forwardRef((props, ref) => <div ref={ref}>Hello</div>);
+  it('should return true for forwardRef wrapped components', () => {
+    const MyComponent = forwardRef((props, ref) => <div ref={ref}>Hello</div>);
     expect(isValidComponent(MyComponent)).toBe(true);
   });
 
-  it('should return true for React.lazy components', () => {
-    const LazyComponent = React.lazy(() => import('./__fixtures__/LazyComponent'));
+  it('should return true for lazy components', () => {
+    const LazyComponent = lazy(() => import('./__fixtures__/LazyComponent'));
     expect(isValidComponent(LazyComponent)).toBe(true);
   });
 
@@ -53,12 +53,12 @@ describe('isValidComponent', () => {
     expect(isValidComponent(obj)).toBe(false);
   });
 
-  it('should return true for React.createContext (Context) objects', () => {
-    const MyContext = React.createContext();
+  it('should return true for createContext (Context) objects', () => {
+    const MyContext = createContext();
     expect(isValidComponent(MyContext)).toBe(true);
   });
 
-  it('should return true for React.Fragment type', () => {
+  it('should return true for Fragment type', () => {
     const FragmentComponent = () => (
       <>
         <Box>Hello</Box>

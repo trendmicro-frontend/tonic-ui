@@ -3,7 +3,7 @@ import addWeeks from 'date-fns/addWeeks';
 import isSameMonth from 'date-fns/isSameMonth';
 import startOfMonth from 'date-fns/startOfMonth';
 import startOfWeek from 'date-fns/startOfWeek';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { Grid } from '../../../grid';
 import useDateCalendar from '../useDateCalendar';
 import Week from './Week';

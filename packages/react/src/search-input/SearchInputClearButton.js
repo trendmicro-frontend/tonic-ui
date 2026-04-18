@@ -1,5 +1,5 @@
 import { CloseSIcon } from '@tonic-ui/react-icons';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { ButtonBase } from '../button';
 import {
   useSearchInputClearButtonStyle,
