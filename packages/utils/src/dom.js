@@ -33,7 +33,7 @@ export const contains = (function() {
     }
 
     if (context.compareDocumentPosition) {
-      return context === node || !!(context.compareDocumentPosition(node) & DOCUMENT_POSITION_CONTAINED_BY); // eslint-disable-line no-bitwise
+      return context === node || !!(context.compareDocumentPosition(node) & DOCUMENT_POSITION_CONTAINED_BY);
     }
 
     return fallback(context, node);

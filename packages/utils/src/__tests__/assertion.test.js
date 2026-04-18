@@ -104,7 +104,7 @@ describe('Check whether the value is null or undefined', () => {
     expect(isNullish([])).toBe(false);
     expect(isNullish({})).toBe(false);
     expect(isNullish(0)).toBe(false);
-    expect(isNullish(noop)).toBe(false); // eslint-disable-line
+    expect(isNullish(noop)).toBe(false);
     expect(isNullish('')).toBe(false);
     expect(isNullish('    ')).toBe(false);
     expect(isNullish('\r\t\n ')).toBe(false);
@@ -151,7 +151,7 @@ describe('Check whether the value is a plain object', () => {
     expect(isPlainObject(new Foo(1))).toBe(false);
     expect(isPlainObject(Math)).toBe(false);
     expect(isPlainObject(JSON)).toBe(false);
-    expect(isPlainObject(Atomics)).toBe(false); // eslint-disable-line no-undef
+    expect(isPlainObject(Atomics)).toBe(false);
     expect(isPlainObject(Error)).toBe(false);
     expect(isPlainObject(() => {})).toBe(false);
     expect(isPlainObject(/./)).toBe(false);
@@ -165,7 +165,7 @@ describe('Check whether the value is a plain object', () => {
     expect(isPlainObject(Object.create({}))).toBe(false);
 
     (function () {
-      expect(isPlainObject(arguments)).toBe(false); // eslint-disable-line prefer-rest-params
+      expect(isPlainObject(arguments)).toBe(false);
     }());
 
     const foo = new Foo();
