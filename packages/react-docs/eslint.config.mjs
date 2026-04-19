@@ -2,15 +2,25 @@ import { defineConfig } from 'eslint/config';
 import { FlatCompat } from '@eslint/eslintrc';
 import globals from 'globals';
 import babelParser from '@babel/eslint-parser';
-import js from '@eslint/js';
+import trendmicroConfig from 'eslint-config-trendmicro';
 
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
 });
 
+// `eslint-config-trendmicro` already registers the `import` plugin, so strip it
+// from the compat output to avoid "Cannot redefine plugin" errors.
+const nextConfigs = compat.extends('next/core-web-vitals').map((config) => {
+  if (config.plugins?.import) {
+    const { import: _ignored, ...plugins } = config.plugins;
+    return { ...config, plugins };
+  }
+  return config;
+});
+
 export default defineConfig([
-  js.configs.recommended,
-  ...compat.extends('next/core-web-vitals'),
+  ...trendmicroConfig,
+  ...nextConfigs,
   {
     files: ['**/*.js', '**/*.jsx', '**/*.mjs'],
     languageOptions: {
