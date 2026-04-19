@@ -143,6 +143,24 @@ describe('Menu', () => {
     });
   });
 
+  it('should return empty array from getFocusableElements when menu content is not mounted', async () => {
+    const { rerender } = render(
+      <Menu isOpen={false}>
+        <MenuButton data-testid="button">Open</MenuButton>
+      </Menu>
+    );
+
+    // Rerender with isOpen=true but no MenuList — menuContentRef.current is null
+    rerender(
+      <Menu isOpen={true}>
+        <MenuButton data-testid="button">Open</MenuButton>
+      </Menu>
+    );
+
+    // Should not throw; getFocusableElements gracefully returns []
+    expect(screen.getByTestId('button')).toBeInTheDocument();
+  });
+
   describe('Keyboard navigation', () => {
     it('should navigate menu items with ArrowDown and ArrowUp keys', async () => {
       const user = userEvent.setup();

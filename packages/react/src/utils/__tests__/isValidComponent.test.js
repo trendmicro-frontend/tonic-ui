@@ -1,4 +1,6 @@
-import { Component, createContext, forwardRef, lazy, memo } from 'react';
+import { Component, Suspense, createContext, forwardRef, lazy, memo } from 'react';
+import { screen } from '@testing-library/react';
+import { render } from '@tonic-ui/react/test-utils/render';
 import { Box } from '@tonic-ui/react/src';
 import isValidComponent from '../isValidComponent';
 
@@ -32,6 +34,16 @@ describe('isValidComponent', () => {
   it('should return true for lazy components', () => {
     const LazyComponent = lazy(() => import('./__fixtures__/LazyComponent'));
     expect(isValidComponent(LazyComponent)).toBe(true);
+  });
+
+  it('should render lazy components when loaded', async () => {
+    const LazyComponent = lazy(() => import('./__fixtures__/LazyComponent'));
+    render(
+      <Suspense fallback={<div>Loading...</div>}>
+        <LazyComponent />
+      </Suspense>
+    );
+    expect(await screen.findByText('Lazy Loaded')).toBeInTheDocument();
   });
 
   it('should return false for primitive values like strings', () => {
