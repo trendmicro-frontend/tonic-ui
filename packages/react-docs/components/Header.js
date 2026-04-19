@@ -158,7 +158,7 @@ const Header = forwardRef((
               lg: 'block',
             }}
           >
-            <NextLink href={`/`} legacyBehavior passHref>
+            <NextLink href={'/'} legacyBehavior passHref>
               <Link
                 data-track="Header|click_landing_page"
                 color={colorStyle.color.primary}
@@ -251,7 +251,7 @@ const Header = forwardRef((
             </Menu>
           </Box>
           <ButtonBase
-            data-track={`Header|click_codesandbox`}
+            data-track={'Header|click_codesandbox'}
             onClick={() => handleClickOpenInCodeSandbox()}
             title="Open in CodeSandbox"
             sx={{

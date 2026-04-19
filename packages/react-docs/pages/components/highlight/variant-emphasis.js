@@ -1,5 +1,4 @@
 import { Highlight } from '@tonic-ui/react';
-import React from 'react';
 
 const App = () => (
   <Highlight variant="emphasis" query="emphasis">

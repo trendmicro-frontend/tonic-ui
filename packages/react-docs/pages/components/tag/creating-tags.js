@@ -119,7 +119,7 @@ const App = () => {
   const handleTagInputKeyUp = (e) => {
     const keyCode = e.keyCode;
     const value = e.target.value;
-    if (keyCode == 8) { // Delete
+    if (keyCode === 8) { // Delete
       if (!value && tags.length > 0) {
         // remove last tag
         tags.splice((tags.length-1), 1);

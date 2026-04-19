@@ -83,10 +83,10 @@ const Othello = () => {
       >
         <Flex alignItems="center" justifyContent="space-between">
           <Text fontSize="xl" lineHeight="xl">
-            White: {cells.reduce((acc, piece) => piece === WHITE_PIECE ? acc + 1 : acc, 0)}
+            White: {cells.reduce((acc, piece) => (piece === WHITE_PIECE ? acc + 1 : acc), 0)}
           </Text>
           <Text fontSize="xl" lineHeight="xl">
-            Black: {cells.reduce((acc, piece) => piece === BLACK_PIECE ? acc + 1 : acc, 0)}
+            Black: {cells.reduce((acc, piece) => (piece === BLACK_PIECE ? acc + 1 : acc), 0)}
           </Text>
         </Flex>
       </Box>

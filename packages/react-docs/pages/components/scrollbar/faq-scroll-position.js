@@ -1,7 +1,7 @@
-import { Button, Divider, Scrollbar } from "@tonic-ui/react";
-import { useToggle } from "@tonic-ui/react-hooks";
-import React, { useState } from "react";
-import Lorem from "@/components/Lorem";
+import { Button, Divider, Scrollbar } from '@tonic-ui/react';
+import { useToggle } from '@tonic-ui/react-hooks';
+import React, { useState } from 'react';
+import Lorem from '@/components/Lorem';
 
 const App = () => {
   const [scrollTop, setScrollTop] = useState(0);

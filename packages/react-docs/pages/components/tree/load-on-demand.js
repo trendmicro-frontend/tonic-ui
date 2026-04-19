@@ -152,12 +152,12 @@ const TreeItemRender = ({
       {loadOnDemand
         ? <Box key="stub" />
         : childNodes.map(node => (
-            <TreeItemRender
-              key={node.id}
-              node={node}
-              nodeDepth={nodeDepth + 1}
-            />
-          ))
+          <TreeItemRender
+            key={node.id}
+            node={node}
+            nodeDepth={nodeDepth + 1}
+          />
+        ))
       }
     </TreeItem>
   );

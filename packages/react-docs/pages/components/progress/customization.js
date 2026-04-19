@@ -192,6 +192,6 @@ const App = () => {
       </Stack>
     </Box>
   );
-  };
+};
 
-  export default App;
+export default App;

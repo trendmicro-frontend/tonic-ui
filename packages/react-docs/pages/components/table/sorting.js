@@ -208,7 +208,7 @@ const App = () => {
                 </TableCell>
               );
             })}
-            </TableRow>
+          </TableRow>
         ))}
       </TableBody>
     </Table>

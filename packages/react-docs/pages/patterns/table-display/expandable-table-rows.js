@@ -16,7 +16,7 @@ const data = [
   {
     endpointId: '0d4523d9-ceed-4a9a-b3d0-056814ee8811',
     endpointHostname: 'endpoint-1',
-    endpointIPs: ['fe80::c5a0:6dd9:1002:5760','10.1.136.130'],
+    endpointIPs: ['fe80::c5a0:6dd9:1002:5760', '10.1.136.130'],
     endpointMAC: '00:50:56:9c:3c:5a',
     eventId: 1,
     eventSourceType: 1,

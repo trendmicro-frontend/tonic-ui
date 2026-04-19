@@ -153,7 +153,7 @@ const useDragToScroll = (ref, options) => {
 
     const el = ref && ref.current;
     if (!el) {
-      return;
+      return () => {};
     }
 
     const mouseMoveHandler = (event) => {

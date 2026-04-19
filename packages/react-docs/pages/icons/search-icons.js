@@ -95,19 +95,19 @@ const IconView = ({ component: IconComponent, name, ...rest }) => {
                 backgroundPosition={`0px 0px, 0px ${bitmapGridSize}px, ${bitmapGridSize}px -${bitmapGridSize}px, -${bitmapGridSize}px 0px`}
                 backgroundImage={colorMode === 'dark'
                   ? [
-                      'linear-gradient(45deg, rgb(89, 89, 89) 25%, transparent 25%)',
-                      'linear-gradient(-45deg, rgb(89, 89, 89) 25%, transparent 25%)',
-                      'linear-gradient(45deg, transparent 75%, rgb(89, 89, 89) 75%)',
-                      'linear-gradient(-45deg, transparent 75%, rgb(89, 89, 89) 75%)',
-                    ].join(',')
+                    'linear-gradient(45deg, rgb(89, 89, 89) 25%, transparent 25%)',
+                    'linear-gradient(-45deg, rgb(89, 89, 89) 25%, transparent 25%)',
+                    'linear-gradient(45deg, transparent 75%, rgb(89, 89, 89) 75%)',
+                    'linear-gradient(-45deg, transparent 75%, rgb(89, 89, 89) 75%)',
+                  ].join(',')
                   : [
-                      'linear-gradient(45deg, rgb(230, 230, 230) 25%, transparent 25%)',
-                      'linear-gradient(-45deg, rgb(230, 230, 230) 25%, transparent 25%)',
-                      'linear-gradient(45deg, transparent 75%, rgb(230, 230, 230) 75%)',
-                      'linear-gradient(-45deg, transparent 75%, rgb(230, 230, 230) 75%)',
-                    ].join(',')
+                    'linear-gradient(45deg, rgb(230, 230, 230) 25%, transparent 25%)',
+                    'linear-gradient(-45deg, rgb(230, 230, 230) 25%, transparent 25%)',
+                    'linear-gradient(45deg, transparent 75%, rgb(230, 230, 230) 75%)',
+                    'linear-gradient(-45deg, transparent 75%, rgb(230, 230, 230) 75%)',
+                  ].join(',')
                 }
-            >
+              >
                 <IconComponent size={bitmapGridSize * 16} />
               </Flex>
             </Flex>

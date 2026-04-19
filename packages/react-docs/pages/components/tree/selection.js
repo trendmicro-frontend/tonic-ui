@@ -81,7 +81,7 @@ const TreeItemRender = ({
               fontWeight={isSelected ? 'semibold' : 'normal'}
             >
               {nodeLabel}
-          </Box>
+            </Box>
           )}
         </OverflowTooltip>
       </TreeItemContent>

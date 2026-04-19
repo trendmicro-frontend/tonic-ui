@@ -85,6 +85,7 @@ describe('ButtonBox', () => {
   });
 
   it('uses provided tabIndex when not disabled', () => {
+    // eslint-disable-next-line jsx-a11y/tabindex-no-positive
     render(<ButtonBox tabIndex={2}>Custom Tab</ButtonBox>);
     const button = screen.getByRole('button');
     expect(button).toHaveAttribute('tabindex', '2');

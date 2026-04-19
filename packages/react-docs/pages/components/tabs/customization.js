@@ -209,7 +209,7 @@ const App = () => {
       <TabPanels px="4x" py="3x">
         <TabPanel>
           <Text color={colorStyle.color.secondary} fontSize="4rem" lineHeight="1">
-              1
+            1
           </Text>
         </TabPanel>
         <TabPanel>

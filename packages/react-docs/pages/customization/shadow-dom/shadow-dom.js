@@ -126,7 +126,7 @@ const ShadowDOMContainer = ({ children, colorMode, ...rest }) => {
   useEffect(() => {
     const container = containerRef.current;
     if (!container) {
-      return;
+      return () => {};
     }
 
     const shadowContainer = container.shadowRoot ?? container.attachShadow({ mode: 'open' });

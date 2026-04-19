@@ -124,8 +124,8 @@ const CustomDragLayer = (props) => {
 
   if (itemType === ItemTypes.TR) {
     const row = item.row;
-     return (
-       <Box style={layerStyles}>
+    return (
+      <Box style={layerStyles}>
         <Box style={getItemStyles(initialOffset, currentOffset)}>
           <TableRow {...props}>
             <TableCell width="240px">{row.eventType}</TableCell>
@@ -179,11 +179,11 @@ const App = () => {
   return (
     <DndProvider backend={HTML5Backend}>
       <Table
-       {...tableProps}
+        {...tableProps}
       >
         <TableHeader>
           <TableRow
-             {...rowProps}
+            {...rowProps}
           >
             <TableCell width="240px">Event Type</TableCell>
             <TableCell width="140px" textAlign="right">Affected Devices</TableCell>

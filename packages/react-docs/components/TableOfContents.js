@@ -46,7 +46,7 @@ const TableOfContents = (props) => {
 
   useEffect(() => {
     if (!canUseDOM()) {
-      return null;
+      return;
     }
 
     setActiveIndex(null);

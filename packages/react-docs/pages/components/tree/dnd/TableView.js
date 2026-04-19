@@ -358,7 +358,7 @@ const Component = ({
                         pr: 0,
                       }}
                     />
-                   {headerGroup.headers.map(header => {
+                    {headerGroup.headers.map(header => {
                       let styleProps = {
                         minWidth: header.column.columnDef.minSize,
                         width: header.getSize(),

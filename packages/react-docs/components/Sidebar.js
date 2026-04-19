@@ -129,9 +129,9 @@ const Sidebar = forwardRef((
                 alt=""
                 src={`${BASE_PATH}/images/${logo}`}
                 height="8x"
-                  marginRight="2x"
-                />
-                <Text>Tonic UI</Text>
+                marginRight="2x"
+              />
+              <Text>Tonic UI</Text>
             </Link>
           </NextLink>
           <Box px="2x">

@@ -22,7 +22,7 @@ const isValidElementType = (type) => {
   );
 };
 
-const defaultRenderItem = (item, context) => isPlainObject(item) ? item.label : item;
+const defaultRenderItem = (item, context) => (isPlainObject(item) ? item.label : item);
 
 const DropdownBase = forwardRef((
   {
@@ -54,7 +54,7 @@ const DropdownBase = forwardRef((
     }
   }, [onSelect]);
 
-  const renderItem = (item) => (typeof renderItemProp === 'function') ? renderItemProp(item) : null;
+  const renderItem = (item) => ((typeof renderItemProp === 'function') ? renderItemProp(item) : null);
 
   // Recursively render items including groups, dividers, and items
   const renderItems = (items, prefix) => {

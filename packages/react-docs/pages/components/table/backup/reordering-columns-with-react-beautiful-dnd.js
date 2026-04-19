@@ -112,7 +112,7 @@ const App = () => {
     const draggableId = dragUpdateObj.draggableId;
     const destinationIndex = dragUpdateObj.destination.index;
 
-    const queryAttr = "data-rbd-drag-handle-draggable-id";
+    const queryAttr = 'data-rbd-drag-handle-draggable-id';
     const domQuery = `[${queryAttr}='${draggableId}']`;
     const draggedDOM = document.querySelector(domQuery);
 
@@ -137,7 +137,7 @@ const App = () => {
     const colOrder = [...currentColOrder.current];
     const sIndex = dragUpdateObj.source.index;
     const dIndex = dragUpdateObj.destination && dragUpdateObj.destination.index;
-    if (typeof sIndex === "number" && typeof dIndex === "number") {
+    if (typeof sIndex === 'number' && typeof dIndex === 'number') {
       colOrder.splice(sIndex, 1);
       colOrder.splice(dIndex, 0, dragUpdateObj.draggableId);
       setColumnOrder(colOrder);
@@ -192,7 +192,7 @@ const App = () => {
                               userSelect="none"
                               style={columnHeaderStyle}
                             >
-                              {column.render("Header")}
+                              {column.render('Header')}
                             </TableCell>
                           );
                         }}
