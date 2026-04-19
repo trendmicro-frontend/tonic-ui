@@ -143,7 +143,7 @@ describe('Menu', () => {
     });
   });
 
-  it('should return empty array from getFocusableElements when menu content is not mounted', async () => {
+  it('should return empty array from getFocusableElements when menu content is not mounted', () => {
     const { rerender } = render(
       <Menu isOpen={false}>
         <MenuButton data-testid="button">Open</MenuButton>
