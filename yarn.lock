@@ -5456,7 +5456,7 @@ __metadata:
     cross-env: ^7.0.3
     del-cli: ^5.0.0
     eslint: ^9.26.0
-    eslint-config-trendmicro: ^4.1.0
+    eslint-config-trendmicro: ^4.1.1
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
@@ -5482,7 +5482,7 @@ __metadata:
     "@trendmicro/babel-config": ^1.0.2
     del-cli: ^5.0.0
     eslint: ^9.26.0
-    eslint-config-trendmicro: ^4.1.0
+    eslint-config-trendmicro: ^4.1.1
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
@@ -5522,7 +5522,7 @@ __metadata:
     cross-env: ^7.0.3
     del-cli: ^5.0.0
     eslint: ^9.26.0
-    eslint-config-trendmicro: ^4.1.0
+    eslint-config-trendmicro: ^4.1.1
     eslint-import-resolver-typescript: 3.6.3
     eslint-plugin-import: ^2.32.0
     express: ^4.18.2
@@ -5571,7 +5571,7 @@ __metadata:
     del-cli: ^5.0.0
     ensure-type: ^1.5.1
     eslint: ^9.26.0
-    eslint-config-trendmicro: ^4.1.0
+    eslint-config-trendmicro: ^4.1.1
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
@@ -5704,7 +5704,7 @@ __metadata:
     cross-env: ^7.0.3
     del-cli: ^5.0.0
     eslint: ^9.26.0
-    eslint-config-trendmicro: ^4.1.0
+    eslint-config-trendmicro: ^4.1.1
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
@@ -5736,7 +5736,7 @@ __metadata:
     cross-env: ^7.0.3
     del-cli: ^5.0.0
     eslint: ^9.26.0
-    eslint-config-trendmicro: ^4.1.0
+    eslint-config-trendmicro: ^4.1.1
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
@@ -5787,7 +5787,7 @@ __metadata:
     del-cli: ^5.0.0
     ensure-type: ^1.5.1
     eslint: ^9.26.0
-    eslint-config-trendmicro: ^4.1.0
+    eslint-config-trendmicro: ^4.1.1
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
@@ -5830,7 +5830,7 @@ __metadata:
     del-cli: ^5.0.0
     ensure-type: ^1.5.1
     eslint: ^9.26.0
-    eslint-config-trendmicro: ^4.1.0
+    eslint-config-trendmicro: ^4.1.1
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
@@ -5859,7 +5859,7 @@ __metadata:
     cross-env: ^7.0.3
     del-cli: ^5.0.0
     eslint: ^9.26.0
-    eslint-config-trendmicro: ^4.1.0
+    eslint-config-trendmicro: ^4.1.1
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
@@ -5889,7 +5889,7 @@ __metadata:
     del-cli: ^5.0.0
     ensure-type: ^1.5.1
     eslint: ^9.26.0
-    eslint-config-trendmicro: ^4.1.0
+    eslint-config-trendmicro: ^4.1.1
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
@@ -9915,9 +9915,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-trendmicro@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "eslint-config-trendmicro@npm:4.1.0"
+"eslint-config-trendmicro@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "eslint-config-trendmicro@npm:4.1.1"
   dependencies:
     "@eslint/js": ^9.0.0 || ^10.0.0
     "@stylistic/eslint-plugin": ^5.9.0
@@ -9928,7 +9928,7 @@ __metadata:
     eslint-plugin-jsx-a11y: "*"
     eslint-plugin-react: "*"
     eslint-plugin-react-hooks: "*"
-  checksum: a30c71ab3318109c45783e2f8116a2fe01546b347f45304894dcd8a55a8b408a2d0c5893fdafb60cc3f54549c1f612cf32b7b8c397039207eb0d9ca934d0f357
+  checksum: be3c871ef6e2ffd6cf2f11f61e3ac929e6f1e6873a3d2e870278d04cb19882e7f73a95bbedea134e51dd8984f275f2b11c0fdb1d170b4348cdca346f65f13271
   languageName: node
   linkType: hard
 
