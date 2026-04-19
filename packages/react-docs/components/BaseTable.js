@@ -20,7 +20,7 @@ import {
   useTheme,
 } from '@tonic-ui/react';
 import { dataAttr } from '@tonic-ui/utils';
-import React, { Fragment, forwardRef, useEffect, useState } from 'react';
+import { Fragment, forwardRef, useEffect, useState } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
 /**

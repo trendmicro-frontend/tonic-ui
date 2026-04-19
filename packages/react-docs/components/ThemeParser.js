@@ -4,7 +4,6 @@ import {
   useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
-import React from 'react';
 import PreformattedText from './PreformattedText';
 import jsonPrettify from '../utils/json-prettify';
 

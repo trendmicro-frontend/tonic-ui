@@ -1,6 +1,4 @@
 import { Button, Divider, Flex, Popover, PopoverContent, PopoverTrigger } from '@tonic-ui/react';
-import React from 'react';
-
 const App = () => (
   <Flex columnGap="4x">
     <Popover>

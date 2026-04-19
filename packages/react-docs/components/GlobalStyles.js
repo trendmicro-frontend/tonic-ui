@@ -4,8 +4,6 @@ import {
   useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
-import React from 'react';
-
 const GlobalStyles = () => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });

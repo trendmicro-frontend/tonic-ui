@@ -2,8 +2,6 @@ import { Box, Flex, Stack, useTheme } from '@tonic-ui/react';
 import {
   ensureString,
 } from 'ensure-type';
-import React from 'react';
-
 const ColorPalette = ({ hue }) => {
   const theme = useTheme();
   const regex = RegExp(hue, 'g');

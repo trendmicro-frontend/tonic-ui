@@ -21,7 +21,7 @@ import {
 } from '@tonic-ui/utils';
 import { useRouter } from 'next/router';
 import { themes } from 'prism-react-renderer'
-import React, { Fragment, useEffect, useCallback, useReducer } from 'react';
+import { Fragment, useEffect, useCallback, useReducer } from 'react';
 import { LiveProvider, LiveEditor } from 'react-live';
 import useClipboard from '../hooks/useClipboard';
 import CodeSandboxIcon from '../icons/CodeSandboxIcon';

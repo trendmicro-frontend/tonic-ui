@@ -14,7 +14,7 @@ import {
 import {
   CheckSIcon,
 } from '@tonic-ui/react-icons';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const FormGroup = (props) => (
   <Box mb="4x" {...props} />

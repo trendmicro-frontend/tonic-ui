@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, useColorMode } from '@tonic-ui/react';
 
 const BorderedBox = (props) => {

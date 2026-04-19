@@ -5,7 +5,7 @@ import {
 } from '@tonic-ui/react-hooks';
 import { ensureArray } from 'ensure-type';
 import _ from 'lodash';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import {

@@ -15,7 +15,7 @@ import {
   FolderOpenIcon,
 } from '@tonic-ui/react-icons';
 import { ensureArray } from 'ensure-type';
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import Droppable from './Droppable';
 
 const TreeItemRender = ({

@@ -1,7 +1,5 @@
 import { Table, TableBody, TableCell, TableHeader, TableRow, Tag } from '@tonic-ui/react';
 import { useMediaQuery } from '@tonic-ui/react-hooks';
-import React from 'react';
-
 const App = () => {
   const x = (value) => JSON.stringify(value);
   const isDarkMode = useMediaQuery('(prefers-color-scheme: dark)');

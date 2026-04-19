@@ -1,7 +1,7 @@
 import { Box, SearchInput } from '@tonic-ui/react';
 import { callEventHandlers } from '@tonic-ui/utils';
 import { ensureString } from 'ensure-type';
-import React, { forwardRef, useState } from 'react';
+import { forwardRef, useState } from 'react';
 import { Dropdown } from '../dropdown';
 
 const SearchDropdown = forwardRef((

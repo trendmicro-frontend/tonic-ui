@@ -26,7 +26,7 @@ import {
   useConst,
 } from '@tonic-ui/react-hooks';
 import { ensureArray } from 'ensure-type';
-import React, { useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import {
   buildTreeNodes,
   findExpandableNodeIds,

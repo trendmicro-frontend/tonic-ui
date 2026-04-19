@@ -3,8 +3,6 @@ import { ClockIcon, RedoIcon, SpinnerIcon, UndoIcon } from '@tonic-ui/react-icon
 import {
   useToggle,
 } from '@tonic-ui/react-hooks';
-import React from 'react';
-
 const App = () => {
   const [checked, toggle] = useToggle(true);
   const playState = checked ? 'running' : 'paused';

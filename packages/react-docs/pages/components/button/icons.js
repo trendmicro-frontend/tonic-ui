@@ -1,7 +1,5 @@
 import { Button, Flex } from '@tonic-ui/react';
 import { AddIcon, AngleRightIcon, SettingsIcon } from '@tonic-ui/react-icons';
-import React from 'react';
-
 const App = () => (
   <Flex direction="column" rowGap="4x">
     <Flex columnGap="4x">

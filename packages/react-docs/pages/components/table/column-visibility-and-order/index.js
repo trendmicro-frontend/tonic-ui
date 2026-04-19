@@ -23,7 +23,7 @@ import {
 } from '@tonic-ui/react-hooks';
 import { dataAttr } from '@tonic-ui/utils';
 import _ from 'lodash';
-import React, { Fragment, useCallback, useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import ColumnSettingsDrawer from './column-settings-drawer';
 

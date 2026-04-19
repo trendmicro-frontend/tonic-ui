@@ -1,5 +1,4 @@
 /* @jest-environment jsdom */
-import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { fireEvent, render, screen } from '../../../test-utils/render';
 import ButtonBox from '../ButtonBox';

@@ -4,7 +4,7 @@ import {
   Text,
   useColorMode,
 } from '@tonic-ui/react';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import EditableTag from './components/EditableTag';
 import TagInput from './components/TagInput';
 

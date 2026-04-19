@@ -1,7 +1,7 @@
 import { Box, Flex, Text, Textarea } from '@tonic-ui/react';
 import { WarningCircleIcon } from '@tonic-ui/react-icons';
 import { useMergeRefs } from '@tonic-ui/react-hooks';
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 
 const InlineError = (props) => (
   <Text fontSize="sm" lineHeight="sm" color="red:50" {...props} />

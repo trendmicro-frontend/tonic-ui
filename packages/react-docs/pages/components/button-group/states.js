@@ -1,6 +1,6 @@
 import { Box, Button, ButtonGroup, Divider, Flex, Icon, TextLabel, useColorMode } from '@tonic-ui/react';
 import { ChartBarIcon, ChartLineIcon, ChartPieIcon, ChartTableIcon } from '@tonic-ui/react-icons';
-import React, { Fragment, useState } from 'react';
+import { Fragment, useState } from 'react';
 
 const App = () => {
   const [colorMode] = useColorMode();

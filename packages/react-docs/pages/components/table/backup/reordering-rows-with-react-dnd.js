@@ -7,7 +7,7 @@ import {
   TableCell,
   useColorMode,
 } from '@tonic-ui/react';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { DndProvider, useDrop, useDrag, useDragLayer } from 'react-dnd';
 import { HTML5Backend, getEmptyImage } from 'react-dnd-html5-backend';
 import immutableUpdate from 'immutability-helper';

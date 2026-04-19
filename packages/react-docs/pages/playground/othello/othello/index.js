@@ -4,7 +4,7 @@ import {
   Flex,
   Text,
 } from '@tonic-ui/react';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   BOARD_SIZE,
   CELL_SIZE,

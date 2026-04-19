@@ -7,7 +7,7 @@ import {
   useColorStyle,
 } from '@tonic-ui/react';
 import { ensureString } from 'ensure-type';
-import React, { isValidElement } from 'react';
+import { isValidElement } from 'react';
 import CodeBlock from './CodeBlock';
 
 const ParagraphComponent = props => (

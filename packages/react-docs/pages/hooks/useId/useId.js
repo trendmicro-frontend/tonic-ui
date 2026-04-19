@@ -1,7 +1,5 @@
 import { Box, Code, TextLabel, Input, Stack, Text, Divider, useColorStyle } from '@tonic-ui/react';
 import { useId } from '@tonic-ui/react-hooks';
-import React from 'react';
-
 const App = () => {
   const [colorStyle] = useColorStyle();
 

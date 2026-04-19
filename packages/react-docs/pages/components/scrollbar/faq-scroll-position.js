@@ -1,6 +1,6 @@
 import { Button, Divider, Scrollbar } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Lorem from '@/components/Lorem';
 
 const App = () => {

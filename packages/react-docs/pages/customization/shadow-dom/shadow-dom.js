@@ -32,7 +32,7 @@ import {
   useToastManager,
 } from '@tonic-ui/react';
 import BorderedBox from '@/components/BorderedBox';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
 
 const NONCE = process.env.NONCE ?? '';

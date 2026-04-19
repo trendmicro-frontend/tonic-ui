@@ -4,7 +4,7 @@ import {
   useColorStyle,
 } from '@tonic-ui/react';
 import NextLink from 'next/link';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 const InstantSearchRefinementLink = forwardRef((props, ref) => {
   const [colorMode] = useColorMode();

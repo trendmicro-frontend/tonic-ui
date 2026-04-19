@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Button, Flex, Grid, Space, Stack, Text, TextLabel, useColorMode, useColorStyle, useTheme } from '@tonic-ui/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const Block = (props) => {
   const [colorMode] = useColorMode();

@@ -18,7 +18,7 @@ import {
   useColorStyle,
 } from '@tonic-ui/react';
 import { dataAttr } from '@tonic-ui/utils';
-import React, { Fragment, useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 
 const data = [
   { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },

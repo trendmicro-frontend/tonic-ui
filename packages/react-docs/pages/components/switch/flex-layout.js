@@ -1,6 +1,4 @@
 import { Box, Flex, Switch, Text } from '@tonic-ui/react';
-import React from 'react';
-
 const App = () => {
   return (
     <Flex alignItems="flex-start" columnGap="2x">

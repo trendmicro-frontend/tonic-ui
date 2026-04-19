@@ -22,7 +22,7 @@ import {
   ServerIcon,
 } from '@tonic-ui/react-icons';
 import { ensureArray } from 'ensure-type';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import {
   buildTreeMap,
   buildTreeNodes,

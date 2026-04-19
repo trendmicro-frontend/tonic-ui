@@ -10,8 +10,6 @@ import {
   Tabs,
   Text,
 } from '@tonic-ui/react';
-import React from 'react';
-
 const App = () => {
   return (
     <Tabs variant="default">

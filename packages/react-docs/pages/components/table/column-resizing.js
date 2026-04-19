@@ -19,7 +19,7 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
-import React, { useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 const data = [
   { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },

@@ -12,7 +12,7 @@ import {
   Text,
 } from '@tonic-ui/react';
 import { AngleLeftIcon, AngleRightIcon } from '@tonic-ui/react-icons';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const App = () => {
   const totalRecords = 400;

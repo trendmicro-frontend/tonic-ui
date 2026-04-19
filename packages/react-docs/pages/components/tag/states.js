@@ -1,6 +1,4 @@
 import { Divider, Stack, Tag } from '@tonic-ui/react';
-import React from 'react';
-
 const App = () => (
   <Stack spacing="4x">
     <Stack direction="row" spacing="4x" shouldWrapChildren>

@@ -22,7 +22,7 @@ import {
 import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import React, { forwardRef, useEffect, useRef } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
 import { routes } from '../config/sidebar-routes';
 import x from '../utils/json-stringify';
 import IconButton from './IconButton';

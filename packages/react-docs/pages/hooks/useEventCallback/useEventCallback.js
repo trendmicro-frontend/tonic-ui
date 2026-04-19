@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Box, Input } from '@tonic-ui/react';
 import { useEventCallback } from '@tonic-ui/react-hooks';
-import React, { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 
 const App = () => {
   const [value, setValue] = useState('');

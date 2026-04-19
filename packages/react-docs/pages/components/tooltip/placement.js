@@ -1,6 +1,4 @@
 import { Box, Button, Grid, Tooltip } from '@tonic-ui/react';
-import React from 'react';
-
 const App = () => (
   <Box display="inline-block">
     <Grid

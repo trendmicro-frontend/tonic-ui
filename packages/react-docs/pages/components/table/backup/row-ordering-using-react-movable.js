@@ -20,7 +20,7 @@ import {
   useToggle,
 } from '@tonic-ui/react-hooks';
 import { dataAttr } from '@tonic-ui/utils';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { List, arrayMove } from 'react-movable';
 import HandleIcon from './icons/icon-handle';
 

@@ -1,6 +1,4 @@
 import { Grid, Input, TextLabel } from '@tonic-ui/react';
-import React from 'react';
-
 const App = () => (
   <Grid
     templateColumns="min-content auto"

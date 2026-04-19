@@ -16,7 +16,7 @@ import {
 import { AlertIcon, AngleDownIcon, AngleUpIcon, ClockIcon, Light2OIcon } from '@tonic-ui/react-icons';
 import { useToggle } from '@tonic-ui/react-hooks';
 import { createTransitionStyle, runIfFn } from '@tonic-ui/utils';
-import React, { forwardRef, useEffect, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 
 const alerts = [
   {

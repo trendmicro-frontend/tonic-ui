@@ -14,7 +14,7 @@ import {
 } from '@tonic-ui/react-hooks';
 import Chance from 'chance';
 import { produce } from 'immer';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import FormGroup from '@/components/FormGroup';
 import { MenuButtonToggle, TagToggle } from '@/experiments/dropdown';
 import { FlexItem } from '@/experiments/flex-item';

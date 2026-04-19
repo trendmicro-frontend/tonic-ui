@@ -6,8 +6,6 @@ import {
   OverflowTooltip,
   Scrollbar,
 } from '@tonic-ui/react';
-import React from 'react';
-
 const CustomOverflowTooltip = ({ children }) => {
   return (
     <OverflowTooltip

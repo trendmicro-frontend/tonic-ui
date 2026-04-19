@@ -3,8 +3,6 @@ import {
   Button,
   useColorMode,
 } from '@tonic-ui/react';
-import React from 'react';
-
 const App = () => {
   const [colorMode, setColorMode] = useColorMode(); // One of: 'dark', 'light'
   const toggleColorMode = () => {

@@ -5,7 +5,6 @@ import {
   AccordionBody,
   Text,
 } from '@tonic-ui/react';
-import React from 'react';
 import SkeletonBlock from '@/components/SkeletonBlock';
 
 const App = () => {

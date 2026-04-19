@@ -1,6 +1,6 @@
 import { Button, Flex, Menu, MenuToggle, MenuItem, MenuList, SearchInput, Text } from '@tonic-ui/react';
 import { FilterDeleteIcon, FilterIcon } from '@tonic-ui/react-icons';
-import React, { Fragment, useCallback, useMemo, useState } from 'react';
+import { Fragment, useCallback, useMemo, useState } from 'react';
 import FilterButton from './components/FilterButton';
 import DropdownFilterTag from './components/DropdownFilterTag';
 import SearchDropdownFilterTag from './components/SearchDropdownFilterTag';

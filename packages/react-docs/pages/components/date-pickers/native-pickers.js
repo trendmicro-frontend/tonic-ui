@@ -1,6 +1,4 @@
 import { Box, Flex, Input, TextLabel } from '@tonic-ui/react';
-import React from 'react';
-
 const App = () => (
   <Flex
     display="inline-flex"

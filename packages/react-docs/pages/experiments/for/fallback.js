@@ -1,5 +1,4 @@
 import { Stack, Text } from '@tonic-ui/react';
-import React from 'react';
 import BorderedBox from '@/components/BorderedBox';
 import { For } from '@/experiments/for';
 

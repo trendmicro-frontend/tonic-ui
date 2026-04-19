@@ -3,7 +3,7 @@ import {
   InputBase,
 } from '@tonic-ui/react';
 import { callEventHandlers } from '@tonic-ui/utils';
-import React, { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 const AutosizeInput = ({
   onChange: onChangeProp,

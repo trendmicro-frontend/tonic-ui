@@ -1,5 +1,5 @@
 import { Box, Button, Flex, usePagination } from '@tonic-ui/react';
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 
 const App = () => {
   const { items } = usePagination({

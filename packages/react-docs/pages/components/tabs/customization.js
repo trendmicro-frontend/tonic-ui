@@ -17,7 +17,7 @@ import {
   useTabs,
 } from '@tonic-ui/react';
 import { ChevronRightIcon, HomeIcon, SettingsIcon, WorkspaceIcon } from '@tonic-ui/react-icons';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const CustomTabList = (props) => {
   const context = useTabs();

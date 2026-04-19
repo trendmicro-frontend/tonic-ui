@@ -1,5 +1,5 @@
 import { Box, Flex, Popover, PopoverContent, PopoverTrigger, Text, TextLabel } from '@tonic-ui/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const App = () => {
   const [skidding, setSkidding] = useState(0);

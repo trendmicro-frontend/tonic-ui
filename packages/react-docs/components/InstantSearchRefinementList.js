@@ -13,7 +13,6 @@ import {
 } from '@tonic-ui/react-icons';
 import { ensureArray, ensureString } from 'ensure-type'
 import _ from 'lodash';
-import React from 'react';
 import Highlight from 'react-highlight-words';
 import {
   useInstantSearch,

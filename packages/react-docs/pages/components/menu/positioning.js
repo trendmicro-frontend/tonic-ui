@@ -1,6 +1,4 @@
 import { Menu, MenuButton, MenuItem, MenuList, Text } from '@tonic-ui/react';
-import React from 'react';
-
 const App = () => (
   <Menu offset={[16, 8]}>
     <MenuButton variant="secondary">

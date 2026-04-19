@@ -2,7 +2,6 @@ import {
   Box,
 } from '@tonic-ui/react';
 import { ensureFiniteNumber } from 'ensure-type';
-import React from 'react';
 import { useDragLayer } from 'react-dnd';
 
 const DragLayer = ({

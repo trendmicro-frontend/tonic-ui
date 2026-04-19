@@ -1,7 +1,5 @@
 import { Fade, Tag, TagCloseButton, Text } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
-import React from 'react';
-
 const App = () => {
   const [isOpen, onClose] = useToggle(true);
   return (

@@ -1,7 +1,5 @@
 import { Link } from '@tonic-ui/react';
 import { SVGIcon } from '@tonic-ui/react-icons';
-import React from 'react';
-
 function ExternalLinkIcon(props) {
   // open-link-small.svg
   return (

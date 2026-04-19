@@ -9,7 +9,7 @@ import {
   getExitTransitionProps,
   transitionEasing,
 } from '@tonic-ui/utils';
-import React, { forwardRef, useEffect, useMemo, useRef } from 'react';
+import { forwardRef, useEffect, useMemo, useRef } from 'react';
 import BaseTable from '@/components/BaseTable';
 
 const data = [

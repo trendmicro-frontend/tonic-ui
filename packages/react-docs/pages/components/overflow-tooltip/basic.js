@@ -1,6 +1,4 @@
 import { Box, Divider, OverflowTooltip } from '@tonic-ui/react';
-import React from 'react';
-
 const App = () => {
   return (
     <>

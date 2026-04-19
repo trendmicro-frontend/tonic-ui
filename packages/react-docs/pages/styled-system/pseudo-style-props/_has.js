@@ -1,6 +1,4 @@
 import { Box } from '@tonic-ui/react';
-import React from 'react';
-
 const List = (props) => <Box as="ul" {...props} />;
 
 const ListItem = (props) => (

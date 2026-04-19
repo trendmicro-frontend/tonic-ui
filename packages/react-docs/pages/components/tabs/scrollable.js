@@ -14,7 +14,7 @@ import { AngleLeftIcon, AngleRightIcon } from '@tonic-ui/react-icons';
 import {
   useEffectOnce,
 } from '@tonic-ui/react-hooks';
-import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 
 const easeInOutSin = (time) => {
   return (1 + Math.sin(Math.PI * time - Math.PI / 2)) / 2;

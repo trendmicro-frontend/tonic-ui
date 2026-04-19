@@ -2,7 +2,7 @@ import {
   Tag,
   useColorMode,
 } from '@tonic-ui/react';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 const FilterTag = forwardRef((
   {

@@ -49,7 +49,7 @@ import {
 } from '@tonic-ui/react-hooks';
 import { dataAttr } from '@tonic-ui/utils';
 import _ from 'lodash';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
 /**

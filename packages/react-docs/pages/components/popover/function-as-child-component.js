@@ -1,6 +1,4 @@
 import { Button, Flex, Grid, Link, Popover, PopoverBody, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger } from '@tonic-ui/react';
-import React from 'react';
-
 const App = () => (
   <Popover>
     {({ isOpen, onClose }) => (

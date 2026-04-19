@@ -9,7 +9,6 @@ import {
 } from 'ensure-type';
 import _get from 'lodash/get';
 import _has from 'lodash/has';
-import React from 'react';
 import ColorStyleBlock from './ColorStyleBlock';
 
 const baseWidth = 180;

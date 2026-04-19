@@ -95,8 +95,6 @@ const Collapse = forwardRef((inProps, ref) => {
 
         const isAnimationStart = (inProp && (state === 'entering')) ||
           (!inProp && (state === 'entering' || state === 'entered'));
-        //const isAnimationEnd = (inProp && (state === 'entered')) ||
-        //  (!inProp && (state === 'exited'));
 
         if (isAnimationStart) {
           const wrapper = wrapperRef.current;

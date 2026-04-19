@@ -11,8 +11,6 @@ import {
   Text,
 } from '@tonic-ui/react';
 import { AngleRightIcon } from '@tonic-ui/react-icons';
-import React from 'react';
-
 const App = () => (
   <Menu display="block">
     <MenuButton variant="secondary" width={200}>

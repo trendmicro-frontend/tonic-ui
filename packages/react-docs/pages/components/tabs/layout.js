@@ -8,8 +8,6 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
-import React from 'react';
-
 const MyTabGroup = (props) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });

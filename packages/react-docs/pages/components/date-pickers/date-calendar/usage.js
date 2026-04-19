@@ -17,7 +17,7 @@ import {
 } from '@tonic-ui/react';
 import * as dateFns from 'date-fns'
 import * as dateFnsLocale from 'date-fns/locale'
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PreformattedText from '@/components/PreformattedText';
 
 const FormGroup = (props) => (

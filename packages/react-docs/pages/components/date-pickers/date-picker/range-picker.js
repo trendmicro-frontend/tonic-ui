@@ -18,7 +18,7 @@ import {
   useColorStyle,
 } from '@tonic-ui/react';
 import { AngleRightIcon, CalendarIcon, ChevronLeftIcon, ClockIcon } from '@tonic-ui/react-icons';
-import React, { useEffect, useReducer, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 
 const CustomDateInput = ({
   inputFormat = 'yyyy-MM-dd',

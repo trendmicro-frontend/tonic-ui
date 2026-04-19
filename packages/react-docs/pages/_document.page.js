@@ -1,5 +1,4 @@
 import { ensureString } from 'ensure-type';
-import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 
 const BASE_PATH = ensureString(process.env.TONIC_UI_REACT_DOCS_BASE_PATH);

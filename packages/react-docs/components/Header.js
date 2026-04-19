@@ -23,7 +23,7 @@ import {
 } from '@tonic-ui/react-icons';
 import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
-import React, { forwardRef, useCallback, useEffect } from 'react';
+import { forwardRef, useCallback, useEffect } from 'react';
 import useTrack from '../hooks/useTrack';
 import CodeSandboxIcon from '../icons/CodeSandboxIcon';
 import GitHubIcon from '../icons/GitHubIcon';

@@ -21,7 +21,7 @@ import {
   dataAttr,
 } from '@tonic-ui/utils';
 import { ensurePlainObject } from 'ensure-type';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend, getEmptyImage } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';

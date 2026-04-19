@@ -12,7 +12,7 @@ import {
 } from '@tonic-ui/react';
 import { callEventHandlers, isPlainObject, runIfFn } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
-import React, { Fragment, forwardRef, useCallback } from 'react';
+import { Fragment, forwardRef, useCallback } from 'react';
 
 const isValidElementType = (type) => {
   return (

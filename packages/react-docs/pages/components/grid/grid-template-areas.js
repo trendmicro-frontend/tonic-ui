@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Box, Button, Grid, Stack } from '@tonic-ui/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const GridItem = (props) => (
   <Grid bg="teal:50" border={1} borderColor="teal:60" p="3x" {...props} />

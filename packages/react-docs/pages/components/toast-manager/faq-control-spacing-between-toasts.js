@@ -1,5 +1,5 @@
 import { Box, Button, Divider, Flex, TextLabel, Toast, ToastManager, useToastManager } from '@tonic-ui/react';
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 const FormGroup = (props) => (
   <Box mb="4x" {...props} />

@@ -1,6 +1,6 @@
 import { Box } from '@tonic-ui/react';
 import { useMergeRefs } from '@tonic-ui/react-hooks';
-import React, { forwardRef, useEffect, useRef } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
 
 const Component = forwardRef(function Component(props, ref) {
   const internalRef = useRef();

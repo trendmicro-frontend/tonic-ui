@@ -8,7 +8,7 @@ import {
   ModalOverlay,
   usePortalManager,
 } from '@tonic-ui/react';
-import React, { forwardRef, useCallback } from 'react';
+import { forwardRef, useCallback } from 'react';
 
 const MyModal = forwardRef((
   {

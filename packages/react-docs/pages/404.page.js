@@ -1,6 +1,4 @@
 import { Divider, Flex, Text } from '@tonic-ui/react';
-import React from 'react';
-
 export default function Custom404() {
   return (
     <Flex

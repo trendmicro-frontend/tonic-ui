@@ -9,7 +9,7 @@ import {
 } from '@tonic-ui/react';
 import { useEffectOnce, useToggle } from '@tonic-ui/react-hooks';
 import { ensureArray, ensureFunction } from 'ensure-type';
-import React, { forwardRef, useMemo, useState } from 'react';
+import { forwardRef, useMemo, useState } from 'react';
 import Highlight from 'react-highlight-words';
 import { SearchDropdown } from '@/experiments/search-dropdown';
 import { FlexItem } from '@/experiments/flex-item';

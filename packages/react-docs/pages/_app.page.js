@@ -19,7 +19,7 @@ import algoliasearch from 'algoliasearch/lite';
 import { ensureString } from 'ensure-type';
 import NextApp from 'next/app';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { InstantSearch, Configure } from 'react-instantsearch-core';
 import GlobalStyles from '../components/GlobalStyles';
 import Header from '../components/Header';

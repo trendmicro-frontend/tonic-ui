@@ -3,7 +3,7 @@ import { CloseIcon } from '@tonic-ui/react-icons';
 import {
   createTransitionStyle,
 } from '@tonic-ui/utils';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 const useIconButtonStyle = ({ size = '8x' }) => {
   const { colors } = useTheme();

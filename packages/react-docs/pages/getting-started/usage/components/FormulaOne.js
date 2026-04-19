@@ -1,6 +1,4 @@
 import { Box, Flex, Text, Truncate } from '@tonic-ui/react';
-import React from 'react';
-
 const Light = ({ on, ...rest }) => (
   <Box
     display="inline-block"

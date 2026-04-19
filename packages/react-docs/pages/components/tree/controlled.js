@@ -23,7 +23,7 @@ import {
 } from '@tonic-ui/react-hooks';
 import { FolderIcon, FolderOpenIcon, ServerIcon } from '@tonic-ui/react-icons';
 import { ensureArray } from 'ensure-type';
-import React, { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   buildTreeMap,
   buildTreeNodes,

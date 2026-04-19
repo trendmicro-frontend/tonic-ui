@@ -1,6 +1,4 @@
 import { Box, Flex, Truncate, useColorMode, useColorStyle } from '@tonic-ui/react';
-import React from 'react';
-
 const App = () => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });

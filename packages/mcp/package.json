@@ -65,7 +65,7 @@
     "cross-env": "^7.0.3",
     "del-cli": "^5.0.0",
     "eslint": "^9.26.0",
-    "eslint-config-trendmicro": "^4.1.5",
+    "eslint-config-trendmicro": "^4.2.0",
     "eslint-import-resolver-typescript": "3.6.3",
     "eslint-plugin-import": "^2.32.0",
     "globals": "^15.0.0",

@@ -23,7 +23,7 @@ import {
   ServerIcon,
 } from '@tonic-ui/react-icons';
 import { ensureArray } from 'ensure-type';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const buildLoadOnDemandTreeNodes = (count) => {
   const treeNodes = Array.from({ length: count }, (_, index) => {

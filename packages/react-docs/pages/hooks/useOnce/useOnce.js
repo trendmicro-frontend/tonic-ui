@@ -1,6 +1,6 @@
 import { Box, Button } from '@tonic-ui/react';
 import { useOnce } from '@tonic-ui/react-hooks';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const App = () => {
   const [, setValue] = useState(0);

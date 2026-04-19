@@ -1,6 +1,4 @@
 import { Flex, Input, Space, Text, TextLabel } from '@tonic-ui/react';
-import React from 'react';
-
 const App = () => (
   <Flex flexDirection="column">
     <TextLabel>Text label</TextLabel>

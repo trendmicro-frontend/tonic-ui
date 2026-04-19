@@ -8,7 +8,7 @@ import {
   MenuItem,
   Text,
 } from '@tonic-ui/react';
-import React, { useCallback, useRef, useEffect, useState } from 'react';
+import { useCallback, useRef, useEffect, useState } from 'react';
 import { useLocale } from './LocaleProvider';
 import {
   BOARD_SIZE,

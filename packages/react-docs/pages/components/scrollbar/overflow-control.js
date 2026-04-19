@@ -5,7 +5,6 @@ import {
   Scrollbar,
   Text,
 } from '@tonic-ui/react';
-import React from 'react';
 import Lorem from '@/components/Lorem';
 
 const App = () => {

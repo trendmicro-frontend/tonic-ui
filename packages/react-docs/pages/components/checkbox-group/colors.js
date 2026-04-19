@@ -1,6 +1,4 @@
 import { Checkbox, CheckboxGroup, Stack } from '@tonic-ui/react';
-import React from 'react';
-
 const App = () => (
   <CheckboxGroup variantColor="green" defaultValue={['apple']}>
     <Stack direction="row" spacing="3x">

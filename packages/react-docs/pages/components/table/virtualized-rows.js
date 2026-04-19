@@ -17,7 +17,7 @@ import {
   useColorStyle,
 } from '@tonic-ui/react';
 import _ from 'lodash';
-import React, { useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 
 const threatTypes = [
   'Virus/Malware',

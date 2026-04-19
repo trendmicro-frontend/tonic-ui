@@ -6,8 +6,6 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
-import React from 'react';
-
 const baseWidth = 120;
 const baseHeight = 120;
 

@@ -20,7 +20,7 @@ import {
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
 import { callAll } from '@tonic-ui/utils';
-import React, { useMemo, useReducer, useRef, useState } from 'react';
+import { useMemo, useReducer, useRef, useState } from 'react';
 
 const useSelection = (defaultValue) => {
   const [value, setValue] = useState(defaultValue);

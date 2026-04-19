@@ -193,7 +193,6 @@ describe('Link', () => {
 
     // Should show deprecation warning
     expect(consoleSpy).toHaveBeenCalledWith(
-       
       'Link: \'textDecoration\' is deprecated. Use \'variant="inline"\' instead.'
     );
 

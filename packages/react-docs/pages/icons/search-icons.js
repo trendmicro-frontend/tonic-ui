@@ -19,7 +19,7 @@ import {
   usePortalManager,
 } from '@tonic-ui/react';
 import * as icons from '@tonic-ui/react-icons';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const Semibold = (props) => <Text display="inline-block" fontWeight="semibold" {...props} />
 

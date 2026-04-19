@@ -1,6 +1,4 @@
 import { Skeleton, Stack } from '@tonic-ui/react';
-import React from 'react';
-
 const App = () => (
   <Stack direction="column" spacing="4x" width={240}>
     <Skeleton variant="text" />

@@ -14,7 +14,7 @@ import {
   useColorStyle,
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const Item = (props) => {
   const [colorMode] = useColorMode();

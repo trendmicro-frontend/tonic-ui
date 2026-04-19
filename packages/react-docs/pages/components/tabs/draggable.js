@@ -13,7 +13,7 @@ import {
   Text,
 } from '@tonic-ui/react';
 import * as rbd from 'react-beautiful-dnd';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {

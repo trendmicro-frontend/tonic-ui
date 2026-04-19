@@ -2,8 +2,6 @@ import {
   Text,
   useColorStyle,
 } from '@tonic-ui/react';
-import React from 'react';
-
 const PreformattedText = (props) => {
   const [colorStyle] = useColorStyle();
 

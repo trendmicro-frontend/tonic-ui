@@ -3,7 +3,6 @@ import {
   Flex,
   Text,
 } from '@tonic-ui/react';
-import React from 'react';
 import Cell from './Cell';
 import {
   BOARD_SIZE,

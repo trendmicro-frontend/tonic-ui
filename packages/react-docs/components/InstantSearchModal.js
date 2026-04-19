@@ -7,7 +7,7 @@ import {
   ModalContent,
   useTheme,
 } from '@tonic-ui/react';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import useTrack from '../hooks/useTrack';
 import x from '../utils/json-stringify';
 import InstantSearchInput from './InstantSearchInput';

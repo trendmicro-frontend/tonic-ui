@@ -32,7 +32,7 @@ import { EmailIcon, InfoOIcon, UserIcon } from '@tonic-ui/react-icons';
 import {
   useToggle,
 } from '@tonic-ui/react-hooks';
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import PreformattedText from '@/components/PreformattedText';
 import SkeletonBlock from '@/components/SkeletonBlock';
 

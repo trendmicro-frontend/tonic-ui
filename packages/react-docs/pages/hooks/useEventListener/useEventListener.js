@@ -1,6 +1,6 @@
 import { Button } from '@tonic-ui/react';
 import { useEventListener } from '@tonic-ui/react-hooks';
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 
 const App = () => {
   const buttonRef = useRef(null);

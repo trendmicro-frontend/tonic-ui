@@ -19,7 +19,7 @@ import {
   usePortalManager,
 } from '@tonic-ui/react';
 import { ErrorIcon, InfoIcon, SuccessIcon, WarningMinorIcon } from '@tonic-ui/react-icons';
-import React, { forwardRef, useRef, useState } from 'react';
+import { forwardRef, useRef, useState } from 'react';
 import { TransitionGroup } from 'react-transition-group';
 
 const MAX_TOASTS = 1;

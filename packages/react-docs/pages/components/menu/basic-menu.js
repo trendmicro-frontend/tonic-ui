@@ -1,7 +1,5 @@
 import { Flex, MenuDivider, MenuItem, Text } from '@tonic-ui/react';
 import { LockIcon, SettingsIcon, UndoIcon, UserTeamIcon } from '@tonic-ui/react-icons';
-import React from 'react';
-
 const App = () => (
   <Flex
     display="inline-flex"

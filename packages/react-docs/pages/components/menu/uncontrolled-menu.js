@@ -13,7 +13,7 @@ import {
 } from '@tonic-ui/react';
 import { AngleRightIcon } from '@tonic-ui/react-icons';
 import { isNullish } from '@tonic-ui/utils';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const App = () => {
   const [selectedValue, setSelectedValue] = useState(null);

@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Grid, Menu, MenuButton, MenuItem, MenuList, Text } from '@tonic-ui/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const useSelection = (defaultValue) => {
   const [value, setValue] = useState(defaultValue);

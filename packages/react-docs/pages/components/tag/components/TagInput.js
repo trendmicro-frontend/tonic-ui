@@ -1,7 +1,7 @@
 import {
   InputBase,
 } from '@tonic-ui/react';
-import React, { forwardRef, useState } from 'react';
+import { forwardRef, useState } from 'react';
 
 const TagInput = forwardRef((
   {

@@ -7,7 +7,7 @@ import {
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
-import React, { useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useTable, useBlockLayout, useColumnOrder } from 'react-table';
 import { DragDropContext, Droppable, Draggable, resetServerContext } from 'react-beautiful-dnd';
 

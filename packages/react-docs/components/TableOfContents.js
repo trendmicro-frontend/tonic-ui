@@ -4,7 +4,7 @@ import {
 } from '@tonic-ui/react';
 import { canUseDOM } from '@tonic-ui/utils';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import useThrottledCallbackOnScroll from '../hooks/useThrottledCallbackOnScroll';
 import x from '../utils/json-stringify';
  

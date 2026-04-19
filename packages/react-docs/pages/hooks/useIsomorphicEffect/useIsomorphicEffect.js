@@ -1,6 +1,6 @@
 import { Code, Text } from '@tonic-ui/react';
 import { useIsomorphicEffect } from '@tonic-ui/react-hooks';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 const App = () => {
   useIsomorphicEffect(() => {

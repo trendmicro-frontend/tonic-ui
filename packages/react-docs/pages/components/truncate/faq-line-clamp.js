@@ -1,6 +1,4 @@
 import { Box, Truncate } from '@tonic-ui/react';
-import React from 'react';
-
 const App = () => (
   <Box width="50%">
     <Truncate

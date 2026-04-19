@@ -1,5 +1,5 @@
 import { Button, Checkbox, Flex } from '@tonic-ui/react';
-import React, { useCallback, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 
 const App = () => {
   const inputRef = useRef();

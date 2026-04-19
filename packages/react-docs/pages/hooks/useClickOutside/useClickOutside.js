@@ -1,6 +1,6 @@
 import { Box, Divider, Flex, Radio, RadioGroup, Text, TextLabel, useColorMode, useColorStyle } from '@tonic-ui/react';
 import { useClickOutside } from '@tonic-ui/react-hooks';
-import React, { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import PreformattedText from '@/components/PreformattedText';
 import x from '@/utils/json-stringify';
 

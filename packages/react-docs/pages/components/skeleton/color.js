@@ -1,6 +1,4 @@
 import { Box, Skeleton } from '@tonic-ui/react';
-import React from 'react';
-
 const App = () => (
   <Box display="inline-block" backgroundColor="gray:100" p="6x">
     <Skeleton
