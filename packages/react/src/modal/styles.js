@@ -197,7 +197,7 @@ const useModalBodyStyle = ({
     _firstOfType: {
       // Sets the margin area on the top if it is the first child
       // 4x (padding-top) + xl (line-height) + 3x (padding-bottom)
-      marginTop: `calc(${pixelize(sizes['4x'])} + ${pixelize(lineHeights['xl'])} + ${pixelize(sizes['3x'])})`,
+      marginTop: `calc(${pixelize(sizes['4x'])} + ${pixelize(lineHeights['xl'])} + ${pixelize(sizes['3x'])})`, // eslint-disable-line dot-notation
     },
   };
 };
@@ -220,7 +220,7 @@ const useModalFooterStyle = () => {
     _firstOfType: {
       // Sets the margin area on the top if it is the first child
       // 4x (padding-top) + xl (line-height) + 3x (padding-bottom)
-      marginTop: `calc(${pixelize(sizes['4x'])} + ${pixelize(lineHeights['xl'])} + ${pixelize(sizes['3x'])})`,
+      marginTop: `calc(${pixelize(sizes['4x'])} + ${pixelize(lineHeights['xl'])} + ${pixelize(sizes['3x'])})`, // eslint-disable-line dot-notation
     },
   };
 };

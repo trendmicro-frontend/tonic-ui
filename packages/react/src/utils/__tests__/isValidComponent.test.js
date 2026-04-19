@@ -9,6 +9,7 @@ describe('isValidComponent', () => {
   });
 
   it('should return true for class components', () => {
+    // eslint-disable-next-line react/prefer-stateless-function
     class MyClassComponent extends Component {
       render() {
         return <div>Hello</div>;

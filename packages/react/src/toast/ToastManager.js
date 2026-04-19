@@ -178,7 +178,7 @@ const ToastManager = (inProps) => {
        *   toast #3 ← the most recent
        */
       const prevToasts = [...ensureArray(prevState[toast.placement])];
-      let toasts = []; // eslint-disable-line no-useless-assignment
+      let toasts = [];
       if (isTop) {
         const begin = 0;
         const end = limit > 0 ? limit : undefined;

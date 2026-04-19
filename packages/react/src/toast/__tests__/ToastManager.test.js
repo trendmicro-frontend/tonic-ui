@@ -494,6 +494,17 @@ describe('ToastManager', () => {
       <ToastManager {...props} />
     );
 
+    const UpdatedToastContent = ({ onClose }) => (
+      <Toast
+        appearance="success"
+        isClosable
+        onClose={onClose}
+        data-testid={toastId}
+      >
+        {updatedMessage}
+      </Toast>
+    );
+
     const TestComponent = () => {
       const toast = useToastManager();
       const handleClickAddToast = useCallback(() => {
@@ -510,16 +521,7 @@ describe('ToastManager', () => {
       }, [toast]);
       const handleClickUpdateToast = useCallback(() => {
         const updateSuccess = toast.update(toastId, {
-          content: ({ onClose }) => (
-            <Toast
-              appearance="success"
-              isClosable
-              onClose={onClose}
-              data-testid={toastId}
-            >
-              {updatedMessage}
-            </Toast>
-          ),
+          content: UpdatedToastContent,
         });
         expect(updateSuccess).toBe(true);
       }, [toast]);

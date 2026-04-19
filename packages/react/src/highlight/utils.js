@@ -7,6 +7,7 @@ import { Children, cloneElement, isValidElement } from 'react';
  * @returns {string}
  */
 function escapeRegExpFn(string) {
+  // eslint-disable-next-line no-useless-escape
   return string.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
 }
 
