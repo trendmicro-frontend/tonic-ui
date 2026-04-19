@@ -222,7 +222,7 @@ const withMDX = mdxPlugin({
             //const relativePath = path.relative(path.dirname(file.path), rootdir);
             const newNode = {
               type: 'mdxjsEsm',
-              value: `import Demo from "@/components/Demo";`,
+              value: 'import Demo from "@/components/Demo";',
             };
             newNode.data = {
               estree: acorn.parse(newNode.value, {

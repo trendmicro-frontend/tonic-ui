@@ -85,7 +85,6 @@ const mapKebabCaseToCapitalizedCamelCase = (str) => {
 
 const renderIconComponentFile = (displayName, svgCode) => `
 // AUTO-GENERATED FILE. DO NOT EDIT.
-import React from 'react';
 import createSVGIcon from '../utils/createSVGIcon';
 
 export default createSVGIcon(
@@ -97,7 +96,7 @@ export default createSVGIcon(
 const renderDeprecatedIconComponentFile = (iconComponentName, deprecatedIconComponentName) => `
 // AUTO-GENERATED FILE. DO NOT EDIT.
 import { useOnce } from '@tonic-ui/react-hooks';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import ${iconComponentName} from '../${iconComponentName}';
 
 const ${deprecatedIconComponentName} = forwardRef((props, ref) => {
