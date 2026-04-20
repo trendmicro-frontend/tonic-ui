@@ -108,7 +108,7 @@ export function trimTrailingSlashAndWhitespace(url: string | undefined): string 
   if (typeof url !== 'string') {
     return '';
   }
-  return url.replace(/[\/\s]+$/, '');
+  return url.replace(/[\/\s]+$/, ''); // eslint-disable-line no-useless-escape
 }
 
 /**

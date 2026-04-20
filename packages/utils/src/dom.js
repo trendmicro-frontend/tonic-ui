@@ -6,7 +6,7 @@ export const canUseDOM = () => {
   );
 };
 
-export const contains = (function() {
+export const contains = (function () {
   // https://developer.mozilla.org/en-US/docs/Web/API/Node/compareDocumentPosition
   const DOCUMENT_POSITION_CONTAINED_BY = 16;
 
