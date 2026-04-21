@@ -109,7 +109,6 @@ describe('LinkButton', () => {
 
     // Should show deprecation warning
     expect(consoleSpy).toHaveBeenCalledWith(
-      // eslint-disable-next-line
       `LinkButton: 'textDecoration' is deprecated. Use 'variant="inline"' instead.`
     );
 

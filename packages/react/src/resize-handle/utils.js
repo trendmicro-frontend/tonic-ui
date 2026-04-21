@@ -1,4 +1,4 @@
-export const getIsPassiveListenerSupported = (() => {
+export const getIsPassiveListenerSupported = () => {
   let isPassiveListenerSupported = null;
 
   return () => {
@@ -24,4 +24,4 @@ export const getIsPassiveListenerSupported = (() => {
 
     return isPassiveListenerSupported;
   };
-});
+};
