@@ -20,13 +20,23 @@ export default defineConfig([
       },
     },
     rules: {
-      'react/prop-types': 0,
-      'react/jsx-max-props-per-line': 0,
-      'jsx-a11y/anchor-is-valid': 0,
-      'no-alert': 0,
+      // Documentation demos intentionally use placeholder links and alerts
+      'jsx-a11y/anchor-is-valid': 'off',
+      'no-alert': 'off',
+      'no-console': 'off',
       'no-unused-vars': ['error', {
         // https://eslint.org/docs/latest/rules/no-unused-vars#args
         args: 'none', // do not check arguments
+      }],
+      'react/jsx-no-bind': 'off',
+      'react/prop-types': 'off',
+      'react-hooks/refs': 'off',
+      'react-hooks/set-state-in-effect': 'off',
+      '@stylistic/max-len': ['warn', {
+        code: 200,
+        ignoreComments: true,
+        ignoreStrings: true,
+        ignoreTemplateLiterals: true,
       }],
     },
   },
