@@ -1,4 +1,5 @@
 import { Checkbox, Flex } from '@tonic-ui/react';
+
 const App = () => (
   <Flex columnGap="6x">
     <Checkbox size="sm">

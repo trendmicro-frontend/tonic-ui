@@ -1,4 +1,5 @@
 import { Stack, Tag } from '@tonic-ui/react';
+
 const App = () => (
   <Stack spacing="4x">
     <Stack direction="row" alignItems="center" spacing="2x">

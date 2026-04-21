@@ -3,6 +3,7 @@ import {
   Spinner,
   useColorMode,
 } from '@tonic-ui/react';
+
 const App = () => {
   const [colorMode] = useColorMode();
   const customTrackColor = {

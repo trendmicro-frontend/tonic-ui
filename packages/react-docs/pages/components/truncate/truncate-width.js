@@ -1,4 +1,5 @@
 import { Truncate } from '@tonic-ui/react';
+
 const App = () => (
   <Truncate
     title="This is a very long text that will be truncated"

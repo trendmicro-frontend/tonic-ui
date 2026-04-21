@@ -104,7 +104,7 @@ const App = () => {
     Object.keys(formData).forEach((key) => {
       const error = validateField(key, formData[key]);
       if (error && error.length > 0) {
-        newErrors[key] = error; 
+        newErrors[key] = error;
       }
     });
 

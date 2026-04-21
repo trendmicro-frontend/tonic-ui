@@ -10,7 +10,7 @@ import {
   BLACK_PIECE,
   WHITE_PIECE,
 } from './constants';
-import { 
+import {
   useGameState,
 } from './context';
 import {
@@ -43,7 +43,7 @@ const Board = (props) => {
       }}
       {...props}
     >
-      {isGameEnd && (
+      {isGameEnd ? (
         <>
           <Box
             sx={{
@@ -75,7 +75,7 @@ const Board = (props) => {
             </Text>
           </Flex>
         </>
-      )}
+      ) : null}
       {cells.map((piece, cellId) => {
         const x = cellId % BOARD_SIZE;
         const y = Math.floor(cellId / BOARD_SIZE);

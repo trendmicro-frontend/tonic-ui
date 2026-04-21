@@ -1,4 +1,5 @@
 import { Text } from '@tonic-ui/react';
+
 const App = () => (
   <>
     <Text as="li" display="list-item">

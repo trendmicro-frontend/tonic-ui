@@ -1,4 +1,5 @@
 import { Stack, Textarea } from '@tonic-ui/react';
+
 const App = () => (
   <Stack directin="column" spacing="4x">
     <Textarea readOnly placeholder="Placeholder text" />

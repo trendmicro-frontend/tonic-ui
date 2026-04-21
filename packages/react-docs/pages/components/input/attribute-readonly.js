@@ -1,4 +1,5 @@
 import { Input, Stack } from '@tonic-ui/react';
+
 const App = () => (
   <Stack directin="column" spacing="4x">
     <Input readOnly placeholder="Placeholder text" />

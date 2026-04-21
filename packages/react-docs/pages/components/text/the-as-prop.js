@@ -1,4 +1,5 @@
 import { Box, Stack, Text, useColorMode } from '@tonic-ui/react';
+
 const TextBlock = (props) => {
   const [colorMode] = useColorMode();
   const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';

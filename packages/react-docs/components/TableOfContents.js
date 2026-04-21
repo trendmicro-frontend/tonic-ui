@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import useThrottledCallbackOnScroll from '../hooks/useThrottledCallbackOnScroll';
 import x from '../utils/json-stringify';
- 
+
 const TableOfContents = (props) => {
   const router = useRouter();
   const [nodes, setNodes] = useState([]);
@@ -66,7 +66,6 @@ const TableOfContents = (props) => {
         }, 200);
       }
     }
-
   }, [router.pathname]); // update nodes on routing change
 
   const [activeIndex, setActiveIndex] = useState(null);

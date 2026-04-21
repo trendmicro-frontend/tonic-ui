@@ -1,5 +1,6 @@
 import { Button, Flex } from '@tonic-ui/react';
 import { AddIcon, AngleRightIcon, SettingsIcon } from '@tonic-ui/react-icons';
+
 const App = () => (
   <Flex direction="column" rowGap="4x">
     <Flex columnGap="4x">
@@ -33,7 +34,7 @@ const App = () => (
       <Button width="8x" height="8x">
         <AddIcon />
       </Button>
-      <Button borderRadius="2rem"  columnGap="2x">
+      <Button borderRadius="2rem" columnGap="2x">
         <SettingsIcon />
         Settings
       </Button>

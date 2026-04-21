@@ -1,4 +1,5 @@
 import { Box, Text } from '@tonic-ui/react';
+
 const App = () => (
   <Box
     fontSize="md"

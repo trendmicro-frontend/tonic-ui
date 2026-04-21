@@ -5,6 +5,7 @@ import {
   MenuList,
   OverflowTooltip,
 } from '@tonic-ui/react';
+
 const App = () => (
   <Menu
     width={200}

@@ -1,4 +1,5 @@
 import { Stack, Text } from '@tonic-ui/react';
+
 const App = () => (
   <Stack direction="column" spacing="4x">
     <Text size="sm" fontWeight="semibold">Heading 1</Text>

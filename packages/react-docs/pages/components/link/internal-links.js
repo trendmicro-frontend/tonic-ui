@@ -1,5 +1,6 @@
 import { Link } from '@tonic-ui/react';
 import { SVGIcon } from '@tonic-ui/react-icons';
+
 function InternalLinkIcon(props) {
   // arrow-right-small.svg
   return (

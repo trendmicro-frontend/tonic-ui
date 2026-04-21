@@ -1,4 +1,5 @@
 import { Button, Flex, Tooltip } from '@tonic-ui/react';
+
 const App = () => (
   <Flex>
     <Tooltip label="This is a tooltip" shouldWrapChildren>

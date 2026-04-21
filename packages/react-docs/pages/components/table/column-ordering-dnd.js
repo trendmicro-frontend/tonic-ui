@@ -82,7 +82,7 @@ const DragItem = (props) => {
   const [colorMode] = useColorMode();
   const baseStyle = {
     cursor: 'move',
-    //display: 'inline-flex', // Uncomment this line and use 'inline-flex' if you prefer not to occupy the entire block
+    // display: 'inline-flex', // Uncomment this line and use 'inline-flex' if you prefer not to occupy the entire block
     px: '3x',
     py: '2x',
   };
@@ -194,7 +194,6 @@ const App = () => {
     },
   ]);
 
-  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,
@@ -320,7 +319,7 @@ const App = () => {
        *
        * Iteration #1:
        * > column.size = Math.max(250 / (2 - 1), 150) = Math.max(250, 150) = 250
-       * > extraSpaceLeft = 250 - 250 = 0                         
+       * > extraSpaceLeft = 250 - 250 = 0
        */
       flexColumns.forEach((column, index) => {
         column.size = Math.max(
@@ -379,7 +378,7 @@ const App = () => {
       setColumnOrder(columnOrder => {
         const oldIndex = columnOrder.indexOf(active.id);
         const newIndex = columnOrder.indexOf(over.id);
-        return arrayMove(columnOrder, oldIndex, newIndex) //this is just a splice util
+        return arrayMove(columnOrder, oldIndex, newIndex) // this is just a splice util
       })
     }
     setActiveId(null);
@@ -635,7 +634,7 @@ const App = () => {
                                 zIndex: isDragging ? 1 : 0,
                               },
                             ];
-                            
+
                             return (
                               <TableCell
                                 ref={setNodeRef}
@@ -734,14 +733,14 @@ const App = () => {
           )}
         </AutoSizer>
         <DragItem>
-          {activeId && (
+          {activeId ? (
             <Text
               color={colorStyle.color.secondary}
               fontWeight="semibold"
             >
               {columns.find(column => column.id === activeId)?.header}
             </Text>
-          )}
+          ) : null}
         </DragItem>
       </DndContext>
     </Box>

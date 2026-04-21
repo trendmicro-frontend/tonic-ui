@@ -9,6 +9,7 @@ import {
   ModalOverlay,
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
+
 const App = () => {
   const [isOpen, toggleModal] = useToggle(false);
   const [isNestedOpen, toggleNestedModal] = useToggle(false);

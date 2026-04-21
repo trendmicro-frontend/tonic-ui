@@ -1,4 +1,5 @@
 import { Radio } from '@tonic-ui/react';
+
 const App = () => (
   <Radio
     inputProps={{

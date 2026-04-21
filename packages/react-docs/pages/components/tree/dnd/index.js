@@ -38,7 +38,7 @@ const getTreeNodes = () => {
         data: _.range(15).map((i) => {
           const [nodeIndex = ''] = ensureArray(String(node.label).match(/\d+/));
 
-          const endpoint = `Endpoint ${nodeIndex}_${i+1}`;
+          const endpoint = `Endpoint ${nodeIndex}_${i + 1}`;
 
           // Randomly pick a subset of threat types
           const detections = _.sampleSize(threatTypes, _.random(0, threatTypes.length));
@@ -47,7 +47,7 @@ const getTreeNodes = () => {
           const lastSeen = new Date(Date.now() - _.random(0, 60 * 60 * 24 * 30 * 1000));
 
           return {
-            id: `${node.id}_${i+1}`,
+            id: `${node.id}_${i + 1}`,
             endpoint,
             detections,
             lastSeen,

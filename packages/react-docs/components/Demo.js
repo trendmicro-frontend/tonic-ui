@@ -125,8 +125,7 @@ const Demo = ({
         <IconButton
           data-track={showSourceCode
             ? `Code|hide_source|${x({ path: router.pathname })}`
-            : `Code|show_source|${x({ path: router.pathname })}`
-          }
+            : `Code|show_source|${x({ path: router.pathname })}`}
           onClick={toggleShowSourceCode}
         >
           <Tooltip label={showSourceCode ? 'Hide the source' : 'Show the source'}>

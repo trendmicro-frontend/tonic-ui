@@ -106,7 +106,7 @@ const App = () => {
     }
   };
   const onDragUpdate = (dragUpdateObj, b) => {
-    if(!dragUpdateObj.destination){
+    if (!dragUpdateObj.destination) {
       return;
     }
     const draggableId = dragUpdateObj.draggableId;
@@ -205,7 +205,7 @@ const App = () => {
                       left={placeholderProps.clientX}
                       height={placeholderProps.clientHeight}
                       width={placeholderProps.clientWidth}
-                      display={placeholderProps.clientWidth ? 'block' : 'none' }
+                      display={placeholderProps.clientWidth ? 'block' : 'none'}
                       {...columnPlaceholderProps}
                     >
                       { placeholderProps.content }

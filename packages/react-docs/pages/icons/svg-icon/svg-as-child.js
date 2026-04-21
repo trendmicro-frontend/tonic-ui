@@ -1,5 +1,6 @@
 import { useColorStyle } from '@tonic-ui/react';
 import { SVGIcon } from '@tonic-ui/react-icons';
+
 const App = () => {
   const [colorStyle] = useColorStyle();
   return (

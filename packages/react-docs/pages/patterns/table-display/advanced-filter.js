@@ -15,7 +15,7 @@ const App = () => {
       render: (props) => (
         <DropdownFilterTag
           {...props}
-          label={'Device type:'}
+          label="Device type:"
           items={[
             { value: 'desktop', label: 'Desktop' },
             { value: 'server', label: 'Server' },
@@ -29,7 +29,7 @@ const App = () => {
       render: (props) => (
         <InputFilterTag
           {...props}
-          label={'Display name:'}
+          label="Display name:"
           inputProps={{
             placeholder: 'Specify display name',
             maxLength: 256,
@@ -43,7 +43,7 @@ const App = () => {
       render: (props) => (
         <SearchDropdownFilterTag
           {...props}
-          label={'OS type:'}
+          label="OS type:"
           items={[
             { value: 'windows', label: 'Windows' },
             { value: 'macos', label: 'macOS' },

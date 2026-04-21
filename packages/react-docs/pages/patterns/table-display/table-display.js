@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 import {
   getPaginationRowModel,
 } from '@tanstack/react-table';

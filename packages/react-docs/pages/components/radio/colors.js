@@ -1,4 +1,5 @@
 import { Flex, Radio } from '@tonic-ui/react';
+
 const App = () => (
   <Flex columnGap="6x">
     <Radio variantColor="red" defaultChecked>

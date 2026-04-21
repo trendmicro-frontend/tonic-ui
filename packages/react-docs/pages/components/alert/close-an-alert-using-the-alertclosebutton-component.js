@@ -1,5 +1,6 @@
 import { Alert, AlertCloseButton, Collapse, Text } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
+
 const App = () => {
   const [isOpen, onClose] = useToggle(true);
   return (

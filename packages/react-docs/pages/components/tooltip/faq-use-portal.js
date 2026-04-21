@@ -1,4 +1,5 @@
 import { Text, Tooltip } from '@tonic-ui/react';
+
 const App = () => (
   <Tooltip
     PopperProps={{ usePortal: true }}

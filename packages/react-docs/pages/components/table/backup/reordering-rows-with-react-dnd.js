@@ -88,7 +88,7 @@ const TR = ({ id, row, index, moveTr, ...otherProps }) => {
 };
 
 const CustomDragLayer = (props) => {
-  const { itemType, isDragging, item, initialOffset, currentOffset, } = useDragLayer((monitor) => ({
+  const { itemType, isDragging, item, initialOffset, currentOffset } = useDragLayer((monitor) => ({
     item: monitor.getItem(),
     itemType: monitor.getItemType(),
     initialOffset: monitor.getInitialSourceClientOffset(),
@@ -193,7 +193,7 @@ const App = () => {
         <TableBody>
           {
             items.map((item, i) => (
-              <TR {...rowProps} key={item.id} index={i} id={item.id} row={item} moveTr={moveTr}/>
+              <TR {...rowProps} key={item.id} index={i} id={item.id} row={item} moveTr={moveTr} />
             ))
           }
           <CustomDragLayer {...rowProps} />

@@ -7,6 +7,7 @@ import {
   useColorStyle,
   useToastManager,
 } from '@tonic-ui/react';
+
 const ToastSuccess = ({ onClose }) => (
   <Toast
     isClosable

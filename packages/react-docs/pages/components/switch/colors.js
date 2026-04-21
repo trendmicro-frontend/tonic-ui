@@ -1,4 +1,5 @@
 import { Flex, Switch } from '@tonic-ui/react';
+
 const App = () => {
   return (
     <Flex columnGap="6x">

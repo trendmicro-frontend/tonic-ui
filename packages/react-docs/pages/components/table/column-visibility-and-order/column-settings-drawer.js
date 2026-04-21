@@ -234,7 +234,7 @@ const ColumnSettingsDrawer = ({
                   const nextColumns = state.columns.map(_column => {
                     if (_column.id !== column.id) {
                       return _column;
-                    } 
+                    }
                     return {
                       ..._column,
                       isVisible,

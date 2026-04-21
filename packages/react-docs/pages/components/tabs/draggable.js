@@ -94,7 +94,7 @@ const App = () => {
                           {item.label}
                         </Tab>
                       )}
-                      {item.dropdown && (
+                      {item.dropdown ? (
                         <Tab
                           as={Box}
                           onClick={(event) => {
@@ -126,7 +126,7 @@ const App = () => {
                             </MenuList>
                           </Menu>
                         </Tab>
-                      )}
+                      ) : null}
                     </Box>
                   )}
                 </rbd.Draggable>

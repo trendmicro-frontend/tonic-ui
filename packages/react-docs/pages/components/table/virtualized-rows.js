@@ -66,7 +66,6 @@ const App = () => {
     },
   ], []);
 
-  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,
@@ -157,7 +156,7 @@ const App = () => {
                       transform: `translateY(${virtualRow.start}px)`,
                     }}
                   >
-                    {row && (
+                    {row ? (
                       <TableRow
                         _hover={{
                           backgroundColor: colorStyle.background.highlighted,
@@ -181,7 +180,7 @@ const App = () => {
                           );
                         })}
                       </TableRow>
-                    )}
+                    ) : null}
                   </Box>
                 );
               })}

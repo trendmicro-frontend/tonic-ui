@@ -1,4 +1,5 @@
 import { Box, Divider, Flex, Skeleton, Stack, useColorMode, useColorStyle } from '@tonic-ui/react';
+
 const App = () => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });

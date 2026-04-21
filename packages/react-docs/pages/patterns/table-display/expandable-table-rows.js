@@ -130,7 +130,7 @@ const App = () => {
       },
       size: 'auto',
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   ], [colorMode, colorStyle]); // Include both colorMode and colorStyle as dependencies to prevent memoization when the color mode changes
   const tableOptions = useMemo(() => ({
     defaultColumn: {

@@ -1,4 +1,5 @@
 import { Box, Stack } from '@tonic-ui/react';
+
 const App = () => (
   <Stack direction="row" spacing="2x">
     <Box

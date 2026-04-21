@@ -13,7 +13,7 @@ const App = () => {
         Toggle Visibility
       </Button>
       <Divider my="4x" />
-      {on && (
+      {on ? (
         <Scrollbar
           height={200}
           onUpdate={({ scrollTop: newScrollTop }) => {
@@ -24,7 +24,7 @@ const App = () => {
         >
           <Lorem count={10} />
         </Scrollbar>
-      )}
+      ) : null}
     </>
   );
 };

@@ -71,13 +71,13 @@ class CustomDocument extends Document {
           <meta httpEquiv="Content-Security-Policy" content={csp} />
           <link rel="shortcut icon" href={`${BASE_PATH}/tonic-favicon-dark.ico`} nonce={NONCE} />
           <link rel="stylesheet" href={`${BASE_PATH}/styles/app.css`} nonce={NONCE} />
-          {(MATOMO_URL && MATOMO_CONTAINER_ID) && (
+          {(MATOMO_URL && MATOMO_CONTAINER_ID) ? (
             <script
               nonce={NONCE}
               data-matomo-tag-manager
               dangerouslySetInnerHTML={{ __html: MATOMO_TAG_MANAGER_SCRIPT }}
             />
-          )}
+          ) : null}
           <script
             nonce={NONCE}
             data-tonic-ui

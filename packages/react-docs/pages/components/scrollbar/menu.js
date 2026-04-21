@@ -5,6 +5,7 @@ import {
   MenuItem,
   Scrollbar,
 } from '@tonic-ui/react';
+
 const App = () => {
   return (
     <Menu>

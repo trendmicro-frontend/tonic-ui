@@ -1,4 +1,5 @@
 import { Box, Divider, Text, Tooltip, useColorMode } from '@tonic-ui/react';
+
 const App = () => {
   const [colorMode] = useColorMode();
   const backgroundColor = {

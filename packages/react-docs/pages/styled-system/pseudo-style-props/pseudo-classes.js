@@ -1,4 +1,5 @@
 import { ButtonBase } from '@tonic-ui/react';
+
 const App = () => (
   <ButtonBase
     _hover={{ // same as ':hover'

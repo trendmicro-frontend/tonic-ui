@@ -2,6 +2,7 @@ import {
   Button,
   Stack,
 } from '@tonic-ui/react';
+
 const App = () => (
   <Stack direction="column" spacing="4x">
     <Stack direction="row" spacing="2x" alignItems="center">

@@ -2,6 +2,7 @@ import {
   Box,
   useColorMode,
 } from '@tonic-ui/react';
+
 const ColorStyleContent = (props) => {
   const [colorMode] = useColorMode();
   const baseProps = {

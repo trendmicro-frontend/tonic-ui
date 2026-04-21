@@ -5,6 +5,7 @@ import {
   InputGroupPrepend,
   Stack,
 } from '@tonic-ui/react';
+
 const App = () => (
   <Stack direction="column" spacing="4x">
     <InputGroup size="sm">

@@ -169,7 +169,6 @@ const App = () => {
     },
   ], []);
 
-  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data: items,
     columns,
@@ -177,7 +176,7 @@ const App = () => {
       minSize: 80,
     },
     getCoreRowModel: getCoreRowModel(),
-    getRowId: row => row.id, //good to have guaranteed unique row ids/keys for rendering
+    getRowId: row => row.id, // good to have guaranteed unique row ids/keys for rendering
   });
 
   const moveItem = useCallback((dragItemId, hoverItemId) => {
@@ -328,7 +327,7 @@ const App = () => {
                             }}
                           >
                             <Flex alignItems="center">
-                              {canDrag && (
+                              {canDrag ? (
                                 <Flex
                                   ref={dragRef}
                                   sx={{
@@ -345,7 +344,7 @@ const App = () => {
                                 >
                                   <HandleIcon />
                                 </Flex>
-                              )}
+                              ) : null}
                               {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </Flex>
                           </TableCell>

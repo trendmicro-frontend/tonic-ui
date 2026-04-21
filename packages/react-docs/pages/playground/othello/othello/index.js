@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 import {
   Box,
   Flex,
@@ -23,12 +22,12 @@ import { search } from './computer';
 
 const Othello = () => {
   const [turn, setTurn] = useState(BLACK_PIECE);
-  const [cells, updateCells] = useState((new Array(BOARD_SIZE**2)).fill(EMPTY_PIECE));
+  const [cells, updateCells] = useState((new Array(BOARD_SIZE ** 2)).fill(EMPTY_PIECE));
   const nextTurn = useCallback(() => {
     setTurn(turn === WHITE_PIECE ? BLACK_PIECE : WHITE_PIECE);
   }, [turn]);
   const restart = useCallback(() => {
-    const nextCells = (new Array(BOARD_SIZE**2)).fill(EMPTY_PIECE);
+    const nextCells = (new Array(BOARD_SIZE ** 2)).fill(EMPTY_PIECE);
     nextCells[BOARD_SIZE * 3 + 3] = WHITE_PIECE;
     nextCells[BOARD_SIZE * 3 + 4] = BLACK_PIECE;
     nextCells[BOARD_SIZE * 4 + 3] = BLACK_PIECE;

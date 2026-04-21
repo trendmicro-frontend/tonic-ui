@@ -1,4 +1,5 @@
 import { SearchInput } from '@tonic-ui/react';
+
 const App = () => (
   <SearchInput variant="outline" placeholder="Search" />
 );

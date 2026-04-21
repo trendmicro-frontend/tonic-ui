@@ -1,4 +1,5 @@
 import { Menu, MenuItem, MenuList, MenuToggle, MenuToggleIcon } from '@tonic-ui/react';
+
 const App = () => (
   <Menu>
     <MenuToggle>

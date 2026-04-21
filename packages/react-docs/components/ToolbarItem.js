@@ -22,4 +22,3 @@ const ToolbarItem = forwardRef((props, ref) => {
 ToolbarItem.displayName = 'ToolbarItem';
 
 export default ToolbarItem;
-

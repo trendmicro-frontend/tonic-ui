@@ -55,7 +55,7 @@ const App = () => {
         </RadioGroup>
       </FormGroup>
       <PreformattedText>
-        {`useClickOutside(ref, handler, { events: ${x(events) });`}
+        {`useClickOutside(ref, handler, { events: ${x(events)});`}
       </PreformattedText>
       <Divider my="4x" />
       <Box mb="4x">

@@ -1,4 +1,5 @@
-import { Box, Flex  } from '@tonic-ui/react';
+import { Box, Flex } from '@tonic-ui/react';
+
 const App = () => (
   <Flex flexDirection="column" rowGap="3x">
     <Box fontWeight="thin">Thin (100)</Box>

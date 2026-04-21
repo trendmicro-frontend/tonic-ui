@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 import {
   Box,
   Text,
@@ -122,7 +121,7 @@ const App = () => {
     if (keyCode === 8) { // Delete
       if (!value && tags.length > 0) {
         // remove last tag
-        tags.splice((tags.length-1), 1);
+        tags.splice((tags.length - 1), 1);
         setTags([...tags]);
       }
     }
@@ -173,7 +172,7 @@ const App = () => {
         onClick={handleWrapperClick}
         {...styleProps}
       >
-        {placeholderVisible && (
+        {placeholderVisible ? (
           <Text
             display="inline-flex"
             py="2q"
@@ -181,7 +180,7 @@ const App = () => {
           >
             Add new tag
           </Text>
-        )}
+        ) : null}
         {
           tags.map(tag => {
             const id = tag.id;
@@ -211,7 +210,7 @@ const App = () => {
           onKeyUp={handleTagInputKeyUp}
         />
       </Box>
-      {hasError && <Text color={invalidColor}>There are invalid entries.</Text>}
+      {hasError ? <Text color={invalidColor}>There are invalid entries.</Text> : null}
     </>
   );
 };

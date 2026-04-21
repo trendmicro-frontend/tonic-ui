@@ -1,4 +1,5 @@
 import { Box, Checkbox, Flex, Text } from '@tonic-ui/react';
+
 const App = () => (
   <Flex alignItems="flex-start" columnGap="2x">
     <Box py="1h">

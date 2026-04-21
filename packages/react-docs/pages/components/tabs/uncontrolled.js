@@ -5,6 +5,7 @@ import {
   TabPanel,
   TabPanels,
 } from '@tonic-ui/react';
+
 const App = () => {
   return (
     <Tabs defaultIndex={0}>

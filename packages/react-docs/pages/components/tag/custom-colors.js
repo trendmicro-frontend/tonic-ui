@@ -1,4 +1,5 @@
 import { Stack, Tag, useColorMode } from '@tonic-ui/react';
+
 const App = () => {
   const [colorMode] = useColorMode();
   const solidColors = {

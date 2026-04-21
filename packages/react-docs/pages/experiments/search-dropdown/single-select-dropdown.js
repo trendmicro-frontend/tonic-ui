@@ -82,7 +82,7 @@ const App = () => {
     return (
       <Flex alignItems="center" columnGap="1x" width="100%">
         <FlexItem as={MutedText} fixed tooltip={tooltip}>
-          {'Company:'}
+          Company:
         </FlexItem>
         <FlexItem maxWidth={120} tooltip>
           {label}

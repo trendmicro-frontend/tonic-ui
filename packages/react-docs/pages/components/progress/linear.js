@@ -2,7 +2,7 @@ import { Box, Button, ButtonGroup, Divider, Flex, LinearProgress, Text, TextLabe
 import { useState } from 'react';
 
 const heightOptions = [2, 4, 8, 12];
-const defaultHeight = 4; 
+const defaultHeight = 4;
 
 const FormGroup = (props) => (
   <Box mb="4x" {...props} />

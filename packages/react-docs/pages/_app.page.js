@@ -81,7 +81,6 @@ const App = (props) => {
     if ((colorScheme === 'dark' || colorScheme === 'light') && (initialColorMode !== colorScheme)) {
       setColorMode(colorScheme);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!initialColorMode) {
@@ -242,7 +241,7 @@ const DocsPage = (props) => {
     if (isSidebarVisible) {
       toggleSidebarVisible(false);
     }
-  }, [isMediaQueryMatched]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isMediaQueryMatched]);
 
   return (
     <Box

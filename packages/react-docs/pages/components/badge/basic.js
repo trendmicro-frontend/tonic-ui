@@ -1,5 +1,6 @@
 import { Badge, Grid, Skeleton, Text } from '@tonic-ui/react';
 import { AlertIcon } from '@tonic-ui/react-icons';
+
 const App = () => (
   <Grid
     mt="2x"

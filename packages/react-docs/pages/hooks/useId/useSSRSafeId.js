@@ -1,15 +1,16 @@
 import { Box, Code, TextLabel, Input, Stack, Text, Divider, useColorStyle } from '@tonic-ui/react';
 import useSSRSafeId from '@tonic-ui/react-hooks/src/internal/useSSRSafeId';
+
 const App = () => {
   const [colorStyle] = useColorStyle();
-  
+
   // Form field IDs
   const emailId = useSSRSafeId();
   const passwordId = useSSRSafeId();
-  
+
   // ARIA relationship IDs
   const passwordHelperId = useSSRSafeId();
-  
+
   return (
     <Box>
       <Box mb="3x">

@@ -6,6 +6,7 @@ import {
 import {
   useToggle,
 } from '@tonic-ui/react-hooks';
+
 const App = () => {
   const [isOpen, onClose] = useToggle(true);
 

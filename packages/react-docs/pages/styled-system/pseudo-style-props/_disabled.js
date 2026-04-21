@@ -1,4 +1,5 @@
 import { Box, Stack } from '@tonic-ui/react';
+
 const App = () => (
   <Stack direction="row" spacing="2x">
     <Box
@@ -35,7 +36,7 @@ const App = () => (
         cursor: 'not-allowed',
         bg: 'blue:40',
         color: 'white:primary',
-        opacity: .6,
+        opacity: 0.6,
       }}
       _hover={{
         bg: 'blue:50',

@@ -1,4 +1,5 @@
 import { Menu, MenuButton, MenuItem, MenuList, Text } from '@tonic-ui/react';
+
 const App = () => (
   <Menu width="100%">
     <MenuButton variant="secondary" width="100%">

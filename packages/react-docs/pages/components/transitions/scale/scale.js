@@ -23,7 +23,7 @@ const App = () => {
       <Scale
         in={isOpen}
         unmountOnExit={false}
-        initialScale={[0.9, 0.9**2]}
+        initialScale={[0.9, 0.9 ** 2]}
       >
         <SkeletonContent>
           <SkeletonBlock />

@@ -1,4 +1,5 @@
 import { Checkbox, CheckboxGroup, Stack } from '@tonic-ui/react';
+
 const App = () => (
   <Stack direction="column" spacing="1x" shouldWrapChildren>
     <CheckboxGroup size="sm" defaultValue={['apple']}>

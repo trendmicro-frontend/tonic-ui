@@ -68,7 +68,7 @@ const TreeItemRender = ({
               position: 'absolute',
               top: 0,
               bottom: 0,
-              left: 20 + nodeDepth * 24 - (1/2), // Adjust the horizontal position based on depth
+              left: 20 + nodeDepth * 24 - (1 / 2), // Adjust the horizontal position based on depth
               width: 1,
             },
           },
@@ -102,11 +102,11 @@ const TreeItemRender = ({
           flex="none"
           width="6x"
         >
-          {isExpandable && (
+          {isExpandable ? (
             <TreeItemToggle>
               <TreeItemToggleIcon />
             </TreeItemToggle>
-          )}
+          ) : null}
         </Flex>
         <Flex
           mr="2x"
@@ -165,8 +165,8 @@ const App = () => {
   return (
     <Box
       sx={{
-        //minWidth: 160,
-        //maxWidth: '40%',
+        // minWidth: 160,
+        // maxWidth: '40%',
         boxShadow: colorStyle.shadow.thick,
       }}
     >

@@ -1,4 +1,5 @@
 import { Box, Flex, Text, useColorMode, useTheme } from '@tonic-ui/react';
+
 const isColorCode = value => String(value).startsWith('#') || String(value).startsWith('rgb(') || String(value).startsWith('rgba(');
 
 const App = () => {

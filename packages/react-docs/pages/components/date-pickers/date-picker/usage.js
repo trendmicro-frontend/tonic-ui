@@ -119,9 +119,7 @@ const App = () => {
           <TextLabel>
             Selected date:
           </TextLabel>
-          {error && (
-            <Text color="red:50">{error}</Text>
-          )}
+          {error ? <Text color="red:50">{error}</Text> : null}
           {!error && (
             <Text>{displayDate}</Text>
           )}
@@ -164,9 +162,7 @@ const App = () => {
                 placeholder={inputFormat}
                 readOnly={readOnly}
               />
-              {inputError && (
-                <Text mt="1x" color="red:50">Invalid date</Text>
-              )}
+              {inputError ? <Text mt="1x" color="red:50">Invalid date</Text> : null}
             </Box>
           );
         }}
@@ -187,7 +183,7 @@ const App = () => {
           </TextLabel>
           <Menu>
             <MenuButton variant="secondary" minWidth={100}>
-              {locale && dateFnsLocale[locale].code}
+              {locale ? dateFnsLocale[locale].code : null}
             </MenuButton>
             <MenuList
               onClick={(event) => {

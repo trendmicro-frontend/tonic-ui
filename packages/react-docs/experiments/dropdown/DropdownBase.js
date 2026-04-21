@@ -168,8 +168,7 @@ const DropdownBase = forwardRef((
             >
               {(typeof renderContent === 'function')
                 ? renderContent({ items, renderItem, renderItems })
-                : renderItems(items)
-              }
+                : renderItems(items)}
             </MenuList>
           </>
         );

@@ -26,30 +26,30 @@ const MultilineTextField = forwardRef((
     el.setCustomValidity(errorMessage);
   }, [error]);
 
-  return (<>
-    <Flex position="relative" alignItems="center" mb="1x">
-      <Textarea
-        ref={combinedRef}
-        resize="none"
-        rows="3"
-        placeholder="Placeholder text"
-        value={value}
-        onChange={onChange}
-        error={error}
-        pr={error ? '10x' : undefined}
-      />
-      {error && (
-        <Box position="absolute" right="3x" top="2x">
-          <WarningCircleIcon color="red:50" />
-        </Box>
-      )}
-    </Flex>
-    <Box>
-      {error && (
-        <InlineError>{error}</InlineError>
-      )}
-    </Box>
-  </>);
+  return (
+    <>
+      <Flex position="relative" alignItems="center" mb="1x">
+        <Textarea
+          ref={combinedRef}
+          resize="none"
+          rows="3"
+          placeholder="Placeholder text"
+          value={value}
+          onChange={onChange}
+          error={error}
+          pr={error ? '10x' : undefined}
+        />
+        {error ? (
+          <Box position="absolute" right="3x" top="2x">
+            <WarningCircleIcon color="red:50" />
+          </Box>
+        ) : null}
+      </Flex>
+      <Box>
+        {error ? <InlineError>{error}</InlineError> : null}
+      </Box>
+    </>
+  );
 });
 MultilineTextField.displayName = 'MultilineTextField';
 

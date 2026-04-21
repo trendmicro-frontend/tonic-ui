@@ -1,4 +1,5 @@
 import { Radio, RadioGroup, Stack } from '@tonic-ui/react';
+
 const App = () => (
   <Stack direction="column" spacing="4x" shouldWrapChildren>
     <RadioGroup size="sm" defaultValue="1">

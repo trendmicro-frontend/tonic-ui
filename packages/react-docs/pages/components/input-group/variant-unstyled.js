@@ -1,4 +1,5 @@
 import { Input, InputGroup, InputGroupAddon } from '@tonic-ui/react';
+
 const App = () => (
   <InputGroup variant="unstyled">
     <InputGroupAddon px="3x">@</InputGroupAddon>

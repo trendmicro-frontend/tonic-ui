@@ -105,7 +105,7 @@ const Sidebar = forwardRef((
           justifyContent="space-between"
           mb="4x"
         >
-          <NextLink href={'/'} legacyBehavior passHref>
+          <NextLink href="/" legacyBehavior passHref>
             <Link
               background="transparent"
               color={colorStyle.color.primary}
@@ -164,8 +164,7 @@ const Sidebar = forwardRef((
                     <AccordionToggle
                       data-track={isExpanded
                         ? `SideMenu|close_menu_section|${x({ title: sectionTitle })}`
-                        : `SideMenu|open_menu_section|${x({ title: sectionTitle })}`
-                      }
+                        : `SideMenu|open_menu_section|${x({ title: sectionTitle })}`}
                       // The following data attributes are used by the instant search to toggle and scroll to the correct accordion section
                       data-expanded={isExpanded}
                       data-title={sectionTitle}

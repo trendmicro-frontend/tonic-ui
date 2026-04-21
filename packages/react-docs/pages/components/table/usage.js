@@ -1,6 +1,6 @@
 import {
   Box,
-  Button, 
+  Button,
   ButtonGroup,
   Checkbox,
   Code,
@@ -282,7 +282,7 @@ const App = () => {
           size={size}
           {...tableStyleProps}
         >
-          {isTableHeaderVisible && (
+          {isTableHeaderVisible ? (
             <TableHeader
               ref={tableHeaderRef}
               {...tableHeaderStyleProps}
@@ -304,8 +304,8 @@ const App = () => {
                 })}
               </TableRow>
             </TableHeader>
-          )}
-          {isTableBodyVisible && (
+          ) : null}
+          {isTableBodyVisible ? (
             <ConditionalWrapper
               condition={isTableScrollingEnabled}
               wrapper={children => (
@@ -337,8 +337,7 @@ const App = () => {
                           <TableCell key={cell.id} {...styleProps}>
                             {typeof cell.column.cell === 'function'
                               ? cell.column.cell(row.row)
-                              : <Truncate>{cell.row[cell.column.accessorKey]}</Truncate>
-                            }
+                              : <Truncate>{cell.row[cell.column.accessorKey]}</Truncate>}
                           </TableCell>
                         );
                       })}
@@ -347,8 +346,8 @@ const App = () => {
                 })}
               </TableBody>
             </ConditionalWrapper>
-          )}
-          {(isTableHeaderVisible && !isTableBodyVisible) && (
+          ) : null}
+          {(isTableHeaderVisible && !isTableBodyVisible) ? (
             <TableBody>
               {layout === 'flexbox' && (
                 <Flex justifyContent="center" px="3x" py="10x">
@@ -365,7 +364,7 @@ const App = () => {
                 </TableRow>
               )}
             </TableBody>
-          )}
+          ) : null}
         </Table>
       </Flex>
     </>

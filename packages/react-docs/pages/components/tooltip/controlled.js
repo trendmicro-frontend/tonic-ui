@@ -1,5 +1,6 @@
 import { Flex, Switch, Text, Tooltip } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
+
 const App = () => {
   const [on, toggle] = useToggle(false);
 

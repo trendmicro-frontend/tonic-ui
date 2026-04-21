@@ -5,13 +5,14 @@ import {
   Stack,
   useColorMode,
 } from '@tonic-ui/react';
+
 const App = () => {
   const [colorMode] = useColorMode();
-  const defaultDividerColor ={
+  const defaultDividerColor = {
     dark: 'gray:70',
     light: 'gray:30',
   }[colorMode];
-  const ghostDividerColor ={
+  const ghostDividerColor = {
     dark: 'gray:60',
     light: 'gray:20',
   }[colorMode];

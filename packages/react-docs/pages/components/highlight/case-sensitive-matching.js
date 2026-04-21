@@ -1,4 +1,5 @@
 import { Highlight, Stack } from '@tonic-ui/react';
+
 const App = () => (
   <Stack direction="column" spacing="4x">
     <Highlight query="React" caseSensitive={true}>

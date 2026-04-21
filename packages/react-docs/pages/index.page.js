@@ -143,9 +143,9 @@ const DefaultPage = (props) => {
                 templateColumns="1fr 1fr"
                 gap="4x"
               >
-                <NextLink href={'/getting-started'} legacyBehavior passHref>
+                <NextLink href="/getting-started" legacyBehavior passHref>
                   <ButtonLink
-                    data-track={'ClickThrough|click_get_started_link|/getting-started'}
+                    data-track="ClickThrough|click_get_started_link|/getting-started"
                     variant="primary"
                     fontSize="lg"
                     lineHeight="lg"
@@ -435,7 +435,7 @@ const DefaultPageHeader = forwardRef((props, ref) => {
         justifyContent="space-between"
       >
         <Box>
-          <NextLink href={'/'} legacyBehavior passHref>
+          <NextLink href="/" legacyBehavior passHref>
             <Link
               data-track="Header|click_landing_page"
               background="transparent"
@@ -483,7 +483,7 @@ const DefaultPageHeader = forwardRef((props, ref) => {
             Search...
           </SearchButton>
           <Box
-            data-track={'Header|click_codesandbox'}
+            data-track="Header|click_codesandbox"
             as="a"
             color={colorStyle.color.secondary}
             _hover={{

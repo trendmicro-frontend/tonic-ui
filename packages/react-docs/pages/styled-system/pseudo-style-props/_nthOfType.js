@@ -1,5 +1,5 @@
-/* eslint-disable react/no-unescaped-entities */
 import { Box } from '@tonic-ui/react';
+
 const Paragraph = (props) => (
   <Box
     as="p"

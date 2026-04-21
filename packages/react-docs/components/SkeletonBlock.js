@@ -2,6 +2,7 @@ import {
   Flex,
   Skeleton,
 } from '@tonic-ui/react';
+
 const SkeletonBlock = (props) => (
   <Flex {...props}>
     <Flex flex="none" mr="4x" alignItems="center">

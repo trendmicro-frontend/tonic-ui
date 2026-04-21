@@ -219,7 +219,7 @@ const withMDX = mdxPlugin({
 
           if (renderExpressionCount > 0) {
             // Insert `import Demo from '../../components/Demo';` to the top of the MDX document
-            //const relativePath = path.relative(path.dirname(file.path), rootdir);
+            // const relativePath = path.relative(path.dirname(file.path), rootdir);
             const newNode = {
               type: 'mdxjsEsm',
               value: 'import Demo from "@/components/Demo";',

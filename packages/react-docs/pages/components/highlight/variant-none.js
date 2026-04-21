@@ -1,4 +1,5 @@
 import { Highlight } from '@tonic-ui/react';
+
 const App = () => (
   <Highlight
     variant="none"

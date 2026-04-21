@@ -1,4 +1,5 @@
 import { Image } from '@tonic-ui/react';
+
 const App = () => {
   const imageSrc = 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png';
 

@@ -8,6 +8,7 @@ import {
   Skeleton,
   Stack,
 } from '@tonic-ui/react';
+
 const App = () => (
   <ModalContent width="max(320px, 50%)">
     <ModalHeader>

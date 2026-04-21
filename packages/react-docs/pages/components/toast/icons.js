@@ -1,5 +1,6 @@
 import { Box, Button, Stack, Toast, useColorMode, useColorStyle, useToastManager } from '@tonic-ui/react';
 import { CheckCircleOIcon } from '@tonic-ui/react-icons';
+
 const ToastWithDefaultIcon = ({ onClose }) => (
   <Toast
     isClosable

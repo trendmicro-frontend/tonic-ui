@@ -5,6 +5,7 @@ import {
   AngleLeftIcon,
   AngleRightIcon,
 } from '@tonic-ui/react-icons';
+
 const App = () => (
   <Menu placement="bottom-start">
     {({ isOpen, direction }) => {

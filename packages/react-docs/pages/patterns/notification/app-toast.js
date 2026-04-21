@@ -10,6 +10,7 @@ import {
   useToastManager,
 } from '@tonic-ui/react';
 import { ErrorIcon, InfoIcon, SuccessIcon, WarningMinorIcon } from '@tonic-ui/react-icons';
+
 const MAX_TOASTS = 3;
 
 const App = () => {

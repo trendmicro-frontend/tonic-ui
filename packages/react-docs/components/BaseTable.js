@@ -148,7 +148,6 @@ const BaseTable = forwardRef((
     );
   };
 
-  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,
@@ -317,8 +316,7 @@ const BaseTable = forwardRef((
                       >
                         {header.isPlaceholder
                           ? null
-                          : flexRender(header.column.columnDef.header, header.getContext())
-                        }
+                          : flexRender(header.column.columnDef.header, header.getContext())}
                       </TableCell>
                     );
                   })}

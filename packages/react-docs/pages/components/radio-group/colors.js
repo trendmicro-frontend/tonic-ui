@@ -1,4 +1,5 @@
 import { Radio, RadioGroup, Stack } from '@tonic-ui/react';
+
 const App = () => (
   <RadioGroup variantColor="green" defaultValue="1">
     <Stack direction="row" spacing="3x">

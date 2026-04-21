@@ -1,4 +1,5 @@
 import { Pagination, Stack } from '@tonic-ui/react';
+
 const App = () => (
   <Stack spacing="4x">
     <Pagination count={11} defaultPage={6} />

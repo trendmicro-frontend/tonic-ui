@@ -1,12 +1,13 @@
 import { Box, Code, TextLabel, Input, Stack, Text, Divider, useColorStyle } from '@tonic-ui/react';
 import { useId } from '@tonic-ui/react-hooks';
+
 const App = () => {
   const [colorStyle] = useColorStyle();
 
   // Form field IDs
   const emailId = useId();
   const passwordId = useId();
-  
+
   // ARIA relationship IDs
   const passwordHelperId = useId();
 

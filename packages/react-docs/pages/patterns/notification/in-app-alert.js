@@ -145,7 +145,7 @@ const AlertOutlineActionButton = forwardRef((props, ref) => (
 AlertOutlineActionButton.displayName = 'AlertOutlineActionButton';
 
 const AlertView = () => {
-  const [page, ] = useState(1);
+  const [page] = useState(1);
   const alert = alerts[page - 1] ?? {};
 
   return (

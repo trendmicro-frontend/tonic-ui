@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 import {
   Box,
   Button,
@@ -33,7 +32,7 @@ const defaultBoard = Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE).
 const Gomoku = () => {
   const isHumanWithBlackPiece = true;
   const canvasRef = useRef(null);
-  const { setLang, t } = useLocale();  // Use the locale context
+  const { setLang, t } = useLocale(); // Use the locale context
   const [board, setBoard] = useState(defaultBoard);
   const [isGameOver, setIsGameOver] = useState(false);
   const [message, setMessage] = useState(t('turn'));
@@ -252,10 +251,10 @@ const Gomoku = () => {
             backgroundColor: '#f0d9b5',
             border: '1px solid #333',
             cursor: 'pointer',
-            opacity: isGameOver ? .4 : 1,
+            opacity: isGameOver ? 0.4 : 1,
           }}
         />
-        {isGameOver && (
+        {isGameOver ? (
           <Box
             position="absolute"
             left="50%"
@@ -274,7 +273,7 @@ const Gomoku = () => {
               {t('restart')}
             </Button>
           </Box>
-        )}
+        ) : null}
       </Box>
     </Box>
   );

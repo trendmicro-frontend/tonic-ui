@@ -30,7 +30,7 @@ const App = () => {
         <GridItem>Two</GridItem>
         <GridItem>Three</GridItem>
         <GridItem>Four</GridItem>
-        <GridItem></GridItem>
+        <GridItem />
       </Grid>
     </>
   );

@@ -7,6 +7,7 @@ import {
   TreeItemToggle,
   TreeItemToggleIcon,
 } from '@tonic-ui/react';
+
 const App = () => {
   return (
     <Tree defaultExpanded={['1']}>
@@ -15,11 +16,11 @@ const App = () => {
         render={({ isExpandable }) => (
           <TreeItemContent>
             <Flex flex="none" width="6x">
-              {isExpandable && (
+              {isExpandable ? (
                 <TreeItemToggle>
                   <TreeItemToggleIcon />
                 </TreeItemToggle>
-              )}
+              ) : null}
             </Flex>
             <Text>Node 1</Text>
           </TreeItemContent>

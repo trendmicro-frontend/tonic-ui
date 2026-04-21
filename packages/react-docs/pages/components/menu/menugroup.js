@@ -1,5 +1,6 @@
 import { ButtonBase, Flex, MenuDivider, MenuGroup, MenuItem, Space, Text } from '@tonic-ui/react';
 import { SettingsIcon, UserIcon } from '@tonic-ui/react-icons';
+
 const Avatar = (props) => (
   <Flex
     p="1x"

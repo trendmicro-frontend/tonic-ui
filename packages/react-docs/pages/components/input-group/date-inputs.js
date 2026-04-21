@@ -1,4 +1,5 @@
 import { Input, InputGroup, Text } from '@tonic-ui/react';
+
 const App = () => (
   <InputGroup variant="unstyled">
     <Input

@@ -1,4 +1,5 @@
 import { Option, Select } from '@tonic-ui/react';
+
 const App = () => (
   <Select variant="outline">
     <Option value="">Choose an option</Option>

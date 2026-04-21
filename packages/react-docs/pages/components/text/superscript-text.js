@@ -11,6 +11,7 @@ import {
   Text,
   useColorStyle,
 } from '@tonic-ui/react';
+
 const SuperscriptText = ({ sx, ...rest }) => {
   const [colorStyle] = useColorStyle();
   return (

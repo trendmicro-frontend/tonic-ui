@@ -129,7 +129,7 @@ export const routes = [
     ),
     routes: [
       { title: 'Notification', path: 'patterns/notification' },
-      { title: 'Table display', path: 'patterns/table-display', },
+      { title: 'Table display', path: 'patterns/table-display' },
     ],
   },
   {
@@ -190,7 +190,7 @@ export const routes = [
         path: 'components/button',
         render: () => {
           return (
-            <Tooltip label={<Text>{'tag: button'}</Text>}>
+            <Tooltip label={<Text>tag: button</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -201,7 +201,7 @@ export const routes = [
         path: 'components/button-base',
         render: () => {
           return (
-            <Tooltip label={<Text>{'tag: button'}</Text>}>
+            <Tooltip label={<Text>tag: button</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -213,7 +213,7 @@ export const routes = [
         path: 'components/checkbox',
         render: () => {
           return (
-            <Tooltip label={<Text>{'tag: input'}</Text>}>
+            <Tooltip label={<Text>tag: input</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -226,7 +226,7 @@ export const routes = [
         path: 'components/input',
         render: () => {
           return (
-            <Tooltip label={<Text>{'tag: input'}</Text>}>
+            <Tooltip label={<Text>tag: input</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -237,7 +237,7 @@ export const routes = [
         path: 'components/input-base',
         render: () => {
           return (
-            <Tooltip label={<Text>{'tag: input'}</Text>}>
+            <Tooltip label={<Text>tag: input</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -248,7 +248,7 @@ export const routes = [
         path: 'components/input-control',
         render: () => {
           return (
-            <Tooltip label={<Text>{'tag: input'}</Text>}>
+            <Tooltip label={<Text>tag: input</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -260,7 +260,7 @@ export const routes = [
         path: 'components/link-button',
         render: () => {
           return (
-            <Tooltip label={<Text>{'tag: button'}</Text>}>
+            <Tooltip label={<Text>tag: button</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -271,7 +271,7 @@ export const routes = [
         path: 'components/radio',
         render: () => {
           return (
-            <Tooltip label={<Text>{'tag: input'}</Text>}>
+            <Tooltip label={<Text>tag: input</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -283,7 +283,7 @@ export const routes = [
         path: 'components/search-input',
         render: () => {
           return (
-            <Tooltip label={<Text>{'tag: input'}</Text>}>
+            <Tooltip label={<Text>tag: input</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -294,7 +294,7 @@ export const routes = [
         path: 'components/select',
         render: () => {
           return (
-            <Tooltip label={<Text>{'tag: select'}</Text>}>
+            <Tooltip label={<Text>tag: select</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -305,7 +305,7 @@ export const routes = [
         path: 'components/switch',
         render: () => {
           return (
-            <Tooltip label={<Text>{'tag: input'}</Text>}>
+            <Tooltip label={<Text>tag: input</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -316,7 +316,7 @@ export const routes = [
         path: 'components/textarea',
         render: () => {
           return (
-            <Tooltip label={<Text>{'tag: textarea'}</Text>}>
+            <Tooltip label={<Text>tag: textarea</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -329,7 +329,7 @@ export const routes = [
         path: 'components/icon',
         render: () => {
           return (
-            <Tooltip label={<Text>{'tag: svg'}</Text>}>
+            <Tooltip label={<Text>tag: svg</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -340,7 +340,7 @@ export const routes = [
         path: 'components/image',
         render: () => {
           return (
-            <Tooltip label={<Text>{'tag: img'}</Text>}>
+            <Tooltip label={<Text>tag: img</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -351,7 +351,7 @@ export const routes = [
         path: 'components/svg-icon',
         render: () => {
           return (
-            <Tooltip label={<Text>{'tag: svg'}</Text>}>
+            <Tooltip label={<Text>tag: svg</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -363,7 +363,7 @@ export const routes = [
         path: 'components/link',
         render: () => {
           return (
-            <Tooltip label={<Text>{'tag: a'}</Text>}>
+            <Tooltip label={<Text>tag: a</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -374,7 +374,7 @@ export const routes = [
         path: 'components/button-link',
         render: () => {
           return (
-            <Tooltip label={<Text>{'tag: a'}</Text>}>
+            <Tooltip label={<Text>tag: a</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -401,7 +401,7 @@ export const routes = [
         path: 'components/code',
         render: () => {
           return (
-            <Tooltip label={<Text>{'tag: code'}</Text>}>
+            <Tooltip label={<Text>tag: code</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -413,7 +413,7 @@ export const routes = [
         path: 'components/mark',
         render: () => {
           return (
-            <Tooltip label={<Text>{'tag: mark'}</Text>}>
+            <Tooltip label={<Text>tag: mark</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -425,7 +425,7 @@ export const routes = [
         path: 'components/text-label',
         render: () => {
           return (
-            <Tooltip label={<Text>{'tag: label'}</Text>}>
+            <Tooltip label={<Text>tag: label</Text>}>
               <CodeIcon cursor="default" />
             </Tooltip>
           );
@@ -530,7 +530,8 @@ export const routes = [
           viewBox="0 0 512.001 512.001"
           {...props}
         >
-          <path d="M506.429,150.022c-0.082-6.012-3.396-11.404-8.4-14.265L264.471,2.296c-5.14-3.019-11.57-3.068-16.754-0.107l-0.061,0.036
+          <path
+            d="M506.429,150.022c-0.082-6.012-3.396-11.404-8.4-14.265L264.471,2.296c-5.14-3.019-11.57-3.068-16.754-0.107l-0.061,0.036
             c-0.034,0.02-0.07,0.039-0.105,0.06L13.973,135.758c-4.984,2.848-8.413,8.252-8.413,14.664v33.225
             c0,21.766,13.959,40.324,33.392,47.216v50.266c-19.433,6.892-33.392,25.45-33.392,47.216c0,27.618,22.469,50.088,50.088,50.088
             s50.088-22.469,50.088-50.088c0-21.766-13.959-40.324-33.392-47.216v-50.266c6.219-2.206,11.876-5.603,16.696-9.923

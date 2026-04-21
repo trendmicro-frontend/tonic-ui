@@ -1,4 +1,5 @@
 import { Stack, Tag } from '@tonic-ui/react';
+
 const App = () => (
   <Stack direction="row" spacing="2x" shouldWrapChildren>
     <Tag variant="solid">Solid Tag</Tag>

@@ -11,9 +11,10 @@ import {
   useColorMode,
 } from '@tonic-ui/react';
 import { AngleDownIcon, SettingsIcon } from '@tonic-ui/react-icons';
+
 const App = () => {
   const [colorMode] = useColorMode();
-  const dividerColor ={
+  const dividerColor = {
     dark: 'gray:70',
     light: 'gray:30',
   }[colorMode];

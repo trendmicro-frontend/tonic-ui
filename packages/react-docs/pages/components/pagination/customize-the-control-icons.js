@@ -1,5 +1,6 @@
 import { Pagination, PaginationItem, Text } from '@tonic-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@tonic-ui/react-icons';
+
 const App = () => (
   <Pagination
     count={10}

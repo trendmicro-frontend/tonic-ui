@@ -1,4 +1,5 @@
 import { Badge, Grid, Skeleton } from '@tonic-ui/react';
+
 const App = () => {
   const colors = [
     'red:60',

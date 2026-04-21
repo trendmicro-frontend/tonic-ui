@@ -69,11 +69,11 @@ const InstantSearchRefinementList = (
           <Text textAlign="center">
             The search is currently unable to proceed. Please resolve the error and try again.
           </Text>
-          {error && (
+          {error ? (
             <Text textAlign="center">
               Error: {error.message}
             </Text>
-          )}
+          ) : null}
         </Stack>
       </Stack>
     );
@@ -136,7 +136,7 @@ const InstantSearchRefinementList = (
                     href={`/${hit.data.path}`}
                     onClick={handleClickRefinementLinkBy(hit)}
                   >
-                    {Icon && <Icon size="6x" />}
+                    {Icon ? <Icon size="6x" /> : null}
                     <Highlight
                       searchWords={searchWords}
                       highlightTag="mark"

@@ -1,4 +1,5 @@
 import { Box, useColorMode } from '@tonic-ui/react';
+
 const App = () => {
   const [colorMode] = useColorMode();
   const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
@@ -10,10 +11,10 @@ const App = () => {
           key={item}
           py="2x"
           px="3x"
-          _nthOfType={{'odd': {
+          _nthOfType={{ 'odd': {
             bg: 'blue:40',
             color: 'white:primary',
-          }}}
+          } }}
         >
           {item}
         </Box>

@@ -1,4 +1,5 @@
 import { Divider, Flex, Stack, Switch } from '@tonic-ui/react';
+
 const App = () => {
   return (
     <Stack spacing="4x">

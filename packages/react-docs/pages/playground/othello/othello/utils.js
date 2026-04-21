@@ -95,7 +95,7 @@ export const getReversiblePieces = (cells, turn, x, y) => {
 
 export const getPlaceableCells = (cells, turn) => {
   const placeableCells = [];
-  for (let i = 0; i < BOARD_SIZE**2; i++) {
+  for (let i = 0; i < BOARD_SIZE ** 2; i++) {
     const x = i % BOARD_SIZE;
     const y = Math.floor(i / BOARD_SIZE);
     const reversiblePieces = getReversiblePieces(cells, turn, x, y);

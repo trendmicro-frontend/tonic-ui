@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import { Box, Button, Grid, Stack } from '@tonic-ui/react';
 import { useState } from 'react';
 

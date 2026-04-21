@@ -1,4 +1,5 @@
 import { Badge, Grid, Skeleton, Text, useColorMode } from '@tonic-ui/react';
+
 const OutlineBadge = (props) => {
   const [colorMode] = useColorMode();
   const backgroundColor = {

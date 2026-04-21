@@ -82,7 +82,7 @@ const App = () => {
           fixed
           tooltip={`Event status: ${label}`}
         >
-          {'Event status:'}
+          Event status:
         </FlexItem>
         <FlexItem tooltip>
           {label}

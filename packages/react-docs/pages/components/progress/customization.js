@@ -8,6 +8,7 @@ import {
   TextLabel,
   useTheme,
 } from '@tonic-ui/react';
+
 const GradientCircularProgress = (props) => {
   const theme = useTheme();
   const stopColors = [

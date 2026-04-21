@@ -4,6 +4,7 @@ import {
   Text,
   Tooltip,
 } from '@tonic-ui/react';
+
 const App = () => {
   return (
     <Tooltip

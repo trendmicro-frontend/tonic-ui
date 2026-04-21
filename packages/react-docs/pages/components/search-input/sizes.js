@@ -1,4 +1,5 @@
 import { SearchInput, Stack } from '@tonic-ui/react';
+
 const App = () => (
   <Stack direction="column" spacing="4x">
     <SearchInput size="sm" placeholder="Small size (24px)" />

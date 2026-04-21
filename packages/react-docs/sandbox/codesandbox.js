@@ -122,10 +122,10 @@ const open = (sandboxOptions) => {
     files: createReactApp(sandboxOptions),
   });
 
-  // ref: https://codesandbox.io/docs/api/#define-api                                    
-  const form = document.createElement('form');                                                 
-  form.method = 'POST';                           
-  form.target = '_blank';               
+  // ref: https://codesandbox.io/docs/api/#define-api
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.target = '_blank';
   form.action = 'https://codesandbox.io/api/v1/sandboxes/define';
   addHiddenInput(form, 'parameters', parameters);
   addHiddenInput(form, 'query', 'file=/src/app.js');

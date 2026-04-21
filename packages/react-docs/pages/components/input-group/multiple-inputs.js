@@ -1,4 +1,5 @@
 import { Input, InputGroup, InputGroupAddon, InputGroupPrepend } from '@tonic-ui/react';
+
 const App = () => (
   <InputGroup>
     <InputGroupPrepend>
