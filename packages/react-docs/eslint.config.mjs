@@ -32,12 +32,6 @@ export default defineConfig([
       'react/prop-types': 'off',
       'react-hooks/refs': 'off',
       'react-hooks/set-state-in-effect': 'off',
-      '@stylistic/max-len': ['warn', {
-        code: 200,
-        ignoreComments: true,
-        ignoreStrings: true,
-        ignoreTemplateLiterals: true,
-      }],
     },
   },
   {
