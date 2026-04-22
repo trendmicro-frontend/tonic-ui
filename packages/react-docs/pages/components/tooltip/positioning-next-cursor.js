@@ -78,6 +78,7 @@ const App = () => {
           <input
             type="range"
             name="skidding"
+            aria-label="skidding"
             min={-48}
             max={48}
             value={skidding}
@@ -94,6 +95,7 @@ const App = () => {
           <input
             type="range"
             name="distance"
+            aria-label="distance"
             min={-48}
             max={48}
             value={distance}

@@ -54,6 +54,7 @@ const DropdownFilterTag = forwardRef((
   };
 
   const FilterTagToggle = useMemo(() => {
+    // eslint-disable-next-line react/no-unstable-nested-components -- memoized wrapper passed as slot prop
     const Component = forwardRef((props, ref) => (
       <FilterTag ref={ref} {...props} onClose={onClose} />
     ));

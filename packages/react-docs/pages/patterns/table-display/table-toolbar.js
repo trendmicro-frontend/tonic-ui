@@ -43,7 +43,7 @@ const App = () => {
   const [colorStyle] = useColorStyle();
   const [selectedItem, setSelectedItem] = useState(defaultDropdownItems[0]);
   const [searchInputValue, setSearchInputValue] = useState('');
-  const [matchedResults] = useState(0);
+  const matchedResults = 0;
 
   const clearFilters = useCallback(() => {
     setSelectedItem(defaultDropdownItems[0]);

@@ -149,6 +149,7 @@ const App = () => {
         spacing="4x"
       >
         {Array.from({ length: 10 }).map((_, index) => (
+          // eslint-disable-next-line react/no-array-index-key
           <Item key={index} width={150}>
             Stack Item {index + 1}
           </Item>

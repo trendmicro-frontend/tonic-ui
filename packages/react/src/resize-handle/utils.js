@@ -18,7 +18,7 @@ export const getIsPassiveListenerSupported = () => {
 
       window.addEventListener('test', noop, options);
       window.removeEventListener('test', noop);
-    } catch (_error) { // eslint-disable-line no-unused-vars
+    } catch (_error) {
       isPassiveListenerSupported = false;
     }
 

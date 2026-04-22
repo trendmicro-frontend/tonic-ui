@@ -211,6 +211,7 @@ const App = () => {
   return (
     <Box width="100%">
       {columns.map((column, columnIndex) => (
+        // eslint-disable-next-line react/no-array-index-key
         <Box mb="4x" key={columnIndex}>
           <Box mb="2x">
             <TextLabel>

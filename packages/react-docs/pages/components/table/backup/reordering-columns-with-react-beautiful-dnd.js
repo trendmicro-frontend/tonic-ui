@@ -152,6 +152,7 @@ const App = () => {
       <TableHeader>
         {headerGroups.map((headerGroup, index) => (
           <DragDropContext
+            // eslint-disable-next-line react/no-array-index-key
             key={index}
             onDragStart={onDragStart}
             onDragUpdate={onDragUpdate}

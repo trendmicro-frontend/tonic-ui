@@ -148,7 +148,7 @@ const InputControl = forwardRef((inProps, ref) => {
     const MutationObserver = globalThis.MutationObserver ?? globalThis.WebKitMutationObserver;
 
     if (typeof MutationObserver !== 'undefined') {
-      const mutationObserver = new MutationObserver((mutations) => {
+      mutationObserver = new MutationObserver((mutations) => {
         update();
       });
       mutationObserver.observe(el, {

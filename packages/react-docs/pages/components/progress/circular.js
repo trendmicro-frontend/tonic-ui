@@ -157,6 +157,7 @@ const App = () => {
           <input
             type="range"
             name="scale"
+            aria-label="scale"
             min={0.5}
             max={4}
             step={0.1}

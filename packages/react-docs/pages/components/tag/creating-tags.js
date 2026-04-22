@@ -78,7 +78,7 @@ const App = () => {
   const [tags, setTags] = useState([]);
   const [hasError, setHasError] = useState(false);
   const [placeholderVisible, setPlaceholderVisible] = useState(true);
-  const [isWrapperFocused, setWrapperFocused] = useState(false);
+  const [isWrapperFocused, setIsWrapperFocused] = useState(false);
   const createTags = (values) => {
     if (values.length === 0) {
       return;
@@ -106,13 +106,13 @@ const App = () => {
   };
 
   const handleTagInputBlur = () => {
-    setWrapperFocused(false);
+    setIsWrapperFocused(false);
     if (tags.length === 0) {
       setPlaceholderVisible(true);
     }
   };
   const handleTagInputFocus = () => {
-    setWrapperFocused(true);
+    setIsWrapperFocused(true);
     setPlaceholderVisible(false);
   };
   const handleTagInputKeyUp = (e) => {

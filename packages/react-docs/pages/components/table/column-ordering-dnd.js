@@ -445,6 +445,7 @@ const App = () => {
                     <input
                       disabled={activationConstraint !== 'distance'}
                       type="range"
+                      aria-label="distance"
                       min={0}
                       max={32}
                       step={1}
@@ -495,6 +496,7 @@ const App = () => {
                     <input
                       disabled={activationConstraint !== 'delay'}
                       type="range"
+                      aria-label="delay"
                       min={0}
                       max={1000}
                       step={50}
@@ -530,6 +532,7 @@ const App = () => {
                     <input
                       disabled={activationConstraint !== 'delay'}
                       type="range"
+                      aria-label="tolerance"
                       min={0}
                       max={32}
                       step={1}

@@ -75,19 +75,21 @@ class CustomDocument extends Document {
             <script
               nonce={NONCE}
               data-matomo-tag-manager
+              // eslint-disable-next-line react/no-danger -- inline analytics loader for Next.js _document
               dangerouslySetInnerHTML={{ __html: MATOMO_TAG_MANAGER_SCRIPT }}
             />
           ) : null}
           <script
             nonce={NONCE}
             data-tonic-ui
+            // eslint-disable-next-line react/no-danger -- pre-paint color mode init to avoid FOUC
             dangerouslySetInnerHTML={{ __html: COLOR_MODE_SCRIPT }}
           />
         </Head>
         <body>
           <Main />
           <svg
-            xmlms="http://www.w3.org/2000/svg"
+            xmlns="http://www.w3.org/2000/svg"
             style={{
               display: 'none',
             }}

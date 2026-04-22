@@ -9,12 +9,12 @@ const App = () => (
       <Input list="browsers" id="browser-choice" width="auto" />
     </Flex>
     <Box as="datalist" id="browsers">
-      <option value="Chrome" />
-      <option value="Firefox" />
-      <option value="Internet Explorer" />
-      <option value="Opera" />
-      <option value="Safari" />
-      <option value="Microsoft Edge" />
+      <option value="Chrome">Chrome</option>
+      <option value="Firefox">Firefox</option>
+      <option value="Internet Explorer">Internet Explorer</option>
+      <option value="Opera">Opera</option>
+      <option value="Safari">Safari</option>
+      <option value="Microsoft Edge">Microsoft Edge</option>
     </Box>
   </>
 );

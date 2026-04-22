@@ -66,6 +66,7 @@ const App = () => {
         <Flex alignItems="center" columnGap="2x" mb="4x">
           <input
             type="range"
+            aria-label="edge spacing"
             min={0}
             max={64}
             step={4}
@@ -87,6 +88,7 @@ const App = () => {
         <Flex alignItems="center" columnGap="2x" mb="4x">
           <input
             type="range"
+            aria-label="toast spacing"
             min={0}
             max={32}
             step={4}

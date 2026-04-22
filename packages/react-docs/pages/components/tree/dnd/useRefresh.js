@@ -1,9 +1,9 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useReducer } from 'react';
 
 const useRefresh = () => {
-  const [, rerender] = useState();
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
   return useCallback(() => {
-    rerender({});
+    forceUpdate();
   }, []);
 };
 

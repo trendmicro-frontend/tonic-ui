@@ -95,6 +95,7 @@ const App = () => {
   return (
     <Stack direction="column" spacing="6x">
       {toastComponents.map((ToastNotification, idx) => (
+        // eslint-disable-next-line react/no-array-index-key
         <Box key={idx}>
           <Button variant="secondary" onClick={handleClickBy(ToastNotification)}>
             Show

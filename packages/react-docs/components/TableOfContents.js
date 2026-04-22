@@ -8,6 +8,43 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import useThrottledCallbackOnScroll from '../hooks/useThrottledCallbackOnScroll';
 import x from '../utils/json-stringify';
 
+const NavList = ({ nodes, activeIndex, handleClick }) => {
+  return (
+    <Box as="ul" className="toc-list">
+      {nodes.map(node => {
+        return (
+          <NavItem
+            key={node.id}
+            nodes={node.children}
+            className={`toc-item toc-item-${node.tagName.toLowerCase()}`}
+            activeIndex={activeIndex}
+            handleClick={handleClick}
+          >
+            <Link
+              className={activeIndex === node.id ? `toc-link toc-link-${node.tagName.toLowerCase()} active` : `toc-link toc-link-${node.tagName.toLowerCase()}`}
+              href={`#${node.id}`}
+              onClick={handleClick(node.id)}
+            >
+              {node.textContent}
+            </Link>
+          </NavItem>
+        );
+      })}
+    </Box>
+  );
+};
+
+const NavItem = ({ children, nodes, activeIndex, handleClick }) => {
+  return (
+    <Box as="li">
+      {children}
+      {(nodes.length > 0) && (
+        <NavList nodes={nodes} activeIndex={activeIndex} handleClick={handleClick} />
+      )}
+    </Box>
+  );
+};
+
 const TableOfContents = (props) => {
   const router = useRouter();
   const [nodes, setNodes] = useState([]);
@@ -135,47 +172,12 @@ const TableOfContents = (props) => {
     };
   }, []);
 
-  const NavList = ({ nodes }) => {
-    return (
-      <Box as="ul" className="toc-list">
-        {nodes.map(node => {
-          return (
-            <NavItem
-              key={node.id}
-              nodes={node.children}
-              className={`toc-item toc-item-${node.tagName.toLowerCase()}`}
-            >
-              <Link
-                className={activeIndex === node.id ? `toc-link toc-link-${node.tagName.toLowerCase()} active` : `toc-link toc-link-${node.tagName.toLowerCase()}`}
-                href={`#${node.id}`}
-                onClick={handleClick(node.id)}
-              >
-                {node.textContent}
-              </Link>
-            </NavItem>
-          );
-        })}
-      </Box>
-    );
-  };
-
-  const NavItem = ({ children, nodes }) => {
-    return (
-      <Box as="li">
-        {children}
-        {(nodes.length > 0) && (
-          <NavList nodes={nodes} />
-        )}
-      </Box>
-    );
-  };
-
   return (
     <Box as="nav" className="toc" id="toc">
       <Box className="toc-heading">
         Contents
       </Box>
-      <NavList nodes={tree.children} />
+      <NavList nodes={tree.children} activeIndex={activeIndex} handleClick={handleClick} />
     </Box>
   );
 };

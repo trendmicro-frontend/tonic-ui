@@ -21,6 +21,7 @@ export default defineConfig([
       'camelcase': ['error', { 'allow': ['^DEPRECATED_'] }],
       'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
       'react-hooks/exhaustive-deps': 'error', // Checks effect dependencies
+      'no-shadow': 0,
     },
   },
   {

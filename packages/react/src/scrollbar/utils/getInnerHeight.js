@@ -10,7 +10,7 @@ const getInnerHeight = (el) => {
     const paddingTop = parseFloat(computedStyle?.paddingTop);
     const paddingBottom = parseFloat(computedStyle?.paddingBottom);
     innerHeight = ensureFiniteNumber(clientHeight - paddingTop - paddingBottom);
-  } catch (_error) { // eslint-disable-line no-unused-vars
+  } catch (_error) {
     // do nothing
   }
 

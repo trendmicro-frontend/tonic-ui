@@ -5,10 +5,10 @@ import { ButtonBox } from '@/experiments/button-box';
 const capitalize = ([first, ...rest]) => first.toUpperCase() + rest.join('').toLowerCase();
 
 const createVariantButtonBox = (variant) => {
+  const InnerComponent = forwardRef(function InnerComponent(innerProps, innerRef) {
+    return <Button as={Box} ref={innerRef} variant={variant} {...innerProps} />;
+  });
   const VariantButtonBox = forwardRef(function VariantButtonBox(props, ref) {
-    const InnerComponent = forwardRef(function InnerComponent(innerProps, innerRef) {
-      return <Button as={Box} ref={innerRef} variant={variant} {...innerProps} />;
-    });
     const styleProps = {
       display: 'inline-flex',
     };

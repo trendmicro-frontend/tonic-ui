@@ -68,7 +68,7 @@ const App = (props) => {
       // ```
     },
   }));
-  const [initialColorMode, setColorMode] = useState(null);
+  const [initialColorMode, setInitialColorMode] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -79,7 +79,7 @@ const App = (props) => {
     const colorScheme = root.style.getPropertyValue('color-scheme');
     root.setAttribute('data-color-scheme', colorScheme);
     if ((colorScheme === 'dark' || colorScheme === 'light') && (initialColorMode !== colorScheme)) {
-      setColorMode(colorScheme);
+      setInitialColorMode(colorScheme);
     }
   }, []);
 

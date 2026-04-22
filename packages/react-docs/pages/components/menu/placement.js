@@ -32,11 +32,13 @@ const App = () => {
       >
         {gridAreas.flat().map((value, key) => {
           if (value === '.') {
+            // eslint-disable-next-line react/no-array-index-key
             return (<Box key={key} />);
           }
 
           if (value === 'center') {
             return (
+              // eslint-disable-next-line react/no-array-index-key
               <Box key={key}>
                 <Menu placement={placement}>
                   <MenuButton variant="secondary" width={150}>
@@ -70,6 +72,7 @@ const App = () => {
           };
 
           return (
+            // eslint-disable-next-line react/no-array-index-key
             <Box key={key}>
               <Button
                 selected={value === placement}

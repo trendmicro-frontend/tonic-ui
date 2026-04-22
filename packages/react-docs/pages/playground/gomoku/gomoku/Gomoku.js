@@ -242,6 +242,7 @@ const Gomoku = () => {
       >
         <canvas
           ref={canvasRef}
+          aria-label="Gomoku board"
           width={CANVAS_SIZE}
           height={CANVAS_SIZE}
           onClick={handleClick}
