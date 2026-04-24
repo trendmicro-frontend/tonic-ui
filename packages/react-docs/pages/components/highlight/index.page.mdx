@@ -22,17 +22,19 @@ You can highlight multiple search words by passing an array of strings.
 
 The `Highlight` component supports the same variants as the `Mark` component.
 
-#### `emphasis`
-
-The `emphasis` variant applies stronger visual emphasis to matched text. It is often used in dropdown search results.
-
-{render('./variant-emphasis')}
-
 #### `highlight`
 
-The `highlight` variant applies a yellow background to text that matches the search query. It is commonly used in table search results.
+The `highlight` variant applies a yellow background to text that matches the search query. It is commonly used in dropdown or table search results.
 
-{render('./variant-highlight')}
+{render('./variant-highlight-dropdown')}
+
+{render('./variant-highlight-table')}
+
+#### `emphasis`
+
+The `emphasis` variant applies stronger visual emphasis to matched text.
+
+{render('./variant-emphasis')}
 
 #### `none`
 
@@ -96,4 +98,4 @@ const transformAccents = (x) => {
 | slots | object | | Custom components used for rendering. Use `slots.mark` to replace the default `Mark` component. |
 | slotProps | object | | Props forwarded to slot components. Use `slotProps.mark` to pass additional props to the `Mark` component. |
 | transform | function | | A function that transforms each search word before matching. Useful for implementing custom matching behavior such as accent-insensitive search, text normalization, or other preprocessing. |
-| variant | string | 'highlight' | The visual style applied to highlighted text. Passed to the `Mark` component. Supported variants: 'emphasis', 'highlight', 'none'. |
+| variant | string | 'highlight' | The visual style applied to highlighted text. Passed to the `Mark` component. Supported variants: 'highlight', 'emphasis', 'none'. |
