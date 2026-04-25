@@ -1,9 +1,9 @@
 describe('getIsPassiveListenerSupported', () => {
   let getIsPassiveListenerSupported;
 
-  beforeEach(() => {
-    jest.isolateModules(() => {
-      ({ getIsPassiveListenerSupported } = require('../utils'));
+  beforeEach(async () => {
+    await jest.isolateModulesAsync(async () => {
+      ({ getIsPassiveListenerSupported } = await import('../utils'));
     });
   });
 

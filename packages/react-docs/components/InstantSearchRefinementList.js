@@ -2,6 +2,7 @@ import {
   Box,
   Divider,
   Flex,
+  Highlight,
   Spinner,
   Stack,
   Text,
@@ -13,7 +14,6 @@ import {
 } from '@tonic-ui/react-icons';
 import { ensureArray, ensureString } from 'ensure-type'
 import _ from 'lodash';
-import Highlight from 'react-highlight-words';
 import {
   useInstantSearch,
 } from 'react-instantsearch-core';
@@ -137,15 +137,9 @@ const InstantSearchRefinementList = (
                     onClick={handleClickRefinementLinkBy(hit)}
                   >
                     {Icon ? <Icon size="6x" /> : null}
-                    <Highlight
-                      searchWords={searchWords}
-                      highlightTag="mark"
-                      textToHighlight={textToHighlight}
-                      highlightStyle={{
-                        backgroundColor: 'rgba(0, 116, 255, 0.8)',
-                        color: 'rgba(255, 255, 255, .92)',
-                      }}
-                    />
+                    <Highlight query={searchWords}>
+                      {textToHighlight}
+                    </Highlight>
                   </InstantSearchRefinementLink>
                   <Divider my="2x" />
                 </Box>

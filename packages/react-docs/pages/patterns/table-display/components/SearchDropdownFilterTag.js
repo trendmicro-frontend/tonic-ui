@@ -3,14 +3,13 @@ import {
   Checkbox,
   CheckboxGroup,
   Flex,
+  Highlight,
   LinkButton,
   Scrollbar,
-  useColorStyle,
 } from '@tonic-ui/react';
 import { useEffectOnce, useToggle } from '@tonic-ui/react-hooks';
-import { ensureArray, ensureFunction } from 'ensure-type';
+import { ensureFunction } from 'ensure-type';
 import { forwardRef, useMemo, useState } from 'react';
-import Highlight from 'react-highlight-words';
 import { SearchDropdown } from '@/experiments/search-dropdown';
 import { FlexItem } from '@/experiments/flex-item';
 import { MutedText } from '@/experiments/muted-text';
@@ -36,8 +35,6 @@ const SearchDropdownFilterTag = forwardRef((
     // Automatically open the menu on initial render
     toggleIsOpen(true);
   });
-
-  const [colorStyle] = useColorStyle();
 
   const [selectedValues, setSelectedValues] = useState(items.map(item => item.value));
   const selectionCount = selectedValues.length;
@@ -164,28 +161,16 @@ const SearchDropdownFilterTag = forwardRef((
           </CheckboxGroup>
         </>
       )}
-      renderItem={(item, { searchKeyword }) => {
-        const searchWords = ensureArray(searchKeyword);
-        const textToHighlight = item.label;
-        const highlightStyle = {
-          backgroundColor: 'inherit',
-          color: colorStyle.color.emphasis,
-          fontWeight: 'semibold',
-        };
-
-        return (
-          <Checkbox
-            value={item.value}
-            width="100%"
-          >
-            <Highlight
-              searchWords={searchWords}
-              textToHighlight={textToHighlight}
-              highlightTag={(props) => <Box as="mark" {...highlightStyle} {...props} />}
-            />
-          </Checkbox>
-        );
-      }}
+      renderItem={(item, { searchKeyword }) => (
+        <Checkbox
+          value={item.value}
+          width="100%"
+        >
+          <Highlight query={searchKeyword}>
+            {item.label}
+          </Highlight>
+        </Checkbox>
+      )}
       slots={{
         toggle: FilterTagToggle,
       }}
