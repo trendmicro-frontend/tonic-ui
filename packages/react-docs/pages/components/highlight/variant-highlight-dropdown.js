@@ -5,7 +5,7 @@ import {
   Scrollbar,
 } from '@tonic-ui/react';
 import { useConst } from '@tonic-ui/react-hooks';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { MenuButtonToggle } from '@/experiments/dropdown';
 import { SearchDropdown } from '@/experiments/search-dropdown';
 
