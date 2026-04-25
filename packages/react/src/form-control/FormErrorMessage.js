@@ -40,8 +40,11 @@ const FormErrorMessage = forwardRef(({ errors = [], ...rest }, ref) => {
         normalizedErrors[0]
       ) : (
         <Box as="ul" {...listStyleProps}>
-          {normalizedErrors.map((errorMessage) => (
-            <Box as="li" key={errorMessage}>
+          {normalizedErrors.map((errorMessage, index) => (
+            // Use index as key because errors may be React nodes, which would
+            // collide as `[object Object]` when used as keys directly.
+            // eslint-disable-next-line react/no-array-index-key
+            <Box as="li" key={index}>
               {errorMessage}
             </Box>
           ))}
