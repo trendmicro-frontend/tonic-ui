@@ -8,11 +8,11 @@ import {
   Submenu,
   SubmenuTrigger,
   SubmenuList,
-  useTheme,
 } from '@tonic-ui/react';
 import { callEventHandlers, isPlainObject, runIfFn } from '@tonic-ui/utils';
-import { ensureArray } from 'ensure-type';
+import { ensureArray, ensureFunction } from 'ensure-type';
 import { Fragment, forwardRef, useCallback } from 'react';
+import { getMenuListStyle } from './styles';
 
 const isValidElementType = (type) => {
   return (
@@ -22,7 +22,7 @@ const isValidElementType = (type) => {
   );
 };
 
-const defaultRenderItem = (item, context) => (isPlainObject(item) ? item.label : item);
+const defaultRenderItem = (item) => (isPlainObject(item) ? item.label : item);
 
 const DropdownBase = forwardRef((
   {
@@ -38,7 +38,6 @@ const DropdownBase = forwardRef((
   },
   ref,
 ) => {
-  const theme = useTheme();
   const handleClickBy = useCallback((item) => (event) => {
     if (event.defaultPrevented) {
       return;
@@ -54,75 +53,79 @@ const DropdownBase = forwardRef((
     }
   }, [onSelect]);
 
-  const renderItem = (item) => ((typeof renderItemProp === 'function') ? renderItemProp(item) : null);
+  const renderItem = ensureFunction(renderItemProp);
 
   // Recursively render items including groups, dividers, and items
-  const renderItems = (items, prefix) => {
-    return ensureArray(items).map((item, index) => {
-      const key = [prefix, index].filter(x => (x !== null && x !== undefined)).join('_');
+  const renderItems = useCallback((items) => {
+    const _renderItems = (items, { prefix } = {}) => {
+      return ensureArray(items).map((item, index) => {
+        const key = [prefix, index].filter(x => (x !== null && x !== undefined)).join('_');
 
-      if (!isPlainObject(item)) {
+        if (!isPlainObject(item)) {
+          return (
+            <Fragment key={key}>
+              {renderItem(item)}
+            </Fragment>
+          );
+        }
+
+        if (item.type === 'custom') {
+          return (
+            <Fragment key={key}>
+              {renderItem(item)}
+            </Fragment>
+          );
+        }
+
+        if (item.type === 'group') {
+          return (
+            <MenuGroup key={`${key}_group`} title={item.label} {...item.props}>
+              {_renderItems(item.children, { prefix: key })}
+            </MenuGroup>
+          );
+        }
+
+        if (item.type === 'divider') {
+          return (
+            <MenuDivider key={`${key}_divider`} {...item.props} />
+          );
+        }
+
+        if (item.type === 'submenu') {
+          return (
+            <Submenu key={`${key}_submenu`}>
+              <SubmenuTrigger
+                width="100%"
+                {...item.props}
+              >
+                {renderItem(item)}
+              </SubmenuTrigger>
+              <SubmenuList
+                width="max-content"
+              >
+                {_renderItems(item.children, { prefix: key })}
+              </SubmenuList>
+            </Submenu>
+          );
+        }
+
+        const { onClick: onClickProp, onKeyDown: onKeyDownProp, ...restItemProps } = { ...item.props };
+
         return (
-          <Fragment key={key}>
+          <MenuItem
+            key={key}
+            onClick={callEventHandlers(onClickProp, handleClickBy(item))}
+            onKeyDown={callEventHandlers(onKeyDownProp, handleKeyDownBy(item))}
+            {...restItemProps}
+          >
             {renderItem(item)}
-          </Fragment>
+          </MenuItem>
         );
-      }
+      });
+    };
 
-      if (item.type === 'custom') {
-        return (
-          <Fragment key={key}>
-            {renderItem(item)}
-          </Fragment>
-        );
-      }
-
-      if (item.type === 'group') {
-        return (
-          <MenuGroup key={`${key}_group`} title={item.label} {...item.props}>
-            {renderItems(item.children, key)}
-          </MenuGroup>
-        );
-      }
-
-      if (item.type === 'divider') {
-        return (
-          <MenuDivider key={`${key}_divider`} {...item.props} />
-        );
-      }
-
-      if (item.type === 'submenu') {
-        return (
-          <Submenu key={`${key}_submenu`}>
-            <SubmenuTrigger
-              width="100%"
-              {...item.props}
-            >
-              {renderItem?.(item)}
-            </SubmenuTrigger>
-            <SubmenuList
-              width="max-content"
-            >
-              {renderItems(item.children, key)}
-            </SubmenuList>
-          </Submenu>
-        );
-      }
-
-      const { onClick: onClickProp, onKeyDown: onKeyDownProp, ...restItemProps } = { ...item.props };
-
-      return (
-        <MenuItem
-          key={key}
-          onClick={callEventHandlers(onClickProp, handleClickBy(item))}
-          onKeyDown={callEventHandlers(onKeyDownProp, handleKeyDownBy(item))}
-          {...restItemProps}
-        >
-          {renderItem?.(item)}
-        </MenuItem>
-      );
-    });
-  };
+    return _renderItems(items);
+  }, [renderItem, handleClickBy, handleKeyDownBy]);
 
   return (
     <Menu
@@ -130,15 +133,9 @@ const DropdownBase = forwardRef((
       {...rest}
     >
       {({ menuToggleRef }) => {
-        const { fitToggleWidth, ...restContentProps } = { ...slotProps?.content };
-        const toggleWidth = menuToggleRef.current?.offsetWidth;
-        const menuListStyle = {
-          ...(fitToggleWidth
-            ? { width: toggleWidth }
-            : { minWidth: toggleWidth, width: 'max-content', maxWidth: 640 }
-          ),
-          ...(portalled && { zIndex: theme?.zIndices?.modal + 1 }),
-        };
+        const toggleWidth = menuToggleRef?.current?.offsetWidth;
+        const { width: contentWidth, ...contentProps } = { ...slotProps?.content };
+        const menuListStyle = getMenuListStyle({ portalled, toggleWidth, contentWidth });
 
         return (
           <>
@@ -160,10 +157,10 @@ const DropdownBase = forwardRef((
             </MenuToggle>
             <MenuList
               {...menuListStyle}
-              {...restContentProps}
+              {...contentProps}
               PopperProps={{
                 usePortal: portalled,
-                ...restContentProps?.PopperProps,
+                ...contentProps?.PopperProps,
               }}
             >
               {(typeof renderContent === 'function')
