@@ -22,13 +22,14 @@ const isValidElementType = (type) => {
   );
 };
 
-const defaultRenderItem = (item) => (isPlainObject(item) ? item.label : item);
+const defaultRenderItem = (item) => isPlainObject(item) ? item.label : item;
 
 const DropdownBase = forwardRef((
   {
     children,
     items = [],
-    onSelect,
+    matchWidth = false,
+    onChange,
     portalled = false,
     renderContent = null,
     renderItem: renderItemProp = defaultRenderItem,
@@ -42,16 +43,16 @@ const DropdownBase = forwardRef((
     if (event.defaultPrevented) {
       return;
     }
-    onSelect?.(item);
-  }, [onSelect]);
+    onChange?.(item);
+  }, [onChange]);
   const handleKeyDownBy = useCallback((item) => (event) => {
     if (event.defaultPrevented) {
       return;
     }
     if ((event.key === ' ' || event.key === 'Enter') && !event.repeat) {
-      onSelect?.(item);
+      onChange?.(item);
     }
-  }, [onSelect]);
+  }, [onChange]);
 
   const renderItem = ensureFunction(renderItemProp);
 
@@ -130,12 +131,14 @@ const DropdownBase = forwardRef((
   return (
     <Menu
       ref={ref}
+      matchWidth={matchWidth}
+      portalled={portalled}
       {...rest}
     >
       {({ menuToggleRef }) => {
         const toggleWidth = menuToggleRef?.current?.offsetWidth;
         const { width: contentWidth, ...contentProps } = { ...slotProps?.content };
-        const menuListStyle = getMenuListStyle({ portalled, toggleWidth, contentWidth });
+        const menuListStyle = getMenuListStyle({ portalled, matchWidth, toggleWidth, contentWidth });
 
         return (
           <>
@@ -158,10 +161,6 @@ const DropdownBase = forwardRef((
             <MenuList
               {...menuListStyle}
               {...contentProps}
-              PopperProps={{
-                usePortal: portalled,
-                ...contentProps?.PopperProps,
-              }}
             >
               {(typeof renderContent === 'function')
                 ? renderContent({ items, renderItem, renderItems })

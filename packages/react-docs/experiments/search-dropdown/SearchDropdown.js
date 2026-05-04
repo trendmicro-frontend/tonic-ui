@@ -8,7 +8,7 @@ const SearchDropdown = forwardRef((
   {
     items = [],
     onClose: onCloseProp,
-    onSelect,
+    onChange,
     portalled,
     renderContent: renderContentProp,
     renderItem: renderItemProp,
@@ -100,7 +100,7 @@ const SearchDropdown = forwardRef((
       defaultActiveIndex={0}
       items={filteredOptions}
       onClose={callEventHandlers(onCloseProp, onClose)}
-      onSelect={onSelect}
+      onChange={onChange}
       portalled={portalled}
       ref={ref}
       renderContent={renderContent}

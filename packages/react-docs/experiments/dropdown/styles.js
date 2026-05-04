@@ -1,34 +1,29 @@
-// Cap the popup at `40vh` so a long list doesn't extend beyond the viewport.
-// Override via `slotProps.content.maxHeight`.
+// Content sizing behavior:
+// - `{toggleWidth}` is the toggle's `offsetWidth`
+// - `{contentWidth}` is `slotProps.content.width`
 //
-// Behavior   | minWidth    | width                         | maxWidth | maxHeight | zIndex
-// -----------|-------------|-------------------------------|----------|-----------|---------
-// portalled  | toggleWidth | contentWidth (passthrough)    | 640px    | 40vh      | popover
-// fit-toggle | —           | toggleWidth                   | 640px    | 40vh      | —
-// default    | toggleWidth | contentWidth ?? 'max-content' | 640px    | 40vh      | —
-const getMenuListStyle = ({ portalled, contentWidth, toggleWidth }) => {
+// Behavior         | minWidth        | width                              | maxWidth | maxHeight | zIndex
+// -----------------|-----------------|------------------------------------|----------|-----------|---------
+// `matchWidth` set | —               | `{toggleWidth} ?? 'max-content'`   | —        | 40vh      | popover (portalled) / — (default)
+// Default behavior | `{toggleWidth}` | `{contentWidth} ?? 'max-content'`  | 640px    | 40vh      | popover (portalled) / — (default)
+//
+// Note: `maxHeight: '40vh'` follows MUI's approach. It scales with the viewport to avoid overflow on small screens while making better use of space on larger screens. A fixed height would either clip content or waste space.
+const getMenuListStyle = ({ portalled, matchWidth, contentWidth, toggleWidth }) => {
   const base = {
     maxHeight: '40vh',
     overflowY: 'auto',
-    maxWidth: 640,
+    ...(portalled && { zIndex: 'popover' }),
   };
-  if (portalled) {
+  if (matchWidth) {
     return {
       ...base,
-      zIndex: 'popover',
-      minWidth: toggleWidth,
-      width: contentWidth,
-    };
-  }
-  if (contentWidth === 'fit-toggle') {
-    return {
-      ...base,
-      width: toggleWidth,
+      width: toggleWidth ?? 'max-content',
     };
   }
   return {
     ...base,
     minWidth: toggleWidth,
+    maxWidth: 640,
     width: contentWidth ?? 'max-content',
   };
 };

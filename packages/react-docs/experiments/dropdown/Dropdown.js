@@ -5,8 +5,9 @@ import MenuButtonToggle from './MenuButtonToggle';
 const Dropdown = forwardRef((
   {
     children,
-    onSelect,
     items = [],
+    matchWidth,
+    onChange,
     portalled,
     renderContent,
     renderItem,
@@ -19,7 +20,8 @@ const Dropdown = forwardRef((
   return (
     <DropdownBase
       items={items}
-      onSelect={onSelect}
+      matchWidth={matchWidth}
+      onChange={onChange}
       portalled={portalled}
       ref={ref}
       renderContent={renderContent}

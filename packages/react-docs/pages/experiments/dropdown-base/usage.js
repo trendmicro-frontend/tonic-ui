@@ -55,7 +55,7 @@ const items = [
 
 const App = () => {
   const [value, setValue] = useState();
-  const handleSelect = (item) => {
+  const handleChange = (item) => {
     if (value !== item.value) {
       setValue(item.value);
     }
@@ -64,7 +64,7 @@ const App = () => {
   return (
     <DropdownBase
       items={items}
-      onSelect={handleSelect}
+      onChange={handleChange}
       slots={{
         toggle: MenuButtonToggle,
       }}

@@ -10,12 +10,27 @@ import { assignRef } from '../utils/refs';
 
 const defaultPlacement = 'bottom-start';
 
+// Sets the popper's width to match the reference element on every Popper.js update.
+const matchWidthModifier = {
+  name: 'matchWidth',
+  enabled: true,
+  phase: 'beforeWrite',
+  requires: ['computeStyles'],
+  fn: ({ state }) => {
+    state.styles.popper.width = `${state.rects.reference.width}px`;
+  },
+  effect: ({ state }) => {
+    state.elements.popper.style.width = `${state.elements.reference.offsetWidth}px`;
+  },
+};
+
 const Popper = forwardRef((inProps, ref) => {
   const {
     anchorEl, // deprecated
 
     children,
     isOpen,
+    matchWidth = false,
     modifiers = [],
     placement: placementProp,
     popperRef: popperRefProp, // reference to receive the popper instance
@@ -97,6 +112,7 @@ const Popper = forwardRef((inProps, ref) => {
             }
           },
         },
+        ...(matchWidth ? [matchWidthModifier] : []),
         ...ensureArray(modifiers),
       ],
       strategy: 'absolute',
@@ -113,7 +129,7 @@ const Popper = forwardRef((inProps, ref) => {
         `${Popper.displayName}: An unexpected error occurred. The popper instance is not assigned to the "popperRef" as expected.`,
       );
     }
-  }, [anchorEl, modifiers, placement, placementProp, popperRefProp, referenceRef]);
+  }, [anchorEl, matchWidth, modifiers, placement, placementProp, popperRefProp, referenceRef]);
 
   const cleanupPopper = useCallback(() => {
     // Destroy popper instance

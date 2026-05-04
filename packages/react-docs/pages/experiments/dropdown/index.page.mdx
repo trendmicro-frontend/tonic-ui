@@ -21,7 +21,7 @@ Here's the simplest configuration to get started with the `Dropdown` component.
     { label: 'Item 1', value: 1 },
     { label: 'Item 2', value: 2 },
   ]}
-  onSelect={(item) => {
+  onChange={(item) => {
     setItem(item);
   }}
 >
@@ -30,7 +30,7 @@ Here's the simplest configuration to get started with the `Dropdown` component.
 ```
 
 * `items`: An array of selectable items. Each item typically includes a `label`, along with an optional identifier such as `id` or `value` of any type. The structure is flexible and can be customized to fit your specific needs.
-* `onSelect`: A callback function that receives the selected item and can be used to update the component state.
+* `onChange`: A callback function that receives the selected item and can be used to update the component state.
 * `children`: The content rendered within the dropdown trigger. In this example, it shows the `label` of the currently selected item.
 
 ### Advanced configuration
@@ -46,7 +46,7 @@ By default, the dropdown uses a `MenuButton` as its toggle. To customize the tog
 ```jsx
 <Dropdown
   items={items}
-  onSelect={onSelect}
+  onChange={onChange}
   slots={{
     toggle: CustomDropdownToggle,
   }}

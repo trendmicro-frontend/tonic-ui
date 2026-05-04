@@ -45,7 +45,7 @@ const App = () => {
 
   const [value, setValue] = useState('');
 
-  const handleSelect = (item) => {
+  const handleChange = (item) => {
     setValue(item.value);
   };
 
@@ -57,7 +57,7 @@ const App = () => {
     <Box width={200}>
       <SearchDropdown
         items={items}
-        onSelect={handleSelect}
+        onChange={handleChange}
         renderContent={({ items, renderItems, renderSearchInput }) => (
           <>
             <Box px="3x" mb="2x">
