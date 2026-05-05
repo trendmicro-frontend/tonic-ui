@@ -35,9 +35,10 @@ const Popper = forwardRef((inProps, ref) => {
     placement: placementProp,
     popperRef: popperRefProp, // reference to receive the popper instance
     portalProps,
+    portalled,
     referenceRef,
     unmountOnExit = false,
-    usePortal = false,
+    usePortal,
     willUseTransition = false,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Popper' });
@@ -52,6 +53,14 @@ const Popper = forwardRef((inProps, ref) => {
         willRemove: true,
       });
     }, (anchorEl !== undefined));
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('usePortal', {
+        prefix,
+        alternative: 'portalled',
+        willRemove: true,
+      });
+    }, (usePortal !== undefined));
   }
 
   const nodeRef = useRef();

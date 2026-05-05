@@ -31,6 +31,7 @@ const DatePickerContent = forwardRef((
     offset,
     onClose,
     placement,
+    portalled,
   } = { ...datePickerContext };
 
   const onKeyDown = useEventCallback((event) => {
@@ -73,7 +74,7 @@ const DatePickerContent = forwardRef((
       role="menu"
       tabIndex={-1}
       unmountOnExit={true}
-      usePortal={false} // Pass `true` in `PopperProps` to render content in a portal
+      portalled={portalled}
       willUseTransition={true}
       zIndex="dropdown"
       {...styleProps}

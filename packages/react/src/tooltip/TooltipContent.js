@@ -55,6 +55,7 @@ const TooltipContent = forwardRef((inProps, ref) => {
     nextToCursor,
     offset,
     placement,
+    portalled,
     tooltipId,
     tooltipContentRef,
     tooltipTriggerId,
@@ -152,7 +153,7 @@ const TooltipContent = forwardRef((inProps, ref) => {
       referenceRef={tooltipTriggerRef}
       role="tooltip"
       unmountOnExit={true}
-      usePortal={false} // Pass `true` in `PopperProps` to render tooltip in a portal
+      portalled={portalled}
       willUseTransition={true}
       zIndex="tooltip"
       {...PopperProps}

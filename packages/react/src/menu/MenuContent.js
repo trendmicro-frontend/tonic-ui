@@ -33,9 +33,11 @@ const MenuContent = forwardRef((inProps, ref) => {
     menuToggleId,
     menuToggleRef,
     menuContentRef,
+    matchWidth,
     offset,
     onClose: closeMenu,
     placement,
+    portalled,
     submenuContentRefs,
   } = { ...menuContext };
   const eventHandler = {};
@@ -138,13 +140,14 @@ const MenuContent = forwardRef((inProps, ref) => {
       data-menu-id={menuId}
       id={menuId}
       isOpen={isOpen}
+      matchWidth={matchWidth}
       placement={placement}
+      portalled={portalled}
       ref={menuContentRef}
       referenceRef={menuToggleRef}
       role="menu"
       tabIndex={tabIndex}
       unmountOnExit={true}
-      usePortal={false} // Pass `true` in `PopperProps` to render menu in a portal
       willUseTransition={true}
       zIndex="dropdown"
       onBlur={callEventHandlers(onBlurProp, eventHandler.onBlur)}

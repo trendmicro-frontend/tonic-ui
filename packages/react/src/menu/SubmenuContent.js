@@ -41,6 +41,7 @@ const SubmenuContent = forwardRef((inProps, ref) => {
     offset,
     onClose: closeSubmenu,
     placement,
+    portalled,
     submenuId,
     submenuTriggerId,
     submenuTriggerRef,
@@ -171,7 +172,7 @@ const SubmenuContent = forwardRef((inProps, ref) => {
       role="menu"
       tabIndex={tabIndex}
       unmountOnExit={true}
-      usePortal={false} // Pass `true` in `PopperProps` to render menu in a portal
+      portalled={portalled}
       willUseTransition={true}
       zIndex="dropdown"
       onKeyDown={callEventHandlers(onKeyDownProp, eventHandler.onKeyDown)}

@@ -77,6 +77,7 @@ const DatePicker = forwardRef((inProps, ref) => {
     onError: onErrorProp,
     onOpen: onOpenProp,
     placement = 'bottom-start', // One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'
+    portalled,
     renderInput,
     shouldDisableDate,
     value: valueProp,
@@ -231,6 +232,7 @@ const DatePicker = forwardRef((inProps, ref) => {
     onOpen,
     onToggle,
     placement,
+    portalled,
     datePickerContentId,
     datePickerContentRef,
     datePickerToggleId,
