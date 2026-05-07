@@ -195,7 +195,7 @@ const Popper = forwardRef((inProps, ref) => {
     </Box>
   );
 
-  if (usePortal) {
+  if (portalled ?? usePortal) {
     return (
       <Portal {...portalProps}>
         {_children}
