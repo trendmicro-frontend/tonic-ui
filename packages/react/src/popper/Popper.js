@@ -195,6 +195,7 @@ const Popper = forwardRef((inProps, ref) => {
     </Box>
   );
 
+  // TODO: Remove `usePortal` in favor of `portalled` in a future major release
   if (portalled ?? usePortal) {
     return (
       <Portal {...portalProps}>
