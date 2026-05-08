@@ -121,29 +121,10 @@ const useToastCloseButtonStyle = ({
   }[colorMode];
   const iconButtonStyle = useIconButtonStyle({ color, size });
 
-  if (isClosable) {
-    const top = '10q'; // (52px - 32px) / 2 = 10px
-    const right = '2x';
-
-    return {
-      ...iconButtonStyle,
-      _focusVisible: {
-        outlineColor: focusVisibleOutlineColor,
-        outlineOffset: '-1h',
-        outlineStyle: 'solid',
-        outlineWidth: '1h',
-      },
-      _hover: {
-        color: hoverColor,
-      },
-      position: 'absolute',
-      top,
-      right,
-    };
-  }
-
-  return {
+  const baseStyle = {
     ...iconButtonStyle,
+    // Set the background color to transparent to prevent the parent opacity from being applied twice
+    backgroundColor: 'transparent',
     _focusVisible: {
       outlineColor: focusVisibleOutlineColor,
       outlineOffset: '-1h',
@@ -151,9 +132,24 @@ const useToastCloseButtonStyle = ({
       outlineWidth: '1h',
     },
     _hover: {
+      // The toast close button has no hover background since it varies by `appearance`
       color: hoverColor,
     },
   };
+
+  if (isClosable) {
+    const top = '10q'; // (52px - 32px) / 2 = 10px
+    const right = '2x';
+
+    return {
+      ...baseStyle,
+      position: 'absolute',
+      top,
+      right,
+    };
+  }
+
+  return baseStyle;
 };
 
 export {
