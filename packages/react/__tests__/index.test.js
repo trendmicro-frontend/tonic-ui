@@ -25,6 +25,10 @@ test('should match expected exports', () => {
     'AlertIcon',
     'AlertMessage',
 
+    // autocomplete
+    'Autocomplete',
+    'AutocompleteInput',
+
     // badge
     'Badge',
 
