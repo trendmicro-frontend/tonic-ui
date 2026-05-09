@@ -105,7 +105,7 @@ exports[`Modal should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: inherit;
+  background-color: var(--tonic-colors-transparent);
   border: none;
   color: var(--tonic-colors-white-tertiary);
   cursor: pointer;
