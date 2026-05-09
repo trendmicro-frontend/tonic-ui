@@ -1,7 +1,7 @@
 import { useEffectOnceWhen, useMergeRefs } from '@tonic-ui/react-hooks';
 import { dataAttr, isNullish } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
-import React, { forwardRef, useRef } from 'react';
+import { forwardRef, useRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { VisuallyHidden } from '../visually-hidden';

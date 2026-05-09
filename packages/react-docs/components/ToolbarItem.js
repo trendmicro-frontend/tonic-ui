@@ -1,7 +1,7 @@
 import {
   Flex,
 } from '@tonic-ui/react';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 const ToolbarItem = forwardRef((props, ref) => {
   const styleProps = {
@@ -22,4 +22,3 @@ const ToolbarItem = forwardRef((props, ref) => {
 ToolbarItem.displayName = 'ToolbarItem';
 
 export default ToolbarItem;
-

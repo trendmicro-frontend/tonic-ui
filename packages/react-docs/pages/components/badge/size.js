@@ -1,5 +1,4 @@
 import { Badge, Skeleton, Stack } from '@tonic-ui/react';
-import React from 'react';
 
 const App = () => (
   <Stack mt="3x" direction="row" spacing="8x" shouldWrapChildren>

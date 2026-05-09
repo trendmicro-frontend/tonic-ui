@@ -34,7 +34,7 @@ import {
   useColorStyle,
 } from '@tonic-ui/react';
 import { dataAttr, isNullish } from '@tonic-ui/utils';
-import React, { Fragment, forwardRef, useCallback, useMemo, useState } from 'react';
+import { Fragment, forwardRef, useCallback, useMemo, useState } from 'react';
 import HandleIcon from './icons/icon-handle';
 
 const DragHandle = forwardRef((
@@ -169,7 +169,6 @@ const App = () => {
     },
   ], []);
 
-  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,

@@ -2,7 +2,7 @@ import { createPopper } from '@popperjs/core';
 import { useEffectOnce, useOnceWhen } from '@tonic-ui/react-hooks';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
-import React, { forwardRef, useEffect, useRef, useState, useCallback } from 'react';
+import { forwardRef, useEffect, useRef, useState, useCallback } from 'react';
 import { useDefaultProps } from '../default-props';
 import { Portal } from '../portal';
 import { Box } from '../box';

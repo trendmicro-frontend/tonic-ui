@@ -1,7 +1,7 @@
 /**
  * Credit: https://github.com/reach/reach-ui/tree/dev/packages/descendants
  */
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { DescendantContext } from './context';
 import useShallowMemo from '../useShallowMemo';
 
@@ -16,7 +16,6 @@ const binaryFindElement = (array, element) => {
       return middle;
     }
 
-    // eslint-disable-next-line no-bitwise
     if (array[middle].element.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_PRECEDING) {
       end = middle - 1;
     } else {

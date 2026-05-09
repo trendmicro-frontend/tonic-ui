@@ -5,7 +5,6 @@ import { render } from '@tonic-ui/react/test-utils/render';
 import { Fade, Tag, TagCloseButton } from '@tonic-ui/react/src';
 import { useToggle } from '@tonic-ui/react-hooks/src';
 import { callEventHandlers, transitionDuration } from '@tonic-ui/utils/src';
-import React from 'react';
 
 describe('Tag', () => {
   it('should render correctly', async () => {

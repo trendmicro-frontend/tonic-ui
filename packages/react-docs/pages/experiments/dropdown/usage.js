@@ -17,7 +17,7 @@ import {
   InfoOIcon,
 } from '@tonic-ui/react-icons';
 import { produce } from 'immer';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import FormGroup from '@/components/FormGroup';
 import { Dropdown, MenuButtonToggle, TagToggle } from '@/experiments/dropdown';
 import { FlexItem } from '@/experiments/flex-item';
@@ -82,7 +82,7 @@ const App = () => {
           fixed
           tooltip={`Event status: ${label}`}
         >
-          {'Event status:'}
+          Event status:
         </FlexItem>
         <FlexItem tooltip>
           {label}

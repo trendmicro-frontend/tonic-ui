@@ -1,5 +1,5 @@
 import { Tag } from '@tonic-ui/react';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 const TagToggle = forwardRef((props, ref) => {
   const { children, sx, ...rest } = props;

@@ -34,7 +34,7 @@ import { isNullish } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
 import _isEqual from 'lodash/isEqual';
 import _orderBy from 'lodash/orderBy';
-import React, {
+import {
   Fragment,
   forwardRef,
   useCallback,
@@ -234,7 +234,7 @@ const ColumnSettingsDrawer = ({
                   const nextColumns = state.columns.map(_column => {
                     if (_column.id !== column.id) {
                       return _column;
-                    } 
+                    }
                     return {
                       ..._column,
                       isVisible,

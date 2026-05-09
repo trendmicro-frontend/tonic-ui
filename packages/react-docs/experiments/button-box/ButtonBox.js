@@ -1,6 +1,6 @@
 import { Box } from '@tonic-ui/react';
 import { ariaAttr } from '@tonic-ui/utils';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import useButtonBoxClickHandlers from './useButtonBoxClickHandlers';
 import {
   useButtonBoxStyle,

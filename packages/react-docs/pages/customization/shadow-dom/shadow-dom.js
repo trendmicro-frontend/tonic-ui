@@ -32,7 +32,7 @@ import {
   useToastManager,
 } from '@tonic-ui/react';
 import BorderedBox from '@/components/BorderedBox';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
 
 const NONCE = process.env.NONCE ?? '';
@@ -126,7 +126,7 @@ const ShadowDOMContainer = ({ children, colorMode, ...rest }) => {
   useEffect(() => {
     const container = containerRef.current;
     if (!container) {
-      return;
+      return () => {};
     }
 
     const shadowContainer = container.shadowRoot ?? container.attachShadow({ mode: 'open' });

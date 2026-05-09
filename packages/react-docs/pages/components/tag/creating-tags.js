@@ -1,10 +1,9 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 import {
   Box,
   Text,
   useColorMode,
 } from '@tonic-ui/react';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import EditableTag from './components/EditableTag';
 import TagInput from './components/TagInput';
 
@@ -79,7 +78,7 @@ const App = () => {
   const [tags, setTags] = useState([]);
   const [hasError, setHasError] = useState(false);
   const [placeholderVisible, setPlaceholderVisible] = useState(true);
-  const [isWrapperFocused, setWrapperFocused] = useState(false);
+  const [isWrapperFocused, setIsWrapperFocused] = useState(false);
   const createTags = (values) => {
     if (values.length === 0) {
       return;
@@ -107,22 +106,22 @@ const App = () => {
   };
 
   const handleTagInputBlur = () => {
-    setWrapperFocused(false);
+    setIsWrapperFocused(false);
     if (tags.length === 0) {
       setPlaceholderVisible(true);
     }
   };
   const handleTagInputFocus = () => {
-    setWrapperFocused(true);
+    setIsWrapperFocused(true);
     setPlaceholderVisible(false);
   };
   const handleTagInputKeyUp = (e) => {
     const keyCode = e.keyCode;
     const value = e.target.value;
-    if (keyCode == 8) { // Delete
+    if (keyCode === 8) { // Delete
       if (!value && tags.length > 0) {
         // remove last tag
-        tags.splice((tags.length-1), 1);
+        tags.splice((tags.length - 1), 1);
         setTags([...tags]);
       }
     }
@@ -173,7 +172,7 @@ const App = () => {
         onClick={handleWrapperClick}
         {...styleProps}
       >
-        {placeholderVisible && (
+        {placeholderVisible ? (
           <Text
             display="inline-flex"
             py="2q"
@@ -181,7 +180,7 @@ const App = () => {
           >
             Add new tag
           </Text>
-        )}
+        ) : null}
         {
           tags.map(tag => {
             const id = tag.id;
@@ -211,7 +210,7 @@ const App = () => {
           onKeyUp={handleTagInputKeyUp}
         />
       </Box>
-      {hasError && <Text color={invalidColor}>There are invalid entries.</Text>}
+      {hasError ? <Text color={invalidColor}>There are invalid entries.</Text> : null}
     </>
   );
 };

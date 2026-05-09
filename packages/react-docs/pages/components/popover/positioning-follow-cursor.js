@@ -1,5 +1,4 @@
 import { Popover, PopoverContent, PopoverTrigger, Text } from '@tonic-ui/react';
-import React from 'react';
 
 const App = () => (
   <Popover trigger="hover" followCursor>

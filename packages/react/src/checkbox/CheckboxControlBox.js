@@ -1,6 +1,6 @@
 import { ariaAttr } from '@tonic-ui/utils';
 import { ensureArray, ensureString } from 'ensure-type';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { Box } from '../box';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';

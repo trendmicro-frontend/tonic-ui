@@ -1,6 +1,6 @@
 import { SVGIcon } from '@tonic-ui/react-icons';
 import { ensureArray } from 'ensure-type';
-import React, { forwardRef, useRef } from 'react';
+import { forwardRef, useRef } from 'react';
 import { useDefaultProps } from '../default-props';
 import { useIconStyle } from './styles';
 import { useTheme } from '../theme';

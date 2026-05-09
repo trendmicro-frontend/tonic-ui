@@ -1,5 +1,5 @@
 import { useEventListener } from '@tonic-ui/react-hooks';
-import React, { forwardRef, useCallback, useRef, useState } from 'react';
+import { forwardRef, useCallback, useRef, useState } from 'react';
 import { Truncate } from '../truncate';
 import { useTruncateStyle } from '../truncate/styles';
 import Tooltip from './Tooltip';

@@ -2,7 +2,6 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Box, OverflowTooltip } from '@tonic-ui/react/src';
-import React from 'react';
 
 describe('OverflowTooltip', () => {
   it('should display an overflow tooltip tooltip if the clientWidth is less than the scrollWidth', async () => {

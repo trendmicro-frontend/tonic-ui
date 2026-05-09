@@ -1,6 +1,6 @@
 import { Box, Tooltip, Truncate } from '@tonic-ui/react';
 import { useEventListener, useToggle } from '@tonic-ui/react-hooks';
-import React, { useCallback, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 
 const App = () => {
   const textRef = useRef();

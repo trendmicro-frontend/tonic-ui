@@ -1,6 +1,6 @@
 // AUTO-GENERATED FILE. DO NOT EDIT.
 import { useOnce } from '@tonic-ui/react-hooks';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import WMIIcon from '../WMIIcon';
 
 const WmiIcon = forwardRef((props, ref) => {

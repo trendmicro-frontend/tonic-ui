@@ -11,7 +11,7 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
-import React, { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 const App = () => {
   const [colorMode] = useColorMode();

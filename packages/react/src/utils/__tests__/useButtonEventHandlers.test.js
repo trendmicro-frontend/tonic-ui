@@ -1,7 +1,6 @@
 import { screen, fireEvent } from '@testing-library/react';
 import { Box } from '@tonic-ui/react/src';
 import { render } from '@tonic-ui/react/test-utils/render';
-import React from 'react';
 import useButtonEventHandlers from '../useButtonEventHandlers';
 
 function TestButtonBox({ disabled, onActivate }) {

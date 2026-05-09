@@ -1,5 +1,5 @@
 import { Checkbox, Stack } from '@tonic-ui/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const App = () => {
   const [checkedItems, setCheckedItems] = useState([true, false]);

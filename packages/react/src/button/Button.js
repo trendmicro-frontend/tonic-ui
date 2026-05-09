@@ -1,5 +1,5 @@
 import { ariaAttr, dataAttr } from '@tonic-ui/utils';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { useDefaultProps } from '../default-props';
 import ButtonBase from './ButtonBase';
 import { useButtonStyle } from './styles';

@@ -15,7 +15,7 @@ import {
   useColorStyle,
 } from '@tonic-ui/react/src';
 import { ensureArray } from 'ensure-type';
-import React, { act } from 'react';
+import { act } from 'react';
 
 const buildTreeNodes = () => {
   const treeNodes = [
@@ -119,7 +119,7 @@ const TreeItemRender = ({
       data-testid={`node-${node.id}`}
       key={node.id}
       nodeId={node.id}
-      render={({ isExpandable, isSelected }) => { // eslint-disable-line react/jsx-no-bind
+      render={({ isExpandable, isSelected }) => {
         return (
           <TreeItemContent
             data-testid={`node-${node.id}-content`}

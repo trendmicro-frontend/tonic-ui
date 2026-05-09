@@ -5,7 +5,7 @@ import {
   useTheme,
 } from '@tonic-ui/react';
 import { ensureFunction } from 'ensure-type';
-import React, { forwardRef, useState } from 'react';
+import { forwardRef, useState } from 'react';
 import AutosizeInput from './AutosizeInput';
 import { useEditableTagStyle } from './styles';
 

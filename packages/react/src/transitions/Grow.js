@@ -1,7 +1,7 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { createTransitionStyle, getEnterTransitionProps, getExitTransitionProps, reflow, transitionEasing } from '@tonic-ui/utils';
 import { ensureFiniteNumber } from 'ensure-type';
-import React, { forwardRef, useCallback, useEffect, useRef } from 'react';
+import { forwardRef, useCallback, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';

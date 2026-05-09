@@ -1,7 +1,6 @@
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@tonic-ui/react/src';
-import React from 'react';
 
 describe('Tabs', () => {
   it('should render correctly', async () => {

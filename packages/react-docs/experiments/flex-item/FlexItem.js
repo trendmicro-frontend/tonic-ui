@@ -1,5 +1,5 @@
 import { Box, OverflowTooltip } from '@tonic-ui/react';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { useFlexItemStyle } from './styles';
 
 const FlexItem = forwardRef((

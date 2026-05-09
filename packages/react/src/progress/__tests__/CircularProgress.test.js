@@ -1,7 +1,6 @@
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { CircularProgress } from '@tonic-ui/react/src';
-import React from 'react';
 
 describe('CircularProgress', () => {
   it('renders correctly', async () => {

@@ -1,7 +1,7 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { ariaAttr, callEventHandlers, getAllFocusable } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
-import React, { forwardRef, useRef } from 'react';
+import { forwardRef, useRef } from 'react';
 import { Box } from '../../box';
 import { useDefaultProps } from '../../default-props';
 import useSubmenu from '../useSubmenu';

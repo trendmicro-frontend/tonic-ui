@@ -1,5 +1,4 @@
 import { Button, Menu, MenuItem, MenuList, MenuToggle, MenuToggleIcon, Popover, PopoverContent, PopoverTrigger, Text } from '@tonic-ui/react';
-import React from 'react';
 
 const App = () => (
   <Menu>

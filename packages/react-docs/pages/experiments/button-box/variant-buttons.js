@@ -1,5 +1,5 @@
 import { Flex, Grid } from '@tonic-ui/react';
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import { MutedText } from '@/experiments/muted-text';
 import { createVariantButtonBox } from './utils';
 

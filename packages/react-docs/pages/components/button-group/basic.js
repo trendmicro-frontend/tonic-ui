@@ -4,11 +4,10 @@ import {
   Divider,
   useColorMode,
 } from '@tonic-ui/react';
-import React from 'react';
 
 const App = () => {
   const [colorMode] = useColorMode();
-  const dividerColor ={
+  const dividerColor = {
     dark: 'gray:70',
     light: 'gray:30',
   }[colorMode];

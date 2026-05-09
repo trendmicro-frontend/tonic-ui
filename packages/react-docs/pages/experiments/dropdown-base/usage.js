@@ -5,7 +5,7 @@ import {
 import {
   AngleRightIcon,
 } from '@tonic-ui/react-icons';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { DropdownBase, MenuButtonToggle } from '@/experiments/dropdown';
 
 const items = [

@@ -1,5 +1,5 @@
 import { sx } from '@tonic-ui/styled-system';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { Box } from '../box';
 
 const ScrollView = forwardRef((

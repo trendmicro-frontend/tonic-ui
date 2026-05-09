@@ -1,6 +1,6 @@
 import { Box, Scrollbar } from '@tonic-ui/react';
 import { Virtuoso } from 'react-virtuoso';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 const CustomScrollbar = forwardRef((inProps, ref) => {
   const { children, ...props } = inProps;

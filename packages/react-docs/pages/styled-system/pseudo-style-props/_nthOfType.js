@@ -1,6 +1,4 @@
-/* eslint-disable react/no-unescaped-entities */
 import { Box } from '@tonic-ui/react';
-import React from 'react';
 
 const Paragraph = (props) => (
   <Box

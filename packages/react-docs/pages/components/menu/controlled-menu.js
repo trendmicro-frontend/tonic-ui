@@ -14,7 +14,7 @@ import {
 import { AngleRightIcon } from '@tonic-ui/react-icons';
 import { useToggle } from '@tonic-ui/react-hooks';
 import { isNullish } from '@tonic-ui/utils';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const App = () => {
   const [isOpen, toggleIsOpen] = useToggle(false);

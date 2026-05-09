@@ -8,7 +8,7 @@ import {
   MenuList,
   MenuItem,
 } from '@tonic-ui/react/src';
-import React, { act } from 'react';
+import { act } from 'react';
 
 describe('Menu', () => {
   const TestComponent = (props) => {
@@ -141,6 +141,24 @@ describe('Menu', () => {
     await waitFor(() => {
       expect(screen.queryByRole('menu')).not.toBeInTheDocument();
     });
+  });
+
+  it('should return empty array from getFocusableElements when menu content is not mounted', () => {
+    const { rerender } = render(
+      <Menu isOpen={false}>
+        <MenuButton data-testid="button">Open</MenuButton>
+      </Menu>
+    );
+
+    // Rerender with isOpen=true but no MenuList — menuContentRef.current is null
+    rerender(
+      <Menu isOpen={true}>
+        <MenuButton data-testid="button">Open</MenuButton>
+      </Menu>
+    );
+
+    // Should not throw; getFocusableElements gracefully returns []
+    expect(screen.getByTestId('button')).toBeInTheDocument();
   });
 
   describe('Keyboard navigation', () => {

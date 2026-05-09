@@ -3,7 +3,9 @@ import { ensureBoolean } from 'ensure-type';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 
-//---------------- Default Button ----------------//
+//
+// Default Button
+//
 const defaultVariantStyle = ({
   colorMode,
   theme,
@@ -100,7 +102,9 @@ const defaultVariantStyle = ({
   };
 };
 
-//---------------- Secondary Button ----------------//
+//
+// Secondary Button
+//
 const secondaryVariantStyle = ({
   colorMode,
   theme,
@@ -204,7 +208,9 @@ const secondaryVariantStyle = ({
   };
 };
 
-//---------------- Ghost Button ----------------//
+//
+// Ghost Button
+//
 const ghostVariantStyle = ({
   colorMode,
   theme,
@@ -244,7 +250,9 @@ const ghostVariantStyle = ({
   };
 };
 
-//---------------- Emphasis / Primary Button ----------------//
+//
+// Emphasis / Primary Button
+//
 const fillColorVariantStyle = ({
   color: colorProp,
   colorMode,

@@ -3362,10 +3362,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:9.39.3, @eslint/js@npm:^9.0.0":
+"@eslint/js@npm:9.39.3":
   version: 9.39.3
   resolution: "@eslint/js@npm:9.39.3"
   checksum: 6018c13073204cf1b79de561cca74284c0387bf753e0dcd85ff750f1441c4c2914896d8feff3afd8c07d6934ac6f8ae36a5cc241f5645041b645dad588442d46
+  languageName: node
+  linkType: hard
+
+"@eslint/js@npm:^9.0.0 || ^10.0.0":
+  version: 10.0.1
+  resolution: "@eslint/js@npm:10.0.1"
+  peerDependencies:
+    eslint: ^10.0.0
+  peerDependenciesMeta:
+    eslint:
+      optional: true
+  checksum: 5e60b80ec48d303c9273d5c2803ae3fe12fd5335d57d889d4f9df9249910a97e2921118403765bff26a00b734182437f91a0f6f552654cf12ad73bb49995e22e
   languageName: node
   linkType: hard
 
@@ -5131,6 +5143,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@stylistic/eslint-plugin@npm:^5.9.0":
+  version: 5.10.0
+  resolution: "@stylistic/eslint-plugin@npm:5.10.0"
+  dependencies:
+    "@eslint-community/eslint-utils": ^4.9.1
+    "@typescript-eslint/types": ^8.56.0
+    eslint-visitor-keys: ^4.2.1
+    espree: ^10.4.0
+    estraverse: ^5.3.0
+    picomatch: ^4.0.3
+  peerDependencies:
+    eslint: ^9.0.0 || ^10.0.0
+  checksum: 747cf1a6d8afcceec19e3d25d3d7b539bce03676a7223d4c51534ac5f1374f7a6566514d596f15b939ffd62ab8090e73b7178f01b586f0f9c86228009a24ed41
+  languageName: node
+  linkType: hard
+
 "@svgr/babel-plugin-add-jsx-attribute@npm:8.0.0":
   version: 8.0.0
   resolution: "@svgr/babel-plugin-add-jsx-attribute@npm:8.0.0"
@@ -5428,7 +5456,7 @@ __metadata:
     cross-env: ^7.0.3
     del-cli: ^5.0.0
     eslint: ^9.26.0
-    eslint-config-trendmicro: ^4.0.0
+    eslint-config-trendmicro: ^4.4.1
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
@@ -5454,7 +5482,7 @@ __metadata:
     "@trendmicro/babel-config": ^1.0.2
     del-cli: ^5.0.0
     eslint: ^9.26.0
-    eslint-config-trendmicro: ^4.0.0
+    eslint-config-trendmicro: ^4.4.1
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
@@ -5494,7 +5522,7 @@ __metadata:
     cross-env: ^7.0.3
     del-cli: ^5.0.0
     eslint: ^9.26.0
-    eslint-config-trendmicro: ^4.0.0
+    eslint-config-trendmicro: ^4.4.1
     eslint-import-resolver-typescript: 3.6.3
     eslint-plugin-import: ^2.32.0
     express: ^4.18.2
@@ -5543,7 +5571,7 @@ __metadata:
     del-cli: ^5.0.0
     ensure-type: ^1.5.1
     eslint: ^9.26.0
-    eslint-config-trendmicro: ^4.0.0
+    eslint-config-trendmicro: ^4.4.1
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
@@ -5605,6 +5633,7 @@ __metadata:
     ensure-type: ^1.5.1
     eslint: ^9.26.0
     eslint-config-next: ^15.0.0
+    eslint-config-trendmicro: ^4.4.1
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
@@ -5676,7 +5705,7 @@ __metadata:
     cross-env: ^7.0.3
     del-cli: ^5.0.0
     eslint: ^9.26.0
-    eslint-config-trendmicro: ^4.0.0
+    eslint-config-trendmicro: ^4.4.1
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
@@ -5708,7 +5737,7 @@ __metadata:
     cross-env: ^7.0.3
     del-cli: ^5.0.0
     eslint: ^9.26.0
-    eslint-config-trendmicro: ^4.0.0
+    eslint-config-trendmicro: ^4.4.1
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
@@ -5759,7 +5788,7 @@ __metadata:
     del-cli: ^5.0.0
     ensure-type: ^1.5.1
     eslint: ^9.26.0
-    eslint-config-trendmicro: ^4.0.0
+    eslint-config-trendmicro: ^4.4.1
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
@@ -5802,7 +5831,7 @@ __metadata:
     del-cli: ^5.0.0
     ensure-type: ^1.5.1
     eslint: ^9.26.0
-    eslint-config-trendmicro: ^4.0.0
+    eslint-config-trendmicro: ^4.4.1
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
@@ -5831,7 +5860,7 @@ __metadata:
     cross-env: ^7.0.3
     del-cli: ^5.0.0
     eslint: ^9.26.0
-    eslint-config-trendmicro: ^4.0.0
+    eslint-config-trendmicro: ^4.4.1
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
@@ -5861,7 +5890,7 @@ __metadata:
     del-cli: ^5.0.0
     ensure-type: ^1.5.1
     eslint: ^9.26.0
-    eslint-config-trendmicro: ^4.0.0
+    eslint-config-trendmicro: ^4.4.1
     eslint-plugin-import: ^2.32.0
     eslint-plugin-jsx-a11y: ^6.10.2
     eslint-plugin-react: ^7.37.5
@@ -6540,6 +6569,13 @@ __metadata:
   version: 8.56.1
   resolution: "@typescript-eslint/types@npm:8.56.1"
   checksum: 67716a6699becdef1dd23acb0762b940caa2c541fd27573328b5047a7cd08d19f775eb01cd11080d16dc2d2a23af8f9b8fc5813f935b12170769de074af3c77a
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/types@npm:^8.56.0":
+  version: 8.58.2
+  resolution: "@typescript-eslint/types@npm:8.58.2"
+  checksum: f703142b5f3568995076e6755c56020c211e2d674c3d83d9ea6e6151fe9b5cb7eb99cc1e0f81a9c94bf698431da1365c241a0507b60fd53d1a5ebd896dff3b8e
   languageName: node
   linkType: hard
 
@@ -9880,18 +9916,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-trendmicro@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "eslint-config-trendmicro@npm:4.0.0"
+"eslint-config-trendmicro@npm:^4.4.1":
+  version: 4.4.1
+  resolution: "eslint-config-trendmicro@npm:4.4.1"
   dependencies:
-    "@eslint/js": ^9.0.0
+    "@eslint/js": ^9.0.0 || ^10.0.0
+    "@stylistic/eslint-plugin": ^5.9.0
   peerDependencies:
-    eslint: ^9.0.0
+    "@stylistic/eslint-plugin": ^5.9.0
+    eslint: ^9.0.0 || ^10.0.0
     eslint-plugin-import: "*"
     eslint-plugin-jsx-a11y: "*"
     eslint-plugin-react: "*"
     eslint-plugin-react-hooks: "*"
-  checksum: 2f82e264e46ad0bd02927e1fda68008ed9f739d5b89945903b96b74fc1f5bd8716d7206595e8ff94c868f510e663a0972aac49b1bd470a0a2683e3c1429b94cc
+  checksum: 77e898af6336f4738c039cd130c546b709c62ce1899cce926b7c10c03e7e04cf5133cd6fe9f5918f7f5589488b57a231ca4faa59b28eee5887f3eaf6ba5498ba
   languageName: node
   linkType: hard
 

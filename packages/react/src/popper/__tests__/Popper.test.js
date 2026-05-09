@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import { createPopper } from '@popperjs/core';
-import React from 'react';
 import Popper from '../Popper';
 
 // Mock @popperjs/core

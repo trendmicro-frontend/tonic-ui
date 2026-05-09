@@ -1,7 +1,6 @@
 import {
   Box,
 } from '@tonic-ui/react';
-import React from 'react';
 import { BLACK_PIECE, WHITE_PIECE } from './constants';
 
 const Piece = ({ value }) => {

@@ -19,10 +19,9 @@ export default defineConfig([
     },
     rules: {
       'camelcase': ['error', { 'allow': ['^DEPRECATED_'] }],
-      'react/jsx-no-bind': 2,
-      'react/prop-types': 0,
       'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
       'react-hooks/exhaustive-deps': 'error', // Checks effect dependencies
+      'no-shadow': 0,
     },
   },
   {

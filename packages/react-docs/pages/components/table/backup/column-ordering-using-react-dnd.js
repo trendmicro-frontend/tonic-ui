@@ -16,7 +16,7 @@ import {
 import {
   dataAttr,
 } from '@tonic-ui/utils';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
@@ -120,7 +120,6 @@ const App = () => {
 
   const [columnOrder, setColumnOrder] = useState(columns.map(column => column.id));
 
-  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,

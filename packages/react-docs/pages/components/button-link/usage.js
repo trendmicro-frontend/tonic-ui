@@ -1,6 +1,5 @@
 import { ButtonLink } from '@tonic-ui/react';
 import { AngleRightIcon } from '@tonic-ui/react-icons';
-import React from 'react';
 
 const App = () => (
   <ButtonLink

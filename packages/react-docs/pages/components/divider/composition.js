@@ -1,6 +1,5 @@
 import { Divider, Flex } from '@tonic-ui/react';
 import { AlignCenterIcon, AlignLeftIcon, AlignRightIcon } from '@tonic-ui/react-icons';
-import React from 'react';
 
 const App = () => (
   <Flex>

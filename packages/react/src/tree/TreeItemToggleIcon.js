@@ -2,7 +2,7 @@ import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { AngleRightIcon } from '@tonic-ui/react-icons';
 import { ariaAttr, createTransitionStyle, getEnterTransitionProps, getExitTransitionProps, reflow, transitionEasing } from '@tonic-ui/utils';
 import { ensureBoolean } from 'ensure-type';
-import React, { forwardRef, useEffect, useRef } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';

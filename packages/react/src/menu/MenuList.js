@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { useDefaultProps } from '../default-props';
 import MenuContent from './MenuContent';
 import { useMenuListStyle } from './styles';

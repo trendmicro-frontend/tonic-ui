@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 import {
   Button,
   ButtonGroup,
@@ -19,7 +18,7 @@ import {
   AngleRightIcon,
 } from '@tonic-ui/react-icons';
 import { ensureArray, ensureFiniteNumber } from 'ensure-type';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const TablePagination = ({
   count,

@@ -1,6 +1,6 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
 import { ariaAttr, warnDeprecatedProps } from '@tonic-ui/utils';
-import React, { forwardRef, useCallback } from 'react';
+import { forwardRef, useCallback } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { VARIANT_INLINE, defaultVariant } from './constants';

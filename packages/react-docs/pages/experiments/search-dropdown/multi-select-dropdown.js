@@ -16,7 +16,7 @@ import {
 } from '@tonic-ui/react-hooks';
 import Chance from 'chance';
 import { produce } from 'immer';
-import React, { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import FormGroup from '@/components/FormGroup';
 import { MenuButtonToggle, TagToggle } from '@/experiments/dropdown';
 import { FlexItem } from '@/experiments/flex-item';
@@ -91,10 +91,10 @@ const App = () => {
       return (
         <Flex alignItems="center" columnGap="1x" width="100%">
           <FlexItem as={MutedText} fixed tooltip={tooltip}>
-            {'Company:'}
+            Company:
           </FlexItem>
           <FlexItem maxWidth={120} tooltip>
-            {'Select'}
+            Select
           </FlexItem>
         </Flex>
       );
@@ -105,10 +105,10 @@ const App = () => {
       return (
         <Flex alignItems="center" columnGap="1x" width="100%">
           <FlexItem as={MutedText} fixed tooltip={tooltip}>
-            {'Company:'}
+            Company:
           </FlexItem>
           <FlexItem maxWidth={120} tooltip>
-            {'All'}
+            All
           </FlexItem>
         </Flex>
       );
@@ -121,7 +121,7 @@ const App = () => {
     return (
       <Flex alignItems="center" columnGap="1x" width="100%">
         <FlexItem as={MutedText} fixed tooltip={tooltip}>
-          {'Company:'}
+          Company:
         </FlexItem>
         <FlexItem maxWidth={120} tooltip>
           {selectionText}

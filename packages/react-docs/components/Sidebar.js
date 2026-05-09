@@ -22,7 +22,7 @@ import {
 import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import React, { forwardRef, useEffect, useRef } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
 import { routes } from '../config/sidebar-routes';
 import x from '../utils/json-stringify';
 import IconButton from './IconButton';
@@ -105,7 +105,7 @@ const Sidebar = forwardRef((
           justifyContent="space-between"
           mb="4x"
         >
-          <NextLink href={'/'} legacyBehavior passHref>
+          <NextLink href="/" legacyBehavior passHref>
             <Link
               background="transparent"
               color={colorStyle.color.primary}
@@ -129,9 +129,9 @@ const Sidebar = forwardRef((
                 alt=""
                 src={`${BASE_PATH}/images/${logo}`}
                 height="8x"
-                  marginRight="2x"
-                />
-                <Text>Tonic UI</Text>
+                marginRight="2x"
+              />
+              <Text>Tonic UI</Text>
             </Link>
           </NextLink>
           <Box px="2x">
@@ -164,8 +164,7 @@ const Sidebar = forwardRef((
                     <AccordionToggle
                       data-track={isExpanded
                         ? `SideMenu|close_menu_section|${x({ title: sectionTitle })}`
-                        : `SideMenu|open_menu_section|${x({ title: sectionTitle })}`
-                      }
+                        : `SideMenu|open_menu_section|${x({ title: sectionTitle })}`}
                       // The following data attributes are used by the instant search to toggle and scroll to the correct accordion section
                       data-expanded={isExpanded}
                       data-title={sectionTitle}

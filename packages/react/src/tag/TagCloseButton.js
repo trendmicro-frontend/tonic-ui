@@ -1,6 +1,6 @@
 import { CloseSIcon } from '@tonic-ui/react-icons';
 import { callEventHandlers } from '@tonic-ui/utils';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
 import { useTagCloseButtonStyle } from './styles';

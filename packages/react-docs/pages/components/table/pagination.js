@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 import {
   flexRender,
   getCoreRowModel,
@@ -30,7 +29,7 @@ import {
 import { AngleLeftIcon, AngleRightIcon } from '@tonic-ui/react-icons';
 import { ensureArray, ensureNumber } from 'ensure-type';
 import _ from 'lodash';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 const threatTypes = [
   'Virus/Malware',
@@ -79,7 +78,6 @@ const App = () => {
     },
   ], []);
 
-  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,

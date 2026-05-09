@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import DropdownBase from './DropdownBase';
 import MenuButtonToggle from './MenuButtonToggle';
 

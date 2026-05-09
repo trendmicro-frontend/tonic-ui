@@ -3,7 +3,6 @@ import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { Input } from '@tonic-ui/react/src';
-import React from 'react';
 
 describe('Input', () => {
   it('should render correctly', async () => {

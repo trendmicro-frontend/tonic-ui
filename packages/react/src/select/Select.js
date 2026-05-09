@@ -1,7 +1,7 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
 import { AngleDownIcon } from '@tonic-ui/react-icons';
 import { ariaAttr, warnDeprecatedProps } from '@tonic-ui/utils';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { getIconWrapperProps, useSelectStyle } from './styles';

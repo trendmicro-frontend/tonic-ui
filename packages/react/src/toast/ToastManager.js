@@ -1,7 +1,7 @@
 import { useHydrated } from '@tonic-ui/react-hooks';
 import { isNullish, runIfFn } from '@tonic-ui/utils';
 import { ensureArray, ensureString } from 'ensure-type';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
 import { Portal } from '../portal';

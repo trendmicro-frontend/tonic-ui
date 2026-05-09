@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import { Box, DarkMode, useColorMode } from '@tonic-ui/react/src';
-import React from 'react';
 
 describe('DarkMode', () => {
   it('should render in dark mode', () => {

@@ -2,6 +2,7 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import {
+  Button,
   Menu,
   MenuButton,
   MenuDivider,
@@ -14,7 +15,7 @@ import {
   Text,
 } from '@tonic-ui/react/src';
 import { AngleRightIcon } from '@tonic-ui/react-icons';
-import React, { act } from 'react';
+import { act } from 'react';
 
 describe('Submenu', () => {
   describe('Submenu keyboard navigation', () => {
@@ -358,7 +359,7 @@ describe('Submenu', () => {
       render(
         <>
           <SubmenuTestComponent />
-          <button data-testid="outside-button">Outside</button>
+          <Button data-testid="outside-button">Outside</Button>
         </>
       );
 

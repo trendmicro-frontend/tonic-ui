@@ -1,5 +1,5 @@
 import { ensureArray } from 'ensure-type';
-import React, { forwardRef, useMemo } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { Mark } from '../mark';

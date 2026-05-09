@@ -3,7 +3,7 @@ import {
   Scrollbar,
   useColorMode,
 } from '@tonic-ui/react';
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import Lorem from '@/components/Lorem';
 
 const ShadowScrollbar = (props) => {
@@ -19,12 +19,12 @@ const ShadowScrollbar = (props) => {
     bottomIndicatorRef.current.style.opacity = bottomIndicatorOpacity;
   };
   const topScrollIndicatorBackground = {
-    dark: 'linear-gradient(to bottom, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)', 
-    light: 'linear-gradient(to bottom, rgba(224, 224, 224, 1) 0%, rgba(255, 255, 255, 0) 100%)', 
+    dark: 'linear-gradient(to bottom, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)',
+    light: 'linear-gradient(to bottom, rgba(224, 224, 224, 1) 0%, rgba(255, 255, 255, 0) 100%)',
   }[colorMode];
   const bottomScrollIndicatorBackground = {
-    dark: 'linear-gradient(to top, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)', 
-    light: 'linear-gradient(to top, rgba(224, 224, 224, 1) 0%, rgba(255, 255, 255, 0) 100%)', 
+    dark: 'linear-gradient(to top, rgba(33, 33, 33, 1) 0%, rgba(255, 255, 255, 0) 100%)',
+    light: 'linear-gradient(to top, rgba(224, 224, 224, 1) 0%, rgba(255, 255, 255, 0) 100%)',
   }[colorMode];
 
   return (

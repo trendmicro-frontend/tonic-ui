@@ -1,7 +1,7 @@
 import { useId } from '@tonic-ui/react-hooks';
 import { runIfFn } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
 import config from '../shared/config';

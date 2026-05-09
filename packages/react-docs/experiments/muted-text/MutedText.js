@@ -1,5 +1,5 @@
 import { Text, useColorStyle } from '@tonic-ui/react';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 const MutedText = forwardRef((props, ref) => {
   const [colorStyle] = useColorStyle();

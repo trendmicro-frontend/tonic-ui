@@ -1,5 +1,5 @@
 import { Box } from '@tonic-ui/react';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 const defaultVariant = 'unordered';
 

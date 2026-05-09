@@ -1,10 +1,9 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 import {
   Box,
   Flex,
   Text,
 } from '@tonic-ui/react';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   BOARD_SIZE,
   CELL_SIZE,
@@ -23,26 +22,26 @@ import { search } from './computer';
 
 const Othello = () => {
   const [turn, setTurn] = useState(BLACK_PIECE);
-  const [cells, updateCells] = useState((new Array(BOARD_SIZE**2)).fill(EMPTY_PIECE));
+  const [cells, setCells] = useState((new Array(BOARD_SIZE ** 2)).fill(EMPTY_PIECE));
   const nextTurn = useCallback(() => {
     setTurn(turn === WHITE_PIECE ? BLACK_PIECE : WHITE_PIECE);
   }, [turn]);
   const restart = useCallback(() => {
-    const nextCells = (new Array(BOARD_SIZE**2)).fill(EMPTY_PIECE);
+    const nextCells = (new Array(BOARD_SIZE ** 2)).fill(EMPTY_PIECE);
     nextCells[BOARD_SIZE * 3 + 3] = WHITE_PIECE;
     nextCells[BOARD_SIZE * 3 + 4] = BLACK_PIECE;
     nextCells[BOARD_SIZE * 4 + 3] = BLACK_PIECE;
     nextCells[BOARD_SIZE * 4 + 4] = WHITE_PIECE;
-    updateCells(nextCells);
+    setCells(nextCells);
     setTurn(BLACK_PIECE);
   }, []);
   const context = useMemo(() => ({
     cells,
-    updateCells,
+    setCells,
     turn,
     nextTurn,
     restart,
-  }), [cells, updateCells, turn, nextTurn, restart]);
+  }), [cells, setCells, turn, nextTurn, restart]);
 
   // Game Start
   useEffect(() => {
@@ -66,11 +65,11 @@ const Othello = () => {
         for (let i = 0; i < reversiblePieces.length; ++i) {
           nextCells[reversiblePieces[i]] = turn;
         }
-        updateCells(nextCells);
+        setCells(nextCells);
         nextTurn();
       }
     });
-  }, [turn, nextTurn, cells, updateCells]);
+  }, [turn, nextTurn, cells, setCells]);
 
   return (
     <GameStateContext.Provider value={context}>
@@ -83,10 +82,10 @@ const Othello = () => {
       >
         <Flex alignItems="center" justifyContent="space-between">
           <Text fontSize="xl" lineHeight="xl">
-            White: {cells.reduce((acc, piece) => piece === WHITE_PIECE ? acc + 1 : acc, 0)}
+            White: {cells.reduce((acc, piece) => (piece === WHITE_PIECE ? acc + 1 : acc), 0)}
           </Text>
           <Text fontSize="xl" lineHeight="xl">
-            Black: {cells.reduce((acc, piece) => piece === BLACK_PIECE ? acc + 1 : acc, 0)}
+            Black: {cells.reduce((acc, piece) => (piece === BLACK_PIECE ? acc + 1 : acc), 0)}
           </Text>
         </Flex>
       </Box>

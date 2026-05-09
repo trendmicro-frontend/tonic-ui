@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 import {
   getPaginationRowModel,
 } from '@tanstack/react-table';
@@ -10,7 +9,7 @@ import {
 } from '@tonic-ui/react';
 import { ensureNumber } from 'ensure-type';
 import _ from 'lodash';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import BaseTable from '@/components/BaseTable';
 import TablePagination from '@/components/TablePagination';
 import TableToolbar from './table-toolbar';

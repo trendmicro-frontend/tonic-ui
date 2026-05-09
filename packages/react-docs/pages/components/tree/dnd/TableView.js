@@ -26,7 +26,7 @@ import {
 } from '@tonic-ui/utils';
 import { ensureArray, ensureNumber } from 'ensure-type';
 import _ from 'lodash';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import TablePagination from '@/components/TablePagination';
 import ConditionalWrapper from './ConditionalWrapper';
@@ -149,7 +149,6 @@ const Component = ({
     },
   ], []);
 
-  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data: ensureArray(data),
     columns,
@@ -278,7 +277,7 @@ const Component = ({
        *
        * Iteration #1:
        * > column.size = Math.max(250 / (2 - 1), 150) = Math.max(250, 150) = 250
-       * > extraSpaceLeft = 250 - 250 = 0                         
+       * > extraSpaceLeft = 250 - 250 = 0
        */
       flexColumns.forEach((column, index) => {
         column.size = Math.max(
@@ -358,7 +357,7 @@ const Component = ({
                         pr: 0,
                       }}
                     />
-                   {headerGroup.headers.map(header => {
+                    {headerGroup.headers.map(header => {
                       let styleProps = {
                         minWidth: header.column.columnDef.minSize,
                         width: header.getSize(),

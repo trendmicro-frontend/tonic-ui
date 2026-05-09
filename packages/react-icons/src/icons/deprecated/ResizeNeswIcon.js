@@ -1,6 +1,6 @@
 // AUTO-GENERATED FILE. DO NOT EDIT.
 import { useOnce } from '@tonic-ui/react-hooks';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import ResizeNESWIcon from '../ResizeNESWIcon';
 
 const ResizeNeswIcon = forwardRef((props, ref) => {

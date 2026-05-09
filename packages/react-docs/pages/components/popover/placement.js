@@ -1,5 +1,4 @@
 import { Box, Button, Grid, Popover, PopoverContent, PopoverTrigger } from '@tonic-ui/react';
-import React from 'react';
 
 const App = () => (
   <Box display="inline-block">

@@ -1,5 +1,4 @@
 import { Highlight } from '@tonic-ui/react';
-import React from 'react';
 
 const transformAccents = (x) => {
   if (typeof x !== 'string') {

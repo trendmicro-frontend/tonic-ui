@@ -4,7 +4,7 @@ import {
 import {
   callEventHandlers,
 } from '@tonic-ui/utils';
-import React, { forwardRef, useCallback, useState } from 'react';
+import { forwardRef, useCallback, useState } from 'react';
 import {
   useSearchBox,
 } from 'react-instantsearch-core';

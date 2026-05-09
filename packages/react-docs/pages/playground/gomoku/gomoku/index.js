@@ -1,4 +1,3 @@
-import React from 'react';
 import { LocaleProvider } from './LocaleProvider';
 import Gomoku from './Gomoku';
 

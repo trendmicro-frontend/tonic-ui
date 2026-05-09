@@ -2,7 +2,7 @@ import { Alert, AlertCloseButton, Button, Collapse, Flex, Stack, Text } from '@t
 import { Light2OIcon } from '@tonic-ui/react-icons';
 import { useToggle } from '@tonic-ui/react-hooks';
 import { runIfFn } from '@tonic-ui/utils';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 const CollapseToggle = ({
   defaultIsOpen: defaultIsOpenProp = true,

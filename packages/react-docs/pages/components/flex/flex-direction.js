@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Stack } from '@tonic-ui/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const FlexItem = (props) => (
   <Box bg="teal:50" border={1} borderColor="teal:60" p="3x" mr="4x" mb="4x" {...props} />

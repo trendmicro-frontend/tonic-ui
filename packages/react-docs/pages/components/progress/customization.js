@@ -8,7 +8,6 @@ import {
   TextLabel,
   useTheme,
 } from '@tonic-ui/react';
-import React from 'react';
 
 const GradientCircularProgress = (props) => {
   const theme = useTheme();
@@ -192,6 +191,6 @@ const App = () => {
       </Stack>
     </Box>
   );
-  };
+};
 
-  export default App;
+export default App;

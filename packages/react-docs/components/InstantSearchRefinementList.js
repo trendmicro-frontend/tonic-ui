@@ -2,6 +2,7 @@ import {
   Box,
   Divider,
   Flex,
+  Highlight,
   Spinner,
   Stack,
   Text,
@@ -13,8 +14,6 @@ import {
 } from '@tonic-ui/react-icons';
 import { ensureArray, ensureString } from 'ensure-type'
 import _ from 'lodash';
-import React from 'react';
-import Highlight from 'react-highlight-words';
 import {
   useInstantSearch,
 } from 'react-instantsearch-core';
@@ -70,11 +69,11 @@ const InstantSearchRefinementList = (
           <Text textAlign="center">
             The search is currently unable to proceed. Please resolve the error and try again.
           </Text>
-          {error && (
+          {error ? (
             <Text textAlign="center">
               Error: {error.message}
             </Text>
-          )}
+          ) : null}
         </Stack>
       </Stack>
     );
@@ -137,16 +136,10 @@ const InstantSearchRefinementList = (
                     href={`/${hit.data.path}`}
                     onClick={handleClickRefinementLinkBy(hit)}
                   >
-                    {Icon && <Icon size="6x" />}
-                    <Highlight
-                      searchWords={searchWords}
-                      highlightTag="mark"
-                      textToHighlight={textToHighlight}
-                      highlightStyle={{
-                        backgroundColor: 'rgba(0, 116, 255, 0.8)',
-                        color: 'rgba(255, 255, 255, .92)',
-                      }}
-                    />
+                    {Icon ? <Icon size="6x" /> : null}
+                    <Highlight query={searchWords}>
+                      {textToHighlight}
+                    </Highlight>
                   </InstantSearchRefinementLink>
                   <Divider my="2x" />
                 </Box>

@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Box, Button, Toast, ToastCloseButton, ToastManager, useToastManager } from '@tonic-ui/react/src';
 import { transitionDuration } from '@tonic-ui/utils/src';
-import React, { act, useCallback, useRef } from 'react';
+import { act, useCallback, useRef } from 'react';
 
 describe('ToastManager', () => {
   it('should render correctly', async () => {
@@ -494,6 +494,17 @@ describe('ToastManager', () => {
       <ToastManager {...props} />
     );
 
+    const UpdatedToastContent = ({ onClose }) => (
+      <Toast
+        appearance="success"
+        isClosable
+        onClose={onClose}
+        data-testid={toastId}
+      >
+        {updatedMessage}
+      </Toast>
+    );
+
     const TestComponent = () => {
       const toast = useToastManager();
       const handleClickAddToast = useCallback(() => {
@@ -510,16 +521,7 @@ describe('ToastManager', () => {
       }, [toast]);
       const handleClickUpdateToast = useCallback(() => {
         const updateSuccess = toast.update(toastId, {
-          content: ({ onClose }) => (
-            <Toast
-              appearance="success"
-              isClosable
-              onClose={onClose}
-              data-testid={toastId}
-            >
-              {updatedMessage}
-            </Toast>
-          ),
+          content: UpdatedToastContent,
         });
         expect(updateSuccess).toBe(true);
       }, [toast]);

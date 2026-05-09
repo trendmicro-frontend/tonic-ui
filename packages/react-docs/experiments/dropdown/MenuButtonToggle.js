@@ -1,5 +1,5 @@
 import { MenuButton } from '@tonic-ui/react';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 const MenuButtonToggle = forwardRef((props, ref) => {
   const { children, sx, ...rest } = props;

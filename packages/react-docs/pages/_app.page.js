@@ -19,7 +19,7 @@ import algoliasearch from 'algoliasearch/lite';
 import { ensureString } from 'ensure-type';
 import NextApp from 'next/app';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { InstantSearch, Configure } from 'react-instantsearch-core';
 import GlobalStyles from '../components/GlobalStyles';
 import Header from '../components/Header';
@@ -68,7 +68,7 @@ const App = (props) => {
       // ```
     },
   }));
-  const [initialColorMode, setColorMode] = useState(null);
+  const [initialColorMode, setInitialColorMode] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -79,9 +79,8 @@ const App = (props) => {
     const colorScheme = root.style.getPropertyValue('color-scheme');
     root.setAttribute('data-color-scheme', colorScheme);
     if ((colorScheme === 'dark' || colorScheme === 'light') && (initialColorMode !== colorScheme)) {
-      setColorMode(colorScheme);
+      setInitialColorMode(colorScheme);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!initialColorMode) {
@@ -242,7 +241,7 @@ const DocsPage = (props) => {
     if (isSidebarVisible) {
       toggleSidebarVisible(false);
     }
-  }, [isMediaQueryMatched]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isMediaQueryMatched]);
 
   return (
     <Box

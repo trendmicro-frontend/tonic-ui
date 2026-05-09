@@ -1,5 +1,4 @@
 import { Box, useColorMode } from '@tonic-ui/react';
-import React from 'react';
 
 const App = () => {
   const [colorMode] = useColorMode();
@@ -12,10 +11,10 @@ const App = () => {
           key={item}
           py="2x"
           px="3x"
-          _nthOfType={{'even': {
+          _nthOfType={{ 'even': {
             bg: 'blue:40',
             color: 'white:primary',
-          }}}
+          } }}
         >
           {item}
         </Box>

@@ -17,7 +17,7 @@ import {
 } from '@tonic-ui/react';
 import * as dateFns from 'date-fns'
 import * as dateFnsLocale from 'date-fns/locale'
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PreformattedText from '@/components/PreformattedText';
 
 const FormGroup = (props) => (
@@ -82,9 +82,7 @@ const App = () => {
           <TextLabel>
             Selected date:
           </TextLabel>
-          {error && (
-            <Text color="red:50">{error}</Text>
-          )}
+          {error ? <Text color="red:50">{error}</Text> : null}
           {!error && (
             <Text>{displayDate}</Text>
           )}
@@ -133,7 +131,7 @@ const App = () => {
           </TextLabel>
           <Menu>
             <MenuButton variant="secondary" minWidth={100}>
-              {locale && dateFnsLocale[locale].code}
+              {locale ? dateFnsLocale[locale].code : null}
             </MenuButton>
             <MenuList
               onClick={(event) => {
@@ -165,10 +163,10 @@ const App = () => {
           You can use the <Code>formatDate</Code> prop to return a formatted date string in the given format and locale.
         </TextLabel>
         <PreformattedText>
-          {`// format\nimport format from 'date-fns/format';\n\n// locale\nimport enLocale from 'date-fns/locale/en-US'; // English (United States)\nimport deLocale from 'date-fns/locale/de'; // Deutsch\nimport esLocale from 'date-fns/locale/es'; // Español\nimport frLocale from 'date-fns/locale/fr'; // Français\nimport itLocale from 'date-fns/locale/it'; // Italiano\nimport jaLocale from 'date-fns/locale/ja'; // 日本語\nimport koLocale from 'date-fns/locale/ko'; // 한국어\nimport zhCNLocale from 'date-fns/locale/zh-CN'; // 简体中文\nimport zhTWLocale from 'date-fns/locale/zh-TW'; // 繁體中文`}
+          {'// format\nimport format from \'date-fns/format\';\n\n// locale\nimport enLocale from \'date-fns/locale/en-US\'; // English (United States)\nimport deLocale from \'date-fns/locale/de\'; // Deutsch\nimport esLocale from \'date-fns/locale/es\'; // Español\nimport frLocale from \'date-fns/locale/fr\'; // Français\nimport itLocale from \'date-fns/locale/it\'; // Italiano\nimport jaLocale from \'date-fns/locale/ja\'; // 日本語\nimport koLocale from \'date-fns/locale/ko\'; // 한국어\nimport zhCNLocale from \'date-fns/locale/zh-CN\'; // 简体中文\nimport zhTWLocale from \'date-fns/locale/zh-TW\'; // 繁體中文'}
         </PreformattedText>
         <PreformattedText>
-          {`// DateCalendar component\nformatDate={(date, format, options) => {\n  return format(date, format, { locale: enLocale });\n}}`}
+          {'// DateCalendar component\nformatDate={(date, format, options) => {\n  return format(date, format, { locale: enLocale });\n}}'}
         </PreformattedText>
       </Flex>
       <Divider my="4x" />
@@ -206,9 +204,9 @@ const App = () => {
       <FormGroup>
         <Box mb="2x">
           <TextLabel>
-            {dateOption === 'none' && `date={null}`}
-            {dateOption === 'today' && `date={new Date()}`}
-            {dateOption === 'invalid' && `date={new Date('')}`}
+            {dateOption === 'none' && 'date={null}'}
+            {dateOption === 'today' && 'date={new Date()}'}
+            {dateOption === 'invalid' && 'date={new Date(\'\')}'}
           </TextLabel>
         </Box>
         <ButtonGroup

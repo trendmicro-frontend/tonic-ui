@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
 
 const baseCSS = theme => {
-  const baseFonts = theme?.fonts?.['base'] ?? 'inherit';
-  const monoFonts = theme?.fonts?.['mono'] ?? 'inherit';
+  const baseFonts = theme?.fonts?.base ?? 'inherit';
+  const monoFonts = theme?.fonts?.mono ?? 'inherit';
 
   return css`
     /**

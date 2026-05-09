@@ -1,6 +1,6 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { callAll } from '@tonic-ui/utils';
-import React, { forwardRef, useRef } from 'react';
+import { forwardRef, useRef } from 'react';
 import { useDefaultProps } from '../default-props';
 import { useAnimatePresence } from '../utils/animate-presence';
 import { Fade } from '../transitions';

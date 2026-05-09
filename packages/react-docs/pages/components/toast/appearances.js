@@ -7,7 +7,6 @@ import {
   useColorStyle,
   useToastManager,
 } from '@tonic-ui/react';
-import React from 'react';
 
 const ToastSuccess = ({ onClose }) => (
   <Toast
@@ -96,6 +95,7 @@ const App = () => {
   return (
     <Stack direction="column" spacing="6x">
       {toastComponents.map((ToastNotification, idx) => (
+        // eslint-disable-next-line react/no-array-index-key
         <Box key={idx}>
           <Button variant="secondary" onClick={handleClickBy(ToastNotification)}>
             Show

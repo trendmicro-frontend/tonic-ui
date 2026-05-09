@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { Button, Popover, PopoverTrigger, PopoverContent } from '@tonic-ui/react/src';
-import React, { act } from 'react';
+import { act } from 'react';
 
 describe('Popover', () => {
   it('should render correctly', async () => {

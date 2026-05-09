@@ -5,7 +5,7 @@ import {
   Toast,
   useToastManager,
 } from '@tonic-ui/react';
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 
 const App = () => {
   const toast = useToastManager();

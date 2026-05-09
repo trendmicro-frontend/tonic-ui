@@ -5,7 +5,7 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 const App = () => {
   const [isResizing, setIsResizing] = useState(false);

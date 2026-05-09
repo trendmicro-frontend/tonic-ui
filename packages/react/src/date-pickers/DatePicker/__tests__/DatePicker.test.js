@@ -13,7 +13,7 @@ import {
 import { CalendarIcon } from '@tonic-ui/react-icons/src';
 import * as dateFns from 'date-fns';
 import * as dateFnsLocale from 'date-fns/locale';
-import React, { act, useCallback } from 'react';
+import { act, useCallback } from 'react';
 
 describe('DatePicker', () => {
   const TestComponent = ({

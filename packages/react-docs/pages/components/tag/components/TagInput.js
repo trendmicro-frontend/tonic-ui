@@ -1,7 +1,7 @@
 import {
   InputBase,
 } from '@tonic-ui/react';
-import React, { forwardRef, useState } from 'react';
+import { forwardRef, useState } from 'react';
 
 const TagInput = forwardRef((
   {
@@ -17,7 +17,7 @@ const TagInput = forwardRef((
   const [inputValue, setInputValue] = useState('');
 
   const createTags = (values) => {
-    if (typeof onCreate === "function") {
+    if (typeof onCreate === 'function') {
       onCreate(values);
     }
     setInputValue('');
@@ -28,14 +28,14 @@ const TagInput = forwardRef((
     if (value) {
       createTags([value]);
     }
-    if (typeof onBlur === "function") {
+    if (typeof onBlur === 'function') {
       onBlur(e);
     }
   };
   const handleInputChange = (e) => {
     const value = e.target.value;
     setInputValue(value);
-    if (typeof onChange === "function") {
+    if (typeof onChange === 'function') {
       onChange(e);
     }
   };
@@ -52,7 +52,7 @@ const TagInput = forwardRef((
     if (keyCode === 27) { // Esc
       setInputValue('');
     }
-    if (typeof onKeyUp === "function") {
+    if (typeof onKeyUp === 'function') {
       onKeyUp(e);
     }
   };
@@ -63,7 +63,7 @@ const TagInput = forwardRef((
       new RegExp([',', ';', '\n', '\r', '\r\n'].join('|'))
     );
     createTags(separatedValues);
-    if (typeof onPaste === "function") {
+    if (typeof onPaste === 'function') {
       onPaste(e);
     }
   };

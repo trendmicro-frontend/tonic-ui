@@ -1,5 +1,5 @@
 /* @jest-environment jsdom */
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { screen } from '@testing-library/react';
 import { render } from '@tonic-ui/react/test-utils/render';
 import userEvent from '@testing-library/user-event';

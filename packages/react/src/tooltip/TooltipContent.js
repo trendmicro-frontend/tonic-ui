@@ -7,7 +7,7 @@ import {
   isHTMLElement,
 } from '@tonic-ui/utils';
 import { ensureArray, ensureFiniteNumber } from 'ensure-type';
-import React, { forwardRef, useMemo, useRef } from 'react';
+import { forwardRef, useMemo, useRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { Popper } from '../popper';

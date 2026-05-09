@@ -10,7 +10,6 @@ import {
   Text,
 } from '@tonic-ui/react';
 import { AngleRightIcon } from '@tonic-ui/react-icons';
-import React from 'react';
 
 const App = () => (
   <Menu width={200}>
@@ -29,6 +28,7 @@ const App = () => (
     >
       {Array.from({ length: 100 }).map((_, key) => (
         <Submenu
+          // eslint-disable-next-line react/no-array-index-key
           key={key}
           placement="right-start"
         >

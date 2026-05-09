@@ -1,9 +1,9 @@
+import { createRef } from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { LinkButton } from '@tonic-ui/react/src';
-import React from 'react';
 
 describe('LinkButton', () => {
   it('should render correctly', async () => {
@@ -85,7 +85,7 @@ describe('LinkButton', () => {
   });
 
   it('should forward ref correctly', () => {
-    const ref = React.createRef();
+    const ref = createRef();
     render(
       <LinkButton ref={ref}>
         Test LinkButton
@@ -109,7 +109,6 @@ describe('LinkButton', () => {
 
     // Should show deprecation warning
     expect(consoleSpy).toHaveBeenCalledWith(
-      // eslint-disable-next-line
       `LinkButton: 'textDecoration' is deprecated. Use 'variant="inline"' instead.`
     );
 

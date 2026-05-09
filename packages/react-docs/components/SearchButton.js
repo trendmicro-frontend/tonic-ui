@@ -8,7 +8,7 @@ import {
 import {
   SearchOIcon,
 } from '@tonic-ui/react-icons';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 const SearchButton = forwardRef((
   {

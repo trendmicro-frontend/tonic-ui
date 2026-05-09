@@ -1,6 +1,6 @@
 import { useConst } from '@tonic-ui/react-hooks';
 import { ensureFunction } from 'ensure-type';
-import React, { forwardRef, useEffect, useMemo } from 'react';
+import { forwardRef, useEffect, useMemo } from 'react';
 import { AnimatePresenceContext } from './context';
 
 const AnimatePresence = forwardRef(({

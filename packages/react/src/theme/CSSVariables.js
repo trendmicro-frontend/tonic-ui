@@ -1,6 +1,6 @@
 import { Global } from '@emotion/react';
 import { ensurePlainObject } from 'ensure-type';
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 
 const CSSVariables = () => {
   const styles = useCallback((theme) => {

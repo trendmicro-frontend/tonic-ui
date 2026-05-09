@@ -5,23 +5,22 @@ import {
   Stack,
   useColorMode,
 } from '@tonic-ui/react';
-import React from 'react';
 
 const App = () => {
   const [colorMode] = useColorMode();
-  const emphasisDividerColor ={
+  const emphasisDividerColor = {
     dark: 'red:80',
     light: 'red:80',
   }[colorMode];
-  const primaryDividerColor ={
+  const primaryDividerColor = {
     dark: 'blue:80',
     light: 'blue:80',
   }[colorMode];
-  const defaultDividerColor ={
+  const defaultDividerColor = {
     dark: 'gray:70',
     light: 'gray:30',
   }[colorMode];
-  const ghostDividerColor ={
+  const ghostDividerColor = {
     dark: 'gray:60',
     light: 'gray:20',
   }[colorMode];

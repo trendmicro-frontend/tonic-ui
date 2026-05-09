@@ -4,7 +4,7 @@ import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
 import isSameDay from 'date-fns/isSameDay';
 import isSameMonth from 'date-fns/isSameMonth';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { Box } from '../../../box';
 import useButtonEventHandlers from '../../../utils/useButtonEventHandlers';
 import { useDayStyle } from '../styles';

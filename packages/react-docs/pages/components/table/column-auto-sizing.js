@@ -18,7 +18,7 @@ import {
   useTheme,
 } from '@tonic-ui/react';
 import _ from 'lodash';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
 const data = [
@@ -68,7 +68,6 @@ const App = () => {
     },
   ]);
 
-  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,
@@ -181,7 +180,7 @@ const App = () => {
        *
        * Iteration #1:
        * > column.size = Math.max(250 / (2 - 1), 150) = Math.max(250, 150) = 250
-       * > extraSpaceLeft = 250 - 250 = 0                         
+       * > extraSpaceLeft = 250 - 250 = 0
        */
       flexColumns.forEach((column, index) => {
         column.size = Math.max(
@@ -212,6 +211,7 @@ const App = () => {
   return (
     <Box width="100%">
       {columns.map((column, columnIndex) => (
+        // eslint-disable-next-line react/no-array-index-key
         <Box mb="4x" key={columnIndex}>
           <Box mb="2x">
             <TextLabel>

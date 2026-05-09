@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import {
   Box,
   Button,
@@ -14,7 +13,7 @@ import {
   useColorStyle,
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const Item = (props) => {
   const [colorMode] = useColorMode();
@@ -150,6 +149,7 @@ const App = () => {
         spacing="4x"
       >
         {Array.from({ length: 10 }).map((_, index) => (
+          // eslint-disable-next-line react/no-array-index-key
           <Item key={index} width={150}>
             Stack Item {index + 1}
           </Item>

@@ -5,7 +5,7 @@ import {
   colorStyle as defaultColorStyle,
   useColorStyle,
 } from '@tonic-ui/react/src';
-import React, { act, useState } from 'react';
+import { act, useState } from 'react';
 
 describe('ColorStyleProvider', () => {
   it('should return the correct color style based on the specified dark mode', () => {

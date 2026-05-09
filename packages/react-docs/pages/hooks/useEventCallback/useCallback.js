@@ -1,6 +1,5 @@
-/* eslint-disable react/no-unescaped-entities */
 import { Box, Input } from '@tonic-ui/react';
-import React, { useCallback, useLayoutEffect, useState } from 'react';
+import { useCallback, useLayoutEffect, useState } from 'react';
 
 const App = () => {
   const [value, setValue] = useState('');
@@ -15,7 +14,6 @@ const App = () => {
   const [invalidationCount, setInvalidationCount] = useState(-1);
 
   useLayoutEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setInvalidationCount(c => c + 1);
   }, [onChange]);
 

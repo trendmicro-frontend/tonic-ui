@@ -7,7 +7,6 @@ import {
   TextLabel,
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
-import React from 'react';
 import SkeletonBlock from '@/components/SkeletonBlock';
 import SkeletonContent from '@/components/SkeletonContent';
 
@@ -24,7 +23,7 @@ const App = () => {
       <Scale
         in={isOpen}
         unmountOnExit={false}
-        initialScale={[0.9, 0.9**2]}
+        initialScale={[0.9, 0.9 ** 2]}
       >
         <SkeletonContent>
           <SkeletonBlock />

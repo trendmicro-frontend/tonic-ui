@@ -1,6 +1,5 @@
 import { Button, Flex, Popover, PopoverContent, PopoverTrigger, Switch, Text } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
-import React from 'react';
 
 const App = () => {
   const [on, toggle] = useToggle(false);

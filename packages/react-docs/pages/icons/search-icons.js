@@ -19,7 +19,7 @@ import {
   usePortalManager,
 } from '@tonic-ui/react';
 import * as icons from '@tonic-ui/react-icons';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const Semibold = (props) => <Text display="inline-block" fontWeight="semibold" {...props} />
 
@@ -48,11 +48,10 @@ const IconView = ({ component: IconComponent, name, ...rest }) => {
           <ModalHeader>
             {isDeprecated
               ? <Text color={deprecatedTextColor}>{name} (deprecated)</Text>
-              : <Text>{name}</Text>
-            }
+              : <Text>{name}</Text>}
           </ModalHeader>
           <ModalBody px={0}>
-            {isDeprecated && (
+            {isDeprecated ? (
               <Flex
                 alignItems="center"
                 columnGap="2x"
@@ -65,7 +64,7 @@ const IconView = ({ component: IconComponent, name, ...rest }) => {
                   <Text>The <Semibold>{name}</Semibold> component is deprecated and will be removed in the next major release. Use <Semibold>{IconComponent.displayName}</Semibold> instead.</Text>
                 </Alert>
               </Flex>
-            )}
+            ) : null}
             <Box
               backgroundColor={colorStyle.background.tertiary}
               px="5x"
@@ -75,8 +74,7 @@ const IconView = ({ component: IconComponent, name, ...rest }) => {
               <Text fontFamily="mono" fontSize="md" lineHeight="md">
                 {isDeprecated
                   ? `import { ${IconComponent.displayName} } from '@tonic-ui/react-icons';`
-                  : `import { ${name} } from '@tonic-ui/react-icons';`
-                }
+                  : `import { ${name} } from '@tonic-ui/react-icons';`}
               </Text>
             </Box>
             <Flex
@@ -105,9 +103,8 @@ const IconView = ({ component: IconComponent, name, ...rest }) => {
                       'linear-gradient(-45deg, rgb(230, 230, 230) 25%, transparent 25%)',
                       'linear-gradient(45deg, transparent 75%, rgb(230, 230, 230) 75%)',
                       'linear-gradient(-45deg, transparent 75%, rgb(230, 230, 230) 75%)',
-                    ].join(',')
-                }
-            >
+                    ].join(',')}
+              >
                 <IconComponent size={bitmapGridSize * 16} />
               </Flex>
             </Flex>

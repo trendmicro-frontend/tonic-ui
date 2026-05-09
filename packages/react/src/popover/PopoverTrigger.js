@@ -1,7 +1,7 @@
 import { useEventCallback, useEventListener, useMergeRefs } from '@tonic-ui/react-hooks';
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
-import React, { cloneElement, forwardRef, useRef, useState } from 'react';
+import { Children, cloneElement, forwardRef, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { mergeRefs } from '../utils/refs';
@@ -149,7 +149,7 @@ const PopoverTrigger = forwardRef((inProps, ref) => {
   }
 
   // Ensure popover has only one child node
-  const child = React.Children.only(children);
+  const child = Children.only(children);
 
   // Access the child's props for later use
   const childProps = child?.props;

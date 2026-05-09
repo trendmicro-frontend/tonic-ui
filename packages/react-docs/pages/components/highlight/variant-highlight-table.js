@@ -10,7 +10,7 @@ import {
   TableCell,
   Text,
 } from '@tonic-ui/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const data = [
   { id: 1, name: 'John Doe', email: 'john.doe@example.com', role: 'Administrator' },

@@ -25,7 +25,7 @@ export default defineConfig([
       'build',
       'dist',
       'node_modules',
-      '__fixtures__',
+      '**/__fixtures__/**',
     ],
   },
 ]);

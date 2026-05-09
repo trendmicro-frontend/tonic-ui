@@ -16,7 +16,7 @@ import {
   usePortalManager,
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 const App = () => {
   const portal = usePortalManager();

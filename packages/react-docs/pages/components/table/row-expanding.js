@@ -29,7 +29,7 @@ import {
   getExitTransitionProps,
   transitionEasing,
 } from '@tonic-ui/utils';
-import React, { Fragment, forwardRef, useMemo } from 'react';
+import { Fragment, forwardRef, useMemo } from 'react';
 
 const data = [
   { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
@@ -165,7 +165,6 @@ const App = () => {
     },
   ], []);
 
-  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,

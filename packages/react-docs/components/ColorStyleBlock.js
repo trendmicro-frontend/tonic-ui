@@ -6,7 +6,6 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
-import React from 'react';
 
 const baseWidth = 120;
 const baseHeight = 120;
@@ -69,7 +68,7 @@ const ColorStyleBlock = ({
       <Box
         mb="3x"
       >
-        {colorLabel && (
+        {colorLabel ? (
           <Text
             color={primaryTextColor}
             fontSize="md"
@@ -78,7 +77,7 @@ const ColorStyleBlock = ({
           >
             {colorLabel}
           </Text>
-        )}
+        ) : null}
       </Box>
       {colorTokens.length > 0 && (
         <>

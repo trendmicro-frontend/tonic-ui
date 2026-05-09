@@ -1,6 +1,6 @@
 import { Box, Radio, RadioGroup, Stack, Text } from '@tonic-ui/react';
 import { useConst } from '@tonic-ui/react-hooks';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const App = () => {
   const items = useConst(() => [
@@ -32,6 +32,7 @@ const App = () => {
       >
         <Stack direction="column" spacing="1x" shouldWrapChildren>
           {items.map((item, index) => (
+            // eslint-disable-next-line react/no-array-index-key
             <Radio key={index} value={item.value}>
               <Text>{item.label}</Text>
             </Radio>

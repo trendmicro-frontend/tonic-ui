@@ -1,5 +1,5 @@
 import { Button, Input, Popover, PopoverBody, PopoverContent, PopoverTrigger, Stack, Text } from '@tonic-ui/react';
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 
 const App = () => {
   const initialFocusRef1 = useRef();

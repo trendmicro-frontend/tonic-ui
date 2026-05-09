@@ -1,6 +1,6 @@
 import { useId } from '@tonic-ui/react-hooks';
 import { getAllFocusable, runIfFn } from '@tonic-ui/utils';
-import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';

@@ -9,7 +9,6 @@ import {
   TextLabel,
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
-import React from 'react';
 import SkeletonBlock from '@/components/SkeletonBlock';
 import SkeletonContent from '@/components/SkeletonContent';
 
