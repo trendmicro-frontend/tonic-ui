@@ -6,14 +6,16 @@ import { Dropdown } from '../dropdown';
 
 const SearchDropdown = forwardRef((
   {
-    items = [],
+    defaultValue,
     onClose: onCloseProp,
     onChange,
-    portalled,
+    items = [],
     renderContent: renderContentProp,
     renderItem: renderItemProp,
+    renderToggle,
     slots = {},
     slotProps = {},
+    value,
     ...rest
   },
   ref
@@ -98,15 +100,16 @@ const SearchDropdown = forwardRef((
   return (
     <Dropdown
       defaultActiveIndex={0}
-      items={filteredOptions}
+      defaultValue={defaultValue}
       onClose={callEventHandlers(onCloseProp, onClose)}
+      items={filteredOptions}
       onChange={onChange}
-      portalled={portalled}
-      ref={ref}
       renderContent={renderContent}
       renderItem={renderItem}
+      renderToggle={renderToggle}
       slots={slots}
       slotProps={slotProps}
+      value={value}
       {...rest}
     />
   );

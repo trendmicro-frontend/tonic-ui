@@ -11,53 +11,76 @@ A dropdown component built on `DropdownBase` and `MenuButton` that renders a men
 
 ## Examples
 
-### Basic configuration
+### Basic
 
-Here's the simplest configuration to get started with the `Dropdown` component.
+* `defaultValue` / `value`: Use `defaultValue` for uncontrolled mode, or `value` paired with `onChange` for controlled mode.
+* `items`: An array of selectable items. Each item typically includes a `label`, along with an optional identifier such as `value` of any type.
+* `onChange`: Called with the selected item whenever the selection changes.
 
 ```jsx
+// Only the `label` property is required. Other fields are optional.
+const items = [
+  { id: 'all', label: 'All' },
+  { id: 1, label: 'Item 1' },
+  { id: 2, label: 'Item 2' },
+];
+
+const [value, setValue] = useState(items[0]);
+
 <Dropdown
-  items={[
-    { label: 'Item 1', value: 1 },
-    { label: 'Item 2', value: 2 },
-  ]}
-  onChange={(item) => {
-    setItem(item);
-  }}
->
-  {item.label}
-</Dropdown>
+  defaultValue={items[0]} // [optional] Initial value
+  items={items}
+  onChange={setValue}
+/>
 ```
 
-* `items`: An array of selectable items. Each item typically includes a `label`, along with an optional identifier such as `id` or `value` of any type. The structure is flexible and can be customized to fit your specific needs.
-* `onChange`: A callback function that receives the selected item and can be used to update the component state.
-* `children`: The content rendered within the dropdown trigger. In this example, it shows the `label` of the currently selected item.
+Use `renderToggle` to customize the toggle UI. By default, `Dropdown` uses `MenuButtonToggle` and displays the selected item label.
 
-### Advanced configuration
+```jsx
+renderToggle={({ getToggleProps, value, renderItem }) => {
+  const toggleProps = {
+    disabled: false,
+  };
+  return (
+    <MenuButtonToggle {...getToggleProps(toggleProps)}>
+      {renderItem(value)}
+    </MenuButtonToggle>
+  );
+}}
+```
 
-Here's a more advanced and commonly used configuration pattern:
+{render('./basic')}
 
-{render('./usage')}
+### Playground
+
+Explore the available behaviors interactively:
+
+{render('./playground')}
 
 ### Custom dropdown toggle
 
-By default, the dropdown uses a `MenuButton` as its toggle. To customize the toggle, provide your own component (wrapped with `forwardRef`) using the `slots.toggle` prop:
+By default, the dropdown uses a `MenuButton` as its toggle. To customize the toggle, provide a `renderToggle` callback. The callback receives `getToggleProps`, `value`, and `renderItem` so you can wire interaction props and display the selection:
 
 ```jsx
 <Dropdown
   items={items}
-  onChange={onChange}
-  slots={{
-    toggle: CustomDropdownToggle,
+  defaultValue={items[0]}
+  onChange={setValue}
+  renderToggle={({ getToggleProps, value, renderItem }) => {
+    const toggleProps = {
+      disabled: false,
+      isClosable: true,
+    };
+    return (
+      <TagToggle {...getToggleProps(toggleProps)}>
+        {renderItem(value)}
+      </TagToggle>
+    );
   }}
-  slotProps={{
-    toggle: {}, // additional toggle props
-    content: {}, // additional content props
-  }}
->
-  {selectedItem.label}
-</Dropdown>
+/>
 ```
+
+Pass user-supplied props (e.g. `disabled`, `isClosable`) through `getToggleProps(userProps)` — it merges them with the internal handlers and ensures click suppression when `disabled` is set.
 
 ---
 
