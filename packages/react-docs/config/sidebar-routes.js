@@ -185,6 +185,7 @@ export const routes = [
       { title: 'useToastManager', path: 'components/toast-manager/useToastManager' },
 
       { title: 'FORM CONTROLS', heading: true },
+      { title: 'Autocomplete', path: 'components/autocomplete' },
       {
         title: 'Button',
         path: 'components/button',
