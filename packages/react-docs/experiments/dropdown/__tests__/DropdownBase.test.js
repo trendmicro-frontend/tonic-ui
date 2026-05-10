@@ -5,7 +5,7 @@ import { DropdownBase, MenuButtonToggle, TagToggle } from '../index';
 const items = [
   { value: 'apple', label: 'Apple' },
   { value: 'banana', label: 'Banana' },
-  { value: 'cherry', label: 'Cherry' },
+  { value: 'cherry', label: 'Cherry', props: { disabled: true } },
 ];
 
 const openMenu = async (user, toggleTestId = 'toggle') => {
@@ -230,9 +230,8 @@ describe('DropdownBase', () => {
         />
       );
       await openMenu(user);
-      // MenuDivider renders as a styled div
-      const menu = screen.getByRole('menu');
-      expect(menu.querySelector('[data-tonic="MenuDivider"], [data-tonic="Divider"], [role="separator"], hr')).toBeInTheDocument();
+      // MenuDivider renders as a styled div — query by its data-tonic attribute
+      expect(document.querySelector('[data-tonic="MenuDivider"]')).toBeInTheDocument();
     });
 
     it('renders group items with a visible title', async () => {

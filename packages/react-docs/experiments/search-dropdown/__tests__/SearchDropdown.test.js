@@ -7,7 +7,7 @@ import { SearchDropdown } from '../index';
 const items = [
   { value: 'apple', label: 'Apple' },
   { value: 'banana', label: 'Banana' },
-  { value: 'cherry', label: 'Cherry' },
+  { value: 'cherry', label: 'Cherry', props: { disabled: true } },
 ];
 
 // The search input has role="menuitem" for menu keyboard navigation (per SearchDropdown

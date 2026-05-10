@@ -6,7 +6,7 @@ import { Dropdown, MenuButtonToggle, TagToggle } from '../index';
 const items = [
   { value: 'apple', label: 'Apple' },
   { value: 'banana', label: 'Banana' },
-  { value: 'cherry', label: 'Cherry' },
+  { value: 'cherry', label: 'Cherry', props: { disabled: true } },
 ];
 
 describe('Dropdown', () => {
