@@ -34,11 +34,14 @@ const [value, setValue] = useState(items[0]);
 />
 ```
 
-Use `renderToggle` to customize the toggle UI. By default, `Dropdown` uses `MenuButtonToggle` and displays the selected item label.
+You can use `renderToggle` to customize the dropdown toggle. By default, `Dropdown` renders a `MenuButtonToggle` that displays the selected item label.
+
+Additional props can be passed to `getToggleProps` to control the toggle behavior and apply attributes:
 
 ```jsx
-renderToggle={({ getToggleProps, value, renderItem }) => {
+renderToggle={({ getToggleProps, renderItem, value }) => {
   const toggleProps = {
+    'data-test': 'dropdown-toggle',
     disabled: false,
   };
   return (
@@ -59,15 +62,16 @@ Explore the available behaviors interactively:
 
 ### Custom dropdown toggle
 
-By default, the dropdown uses a `MenuButton` as its toggle. To customize the toggle, provide a `renderToggle` callback. The callback receives `getToggleProps`, `value`, and `renderItem` so you can wire interaction props and display the selection:
+By default, the dropdown uses a `MenuButton` as its toggle. To customize the toggle, provide a `renderToggle` callback. The callback receives `getToggleProps`, `renderItem`, and `value` so you can wire interaction props and display the selection:
 
 ```jsx
 <Dropdown
   items={items}
   defaultValue={items[0]}
   onChange={setValue}
-  renderToggle={({ getToggleProps, value, renderItem }) => {
+  renderToggle={({ getToggleProps, renderItem, value }) => {
     const toggleProps = {
+      'data-test': 'dropdown-toggle',
       disabled: false,
       isClosable: true,
     };

@@ -14,7 +14,7 @@ A foundational dropdown component that renders a menu with selectable items, sup
 * `defaultValue` / `value`: Use `defaultValue` for uncontrolled mode, or `value` paired with `onChange` for controlled mode.
 * `items`: An array of selectable items. Each item typically includes a `label`, along with an optional identifier such as `value` of any type.
 * `onChange`: Called with the selected item whenever the selection changes.
-* `renderToggle`: Customizes the toggle UI.
+* `renderToggle`: Renders the dropdown toggle.
 
 ```jsx
 // Only the `label` property is required. Other fields are optional.
@@ -30,8 +30,9 @@ const [value, setValue] = useState(items[0]);
   defaultValue={items[0]} // [optional] Initial value
   items={items}
   onChange={setValue}
-  renderToggle={({ getToggleProps, value, renderItem }) => {
+  renderToggle={({ getToggleProps, renderItem, value }) => {
     const toggleProps = {
+      'data-test': 'dropdown-toggle',
       disabled: false,
     };
     return (
@@ -210,12 +211,15 @@ Each dropdown item is an object that may include the following fields:
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| onChange | `(item: DropdownItem) => void` | | Callback triggered when an item is selected. Receives the full `item` object, allowing you to access any custom fields or props defined for the item. |
+| defaultValue | `DropdownItem` | | The initial selected item for uncontrolled mode. |
 | items | `Array<DropdownItem>` | [] | An array of items to be rendered in the dropdown menu. Each item should include a `value` (required), and optionally a `label`, `type`, `props`, and `children`. |
 | matchWidth | boolean | `false` | If `true`, sizes the dropdown list to match the toggle's `offsetWidth`. See [Content sizing](#content-sizing-behavior) for the full matrix. |
-| renderItem | `(item: DropdownItem) => ReactNode` | `defaultRenderItem` <sub>[1]</sub> | Optional custom render function for rendering dropdown items. |
+| onChange | `(item: DropdownItem) => void` | | Callback triggered when an item is selected. Receives the full `item` object, allowing you to access any custom fields or props defined for the item. |
 | renderContent | `(args: { items: DropdownItem[], renderItem: (item: DropdownItem) => ReactNode, renderItems: (items: DropdownItem[], prefix?: string) => ReactNode[] }) => ReactNode` | | Optional custom function to render the entire dropdown's content. Provides access to `items`, `renderItem`, and `renderItems`. Use this to fully customize the dropdown content beyond the default rendering behavior. |
+| renderItem | `(item: DropdownItem) => ReactNode` | `defaultRenderItem` <sub>[1]</sub> | Optional custom render function for rendering dropdown items. |
+| renderToggle | `(args: { getToggleProps: (userProps?: Record<string, any>) => Record<string, any>, renderItem: (item: DropdownItem) => ReactNode, value: DropdownItem }) => ReactNode` | | Customizes the dropdown toggle. Receives `getToggleProps` (merges interaction props), `renderItem`, and the current `value`. |
 | slotProps	| `{ toggle?: Record<string, any>; content?: Record<string, any> }` | \{\} | The props used for each slot inside the `DropdownBase`. |
+| value | `DropdownItem` | | The controlled selected item. Use with `onChange` for controlled mode. |
 
 1. `defaultRenderItem` is the default render function for rendering dropdown items. It renders the item's `label` if the item is a plain object; otherwise, it renders the item directly.
     ```js
