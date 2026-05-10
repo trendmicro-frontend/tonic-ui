@@ -202,19 +202,16 @@ You can also use the `Scrollbar` component to override the default scrollbar.
 
 ### Dropdown
 
-The `Dropdown` component enables users to select a single option from a list. It provides a simple interface for managing dropdown selections.
+The `Dropdown` component allows users to choose an item from a list using a simple and customizable interface.
 
 ```jsx
 <Dropdown
-  onSelect={onSelect}
-  options={options}
-  renderOption={renderOption}
->
-  {renderValue(value)}
-</Dropdown>
+  items={items}
+  onChange={setItem}
+/>
 ```
 
-{render('../../experiments/dropdown/usage')}
+{render('../../experiments/dropdown/basic')}
 
 Check out the following components for more details:
 * [DropdownBase](../../experiments/dropdown-base)
