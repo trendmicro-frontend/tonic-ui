@@ -196,10 +196,12 @@ exports[`Tabs should render correctly 1`] = `
 <div>
   <div
     class="emotion-0 emotion-1"
+    data-tonic="Tabs"
   >
     <div
       aria-orientation="horizontal"
       class="emotion-2 emotion-1"
+      data-tonic="TabList"
       role="tablist"
     >
       <button
@@ -207,6 +209,7 @@ exports[`Tabs should render correctly 1`] = `
         aria-selected="true"
         class="emotion-4 emotion-1"
         data-index="0"
+        data-tonic="Tab"
         id="@tonic-ui/react:Tab-0"
         role="tab"
         tabindex="-1"
@@ -218,6 +221,7 @@ exports[`Tabs should render correctly 1`] = `
         aria-controls="@tonic-ui/react:TabPanel-1"
         class="emotion-6 emotion-1"
         data-index="1"
+        data-tonic="Tab"
         id="@tonic-ui/react:Tab-1"
         role="tab"
         tabindex="0"
@@ -230,6 +234,7 @@ exports[`Tabs should render correctly 1`] = `
         aria-disabled="true"
         class="emotion-8 emotion-1"
         data-index="2"
+        data-tonic="Tab"
         disabled=""
         id="@tonic-ui/react:Tab-2"
         role="tab"
@@ -241,10 +246,12 @@ exports[`Tabs should render correctly 1`] = `
     </div>
     <div
       class="emotion-10 emotion-1"
+      data-tonic="TabPanels"
     >
       <div
         aria-labelledby="@tonic-ui/react:Tab-0"
         class="emotion-12 emotion-1"
+        data-tonic="TabPanel"
         id="@tonic-ui/react:TabPanel-0"
         role="tabpanel"
         tabindex="0"
@@ -255,6 +262,7 @@ exports[`Tabs should render correctly 1`] = `
         aria-hidden="true"
         aria-labelledby="@tonic-ui/react:Tab-1"
         class="emotion-12 emotion-1"
+        data-tonic="TabPanel"
         hidden=""
         id="@tonic-ui/react:TabPanel-1"
         role="tabpanel"
@@ -266,6 +274,7 @@ exports[`Tabs should render correctly 1`] = `
         aria-hidden="true"
         aria-labelledby="@tonic-ui/react:Tab-2"
         class="emotion-12 emotion-1"
+        data-tonic="TabPanel"
         hidden=""
         id="@tonic-ui/react:TabPanel-2"
         role="tabpanel"

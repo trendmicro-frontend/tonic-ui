@@ -336,9 +336,11 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
 <div>
   <label
     class="emotion-0 emotion-1"
+    data-tonic="Switch"
   >
     <input
       class="emotion-2 emotion-1"
+      data-tonic="VisuallyHidden"
       name="sizes"
       role="switch"
       type="checkbox"
@@ -393,9 +395,11 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
   </label>
   <label
     class="emotion-0 emotion-1"
+    data-tonic="Switch"
   >
     <input
       class="emotion-2 emotion-1"
+      data-tonic="VisuallyHidden"
       name="sizes"
       role="switch"
       type="checkbox"
@@ -450,9 +454,11 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
   </label>
   <label
     class="emotion-0 emotion-1"
+    data-tonic="Switch"
   >
     <input
       class="emotion-2 emotion-1"
+      data-tonic="VisuallyHidden"
       name="sizes"
       role="switch"
       type="checkbox"
@@ -507,9 +513,11 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
   </label>
   <label
     class="emotion-0 emotion-1"
+    data-tonic="Switch"
   >
     <input
       class="emotion-2 emotion-1"
+      data-tonic="VisuallyHidden"
       role="switch"
       type="checkbox"
     />
@@ -563,10 +571,12 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
   </label>
   <label
     class="emotion-0 emotion-1"
+    data-tonic="Switch"
   >
     <input
       checked=""
       class="emotion-2 emotion-1"
+      data-tonic="VisuallyHidden"
       role="switch"
       type="checkbox"
     />
@@ -620,9 +630,11 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
   </label>
   <label
     class="emotion-90 emotion-1"
+    data-tonic="Switch"
   >
     <input
       class="emotion-2 emotion-1"
+      data-tonic="VisuallyHidden"
       disabled=""
       role="switch"
       type="checkbox"
@@ -677,10 +689,12 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
   </label>
   <label
     class="emotion-90 emotion-1"
+    data-tonic="Switch"
   >
     <input
       checked=""
       class="emotion-2 emotion-1"
+      data-tonic="VisuallyHidden"
       disabled=""
       role="switch"
       type="checkbox"

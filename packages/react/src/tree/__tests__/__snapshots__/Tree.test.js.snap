@@ -127,6 +127,7 @@ exports[`Tree should render correctly 1`] = `
     aria-label="tree"
     aria-multiselectable="true"
     class="emotion-0 emotion-1"
+    data-tonic="Tree"
     id="_r_0_"
     role="tree"
     tabindex="0"
@@ -134,27 +135,32 @@ exports[`Tree should render correctly 1`] = `
     <div
       class="emotion-0 emotion-1"
       data-testid="node-1"
+      data-tonic="TreeItem"
       id="_r_0_-1"
       role="treeitem"
     >
       <div
         class="emotion-4 emotion-1"
         data-testid="node-1-content"
+        data-tonic="TreeItemContent"
         tabindex="-1"
       >
         <div
           class="emotion-6 emotion-1"
+          data-tonic="Flex"
         >
           <button
             aria-label="toggle"
             class="emotion-8 emotion-1"
             data-testid="node-1-toggle"
+            data-tonic="TreeItemToggle"
             role="button"
             tabindex="-1"
             type="button"
           >
             <div
               class="emotion-10 emotion-1"
+              data-tonic="TreeItemToggleIcon"
             >
               <svg
                 aria-hidden="true"
@@ -173,6 +179,7 @@ exports[`Tree should render correctly 1`] = `
         </div>
         <div
           class="emotion-14 emotion-1"
+          data-tonic="TooltipTrigger"
           id="@tonic-ui/react:TooltipTrigger-_r_1_"
         >
           Node 1
@@ -182,27 +189,32 @@ exports[`Tree should render correctly 1`] = `
     <div
       class="emotion-0 emotion-1"
       data-testid="node-7"
+      data-tonic="TreeItem"
       id="_r_0_-7"
       role="treeitem"
     >
       <div
         class="emotion-4 emotion-1"
         data-testid="node-7-content"
+        data-tonic="TreeItemContent"
         tabindex="-1"
       >
         <div
           class="emotion-6 emotion-1"
+          data-tonic="Flex"
         >
           <button
             aria-label="toggle"
             class="emotion-8 emotion-1"
             data-testid="node-7-toggle"
+            data-tonic="TreeItemToggle"
             role="button"
             tabindex="-1"
             type="button"
           >
             <div
               class="emotion-10 emotion-1"
+              data-tonic="TreeItemToggleIcon"
             >
               <svg
                 aria-hidden="true"
@@ -221,6 +233,7 @@ exports[`Tree should render correctly 1`] = `
         </div>
         <div
           class="emotion-14 emotion-1"
+          data-tonic="TooltipTrigger"
           id="@tonic-ui/react:TooltipTrigger-_r_2_"
         >
           Node 7
@@ -230,27 +243,32 @@ exports[`Tree should render correctly 1`] = `
     <div
       class="emotion-0 emotion-1"
       data-testid="node-9"
+      data-tonic="TreeItem"
       id="_r_0_-9"
       role="treeitem"
     >
       <div
         class="emotion-4 emotion-1"
         data-testid="node-9-content"
+        data-tonic="TreeItemContent"
         tabindex="-1"
       >
         <div
           class="emotion-6 emotion-1"
+          data-tonic="Flex"
         >
           <button
             aria-label="toggle"
             class="emotion-8 emotion-1"
             data-testid="node-9-toggle"
+            data-tonic="TreeItemToggle"
             role="button"
             tabindex="-1"
             type="button"
           >
             <div
               class="emotion-10 emotion-1"
+              data-tonic="TreeItemToggleIcon"
             >
               <svg
                 aria-hidden="true"
@@ -269,6 +287,7 @@ exports[`Tree should render correctly 1`] = `
         </div>
         <div
           class="emotion-14 emotion-1"
+          data-tonic="TooltipTrigger"
           id="@tonic-ui/react:TooltipTrigger-_r_3_"
         >
           Node 9

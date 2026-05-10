@@ -30,6 +30,7 @@ exports[`ButtonBase should render correctly 1`] = `
 <div>
   <button
     class="emotion-0 emotion-1"
+    data-tonic="ButtonBase"
     type="button"
   >
     Normal button
@@ -37,6 +38,7 @@ exports[`ButtonBase should render correctly 1`] = `
   <button
     aria-disabled="true"
     class="emotion-2 emotion-1"
+    data-tonic="ButtonBase"
     disabled=""
     type="button"
   >

@@ -30,15 +30,20 @@ const useDefaultProps = ({ props, name }) => {
     throw new Error('Invalid or missing component name provided to `useDefaultProps`');
   }
   const context = useContext(DefaultPropsContext);
+
+  const defaultProps = {
+    'data-tonic': name,
+  };
+
   if (!context) {
-    return props;
+    return resolveProps(defaultProps, props);
   }
 
   const theme = {
     components: context,
   };
 
-  return getThemeProps({ props, name, theme });
+  return resolveProps(defaultProps, getThemeProps({ props, name, theme }));
 };
 
 export default useDefaultProps;

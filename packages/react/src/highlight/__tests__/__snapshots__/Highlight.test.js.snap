@@ -10,9 +10,11 @@ exports[`Highlight should render correctly 1`] = `
   <div
     class="emotion-0 emotion-1"
     data-testid="highlight"
+    data-tonic="Highlight"
   >
     <mark
       class="emotion-2 emotion-1"
+      data-tonic="Mark"
     >
       hello
     </mark>
@@ -30,10 +32,12 @@ exports[`Highlight slots and slotProps should pass slotProps to mark component 1
 <div>
   <div
     class="emotion-0 emotion-1"
+    data-tonic="Highlight"
   >
     <mark
       class="custom-highlight emotion-2 emotion-1"
       data-testid="highlight-mark"
+      data-tonic="Mark"
     >
       hello
     </mark>
@@ -52,9 +56,11 @@ exports[`Highlight variants should apply "emphasis" variant 1`] = `
 <div>
   <div
     class="emotion-0 emotion-1"
+    data-tonic="Highlight"
   >
     <mark
       class="emotion-2 emotion-1"
+      data-tonic="Mark"
     >
       hello
     </mark>
@@ -72,9 +78,11 @@ exports[`Highlight variants should apply "highlight" variant 1`] = `
 <div>
   <div
     class="emotion-0 emotion-1"
+    data-tonic="Highlight"
   >
     <mark
       class="emotion-2 emotion-1"
+      data-tonic="Mark"
     >
       hello
     </mark>

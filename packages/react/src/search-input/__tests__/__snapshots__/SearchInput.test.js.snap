@@ -932,6 +932,7 @@ exports[`SearchInput should render correctly 1`] = `
   <div
     class="emotion-0 emotion-1"
     data-testid="input-sm-outline"
+    data-tonic="SearchInput"
   >
     <div
       class="emotion-2 emotion-1"
@@ -955,12 +956,14 @@ exports[`SearchInput should render correctly 1`] = `
     </div>
     <input
       class="emotion-8 emotion-1"
+      data-tonic="InputBase"
       value=""
     />
   </div>
   <div
     class="emotion-10 emotion-1"
     data-testid="input-sm-filled"
+    data-tonic="SearchInput"
   >
     <div
       class="emotion-2 emotion-1"
@@ -984,12 +987,14 @@ exports[`SearchInput should render correctly 1`] = `
     </div>
     <input
       class="emotion-8 emotion-1"
+      data-tonic="InputBase"
       value=""
     />
   </div>
   <div
     class="emotion-20 emotion-1"
     data-testid="input-sm-flush"
+    data-tonic="SearchInput"
   >
     <div
       class="emotion-2 emotion-1"
@@ -1013,12 +1018,14 @@ exports[`SearchInput should render correctly 1`] = `
     </div>
     <input
       class="emotion-28 emotion-1"
+      data-tonic="InputBase"
       value=""
     />
   </div>
   <div
     class="emotion-30 emotion-1"
     data-testid="input-sm-unstyled"
+    data-tonic="SearchInput"
   >
     <div
       class="emotion-2 emotion-1"
@@ -1042,12 +1049,14 @@ exports[`SearchInput should render correctly 1`] = `
     </div>
     <input
       class="emotion-28 emotion-1"
+      data-tonic="InputBase"
       value=""
     />
   </div>
   <div
     class="emotion-40 emotion-1"
     data-testid="input-md-outline"
+    data-tonic="SearchInput"
   >
     <div
       class="emotion-2 emotion-1"
@@ -1071,12 +1080,14 @@ exports[`SearchInput should render correctly 1`] = `
     </div>
     <input
       class="emotion-8 emotion-1"
+      data-tonic="InputBase"
       value=""
     />
   </div>
   <div
     class="emotion-50 emotion-1"
     data-testid="input-md-filled"
+    data-tonic="SearchInput"
   >
     <div
       class="emotion-2 emotion-1"
@@ -1100,12 +1111,14 @@ exports[`SearchInput should render correctly 1`] = `
     </div>
     <input
       class="emotion-8 emotion-1"
+      data-tonic="InputBase"
       value=""
     />
   </div>
   <div
     class="emotion-60 emotion-1"
     data-testid="input-md-flush"
+    data-tonic="SearchInput"
   >
     <div
       class="emotion-2 emotion-1"
@@ -1129,12 +1142,14 @@ exports[`SearchInput should render correctly 1`] = `
     </div>
     <input
       class="emotion-28 emotion-1"
+      data-tonic="InputBase"
       value=""
     />
   </div>
   <div
     class="emotion-30 emotion-1"
     data-testid="input-md-unstyled"
+    data-tonic="SearchInput"
   >
     <div
       class="emotion-2 emotion-1"
@@ -1158,12 +1173,14 @@ exports[`SearchInput should render correctly 1`] = `
     </div>
     <input
       class="emotion-28 emotion-1"
+      data-tonic="InputBase"
       value=""
     />
   </div>
   <div
     class="emotion-80 emotion-1"
     data-testid="input-lg-outline"
+    data-tonic="SearchInput"
   >
     <div
       class="emotion-2 emotion-1"
@@ -1187,12 +1204,14 @@ exports[`SearchInput should render correctly 1`] = `
     </div>
     <input
       class="emotion-88 emotion-1"
+      data-tonic="InputBase"
       value=""
     />
   </div>
   <div
     class="emotion-90 emotion-1"
     data-testid="input-lg-filled"
+    data-tonic="SearchInput"
   >
     <div
       class="emotion-2 emotion-1"
@@ -1216,12 +1235,14 @@ exports[`SearchInput should render correctly 1`] = `
     </div>
     <input
       class="emotion-88 emotion-1"
+      data-tonic="InputBase"
       value=""
     />
   </div>
   <div
     class="emotion-100 emotion-1"
     data-testid="input-lg-flush"
+    data-tonic="SearchInput"
   >
     <div
       class="emotion-2 emotion-1"
@@ -1245,12 +1266,14 @@ exports[`SearchInput should render correctly 1`] = `
     </div>
     <input
       class="emotion-108 emotion-1"
+      data-tonic="InputBase"
       value=""
     />
   </div>
   <div
     class="emotion-110 emotion-1"
     data-testid="input-lg-unstyled"
+    data-tonic="SearchInput"
   >
     <div
       class="emotion-2 emotion-1"
@@ -1274,6 +1297,7 @@ exports[`SearchInput should render correctly 1`] = `
     </div>
     <input
       class="emotion-108 emotion-1"
+      data-tonic="InputBase"
       value=""
     />
   </div>

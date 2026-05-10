@@ -224,6 +224,7 @@ exports[`Menu should render correctly 1`] = `
 <div>
   <div
     class="emotion-0 emotion-1"
+    data-tonic="Menu"
   >
     <button
       aria-controls="@tonic-ui/react:Menu-_r_0_"
@@ -231,6 +232,7 @@ exports[`Menu should render correctly 1`] = `
       aria-haspopup="menu"
       class="emotion-2 emotion-1"
       data-testid="button"
+      data-tonic="MenuButton"
       id="@tonic-ui/react:MenuToggle-_r_0_"
       role="button"
       tabindex="0"
@@ -243,6 +245,7 @@ exports[`Menu should render correctly 1`] = `
       </div>
       <div
         class="emotion-6 emotion-1"
+        data-tonic="MenuToggleIcon"
       >
         <svg
           aria-hidden="true"
@@ -266,6 +269,7 @@ exports[`Menu should render correctly 1`] = `
       data-popper-placement="bottom-start"
       data-popper-reference-hidden=""
       data-testid="menu-list"
+      data-tonic="MenuList"
       id="@tonic-ui/react:Menu-_r_0_"
       role="menu"
       style="position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(0px, 0px);"
@@ -273,6 +277,7 @@ exports[`Menu should render correctly 1`] = `
     >
       <div
         class="emotion-12 emotion-1"
+        data-tonic="Collapse"
       >
         <div
           class="emotion-4 emotion-1"
@@ -280,6 +285,7 @@ exports[`Menu should render correctly 1`] = `
           <button
             class="emotion-16 emotion-1"
             data-id="1"
+            data-tonic="MenuItem"
             role="menuitem"
             tabindex="0"
             type="button"
@@ -289,6 +295,7 @@ exports[`Menu should render correctly 1`] = `
           <button
             class="emotion-16 emotion-1"
             data-id="2"
+            data-tonic="MenuItem"
             role="menuitem"
             tabindex="-1"
             type="button"
@@ -299,6 +306,7 @@ exports[`Menu should render correctly 1`] = `
             aria-disabled="true"
             class="emotion-16 emotion-1"
             data-id="3"
+            data-tonic="MenuItem"
             disabled=""
             role="menuitem"
             tabindex="-1"

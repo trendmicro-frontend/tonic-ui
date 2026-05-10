@@ -889,97 +889,121 @@ exports[`InputControl should render correctly 1`] = `
   <div
     class="emotion-0 emotion-1"
     data-testid="input-sm-outline"
+    data-tonic="InputControl"
   >
     <input
       class="emotion-2 emotion-1"
+      data-tonic="InputBase"
     />
   </div>
   <div
     class="emotion-4 emotion-1"
     data-testid="input-sm-filled"
+    data-tonic="InputControl"
   >
     <input
       class="emotion-2 emotion-1"
+      data-tonic="InputBase"
     />
   </div>
   <div
     class="emotion-8 emotion-1"
     data-testid="input-sm-flush"
+    data-tonic="InputControl"
   >
     <input
       class="emotion-10 emotion-1"
+      data-tonic="InputBase"
     />
   </div>
   <div
     class="emotion-12 emotion-1"
     data-testid="input-sm-unstyled"
+    data-tonic="InputControl"
   >
     <input
       class="emotion-10 emotion-1"
+      data-tonic="InputBase"
     />
   </div>
   <div
     class="emotion-16 emotion-1"
     data-testid="input-md-outline"
+    data-tonic="InputControl"
   >
     <input
       class="emotion-2 emotion-1"
+      data-tonic="InputBase"
     />
   </div>
   <div
     class="emotion-20 emotion-1"
     data-testid="input-md-filled"
+    data-tonic="InputControl"
   >
     <input
       class="emotion-2 emotion-1"
+      data-tonic="InputBase"
     />
   </div>
   <div
     class="emotion-24 emotion-1"
     data-testid="input-md-flush"
+    data-tonic="InputControl"
   >
     <input
       class="emotion-10 emotion-1"
+      data-tonic="InputBase"
     />
   </div>
   <div
     class="emotion-12 emotion-1"
     data-testid="input-md-unstyled"
+    data-tonic="InputControl"
   >
     <input
       class="emotion-10 emotion-1"
+      data-tonic="InputBase"
     />
   </div>
   <div
     class="emotion-32 emotion-1"
     data-testid="input-lg-outline"
+    data-tonic="InputControl"
   >
     <input
       class="emotion-34 emotion-1"
+      data-tonic="InputBase"
     />
   </div>
   <div
     class="emotion-36 emotion-1"
     data-testid="input-lg-filled"
+    data-tonic="InputControl"
   >
     <input
       class="emotion-34 emotion-1"
+      data-tonic="InputBase"
     />
   </div>
   <div
     class="emotion-40 emotion-1"
     data-testid="input-lg-flush"
+    data-tonic="InputControl"
   >
     <input
       class="emotion-42 emotion-1"
+      data-tonic="InputBase"
     />
   </div>
   <div
     class="emotion-44 emotion-1"
     data-testid="input-lg-unstyled"
+    data-tonic="InputControl"
   >
     <input
       class="emotion-42 emotion-1"
+      data-tonic="InputBase"
     />
   </div>
 </div>

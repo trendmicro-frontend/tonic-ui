@@ -311,48 +311,57 @@ exports[`Tag should render correctly 1`] = `
 <div>
   <div
     class="emotion-0 emotion-1"
+    data-tonic="Tag"
   >
     Solid
   </div>
   <div
     class="emotion-2 emotion-1"
+    data-tonic="Tag"
   >
     Outline
   </div>
   <div
     class="emotion-4 emotion-1"
+    data-tonic="Tag"
   >
     Small
   </div>
   <div
     class="emotion-0 emotion-1"
+    data-tonic="Tag"
   >
     Medium
   </div>
   <div
     class="emotion-8 emotion-1"
+    data-tonic="Tag"
   >
     Large
   </div>
   <div
     aria-disabled="true"
     class="emotion-0 emotion-1"
+    data-tonic="Tag"
   >
     Disabled
   </div>
   <div
     aria-invalid="true"
     class="emotion-0 emotion-1"
+    data-tonic="Tag"
   >
     Error
   </div>
   <div
     class="emotion-0 emotion-1"
+    data-tonic="Tag"
   >
     Closable
     <button
       aria-label="Close"
       class="emotion-16 emotion-1"
+      data-tonic="TagCloseButton"
       type="button"
     >
       <svg
@@ -372,12 +381,14 @@ exports[`Tag should render correctly 1`] = `
   <div
     aria-disabled="true"
     class="emotion-2 emotion-1"
+    data-tonic="Tag"
   >
     Outline Disabled Closable
     <button
       aria-disabled="true"
       aria-label="Close"
       class="emotion-22 emotion-1"
+      data-tonic="TagCloseButton"
       disabled=""
       type="button"
     >
@@ -398,11 +409,13 @@ exports[`Tag should render correctly 1`] = `
   <div
     aria-invalid="true"
     class="emotion-2 emotion-1"
+    data-tonic="Tag"
   >
     Outline Error Closable
     <button
       aria-label="Close"
       class="emotion-16 emotion-1"
+      data-tonic="TagCloseButton"
       type="button"
     >
       <svg
