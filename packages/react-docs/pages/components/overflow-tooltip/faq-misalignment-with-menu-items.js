@@ -11,7 +11,7 @@ const CustomOverflowTooltip = ({ children }) => {
   return (
     <OverflowTooltip
       label={children}
-      PopperProps={{ usePortal: true }}
+      portalled
     >
       {children}
     </OverflowTooltip>

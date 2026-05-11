@@ -6,9 +6,7 @@ const App = () => (
       <Button variant="secondary">Trigger</Button>
     </PopoverTrigger>
     <PopoverContent
-      PopperProps={{
-        usePortal: true,
-      }}
+      portalled
     >
       Popover
     </PopoverContent>

@@ -256,7 +256,7 @@ const Sidebar = forwardRef((
                             >
                               <OverflowTooltip
                                 label={title}
-                                PopperProps={{ usePortal: true }}
+                                portalled
                               >
                                 {({ ref, style }) => (
                                   <Text

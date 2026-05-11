@@ -43,9 +43,7 @@ const FlexItem = forwardRef((
 
   return (
     <TooltipComponent
-      PopperProps={{
-        usePortal: true,
-      }}
+      portalled
       disabled={!tooltip}
       label={tooltipLabel}
       {...slotProps?.tooltip}

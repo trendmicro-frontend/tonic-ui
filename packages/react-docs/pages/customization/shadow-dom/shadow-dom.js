@@ -304,9 +304,7 @@ const InsideShadowDOMComponent = () => {
           Show Toast Notification
         </Button>
         <Tooltip
-          PopperProps={{
-            usePortal: true,
-          }}
+          portalled
           label="This is a tooltip"
         >
           <Button variant="secondary">
@@ -380,9 +378,7 @@ const OutsideShadowDOMComponent = () => {
           Show Toast Notification
         </Button>
         <Tooltip
-          PopperProps={{
-            usePortal: true,
-          }}
+          portalled
           label="This is a tooltip"
         >
           <Button variant="secondary">

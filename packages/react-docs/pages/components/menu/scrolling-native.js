@@ -30,6 +30,7 @@ const App = () => (
         <Submenu
           // eslint-disable-next-line react/no-array-index-key
           key={key}
+          portalled
           placement="right-start"
         >
           <SubmenuTrigger width="100%">
@@ -38,9 +39,6 @@ const App = () => (
             <AngleRightIcon ml="auto" />
           </SubmenuTrigger>
           <SubmenuList
-            PopperProps={{
-              usePortal: true,
-            }}
             sx={{
               width: 'max-content',
             }}
