@@ -161,6 +161,52 @@ describe('Menu', () => {
     expect(screen.getByTestId('button')).toBeInTheDocument();
   });
 
+  describe('portalled', () => {
+    it('should render MenuList in a portal when Menu portalled prop is true', async () => {
+      const user = userEvent.setup();
+      render(<TestComponent portalled={true} />);
+
+      await user.click(screen.getByTestId('button'));
+      const menu = await screen.findByRole('menu');
+
+      expect(menu.closest('.tonic-ui-portal')).toBeInTheDocument();
+    });
+
+    it('should not render MenuList in a portal by default', async () => {
+      const user = userEvent.setup();
+      render(<TestComponent />);
+
+      await user.click(screen.getByTestId('button'));
+      const menu = await screen.findByRole('menu');
+
+      expect(menu.closest('.tonic-ui-portal')).not.toBeInTheDocument();
+    });
+
+    it('should render MenuList in a portal when PopperProps.usePortal is true (backward compat)', async () => {
+      // Regression: MenuList with PopperProps={{ usePortal: true }} must activate the
+      // portal even though Menu does not receive portalled prop (previously defaulted
+      // portalled=false in context, blocking the usePortal fallback in Popper).
+      const user = userEvent.setup();
+      const TestWithUsePortal = () => (
+        <Menu>
+          <MenuButton data-testid="button" variant="secondary">Open</MenuButton>
+          <MenuList
+            data-testid="menu-list"
+            PopperProps={{ usePortal: true }}
+          >
+            <MenuItem>Item 1</MenuItem>
+          </MenuList>
+        </Menu>
+      );
+      render(<TestWithUsePortal />);
+
+      await user.click(screen.getByTestId('button'));
+      const menu = await screen.findByRole('menu');
+
+      expect(menu.closest('.tonic-ui-portal')).toBeInTheDocument();
+    });
+  });
+
   describe('Keyboard navigation', () => {
     it('should navigate menu items with ArrowDown and ArrowUp keys', async () => {
       const user = userEvent.setup();

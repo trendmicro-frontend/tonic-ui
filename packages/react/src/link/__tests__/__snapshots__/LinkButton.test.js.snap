@@ -337,18 +337,21 @@ exports[`LinkButton should render correctly 1`] = `
 <div>
   <button
     class="emotion-0 emotion-1 emotion-0"
+    data-tonic="LinkButton"
     type="button"
   >
     default link
   </button>
   <button
     class="emotion-0 emotion-4 emotion-0"
+    data-tonic="LinkButton"
     type="button"
   >
     inline link
   </button>
   <button
     class="emotion-0 emotion-7 emotion-0"
+    data-tonic="LinkButton"
     type="button"
   >
     subtle link
@@ -356,6 +359,7 @@ exports[`LinkButton should render correctly 1`] = `
   <button
     aria-disabled="true"
     class="emotion-0 emotion-10 emotion-0"
+    data-tonic="LinkButton"
     disabled=""
     type="button"
   >
@@ -364,6 +368,7 @@ exports[`LinkButton should render correctly 1`] = `
   <button
     aria-disabled="true"
     class="emotion-0 emotion-13 emotion-0"
+    data-tonic="LinkButton"
     disabled=""
     type="button"
   >
@@ -372,6 +377,7 @@ exports[`LinkButton should render correctly 1`] = `
   <button
     aria-disabled="true"
     class="emotion-0 emotion-16 emotion-0"
+    data-tonic="LinkButton"
     disabled=""
     type="button"
   >

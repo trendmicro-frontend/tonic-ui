@@ -17,7 +17,7 @@ import {
   InfoOIcon,
 } from '@tonic-ui/react-icons';
 import { produce } from 'immer';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import FormGroup from '@/components/FormGroup';
 import { Dropdown, MenuButtonToggle, TagToggle } from '@/experiments/dropdown';
 import { FlexItem } from '@/experiments/flex-item';
@@ -54,24 +54,21 @@ const App = () => {
     setTogglePropsMap((prevState) => produce(prevState, draft => updater(draft[toggle])));
   };
   const [matchWidth, setMatchWidth] = useState(false);
-  const [value, setValue] = useState('all');
   const items = useConst(() => [
-    { value: 'all', label: 'All' },
-    { value: 'network', label: 'Network events' },
-    { value: 'system', label: 'System events' },
+    { id: 'all', label: 'All' },
+    { id: 'network', label: 'Network events' },
+    { id: 'system', label: 'System events' },
   ]);
-  const itemValueToLabelMap = useMemo(() => {
-    return Object.fromEntries(items.map(item => [item.value, item.label]));
-  }, [items]);
+  const [value, setValue] = useState(items[0]);
 
   const handleChange = (item) => {
-    if (value !== item.value) {
-      setValue(item.value);
+    if (value !== item) {
+      setValue(item);
     }
   };
 
-  const renderValue = (value) => {
-    const label = itemValueToLabelMap[value];
+  const renderValue = (item) => {
+    const label = item?.label ?? '';
 
     return (
       <Flex alignItems="center" columnGap="1x" width="100%">
@@ -194,10 +191,14 @@ const App = () => {
       </FormGroup>
       <Divider my="4x" />
       <Dropdown
+        sx={{
+          width,
+        }}
         matchWidth={matchWidth}
-        items={items}
         offset={toggleOffset}
+        value={value}
         onChange={handleChange}
+        items={items}
         renderContent={({ items, renderItems }) => (
           <Scrollbar
             maxHeight={200}
@@ -206,17 +207,12 @@ const App = () => {
             {renderItems(items)}
           </Scrollbar>
         )}
-        slots={{
-          // You can omit `slots.toggle` if you're using the default toggle component
-          toggle: ToggleComponent,
-        }}
-        slotProps={{
-          toggle: toggleProps,
-        }}
-        width={width}
-      >
-        {renderValue(value)}
-      </Dropdown>
+        renderToggle={({ getToggleProps, value: selectedValue }) => (
+          <ToggleComponent {...getToggleProps(toggleProps)}>
+            {renderValue(selectedValue)}
+          </ToggleComponent>
+        )}
+      />
     </>
   );
 };

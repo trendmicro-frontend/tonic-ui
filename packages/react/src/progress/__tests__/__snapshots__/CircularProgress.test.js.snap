@@ -154,6 +154,7 @@ exports[`CircularProgress renders correctly 1`] = `
   <div
     aria-label="loading"
     class="emotion-0 emotion-1"
+    data-tonic="CircularProgress"
     role="progressbar"
   >
     <svg
@@ -184,6 +185,7 @@ exports[`CircularProgress renders correctly 1`] = `
   <div
     aria-label="loading"
     class="emotion-8 emotion-1"
+    data-tonic="CircularProgress"
     role="progressbar"
   >
     <svg
@@ -214,6 +216,7 @@ exports[`CircularProgress renders correctly 1`] = `
   <div
     aria-label="loading"
     class="emotion-16 emotion-1"
+    data-tonic="CircularProgress"
     role="progressbar"
   >
     <svg

@@ -59,17 +59,16 @@ A submenu can be used to display nested menu items. Use the `placement` prop to 
 
 {render('./submenu-rtl')}
 
-By default, the submenu is rendered within the same container as its parent menu. To avoid issues with `overflow: hidden`, you can render the submenu in a portal by passing `usePortal: true` to the `PopperProps` of `SubmenuList`.
+By default, the submenu is rendered within the same container as its parent menu. To avoid issues with `overflow: hidden`, you can render the submenu in a portal by passing the `portalled` prop to `Submenu`.
 
 ```jsx
-<SubmenuList
-  PopperProps={{
-    usePortal: true,
-  }}
->
-  <MenuItem>Submenu item 1</MenuItem>
-  <MenuItem>Submenu item 2</MenuItem>
-</SubmenuList>
+<Submenu portalled>
+  <SubmenuTrigger>Submenu</SubmenuTrigger>
+  <SubmenuList>
+    <MenuItem>Submenu item 1</MenuItem>
+    <MenuItem>Submenu item 2</MenuItem>
+  </SubmenuList>
+</Submenu>
 ```
 
 ### Controlled and uncontrolled menu
@@ -249,7 +248,9 @@ Check out the following components for more details:
 | offset | [skidding, distance] | [0, 0] | The skidding and distance of the menu. |
 | onClose | function | | Callback when the menu is closed. |
 | onOpen | function | | Callback when the menu is opened. |
+| matchWidth | boolean | false | If `true`, sizes the menu to match the toggle's width. |
 | placement | string | 'bottom-start' | The placement of the menu. One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end' |
+| portalled | boolean | false | If `true`, renders the menu in a portal. |
 | returnFocusOnClose | boolean | true | If `true`, the menu will return the focus to the trigger element when closing. Otherwise, it will leave focus unchanged. |
 
 ### MenuButton
@@ -337,6 +338,7 @@ Check out the following components for more details:
 | onClose | function | | Callback when the submenu is closed. |
 | onOpen | function | | Callback when the submenu is opened. |
 | placement | string | 'right-start' | The placement of the submenu. One of: 'right-start', 'right-end', 'left-start', 'left-end' |
+| portalled | boolean | false | If `true`, renders the submenu in a portal. |
 
 ### SubmenuContent
 

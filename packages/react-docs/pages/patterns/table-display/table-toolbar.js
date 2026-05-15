@@ -72,7 +72,7 @@ const App = () => {
         </Button>
         <Divider orientation="vertical" height="8x" />
         <Dropdown
-          onSelect={(item) => {
+          onChange={(item) => {
             setSelectedItem(item);
           }}
           items={defaultDropdownItems}

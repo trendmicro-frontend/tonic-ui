@@ -239,12 +239,15 @@ exports[`Badge should render correctly 1`] = `
 <div>
   <div
     class="emotion-0 emotion-1"
+    data-tonic="Flex"
   >
     <div
       class="emotion-2 emotion-1"
+      data-tonic="Badge"
     />
     <div
       class="emotion-4 emotion-1"
+      data-tonic="Badge"
     >
       5
     </div>
@@ -265,6 +268,7 @@ exports[`Badge should render correctly 1`] = `
       </svg>
       <div
         class="emotion-10 emotion-1"
+        data-tonic="Badge"
       />
     </div>
     <div
@@ -284,6 +288,7 @@ exports[`Badge should render correctly 1`] = `
       </svg>
       <div
         class="emotion-16 emotion-1"
+        data-tonic="Badge"
       >
         5
       </div>
@@ -305,6 +310,7 @@ exports[`Badge should render correctly 1`] = `
       </svg>
       <div
         class="emotion-16 emotion-1"
+        data-tonic="Badge"
       >
         99+
       </div>
@@ -326,6 +332,7 @@ exports[`Badge should render correctly 1`] = `
       </svg>
       <div
         class="emotion-28 emotion-1"
+        data-tonic="Badge"
       >
         1
       </div>
@@ -347,6 +354,7 @@ exports[`Badge should render correctly 1`] = `
       </svg>
       <div
         class="emotion-16 emotion-1"
+        data-tonic="Badge"
       >
         1
       </div>
@@ -368,6 +376,7 @@ exports[`Badge should render correctly 1`] = `
       </svg>
       <div
         class="emotion-40 emotion-1"
+        data-tonic="Badge"
       >
         1
       </div>
@@ -389,6 +398,7 @@ exports[`Badge should render correctly 1`] = `
       </svg>
       <div
         class="emotion-46 emotion-1"
+        data-tonic="Badge"
       >
         1
       </div>

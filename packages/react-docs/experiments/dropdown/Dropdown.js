@@ -1,38 +1,50 @@
-import { forwardRef } from 'react';
+import { forwardRef, useCallback } from 'react';
 import DropdownBase from './DropdownBase';
 import MenuButtonToggle from './MenuButtonToggle';
 
 const Dropdown = forwardRef((
   {
     children,
-    onSelect,
+    defaultValue,
     items = [],
+    matchWidth,
+    onChange,
     portalled,
     renderContent,
     renderItem,
+    renderToggle: renderToggleProp,
     slots = {},
     slotProps = {},
+    value,
     ...rest
   },
   ref
 ) => {
+  const defaultRenderToggle = useCallback(({ getToggleProps, value: selectedValue, renderItem: resolvedRenderItem }) => {
+    const Toggle = slots.toggle ?? MenuButtonToggle;
+    return (
+      <Toggle {...getToggleProps()}>
+        {children ?? resolvedRenderItem(selectedValue)}
+      </Toggle>
+    );
+  }, [slots.toggle, children]);
+  const renderToggle = renderToggleProp ?? defaultRenderToggle;
+
   return (
     <DropdownBase
+      defaultValue={defaultValue}
       items={items}
-      onSelect={onSelect}
+      matchWidth={matchWidth}
+      onChange={onChange}
       portalled={portalled}
-      ref={ref}
       renderContent={renderContent}
       renderItem={renderItem}
-      slots={{
-        ...slots,
-        toggle: slots?.toggle ?? MenuButtonToggle,
-      }}
+      renderToggle={renderToggle}
+      slots={slots}
       slotProps={slotProps}
+      value={value}
       {...rest}
-    >
-      {children}
-    </DropdownBase>
+    />
   );
 });
 

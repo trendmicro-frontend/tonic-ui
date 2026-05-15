@@ -9,6 +9,7 @@ exports[`Mark should render correctly 1`] = `
 <div>
   <mark
     class="emotion-0 emotion-1"
+    data-tonic="Mark"
   >
     Hello World
   </mark>

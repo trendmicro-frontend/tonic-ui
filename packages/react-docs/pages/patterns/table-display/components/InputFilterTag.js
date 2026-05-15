@@ -102,9 +102,7 @@ const InputFilterTag = forwardRef((
         </FilterTag>
       </PopoverTrigger>
       <PopoverContent
-        PopperProps={{
-          usePortal: true,
-        }}
+        portalled
       >
         <Box mb="2x">
           <Input

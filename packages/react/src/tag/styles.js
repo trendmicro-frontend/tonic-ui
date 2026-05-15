@@ -176,24 +176,10 @@ const useTagCloseButtonStyle = ({
   const size = '4x';
   const iconButtonStyle = useIconButtonStyle({ color, size });
 
-  if (isClosable) {
-    return {
-      ...iconButtonStyle,
-      _hover: {
-        color: hoverColor,
-      },
-      _focusVisible: {
-        outlineColor: focusVisibleOutlineColor,
-        outlineOffset: '-1q',
-        outlineStyle: 'solid',
-        outlineWidth: '1q',
-      },
-      ml: '2x',
-    };
-  }
-
-  return {
+  const baseStyle = {
     ...iconButtonStyle,
+    // Set the background color to transparent to prevent the parent opacity from being applied twice
+    backgroundColor: 'transparent',
     _hover: {
       color: hoverColor,
     },
@@ -204,6 +190,15 @@ const useTagCloseButtonStyle = ({
       outlineWidth: '1q',
     },
   };
+
+  if (isClosable) {
+    return {
+      ...baseStyle,
+      ml: '2x',
+    };
+  }
+
+  return baseStyle;
 };
 
 export {

@@ -13,14 +13,11 @@ import {
 import { AngleLeftIcon } from '@tonic-ui/react-icons';
 
 const App = () => (
-  <Menu>
+  <Menu portalled>
     <MenuButton>
       Options
     </MenuButton>
     <MenuList
-      PopperProps={{
-        usePortal: true,
-      }}
       width="max-content"
     >
       <MenuItem pl="9x">
@@ -30,16 +27,13 @@ const App = () => (
         <Text>List item</Text>
       </MenuItem>
       <MenuDivider />
-      <Submenu placement="left-start">
+      <Submenu portalled placement="left-start">
         <SubmenuTrigger>
           <AngleLeftIcon mr="auto" />
           <Space width="1x" />
           <Text>Submenu</Text>
         </SubmenuTrigger>
         <SubmenuList
-          PopperProps={{
-            usePortal: true,
-          }}
           sx={{
             width: 'max-content',
 
@@ -53,16 +47,13 @@ const App = () => (
           <MenuItem pl="9x">
             <Text>List item</Text>
           </MenuItem>
-          <Submenu placement="left-start">
+          <Submenu portalled placement="left-start">
             <SubmenuTrigger>
               <AngleLeftIcon mr="auto" />
               <Space width="1x" />
               <Text>Submenu</Text>
             </SubmenuTrigger>
             <SubmenuList
-              PopperProps={{
-                usePortal: true,
-              }}
               sx={{
                 width: 'max-content',
 

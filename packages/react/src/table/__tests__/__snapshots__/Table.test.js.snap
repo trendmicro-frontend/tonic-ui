@@ -53,24 +53,29 @@ exports[`Table should render correctly with \`flexbox\` layout 1`] = `
 <div>
   <div
     class="emotion-0 emotion-1"
+    data-tonic="Table"
     role="table"
   >
     <div
       class="emotion-2 emotion-1"
+      data-tonic="TableHeader"
       role="rowgroup"
     >
       <div
         class="emotion-4 emotion-1"
+        data-tonic="TableRow"
         role="row"
       >
         <div
           class="emotion-6 emotion-1"
+          data-tonic="TableCell"
           role="columnheader"
         >
           Header Cell 1
         </div>
         <div
           class="emotion-6 emotion-1"
+          data-tonic="TableCell"
           role="columnheader"
         >
           Header Cell 2
@@ -79,20 +84,24 @@ exports[`Table should render correctly with \`flexbox\` layout 1`] = `
     </div>
     <div
       class="emotion-10 emotion-1"
+      data-tonic="TableBody"
       role="rowgroup"
     >
       <div
         class="emotion-4 emotion-1"
+        data-tonic="TableRow"
         role="row"
       >
         <div
           class="emotion-14 emotion-1"
+          data-tonic="TableCell"
           role="cell"
         >
           Row 1, Cell 1
         </div>
         <div
           class="emotion-14 emotion-1"
+          data-tonic="TableCell"
           role="cell"
         >
           Row 1, Cell 2
@@ -100,16 +109,19 @@ exports[`Table should render correctly with \`flexbox\` layout 1`] = `
       </div>
       <div
         class="emotion-4 emotion-1"
+        data-tonic="TableRow"
         role="row"
       >
         <div
           class="emotion-14 emotion-1"
+          data-tonic="TableCell"
           role="cell"
         >
           Row 2, Cell 1
         </div>
         <div
           class="emotion-14 emotion-1"
+          data-tonic="TableCell"
           role="cell"
         >
           Row 2, Cell 2
@@ -168,24 +180,29 @@ exports[`Table should render correctly with \`table\` layout 1`] = `
 <div>
   <table
     class="emotion-0 emotion-1"
+    data-tonic="Table"
     role="table"
   >
     <thead
       class="emotion-2 emotion-1"
+      data-tonic="TableHeader"
       role="rowgroup"
     >
       <tr
         class="emotion-4 emotion-1"
+        data-tonic="TableRow"
         role="row"
       >
         <th
           class="emotion-6 emotion-1"
+          data-tonic="TableCell"
           role="columnheader"
         >
           Header Cell 1
         </th>
         <th
           class="emotion-6 emotion-1"
+          data-tonic="TableCell"
           role="columnheader"
         >
           Header Cell 2
@@ -194,20 +211,24 @@ exports[`Table should render correctly with \`table\` layout 1`] = `
     </thead>
     <tbody
       class="emotion-10 emotion-1"
+      data-tonic="TableBody"
       role="rowgroup"
     >
       <tr
         class="emotion-4 emotion-1"
+        data-tonic="TableRow"
         role="row"
       >
         <td
           class="emotion-14 emotion-1"
+          data-tonic="TableCell"
           role="cell"
         >
           Row 1, Cell 1
         </td>
         <td
           class="emotion-14 emotion-1"
+          data-tonic="TableCell"
           role="cell"
         >
           Row 1, Cell 2
@@ -215,16 +236,19 @@ exports[`Table should render correctly with \`table\` layout 1`] = `
       </tr>
       <tr
         class="emotion-4 emotion-1"
+        data-tonic="TableRow"
         role="row"
       >
         <td
           class="emotion-14 emotion-1"
+          data-tonic="TableCell"
           role="cell"
         >
           Row 2, Cell 1
         </td>
         <td
           class="emotion-14 emotion-1"
+          data-tonic="TableCell"
           role="cell"
         >
           Row 2, Cell 2

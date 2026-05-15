@@ -69,7 +69,7 @@ const App = () => {
 
   const [value, setValue] = useState(items[0]?.value);
 
-  const handleSelect = (item) => {
+  const handleChange = (item) => {
     if (value !== item.value) {
       setValue(item.value);
     }
@@ -153,7 +153,7 @@ const App = () => {
       <SearchDropdown
         items={items}
         offset={toggleOffset}
-        onSelect={handleSelect}
+        onChange={handleChange}
         renderContent={({ items, renderItems, renderSearchInput }) => (
           <>
             <Box px="3x" mb="2x">

@@ -26,6 +26,7 @@ const Popover = (inProps) => {
     onClose: onCloseProp,
     onOpen: onOpenProp,
     placement = defaultPlacement,
+    portalled,
     returnFocusOnClose = true,
     trigger = 'click',
   } = useDefaultProps({ props: inProps, name: 'Popover' });
@@ -185,6 +186,7 @@ const Popover = (inProps) => {
     onOpen,
     onToggle,
     placement: (followCursor || nextToCursor) ? 'bottom-start' : placement,
+    portalled,
     popoverId,
     popoverContentRef,
     popoverTriggerId,

@@ -154,6 +154,8 @@ const useModalCloseButtonStyle = () => {
 
   return {
     ...iconButtonStyle,
+    // Set the background color to transparent to prevent the parent opacity from being applied twice
+    backgroundColor: 'transparent',
     _focusVisible: {
       outlineColor: focusVisibleOutlineColor,
       outlineOffset: '-1h',

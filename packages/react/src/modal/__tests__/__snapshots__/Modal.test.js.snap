@@ -105,7 +105,7 @@ exports[`Modal should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: inherit;
+  background-color: var(--tonic-colors-transparent);
   border: none;
   color: var(--tonic-colors-white-tertiary);
   cursor: pointer;
@@ -254,34 +254,41 @@ exports[`Modal should render correctly 1`] = `
     >
       <div
         class="emotion-0 emotion-1"
+        data-tonic="Modal"
       >
         <div
           class="emotion-2 emotion-1"
+          data-tonic="ModalOverlay"
         />
         <div
           aria-modal="true"
           class="emotion-4 emotion-1"
+          data-tonic="ModalContent"
           role="dialog"
           tabindex="-1"
         >
           <div
             class="emotion-6 emotion-1"
+            data-tonic="ModalHeader"
           >
             Modal header
           </div>
           <div
             class="emotion-8 emotion-1"
+            data-tonic="ModalBody"
           >
             Modal body
           </div>
           <div
             class="emotion-10 emotion-1"
+            data-tonic="ModalFooter"
           >
             Modal footer
           </div>
           <button
             aria-label="Close"
             class="emotion-12 emotion-1"
+            data-tonic="ModalCloseButton"
             type="button"
           >
             <svg
@@ -312,26 +319,32 @@ exports[`Modal should render correctly 1`] = `
     <div
       class="emotion-16 emotion-1"
       data-toast-placement="bottom"
+      data-tonic="ToastContainer"
     />
     <div
       class="emotion-18 emotion-1"
       data-toast-placement="bottom-right"
+      data-tonic="ToastContainer"
     />
     <div
       class="emotion-20 emotion-1"
       data-toast-placement="bottom-left"
+      data-tonic="ToastContainer"
     />
     <div
       class="emotion-22 emotion-1"
       data-toast-placement="top"
+      data-tonic="ToastContainer"
     />
     <div
       class="emotion-24 emotion-1"
       data-toast-placement="top-left"
+      data-tonic="ToastContainer"
     />
     <div
       class="emotion-26 emotion-1"
       data-toast-placement="top-right"
+      data-tonic="ToastContainer"
     />
   </div>
 </body>

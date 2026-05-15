@@ -11,7 +11,7 @@ import {
 } from '@tonic-ui/react';
 import { callEventHandlers, isPlainObject, runIfFn } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
-import { Fragment, forwardRef, useCallback } from 'react';
+import { Fragment, forwardRef, useCallback, useState } from 'react';
 import { getMenuListStyle } from './styles';
 
 const isValidElementType = (type) => {
@@ -22,36 +22,51 @@ const isValidElementType = (type) => {
   );
 };
 
-const defaultRenderItem = (item) => (isPlainObject(item) ? item.label : item);
+const defaultRenderItem = (item) => isPlainObject(item) ? item.label : item;
 
 const DropdownBase = forwardRef((
   {
     children,
+    defaultValue,
     items = [],
-    onSelect,
+    matchWidth = false,
+    onChange,
     portalled = false,
     renderContent = null,
     renderItem: renderItemProp = defaultRenderItem,
+    renderToggle,
     slots = {},
     slotProps = {},
+    value: valueProp,
     ...rest
   },
   ref,
 ) => {
+  const isControlled = valueProp !== undefined;
+  const [internalValue, setInternalValue] = useState(defaultValue ?? null);
+  const value = isControlled ? valueProp : internalValue;
+
+  const handleChange = useCallback((item) => {
+    if (!isControlled) {
+      setInternalValue(item);
+    }
+    onChange?.(item);
+  }, [isControlled, onChange]);
+
   const handleClickBy = useCallback((item) => (event) => {
     if (event.defaultPrevented) {
       return;
     }
-    onSelect?.(item);
-  }, [onSelect]);
+    handleChange(item);
+  }, [handleChange]);
   const handleKeyDownBy = useCallback((item) => (event) => {
     if (event.defaultPrevented) {
       return;
     }
     if ((event.key === ' ' || event.key === 'Enter') && !event.repeat) {
-      onSelect?.(item);
+      handleChange(item);
     }
-  }, [onSelect]);
+  }, [handleChange]);
 
   const renderItem = ensureFunction(renderItemProp);
 
@@ -130,19 +145,42 @@ const DropdownBase = forwardRef((
   return (
     <Menu
       ref={ref}
+      matchWidth={matchWidth}
+      portalled={portalled}
       {...rest}
     >
       {({ menuToggleRef }) => {
         const toggleWidth = menuToggleRef?.current?.offsetWidth;
         const { width: contentWidth, ...contentProps } = { ...slotProps?.content };
-        const menuListStyle = getMenuListStyle({ portalled, toggleWidth, contentWidth });
+        const menuListStyle = getMenuListStyle({ portalled, matchWidth, toggleWidth, contentWidth });
 
         return (
           <>
             <MenuToggle
               {...slotProps?.toggle}
             >
-              {({ getMenuToggleProps: getToggleProps }) => {
+              {({ getMenuToggleProps }) => {
+                const getToggleProps = (userProps = {}) => {
+                  const {
+                    disabled: userDisabled,
+                    onClick: userOnClick,
+                    onKeyDown: userOnKeyDown,
+                    ...userRest
+                  } = userProps;
+                  const baseProps = getMenuToggleProps();
+                  const isDisabled = userDisabled || baseProps.disabled;
+                  return {
+                    ...baseProps,
+                    ...userRest,
+                    disabled: isDisabled,
+                    'aria-disabled': isDisabled ? 'true' : 'false',
+                    onClick: isDisabled ? userOnClick : callEventHandlers(userOnClick, baseProps.onClick),
+                    onKeyDown: isDisabled ? userOnKeyDown : callEventHandlers(userOnKeyDown, baseProps.onKeyDown),
+                  };
+                };
+                if (typeof renderToggle === 'function') {
+                  return renderToggle({ getToggleProps, value, renderItem });
+                }
                 const Toggle = slots?.toggle;
                 if (isValidElementType(Toggle)) {
                   return (
@@ -158,10 +196,6 @@ const DropdownBase = forwardRef((
             <MenuList
               {...menuListStyle}
               {...contentProps}
-              PopperProps={{
-                usePortal: portalled,
-                ...contentProps?.PopperProps,
-              }}
             >
               {(typeof renderContent === 'function')
                 ? renderContent({ items, renderItem, renderItems })

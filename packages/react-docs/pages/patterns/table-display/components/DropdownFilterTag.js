@@ -45,7 +45,7 @@ const DropdownFilterTag = forwardRef((
     toggleIsOpen(true);
   };
 
-  const handleSelect = (item) => {
+  const handleChange = (item) => {
     const nextValue = item.value;
     if (nextValue !== value) {
       ensureFunction(onChange)(nextValue);
@@ -68,7 +68,7 @@ const DropdownFilterTag = forwardRef((
       offset={[0, 4]}
       onClose={handleClose}
       onOpen={handleOpen}
-      onSelect={handleSelect}
+      onChange={handleChange}
       items={items}
       slots={{
         toggle: FilterTagToggle,

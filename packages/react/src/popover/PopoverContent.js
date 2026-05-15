@@ -67,6 +67,7 @@ const PopoverContent = forwardRef((inProps, ref) => {
     offset,
     onClose: closePopover,
     placement,
+    portalled,
     popoverId,
     popoverContentRef,
     popoverTriggerId,
@@ -183,7 +184,7 @@ const PopoverContent = forwardRef((inProps, ref) => {
       referenceRef={popoverTriggerRef}
       role={role}
       unmountOnExit={true}
-      usePortal={false} // Pass `true` in `PopperProps` to render popover in a portal
+      portalled={portalled}
       willUseTransition={true}
       zIndex="popover"
       {...PopperProps}

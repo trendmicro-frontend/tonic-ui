@@ -216,4 +216,82 @@ describe('Popper', () => {
     document.body.removeChild(anchorEl);
     document.body.removeChild(container);
   });
+
+  it('should render in Portal when portalled is true', () => {
+    const anchorEl = document.createElement('div');
+    const container = document.createElement('div');
+    document.body.appendChild(anchorEl);
+    document.body.appendChild(container);
+
+    const containerRef = { current: container };
+    render(
+      <Popper
+        isOpen={true}
+        anchorEl={anchorEl}
+        portalled={true}
+        portalProps={{ containerRef }}
+      >
+        <PopperContent />
+      </Popper>
+    );
+
+    const popperContent = screen.getByTestId('popper-content');
+    const portalDiv = popperContent.parentElement.parentElement;
+    expect(portalDiv).toHaveClass('tonic-ui-portal');
+    expect(portalDiv.parentElement).toBe(containerRef.current);
+
+    document.body.removeChild(anchorEl);
+    document.body.removeChild(container);
+  });
+
+  it('should render in Portal when portalled is false but usePortal is true (backward compat)', () => {
+    // Regression: portalled=false (explicitly set, e.g. from a Menu context default)
+    // must not block usePortal=true from activating the portal.
+    const anchorEl = document.createElement('div');
+    const container = document.createElement('div');
+    document.body.appendChild(anchorEl);
+    document.body.appendChild(container);
+
+    const containerRef = { current: container };
+    render(
+      <Popper
+        isOpen={true}
+        anchorEl={anchorEl}
+        portalled={false}
+        usePortal={true}
+        portalProps={{ containerRef }}
+      >
+        <PopperContent />
+      </Popper>
+    );
+
+    const popperContent = screen.getByTestId('popper-content');
+    const portalDiv = popperContent.parentElement.parentElement;
+    expect(portalDiv).toHaveClass('tonic-ui-portal');
+    expect(portalDiv.parentElement).toBe(containerRef.current);
+
+    document.body.removeChild(anchorEl);
+    document.body.removeChild(container);
+  });
+
+  it('should not render in Portal when both portalled and usePortal are false', () => {
+    const anchorEl = document.createElement('div');
+    document.body.appendChild(anchorEl);
+
+    render(
+      <Popper
+        isOpen={true}
+        anchorEl={anchorEl}
+        portalled={false}
+        usePortal={false}
+      >
+        <PopperContent />
+      </Popper>
+    );
+
+    const popperContent = screen.getByTestId('popper-content');
+    expect(popperContent.parentElement.parentElement).not.toHaveClass('tonic-ui-portal');
+
+    document.body.removeChild(anchorEl);
+  });
 });

@@ -38,7 +38,7 @@ const App = () => {
 
   return (
     <Flex columnGap="4x" alignItems="center">
-      <Menu isOpen={isOpen} onClose={onClose}>
+      <Menu portalled isOpen={isOpen} onClose={onClose}>
         <MenuButton
           onClick={toggleIsOpen}
           onKeyDown={(event) => {
@@ -51,9 +51,6 @@ const App = () => {
           Options
         </MenuButton>
         <MenuList
-          PopperProps={{
-            usePortal: true,
-          }}
           onClick={handleClickMenuItem}
           onKeyDown={handleKeyDownMenuItem}
           width="max-content"
@@ -65,16 +62,13 @@ const App = () => {
             List item 2
           </MenuItem>
           <MenuDivider />
-          <Submenu>
+          <Submenu portalled>
             <SubmenuTrigger>
               <Text>Submenu</Text>
               <Space width="1x" />
               <AngleRightIcon ml="auto" />
             </SubmenuTrigger>
             <SubmenuList
-              PopperProps={{
-                usePortal: true,
-              }}
               width="max-content"
             >
               <MenuItem value={3}>

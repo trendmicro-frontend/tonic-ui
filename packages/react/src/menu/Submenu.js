@@ -16,6 +16,7 @@ const Submenu = forwardRef((inProps, ref) => {
     offset,
     onClose: onCloseProp,
     onOpen: onOpenProp,
+    portalled,
     placement = 'right-start', // One of: 'right-start', 'right-end', 'left-start', 'left-end'
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Submenu' });
@@ -143,6 +144,7 @@ const Submenu = forwardRef((inProps, ref) => {
     offset,
     onClose,
     onOpen,
+    portalled,
     placement,
     submenuId,
     submenuContentRef,

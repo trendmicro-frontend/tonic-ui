@@ -164,6 +164,8 @@
 
 ### Form controls
 
+[Autocomplete]({{PAGE_BASE}}/components/autocomplete/): <classification>LLM should read this page when using the Autocomplete component for searchable input with suggestions, implementing single or multi-select with filtering, creating creatable options, handling async data loading, or building keyboard-navigable dropdown lists from an input field.</classification>
+
 [Button]({{PAGE_BASE}}/components/button/): <classification>LLM should read this page when using the Button component for clickable actions, implementing various button variants and sizes, or creating interactive elements. Related to ButtonGroup, ButtonBase, ButtonLink, and LinkButton components.</classification>
 
 [ButtonBase]({{PAGE_BASE}}/components/button-base/): <classification>LLM should read this page when using the ButtonBase component for custom button implementations, building custom button variants, or creating interactive elements with foundational button functionality. Used as the base for Button and related components.</classification>
