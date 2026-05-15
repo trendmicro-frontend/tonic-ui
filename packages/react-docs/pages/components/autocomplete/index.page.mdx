@@ -1,0 +1,283 @@
+# Autocomplete
+
+The `Autocomplete` component combines a text input with a filterable dropdown list of items.
+
+## Import
+
+```js
+import { Autocomplete, AutocompleteInput } from '@tonic-ui/react';
+```
+
+## Usage
+
+### Basic
+
+`Autocomplete` consists of two components:
+
+* `Autocomplete` manages the state machine and popup behavior.
+* `AutocompleteInput` renders the input element.
+
+Use the `renderInput` prop to connect them together. Spread the provided `params` onto `AutocompleteInput`, then apply any visual props such as `error`, `placeholder`, or `disabled` directly to the input component.
+
+The selected item can be controlled using the `value` and `onChange` props. In uncontrolled mode, you can provide an initial selection with `defaultValue`.
+
+By default, the input text is derived from `getItemLabel(value)`. To control the displayed text explicitly, use the `inputValue` and `onInputChange` props.
+
+
+```jsx
+// Only the `label` property is required. Other fields are optional.
+const items = [
+  { id: 'one', label: 'One' },
+  { id: 'two', label: 'Two' },
+  { id: 'three', label: 'Three' },
+];
+
+const [value, setValue] = useState(items[0]);
+
+<Autocomplete
+  sx={{
+    width: 400,
+  }}
+  autoHighlight
+  defaultValue={items[0]} // [optional] Initial value
+  getItemLabel={(item) => item.label} // [optional] Pass a custom `getItemLabel` when your items use a different label field (e.g. `.name` or `.title`)
+  isClearable
+  items={items}
+  onChange={setValue}
+  portalled
+  selectOnFocus
+  renderInput={(params) => (
+    <AutocompleteInput
+      {...params}
+      placeholder="Search"
+    />
+  )}
+  renderContent={({ items: filteredItems, renderItems }) => {
+    if (filteredItems.length === 0) {
+      return (
+        <Box px="3x" py="2x">
+          No items
+        </Box>
+      );
+    }
+    return renderItems(filteredItems);
+  }}
+  renderItem={(item, { inputValue: query }) => (
+    <Highlight variant="highlight" query={query}>
+      {item.label}
+    </Highlight>
+  )}
+/>
+```
+
+{render('./basic')}
+
+### Playground
+
+{render('./playground')}
+
+### Asynchronous requests
+
+For server-driven search, wire your data-fetching hook to:
+
+- `filterItems` — set to `(items) => items` to skip client-side filtering  
+- `isLoading` — shows a spinner while loading; shows empty state when no items  
+- `onOpen` — triggers initial fetch  
+- `onInputChange` — debounces input and triggers refetch  
+- `onChange` — commits value or clears it (when `null`) and resets query to `null`
+
+{render('./asynchronous-requests')}
+
+💡 **Tip:** You can extract the debounce and query into a single custom hook to reduce unnecessary fetches on every keystroke — your component stays focused on UI and only handles search state:
+```jsx
+/**
+ * @param {string | null} searchQuery - null defers the first fetch until the popup opens.
+ * @param {number} [delay=300] - 300ms matches the natural pause between keystrokes.
+ * @returns {{ data: any[]; isLoading: boolean }}
+ */
+const useDebouncedSearchItemsQuery = (searchQuery, delay = 300) => {
+  const [debouncedQuery, setDebouncedQuery] = useState(searchQuery);
+  const prevSearchQueryRef = useRef(searchQuery);
+
+  useEffect(() => {
+    const prev = prevSearchQueryRef.current;
+    prevSearchQueryRef.current = searchQuery;
+
+    if (isNullish(searchQuery)) {
+      setDebouncedQuery(null);
+      return;
+    }
+    // Skip debounce on first open (null → value) — not a typing burst.
+    if (isNullish(prev)) {
+      setDebouncedQuery(searchQuery);
+      return;
+    }
+    const timer = setTimeout(() => setDebouncedQuery(searchQuery), delay);
+    return () => clearTimeout(timer);
+  }, [searchQuery, delay]);
+
+  return useSearchItemsQuery(debouncedQuery ?? '', {
+    skip: isNullish(debouncedQuery),
+  });
+};
+```
+
+### Controlled states
+
+The component exposes two independently controllable props:
+
+1. `value` prop — controlled via the `value` and `onChange` props.
+   - This represents the selected value, such as the option chosen when pressing `Enter`. Use `defaultValue` to specify the initial value in uncontrolled mode.
+
+2. `inputValue` prop — controlled via the `inputValue` and `onInputChange` props.
+   - This represents the current text displayed in the input field.
+
+These props are isolated from each other and should be controlled independently.
+
+> A component is **controlled** when its state is managed by the parent through props.
+> A component is **uncontrolled** when it manages its own internal state.
+>
+> Learn more in the [React documentation](https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components).
+
+{render('./controlled-states')}
+
+If you control the `value` prop, ensure its reference remains stable between renders.
+In other words, the reference should not change unless the value itself changes.
+
+```jsx
+// ⚠️ BAD — a new object literal on every render, causing the
+// value synchronization effect to run repeatedly.
+return <Autocomplete value={{ id: selectedId, label: labelMap[selectedId] }} />;
+
+// ✅ GOOD — `items.find(...)` returns an existing item (stable reference).
+const selectedItem = items.find((item) => item.id === selectedId);
+return <Autocomplete value={selectedItem} />;
+
+// ✅ GOOD — when constructing a derived shape, memoize so the reference is stable.
+const selectedItem = React.useMemo(
+  () => ({ id: selectedId, label: labelMap[selectedId] }),
+  [selectedId, labelMap],
+);
+return <Autocomplete value={selectedItem} />;
+```
+
+### Creatable
+
+To create a creatable autocomplete, use `filterItems` to inject a synthetic `Add "X"` option so users can commit values that don’t exist in the list. You can extend the filtered results with an “Add” entry derived from the current input value.
+
+{render('./creatable')}
+
+### Multi-select
+
+`Autocomplete` is designed for single selection by default. To implement multi-select, the consumer manages an array of selected values, renders them as chips via a custom `renderInput`, and filters out already-selected items using `filterItems`. Additionally, use `closeBehavior="clear"` because there is no single committed value to restore when the input closes.
+
+Note that `onChange` fires with `null` on clear paths (X button or `closeBehavior="clear"` on dismiss) — guard your handler with `if (item == null) return` so `null` doesn't get pushed into the values array.
+
+{render('./multi-select')}
+
+### Customization
+
+#### Using `SearchInput`
+
+{render('./using-search-input')}
+
+### Virtualization
+
+For very long option lists (~500+ items), render the list via a virtualizer (e.g. [`@tanstack/react-virtual`](https://tanstack.com/virtual)) inside `renderContent`. Wrap each row in the `AutocompleteItem` component delivered via `renderContent`'s args bag and spread `getItemProps({ index, item })` to wire handlers, highlight, and ARIA. Use `onHighlightChange` to scroll the virtualizer when keyboard navigation moves the highlight off-screen.
+
+{render('./virtualized')}
+
+## Accessibility
+
+When an option is clicked or `Enter` is pressed on a highlighted item:
+* The input value updates to `getItemLabel(item)`
+* `onInputChange` is triggered with the new label
+* `onChange` is triggered with the item; the popup closes and focus remains on the input
+
+With `autoHighlight=true`:
+* The first option is automatically highlighted whenever the filtered list changes or the popup opens (or reopens), allowing `Enter` to select the top match without needing to navigate first
+
+### Mouse interaction
+
+| Trigger | Behavior |
+| :--- | :--- |
+| Click the input | Opens the popup |
+| Focus the input (without clicking or typing) | Does not open the popup. With `selectOnFocus=true`, selects the existing input text. |
+| Hover an option | Highlights that option (via `onMouseEnter`) |
+| Click an option | Commits the option; focus stays on the input (the option's `mousedown` calls `preventDefault`) |
+| Click the clear button (`isClearable=true`) | Clears the input, fires `onChange(null)`, refocuses the input |
+| Click outside the autocomplete | Closes the popup. Applies `closeBehavior` if the typed text drifted from the last committed label. |
+
+### Keyboard interaction
+
+| Key | Behavior |
+| :--- | :--- |
+| Type into the input (any printable character) | Opens the popup, updates the input value, fires `onInputChange` |
+| `ArrowDown` / `ArrowUp` | Opens the popup if closed; otherwise moves the highlight (wraps at the ends) |
+| `Home` / `End` (popup open) | Jumps the highlight to the first / last item |
+| `Enter` (with a highlighted item) | Commits the highlighted item |
+| `Escape` (popup open) | Closes the popup; the input keeps focus and the popup stays closed until another open trigger |
+| `Escape` (popup already closed) | Applies `closeBehavior` if the typed text drifted from the last committed label. |
+| `Tab` (focus leaves the input) | Closes the popup. Applies `closeBehavior` if the typed text drifted from the last committed label. |
+
+## Content sizing behavior
+
+- `{inputWidth}` is the input's `offsetWidth`
+- `{contentWidth}` is `slotProps.content.width`
+
+| Behavior                   | minWidth       | width                              | maxWidth | maxHeight | zIndex  |
+| :------------------------- | :------------- | :--------------------------------- | :------- | :-------- | :------ |
+| `matchWidth`               | —              | `{inputWidth}` (inline via Popper) | —        | 40vh      | —       |
+| `matchWidth` + `portalled` | —              | `{inputWidth}` (inline via Popper) | —        | 40vh      | popover |
+| Default                    | `{inputWidth}` | `{contentWidth} ?? 'max-content'`  | 640px    | 40vh      | —       |
+| Default + `portalled`      | `{inputWidth}` | `{contentWidth} ?? 'max-content'`  | 640px    | 40vh      | popover |
+
+> Note: `maxHeight: '40vh'` follows MUI’s approach. It scales with the viewport to avoid overflow on small screens while making better use of space on larger screens. A fixed height would either clip content or waste space.
+
+## Props
+
+### Autocomplete
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| autoHighlight | boolean | `false` | If `true`, the first option is automatically highlighted whenever the filtered list changes or the popup (re)opens. Pressing `Enter` then commits the top match without arrowing first. |
+| closeBehavior | `'restore' \| 'clear' \| 'keep'` | `'restore'` | Controls what happens to the input value when the popup closes (blur, click-outside, or Escape) and the typed text differs from the last committed label. `'restore'` reverts to the last committed label; `'clear'` resets to `''` and fires `onChange(null)` so consumers can clear their selection state; `'keep'` leaves it as-is. |
+| defaultValue | any | `null` | Initial selected item in uncontrolled mode. Pair with `onChange` to read selection updates without managing `value` externally. The input is seeded with `getItemLabel(defaultValue)`. Ignored when `value` is controlled. |
+| filterItems | `(items, { inputValue, getItemLabel }) => items` | | Default: case-insensitive label match (uses `getItemLabel` to stringify each item). The returned array can also include synthetic items (e.g. `Add "X"`) — see the [Creatable](#creatable) section for the recipe. |
+| getItemLabel | `(item) => string` | | Map an item to its input-text label. Default: `''` for `null`/`undefined`, the string itself for strings, `item.label ?? item.value ?? ''` for plain objects, otherwise `String(item)`. |
+| inputValue | string | | Controlled input text. Pair with `onInputChange` to manage the value externally. For an initial input value in uncontrolled mode, use `defaultValue` (or controlled `value`) — the input is seeded with `getItemLabel(value)`. |
+| isClearable | boolean | `false` | If `true`, enables the clear-button capability. The actual button visibility depends on the input having a value and not being disabled. Custom `renderInput` implementations can wire their own clear UI via `params.onClearInput`. |
+| isLoading | boolean | `false` | When `true`, signals a loading state. Forwarded to `renderInput` (typically swaps the chevron for a spinner) and to `renderContent` so consumers can customize the popup body while loading. |
+| items* | array | `[]` | The list of items available for selection. |
+| matchWidth | boolean | `false` | If `true`, sizes the dropdown list to match the input's `offsetWidth`. See [Content sizing](#content-sizing-behavior) for the full matrix. |
+| onChange | `(item \| null) => void` | | Fires when the selection changes. Receives the committed item on click/Enter, or `null` when the input is cleared (clear button click or `closeBehavior="clear"` applying on dismiss/Escape). |
+| onClose | `() => void` | | Fires when the dropdown transitions from open to closed (Escape, item selection, or blur/click-outside). |
+| onHighlightChange | `({ item, index, reason: 'keyboard' \| 'mouse' }) => void` | | Fires when the highlighted option changes via keyboard navigation or hover. The natural integration point for virtualization (call `listRef.scrollToItem(index)` on `'keyboard'`). |
+| onInputChange | `(nextValue) => void` | | Fires whenever the input value changes — typing, selection commit, clear button, and `closeBehavior`-triggered resets. |
+| onOpen | `() => void` | | Fires when the dropdown transitions from closed to open. Fires on every open — use this to trigger or refresh an API fetch. |
+| placement | `'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end'` | `'bottom-start'` | Popper placement. |
+| portalled | boolean | `false` | Render the popover in a portal. |
+| renderContent | `({ items, renderItem, renderItems, getItemProps, inputValue, isLoading, AutocompleteItem }) => ReactNode` | | Customize the list body. Return `null` to hide the popup entirely (no empty Paper background) when there is nothing to show. For custom layouts (e.g. virtualization), wrap each row in the `AutocompleteItem` component delivered via the args bag and spread `getItemProps({ index, item })` to wire handlers, highlight, and ARIA. |
+| renderInput | `(params) => ReactNode` | `(params) => <AutocompleteInput {...params} />` | Render the input. Defaults to `<AutocompleteInput />`; override to add visual props (e.g. `placeholder`, `error`, `disabled`) or to render a custom-built input that forwards `ref` and `inputProps`. `params` contains `{ ref, inputProps, isClearable, onClearInput, isLoading }`. |
+| renderItem | `(item, { inputValue }) => ReactNode` | | Customize a single item's content. Default mirrors `getItemLabel`. |
+| selectOnFocus | boolean | `false` | If `true`, select the existing input text on focus, letting the user immediately type to replace the previous value. |
+| slotProps | object | | `slotProps.content` is spread on `<AutocompleteList>`. |
+| value | any | | Controlled selected item (or `null` for no selection). Pair with `onChange` to manage the value externally. When set, the input automatically syncs to `getItemLabel(value)` on every value change. Pass a referentially stable item (memoize if needed) to avoid spurious sync updates. |
+
+### AutocompleteInput
+
+`AutocompleteInput` accepts the `params` from `Autocomplete`'s `renderInput` (spread it directly) plus visual / HTML props:
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| autoFocus | boolean | | Auto-focus the input on mount. |
+| disabled | boolean | | Disable the underlying `<input>` and suppress all interactions. The native `disabled` attribute prevents events from reaching `Autocomplete`'s state machine, so the popup never opens. |
+| error | boolean | `false` | Show a red border to indicate an error state. |
+| id | string | | HTML `id` for the underlying `<input>`. |
+| inputProps | object | | Additional HTML attributes for the underlying `<input>`. To extend the hook-managed `params.inputProps`, merge them manually: `inputProps={{ ...params.inputProps, 'data-test': 'x' }}`. |
+| isClearable | boolean | | Supplied via `params`. Enables the clear-button end-adornment when the input has a value. |
+| isLoading | boolean | | Supplied via `params`. Replaces the chevron with a spinner. |
+| name | string | | HTML `name` for the underlying `<input>`. |
+| onClearInput | `(event?) => void` | | Supplied via `params`. Called by the clear-button end-adornment; matches `SearchInput`'s clear-button callback convention. |
+| placeholder | string | | Placeholder text for the underlying `<input>`. |
+| required | boolean | | Mark the underlying `<input>` as required. |
