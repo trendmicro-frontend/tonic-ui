@@ -196,7 +196,10 @@ const Popper = forwardRef((inProps, ref) => {
   );
 
   // TODO: Remove `usePortal` in favor of `portalled` in a future major release
-  if (portalled ?? usePortal) {
+  // Use `||` (not `??`) so `usePortal` acts as a fallback even when `portalled`
+  // is explicitly `false` — e.g. when propagated from a Menu/Popover context
+  // that defaults portalled to false.
+  if (portalled || usePortal) {
     return (
       <Portal {...portalProps}>
         {_children}
