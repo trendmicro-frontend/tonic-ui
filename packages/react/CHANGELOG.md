@@ -1,5 +1,17 @@
 # @tonic-ui/react
 
+## 2.13.0
+
+### Minor Changes
+
+- feat(react): add `portalled` and `matchWidth` props to `Popper` by [@cheton](https://github.com/cheton) in [#1142](https://github.com/trendmicro-frontend/tonic-ui/pull/1142)
+
+- feat(react): add `Autocomplete` component by [@cheton](https://github.com/cheton) in [#1147](https://github.com/trendmicro-frontend/tonic-ui/pull/1147)
+
+### Patch Changes
+
+- feat(react): add inline display to `Highlight` and `Mark` components by [@cheton](https://github.com/cheton) in [#1151](https://github.com/trendmicro-frontend/tonic-ui/pull/1151)
+
 ## 2.12.1
 
 ### Patch Changes
