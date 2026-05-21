@@ -1,7 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Highlight should render correctly 1`] = `
+.emotion-0 {
+  display: inline;
+}
+
 .emotion-2 {
+  display: inline;
   background-color: #fce79e;
   color: var(--tonic-colors-black-primary);
 }
@@ -24,7 +29,12 @@ exports[`Highlight should render correctly 1`] = `
 `;
 
 exports[`Highlight slots and slotProps should pass slotProps to mark component 1`] = `
+.emotion-0 {
+  display: inline;
+}
+
 .emotion-2 {
+  display: inline;
   background-color: #fce79e;
   color: var(--tonic-colors-black-primary);
 }
@@ -47,7 +57,12 @@ exports[`Highlight slots and slotProps should pass slotProps to mark component 1
 `;
 
 exports[`Highlight variants should apply "emphasis" variant 1`] = `
+.emotion-0 {
+  display: inline;
+}
+
 .emotion-2 {
+  display: inline;
   background-color: inherit;
   color: var(--tonic-colors-white-emphasis);
   font-weight: var(--tonic-fontWeights-semibold);
@@ -70,7 +85,12 @@ exports[`Highlight variants should apply "emphasis" variant 1`] = `
 `;
 
 exports[`Highlight variants should apply "highlight" variant 1`] = `
+.emotion-0 {
+  display: inline;
+}
+
 .emotion-2 {
+  display: inline;
   background-color: #fce79e;
   color: var(--tonic-colors-black-primary);
 }

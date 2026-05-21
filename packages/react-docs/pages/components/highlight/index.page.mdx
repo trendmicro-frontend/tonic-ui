@@ -70,7 +70,7 @@ By default, matching is case-insensitive. You can enable case-sensitive matching
 
 {render('./case-sensitive-matching')}
 
-### Using the `transform` function
+### Transform function
 
 The `transform` function allows you to transform search words before matching. This enables custom matching behavior such as accent-insensitive search, case normalization, or any other text transformation needed for your use case.
 
@@ -84,7 +84,13 @@ const transformAccents = (x) => {
 };
 ```
 
-{render('./using-the-transform-function')}
+{render('./transform-function')}
+
+### Overflow tooltip
+
+You can wrap `Highlight` with `OverflowTooltip` to show a tooltip when the highlighted text overflows its container.
+
+{render('./overflow-tooltip')}
 
 ## Props
 

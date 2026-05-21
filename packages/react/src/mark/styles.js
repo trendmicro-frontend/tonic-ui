@@ -9,6 +9,8 @@ const useMarkStyle = ({ variant }) => {
   }[colorMode];
 
   const baseStyle = {
+    display: 'inline', // highlight and mark elements are inline by default
+
     // Default user agent stylesheet:
     // ```css
     // mark {
