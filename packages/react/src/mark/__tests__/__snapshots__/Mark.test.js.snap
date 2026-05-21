@@ -2,6 +2,7 @@
 
 exports[`Mark should render correctly 1`] = `
 .emotion-0 {
+  display: inline;
   background-color: inherit;
   color: inherit;
 }
