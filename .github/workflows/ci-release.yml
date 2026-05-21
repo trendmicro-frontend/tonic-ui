@@ -38,7 +38,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          registry-url: 'https://registry.npmjs.org'
       - name: Install Dependencies
         id: install-dependencies
         run: yarn install
