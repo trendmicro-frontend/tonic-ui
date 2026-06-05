@@ -1,6 +1,7 @@
-import { useClickOutside, useMergeRefs } from '@tonic-ui/react-hooks';
-import { ariaAttr, callAll } from '@tonic-ui/utils';
+import { useClickOutside, useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
+import { ariaAttr, callAll, callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
+import useSlot from '../utils/useSlot';
 import { useDefaultProps } from '../default-props';
 import { Slide } from '../transitions';
 import { useAnimatePresence } from '../utils/animate-presence';
@@ -12,11 +13,32 @@ import useDrawer from './useDrawer';
 
 const DrawerContent = forwardRef((inProps, ref) => {
   const {
-    TransitionComponent = Slide,
-    TransitionProps,
+    TransitionComponent, // deprecated
+    TransitionProps, // deprecated
+    slots = {},
+    slotProps = {},
     children,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'DrawerContent' });
+
+  { // deprecation warning
+    const prefix = `${DrawerContent.displayName}:`;
+    useOnceWhen(() => {
+      warnDeprecatedProps('TransitionComponent', {
+        prefix,
+        alternative: 'slots.transition',
+        willRemove: true,
+      });
+    }, TransitionComponent !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('TransitionProps', {
+        prefix,
+        alternative: 'slotProps.transition',
+        willRemove: true,
+      });
+    }, TransitionProps !== undefined);
+  }
+
   const [, safeToRemove] = useAnimatePresence();
   const drawerContext = useDrawer(); // context might be an undefined value
   const {
@@ -33,31 +55,27 @@ const DrawerContent = forwardRef((inProps, ref) => {
   const combinedRef = useMergeRefs(contentRef, ref);
   const tabIndex = -1;
   const styleProps = useDrawerContentStyle({ placement, size, tabIndex });
-  const contentProps = {
-    'aria-modal': ariaAttr(true),
-    ref: combinedRef,
-    role: 'dialog',
-    tabIndex,
-    onClick: event => event.stopPropagation(),
-    onKeyDown: event => {
-      if (event.key === 'Escape') {
-        event.stopPropagation();
-
-        const shouldClose = Boolean(closeOnEsc);
-        if (shouldClose) {
-          onClose?.(event);
-        }
-      }
-    },
-    ...styleProps,
-    ...rest,
-  };
   const transitionDirection = {
     'left': 'right',
     'right': 'left',
     'top': 'down',
     'bottom': 'up',
   }[placement];
+
+  const [TransitionSlot, transitionSlotProps] = useSlot({
+    name: 'transition',
+    ownerDisplayName: DrawerContent.displayName,
+    props: {
+      ref: combinedRef,
+      appear: !!drawerContext,
+      'aria-modal': ariaAttr(true),
+      role: 'dialog',
+      tabIndex,
+      direction: transitionDirection,
+    },
+    slot: slots.transition ?? TransitionComponent ?? Slide,
+    slotProps: slotProps.transition ?? TransitionProps,
+  });
 
   useClickOutside(contentRef, (event) => {
     onInteractOutside?.(event);
@@ -70,19 +88,30 @@ const DrawerContent = forwardRef((inProps, ref) => {
   }, { events: ['click'] });
 
   return (
-    <TransitionComponent
-      appear={!!drawerContext}
-      {...TransitionProps}
-      {...contentProps}
+    <TransitionSlot
+      {...transitionSlotProps}
+      {...styleProps}
+      {...rest}
       in={drawerContext ? isOpen : true}
-      direction={transitionDirection}
-      onExited={callAll(safeToRemove, TransitionProps?.onExited)}
+      onExited={callAll(safeToRemove, transitionSlotProps.onExited)}
+      // Event handlers
+      onClick={callEventHandlers(transitionSlotProps.onClick, (event) => event.stopPropagation())}
+      onKeyDown={callEventHandlers(transitionSlotProps.onKeyDown, (event) => {
+        if (event.key === 'Escape') {
+          event.stopPropagation();
+
+          const shouldClose = Boolean(closeOnEsc);
+          if (shouldClose) {
+            onClose?.(event);
+          }
+        }
+      })}
     >
       {children}
       {!!isClosable && (
         <DrawerCloseButton />
       )}
-    </TransitionComponent>
+    </TransitionSlot>
   );
 });
 
