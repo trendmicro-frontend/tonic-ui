@@ -1,7 +1,8 @@
-import { useMergeRefs } from '@tonic-ui/react-hooks';
-import { callAll, getComputedStyle } from '@tonic-ui/utils';
+import { useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
+import { callAll, getComputedStyle, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensurePositiveNumber } from 'ensure-type';
 import React, { forwardRef, useEffect, useRef } from 'react';
+import useSlot from '../utils/useSlot';
 import { useDefaultProps } from '../default-props';
 import { Fade } from '../transitions';
 import { useAnimatePresence } from '../utils/animate-presence';
@@ -12,10 +13,31 @@ import useModal from './useModal';
 
 const ModalOverlay = forwardRef((inProps, ref) => {
   const {
-    TransitionComponent = Fade,
-    TransitionProps,
+    TransitionComponent, // deprecated
+    TransitionProps, // deprecated
+    slots = {},
+    slotProps = {},
     ...rest
   } = useDefaultProps({ props: inProps, name: 'ModalOverlay' });
+
+  { // deprecation warning
+    const prefix = `${ModalOverlay.displayName}:`;
+    useOnceWhen(() => {
+      warnDeprecatedProps('TransitionComponent', {
+        prefix,
+        alternative: 'slots.transition',
+        willRemove: true,
+      });
+    }, TransitionComponent !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('TransitionProps', {
+        prefix,
+        alternative: 'slotProps.transition',
+        willRemove: true,
+      });
+    }, TransitionProps !== undefined);
+  }
+
   const [, safeToRemove] = useAnimatePresence();
   const modalContext = useModal(); // context might be an undefined value
   const {
@@ -27,11 +49,17 @@ const ModalOverlay = forwardRef((inProps, ref) => {
   const overlayRef = useRef();
   const combinedRef = useMergeRefs(overlayRef, ref);
   const styleProps = useModalOverlayStyle();
-  const overlayProps = {
-    ref: combinedRef,
-    ...styleProps,
-    ...rest,
-  };
+
+  const [TransitionSlot, transitionSlotProps] = useSlot({
+    name: 'transition',
+    ownerDisplayName: ModalOverlay.displayName,
+    props: {
+      ref: combinedRef,
+      appear: !!modalContext,
+    },
+    slot: slots.transition ?? TransitionComponent ?? Fade,
+    slotProps: slotProps.transition ?? TransitionProps,
+  });
 
   useEffect(() => {
     const update = () => {
@@ -85,12 +113,12 @@ const ModalOverlay = forwardRef((inProps, ref) => {
   }, [scrollBehavior, containerRef, contentRef]);
 
   return (
-    <TransitionComponent
-      appear={!!modalContext}
-      {...TransitionProps}
-      {...overlayProps}
+    <TransitionSlot
+      {...transitionSlotProps}
+      {...styleProps}
+      {...rest}
       in={modalContext ? isOpen : true}
-      onExited={callAll(safeToRemove, TransitionProps?.onExited)}
+      onExited={callAll(safeToRemove, transitionSlotProps.onExited)}
     />
   );
 });
