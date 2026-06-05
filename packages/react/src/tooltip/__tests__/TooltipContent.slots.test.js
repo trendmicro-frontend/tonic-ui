@@ -30,6 +30,11 @@ const CustomPopper = React.forwardRef(({ children, ...rest }, ref) => (
 ));
 CustomPopper.displayName = 'CustomPopper';
 
+const CustomArrow = React.forwardRef((props, ref) => (
+  <div ref={ref} data-testid="custom-arrow" {...props} />
+));
+CustomArrow.displayName = 'CustomArrow';
+
 const renderTooltip = (tooltipProps = {}) => {
   return render(
     <Tooltip label="tooltip label" defaultIsOpen {...tooltipProps}>
@@ -105,6 +110,39 @@ describe('TooltipContent slots / slotProps', () => {
     expect(warnDeprecatedProps).toHaveBeenCalledWith('PopperProps', {
       prefix: 'TooltipContent:',
       alternative: 'slotProps.popper',
+      willRemove: true,
+    });
+  });
+
+  // Arrow slot
+
+  it('G — slots.arrow renders the custom arrow component', () => {
+    renderTooltip({ slots: { arrow: CustomArrow } });
+    expect(screen.getByTestId('custom-arrow')).toBeInTheDocument();
+  });
+
+  it('H — slotProps.arrow passes additional props to the arrow element', () => {
+    renderTooltip({
+      slots: { arrow: CustomArrow },
+      slotProps: { arrow: { 'data-foo': 'bar' } },
+    });
+    expect(screen.getByTestId('custom-arrow')).toHaveAttribute('data-foo', 'bar');
+  });
+
+  it('I — deprecated TooltipArrowComponent still renders and warns; deprecated TooltipArrowProps warns', () => {
+    renderTooltip({
+      TooltipArrowComponent: CustomArrow,
+      TooltipArrowProps: {},
+    });
+    expect(screen.getByTestId('custom-arrow')).toBeInTheDocument();
+    expect(warnDeprecatedProps).toHaveBeenCalledWith('TooltipArrowComponent', {
+      prefix: 'TooltipContent:',
+      alternative: 'slots.arrow',
+      willRemove: true,
+    });
+    expect(warnDeprecatedProps).toHaveBeenCalledWith('TooltipArrowProps', {
+      prefix: 'TooltipContent:',
+      alternative: 'slotProps.arrow',
       willRemove: true,
     });
   });

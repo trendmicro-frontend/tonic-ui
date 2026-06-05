@@ -3,7 +3,6 @@ import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'rea
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
 import config from '../shared/config';
-import TooltipArrow from './TooltipArrow';
 import TooltipContent from './TooltipContent';
 import TooltipTrigger from './TooltipTrigger';
 import { TooltipContext } from './context';
@@ -15,8 +14,8 @@ const Tooltip = forwardRef((inProps, ref) => {
     // TooltipContent props (deprecated — use slots/slotProps)
     PopperComponent, // deprecated
     PopperProps, // deprecated
-    TooltipArrowComponent = TooltipArrow,
-    TooltipArrowProps,
+    TooltipArrowComponent, // deprecated
+    TooltipArrowProps, // deprecated
     TransitionComponent, // deprecated
     TransitionProps, // deprecated
 

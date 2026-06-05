@@ -37,8 +37,8 @@ const TooltipContent = forwardRef((inProps, ref) => {
   const {
     PopperComponent, // deprecated
     PopperProps, // deprecated
-    TooltipArrowComponent = TooltipArrow,
-    TooltipArrowProps,
+    TooltipArrowComponent, // deprecated
+    TooltipArrowProps, // deprecated
     TransitionComponent, // deprecated
     TransitionProps, // deprecated
     slots = {},
@@ -77,6 +77,20 @@ const TooltipContent = forwardRef((inProps, ref) => {
         willRemove: true,
       });
     }, PopperProps !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('TooltipArrowComponent', {
+        prefix,
+        alternative: 'slots.arrow',
+        willRemove: true,
+      });
+    }, TooltipArrowComponent !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('TooltipArrowProps', {
+        prefix,
+        alternative: 'slotProps.arrow',
+        willRemove: true,
+      });
+    }, TooltipArrowProps !== undefined);
   }
 
   const isHydrated = useHydrated();
@@ -197,6 +211,13 @@ const TooltipContent = forwardRef((inProps, ref) => {
     slotProps: slotProps.transition ?? TransitionProps,
   });
 
+  const [ArrowSlot, arrowSlotProps] = useSlot({
+    name: 'arrow',
+    ownerDisplayName: TooltipContent.displayName,
+    slot: slots.arrow ?? TooltipArrowComponent ?? TooltipArrow,
+    slotProps: slotProps.arrow ?? TooltipArrowProps,
+  });
+
   if (!isHydrated) {
     return null;
   }
@@ -240,7 +261,7 @@ const TooltipContent = forwardRef((inProps, ref) => {
                 >
                   {children}
                   {!!arrow && (
-                    <TooltipArrowComponent {...TooltipArrowProps} />
+                    <ArrowSlot {...arrowSlotProps} />
                   )}
                 </Box>
               );
