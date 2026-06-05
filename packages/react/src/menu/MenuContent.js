@@ -1,7 +1,8 @@
-import { useMergeRefs } from '@tonic-ui/react-hooks';
-import { callAll, callEventHandlers } from '@tonic-ui/utils';
+import { useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
+import { callAll, callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
 import React, { forwardRef, useMemo, useRef } from 'react';
+import useSlot from '../utils/useSlot';
 import { useDefaultProps } from '../default-props';
 import { Popper } from '../popper';
 import { Collapse } from '../transitions';
@@ -10,15 +11,49 @@ import useMenu from './useMenu';
 
 const MenuContent = forwardRef((inProps, ref) => {
   const {
-    PopperComponent = Popper,
-    PopperProps,
-    TransitionComponent = Collapse,
-    TransitionProps,
+    PopperComponent, // deprecated
+    PopperProps, // deprecated
+    TransitionComponent, // deprecated
+    TransitionProps, // deprecated
+    slots = {},
+    slotProps = {},
     children,
     onBlur: onBlurProp,
     onKeyDown: onKeyDownProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'MenuContent' });
+
+  { // deprecation warning
+    const prefix = `${MenuContent.displayName}:`;
+    useOnceWhen(() => {
+      warnDeprecatedProps('TransitionComponent', {
+        prefix,
+        alternative: 'slots.transition',
+        willRemove: true,
+      });
+    }, TransitionComponent !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('TransitionProps', {
+        prefix,
+        alternative: 'slotProps.transition',
+        willRemove: true,
+      });
+    }, TransitionProps !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('PopperComponent', {
+        prefix,
+        alternative: 'slots.popper',
+        willRemove: true,
+      });
+    }, PopperComponent !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('PopperProps', {
+        prefix,
+        alternative: 'slotProps.popper',
+        willRemove: true,
+      });
+    }, PopperProps !== undefined);
+  }
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);
   const menuContext = useMenu(); // context might be an undefined value
@@ -132,60 +167,76 @@ const MenuContent = forwardRef((inProps, ref) => {
     return modifiers;
   }, [skidding, distance]);
 
+  const [PopperSlot, popperSlotProps] = useSlot({
+    name: 'popper',
+    ownerDisplayName: MenuContent.displayName,
+    props: {
+      ref: menuContentRef,
+      'aria-labelledby': menuToggleId,
+      'data-menu-id': menuId,
+      id: menuId,
+      isOpen,
+      placement,
+      referenceRef: menuToggleRef,
+      role: 'menu',
+      tabIndex,
+      unmountOnExit: true,
+      usePortal: false,
+      willUseTransition: true,
+      zIndex: 'dropdown',
+    },
+    slot: slots.popper ?? PopperComponent ?? Popper,
+    slotProps: slotProps.popper ?? PopperProps,
+  });
+
+  const [TransitionSlot, transitionSlotProps] = useSlot({
+    name: 'transition',
+    ownerDisplayName: MenuContent.displayName,
+    props: {
+      ref: combinedRef,
+      appear: true,
+      easing: 'linear',
+      timeout: {
+        enter: 133,
+        exit: Math.floor(133 * 0.7),
+      },
+    },
+    slot: slots.transition ?? TransitionComponent ?? Collapse,
+    slotProps: slotProps.transition ?? TransitionProps,
+  });
+
   return (
-    <PopperComponent
-      aria-labelledby={menuToggleId}
-      data-menu-id={menuId}
-      id={menuId}
-      isOpen={isOpen}
-      placement={placement}
-      ref={menuContentRef}
-      referenceRef={menuToggleRef}
-      role="menu"
-      tabIndex={tabIndex}
-      unmountOnExit={true}
-      usePortal={false} // Pass `true` in `PopperProps` to render menu in a portal
-      willUseTransition={true}
-      zIndex="dropdown"
+    <PopperSlot
+      {...popperSlotProps}
+      modifiers={[
+        ...popperModifiers,
+        ...ensureArray(popperSlotProps?.modifiers),
+      ]}
       onBlur={callEventHandlers(onBlurProp, eventHandler.onBlur)}
       onKeyDown={callEventHandlers(onKeyDownProp, eventHandler.onKeyDown)}
-      {...PopperProps}
-      modifiers={[
-        // Default modifiers
-        ...popperModifiers,
-        // User-defined modifiers
-        ...ensureArray(PopperProps?.modifiers),
-      ]}
       {...styleProps}
       {...rest}
     >
       {({ placement, transition }) => {
         const { in: inProp, onEnter, onExited } = { ...transition };
         return (
-          <TransitionComponent
-            appear={true}
-            easing="linear"
-            timeout={{
-              enter: 133,
-              exit: Math.floor(133 * 0.7),
-            }}
-            {...TransitionProps}
-            ref={combinedRef}
+          <TransitionSlot
+            {...transitionSlotProps}
             in={inProp}
             onEnter={callAll(
               onEnter,
-              TransitionProps?.onEnter,
+              transitionSlotProps.onEnter,
             )}
             onExited={callAll(
               onExited,
-              TransitionProps?.onExited,
+              transitionSlotProps.onExited,
             )}
           >
             {children}
-          </TransitionComponent>
+          </TransitionSlot>
         );
       }}
-    </PopperComponent>
+    </PopperSlot>
   );
 });
 
