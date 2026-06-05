@@ -23,7 +23,7 @@ A task is **done** only when: the new acceptance tests pass, the pre-existing su
 
 1. **First action:** invoke `/tonic-ui-use-slot`. Then read `packages/react/src/modal/ModalContent.js` (reference impl) and the existing test file for the component.
 2. **Working dir for jest/eslint:** `packages/react`.
-3. **Precedence:** `slots.X ?? XComponent ?? Default` and `slotProps.X ?? XProps`.
+3. **Precedence / merge:** element resolves by precedence `slots.X ?? XComponent ?? Default`; props are **merged** MUI-style `{ ...XProps, ...slotProps.X }` (new wins on conflict, both apply) — NOT `??` replace.
 4. **`in` always goes after the spread** — the component owns open/close state, even if the original code spread `TransitionProps` last.
 5. **Imports:** `import useSlot from '../utils/useSlot';` (internal, NOT from react-hooks). Add `warnDeprecatedProps` from `@tonic-ui/utils`, `useOnceWhen` from `@tonic-ui/react-hooks`, and `callAll`/`callEventHandlers` only if actually used.
 6. **Deprecation block** for every migrated prop (`TransitionComponent`, `TransitionProps`, and where present `PopperComponent`, `PopperProps`) — copy the exact pattern from the skill.
@@ -376,10 +376,16 @@ Confirm all components have tests proving: (a) `slots`/`slotProps` render + forw
 
 ---
 
-## Follow-up: remaining `*Component` / `*Props` injection candidate
+## Task 10: input/InputControl (`input` + `root` slots) — ✅ done
 
-A full sweep of the package for `*Component` / `*Props` injection pairs found everything migrated **except one**:
+A full sweep of the package for `*Component` / `*Props` injection pairs found one more genuine candidate beyond transition/popper/arrow:
 
-- **`InputControl` (`input/InputControl.js`)** — exposes `inputComponent` (= `InputBase`) + `inputProps`, a genuine `slots.input` / `slotProps.input` candidate. **Deferred** because `inputProps` is deeply integrated with `getInputProps()` (merged at render) and with `onClick`/`onBlur`/`onChange`/`onFocus` chaining, so it needs its own design pass rather than the mechanical transition/popper/arrow recipe. Render site: `(typeof children === 'function') ? children({ getInputProps }) : <InputComponent {...getInputProps()} />`.
+- **`InputControl` (`input/InputControl.js`)** — `inputComponent` (= `InputBase`) + `inputProps` → `slots.input` / `slotProps.input`; plus a **new `root` slot** (`slots.root ?? Box` / `slotProps.root`) for the outer `<Box>`, matching MUI's `InputBase` which exposes both `root` and `input`.
 
-Not candidates: `WrappedComponent` (HOC internal in `form-control/withFormControl.js`); standalone `*Props` prop-bag forwarders with no paired `*Component` (`scrollViewProps`, `selectProps`, `rootProps`, `portalProps`, `linearProgressBarProps`, `circularProgressRootProps`, `datePickerToggleProps`, `treeItemProps`, …) — prop forwarding, not element swaps.
+Different from the mechanical recipe because `getInputProps()` is a **public contract** (render-prop form `children({ getInputProps })`) and the focus-state handlers chain the user's handlers:
+- `const resolvedInputProps = useMemo(() => ({ ...inputProps, ...slotProps.input }), [inputProps, slotProps.input])` feeds the `input` slot's `slotProps` and the four `handleClick/Blur/Change/Focus` handlers (`resolvedInputProps?.onX`).
+- `getInputProps()` spreads the resolved `input` slot props, then re-applies the forced `onBlur/onChange/onFocus` (component-owned, chaining inside).
+- Root slot's coordinated `onClick` after the spread: `callEventHandlers(rootSlotProps.onClick, handleClick)`.
+- Tests (`input/__tests__/InputControl.slots.test.js`): input A/B/C, root D/E, **merge F** (legacy `inputProps` + `slotProps.input` both apply, new wins), handler-chaining G, render-prop H.
+
+Not candidates: `WrappedComponent` (HOC internal in `form-control/withFormControl.js`); standalone `*Props` prop-bag forwarders with no paired `*Component` (`scrollViewProps`, `selectProps`, `portalProps`, `linearProgressBarProps`, `circularProgressRootProps`, `datePickerToggleProps`, `treeItemProps`, …) — prop forwarding, not element swaps. (`Radio`/`Checkbox`/`Switch` expose their own `inputProps` for a hidden input but have no `inputComponent` — a possible future `slots.input`, separate decision.)

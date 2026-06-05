@@ -51,19 +51,23 @@ Full table is in the skill. Summary by pattern:
 ### Not in scope
 
 - `AccordionToggleIcon`, `MenuToggleIcon`, `TreeItemToggleIcon` — use `react-transition-group`'s `Transition` directly; do not expose `TransitionComponent` as an injectable prop.
-- `InputControl` (`input/InputControl.js`) — has `inputComponent`/`inputProps` (a real `slots.input` candidate) but deferred; integrates with `getInputProps()` merging + event chaining, needs its own design pass.
+
+### Also done (Pattern D — `input` + `root` slots)
+
+`InputControl` (`input/InputControl.js`) — migrated: `inputComponent`/`inputProps` → `slots.input`/`slotProps.input`, plus a NEW `root` slot (`slots.root ?? Box` / `slotProps.root`) for the outer `<Box>` (matches MUI's `InputBase` which has both `root` + `input`). `getInputProps()` (the public render-prop contract) is preserved and re-applies the forced/chained handlers after the slot merge; the four focus-state handlers chain `resolvedInputProps?.onX`.
 
 ---
 
 ## Key rules (from the skill)
 
-1. New API takes precedence: `slots.transition ?? TransitionComponent ?? Default`
-2. `in` always goes **after** the spread
-3. Computed/internal props (`direction`, `easing`, `timeout`, aria attrs, `role`, `ref`) → `props`
-4. DOM event handlers after spread: `callEventHandlers(slotProps.handler, internalFn)`
-5. Lifecycle callbacks after spread: `callAll(internalFn, slotProps.handler)`
-6. Popper `modifiers` → merged explicitly after spread: `[...base, ...ensureArray(popperSlotProps?.modifiers)]`
-7. `useSlot` import: `import useSlot from '../utils/useSlot'` (internal, not from react-hooks)
+1. Element resolves by precedence: `slots.transition ?? TransitionComponent ?? Default`
+2. Props are **merged** (MUI-style), not replaced: `slotProps: { ...TransitionProps, ...slotProps.transition }` — the deprecated prop and the new slot prop both apply, new wins on conflict
+3. `in` always goes **after** the spread
+4. Computed/internal props (`direction`, `easing`, `timeout`, aria attrs, `role`, `ref`) → `props`
+5. DOM event handlers after spread: `callEventHandlers(slotProps.handler, internalFn)`
+6. Lifecycle callbacks after spread: `callAll(internalFn, slotProps.handler)`
+7. Popper `modifiers` → merged explicitly after spread: `[...base, ...ensureArray(popperSlotProps?.modifiers)]`
+8. `useSlot` import: `import useSlot from '../utils/useSlot'` (internal, not from react-hooks)
 
 ---
 

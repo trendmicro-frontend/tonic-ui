@@ -16,13 +16,22 @@ const [SlotElement, slotProps] = useSlot({
   ownerDisplayName,  // Optional — parent component displayName for dev error messages
   props,             // Optional — internal component props (include ref here); slotProps take precedence
   slot,              // The resolved element type for this slot
-  slotProps,         // The resolved slot props from the consumer (e.g. slotProps.transition ?? TransitionProps)
+  slotProps,         // The resolved slot props (e.g. { ...TransitionProps, ...slotProps.transition })
 });
 ```
 
 Returns: `[ElementType, mergedProps]`
 
 **Merge order (later wins):** `props` → `slotProps`
+
+**Legacy-prop merge (call site):** the deprecated prop and the new slot prop are **merged**, not replaced — the new API wins on conflict (MUI-style):
+
+```js
+slotProps: { ...TransitionProps, ...slotProps.transition }   // ✅ merge — both apply
+// NOT: slotProps.transition ?? TransitionProps              // ❌ replace — drops the deprecated prop
+```
+
+A consumer mid-migration who sets both the deprecated prop and the new `slotProps` keeps both. The **element** still resolves by precedence (`slots.X ?? XComponent ?? Default`) since an element type cannot be merged. (Bonus: because the merged value is always an object, the dev-only "slotProps not provided" warning never fires.)
 
 **Import:** `useSlot` lives in `'../utils/useSlot'` — it is internal to the `react` package, not exported from `@tonic-ui/react-hooks`.
 
@@ -58,7 +67,7 @@ const [TransitionSlot, transitionSlotProps] = useSlot({
     direction: transitionDirection,  // computed from context, not from the user
   },
   slot: slots.transition ?? TransitionComponent ?? Slide,
-  slotProps: slotProps.transition ?? TransitionProps,
+  slotProps: { ...TransitionProps, ...slotProps.transition },
 });
 ```
 
@@ -177,7 +186,7 @@ const {
 
 ### 2. Replace TransitionComponent JSX with useSlot
 
-Resolve `slot` and `slotProps` inline — new API takes precedence over deprecated props:
+Resolve `slot` and `slotProps` inline — the element resolves by precedence (`??`), the props are merged (`{ ...legacy, ...new }`):
 
 **Before:**
 ```jsx
@@ -203,7 +212,7 @@ const [TransitionSlot, transitionSlotProps] = useSlot({
     // other non-coordinated internal props
   },
   slot: slots.transition ?? TransitionComponent ?? DefaultTransition,
-  slotProps: slotProps.transition ?? TransitionProps,
+  slotProps: { ...TransitionProps, ...slotProps.transition },
 });
 
 return (
@@ -234,7 +243,7 @@ const [TransitionSlot, transitionSlotProps] = useSlot({
     role: 'region',
   },
   slot: slots.transition ?? TransitionComponent ?? Collapse,
-  slotProps: slotProps.transition ?? TransitionProps,
+  slotProps: { ...TransitionProps, ...slotProps.transition },
 });
 
 if (!context) {
@@ -273,7 +282,7 @@ const [PopperSlot, popperSlotProps] = useSlot({
     zIndex: 'dropdown',
   },
   slot: slots.popper ?? PopperComponent ?? Popper,
-  slotProps: slotProps.popper ?? PopperProps,
+  slotProps: { ...PopperProps, ...slotProps.popper },
 });
 
 const [TransitionSlot, transitionSlotProps] = useSlot({
@@ -286,7 +295,7 @@ const [TransitionSlot, transitionSlotProps] = useSlot({
     timeout: { enter: 133, exit: Math.floor(133 * 0.7) },
   },
   slot: slots.transition ?? TransitionComponent ?? DefaultTransition,
-  slotProps: slotProps.transition ?? TransitionProps,
+  slotProps: { ...TransitionProps, ...slotProps.transition },
 });
 
 return (
@@ -362,6 +371,28 @@ Add the two deprecation warnings (`...ArrowComponent` → `slots.arrow`, `...Arr
 
 **Parent threading (Tooltip only):** `Tooltip.js` renders `TooltipContent` internally and forwards the deprecated arrow props. Drop the `TooltipArrowComponent = TooltipArrow` default there too (and remove the now-unused `TooltipArrow` import) so a defined value is forwarded ONLY when the user passes one — otherwise the deprecation warning fires on every tooltip. `slots`/`slotProps` are already threaded, so the `arrow` slot flows through automatically. `Popover` does not render `PopoverContent` internally (it is a user-facing child), so no parent change is needed.
 
+#### The `input` and `root` slots (InputControl)
+
+`InputControl` exposes a swappable input element (`inputComponent`/`inputProps`) and renders an outer `<Box>` root. Both become slots:
+
+- **`input` slot:** `slots.input ?? inputComponent ?? InputBase` / merge `{ ...inputProps, ...slotProps.input }`. Deprecate `inputComponent` → `slots.input` and `inputProps` → `slotProps.input`.
+- **`root` slot:** `slots.root ?? Box` / `slotProps.root`. This is a **new** slot with no legacy prop, so no deprecation and nothing to merge.
+
+Two things make `InputControl` different from transition/popper/arrow:
+
+1. **`getInputProps()` is a public contract** (the render-prop form `children({ getInputProps })`). Keep it — it now spreads the resolved `input` slot props, then re-applies the forced/chained handlers:
+   ```js
+   const getInputProps = () => ({
+     ...inputSlotProps,
+     onBlur: handleBlur,     // component-owned; each handler chains resolvedInputProps?.onX inside
+     onChange: handleChange,
+     onFocus: handleFocus,
+   });
+   ```
+2. **Handlers chain the merged props.** Compute `const resolvedInputProps = useMemo(() => ({ ...inputProps, ...slotProps.input }), [inputProps, slotProps.input])`, pass it as the `input` slot's `slotProps`, and have `handleClick/Blur/Change/Focus` call `resolvedInputProps?.onX` (replacing the old `inputProps?.onX`).
+
+The root slot's coordinated `onClick` goes after the spread: `onClick={callEventHandlers(rootSlotProps.onClick, handleClick)}`.
+
 ### 4. Update imports
 
 ```js
@@ -391,21 +422,23 @@ import { callAll, callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils
 | DatePickerContent | `date-pickers/DatePicker/DatePickerContent.js` | `transition`, `popper` | ✅ done |
 | TreeItem | `tree/TreeItem.js` | `transition` | ✅ done |
 | ToastManager | `toast/ToastManager.js` | `transition` | ✅ done |
+| InputControl | `input/InputControl.js` | `input`, `root` | ✅ done |
 
 `Tooltip.js` is also modified (parent threading for the `popper`/`transition`/`arrow` slots — see the arrow-slot section).
 
 **Not in scope:**
 - `AccordionToggleIcon`, `MenuToggleIcon`, `TreeItemToggleIcon` — use `react-transition-group`'s `Transition` directly for icon rotation; no injectable `TransitionComponent` prop.
-- **`InputControl` (`input/InputControl.js`)** — exposes `inputComponent`/`inputProps`, a genuine `slots.input`/`slotProps.input` candidate, but deferred: `inputProps` is deeply integrated with `getInputProps()` merging and `onClick`/`onBlur`/`onChange`/`onFocus` chaining, so it needs separate design. Revisit if/when slot coverage is extended beyond transition/popper/arrow.
-- Standalone `*Props` prop-bag forwarders without a paired `*Component` (e.g. `scrollViewProps`, `selectProps`, `rootProps`, `portalProps`, `linearProgressBarProps`) — prop forwarding, not element-swap slots.
+- Standalone `*Props` prop-bag forwarders without a paired `*Component` (e.g. `scrollViewProps`, `selectProps`, `portalProps`, `linearProgressBarProps`) — prop forwarding, not element-swap slots. (`Radio`/`Checkbox`/`Switch` each expose their own `inputProps` for a hidden input but have no `inputComponent` — a possible future `slots.input`, separate decision.)
+
+**Done (beyond transition/popper/arrow):** `InputControl` (`input/InputControl.js`) now has `input` (`inputComponent`/`inputProps` → `slots.input`/`slotProps.input`) and `root` slots — see "The `input` and `root` slots" section.
 
 ## Reference Implementation
 
 `ModalContent` (`packages/react/src/modal/ModalContent.js`) is the canonical example.
 
 Key rules carried from the migration:
-1. `slots.transition` overrides `TransitionComponent` — new API takes precedence (`slots.transition ?? TransitionComponent ?? Default`)
-2. `slotProps.transition` overrides `TransitionProps` — new API takes precedence (`slotProps.transition ?? TransitionProps`)
+1. `slots.transition` overrides `TransitionComponent` — element resolves by precedence (`slots.transition ?? TransitionComponent ?? Default`)
+2. `slotProps.transition` merges over `TransitionProps` — props are merged, new wins (`{ ...TransitionProps, ...slotProps.transition }`)
 3. `in` is always set after `{...transitionSlotProps}` — component owns open/close state
 4. The component's forwarded `ref` goes inside `props` (`props: { ref: combinedRef, ... }`)
 5. Static internal props (ref, aria attrs, role, tabIndex, appear) go in `props`
