@@ -40,8 +40,8 @@ const PopoverContent = forwardRef((inProps, ref) => {
   const {
     PopperComponent, // deprecated
     PopperProps, // deprecated
-    PopoverArrowComponent = PopoverArrow,
-    PopoverArrowProps,
+    PopoverArrowComponent, // deprecated
+    PopoverArrowProps, // deprecated
     TransitionComponent, // deprecated
     TransitionProps, // deprecated
     slots = {},
@@ -84,6 +84,20 @@ const PopoverContent = forwardRef((inProps, ref) => {
         willRemove: true,
       });
     }, PopperProps !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('PopoverArrowComponent', {
+        prefix,
+        alternative: 'slots.arrow',
+        willRemove: true,
+      });
+    }, PopoverArrowComponent !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('PopoverArrowProps', {
+        prefix,
+        alternative: 'slotProps.arrow',
+        willRemove: true,
+      });
+    }, PopoverArrowProps !== undefined);
   }
   const isHydrated = useHydrated();
   const nodeRef = useRef(null);
@@ -227,6 +241,13 @@ const PopoverContent = forwardRef((inProps, ref) => {
     slotProps: slotProps.transition ?? TransitionProps,
   });
 
+  const [ArrowSlot, arrowSlotProps] = useSlot({
+    name: 'arrow',
+    ownerDisplayName: PopoverContent.displayName,
+    slot: slots.arrow ?? PopoverArrowComponent ?? PopoverArrow,
+    slotProps: slotProps.arrow ?? PopoverArrowProps,
+  });
+
   if (!isHydrated) {
     return null;
   }
@@ -288,7 +309,7 @@ const PopoverContent = forwardRef((inProps, ref) => {
                   {...rest}
                 >
                   {!!arrow && (
-                    <PopoverArrowComponent {...PopoverArrowProps} />
+                    <ArrowSlot {...arrowSlotProps} />
                   )}
                   {children}
                 </Box>

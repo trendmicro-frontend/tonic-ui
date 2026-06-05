@@ -32,6 +32,11 @@ const CustomPopper = React.forwardRef(({ children, ...rest }, ref) => (
 ));
 CustomPopper.displayName = 'CustomPopper';
 
+const CustomArrow = React.forwardRef((props, ref) => (
+  <div ref={ref} data-testid="custom-arrow" {...props} />
+));
+CustomArrow.displayName = 'CustomArrow';
+
 const renderPopover = (popoverContentProps = {}) => {
   return render(
     <Popover defaultIsOpen>
@@ -112,6 +117,39 @@ describe('PopoverContent slots / slotProps', () => {
     expect(warnDeprecatedProps).toHaveBeenCalledWith('PopperProps', {
       prefix: 'PopoverContent:',
       alternative: 'slotProps.popper',
+      willRemove: true,
+    });
+  });
+
+  // Arrow slot
+
+  it('G — slots.arrow renders the custom arrow component', () => {
+    renderPopover({ slots: { arrow: CustomArrow } });
+    expect(screen.getByTestId('custom-arrow')).toBeInTheDocument();
+  });
+
+  it('H — slotProps.arrow passes additional props to the arrow element', () => {
+    renderPopover({
+      slots: { arrow: CustomArrow },
+      slotProps: { arrow: { 'data-foo': 'bar' } },
+    });
+    expect(screen.getByTestId('custom-arrow')).toHaveAttribute('data-foo', 'bar');
+  });
+
+  it('I — deprecated PopoverArrowComponent still renders and warns; deprecated PopoverArrowProps warns', () => {
+    renderPopover({
+      PopoverArrowComponent: CustomArrow,
+      PopoverArrowProps: {},
+    });
+    expect(screen.getByTestId('custom-arrow')).toBeInTheDocument();
+    expect(warnDeprecatedProps).toHaveBeenCalledWith('PopoverArrowComponent', {
+      prefix: 'PopoverContent:',
+      alternative: 'slots.arrow',
+      willRemove: true,
+    });
+    expect(warnDeprecatedProps).toHaveBeenCalledWith('PopoverArrowProps', {
+      prefix: 'PopoverContent:',
+      alternative: 'slotProps.arrow',
       willRemove: true,
     });
   });
