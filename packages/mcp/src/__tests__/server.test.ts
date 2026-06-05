@@ -68,7 +68,7 @@ describe('createMcpServer', () => {
 The description of the tool contains the available packages, as listed below:
 - @tonic-ui/react@2.0.0
 
-1. Pick the most suitable package from the above list, and use that as the \"packages\" argument for this tool's execution, to get the docs content. If it's just one, let it be an array with one package.
+1. Pick the most suitable package from the above list, and use that as the "packages" argument for this tool's execution, to get the docs content. If it's just one, let it be an array with one package.
 2. Analyze the URLs listed in the content.
 3. Then use "fetch-pages" tool to fetch specific documentation pages relevant to the user's question with the subsequent tool call.`);
 

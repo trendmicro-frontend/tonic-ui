@@ -1,5 +1,4 @@
 /* @jest-environment jsdom */
-import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { fireEvent, render, screen } from '../../../test-utils/render';
 import ButtonBox from '../ButtonBox';
@@ -85,6 +84,7 @@ describe('ButtonBox', () => {
   });
 
   it('uses provided tabIndex when not disabled', () => {
+    // eslint-disable-next-line jsx-a11y/tabindex-no-positive
     render(<ButtonBox tabIndex={2}>Custom Tab</ButtonBox>);
     const button = screen.getByRole('button');
     expect(button).toHaveAttribute('tabindex', '2');

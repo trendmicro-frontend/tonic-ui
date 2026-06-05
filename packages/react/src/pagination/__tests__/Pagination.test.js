@@ -1,7 +1,6 @@
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { Pagination, PaginationItem } from '@tonic-ui/react/src';
-import React from 'react';
 
 describe('Pagination', () => {
   it('should render correctly', async () => {

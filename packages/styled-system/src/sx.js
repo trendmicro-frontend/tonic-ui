@@ -85,7 +85,7 @@ const createResponsiveResolver = theme => styleProps => {
         continue;
       }
       next[media] = next[media] || {};
-      if (value[i] == null) {
+      if (value[i] === null || value[i] === undefined) {
         continue;
       }
       next[media][key] = value[i];

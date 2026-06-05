@@ -1,6 +1,6 @@
 import { useId } from '@tonic-ui/react-hooks';
 import { getAllFocusable, runIfFn } from '@tonic-ui/utils';
-import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
@@ -16,6 +16,7 @@ const Submenu = forwardRef((inProps, ref) => {
     offset,
     onClose: onCloseProp,
     onOpen: onOpenProp,
+    portalled,
     placement = 'right-start', // One of: 'right-start', 'right-end', 'left-start', 'left-end'
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Submenu' });
@@ -143,6 +144,7 @@ const Submenu = forwardRef((inProps, ref) => {
     offset,
     onClose,
     onOpen,
+    portalled,
     placement,
     submenuId,
     submenuContentRef,

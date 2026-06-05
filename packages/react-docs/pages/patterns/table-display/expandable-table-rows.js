@@ -9,14 +9,14 @@ import {
   getExitTransitionProps,
   transitionEasing,
 } from '@tonic-ui/utils';
-import React, { forwardRef, useEffect, useMemo, useRef } from 'react';
+import { forwardRef, useEffect, useMemo, useRef } from 'react';
 import BaseTable from '@/components/BaseTable';
 
 const data = [
   {
     endpointId: '0d4523d9-ceed-4a9a-b3d0-056814ee8811',
     endpointHostname: 'endpoint-1',
-    endpointIPs: ['fe80::c5a0:6dd9:1002:5760','10.1.136.130'],
+    endpointIPs: ['fe80::c5a0:6dd9:1002:5760', '10.1.136.130'],
     endpointMAC: '00:50:56:9c:3c:5a',
     eventId: 1,
     eventSourceType: 1,
@@ -130,7 +130,7 @@ const App = () => {
       },
       size: 'auto',
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   ], [colorMode, colorStyle]); // Include both colorMode and colorStyle as dependencies to prevent memoization when the color mode changes
   const tableOptions = useMemo(() => ({
     defaultColumn: {

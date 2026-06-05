@@ -1,6 +1,6 @@
 import { Button, Flex, LinkButton, Text } from '@tonic-ui/react';
 import { useCopyToClipboard } from '@tonic-ui/react-hooks';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const App = () => {
   const [buttonIsCopied, setButtonIsCopied] = useState(null);

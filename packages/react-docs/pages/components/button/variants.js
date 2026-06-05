@@ -2,7 +2,6 @@ import {
   Button,
   Flex,
 } from '@tonic-ui/react';
-import React from 'react';
 
 const App = () => (
   <Flex display="inline-flex" direction="column" rowGap="4x">

@@ -178,6 +178,8 @@ const useDrawerCloseButtonStyle = () => {
 
   return {
     ...iconButtonStyle,
+    // Set the background color to transparent to prevent the parent opacity from being applied twice
+    backgroundColor: 'transparent',
     _focusVisible: {
       outlineColor: focusVisibleOutlineColor,
       outlineOffset: '-1h',
@@ -221,7 +223,7 @@ const useDrawerBodyStyle = ({
     _firstOfType: {
       // Sets the margin area on the top if it is the first child
       // 4x (padding-top) + xl (line-height) + 3x (padding-bottom)
-      marginTop: `calc(${pixelize(sizes['4x'])} + ${pixelize(lineHeights['xl'])} + ${pixelize(sizes['3x'])})`,
+      marginTop: `calc(${pixelize(sizes['4x'])} + ${pixelize(lineHeights['xl'])} + ${pixelize(sizes['3x'])})`, // eslint-disable-line dot-notation
     },
   };
 };
@@ -242,7 +244,7 @@ const useDrawerFooterStyle = ({
     _firstOfType: {
       // Sets the margin area on the top if it is the first child
       // 4x (padding-top) + xl (line-height) + 3x (padding-bottom)
-      marginTop: `calc(${pixelize(sizes['4x'])} + ${pixelize(lineHeights['xl'])} + ${pixelize(sizes['3x'])})`,
+      marginTop: `calc(${pixelize(sizes['4x'])} + ${pixelize(lineHeights['xl'])} + ${pixelize(sizes['3x'])})`, // eslint-disable-line dot-notation
     },
   };
 };

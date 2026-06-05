@@ -455,30 +455,10 @@ const useAlertCloseButtonStyle = ({
   }[colorMode];
   const iconButtonStyle = useIconButtonStyle({ color, size });
 
-  if (isClosable) {
-    const parentBorderWidth = sizes['1q'];
-    const top = `calc(${sizes['1x']} - ${parentBorderWidth})`;
-    const right = `calc(${sizes['2x']} - ${parentBorderWidth})`;
-
-    return {
-      ...iconButtonStyle,
-      _focusVisible: {
-        outlineColor: focusVisibleOutlineColor,
-        outlineOffset: '-1h',
-        outlineStyle: 'solid',
-        outlineWidth: '1h',
-      },
-      _hover: {
-        color: hoverColor,
-      },
-      position: 'absolute',
-      top,
-      right,
-    };
-  }
-
-  return {
+  const baseStyle = {
     ...iconButtonStyle,
+    // Set the background color to transparent to prevent the parent opacity from being applied twice
+    backgroundColor: 'transparent',
     _focusVisible: {
       outlineColor: focusVisibleOutlineColor,
       outlineOffset: '-1h',
@@ -486,9 +466,25 @@ const useAlertCloseButtonStyle = ({
       outlineWidth: '1h',
     },
     _hover: {
+      // The alert close button has no hover background since it varies by `severity`
       color: hoverColor,
     },
   };
+
+  if (isClosable) {
+    const parentBorderWidth = sizes['1q'];
+    const top = `calc(${sizes['1x']} - ${parentBorderWidth})`;
+    const right = `calc(${sizes['2x']} - ${parentBorderWidth})`;
+
+    return {
+      ...baseStyle,
+      position: 'absolute',
+      top,
+      right,
+    };
+  }
+
+  return baseStyle;
 };
 
 export {

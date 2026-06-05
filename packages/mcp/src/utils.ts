@@ -33,7 +33,7 @@ async function fetchFromUrl(urlString: string): Promise<string> {
     return content;
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    throw new Error(`Failed to fetch ${urlString}: ${errorMessage}`);
+    throw new Error(`Failed to fetch ${urlString}: ${errorMessage}`, { cause: error });
   }
 }
 
@@ -89,9 +89,7 @@ async function loadFromFilePath(
     }
     for (const ext of extensions) {
       const candidate = filePath + ext;
-      // eslint-disable-next-line no-await-in-loop
       if (await exists(candidate)) {
-        // eslint-disable-next-line no-await-in-loop
         return await fs.readFile(candidate, 'utf-8');
       }
     }
@@ -110,7 +108,7 @@ export function trimTrailingSlashAndWhitespace(url: string | undefined): string 
   if (typeof url !== 'string') {
     return '';
   }
-  return url.replace(/[\/\s]+$/, '');
+  return url.replace(/[\/\s]+$/, ''); // eslint-disable-line no-useless-escape
 }
 
 /**
@@ -176,7 +174,6 @@ export async function processUrls(
     let error;
 
     try {
-      // eslint-disable-next-line no-await-in-loop
       content = await _processUrl(url);
     } catch (err) {
       error = err;

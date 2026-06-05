@@ -24,7 +24,7 @@ const parseResponsiveStyle = (mediaQueries, sx, scale, raw, _props) => {
 const parseResponsiveObject = (breakpoints, sx, scale, raw, _props) => {
   const styles = {};
 
-  for (let key in raw) {
+  for (const key in raw) {
     if (!Object.prototype.hasOwnProperty.call(raw, key)) {
       continue;
     }

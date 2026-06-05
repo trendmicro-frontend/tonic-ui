@@ -1,5 +1,4 @@
 import { createSVGIcon } from '@tonic-ui/react-icons';
-import React from 'react';
 
 export default createSVGIcon(
   <svg viewBox="0 0 1024 1024">

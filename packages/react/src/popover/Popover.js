@@ -1,6 +1,6 @@
 import { useId, useOnceWhen, usePrevious } from '@tonic-ui/react-hooks';
 import { runIfFn } from '@tonic-ui/utils';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
 import config from '../shared/config';
@@ -26,6 +26,7 @@ const Popover = (inProps) => {
     onClose: onCloseProp,
     onOpen: onOpenProp,
     placement = defaultPlacement,
+    portalled,
     returnFocusOnClose = true,
     trigger = 'click',
   } = useDefaultProps({ props: inProps, name: 'Popover' });
@@ -185,6 +186,7 @@ const Popover = (inProps) => {
     onOpen,
     onToggle,
     placement: (followCursor || nextToCursor) ? 'bottom-start' : placement,
+    portalled,
     popoverId,
     popoverContentRef,
     popoverTriggerId,

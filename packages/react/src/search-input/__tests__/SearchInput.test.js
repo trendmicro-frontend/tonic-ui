@@ -3,7 +3,6 @@ import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { SearchInput } from '@tonic-ui/react/src';
-import React from 'react';
 
 describe('SearchInput', () => {
   it('should render correctly', async () => {

@@ -1,7 +1,6 @@
 import {
   ThemeProvider as StyledEngineThemeProvider,
 } from '@emotion/react';
-import React from 'react';
 import { DefaultPropsProvider } from '../default-props';
 import CSSVariables from './CSSVariables';
 import defaultTheme from './theme';

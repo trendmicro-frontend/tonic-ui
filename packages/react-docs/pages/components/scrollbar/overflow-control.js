@@ -5,7 +5,6 @@ import {
   Scrollbar,
   Text,
 } from '@tonic-ui/react';
-import React from 'react';
 import Lorem from '@/components/Lorem';
 
 const App = () => {
@@ -17,7 +16,7 @@ const App = () => {
     >
       <Box>
         <Text size="xl" marginBottom="2x">
-          {'overflow="auto"'}
+          overflow="auto"
         </Text>
         <Divider orientation="horizontal" mt="2x" mb="4x" />
         <Scrollbar
@@ -29,7 +28,7 @@ const App = () => {
       </Box>
       <Box>
         <Text size="xl" marginBottom="2x">
-          {'overflow="scroll"'}
+          overflow="scroll"
         </Text>
         <Divider orientation="horizontal" mt="2x" mb="4x" />
         <Scrollbar
@@ -41,7 +40,7 @@ const App = () => {
       </Box>
       <Box>
         <Text size="xl" marginBottom="2x">
-          {'overflow="hidden"'}
+          overflow="hidden"
         </Text>
         <Divider orientation="horizontal" mt="2x" mb="4x" />
         <Scrollbar

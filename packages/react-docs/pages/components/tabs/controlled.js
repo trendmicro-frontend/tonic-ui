@@ -5,7 +5,7 @@ import {
   TabPanel,
   TabPanels,
 } from '@tonic-ui/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const App = () => {
   const [index, setIndex] = useState('tab1');

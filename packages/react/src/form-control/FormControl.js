@@ -1,4 +1,4 @@
-import React, { forwardRef, useMemo } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { useId } from '@tonic-ui/react-hooks';
 import { Stack } from '../stack';
 import { FormControlContext } from './context';

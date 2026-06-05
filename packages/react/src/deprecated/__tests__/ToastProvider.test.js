@@ -1,6 +1,5 @@
 import { render } from '@tonic-ui/react/test-utils/render';
 import { ToastProvider } from '@tonic-ui/react/src';
-import React from 'react';
 
 describe('ToastProvider component', () => {
   it('logs a deprecation warning when used', () => {

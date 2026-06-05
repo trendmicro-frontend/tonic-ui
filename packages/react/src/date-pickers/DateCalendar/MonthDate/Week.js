@@ -1,5 +1,4 @@
 import addDays from 'date-fns/addDays';
-import React from 'react';
 import Day from './Day';
 
 const Week = ({

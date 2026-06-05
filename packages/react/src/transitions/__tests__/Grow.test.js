@@ -1,7 +1,6 @@
 import { screen } from '@testing-library/react';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Box, Grow } from '@tonic-ui/react/src';
-import React from 'react';
 
 describe('Grow', () => {
   const boxHeight = 100;

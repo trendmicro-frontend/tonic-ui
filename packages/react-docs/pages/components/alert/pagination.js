@@ -1,6 +1,6 @@
 import { Alert, ButtonBase, Flex, Text } from '@tonic-ui/react';
 import { ChevronDownIcon, ChevronUpIcon, SuccessIcon, InfoIcon, WarningMinorIcon, ErrorIcon } from '@tonic-ui/react-icons';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const alerts = [
   { variant: 'solid', severity: 'success', icon: <SuccessIcon size="4x" />, message: 'This is a success alert' },

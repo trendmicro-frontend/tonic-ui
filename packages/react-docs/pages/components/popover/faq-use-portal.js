@@ -1,5 +1,4 @@
 import { Button, Popover, PopoverContent, PopoverTrigger } from '@tonic-ui/react';
-import React from 'react';
 
 const App = () => (
   <Popover>
@@ -7,9 +6,7 @@ const App = () => (
       <Button variant="secondary">Trigger</Button>
     </PopoverTrigger>
     <PopoverContent
-      PopperProps={{
-        usePortal: true,
-      }}
+      portalled
     >
       Popover
     </PopoverContent>

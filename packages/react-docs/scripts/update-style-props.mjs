@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { system } from '@tonic-ui/styled-system';
+import { isNullish } from '@tonic-ui/utils';
 import { ensureString } from 'ensure-type';
 import _ from 'lodash';
 
@@ -17,7 +18,7 @@ const kebabize = str => {
 
 const data = _.reduce(system.config, (result, value, key) => {
   const sx = value;
-  if (sx.group != null) {
+  if (!isNullish(sx.group)) {
     const item = {
       prop: key,
       properties: sx.properties.map(kebabize),

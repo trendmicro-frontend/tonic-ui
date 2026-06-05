@@ -1,5 +1,4 @@
-import { Box  } from '@tonic-ui/react';
-import React from 'react';
+import { Box } from '@tonic-ui/react';
 
 const App = () => (
   <Box
@@ -9,9 +8,9 @@ const App = () => (
     }}
   >
     This is line 1
-    <br/>
+    <br />
     This is line 2
-    <br/>
+    <br />
     This is line 3
   </Box>
 );

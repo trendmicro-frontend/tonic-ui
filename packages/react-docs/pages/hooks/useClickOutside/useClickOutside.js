@@ -1,6 +1,6 @@
 import { Box, Divider, Flex, Radio, RadioGroup, Text, TextLabel, useColorMode, useColorStyle } from '@tonic-ui/react';
 import { useClickOutside } from '@tonic-ui/react-hooks';
-import React, { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import PreformattedText from '@/components/PreformattedText';
 import x from '@/utils/json-stringify';
 
@@ -55,7 +55,7 @@ const App = () => {
         </RadioGroup>
       </FormGroup>
       <PreformattedText>
-        {`useClickOutside(ref, handler, { events: ${x(events) });`}
+        {`useClickOutside(ref, handler, { events: ${x(events)});`}
       </PreformattedText>
       <Divider my="4x" />
       <Box mb="4x">

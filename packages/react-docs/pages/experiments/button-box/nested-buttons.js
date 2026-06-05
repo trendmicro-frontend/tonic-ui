@@ -3,7 +3,6 @@ import {
   Space,
   useColorStyle,
 } from '@tonic-ui/react';
-import React from 'react';
 import { createVariantButtonBox } from './utils';
 
 const SecondaryButtonBox = createVariantButtonBox('secondary');

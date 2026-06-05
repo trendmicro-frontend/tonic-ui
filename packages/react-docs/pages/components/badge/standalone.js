@@ -1,6 +1,5 @@
 import { Badge, Stack } from '@tonic-ui/react';
 import { VirusIcon } from '@tonic-ui/react-icons';
-import React from 'react';
 
 const App = () => (
   <Stack direction="row" spacing="8x" alignItems="center">

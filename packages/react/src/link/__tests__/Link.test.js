@@ -1,9 +1,9 @@
+import { createRef } from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { Link } from '@tonic-ui/react/src';
-import React from 'react';
 
 describe('Link', () => {
   it('should render correctly', async () => {
@@ -105,7 +105,7 @@ describe('Link', () => {
   });
 
   it('should forward ref correctly', () => {
-    const ref = React.createRef();
+    const ref = createRef();
     render(
       <Link href="/test" ref={ref}>
         Test Link
@@ -193,8 +193,7 @@ describe('Link', () => {
 
     // Should show deprecation warning
     expect(consoleSpy).toHaveBeenCalledWith(
-      // eslint-disable-next-line quotes
-      `Link: 'textDecoration' is deprecated. Use 'variant="inline"' instead.`
+      'Link: \'textDecoration\' is deprecated. Use \'variant="inline"\' instead.'
     );
 
     consoleSpy.mockRestore();

@@ -1,6 +1,6 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { callEventHandlers } from '@tonic-ui/utils';
-import React, { forwardRef, useCallback, useRef, useState } from 'react';
+import { forwardRef, useCallback, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import useTimeout from '../utils/useTimeout';

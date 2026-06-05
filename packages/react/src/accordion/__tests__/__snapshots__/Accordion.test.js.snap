@@ -151,14 +151,17 @@ exports[`Accordion should render correctly 1`] = `
 <div>
   <div
     class="emotion-0 emotion-1"
+    data-tonic="Accordion"
   >
     <div
       class="emotion-2 emotion-1"
+      data-tonic="AccordionItem"
     >
       <button
         aria-controls="@tonic-ui/react:AccordionContent-_r_0_"
         aria-expanded="true"
         class="emotion-4 emotion-1"
+        data-tonic="AccordionHeader"
         id="@tonic-ui/react:AccordionToggle-_r_0_"
         role="button"
         tabindex="0"
@@ -169,12 +172,14 @@ exports[`Accordion should render correctly 1`] = `
         >
           <div
             class="emotion-8 emotion-1"
+            data-tonic="Text"
           >
             Accordion 1
           </div>
         </div>
         <div
           class="emotion-10 emotion-1"
+          data-tonic="AccordionToggleIcon"
         >
           <svg
             aria-hidden="true"
@@ -193,6 +198,7 @@ exports[`Accordion should render correctly 1`] = `
       <div
         aria-labelledby="@tonic-ui/react:AccordionToggle-_r_0_"
         class="emotion-14 emotion-1"
+        data-tonic="AccordionBody"
         id="@tonic-ui/react:AccordionContent-_r_0_"
         role="region"
       >
@@ -207,10 +213,12 @@ exports[`Accordion should render correctly 1`] = `
     </div>
     <div
       class="emotion-2 emotion-1"
+      data-tonic="AccordionItem"
     >
       <button
         aria-controls="@tonic-ui/react:AccordionContent-_r_1_"
         class="emotion-4 emotion-1"
+        data-tonic="AccordionHeader"
         id="@tonic-ui/react:AccordionToggle-_r_1_"
         role="button"
         tabindex="0"
@@ -221,12 +229,14 @@ exports[`Accordion should render correctly 1`] = `
         >
           <div
             class="emotion-8 emotion-1"
+            data-tonic="Text"
           >
             Accordion 2
           </div>
         </div>
         <div
           class="emotion-28 emotion-1"
+          data-tonic="AccordionToggleIcon"
         >
           <svg
             aria-hidden="true"
@@ -246,6 +256,7 @@ exports[`Accordion should render correctly 1`] = `
         aria-hidden="true"
         aria-labelledby="@tonic-ui/react:AccordionToggle-_r_1_"
         class="emotion-32 emotion-1"
+        data-tonic="AccordionBody"
         id="@tonic-ui/react:AccordionContent-_r_1_"
         role="region"
       >

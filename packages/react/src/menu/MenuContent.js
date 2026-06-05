@@ -1,7 +1,7 @@
 import { useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 import { callAll, callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
-import React, { forwardRef, useMemo, useRef } from 'react';
+import { forwardRef, useMemo, useRef } from 'react';
 import useSlot from '../utils/useSlot';
 import { useDefaultProps } from '../default-props';
 import { Popper } from '../popper';
@@ -68,9 +68,11 @@ const MenuContent = forwardRef((inProps, ref) => {
     menuToggleId,
     menuToggleRef,
     menuContentRef,
+    matchWidth,
     offset,
     onClose: closeMenu,
     placement,
+    portalled,
     submenuContentRefs,
   } = { ...menuContext };
   const eventHandler = {};
@@ -180,8 +182,9 @@ const MenuContent = forwardRef((inProps, ref) => {
       referenceRef: menuToggleRef,
       role: 'menu',
       tabIndex,
+      matchWidth,
       unmountOnExit: true,
-      usePortal: false,
+      portalled,
       willUseTransition: true,
       zIndex: 'dropdown',
     },

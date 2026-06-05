@@ -29,7 +29,7 @@ import {
 import { AngleLeftIcon, AngleRightIcon } from '@tonic-ui/react-icons';
 import { ensureArray, ensureNumber } from 'ensure-type';
 import _ from 'lodash';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 const threatTypes = [
   'Virus/Malware',

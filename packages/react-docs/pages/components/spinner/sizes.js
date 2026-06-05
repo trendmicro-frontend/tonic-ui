@@ -1,5 +1,4 @@
 import { Flex, Spinner } from '@tonic-ui/react';
-import React from 'react';
 
 const App = () => (
   <Flex alignItems="center" columnGap="6x">

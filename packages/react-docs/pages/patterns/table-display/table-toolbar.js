@@ -10,7 +10,7 @@ import {
   useColorStyle,
 } from '@tonic-ui/react';
 import { CloseSIcon, ExportIcon, RefreshIcon } from '@tonic-ui/react-icons';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import Toolbar from '@/components/Toolbar';
 import ToolbarItem from '@/components/ToolbarItem';
 import { Dropdown } from '@/experiments/dropdown';
@@ -43,7 +43,7 @@ const App = () => {
   const [colorStyle] = useColorStyle();
   const [selectedItem, setSelectedItem] = useState(defaultDropdownItems[0]);
   const [searchInputValue, setSearchInputValue] = useState('');
-  const [matchedResults] = useState(0);
+  const matchedResults = 0;
 
   const clearFilters = useCallback(() => {
     setSelectedItem(defaultDropdownItems[0]);
@@ -55,7 +55,7 @@ const App = () => {
     return (
       <Flex alignItems="center" columnGap="1x" width="100%">
         <FlexItem as={MutedText} fixed tooltip={tooltip}>
-          {'Label:'}
+          Label:
         </FlexItem>
         <FlexItem tooltip>
           {item.label}
@@ -72,7 +72,7 @@ const App = () => {
         </Button>
         <Divider orientation="vertical" height="8x" />
         <Dropdown
-          onSelect={(item) => {
+          onChange={(item) => {
             setSelectedItem(item);
           }}
           items={defaultDropdownItems}

@@ -64,28 +64,36 @@ exports[`Divider should render correctly 1`] = `
 <div>
   <div
     class="emotion-0 emotion-1"
+    data-tonic="Stack"
   >
     <div
       class="emotion-2 emotion-1"
+      data-tonic="Divider"
     />
     <div
       class="emotion-4 emotion-1"
+      data-tonic="Divider"
     />
     <div
       class="emotion-6 emotion-1"
+      data-tonic="Divider"
     />
   </div>
   <div
     class="emotion-8 emotion-1"
+    data-tonic="Stack"
   >
     <div
       class="emotion-10 emotion-1"
+      data-tonic="Divider"
     />
     <div
       class="emotion-12 emotion-1"
+      data-tonic="Divider"
     />
     <div
       class="emotion-14 emotion-1"
+      data-tonic="Divider"
     />
   </div>
 </div>

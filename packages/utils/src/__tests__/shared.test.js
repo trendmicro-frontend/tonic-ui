@@ -377,7 +377,7 @@ describe('get', () => {
 
     it('should still work correctly with normal quoted keys', () => {
       expect(get(testObject, '["key.with.dots"]')).toBe('dotted');
-      expect(get(testObject, "['key with spaces']")).toBe('spaced'); // eslint-disable-line quotes
+      expect(get(testObject, "['key with spaces']")).toBe('spaced');
       expect(get(testObject, 'arr[2].x')).toBe('nested');
     });
   });
@@ -461,7 +461,7 @@ describe('merge', () => {
         clone: false,
       }
     );
-    expect(result.__proto__).toHaveProperty('isAdmin'); // eslint-disable-line no-proto
+    expect(result.__proto__).toHaveProperty('isAdmin');
     expect({}).not.toHaveProperty('isAdmin');
   });
 
@@ -494,7 +494,7 @@ describe('merge', () => {
       {},
       JSON.parse('{ "myProperty": "a", "__proto__" : { "isAdmin" : true } }')
     );
-    expect(result.__proto__).toHaveProperty('isAdmin'); // eslint-disable-line no-proto
+    expect(result.__proto__).toHaveProperty('isAdmin');
     expect({}).not.toHaveProperty('isAdmin');
   });
 

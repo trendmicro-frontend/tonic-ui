@@ -32,7 +32,7 @@ import { EmailIcon, InfoOIcon, UserIcon } from '@tonic-ui/react-icons';
 import {
   useToggle,
 } from '@tonic-ui/react-hooks';
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import PreformattedText from '@/components/PreformattedText';
 import SkeletonBlock from '@/components/SkeletonBlock';
 import { List, ListItem } from '@/experiments/list';
@@ -389,7 +389,7 @@ const App = () => {
         <Box ml="6x">
           <Box mb="4x">
             <Text mb="2x">
-              When setting <Code>{'scrollBehavior="outside"'}</Code> to enable outside scrolling, you should also use <strong>Body Scroll Locking</strong> to prevent the user from scrolling the page while the modal is open.
+              When setting <Code>scrollBehavior="outside"</Code> to enable outside scrolling, you should also use <strong>Body Scroll Locking</strong> to prevent the user from scrolling the page while the modal is open.
             </Text>
             <Text mb="2x">
               <strong>Body Scroll Locking</strong> is currently not available with default setup, you can follow the instructions below to append global styles to the body to prevent scrolling.
@@ -412,14 +412,14 @@ const App = () => {
         onClose={() => toggleModal(false)}
         onInteractOutside={(event) => {
           // Call `event.preventDefault()` to prevent the modal from closing
-          //event.preventDefault();
+          // event.preventDefault();
         }}
         returnFocusOnClose={returnFocusOnClose}
         scrollBehavior={scrollBehavior}
         size={size}
         {...modalStyleProps}
       >
-        {enableBodyScrollLock && (
+        {enableBodyScrollLock ? (
           <Global
             styles={css`
               body {
@@ -427,14 +427,12 @@ const App = () => {
               }
             `}
           />
-        )}
-        {isOverlayVisible && (
-          <ModalOverlay />
-        )}
+        ) : null}
+        {isOverlayVisible ? <ModalOverlay /> : null}
         <ModalContent
           {...modalContentStyleProps}
         >
-          {isHeaderVisible && (
+          {isHeaderVisible ? (
             <ModalHeader>
               {size === 'auto' && <Text>Auto-sized Modal</Text>}
               {size === 'xs' && <Text>Extra Small Modal</Text>}
@@ -444,14 +442,14 @@ const App = () => {
               {size === 'xl' && <Text>Extra Large Modal</Text>}
               {size === 'full' && <Text>Full-width Modal</Text>}
             </ModalHeader>
-          )}
-          {isBodyVisible && (
+          ) : null}
+          {isBodyVisible ? (
             <ModalBody>
-              {isAlertVisible && (
+              {isAlertVisible ? (
                 <Alert variant="outline" severity="info" mb="4x" isClosable onClose={() => toggleIsAlertVisible()}>
                   <Text>This is an info alert</Text>
                 </Alert>
-              )}
+              ) : null}
               <Tabs>
                 <TabList mb="4x">
                   <Tab>Tab 1</Tab>
@@ -488,8 +486,8 @@ const App = () => {
                 </TabPanels>
               </Tabs>
             </ModalBody>
-          )}
-          {isFooterVisible && (
+          ) : null}
+          {isFooterVisible ? (
             <ModalFooter>
               <Grid
                 templateColumns="1fr 1fr"
@@ -503,7 +501,7 @@ const App = () => {
                 </Button>
               </Grid>
             </ModalFooter>
-          )}
+          ) : null}
         </ModalContent>
       </Modal>
     </>

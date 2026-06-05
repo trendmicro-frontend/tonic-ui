@@ -1,5 +1,5 @@
 import { Pagination, Stack, Text } from '@tonic-ui/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const App = () => {
   const [page, setPage] = useState(1);

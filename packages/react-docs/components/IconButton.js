@@ -2,7 +2,7 @@ import {
   ButtonBase,
   useColorMode,
 } from '@tonic-ui/react';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 const IconButton = forwardRef((props, ref) => {
   const [colorMode] = useColorMode();

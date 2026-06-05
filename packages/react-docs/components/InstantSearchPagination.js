@@ -1,7 +1,7 @@
 import {
   Pagination,
 } from '@tonic-ui/react';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import {
   usePagination,
 } from 'react-instantsearch-core';

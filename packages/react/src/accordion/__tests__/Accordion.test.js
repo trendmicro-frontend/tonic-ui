@@ -10,7 +10,7 @@ import {
   Box,
   Text,
 } from '@tonic-ui/react/src';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 describe('Accordion', () => {
   it('should render correctly', async () => {

@@ -1,10 +1,11 @@
 import { ensureArray } from 'ensure-type';
-import React, { forwardRef, useMemo } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { Mark } from '../mark';
 import { VARIANT_HIGHLIGHT } from '../mark/constants';
 import { findAllChunks, transformJSXTextNodes } from './utils';
+import { useHighlightStyle } from './styles';
 
 const defaultCaseSensitive = false;
 
@@ -19,6 +20,8 @@ const Highlight = forwardRef((inProps, ref) => {
     variant = VARIANT_HIGHLIGHT,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Highlight' });
+
+  const styleProps = useHighlightStyle();
 
   const transformedChildren = useMemo(() => {
     const MarkComponent = slots?.mark ?? Mark;
@@ -49,7 +52,11 @@ const Highlight = forwardRef((inProps, ref) => {
   }, [children, query, caseSensitive, transform, variant, slots, slotProps]);
 
   return (
-    <Box ref={ref} {...rest}>
+    <Box
+      ref={ref}
+      {...styleProps}
+      {...rest}
+    >
       {transformedChildren}
     </Box>
   );

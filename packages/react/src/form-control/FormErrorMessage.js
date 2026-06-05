@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { ensureArray } from 'ensure-type';
 import { useId } from '@tonic-ui/react-hooks';
 import { Text } from '../text';
@@ -41,7 +41,10 @@ const FormErrorMessage = forwardRef(({ errors = [], ...rest }, ref) => {
       ) : (
         <Box as="ul" {...listStyleProps}>
           {normalizedErrors.map((error, index) => (
-            <Box as="li" key={`error_${index}`}>
+            // Use index as key because errors may be React nodes, which would
+            // collide as `[object Object]` when used as keys directly.
+            // eslint-disable-next-line react/no-array-index-key
+            <Box as="li" key={index}>
               {error}
             </Box>
           ))}

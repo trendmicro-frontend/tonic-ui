@@ -7,7 +7,7 @@ import {
   TableCell,
   useColorMode,
 } from '@tonic-ui/react';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { DndProvider, useDrop, useDrag, useDragLayer } from 'react-dnd';
 import { HTML5Backend, getEmptyImage } from 'react-dnd-html5-backend';
 import immutableUpdate from 'immutability-helper';
@@ -66,11 +66,10 @@ const TR = ({ id, row, index, moveTr, ...otherProps }) => {
     }),
   });
 
-  drag(drop(ref));
-
   useEffect(() => {
+    drag(drop(ref));
     preview(getEmptyImage(), { captureDraggingState: true });
-  }, [preview]);
+  }, [drag, drop, preview]);
 
   return (
     <TableRow
@@ -89,7 +88,7 @@ const TR = ({ id, row, index, moveTr, ...otherProps }) => {
 };
 
 const CustomDragLayer = (props) => {
-  const { itemType, isDragging, item, initialOffset, currentOffset, } = useDragLayer((monitor) => ({
+  const { itemType, isDragging, item, initialOffset, currentOffset } = useDragLayer((monitor) => ({
     item: monitor.getItem(),
     itemType: monitor.getItemType(),
     initialOffset: monitor.getInitialSourceClientOffset(),
@@ -125,8 +124,8 @@ const CustomDragLayer = (props) => {
 
   if (itemType === ItemTypes.TR) {
     const row = item.row;
-     return (
-       <Box style={layerStyles}>
+    return (
+      <Box style={layerStyles}>
         <Box style={getItemStyles(initialOffset, currentOffset)}>
           <TableRow {...props}>
             <TableCell width="240px">{row.eventType}</TableCell>
@@ -180,11 +179,11 @@ const App = () => {
   return (
     <DndProvider backend={HTML5Backend}>
       <Table
-       {...tableProps}
+        {...tableProps}
       >
         <TableHeader>
           <TableRow
-             {...rowProps}
+            {...rowProps}
           >
             <TableCell width="240px">Event Type</TableCell>
             <TableCell width="140px" textAlign="right">Affected Devices</TableCell>
@@ -194,7 +193,7 @@ const App = () => {
         <TableBody>
           {
             items.map((item, i) => (
-              <TR {...rowProps} key={item.id} index={i} id={item.id} row={item} moveTr={moveTr}/>
+              <TR {...rowProps} key={item.id} index={i} id={item.id} row={item} moveTr={moveTr} />
             ))
           }
           <CustomDragLayer {...rowProps} />

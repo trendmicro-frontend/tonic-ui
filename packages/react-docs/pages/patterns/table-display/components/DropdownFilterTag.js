@@ -3,7 +3,7 @@ import {
 } from '@tonic-ui/react';
 import { useEffectOnce, useToggle } from '@tonic-ui/react-hooks';
 import { ensureFunction } from 'ensure-type';
-import React, { forwardRef, useMemo, useRef } from 'react';
+import { forwardRef, useMemo, useRef } from 'react';
 import { Dropdown } from '@/experiments/dropdown';
 import { FlexItem } from '@/experiments/flex-item';
 import { MutedText } from '@/experiments/muted-text';
@@ -45,7 +45,7 @@ const DropdownFilterTag = forwardRef((
     toggleIsOpen(true);
   };
 
-  const handleSelect = (item) => {
+  const handleChange = (item) => {
     const nextValue = item.value;
     if (nextValue !== value) {
       ensureFunction(onChange)(nextValue);
@@ -54,6 +54,7 @@ const DropdownFilterTag = forwardRef((
   };
 
   const FilterTagToggle = useMemo(() => {
+    // eslint-disable-next-line react/no-unstable-nested-components -- memoized wrapper passed as slot prop
     const Component = forwardRef((props, ref) => (
       <FilterTag ref={ref} {...props} onClose={onClose} />
     ));
@@ -67,7 +68,7 @@ const DropdownFilterTag = forwardRef((
       offset={[0, 4]}
       onClose={handleClose}
       onOpen={handleOpen}
-      onSelect={handleSelect}
+      onChange={handleChange}
       items={items}
       slots={{
         toggle: FilterTagToggle,

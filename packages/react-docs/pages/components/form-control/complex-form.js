@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ensureArray } from 'ensure-type';
 import {
   Box,
@@ -103,7 +103,9 @@ const App = () => {
     const newErrors = {};
     Object.keys(formData).forEach((key) => {
       const error = validateField(key, formData[key]);
-      if (error && error.length > 0) newErrors[key] = error;
+      if (error && error.length > 0) {
+        newErrors[key] = error;
+      }
     });
 
     setErrors(newErrors);

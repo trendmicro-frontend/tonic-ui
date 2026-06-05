@@ -23,7 +23,7 @@ const isValidPosition = (x, y) => {
 const evaluatePoint = (board, x, y, player) => {
   let total = 0;
   const opponent = player === PLAYER_HUMAN ? PLAYER_AI : PLAYER_HUMAN;
-  for (let [dx, dy] of directions) {
+  for (const [dx, dy] of directions) {
     let count = 1;
     let block = 0;
     for (let step = 1; step < 5; step++) {
@@ -123,4 +123,3 @@ export {
   checkWin,
   computeAIMove,
 };
-

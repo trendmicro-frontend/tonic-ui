@@ -1,5 +1,4 @@
 import { ensureString } from 'ensure-type';
-import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 
 const BASE_PATH = ensureString(process.env.TONIC_UI_REACT_DOCS_BASE_PATH);
@@ -44,13 +43,13 @@ root.style.setProperty('color-scheme', colorMode);
 
 const getContentSecurityPolicy = (nonce) => {
   const csp = [
-    `default-src 'self'`,
-    `connect-src 'self' http: https:`,
+    'default-src \'self\'',
+    'connect-src \'self\' http: https:',
     `script-src 'self' 'unsafe-eval' 'nonce-${nonce}' 'strict-dynamic'`,
     process.env.NODE_ENV === 'development'
-      ? `style-src 'self' 'unsafe-inline'` // required for the `dev-build-watcher.js` script
+      ? 'style-src \'self\' \'unsafe-inline\'' // required for the `dev-build-watcher.js` script
       : `style-src 'self' 'nonce-${nonce}'`,
-    `style-src-attr 'self' 'unsafe-inline'`, // required for the color mode script to set the `color-scheme` property on the root element
+    'style-src-attr \'self\' \'unsafe-inline\'', // required for the color mode script to set the `color-scheme` property on the root element
     'img-src http: https: data:'
   ].join('; ');
 
@@ -72,23 +71,25 @@ class CustomDocument extends Document {
           <meta httpEquiv="Content-Security-Policy" content={csp} />
           <link rel="shortcut icon" href={`${BASE_PATH}/tonic-favicon-dark.ico`} nonce={NONCE} />
           <link rel="stylesheet" href={`${BASE_PATH}/styles/app.css`} nonce={NONCE} />
-          {(MATOMO_URL && MATOMO_CONTAINER_ID) && (
+          {(MATOMO_URL && MATOMO_CONTAINER_ID) ? (
             <script
               nonce={NONCE}
               data-matomo-tag-manager
+              // eslint-disable-next-line react/no-danger -- inline analytics loader for Next.js _document
               dangerouslySetInnerHTML={{ __html: MATOMO_TAG_MANAGER_SCRIPT }}
             />
-          )}
+          ) : null}
           <script
             nonce={NONCE}
             data-tonic-ui
+            // eslint-disable-next-line react/no-danger -- pre-paint color mode init to avoid FOUC
             dangerouslySetInnerHTML={{ __html: COLOR_MODE_SCRIPT }}
           />
         </Head>
         <body>
           <Main />
           <svg
-            xmlms="http://www.w3.org/2000/svg"
+            xmlns="http://www.w3.org/2000/svg"
             style={{
               display: 'none',
             }}

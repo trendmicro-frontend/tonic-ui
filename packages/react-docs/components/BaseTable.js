@@ -20,7 +20,7 @@ import {
   useTheme,
 } from '@tonic-ui/react';
 import { dataAttr } from '@tonic-ui/utils';
-import React, { Fragment, forwardRef, useEffect, useState } from 'react';
+import { Fragment, forwardRef, useEffect, useState } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
 /**
@@ -41,7 +41,7 @@ const assignRef = (ref, value) => {
 
   try {
     ref.current = value;
-  } catch (error) {
+  } catch {
     throw new Error(`Cannot assign value '${value}' to ref '${ref}'`);
   }
 };
@@ -316,8 +316,7 @@ const BaseTable = forwardRef((
                       >
                         {header.isPlaceholder
                           ? null
-                          : flexRender(header.column.columnDef.header, header.getContext())
-                        }
+                          : flexRender(header.column.columnDef.header, header.getContext())}
                       </TableCell>
                     );
                   })}

@@ -1,5 +1,5 @@
 import { useId } from '@tonic-ui/react-hooks';
-import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
 import config from '../shared/config';
@@ -44,6 +44,7 @@ const Tooltip = forwardRef((inProps, ref) => {
     onClose: onCloseProp,
     onOpen: onOpenProp,
     openOnFocus = true,
+    portalled,
     placement = defaultPlacement,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Tooltip' });
@@ -154,6 +155,7 @@ const Tooltip = forwardRef((inProps, ref) => {
     onClose,
     onOpen,
     openOnFocus,
+    portalled,
     placement,
     setMousePageX,
     setMousePageY,

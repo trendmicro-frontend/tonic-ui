@@ -1,10 +1,10 @@
-import { Button, Divider, Scrollbar } from "@tonic-ui/react";
-import { useToggle } from "@tonic-ui/react-hooks";
-import React, { useRef } from "react";
-import Lorem from "@/components/Lorem";
+import { Button, Divider, Scrollbar } from '@tonic-ui/react';
+import { useToggle } from '@tonic-ui/react-hooks';
+import { useState } from 'react';
+import Lorem from '@/components/Lorem';
 
 const App = () => {
-  const scrollTopRef = useRef();
+  const [scrollTop, setScrollTop] = useState(0);
   const [on, toggle] = useToggle(true);
 
   return (
@@ -13,18 +13,18 @@ const App = () => {
         Toggle Visibility
       </Button>
       <Divider my="4x" />
-      {on && (
+      {on ? (
         <Scrollbar
           height={200}
-          onUpdate={({ scrollTop }) => {
-            scrollTopRef.current = scrollTop;
+          onUpdate={({ scrollTop: newScrollTop }) => {
+            setScrollTop(newScrollTop);
           }}
           overflow="visible"
-          scrollTop={scrollTopRef.current}
+          scrollTop={scrollTop}
         >
           <Lorem count={10} />
         </Scrollbar>
-      )}
+      ) : null}
     </>
   );
 };

@@ -10,7 +10,7 @@ const getInnerHeight = (el) => {
     const paddingTop = parseFloat(computedStyle?.paddingTop);
     const paddingBottom = parseFloat(computedStyle?.paddingBottom);
     innerHeight = ensureFiniteNumber(clientHeight - paddingTop - paddingBottom);
-  } catch (e) {
+  } catch (_error) {
     // do nothing
   }
 

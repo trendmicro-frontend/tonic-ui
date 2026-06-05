@@ -1,5 +1,5 @@
 import { runIfFn } from '@tonic-ui/utils';
-import React, { forwardRef, isValidElement } from 'react';
+import { forwardRef, isValidElement } from 'react';
 
 const Render = forwardRef((
   {

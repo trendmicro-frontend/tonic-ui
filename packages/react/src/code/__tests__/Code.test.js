@@ -2,7 +2,6 @@ import { screen } from '@testing-library/react';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { Code } from '@tonic-ui/react/src';
-import React from 'react';
 
 describe('Code', () => {
   it('should render correctly', async () => {

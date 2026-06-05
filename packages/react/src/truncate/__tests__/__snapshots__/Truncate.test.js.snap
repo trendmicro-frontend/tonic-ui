@@ -12,6 +12,7 @@ exports[`Truncate should render correctly 1`] = `
 <div>
   <div
     class="emotion-0 emotion-1"
+    data-tonic="Truncate"
   >
     This is a very long text that will be truncated
   </div>

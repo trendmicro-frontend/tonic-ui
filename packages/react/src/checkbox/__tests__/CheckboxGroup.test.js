@@ -2,7 +2,6 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Checkbox, CheckboxGroup } from '@tonic-ui/react/src';
-import React from 'react';
 
 describe('CheckboxGroup', () => {
   it('should render correctly', () => {

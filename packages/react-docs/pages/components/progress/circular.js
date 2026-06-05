@@ -8,7 +8,7 @@ import {
   Text,
   TextLabel,
 } from '@tonic-ui/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const sizeOptions = [16, 32, 48, 64, 80];
 const thicknessOptions = [2, 4, 8, 12];
@@ -157,6 +157,7 @@ const App = () => {
           <input
             type="range"
             name="scale"
+            aria-label="scale"
             min={0.5}
             max={4}
             step={0.1}

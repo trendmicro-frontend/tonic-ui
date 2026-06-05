@@ -8,6 +8,7 @@ exports[`TextLabel should render correctly 1`] = `
 <div>
   <div
     class="emotion-0 emotion-1"
+    data-tonic="Text"
   >
     Text
   </div>

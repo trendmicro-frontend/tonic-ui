@@ -9,9 +9,8 @@ import {
 } from '@tonic-ui/utils';
 import useClipboard from '../hooks/useClipboard';
 import { ensureString } from 'ensure-type';
-import React from 'react';
 import { LiveProvider, LiveEditor } from 'react-live';
-import { themes } from "prism-react-renderer"
+import { themes } from 'prism-react-renderer';
 
 const CodeBlock = ({ code: codeProp, language, ...rest }) => {
   const theme = useTheme();

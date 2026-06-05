@@ -1,6 +1,6 @@
 import { useConst } from '@tonic-ui/react-hooks';
 import { isNullOrUndefined, runIfFn } from '@tonic-ui/utils';
-import React, { forwardRef, useEffect, useReducer } from 'react';
+import { forwardRef, useEffect, useReducer } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';

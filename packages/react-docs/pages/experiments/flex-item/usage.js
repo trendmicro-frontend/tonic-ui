@@ -1,5 +1,4 @@
 import { Flex } from '@tonic-ui/react';
-import React from 'react';
 import { MutedText } from '@/experiments/muted-text';
 import { FlexItem } from '@/experiments/flex-item';
 

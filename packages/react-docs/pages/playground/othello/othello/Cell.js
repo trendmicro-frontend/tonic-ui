@@ -1,7 +1,6 @@
 import {
   Box,
 } from '@tonic-ui/react';
-import React from 'react';
 import Piece from './Piece';
 
 const Cell = ({

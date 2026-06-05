@@ -10,7 +10,7 @@ import {
   TextLabel,
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const FormGroup = (props) => (
   <Box mb="4x" {...props} />

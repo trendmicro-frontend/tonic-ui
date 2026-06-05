@@ -3,7 +3,7 @@
  */
 import { useIsomorphicEffect, usePrevious } from '@tonic-ui/react-hooks';
 import { noop } from '@tonic-ui/utils';
-import { useContext, useState } from 'react';
+import { useContext, useReducer } from 'react';
 import { DescendantContext } from './context';
 
 /**
@@ -27,7 +27,7 @@ import { DescendantContext } from './context';
  * composed descendants for keyboard navigation.
  */
 const useDescendant = (element) => {
-  const [, forceUpdate] = useState();
+  const [, forceUpdate] = useReducer((x) => !x, false);
   const {
     descendants = [],
     depth: parentDepth = 0,

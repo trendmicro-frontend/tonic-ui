@@ -2,7 +2,6 @@ import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { LinearProgress } from '@tonic-ui/react/src';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
-import React from 'react';
 
 jest.mock('@tonic-ui/utils', () => ({
   ...jest.requireActual('@tonic-ui/utils'),

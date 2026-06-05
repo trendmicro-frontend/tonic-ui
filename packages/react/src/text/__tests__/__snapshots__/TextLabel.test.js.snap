@@ -10,6 +10,7 @@ exports[`TextLabel should render correctly 1`] = `
   <label
     class="emotion-0 emotion-1"
     data-testid="TextLabel"
+    data-tonic="TextLabel"
   >
     TextLabel
   </label>

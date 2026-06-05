@@ -19,7 +19,7 @@ import {
   useColorStyle,
 } from '@tonic-ui/react';
 import { CloseSIcon } from '@tonic-ui/react-icons';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const MAX_TOASTS = 1;
 

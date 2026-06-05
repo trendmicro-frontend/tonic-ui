@@ -16,12 +16,13 @@ export const getIsPassiveListenerSupported = (() => {
 
       const noop = () => {};
 
+      // TODO: Use environment provider to obtain the global object and avoid referencing `window` directly
       window.addEventListener('test', noop, options);
       window.removeEventListener('test', noop);
-    } catch (error) {
+    } catch (_error) {
       isPassiveListenerSupported = false;
     }
 
     return isPassiveListenerSupported;
   };
-});
+})();

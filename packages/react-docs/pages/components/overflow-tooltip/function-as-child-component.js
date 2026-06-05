@@ -1,6 +1,5 @@
 import { Flex, OverflowTooltip, Text } from '@tonic-ui/react';
 import { MenuIcon } from '@tonic-ui/react-icons';
-import React from 'react';
 
 const App = () => {
   return (

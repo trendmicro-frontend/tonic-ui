@@ -1,22 +1,22 @@
 import { Box, Button } from '@tonic-ui/react';
 import { useOnce } from '@tonic-ui/react-hooks';
-import React, { useRef, useState } from 'react';
+import { useReducer, useState } from 'react';
 
 const App = () => {
-  const [, setValue] = useState(0);
-  const ref = useRef(0);
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
+  const [callCount, setCallCount] = useState(0);
 
   useOnce(() => {
     console.log('This will run only once before the initial render');
-    ref.current++;
+    setCallCount(c => c + 1);
   });
 
   return (
     <>
       <Box mb="4x">
-        Callback called: {ref.current}
+        Callback called: {callCount}
       </Box>
-      <Button onClick={() => setValue(value => value + 1)}>
+      <Button onClick={forceUpdate}>
         Click Me
       </Button>
     </>

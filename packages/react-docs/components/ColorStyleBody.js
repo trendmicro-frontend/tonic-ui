@@ -9,7 +9,6 @@ import {
 } from 'ensure-type';
 import _get from 'lodash/get';
 import _has from 'lodash/has';
-import React from 'react';
 import ColorStyleBlock from './ColorStyleBlock';
 
 const baseWidth = 180;
@@ -88,7 +87,6 @@ const ColorStyleBody = ({
             key={colorKey}
             colorLabel={colorLabel}
             colorType={colorType}
-            colorKey={colorKey}
             colorTokens={colorTokens}
             colorValues={colorValues}
           />

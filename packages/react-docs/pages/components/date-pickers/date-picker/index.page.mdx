@@ -91,6 +91,7 @@ const DateInput = React.forwardRef((props, ref) => {
 | onError | function | | An error-first callback called when the date validation returns an error (or the date is valid after error).<br/><br/><b>Signature</b><br/>`function(error, value) => void`<br/>_error_: The error message. It will be `undefined` if the date is valid after error.<br/>_value_: The selected date. |
 | onOpen | function | | Callback when the date picker is opened. |
 | placement | string | 'bottom-start' | The placement of the date picker. One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end' |
+| portalled | boolean | false | If `true`, renders the date picker in a portal. |
 | renderInput | function | | The `renderInput` prop allows you to customize the rendered input.<br/>The `props` argument of this render prop contains props of [InputControl](../../components/input-control) that you need to forward.<br/><br/><b>Signature:</b><br/>`function(props) => ReactNode`<br/>_props_: The props of the input.<br/>_returns (ReactNode)_: The node to render as the input. |
 | shouldDisableDate | function | | Disable specific date.<br/><br/><b>Signature:</b><br/>`function(date) => boolean`<br/>_date_: The date to check.<br/>_returns (boolean)_: Return `true` if the date will be disabled. |
 | value | Date \| string | | The selected date. If the `value` is a string, it will be parsed to a `Date` object in accordance with the `inputFormat`. |

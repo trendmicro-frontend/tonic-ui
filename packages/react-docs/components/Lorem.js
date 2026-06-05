@@ -3,7 +3,7 @@ import {
   useColorMode,
 } from '@tonic-ui/react';
 import { loremIpsum } from 'lorem-ipsum';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 const Lorem = forwardRef((
   {

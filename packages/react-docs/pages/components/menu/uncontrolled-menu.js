@@ -13,7 +13,7 @@ import {
 } from '@tonic-ui/react';
 import { AngleRightIcon } from '@tonic-ui/react-icons';
 import { isNullish } from '@tonic-ui/utils';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const App = () => {
   const [selectedValue, setSelectedValue] = useState(null);
@@ -34,14 +34,11 @@ const App = () => {
 
   return (
     <Flex columnGap="4x" alignItems="center">
-      <Menu defaultIsOpen={true}>
+      <Menu portalled defaultIsOpen={true}>
         <MenuButton>
           Options
         </MenuButton>
         <MenuList
-          PopperProps={{
-            usePortal: true,
-          }}
           onClick={handleClickMenuItem}
           onKeyDown={handleKeyDownMenuItem}
           width="max-content"
@@ -53,16 +50,13 @@ const App = () => {
             List item 2
           </MenuItem>
           <MenuDivider />
-          <Submenu>
+          <Submenu portalled>
             <SubmenuTrigger>
               <Text>Submenu</Text>
               <Space width="1x" />
               <AngleRightIcon ml="auto" />
             </SubmenuTrigger>
             <SubmenuList
-              PopperProps={{
-                usePortal: true,
-              }}
               width="max-content"
             >
               <MenuItem value={3}>

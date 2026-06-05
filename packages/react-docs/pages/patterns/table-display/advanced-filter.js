@@ -1,6 +1,6 @@
 import { Button, Flex, Menu, MenuToggle, MenuItem, MenuList, SearchInput, Text } from '@tonic-ui/react';
 import { FilterDeleteIcon, FilterIcon } from '@tonic-ui/react-icons';
-import React, { Fragment, useCallback, useMemo, useState } from 'react';
+import { Fragment, useCallback, useMemo, useState } from 'react';
 import FilterButton from './components/FilterButton';
 import DropdownFilterTag from './components/DropdownFilterTag';
 import SearchDropdownFilterTag from './components/SearchDropdownFilterTag';
@@ -15,7 +15,7 @@ const App = () => {
       render: (props) => (
         <DropdownFilterTag
           {...props}
-          label={'Device type:'}
+          label="Device type:"
           items={[
             { value: 'desktop', label: 'Desktop' },
             { value: 'server', label: 'Server' },
@@ -29,7 +29,7 @@ const App = () => {
       render: (props) => (
         <InputFilterTag
           {...props}
-          label={'Display name:'}
+          label="Display name:"
           inputProps={{
             placeholder: 'Specify display name',
             maxLength: 256,
@@ -43,7 +43,7 @@ const App = () => {
       render: (props) => (
         <SearchDropdownFilterTag
           {...props}
-          label={'OS type:'}
+          label="OS type:"
           items={[
             { value: 'windows', label: 'Windows' },
             { value: 'macos', label: 'macOS' },

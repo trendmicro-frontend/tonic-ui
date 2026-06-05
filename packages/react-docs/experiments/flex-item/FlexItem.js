@@ -1,5 +1,5 @@
 import { Box, OverflowTooltip } from '@tonic-ui/react';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { useFlexItemStyle } from './styles';
 
 const FlexItem = forwardRef((
@@ -43,9 +43,7 @@ const FlexItem = forwardRef((
 
   return (
     <TooltipComponent
-      PopperProps={{
-        usePortal: true,
-      }}
+      portalled
       disabled={!tooltip}
       label={tooltipLabel}
       {...slotProps?.tooltip}

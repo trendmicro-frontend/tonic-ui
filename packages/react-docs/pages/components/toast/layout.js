@@ -11,7 +11,7 @@ import {
   useColorStyle,
   useToastManager,
 } from '@tonic-ui/react';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 const ActionButton = forwardRef((props, ref) => (
   <Button

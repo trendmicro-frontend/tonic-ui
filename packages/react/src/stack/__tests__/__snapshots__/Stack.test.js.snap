@@ -15,6 +15,7 @@ exports[`Stack should render correctly 1`] = `
 <div>
   <div
     class="emotion-0 emotion-1"
+    data-tonic="Stack"
   >
     <div
       class="emotion-2 emotion-1"

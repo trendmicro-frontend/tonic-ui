@@ -27,7 +27,7 @@ import { InfoOIcon, SortDownIcon, SortUpIcon } from '@tonic-ui/react-icons';
 import {
   useToggle,
 } from '@tonic-ui/react-hooks';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 const data = [
   { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
@@ -111,107 +111,108 @@ const App = () => {
     </Box>
   );
 
-  return (<>
-    <Box mb="4x" px="3x">
-      <Checkbox
-        checked={enableSortingRemoval}
-        onChange={() => {
-          toggleEnableSortingRemoval();
-        }}
-      >
-        <Flex alignItems="center">
-          Enable the ability to remove sorting for the table
-          <Space width="2x" />
-          <Tooltip
-            label={colorMode === 'dark'
-              ? <LightMode>{enableSortingRemovalTooltipLabel}</LightMode>
-              : <DarkMode>{enableSortingRemovalTooltipLabel}</DarkMode>
-            }
-          >
-            <InfoOIcon />
-          </Tooltip>
-        </Flex>
-      </Checkbox>
-    </Box>
-    <Table layout={layout}>
-      <TableHeader>
-        {table.getHeaderGroups().map(headerGroup => (
-          <TableRow key={headerGroup.id}>
-            {headerGroup.headers.map(header => {
-              let styleProps = {
-                minWidth: header.column.columnDef.minSize,
-                width: header.getSize(),
-                ...header.column.columnDef.style,
-              };
-              if (header.column.getCanSort()) {
-                styleProps = {
-                  ...styleProps,
-                  cursor: 'pointer',
-                  userSelect: 'none',
-                  _hover: {
-                    backgroundColor: colorStyle.background.highlighted,
-                  },
+  return (
+    <>
+      <Box mb="4x" px="3x">
+        <Checkbox
+          checked={enableSortingRemoval}
+          onChange={() => {
+            toggleEnableSortingRemoval();
+          }}
+        >
+          <Flex alignItems="center">
+            Enable the ability to remove sorting for the table
+            <Space width="2x" />
+            <Tooltip
+              label={colorMode === 'dark'
+                ? <LightMode>{enableSortingRemovalTooltipLabel}</LightMode>
+                : <DarkMode>{enableSortingRemovalTooltipLabel}</DarkMode>}
+            >
+              <InfoOIcon />
+            </Tooltip>
+          </Flex>
+        </Checkbox>
+      </Box>
+      <Table layout={layout}>
+        <TableHeader>
+          {table.getHeaderGroups().map(headerGroup => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map(header => {
+                let styleProps = {
+                  minWidth: header.column.columnDef.minSize,
+                  width: header.getSize(),
+                  ...header.column.columnDef.style,
                 };
-              }
-              if (header.column.getIsSorted()) {
-                styleProps = {
-                  ...styleProps,
-                  color: colorStyle.color.emphasis,
-                };
-              }
-              return (
-                <TableCell
-                  key={header.id}
-                  onClick={header.column.getToggleSortingHandler()}
-                  {...styleProps}
-                >
-                  {header.isPlaceholder ? null : (
-                    <Flex alignItems="center">
-                      <Truncate>
-                        {flexRender(header.column.columnDef.header, header.getContext())}
-                      </Truncate>
-                      {{
-                        asc: (<SortUpIcon size="5x" ml="1x" />),
-                        desc: (<SortDownIcon size="5x" ml="1x" />),
-                      }[header.column.getIsSorted()] ?? null}
-                    </Flex>
-                  )}
-                </TableCell>
-              );
-            })}
-          </TableRow>
-        ))}
-      </TableHeader>
-      <TableBody>
-        {table.getRowModel().rows.map(row => (
-          <TableRow
-            key={row.id}
-            _hover={{
-              backgroundColor: colorStyle.background.highlighted,
-            }}
-          >
-            {row.getVisibleCells().map(cell => {
-              const styleProps = {
-                minWidth: cell.column.columnDef.minSize,
-                width: cell.column.getSize(),
-                ...cell.column.columnDef.style,
-              };
-              return (
-                <TableCell
-                  key={cell.id}
-                  {...styleProps}
-                >
-                  <Truncate>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </Truncate>
-                </TableCell>
-              );
-            })}
+                if (header.column.getCanSort()) {
+                  styleProps = {
+                    ...styleProps,
+                    cursor: 'pointer',
+                    userSelect: 'none',
+                    _hover: {
+                      backgroundColor: colorStyle.background.highlighted,
+                    },
+                  };
+                }
+                if (header.column.getIsSorted()) {
+                  styleProps = {
+                    ...styleProps,
+                    color: colorStyle.color.emphasis,
+                  };
+                }
+                return (
+                  <TableCell
+                    key={header.id}
+                    onClick={header.column.getToggleSortingHandler()}
+                    {...styleProps}
+                  >
+                    {header.isPlaceholder ? null : (
+                      <Flex alignItems="center">
+                        <Truncate>
+                          {flexRender(header.column.columnDef.header, header.getContext())}
+                        </Truncate>
+                        {{
+                          asc: (<SortUpIcon size="5x" ml="1x" />),
+                          desc: (<SortDownIcon size="5x" ml="1x" />),
+                        }[header.column.getIsSorted()] ?? null}
+                      </Flex>
+                    )}
+                  </TableCell>
+                );
+              })}
             </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  </>);
+          ))}
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel().rows.map(row => (
+            <TableRow
+              key={row.id}
+              _hover={{
+                backgroundColor: colorStyle.background.highlighted,
+              }}
+            >
+              {row.getVisibleCells().map(cell => {
+                const styleProps = {
+                  minWidth: cell.column.columnDef.minSize,
+                  width: cell.column.getSize(),
+                  ...cell.column.columnDef.style,
+                };
+                return (
+                  <TableCell
+                    key={cell.id}
+                    {...styleProps}
+                  >
+                    <Truncate>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </Truncate>
+                  </TableCell>
+                );
+              })}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </>
+  );
 };
 
 export default App;

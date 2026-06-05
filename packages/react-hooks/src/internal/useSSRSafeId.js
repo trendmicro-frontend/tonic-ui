@@ -1,4 +1,3 @@
-import { isNullish } from '@tonic-ui/utils';
 import { useState, useEffect } from 'react';
 import useIsomorphicEffect from '../useIsomorphicEffect';
 /**
@@ -42,7 +41,6 @@ const useSSRSafeId = (() => {
          */
         setGeneratedId(generateId());
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -56,7 +54,7 @@ const useSSRSafeId = (() => {
       }
     }, []);
 
-    return !isNullish(generatedId) ? generatedId : undefined;
+    return (generatedId !== null) ? generatedId : undefined;
   };
 })();
 

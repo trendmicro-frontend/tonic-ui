@@ -1,5 +1,5 @@
 import { useOnce } from '@tonic-ui/react-hooks';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { AccordionContent } from '../accordion';
 
 const AccordionCollapse = forwardRef((props, ref) => {

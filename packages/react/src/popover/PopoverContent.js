@@ -11,7 +11,7 @@ import {
   warnDeprecatedProps,
 } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
-import React, { forwardRef, useMemo, useRef } from 'react';
+import { forwardRef, useMemo, useRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { Popper } from '../popper';
@@ -117,6 +117,7 @@ const PopoverContent = forwardRef((inProps, ref) => {
     offset,
     onClose: closePopover,
     placement,
+    portalled,
     popoverId,
     popoverContentRef,
     popoverTriggerId,
@@ -222,7 +223,7 @@ const PopoverContent = forwardRef((inProps, ref) => {
       referenceRef: popoverTriggerRef,
       role,
       unmountOnExit: true,
-      usePortal: false, // Pass `true` in `slotProps.popper` to render popover in a portal
+      portalled,
       willUseTransition: true,
       zIndex: 'popover',
     },

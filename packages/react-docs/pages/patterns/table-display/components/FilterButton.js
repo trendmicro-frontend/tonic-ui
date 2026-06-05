@@ -2,7 +2,7 @@ import {
   Button,
   useColorStyle,
 } from '@tonic-ui/react';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 const FilterButton = forwardRef((props, ref) => {
   const [colorStyle] = useColorStyle();

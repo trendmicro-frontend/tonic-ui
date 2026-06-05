@@ -1,6 +1,6 @@
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
 import useButtonEventHandlers from '../utils/useButtonEventHandlers';

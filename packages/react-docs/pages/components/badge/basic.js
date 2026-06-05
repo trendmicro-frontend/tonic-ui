@@ -1,6 +1,5 @@
 import { Badge, Grid, Skeleton, Text } from '@tonic-ui/react';
 import { AlertIcon } from '@tonic-ui/react-icons';
-import React from 'react';
 
 const App = () => (
   <Grid

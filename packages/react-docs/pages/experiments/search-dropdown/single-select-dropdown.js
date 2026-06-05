@@ -5,18 +5,16 @@ import {
   Checkbox,
   Divider,
   Flex,
+  Highlight,
   Scrollbar,
   Stack,
-  useColorStyle,
 } from '@tonic-ui/react';
 import {
   useConst,
 } from '@tonic-ui/react-hooks';
 import Chance from 'chance';
-import { ensureArray } from 'ensure-type';
 import { produce } from 'immer';
-import React, { useMemo, useState } from 'react';
-import Highlight from 'react-highlight-words';
+import { useMemo, useState } from 'react';
 import FormGroup from '@/components/FormGroup';
 import { MenuButtonToggle, TagToggle } from '@/experiments/dropdown';
 import { FlexItem } from '@/experiments/flex-item';
@@ -35,7 +33,6 @@ const DROPDOWN_TOGGLE_MENU_BUTTON = 'MenuButton';
 const DROPDOWN_TOGGLE_TAG = 'Tag';
 
 const App = () => {
-  const [colorStyle] = useColorStyle();
   const [toggle, changeToggleBy] = useSelection(DROPDOWN_TOGGLE_MENU_BUTTON);
   const ToggleComponent = {
     [DROPDOWN_TOGGLE_MENU_BUTTON]: MenuButtonToggle,
@@ -72,7 +69,7 @@ const App = () => {
 
   const [value, setValue] = useState(items[0]?.value);
 
-  const handleSelect = (item) => {
+  const handleChange = (item) => {
     if (value !== item.value) {
       setValue(item.value);
     }
@@ -85,7 +82,7 @@ const App = () => {
     return (
       <Flex alignItems="center" columnGap="1x" width="100%">
         <FlexItem as={MutedText} fixed tooltip={tooltip}>
-          {'Company:'}
+          Company:
         </FlexItem>
         <FlexItem maxWidth={120} tooltip>
           {label}
@@ -156,37 +153,29 @@ const App = () => {
       <SearchDropdown
         items={items}
         offset={toggleOffset}
-        onSelect={handleSelect}
+        onChange={handleChange}
         renderContent={({ items, renderItems, renderSearchInput }) => (
           <>
             <Box px="3x" mb="2x">
               {renderSearchInput()}
             </Box>
-            <Scrollbar
-              maxHeight={36 * 5}
-              overflowY="visible"
-            >
-              {renderItems(items)}
-            </Scrollbar>
+            {items.length === 0 ? (
+              <Box px="3x" py="2x">No options</Box>
+            ) : (
+              <Scrollbar
+                maxHeight={36 * 5}
+                overflowY="visible"
+              >
+                {renderItems(items)}
+              </Scrollbar>
+            )}
           </>
         )}
-        renderItem={(item, { searchKeyword }) => {
-          const searchWords = ensureArray(searchKeyword);
-          const textToHighlight = item.label;
-          const highlightStyle = {
-            backgroundColor: 'inherit',
-            color: colorStyle.color.emphasis,
-            fontWeight: 'semibold',
-          };
-
-          return (
-            <Highlight
-              searchWords={searchWords}
-              textToHighlight={textToHighlight}
-              highlightTag={(props) => <Box as="mark" {...highlightStyle} {...props} />}
-            />
-          );
-        }}
+        renderItem={(item, { searchKeyword }) => (
+          <Highlight variant="highlight" query={searchKeyword}>
+            {item.label}
+          </Highlight>
+        )}
         slots={{
           toggle: ToggleComponent,
         }}

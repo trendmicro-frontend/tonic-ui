@@ -60,6 +60,7 @@ exports[`Spinner renders correctly 1`] = `
   <div
     aria-label="loading"
     class="emotion-0 emotion-1"
+    data-tonic="Spinner"
     role="progressbar"
   >
     <svg

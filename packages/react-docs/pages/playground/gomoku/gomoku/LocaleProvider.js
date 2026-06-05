@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 // Localization strings
 const langMap = {
@@ -37,13 +37,13 @@ const LocaleContext = createContext();
 // LocaleProvider component to manage language and provide translations
 export const LocaleProvider = ({ children }) => {
   const [lang, setLang] = useState('en');
-  
+
   const value = {
     lang,
     setLang,
     t: (key) => langMap[lang]?.[key],
   };
-  
+
   return (
     <LocaleContext.Provider value={value}>
       {children}

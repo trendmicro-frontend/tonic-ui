@@ -1,5 +1,4 @@
 import { InputBase, Stack } from '@tonic-ui/react';
-import React from 'react';
 
 const App = () => (
   <Stack directin="column" spacing="4x">

@@ -12,7 +12,7 @@ import {
 const MAX_DEPTH = 4;
 
 const evaluationTable = (() => {
-  const cells = (new Array(BOARD_SIZE**2)).fill(1);
+  const cells = (new Array(BOARD_SIZE ** 2)).fill(1);
   const toCellId = (x, y) => x + BOARD_SIZE * y;
 
   // Four corners
@@ -88,14 +88,14 @@ const evaluate = (cells) => {
 
 // https://github.com/Jhhhha/Game-Tree
 //
-// function alphabeta(node, depth, α, β, MinMax) 
+// function alphabeta(node, depth, α, β, MinMax)
 //   if depth = 0 or node is left_node
 //     return benefit of node
 //
 //   if MinMax = Max
 //     v := -∞
 //     foreach child of node
-//       v := max(v, alphabeta(child, depth - 1, α, β, FALSE)) 
+//       v := max(v, alphabeta(child, depth - 1, α, β, FALSE))
 //       α := max(α, v)
 //       if β ≤ α
 //         break

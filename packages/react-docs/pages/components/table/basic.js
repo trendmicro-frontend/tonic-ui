@@ -12,7 +12,7 @@ import {
   Truncate,
   useColorStyle,
 } from '@tonic-ui/react';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 const data = [
   { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },

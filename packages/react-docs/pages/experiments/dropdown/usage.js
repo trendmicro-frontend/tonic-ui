@@ -17,7 +17,7 @@ import {
   InfoOIcon,
 } from '@tonic-ui/react-icons';
 import { produce } from 'immer';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import FormGroup from '@/components/FormGroup';
 import { Dropdown, MenuButtonToggle, TagToggle } from '@/experiments/dropdown';
 import { FlexItem } from '@/experiments/flex-item';
@@ -53,9 +53,7 @@ const App = () => {
   const setToggleProps = (updater) => {
     setTogglePropsMap((prevState) => produce(prevState, draft => updater(draft[toggle])));
   };
-  const [contentProps, setContentProps] = useState({
-    fitToggleWidth: false,
-  });
+  const [matchWidth, setMatchWidth] = useState(false);
   const [value, setValue] = useState('all');
   const items = useConst(() => [
     { value: 'all', label: 'All' },
@@ -66,7 +64,7 @@ const App = () => {
     return Object.fromEntries(items.map(item => [item.value, item.label]));
   }, [items]);
 
-  const handleSelect = (item) => {
+  const handleChange = (item) => {
     if (value !== item.value) {
       setValue(item.value);
     }
@@ -82,7 +80,7 @@ const App = () => {
           fixed
           tooltip={`Event status: ${label}`}
         >
-          {'Event status:'}
+          Event status:
         </FlexItem>
         <FlexItem tooltip>
           {label}
@@ -187,25 +185,19 @@ const App = () => {
             Dropdown content props:
           </MutedText>
           <Checkbox
-            checked={contentProps.fitToggleWidth}
-            onChange={() => {
-              setContentProps(prevState => {
-                return {
-                  ...prevState,
-                  fitToggleWidth: !prevState.fitToggleWidth,
-                };
-              });
-            }}
+            checked={matchWidth}
+            onChange={() => setMatchWidth(prev => !prev)}
           >
-            <MutedText fontFamily="mono" whiteSpace="nowrap">fitToggleWidth</MutedText>
+            <MutedText fontFamily="mono" whiteSpace="nowrap">matchWidth</MutedText>
           </Checkbox>
         </Stack>
       </FormGroup>
       <Divider my="4x" />
       <Dropdown
+        matchWidth={matchWidth}
         items={items}
         offset={toggleOffset}
-        onSelect={handleSelect}
+        onChange={handleChange}
         renderContent={({ items, renderItems }) => (
           <Scrollbar
             maxHeight={200}
@@ -220,7 +212,6 @@ const App = () => {
         }}
         slotProps={{
           toggle: toggleProps,
-          content: contentProps,
         }}
         width={width}
       >

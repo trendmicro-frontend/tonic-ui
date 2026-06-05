@@ -6,7 +6,7 @@ import isDate from 'date-fns/isDate';
 import isValid from 'date-fns/isValid';
 import parse from 'date-fns/parse';
 import startOfDay from 'date-fns/startOfDay';
-import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../../box';
 import { useDefaultProps } from '../../default-props';
 import useShallowMemo from '../../utils/useShallowMemo';
@@ -25,7 +25,7 @@ const mapFormattedValueToDate = (value, formatString, referenceDate = new Date()
   if (typeof value === 'string') {
     try {
       return parse(value, formatString, referenceDate);
-    } catch (e) {
+    } catch (_e) {
       return new Date(''); // Invalid Date
     }
   }
@@ -77,6 +77,7 @@ const DatePicker = forwardRef((inProps, ref) => {
     onError: onErrorProp,
     onOpen: onOpenProp,
     placement = 'bottom-start', // One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'
+    portalled,
     renderInput,
     shouldDisableDate,
     value: valueProp,
@@ -231,6 +232,7 @@ const DatePicker = forwardRef((inProps, ref) => {
     onOpen,
     onToggle,
     placement,
+    portalled,
     datePickerContentId,
     datePickerContentRef,
     datePickerToggleId,

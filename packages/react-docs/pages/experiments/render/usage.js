@@ -1,5 +1,5 @@
 import { Box, Button, Text } from '@tonic-ui/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Render } from '@/experiments/render';
 
 const App = () => {

@@ -8,7 +8,7 @@ import {
   MenuList,
   MenuItem,
 } from '@tonic-ui/react/src';
-import React, { act } from 'react';
+import { act } from 'react';
 
 describe('Menu', () => {
   const TestComponent = (props) => {
@@ -140,6 +140,70 @@ describe('Menu', () => {
     await user.keyboard('[Escape]');
     await waitFor(() => {
       expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+    });
+  });
+
+  it('should return empty array from getFocusableElements when menu content is not mounted', () => {
+    const { rerender } = render(
+      <Menu isOpen={false}>
+        <MenuButton data-testid="button">Open</MenuButton>
+      </Menu>
+    );
+
+    // Rerender with isOpen=true but no MenuList — menuContentRef.current is null
+    rerender(
+      <Menu isOpen={true}>
+        <MenuButton data-testid="button">Open</MenuButton>
+      </Menu>
+    );
+
+    // Should not throw; getFocusableElements gracefully returns []
+    expect(screen.getByTestId('button')).toBeInTheDocument();
+  });
+
+  describe('portalled', () => {
+    it('should render MenuList in a portal when Menu portalled prop is true', async () => {
+      const user = userEvent.setup();
+      render(<TestComponent portalled={true} />);
+
+      await user.click(screen.getByTestId('button'));
+      const menu = await screen.findByRole('menu');
+
+      expect(menu.closest('.tonic-ui-portal')).toBeInTheDocument();
+    });
+
+    it('should not render MenuList in a portal by default', async () => {
+      const user = userEvent.setup();
+      render(<TestComponent />);
+
+      await user.click(screen.getByTestId('button'));
+      const menu = await screen.findByRole('menu');
+
+      expect(menu.closest('.tonic-ui-portal')).not.toBeInTheDocument();
+    });
+
+    it('should render MenuList in a portal when PopperProps.usePortal is true (backward compat)', async () => {
+      // Regression: MenuList with PopperProps={{ usePortal: true }} must activate the
+      // portal even though Menu does not receive portalled prop (previously defaulted
+      // portalled=false in context, blocking the usePortal fallback in Popper).
+      const user = userEvent.setup();
+      const TestWithUsePortal = () => (
+        <Menu>
+          <MenuButton data-testid="button" variant="secondary">Open</MenuButton>
+          <MenuList
+            data-testid="menu-list"
+            PopperProps={{ usePortal: true }}
+          >
+            <MenuItem>Item 1</MenuItem>
+          </MenuList>
+        </Menu>
+      );
+      render(<TestWithUsePortal />);
+
+      await user.click(screen.getByTestId('button'));
+      const menu = await screen.findByRole('menu');
+
+      expect(menu.closest('.tonic-ui-portal')).toBeInTheDocument();
     });
   });
 

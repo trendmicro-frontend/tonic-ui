@@ -15,7 +15,7 @@ import {
 } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
 import FilterTag from './FilterTag';
-import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 
 const InputFilterTag = forwardRef((
   {
@@ -102,9 +102,7 @@ const InputFilterTag = forwardRef((
         </FilterTag>
       </PopoverTrigger>
       <PopoverContent
-        PopperProps={{
-          usePortal: true,
-        }}
+        portalled
       >
         <Box mb="2x">
           <Input

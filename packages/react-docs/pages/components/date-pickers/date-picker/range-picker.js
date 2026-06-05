@@ -17,7 +17,7 @@ import {
   useColorStyle,
 } from '@tonic-ui/react';
 import { AngleRightIcon, CalendarIcon, ChevronLeftIcon, ClockIcon } from '@tonic-ui/react-icons';
-import React, { useEffect, useReducer, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 
 const CustomDateInput = ({
   inputFormat = 'yyyy-MM-dd',
@@ -153,7 +153,7 @@ const DateTimePicker = ({
     }
 
     // if the end datetime is the earlier than the start datetime, then set the end datetime to the start datetime
-    if ((Date.parse(`${formatDate(endDate)} ${endTime}`)).valueOf() < (Date.parse(`${formatDate(startDate)} ${startTime}`)).valueOf()){
+    if ((Date.parse(`${formatDate(endDate)} ${endTime}`)).valueOf() < (Date.parse(`${formatDate(startDate)} ${startTime}`)).valueOf()) {
       setEndDate(startDate);
       setEndTime('23:59:59');
     } else {
@@ -344,72 +344,74 @@ const App = () => {
     }
   }, [state.value, state.isDateTimePickerVisible]);
 
-  return (<>
-    <Flex mb="3x">
-      <TextLabel>Date & time range:</TextLabel>
-      <Space width="3x" />
-      <Text>{dateTimeRange[0]}</Text>
-      <Text px="1x">to</Text>
-      <Text>{dateTimeRange[1]}</Text>
-    </Flex>
-    <Menu
-      closeOnBlur={!state.isDateTimePickerVisible}
-      onClose={() => {
-        if (state.isDateTimePickerVisible) {
-          setState({ isDateTimePickerVisible: false });
-        }
-      }}
-    >
-      {({ onClose }) => (
-        <>
-          <MenuButton variant="secondary">
-            <Text>{mapValueToLabel(state.value)}</Text>
-          </MenuButton>
-          <MenuList width="max-content">
-            {state.isDateTimePickerVisible && (
-              <DateTimePicker
-                inputFormat={inputFormat}
-                startDate={state.startDate}
-                startTime={state.startTime}
-                endDate={state.endDate}
-                endTime={state.endTime}
-                onApply={({ startDate, startTime, endDate, endTime }) => {
-                  onClose();
-                  setState({
-                    value: 'custom',
-                    startDate,
-                    startTime,
-                    endDate,
-                    endTime,
-                  });
-                }}
-                onClose={() => {
-                  onClose();
-                }}
-              />
-            )}
-            {['1d', '7d', '30d', '90d'].map(value => (
+  return (
+    <>
+      <Flex mb="3x">
+        <TextLabel>Date & time range:</TextLabel>
+        <Space width="3x" />
+        <Text>{dateTimeRange[0]}</Text>
+        <Text px="1x">to</Text>
+        <Text>{dateTimeRange[1]}</Text>
+      </Flex>
+      <Menu
+        closeOnBlur={!state.isDateTimePickerVisible}
+        onClose={() => {
+          if (state.isDateTimePickerVisible) {
+            setState({ isDateTimePickerVisible: false });
+          }
+        }}
+      >
+        {({ onClose }) => (
+          <>
+            <MenuButton variant="secondary">
+              <Text>{mapValueToLabel(state.value)}</Text>
+            </MenuButton>
+            <MenuList width="max-content">
+              {state.isDateTimePickerVisible ? (
+                <DateTimePicker
+                  inputFormat={inputFormat}
+                  startDate={state.startDate}
+                  startTime={state.startTime}
+                  endDate={state.endDate}
+                  endTime={state.endTime}
+                  onApply={({ startDate, startTime, endDate, endTime }) => {
+                    onClose();
+                    setState({
+                      value: 'custom',
+                      startDate,
+                      startTime,
+                      endDate,
+                      endTime,
+                    });
+                  }}
+                  onClose={() => {
+                    onClose();
+                  }}
+                />
+              ) : null}
+              {['1d', '7d', '30d', '90d'].map(value => (
+                <MenuItem
+                  key={value}
+                  value={value}
+                  onClick={handleMenuItemClick}
+                >
+                  {mapValueToLabel(value)}
+                </MenuItem>
+              ))}
               <MenuItem
-                key={value}
-                value={value}
+                value="custom"
                 onClick={handleMenuItemClick}
               >
-                {mapValueToLabel(value)}
+                Custom Period
+                <Space width="2x" />
+                <AngleRightIcon />
               </MenuItem>
-            ))}
-            <MenuItem
-              value="custom"
-              onClick={handleMenuItemClick}
-            >
-              Custom Period
-              <Space width="2x" />
-              <AngleRightIcon />
-            </MenuItem>
-          </MenuList>
-        </>
-      )}
-    </Menu>
-  </>);
+            </MenuList>
+          </>
+        )}
+      </Menu>
+    </>
+  );
 };
 
 export default App;

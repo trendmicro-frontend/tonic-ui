@@ -1,5 +1,4 @@
 import { Box } from '@tonic-ui/react';
-import React from 'react';
 
 const App = () => (
   <Box
@@ -10,13 +9,13 @@ const App = () => (
           color: 'white:primary',
         },
       },
-      true && {
+      {
         '&:hover': {
           backgroundColor: 'gray:50',
           color: 'white:primary',
         },
       },
-      true && {
+      {
         '&:hover': {
           backgroundColor: 'yellow:50',
           color: 'black:primary',

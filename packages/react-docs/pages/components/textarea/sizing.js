@@ -1,5 +1,5 @@
 import { Button, Flex, Space, Stack, Textarea, TextLabel } from '@tonic-ui/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const App = () => {
   const [resize, setResize] = useState('both');

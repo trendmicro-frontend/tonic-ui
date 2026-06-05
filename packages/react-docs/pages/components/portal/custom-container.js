@@ -5,7 +5,7 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 
 const App = () => {
   const ref = useRef();

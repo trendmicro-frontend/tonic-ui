@@ -8,11 +8,11 @@ import {
   Submenu,
   SubmenuTrigger,
   SubmenuList,
-  useTheme,
 } from '@tonic-ui/react';
 import { callEventHandlers, isPlainObject, runIfFn } from '@tonic-ui/utils';
-import { ensureArray } from 'ensure-type';
-import React, { Fragment, forwardRef, useCallback } from 'react';
+import { ensureArray, ensureFunction } from 'ensure-type';
+import { Fragment, forwardRef, useCallback, useState } from 'react';
+import { getMenuListStyle } from './styles';
 
 const isValidElementType = (type) => {
   return (
@@ -22,130 +22,165 @@ const isValidElementType = (type) => {
   );
 };
 
-const defaultRenderItem = (item, context) => isPlainObject(item) ? item.label : item;
+const defaultRenderItem = (item) => isPlainObject(item) ? item.label : item;
 
 const DropdownBase = forwardRef((
   {
     children,
+    defaultValue,
     items = [],
-    onSelect,
+    matchWidth = false,
+    onChange,
     portalled = false,
     renderContent = null,
     renderItem: renderItemProp = defaultRenderItem,
+    renderToggle,
     slots = {},
     slotProps = {},
+    value: valueProp,
     ...rest
   },
   ref,
 ) => {
-  const theme = useTheme();
+  const isControlled = valueProp !== undefined;
+  const [internalValue, setInternalValue] = useState(defaultValue ?? null);
+  const value = isControlled ? valueProp : internalValue;
+
+  const handleChange = useCallback((item) => {
+    if (!isControlled) {
+      setInternalValue(item);
+    }
+    onChange?.(item);
+  }, [isControlled, onChange]);
+
   const handleClickBy = useCallback((item) => (event) => {
     if (event.defaultPrevented) {
       return;
     }
-    onSelect?.(item);
-  }, [onSelect]);
+    handleChange(item);
+  }, [handleChange]);
   const handleKeyDownBy = useCallback((item) => (event) => {
     if (event.defaultPrevented) {
       return;
     }
     if ((event.key === ' ' || event.key === 'Enter') && !event.repeat) {
-      onSelect?.(item);
+      handleChange(item);
     }
-  }, [onSelect]);
+  }, [handleChange]);
 
-  const renderItem = (item) => (typeof renderItemProp === 'function') ? renderItemProp(item) : null;
+  const renderItem = ensureFunction(renderItemProp);
 
   // Recursively render items including groups, dividers, and items
-  const renderItems = (items, prefix) => {
-    return ensureArray(items).map((item, index) => {
-      const key = [prefix, index].filter(x => (x !== null && x !== undefined)).join('_');
+  const renderItems = useCallback((items) => {
+    const _renderItems = (items, { prefix } = {}) => {
+      return ensureArray(items).map((item, index) => {
+        const key = [prefix, index].filter(x => (x !== null && x !== undefined)).join('_');
 
-      if (!isPlainObject(item)) {
+        if (!isPlainObject(item)) {
+          return (
+            <Fragment key={key}>
+              {renderItem(item)}
+            </Fragment>
+          );
+        }
+
+        if (item.type === 'custom') {
+          return (
+            <Fragment key={key}>
+              {renderItem(item)}
+            </Fragment>
+          );
+        }
+
+        if (item.type === 'group') {
+          return (
+            <MenuGroup key={`${key}_group`} title={item.label} {...item.props}>
+              {_renderItems(item.children, { prefix: key })}
+            </MenuGroup>
+          );
+        }
+
+        if (item.type === 'divider') {
+          return (
+            <MenuDivider key={`${key}_divider`} {...item.props} />
+          );
+        }
+
+        if (item.type === 'submenu') {
+          return (
+            <Submenu key={`${key}_submenu`}>
+              <SubmenuTrigger
+                width="100%"
+                {...item.props}
+              >
+                {renderItem(item)}
+              </SubmenuTrigger>
+              <SubmenuList
+                width="max-content"
+              >
+                {_renderItems(item.children, { prefix: key })}
+              </SubmenuList>
+            </Submenu>
+          );
+        }
+
+        const { onClick: onClickProp, onKeyDown: onKeyDownProp, ...restItemProps } = { ...item.props };
+
         return (
-          <Fragment key={key}>
+          <MenuItem
+            key={key}
+            onClick={callEventHandlers(onClickProp, handleClickBy(item))}
+            onKeyDown={callEventHandlers(onKeyDownProp, handleKeyDownBy(item))}
+            {...restItemProps}
+          >
             {renderItem(item)}
-          </Fragment>
+          </MenuItem>
         );
-      }
+      });
+    };
 
-      if (item.type === 'custom') {
-        return (
-          <Fragment key={key}>
-            {renderItem(item)}
-          </Fragment>
-        );
-      }
-
-      if (item.type === 'group') {
-        return (
-          <MenuGroup key={`${key}_group`} title={item.label} {...item.props}>
-            {renderItems(item.children, key)}
-          </MenuGroup>
-        );
-      }
-
-      if (item.type === 'divider') {
-        return (
-          <MenuDivider key={`${key}_divider`} {...item.props} />
-        );
-      }
-
-      if (item.type === 'submenu') {
-        return (
-          <Submenu key={`${key}_submenu`}>
-            <SubmenuTrigger
-              width="100%"
-              {...item.props}
-            >
-              {renderItem?.(item)}
-            </SubmenuTrigger>
-            <SubmenuList
-              width="max-content"
-            >
-              {renderItems(item.children, key)}
-            </SubmenuList>
-          </Submenu>
-        );
-      }
-
-      const { onClick: onClickProp, onKeyDown: onKeyDownProp, ...restItemProps } = { ...item.props };
-
-      return (
-        <MenuItem
-          key={key}
-          onClick={callEventHandlers(onClickProp, handleClickBy(item))}
-          onKeyDown={callEventHandlers(onKeyDownProp, handleKeyDownBy(item))}
-          {...restItemProps}
-        >
-          {renderItem?.(item)}
-        </MenuItem>
-      );
-    });
-  };
+    return _renderItems(items);
+  }, [renderItem, handleClickBy, handleKeyDownBy]);
 
   return (
     <Menu
       ref={ref}
+      matchWidth={matchWidth}
+      portalled={portalled}
       {...rest}
     >
       {({ menuToggleRef }) => {
-        const { fitToggleWidth, ...restContentProps } = { ...slotProps?.content };
-        const toggleWidth = menuToggleRef.current?.offsetWidth;
-        const menuListStyle = {
-          ...(fitToggleWidth
-            ? { width: toggleWidth }
-            : { minWidth: toggleWidth, width: 'max-content', maxWidth: 640 }
-          ),
-          ...(portalled && { zIndex: theme?.zIndices?.modal + 1 }),
-        };
+        const toggleWidth = menuToggleRef?.current?.offsetWidth;
+        const { width: contentWidth, ...contentProps } = { ...slotProps?.content };
+        const menuListStyle = getMenuListStyle({ portalled, matchWidth, toggleWidth, contentWidth });
 
         return (
           <>
             <MenuToggle
               {...slotProps?.toggle}
             >
-              {({ getMenuToggleProps: getToggleProps }) => {
+              {({ getMenuToggleProps }) => {
+                const getToggleProps = (userProps = {}) => {
+                  const {
+                    disabled: userDisabled,
+                    onClick: userOnClick,
+                    onKeyDown: userOnKeyDown,
+                    ...userRest
+                  } = userProps;
+                  const baseProps = getMenuToggleProps();
+                  const isDisabled = userDisabled || baseProps.disabled;
+                  return {
+                    ...baseProps,
+                    ...userRest,
+                    disabled: isDisabled,
+                    'aria-disabled': isDisabled ? 'true' : 'false',
+                    onClick: isDisabled ? userOnClick : callEventHandlers(userOnClick, baseProps.onClick),
+                    onKeyDown: isDisabled ? userOnKeyDown : callEventHandlers(userOnKeyDown, baseProps.onKeyDown),
+                  };
+                };
+                if (typeof renderToggle === 'function') {
+                  return renderToggle({ getToggleProps, value, renderItem });
+                }
                 const Toggle = slots?.toggle;
                 if (isValidElementType(Toggle)) {
                   return (
@@ -160,16 +195,11 @@ const DropdownBase = forwardRef((
             </MenuToggle>
             <MenuList
               {...menuListStyle}
-              {...restContentProps}
-              PopperProps={{
-                usePortal: portalled,
-                ...restContentProps?.PopperProps,
-              }}
+              {...contentProps}
             >
               {(typeof renderContent === 'function')
                 ? renderContent({ items, renderItem, renderItems })
-                : renderItems(items)
-              }
+                : renderItems(items)}
             </MenuList>
           </>
         );

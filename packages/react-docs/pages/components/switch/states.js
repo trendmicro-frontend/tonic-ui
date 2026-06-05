@@ -1,5 +1,4 @@
 import { Divider, Flex, Stack, Switch } from '@tonic-ui/react';
-import React from 'react';
 
 const App = () => {
   return (

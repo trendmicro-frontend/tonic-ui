@@ -454,9 +454,11 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
 <div>
   <label
     class="emotion-0 emotion-1"
+    data-tonic="Checkbox"
   >
     <input
       class="emotion-2 emotion-1"
+      data-tonic="VisuallyHidden"
       type="checkbox"
     />
     <div
@@ -488,9 +490,11 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
   </label>
   <label
     class="emotion-0 emotion-1"
+    data-tonic="Checkbox"
   >
     <input
       class="emotion-2 emotion-1"
+      data-tonic="VisuallyHidden"
       type="checkbox"
     />
     <div
@@ -522,9 +526,11 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
   </label>
   <label
     class="emotion-0 emotion-1"
+    data-tonic="Checkbox"
   >
     <input
       class="emotion-2 emotion-1"
+      data-tonic="VisuallyHidden"
       type="checkbox"
     />
     <div
@@ -556,9 +562,11 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
   </label>
   <label
     class="emotion-0 emotion-1"
+    data-tonic="Checkbox"
   >
     <input
       class="emotion-2 emotion-1"
+      data-tonic="VisuallyHidden"
       type="checkbox"
     />
     <div
@@ -590,10 +598,12 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
   </label>
   <label
     class="emotion-0 emotion-1"
+    data-tonic="Checkbox"
   >
     <input
       class="emotion-2 emotion-1"
       data-indeterminate=""
+      data-tonic="VisuallyHidden"
       type="checkbox"
     />
     <div
@@ -628,10 +638,12 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
   </label>
   <label
     class="emotion-0 emotion-1"
+    data-tonic="Checkbox"
   >
     <input
       checked=""
       class="emotion-2 emotion-1"
+      data-tonic="VisuallyHidden"
       type="checkbox"
     />
     <div
@@ -663,9 +675,11 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
   </label>
   <label
     class="emotion-60 emotion-1"
+    data-tonic="Checkbox"
   >
     <input
       class="emotion-2 emotion-1"
+      data-tonic="VisuallyHidden"
       disabled=""
       type="checkbox"
     />
@@ -698,10 +712,12 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
   </label>
   <label
     class="emotion-60 emotion-1"
+    data-tonic="Checkbox"
   >
     <input
       class="emotion-2 emotion-1"
       data-indeterminate=""
+      data-tonic="VisuallyHidden"
       disabled=""
       type="checkbox"
     />
@@ -737,10 +753,12 @@ input[type="checkbox"][data-indeterminate]:disabled+.emotion-44 {
   </label>
   <label
     class="emotion-60 emotion-1"
+    data-tonic="Checkbox"
   >
     <input
       checked=""
       class="emotion-2 emotion-1"
+      data-tonic="VisuallyHidden"
       disabled=""
       type="checkbox"
     />

@@ -1,6 +1,6 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { ensureString } from 'ensure-type';
-import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { useDefaultProps } from '../default-props';
 import { InputControl } from '../input';
 import useRunAfterUpdate from '../utils/useRunAfterUpdate';

@@ -1,7 +1,7 @@
 import { useEventCallback, useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 import { callAll, callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
-import React, { forwardRef, useMemo, useRef } from 'react';
+import { forwardRef, useMemo, useRef } from 'react';
 import useSlot from '../../utils/useSlot';
 import { Collapse } from '../../transitions';
 import { Popper } from '../../popper';
@@ -66,6 +66,7 @@ const DatePickerContent = forwardRef((
     offset,
     onClose,
     placement,
+    portalled,
   } = { ...datePickerContext };
 
   const onKeyDown = useEventCallback((event) => {
@@ -105,7 +106,7 @@ const DatePickerContent = forwardRef((
       role: 'menu',
       tabIndex: -1,
       unmountOnExit: true,
-      usePortal: false, // Pass `true` in `slotProps.popper` to render content in a portal
+      portalled,
       willUseTransition: true,
       zIndex: 'dropdown',
     },

@@ -1,5 +1,5 @@
 import { Alert, Box, Button, Collapse } from '@tonic-ui/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const App = () => {
   const [isOpen, setIsOpen] = useState(true);

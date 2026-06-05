@@ -1,5 +1,4 @@
 import { Flex, Input, Space, Text, TextLabel } from '@tonic-ui/react';
-import React from 'react';
 
 const App = () => (
   <Flex flexDirection="column">
@@ -8,7 +7,7 @@ const App = () => (
     <Input placeholder="Text input" />
     <Space height="1x" />
     <Text size="xs">Help text for the text input</Text>
-</Flex>
+  </Flex>
 );
 
 export default App;

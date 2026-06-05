@@ -3,7 +3,6 @@ import {
   useColorMode,
   useColorStyle,
 } from '@tonic-ui/react';
-import React from 'react';
 
 const SkeletonContent = (props) => {
   const [colorMode] = useColorMode();

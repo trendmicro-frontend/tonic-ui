@@ -1,6 +1,5 @@
 import { Box, Button, Stack, Toast, useColorMode, useColorStyle, useToastManager } from '@tonic-ui/react';
 import { CheckCircleOIcon } from '@tonic-ui/react-icons';
-import React from 'react';
 
 const ToastWithDefaultIcon = ({ onClose }) => (
   <Toast
@@ -80,6 +79,7 @@ const App = () => {
   return (
     <Stack direction="column" spacing="6x">
       {alertToasts.map((ToastNotification, idx) => (
+        // eslint-disable-next-line react/no-array-index-key
         <Box key={idx}>
           <Box mb="4x">
             <Button variant="secondary" onClick={handleClickBy(ToastNotification)}>

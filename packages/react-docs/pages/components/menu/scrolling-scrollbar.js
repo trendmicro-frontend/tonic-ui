@@ -11,7 +11,6 @@ import {
   Text,
 } from '@tonic-ui/react';
 import { AngleRightIcon } from '@tonic-ui/react-icons';
-import React from 'react';
 
 const App = () => (
   <Menu display="block">
@@ -27,7 +26,9 @@ const App = () => (
       >
         {Array.from({ length: 100 }).map((_, key) => (
           <Submenu
+            // eslint-disable-next-line react/no-array-index-key
             key={key}
+            portalled
             placement="right-start"
           >
             <SubmenuTrigger width="100%">
@@ -36,9 +37,6 @@ const App = () => (
               <AngleRightIcon ml="auto" />
             </SubmenuTrigger>
             <SubmenuList
-              PopperProps={{
-                usePortal: true,
-              }}
               width="max-content"
             >
               <MenuItem>

@@ -1,5 +1,4 @@
 import { Divider, Stack } from '@tonic-ui/react';
-import React from 'react';
 
 const App = () => (
   <Stack direction="row" spacing="4x" height="12x">

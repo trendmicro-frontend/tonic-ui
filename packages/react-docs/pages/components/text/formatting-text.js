@@ -1,5 +1,4 @@
 import { Stack, Text, useColorMode } from '@tonic-ui/react';
-import React from 'react';
 
 const App = () => {
   const [colorMode] = useColorMode();

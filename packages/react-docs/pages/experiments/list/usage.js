@@ -1,5 +1,5 @@
 import { Box, Button, ButtonGroup, Divider, TextLabel } from '@tonic-ui/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import FormGroup from '@/components/FormGroup';
 import { List, ListItem } from '@/experiments/list';
 

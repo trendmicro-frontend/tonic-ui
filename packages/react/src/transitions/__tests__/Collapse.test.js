@@ -1,7 +1,6 @@
 import { screen } from '@testing-library/react';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Box, Collapse } from '@tonic-ui/react/src';
-import React from 'react';
 
 describe('Collapse', () => {
   const boxHeight = 100;

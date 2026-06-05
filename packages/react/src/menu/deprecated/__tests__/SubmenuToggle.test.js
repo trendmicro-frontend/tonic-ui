@@ -2,6 +2,7 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import {
+  Button,
   Flex,
   Menu,
   MenuButton,
@@ -12,7 +13,6 @@ import {
   SubmenuList,
   Text,
 } from '@tonic-ui/react/src';
-import React from 'react';
 import SubmenuToggle from '../SubmenuToggle';
 
 describe('SubmenuToggle', () => {
@@ -414,7 +414,7 @@ describe('SubmenuToggle', () => {
       render(
         <>
           <SubmenuTestComponent />
-          <button data-testid="outside-button">Outside</button>
+          <Button data-testid="outside-button">Outside</Button>
         </>
       );
 

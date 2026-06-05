@@ -24,7 +24,7 @@ import {
   UserTeamIcon,
 } from '@tonic-ui/react-icons';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import FocusLock from 'react-focus-lock';
 
 const Avatar = (props) => (

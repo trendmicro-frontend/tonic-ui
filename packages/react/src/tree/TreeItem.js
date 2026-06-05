@@ -1,7 +1,7 @@
 import { useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 import { ariaAttr, isNullish, runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureFiniteNumber } from 'ensure-type';
-import React, { forwardRef, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Children, forwardRef, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
@@ -75,7 +75,7 @@ const TreeItem = forwardRef((inProps, ref) => {
   }, [idAttrProp, treeId, nodeId]);
   const { index, parentDepth, parentId } = useDescendant(element);
   const nodeDepth = ensureFiniteNumber(parentDepth) + 1;
-  const validChildren = React.Children.toArray(children)
+  const validChildren = Children.toArray(children)
     .filter(child => {
       return isValidElement(child) || typeof child === 'string' || typeof child === 'number';
     });

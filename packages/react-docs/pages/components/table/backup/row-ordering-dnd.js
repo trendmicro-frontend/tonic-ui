@@ -21,7 +21,7 @@ import {
   dataAttr,
 } from '@tonic-ui/utils';
 import { ensurePlainObject } from 'ensure-type';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend, getEmptyImage } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
@@ -46,7 +46,7 @@ const assignRef = (ref, value) => {
 
   try {
     ref.current = value;
-  } catch (error) {
+  } catch {
     throw new Error(`Cannot assign value '${value}' to ref '${ref}'`);
   }
 };
@@ -176,7 +176,7 @@ const App = () => {
       minSize: 80,
     },
     getCoreRowModel: getCoreRowModel(),
-    getRowId: row => row.id, //good to have guaranteed unique row ids/keys for rendering
+    getRowId: row => row.id, // good to have guaranteed unique row ids/keys for rendering
   });
 
   const moveItem = useCallback((dragItemId, hoverItemId) => {
@@ -327,7 +327,7 @@ const App = () => {
                             }}
                           >
                             <Flex alignItems="center">
-                              {canDrag && (
+                              {canDrag ? (
                                 <Flex
                                   ref={dragRef}
                                   sx={{
@@ -344,7 +344,7 @@ const App = () => {
                                 >
                                   <HandleIcon />
                                 </Flex>
-                              )}
+                              ) : null}
                               {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </Flex>
                           </TableCell>

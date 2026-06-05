@@ -2,7 +2,7 @@ import { createPopper } from '@popperjs/core';
 import { useEffectOnce, useOnceWhen } from '@tonic-ui/react-hooks';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
-import React, { forwardRef, useEffect, useRef, useState, useCallback } from 'react';
+import { forwardRef, useEffect, useRef, useState, useCallback } from 'react';
 import { useDefaultProps } from '../default-props';
 import { Portal } from '../portal';
 import { Box } from '../box';
@@ -10,19 +10,35 @@ import { assignRef } from '../utils/refs';
 
 const defaultPlacement = 'bottom-start';
 
+// Sets the popper's width to match the reference element on every Popper.js update.
+const matchWidthModifier = {
+  name: 'matchWidth',
+  enabled: true,
+  phase: 'beforeWrite',
+  requires: ['computeStyles'],
+  fn: ({ state }) => {
+    state.styles.popper.width = `${state.rects.reference.width}px`;
+  },
+  effect: ({ state }) => {
+    state.elements.popper.style.width = `${state.elements.reference.offsetWidth}px`;
+  },
+};
+
 const Popper = forwardRef((inProps, ref) => {
   const {
     anchorEl, // deprecated
 
     children,
     isOpen,
+    matchWidth = false,
     modifiers = [],
     placement: placementProp,
     popperRef: popperRefProp, // reference to receive the popper instance
     portalProps,
+    portalled,
     referenceRef,
     unmountOnExit = false,
-    usePortal = false,
+    usePortal,
     willUseTransition = false,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Popper' });
@@ -37,6 +53,14 @@ const Popper = forwardRef((inProps, ref) => {
         willRemove: true,
       });
     }, (anchorEl !== undefined));
+
+    useOnceWhen(() => {
+      warnDeprecatedProps('usePortal', {
+        prefix,
+        alternative: 'portalled',
+        willRemove: true,
+      });
+    }, (usePortal !== undefined));
   }
 
   const nodeRef = useRef();
@@ -97,6 +121,7 @@ const Popper = forwardRef((inProps, ref) => {
             }
           },
         },
+        ...(matchWidth ? [matchWidthModifier] : []),
         ...ensureArray(modifiers),
       ],
       strategy: 'absolute',
@@ -113,7 +138,7 @@ const Popper = forwardRef((inProps, ref) => {
         `${Popper.displayName}: An unexpected error occurred. The popper instance is not assigned to the "popperRef" as expected.`,
       );
     }
-  }, [anchorEl, modifiers, placement, placementProp, popperRefProp, referenceRef]);
+  }, [anchorEl, matchWidth, modifiers, placement, placementProp, popperRefProp, referenceRef]);
 
   const cleanupPopper = useCallback(() => {
     // Destroy popper instance
@@ -170,7 +195,11 @@ const Popper = forwardRef((inProps, ref) => {
     </Box>
   );
 
-  if (usePortal) {
+  // TODO: Remove `usePortal` in favor of `portalled` in a future major release
+  // Use `||` (not `??`) so `usePortal` acts as a fallback even when `portalled`
+  // is explicitly `false` — e.g. when propagated from a Menu/Popover context
+  // that defaults portalled to false.
+  if (portalled || usePortal) {
     return (
       <Portal {...portalProps}>
         {_children}

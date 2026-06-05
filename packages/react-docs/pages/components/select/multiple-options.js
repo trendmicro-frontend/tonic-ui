@@ -1,5 +1,4 @@
 import { Flex, Select } from '@tonic-ui/react';
-import React from 'react';
 
 const FlexOption = ({ style, ...props }) => (
   <Flex

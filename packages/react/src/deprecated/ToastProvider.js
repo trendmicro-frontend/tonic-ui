@@ -1,5 +1,5 @@
 import { useOnce } from '@tonic-ui/react-hooks';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { ToastManager } from '../toast';
 
 const ToastProvider = forwardRef((props, ref) => {

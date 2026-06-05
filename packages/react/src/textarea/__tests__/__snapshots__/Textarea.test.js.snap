@@ -215,14 +215,17 @@ exports[`Textarea should render correctly 1`] = `
   <textarea
     class="emotion-0 emotion-1"
     data-testid="textarea-outline"
+    data-tonic="Textarea"
   />
   <textarea
     class="emotion-2 emotion-1"
     data-testid="textarea-filled"
+    data-tonic="Textarea"
   />
   <textarea
     class="emotion-4 emotion-1"
     data-testid="textarea-unstyled"
+    data-tonic="Textarea"
   />
 </div>
 `;

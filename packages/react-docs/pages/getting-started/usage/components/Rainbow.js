@@ -1,6 +1,6 @@
 import { Box } from '@tonic-ui/react';
 import { ensureNumber } from 'ensure-type';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 const defaultRadius = 150;
 const defaultThicknessRatio = 0.4;

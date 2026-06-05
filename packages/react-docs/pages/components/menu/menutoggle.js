@@ -1,5 +1,4 @@
 import { Button, Divider, Flex, Menu, MenuItem, MenuList, MenuToggle, MenuToggleIcon, Space, Text } from '@tonic-ui/react';
-import React from 'react';
 
 const App = () => (
   <Flex alignItems="center">

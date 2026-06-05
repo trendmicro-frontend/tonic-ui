@@ -1,5 +1,5 @@
 import { LinkButton, Text } from '@tonic-ui/react';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const App = () => {
   const [timeLeft, setTimeLeft] = useState(180);

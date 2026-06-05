@@ -1,7 +1,6 @@
 import { Mark } from '@tonic-ui/react/src';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { render } from '@tonic-ui/react/test-utils/render';
-import React from 'react';
 
 describe('Mark', () => {
   it('should render correctly', async () => {

@@ -81,7 +81,6 @@ const usePagination = (props) => {
     ...startPages.map(page => ({ type: 'page', value: page })),
 
     // Start ellipsis
-    // eslint-disable-next-line no-nested-ternary
     ...((siblingStart > boundaryCount + 2)
       ? [{ type: 'start-ellipsis' }]
       : (boundaryCount + 1 < count - boundaryCount) ? [{ type: 'page', value: boundaryCount + 1 }] : []
@@ -91,7 +90,6 @@ const usePagination = (props) => {
     ...range(siblingStart, siblingEnd).map(page => ({ type: 'page', value: page })),
 
     // End ellipsis
-    // eslint-disable-next-line no-nested-ternary
     ...((siblingEnd < count - boundaryCount - 1)
       ? [{ type: 'end-ellipsis' }]
       : (count - boundaryCount > boundaryCount) ? [{ type: 'page', value: count - boundaryCount }] : []

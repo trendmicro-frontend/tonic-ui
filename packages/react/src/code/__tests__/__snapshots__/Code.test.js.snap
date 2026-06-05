@@ -14,6 +14,7 @@ exports[`Code should render correctly 1`] = `
   <code
     class="emotion-0 emotion-1"
     data-testid="Code"
+    data-tonic="Code"
   >
     Code
   </code>

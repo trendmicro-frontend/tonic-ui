@@ -10,7 +10,7 @@ import {
   Tabs,
   TextLabel,
 } from '@tonic-ui/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const App = () => {
   const [orientation, setOrientation] = useState('horizontal');

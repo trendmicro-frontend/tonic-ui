@@ -1,6 +1,6 @@
 import { Box, Button, Space } from '@tonic-ui/react';
 import { useLatestRef } from '@tonic-ui/react-hooks';
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 const App = () => {
   const [countdownMode, setCountdownMode] = useState(false);

@@ -8,7 +8,7 @@ import {
   warnDeprecatedProps,
 } from '@tonic-ui/utils';
 import { ensureArray, ensureFiniteNumber } from 'ensure-type';
-import React, { forwardRef, useMemo, useRef } from 'react';
+import { forwardRef, useMemo, useRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { Popper } from '../popper';
@@ -106,6 +106,7 @@ const TooltipContent = forwardRef((inProps, ref) => {
     nextToCursor,
     offset,
     placement,
+    portalled,
     tooltipId,
     tooltipContentRef,
     tooltipTriggerId,
@@ -192,7 +193,7 @@ const TooltipContent = forwardRef((inProps, ref) => {
       referenceRef: tooltipTriggerRef,
       role: 'tooltip',
       unmountOnExit: true,
-      usePortal: false, // Pass `true` in `slotProps.popper` to render tooltip in a portal
+      portalled,
       willUseTransition: true,
       zIndex: 'tooltip',
     },

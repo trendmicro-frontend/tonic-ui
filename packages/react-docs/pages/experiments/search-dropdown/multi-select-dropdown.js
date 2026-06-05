@@ -6,19 +6,17 @@ import {
   CheckboxGroup,
   Divider,
   Flex,
+  Highlight,
   LinkButton,
   Scrollbar,
   Stack,
-  useColorStyle,
 } from '@tonic-ui/react';
 import {
   useConst,
 } from '@tonic-ui/react-hooks';
 import Chance from 'chance';
-import { ensureArray } from 'ensure-type';
 import { produce } from 'immer';
-import React, { useCallback, useMemo, useState } from 'react';
-import Highlight from 'react-highlight-words';
+import { useCallback, useMemo, useState } from 'react';
 import FormGroup from '@/components/FormGroup';
 import { MenuButtonToggle, TagToggle } from '@/experiments/dropdown';
 import { FlexItem } from '@/experiments/flex-item';
@@ -37,7 +35,6 @@ const DROPDOWN_TOGGLE_MENU_BUTTON = 'MenuButton';
 const DROPDOWN_TOGGLE_TAG = 'Tag';
 
 const App = () => {
-  const [colorStyle] = useColorStyle();
   const [toggle, changeToggleBy] = useSelection(DROPDOWN_TOGGLE_MENU_BUTTON);
   const ToggleComponent = {
     [DROPDOWN_TOGGLE_MENU_BUTTON]: MenuButtonToggle,
@@ -94,10 +91,10 @@ const App = () => {
       return (
         <Flex alignItems="center" columnGap="1x" width="100%">
           <FlexItem as={MutedText} fixed tooltip={tooltip}>
-            {'Company:'}
+            Company:
           </FlexItem>
           <FlexItem maxWidth={120} tooltip>
-            {'Select'}
+            Select
           </FlexItem>
         </Flex>
       );
@@ -108,10 +105,10 @@ const App = () => {
       return (
         <Flex alignItems="center" columnGap="1x" width="100%">
           <FlexItem as={MutedText} fixed tooltip={tooltip}>
-            {'Company:'}
+            Company:
           </FlexItem>
           <FlexItem maxWidth={120} tooltip>
-            {'All'}
+            All
           </FlexItem>
         </Flex>
       );
@@ -124,7 +121,7 @@ const App = () => {
     return (
       <Flex alignItems="center" columnGap="1x" width="100%">
         <FlexItem as={MutedText} fixed tooltip={tooltip}>
-          {'Company:'}
+          Company:
         </FlexItem>
         <FlexItem maxWidth={120} tooltip>
           {selectionText}
@@ -222,42 +219,34 @@ const App = () => {
                 </LinkButton>
               </Box>
             )}
-            <CheckboxGroup
-              size="sm"
-              value={values}
-              onChange={onCheckboxGroupChange}
-            >
-              <Scrollbar
-                maxHeight={36 * 5}
-                overflowY="visible"
+            {items.length === 0 ? (
+              <Box px="3x" py="2x">No options</Box>
+            ) : (
+              <CheckboxGroup
+                size="sm"
+                value={values}
+                onChange={onCheckboxGroupChange}
               >
-                {renderItems(items)}
-              </Scrollbar>
-            </CheckboxGroup>
+                <Scrollbar
+                  maxHeight={36 * 5}
+                  overflowY="visible"
+                >
+                  {renderItems(items)}
+                </Scrollbar>
+              </CheckboxGroup>
+            )}
           </>
         )}
-        renderItem={(item, { searchKeyword }) => {
-          const searchWords = ensureArray(searchKeyword);
-          const textToHighlight = item.label;
-          const highlightStyle = {
-            backgroundColor: 'inherit',
-            color: colorStyle.color.emphasis,
-            fontWeight: 'semibold',
-          };
-
-          return (
-            <Checkbox
-              value={item.value}
-              width="100%"
-            >
-              <Highlight
-                searchWords={searchWords}
-                textToHighlight={textToHighlight}
-                highlightTag={(props) => <Box as="mark" {...highlightStyle} {...props} />}
-              />
-            </Checkbox>
-          );
-        }}
+        renderItem={(item, { searchKeyword }) => (
+          <Checkbox
+            value={item.value}
+            width="100%"
+          >
+            <Highlight variant="highlight" query={searchKeyword}>
+              {item.label}
+            </Highlight>
+          </Checkbox>
+        )}
         slots={{
           toggle: ToggleComponent,
         }}

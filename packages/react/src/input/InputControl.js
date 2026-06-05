@@ -1,6 +1,6 @@
 import { useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 import { callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils';
-import React, { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import useSlot from '../utils/useSlot';
@@ -177,7 +177,7 @@ const InputControl = forwardRef((inProps, ref) => {
     const MutationObserver = globalThis.MutationObserver ?? globalThis.WebKitMutationObserver;
 
     if (typeof MutationObserver !== 'undefined') {
-      const mutationObserver = new MutationObserver((mutations) => {
+      mutationObserver = new MutationObserver((mutations) => {
         update();
       });
       mutationObserver.observe(el, {

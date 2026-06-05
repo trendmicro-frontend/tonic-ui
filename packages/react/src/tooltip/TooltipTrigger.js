@@ -1,6 +1,6 @@
 import { useEventListener, useMergeRefs } from '@tonic-ui/react-hooks';
 import { callEventHandlers, getOwnerDocument } from '@tonic-ui/utils';
-import React, { cloneElement, forwardRef, useState } from 'react';
+import { Children, cloneElement, forwardRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { mergeRefs } from '../utils/refs';
@@ -131,7 +131,7 @@ const TooltipTrigger = forwardRef((inProps, ref) => {
   }
 
   // Ensure tooltip has only one child node
-  const child = React.Children.only(children);
+  const child = Children.only(children);
 
   // Access the child's props for later use
   const childProps = child?.props;

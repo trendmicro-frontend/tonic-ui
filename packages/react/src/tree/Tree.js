@@ -1,7 +1,7 @@
 import { useConst, useId } from '@tonic-ui/react-hooks';
 import { ariaAttr, callEventHandlers, isNullish } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
-import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
@@ -599,99 +599,99 @@ const Tree = forwardRef((inProps, ref) => {
     const isShiftPressed = event.shiftKey;
 
     switch (key) {
-    case ' ':
-      if (!getIsNodeDisabled(focusedNodeId)) {
+      case ' ':
+        if (!getIsNodeDisabled(focusedNodeId)) {
+          if (multiSelect && isShiftPressed) {
+            const start = lastSelectedNode.current;
+            const end = focusedNodeId;
+            selectRange({ start, end });
+            flag = true;
+          } else if (multiSelect) {
+            flag = toggleSelection(focusedNodeId);
+          } else {
+            flag = selectNode(focusedNodeId);
+          }
+        }
+        event.stopPropagation();
+        break;
+
+      case 'Enter':
+        if (!getIsNodeDisabled(focusedNodeId)) {
+          if (getIsNodeExpandable(focusedNodeId)) {
+            toggleExpansion(focusedNodeId);
+            flag = true;
+          } else if (multiSelect) {
+            flag = toggleSelection(focusedNodeId);
+          } else {
+            flag = selectNode(focusedNodeId);
+          }
+        }
+        event.stopPropagation();
+        break;
+
+      case 'ArrowDown':
         if (multiSelect && isShiftPressed) {
-          const start = lastSelectedNode.current;
-          const end = focusedNodeId;
-          selectRange({ start, end });
-          flag = true;
-        } else if (multiSelect) {
-          flag = toggleSelection(focusedNodeId);
-        } else {
-          flag = selectNode(focusedNodeId);
+          selectNextNode(focusedNodeId);
         }
-      }
-      event.stopPropagation();
-      break;
+        focusNextNode(focusedNodeId);
+        flag = true;
+        break;
 
-    case 'Enter':
-      if (!getIsNodeDisabled(focusedNodeId)) {
+      case 'ArrowUp':
+        if (multiSelect && isShiftPressed) {
+          selectPreviousNode(focusedNodeId);
+        }
+        focusPreviousNode(focusedNodeId);
+        flag = true;
+        break;
+
+      case 'ArrowRight':
         if (getIsNodeExpandable(focusedNodeId)) {
+          if (getIsNodeExpanded(focusedNodeId)) {
+            focusNextNode(focusedNodeId);
+            flag = true;
+          } else if (!getIsNodeDisabled(focusedNodeId)) {
+            toggleExpansion(focusedNodeId);
+            flag = true;
+          }
+        }
+        break;
+
+      case 'ArrowLeft':
+        if (getIsNodeExpanded(focusedNodeId) && !getIsNodeDisabled(focusedNodeId)) {
           toggleExpansion(focusedNodeId);
           flag = true;
-        } else if (multiSelect) {
-          flag = toggleSelection(focusedNodeId);
         } else {
-          flag = selectNode(focusedNodeId);
+          const parentNode = getParentNode(focusedNodeId);
+          if (parentNode) {
+            focusNode(parentNode);
+            flag = true;
+          }
         }
-      }
-      event.stopPropagation();
-      break;
+        break;
 
-    case 'ArrowDown':
-      if (multiSelect && isShiftPressed) {
-        selectNextNode(focusedNodeId);
-      }
-      focusNextNode(focusedNodeId);
-      flag = true;
-      break;
-
-    case 'ArrowUp':
-      if (multiSelect && isShiftPressed) {
-        selectPreviousNode(focusedNodeId);
-      }
-      focusPreviousNode(focusedNodeId);
-      flag = true;
-      break;
-
-    case 'ArrowRight':
-      if (getIsNodeExpandable(focusedNodeId)) {
-        if (getIsNodeExpanded(focusedNodeId)) {
-          focusNextNode(focusedNodeId);
-          flag = true;
-        } else if (!getIsNodeDisabled(focusedNodeId)) {
-          toggleExpansion(focusedNodeId);
-          flag = true;
+      case 'Home':
+        if (multiSelect && isCtrlPressed && isShiftPressed && !getIsNodeDisabled(focusedNodeId)) {
+          rangeSelectToFirst(focusedNodeId);
         }
-      }
-      break;
-
-    case 'ArrowLeft':
-      if (getIsNodeExpanded(focusedNodeId) && !getIsNodeDisabled(focusedNodeId)) {
-        toggleExpansion(focusedNodeId);
+        focusFirstNode();
         flag = true;
-      } else {
-        const parentNode = getParentNode(focusedNodeId);
-        if (parentNode) {
-          focusNode(parentNode);
+        break;
+
+      case 'End':
+        if (multiSelect && isCtrlPressed && isShiftPressed && !getIsNodeDisabled(focusedNodeId)) {
+          rangeSelectToLast(focusedNodeId);
+        }
+        focusLastNode();
+        flag = true;
+        break;
+
+      default:
+        if (multiSelect && isCtrlPressed && key.toLowerCase() === 'a') {
+          selectAllNodes();
           flag = true;
         }
-      }
-      break;
-
-    case 'Home':
-      if (multiSelect && isCtrlPressed && isShiftPressed && !getIsNodeDisabled(focusedNodeId)) {
-        rangeSelectToFirst(focusedNodeId);
-      }
-      focusFirstNode();
-      flag = true;
-      break;
-
-    case 'End':
-      if (multiSelect && isCtrlPressed && isShiftPressed && !getIsNodeDisabled(focusedNodeId)) {
-        rangeSelectToLast(focusedNodeId);
-      }
-      focusLastNode();
-      flag = true;
-      break;
-
-    default:
-      if (multiSelect && isCtrlPressed && key.toLowerCase() === 'a') {
-        selectAllNodes();
-        flag = true;
-      }
-      break;
+        break;
     }
 
     if (flag) {

@@ -11,7 +11,7 @@ import {
   TextLabel,
 } from '@tonic-ui/react';
 import { AddIcon, AlertIcon, MinusIcon } from '@tonic-ui/react-icons';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const App = () => {
   const [count, setCount] = useState(1);

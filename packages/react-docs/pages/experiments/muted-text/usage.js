@@ -1,5 +1,4 @@
 import { Flex, Text } from '@tonic-ui/react';
-import React from 'react';
 import { MutedText } from '@/experiments/muted-text';
 
 const App = () => {

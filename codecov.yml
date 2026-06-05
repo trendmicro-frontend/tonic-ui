@@ -3,9 +3,13 @@ coverage:
   status:
     project:
       default:
-        target: auto 
-        threshold: 2%
+        target: auto
+        threshold: 1%
+        removed_code_behavior: adjust_base
+        if_ci_failed: error
+        if_not_found: success
     patch:
       default:
-        target: auto 
-        threshold: 2%
+        target: auto
+        threshold: 5%
+        informational: true

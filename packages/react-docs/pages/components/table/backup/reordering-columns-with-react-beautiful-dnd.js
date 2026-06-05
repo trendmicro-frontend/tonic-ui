@@ -7,7 +7,7 @@ import {
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
-import React, { useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useTable, useBlockLayout, useColumnOrder } from 'react-table';
 import { DragDropContext, Droppable, Draggable, resetServerContext } from 'react-beautiful-dnd';
 
@@ -106,13 +106,13 @@ const App = () => {
     }
   };
   const onDragUpdate = (dragUpdateObj, b) => {
-    if(!dragUpdateObj.destination){
+    if (!dragUpdateObj.destination) {
       return;
     }
     const draggableId = dragUpdateObj.draggableId;
     const destinationIndex = dragUpdateObj.destination.index;
 
-    const queryAttr = "data-rbd-drag-handle-draggable-id";
+    const queryAttr = 'data-rbd-drag-handle-draggable-id';
     const domQuery = `[${queryAttr}='${draggableId}']`;
     const draggedDOM = document.querySelector(domQuery);
 
@@ -137,7 +137,7 @@ const App = () => {
     const colOrder = [...currentColOrder.current];
     const sIndex = dragUpdateObj.source.index;
     const dIndex = dragUpdateObj.destination && dragUpdateObj.destination.index;
-    if (typeof sIndex === "number" && typeof dIndex === "number") {
+    if (typeof sIndex === 'number' && typeof dIndex === 'number') {
       colOrder.splice(sIndex, 1);
       colOrder.splice(dIndex, 0, dragUpdateObj.draggableId);
       setColumnOrder(colOrder);
@@ -152,6 +152,7 @@ const App = () => {
       <TableHeader>
         {headerGroups.map((headerGroup, index) => (
           <DragDropContext
+            // eslint-disable-next-line react/no-array-index-key
             key={index}
             onDragStart={onDragStart}
             onDragUpdate={onDragUpdate}
@@ -192,7 +193,7 @@ const App = () => {
                               userSelect="none"
                               style={columnHeaderStyle}
                             >
-                              {column.render("Header")}
+                              {column.render('Header')}
                             </TableCell>
                           );
                         }}
@@ -205,7 +206,7 @@ const App = () => {
                       left={placeholderProps.clientX}
                       height={placeholderProps.clientHeight}
                       width={placeholderProps.clientWidth}
-                      display={placeholderProps.clientWidth ? 'block' : 'none' }
+                      display={placeholderProps.clientWidth ? 'block' : 'none'}
                       {...columnPlaceholderProps}
                     >
                       { placeholderProps.content }

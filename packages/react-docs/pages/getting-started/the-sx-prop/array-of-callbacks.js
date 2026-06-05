@@ -1,5 +1,4 @@
-import { Box  } from '@tonic-ui/react';
-import React from 'react';
+import { Box } from '@tonic-ui/react';
 
 const App = () => (
   <Box

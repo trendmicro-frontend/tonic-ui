@@ -17,7 +17,7 @@ import {
   useColorStyle,
 } from '@tonic-ui/react';
 import _ from 'lodash';
-import React, { useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 
 const threatTypes = [
   'Virus/Malware',
@@ -156,7 +156,7 @@ const App = () => {
                       transform: `translateY(${virtualRow.start}px)`,
                     }}
                   >
-                    {row && (
+                    {row ? (
                       <TableRow
                         _hover={{
                           backgroundColor: colorStyle.background.highlighted,
@@ -180,7 +180,7 @@ const App = () => {
                           );
                         })}
                       </TableRow>
-                    )}
+                    ) : null}
                   </Box>
                 );
               })}
