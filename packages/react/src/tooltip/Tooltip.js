@@ -2,9 +2,7 @@ import { useId } from '@tonic-ui/react-hooks';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
-import { Popper } from '../popper';
 import config from '../shared/config';
-import { Grow } from '../transitions';
 import TooltipArrow from './TooltipArrow';
 import TooltipContent from './TooltipContent';
 import TooltipTrigger from './TooltipTrigger';
@@ -14,13 +12,17 @@ const defaultPlacement = 'bottom';
 
 const Tooltip = forwardRef((inProps, ref) => {
   const {
-    // TooltipContent props
-    PopperComponent = Popper,
-    PopperProps,
+    // TooltipContent props (deprecated — use slots/slotProps)
+    PopperComponent, // deprecated
+    PopperProps, // deprecated
     TooltipArrowComponent = TooltipArrow,
     TooltipArrowProps,
-    TransitionComponent = Grow,
-    TransitionProps,
+    TransitionComponent, // deprecated
+    TransitionProps, // deprecated
+
+    // slots / slotProps
+    slots = {},
+    slotProps = {},
 
     // TooltipTrigger props
     shouldWrapChildren = false,
@@ -184,6 +186,8 @@ const Tooltip = forwardRef((inProps, ref) => {
         TooltipArrowProps={TooltipArrowProps}
         TransitionComponent={TransitionComponent}
         TransitionProps={TransitionProps}
+        slots={slots}
+        slotProps={slotProps}
         {...rest}
       >
         {label}
