@@ -337,6 +337,31 @@ TooltipContent and PopoverContent pass children as a render function `(state, { 
 </TransitionSlot>
 ```
 
+#### The `arrow` slot (TooltipContent / PopoverContent)
+
+TooltipContent and PopoverContent also render an arrow element (`TooltipArrowComponent`/`TooltipArrowProps`, `PopoverArrowComponent`/`PopoverArrowProps`). Migrate these to an `arrow` slot exactly like the others. The arrow has no internal `props` to inject (no ref/aria), so the `useSlot` call omits `props`:
+
+```jsx
+const [ArrowSlot, arrowSlotProps] = useSlot({
+  name: 'arrow',
+  ownerDisplayName: TooltipContent.displayName,
+  slot: slots.arrow ?? TooltipArrowComponent ?? TooltipArrow,
+  slotProps: slotProps.arrow ?? TooltipArrowProps,
+});
+```
+
+Call `useSlot` at the top level (with the popper/transition slots), then render `<ArrowSlot {...arrowSlotProps} />` where the arrow was rendered inside the render-prop `<Box>`:
+
+```jsx
+{!!arrow && (
+  <ArrowSlot {...arrowSlotProps} />
+)}
+```
+
+Add the two deprecation warnings (`...ArrowComponent` → `slots.arrow`, `...ArrowProps` → `slotProps.arrow`), and remove the `= TooltipArrow`/`= PopoverArrow` defaults from the destructure (resolve via `?? TooltipArrow`/`?? PopoverArrow` in the `useSlot` call instead). Keep the `TooltipArrow`/`PopoverArrow` imports — they remain the fallback.
+
+**Parent threading (Tooltip only):** `Tooltip.js` renders `TooltipContent` internally and forwards the deprecated arrow props. Drop the `TooltipArrowComponent = TooltipArrow` default there too (and remove the now-unused `TooltipArrow` import) so a defined value is forwarded ONLY when the user passes one — otherwise the deprecation warning fires on every tooltip. `slots`/`slotProps` are already threaded, so the `arrow` slot flows through automatically. `Popover` does not render `PopoverContent` internally (it is a user-facing child), so no parent change is needed.
+
 ### 4. Update imports
 
 ```js
@@ -352,22 +377,27 @@ import { callAll, callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils
 
 ## Components to Migrate
 
-| Component | File | Slots needed |
-|---|---|---|
-| ModalContent | `modal/ModalContent.js` | `transition` ✅ done |
-| ModalOverlay | `modal/ModalOverlay.js` | `transition` |
-| DrawerContent | `drawer/DrawerContent.js` | `transition` |
-| DrawerOverlay | `drawer/DrawerOverlay.js` | `transition` |
-| AccordionContent | `accordion/AccordionContent.js` | `transition` |
-| MenuContent | `menu/MenuContent.js` | `transition`, `popper` |
-| SubmenuContent | `menu/SubmenuContent.js` | `transition`, `popper` |
-| TooltipContent | `tooltip/TooltipContent.js` | `transition`, `popper` |
-| PopoverContent | `popover/PopoverContent.js` | `transition`, `popper` |
-| DatePickerContent | `date-pickers/DatePicker/DatePickerContent.js` | `transition`, `popper` |
-| TreeItem | `tree/TreeItem.js` | `transition` |
-| ToastManager | `toast/ToastManager.js` | `transition` |
+| Component | File | Slots needed | Status |
+|---|---|---|---|
+| ModalContent | `modal/ModalContent.js` | `transition` | ✅ done |
+| ModalOverlay | `modal/ModalOverlay.js` | `transition` | ✅ done |
+| DrawerContent | `drawer/DrawerContent.js` | `transition` | ✅ done |
+| DrawerOverlay | `drawer/DrawerOverlay.js` | `transition` | ✅ done |
+| AccordionContent | `accordion/AccordionContent.js` | `transition` | ✅ done |
+| MenuContent | `menu/MenuContent.js` | `transition`, `popper` | ✅ done |
+| SubmenuContent | `menu/SubmenuContent.js` | `transition`, `popper` | ✅ done |
+| TooltipContent | `tooltip/TooltipContent.js` | `transition`, `popper`, `arrow` | ✅ done |
+| PopoverContent | `popover/PopoverContent.js` | `transition`, `popper`, `arrow` | ✅ done |
+| DatePickerContent | `date-pickers/DatePicker/DatePickerContent.js` | `transition`, `popper` | ✅ done |
+| TreeItem | `tree/TreeItem.js` | `transition` | ✅ done |
+| ToastManager | `toast/ToastManager.js` | `transition` | ✅ done |
 
-**Not in scope:** `AccordionToggleIcon`, `MenuToggleIcon`, `TreeItemToggleIcon` — these use `react-transition-group`'s `Transition` directly for icon rotation and do not expose `TransitionComponent` as an injectable prop.
+`Tooltip.js` is also modified (parent threading for the `popper`/`transition`/`arrow` slots — see the arrow-slot section).
+
+**Not in scope:**
+- `AccordionToggleIcon`, `MenuToggleIcon`, `TreeItemToggleIcon` — use `react-transition-group`'s `Transition` directly for icon rotation; no injectable `TransitionComponent` prop.
+- **`InputControl` (`input/InputControl.js`)** — exposes `inputComponent`/`inputProps`, a genuine `slots.input`/`slotProps.input` candidate, but deferred: `inputProps` is deeply integrated with `getInputProps()` merging and `onClick`/`onBlur`/`onChange`/`onFocus` chaining, so it needs separate design. Revisit if/when slot coverage is extended beyond transition/popper/arrow.
+- Standalone `*Props` prop-bag forwarders without a paired `*Component` (e.g. `scrollViewProps`, `selectProps`, `rootProps`, `portalProps`, `linearProgressBarProps`) — prop forwarding, not element-swap slots.
 
 ## Reference Implementation
 

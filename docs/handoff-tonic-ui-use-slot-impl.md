@@ -40,13 +40,18 @@ Full table is in the skill. Summary by pattern:
 |---|---|---|
 | `menu/MenuContent.js` | `Collapse` | `easing`/`timeout` defaults in `props`; `modifiers` merged after spread |
 | `menu/SubmenuContent.js` | `Collapse` | same as MenuContent |
-| `tooltip/TooltipContent.js` | `Grow` | render-prop children `(state, { ref, style }) => <Box/>` |
-| `popover/PopoverContent.js` | `Grow` | render-prop children; also has `PopoverArrowComponent`/`PopoverArrowProps` (leave as-is for now) |
+| `tooltip/TooltipContent.js` | `Grow` | render-prop children `(state, { ref, style }) => <Box/>`; also has an `arrow` slot (`TooltipArrowComponent`/`TooltipArrowProps`); parent `Tooltip.js` threads the slots |
+| `popover/PopoverContent.js` | `Grow` | render-prop children; also has an `arrow` slot (`PopoverArrowComponent`/`PopoverArrowProps`) |
 | `date-pickers/DatePicker/DatePickerContent.js` | `Collapse` | same as MenuContent; uses `useEventCallback` not `useOnceWhen` |
+
+### Pattern C — `arrow` slot (in addition to Pattern B)
+
+`tooltip/TooltipContent.js` and `popover/PopoverContent.js` also expose an arrow component. Migrate to an `arrow` slot: `slots.arrow ?? XArrowComponent ?? XArrow` / `slotProps.arrow ?? XArrowProps`, no internal `props`, two deprecation warnings, drop the `= XArrow` default. `Tooltip.js` (parent) must also drop its `TooltipArrowComponent = TooltipArrow` default + unused import. `Popover` needs no parent change (PopoverContent is a user-facing child). See the skill's "The `arrow` slot" section.
 
 ### Not in scope
 
-`AccordionToggleIcon`, `MenuToggleIcon`, `TreeItemToggleIcon` — use `react-transition-group`'s `Transition` directly; do not expose `TransitionComponent` as an injectable prop.
+- `AccordionToggleIcon`, `MenuToggleIcon`, `TreeItemToggleIcon` — use `react-transition-group`'s `Transition` directly; do not expose `TransitionComponent` as an injectable prop.
+- `InputControl` (`input/InputControl.js`) — has `inputComponent`/`inputProps` (a real `slots.input` candidate) but deferred; integrates with `getInputProps()` merging + event chaining, needs its own design pass.
 
 ---
 
