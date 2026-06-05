@@ -110,7 +110,7 @@ const DatePickerContent = forwardRef((
       zIndex: 'dropdown',
     },
     slot: slots.popper ?? PopperComponent ?? Popper,
-    slotProps: slotProps.popper ?? PopperProps,
+    slotProps: { ...PopperProps, ...slotProps.popper },
   });
 
   const [TransitionSlot, transitionSlotProps] = useSlot({
@@ -126,7 +126,7 @@ const DatePickerContent = forwardRef((
       },
     },
     slot: slots.transition ?? TransitionComponent ?? Collapse,
-    slotProps: slotProps.transition ?? TransitionProps,
+    slotProps: { ...TransitionProps, ...slotProps.transition },
   });
 
   return (

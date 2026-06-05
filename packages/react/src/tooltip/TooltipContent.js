@@ -197,7 +197,7 @@ const TooltipContent = forwardRef((inProps, ref) => {
       zIndex: 'tooltip',
     },
     slot: slots.popper ?? PopperComponent ?? Popper,
-    slotProps: slotProps.popper ?? PopperProps,
+    slotProps: { ...PopperProps, ...slotProps.popper },
   });
 
   const [TransitionSlot, transitionSlotProps] = useSlot({
@@ -208,14 +208,14 @@ const TooltipContent = forwardRef((inProps, ref) => {
       appear: true,
     },
     slot: slots.transition ?? TransitionComponent ?? Grow,
-    slotProps: slotProps.transition ?? TransitionProps,
+    slotProps: { ...TransitionProps, ...slotProps.transition },
   });
 
   const [ArrowSlot, arrowSlotProps] = useSlot({
     name: 'arrow',
     ownerDisplayName: TooltipContent.displayName,
     slot: slots.arrow ?? TooltipArrowComponent ?? TooltipArrow,
-    slotProps: slotProps.arrow ?? TooltipArrowProps,
+    slotProps: { ...TooltipArrowProps, ...slotProps.arrow },
   });
 
   if (!isHydrated) {

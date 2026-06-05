@@ -48,7 +48,7 @@ const AccordionContent = forwardRef((inProps, ref) => {
       role: 'region',
     },
     slot: slots.transition ?? TransitionComponent ?? Collapse,
-    slotProps: slotProps.transition ?? TransitionProps,
+    slotProps: { ...TransitionProps, ...slotProps.transition },
   });
 
   if (!context) {

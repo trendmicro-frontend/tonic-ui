@@ -54,7 +54,7 @@ const DrawerOverlay = forwardRef((inProps, ref) => {
       appear: !!drawerContext,
     },
     slot: slots.transition ?? TransitionComponent ?? Fade,
-    slotProps: slotProps.transition ?? TransitionProps,
+    slotProps: { ...TransitionProps, ...slotProps.transition },
   });
 
   return (

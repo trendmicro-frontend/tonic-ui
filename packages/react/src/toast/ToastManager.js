@@ -80,7 +80,7 @@ const ToastManager = (inProps) => {
     ownerDisplayName: ToastManager.displayName,
     props: {},
     slot: slots.transition ?? TransitionComponent ?? ToastTransition,
-    slotProps: slotProps.transition ?? TransitionProps,
+    slotProps: { ...TransitionProps, ...slotProps.transition },
   });
 
   const shallowMemo = useShallowMemo();

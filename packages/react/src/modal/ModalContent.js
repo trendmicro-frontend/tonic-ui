@@ -66,7 +66,7 @@ const ModalContent = forwardRef((inProps, ref) => {
       tabIndex,
     },
     slot: slots.transition ?? TransitionComponent ?? Fade,
-    slotProps: slotProps.transition ?? TransitionProps,
+    slotProps: { ...TransitionProps, ...slotProps.transition },
   });
 
   return (

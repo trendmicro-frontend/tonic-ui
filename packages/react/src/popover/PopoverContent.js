@@ -227,7 +227,7 @@ const PopoverContent = forwardRef((inProps, ref) => {
       zIndex: 'popover',
     },
     slot: slots.popper ?? PopperComponent ?? Popper,
-    slotProps: slotProps.popper ?? PopperProps,
+    slotProps: { ...PopperProps, ...slotProps.popper },
   });
 
   const [TransitionSlot, transitionSlotProps] = useSlot({
@@ -238,14 +238,14 @@ const PopoverContent = forwardRef((inProps, ref) => {
       appear: true,
     },
     slot: slots.transition ?? TransitionComponent ?? Grow,
-    slotProps: slotProps.transition ?? TransitionProps,
+    slotProps: { ...TransitionProps, ...slotProps.transition },
   });
 
   const [ArrowSlot, arrowSlotProps] = useSlot({
     name: 'arrow',
     ownerDisplayName: PopoverContent.displayName,
     slot: slots.arrow ?? PopoverArrowComponent ?? PopoverArrow,
-    slotProps: slotProps.arrow ?? PopoverArrowProps,
+    slotProps: { ...PopoverArrowProps, ...slotProps.arrow },
   });
 
   if (!isHydrated) {

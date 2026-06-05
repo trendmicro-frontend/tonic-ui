@@ -186,7 +186,7 @@ const MenuContent = forwardRef((inProps, ref) => {
       zIndex: 'dropdown',
     },
     slot: slots.popper ?? PopperComponent ?? Popper,
-    slotProps: slotProps.popper ?? PopperProps,
+    slotProps: { ...PopperProps, ...slotProps.popper },
   });
 
   const [TransitionSlot, transitionSlotProps] = useSlot({
@@ -202,7 +202,7 @@ const MenuContent = forwardRef((inProps, ref) => {
       },
     },
     slot: slots.transition ?? TransitionComponent ?? Collapse,
-    slotProps: slotProps.transition ?? TransitionProps,
+    slotProps: { ...TransitionProps, ...slotProps.transition },
   });
 
   return (

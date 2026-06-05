@@ -180,7 +180,7 @@ const TreeItem = forwardRef((inProps, ref) => {
       unmountOnExit: true,
     },
     slot: slots.transition ?? TransitionComponent ?? Collapse,
-    slotProps: slotProps.transition ?? TransitionProps,
+    slotProps: { ...TransitionProps, ...slotProps.transition },
   });
 
   const context = shallowMemo({

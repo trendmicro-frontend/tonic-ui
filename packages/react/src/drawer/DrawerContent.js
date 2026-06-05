@@ -74,7 +74,7 @@ const DrawerContent = forwardRef((inProps, ref) => {
       direction: transitionDirection,
     },
     slot: slots.transition ?? TransitionComponent ?? Slide,
-    slotProps: slotProps.transition ?? TransitionProps,
+    slotProps: { ...TransitionProps, ...slotProps.transition },
   });
 
   useClickOutside(contentRef, (event) => {

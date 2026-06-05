@@ -58,7 +58,7 @@ const ModalOverlay = forwardRef((inProps, ref) => {
       appear: !!modalContext,
     },
     slot: slots.transition ?? TransitionComponent ?? Fade,
-    slotProps: slotProps.transition ?? TransitionProps,
+    slotProps: { ...TransitionProps, ...slotProps.transition },
   });
 
   useEffect(() => {
