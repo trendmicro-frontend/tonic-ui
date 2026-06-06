@@ -4,7 +4,7 @@ import { ensureArray, ensureString } from 'ensure-type';
 import { useCallback, useState } from 'react';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
-import useSlot from '../utils/useSlot';
+import useSlot from '../slot';
 import { Portal } from '../portal';
 import isValidComponent from '../utils/isValidComponent';
 import ToastContainer from './ToastContainer';

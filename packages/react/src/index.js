@@ -52,6 +52,7 @@ export * from './tooltip';
 export * from './transitions';
 export * from './tree';
 export * from './truncate';
+export { default as useSlot } from './slot';
 export * from './visually-hidden';
 
 // deprecated

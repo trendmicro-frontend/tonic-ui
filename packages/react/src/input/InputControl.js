@@ -3,7 +3,7 @@ import { callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils';
 import { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
-import useSlot from '../utils/useSlot';
+import useSlot from '../slot';
 import InputBase from './InputBase';
 import { defaultSize, defaultVariant } from './constants';
 import { getInputGroupCSS, useInputControlBaseCSS, useInputControlBaseStyle, useInputControlInputStyle } from './styles';
