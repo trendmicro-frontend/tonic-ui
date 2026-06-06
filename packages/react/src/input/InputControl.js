@@ -44,7 +44,7 @@ const InputControl = forwardRef((inProps, ref) => {
     css: cssProp,
     endAdornment,
     inputComponent, // deprecated
-    inputProps, // deprecated
+    inputProps: inputPropsProp, // deprecated
     inputRef: inputRefProp,
     size: sizeProp,
     slots = {},
@@ -69,7 +69,7 @@ const InputControl = forwardRef((inProps, ref) => {
         alternative: 'slotProps.input',
         willRemove: true,
       });
-    }, inputProps !== undefined);
+    }, inputPropsProp !== undefined);
   }
 
   const nodeRef = useRef();
@@ -95,11 +95,10 @@ const InputControl = forwardRef((inProps, ref) => {
     ? [baseCSS, getInputGroupCSS({ variant }), cssProp]
     : [baseCSS, cssProp];
 
-  // Merge the deprecated `inputProps` with `slotProps.input` (the new API wins on conflict)
-  const resolvedInputProps = useMemo(() => ({
-    ...inputProps,
+  const inputProps = useMemo(() => ({
+    ...inputPropsProp,
     ...slotProps.input,
-  }), [inputProps, slotProps.input]);
+  }), [inputPropsProp, slotProps.input]);
 
   const handleClick = useCallback((event) => {
     if (nodeRef.current && event.currentTarget === event.target) {
@@ -109,41 +108,41 @@ const InputControl = forwardRef((inProps, ref) => {
     if (typeof onClickProp === 'function') {
       onClickProp(event);
     }
-    if (typeof resolvedInputProps?.onClick === 'function') {
-      resolvedInputProps?.onClick(event);
+    if (typeof inputProps?.onClick === 'function') {
+      inputProps?.onClick(event);
     }
-  }, [onClickProp, resolvedInputProps]);
+  }, [onClickProp, inputProps]);
 
   const handleBlur = useCallback((event) => {
     if (typeof onBlurProp === 'function') {
       onBlurProp(event);
     }
-    if (typeof resolvedInputProps?.onBlur === 'function') {
-      resolvedInputProps?.onBlur(event);
+    if (typeof inputProps?.onBlur === 'function') {
+      inputProps?.onBlur(event);
     }
 
     setFocused(false);
-  }, [onBlurProp, resolvedInputProps]);
+  }, [onBlurProp, inputProps]);
 
   const handleChange = useCallback((event) => {
     if (typeof onChangeProp === 'function') {
       onChangeProp(event);
     }
-    if (typeof resolvedInputProps?.onChange === 'function') {
-      resolvedInputProps?.onChange(event);
+    if (typeof inputProps?.onChange === 'function') {
+      inputProps?.onChange(event);
     }
-  }, [onChangeProp, resolvedInputProps]);
+  }, [onChangeProp, inputProps]);
 
   const handleFocus = useCallback((event) => {
     if (typeof onFocusProp === 'function') {
       onFocusProp(event);
     }
-    if (typeof resolvedInputProps?.onFocus === 'function') {
-      resolvedInputProps?.onFocus(event);
+    if (typeof inputProps?.onFocus === 'function') {
+      inputProps?.onFocus(event);
     }
 
     setFocused(true);
-  }, [onFocusProp, resolvedInputProps]);
+  }, [onFocusProp, inputProps]);
 
   // The blur won't fire when the disabled state is set on a focused input.
   // We need to set the focused state to false and call the onBlur callback manually.
@@ -223,7 +222,7 @@ const InputControl = forwardRef((inProps, ref) => {
       ref: combinedInputRef,
     },
     slot: slots.input ?? inputComponent ?? InputBase,
-    slotProps: resolvedInputProps,
+    slotProps: inputProps,
   });
 
   const [RootSlot, rootSlotProps] = useSlot({
