@@ -37,6 +37,7 @@ export * from './search-input';
 export * from './scrollbar';
 export * from './select';
 export * from './skeleton';
+export * from './slot';
 export * from './space';
 export * from './spinner';
 export * from './stack';
@@ -52,7 +53,6 @@ export * from './tooltip';
 export * from './transitions';
 export * from './tree';
 export * from './truncate';
-export { default as useSlot } from './slot';
 export * from './visually-hidden';
 
 // deprecated
