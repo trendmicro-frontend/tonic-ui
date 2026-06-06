@@ -2,6 +2,7 @@ import { ariaAttr, runIfFn } from '@tonic-ui/utils';
 import { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import { useSlot } from '../slot';
 import useShallowMemo from '../utils/useShallowMemo';
 import { useTagStyle } from './styles';
 import TagCloseButton from './TagCloseButton';
@@ -15,6 +16,8 @@ const Tag = forwardRef((inProps, ref) => {
     isClosable,
     onClose,
     size = 'md',
+    slots = {},
+    slotProps = {},
     variant = 'solid',
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Tag' });
@@ -38,6 +41,14 @@ const Tag = forwardRef((inProps, ref) => {
     variant,
   });
 
+  const [CloseButtonSlot, closeButtonSlotProps] = useSlot({
+    name: 'closeButton',
+    ownerDisplayName: Tag.displayName,
+    props: {},
+    slot: slots.closeButton ?? TagCloseButton,
+    slotProps: slotProps.closeButton,
+  });
+
   return (
     <TagContext.Provider value={context}>
       <Box
@@ -48,7 +59,7 @@ const Tag = forwardRef((inProps, ref) => {
       >
         {runIfFn(children, context)}
         {!!isClosable && (
-          <TagCloseButton />
+          <CloseButtonSlot {...closeButtonSlotProps} />
         )}
       </Box>
     </TagContext.Provider>

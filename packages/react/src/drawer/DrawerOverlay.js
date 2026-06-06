@@ -1,7 +1,7 @@
 import { useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 import { callAll, warnDeprecatedProps } from '@tonic-ui/utils';
 import { forwardRef, useRef } from 'react';
-import useSlot from '../slot';
+import { useSlot } from '../slot';
 import { useDefaultProps } from '../default-props';
 import { useAnimatePresence } from '../utils/animate-presence';
 import { Fade } from '../transitions';

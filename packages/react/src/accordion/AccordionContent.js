@@ -4,7 +4,7 @@ import { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { Collapse } from '../transitions';
-import useSlot from '../slot';
+import { useSlot } from '../slot';
 import useAccordionItem from './useAccordionItem';
 
 const AccordionContent = forwardRef((inProps, ref) => {

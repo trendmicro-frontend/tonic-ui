@@ -1,6 +1,6 @@
 import { render, renderHook } from '@testing-library/react';
 import { createRef, forwardRef } from 'react';
-import useSlot from '../../slot';
+import { useSlot } from '../../slot';
 
 const DefaultElement = forwardRef((props, ref) => <div ref={ref} {...props} />);
 DefaultElement.displayName = 'DefaultElement';

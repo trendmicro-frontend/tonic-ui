@@ -13,7 +13,7 @@ import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { Popper } from '../popper';
 import { Grow } from '../transitions';
-import useSlot from '../slot';
+import { useSlot } from '../slot';
 import TooltipArrow from './TooltipArrow';
 import { useTooltipContentStyle } from './styles';
 import useTooltip from './useTooltip';

@@ -2,7 +2,7 @@ import { useEventCallback, useMergeRefs, useOnceWhen } from '@tonic-ui/react-hoo
 import { callAll, callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
 import { forwardRef, useMemo, useRef } from 'react';
-import useSlot from '../../slot';
+import { useSlot } from '../../slot';
 import { Collapse } from '../../transitions';
 import { Popper } from '../../popper';
 import { useDatePickerContentStyle } from './styles';

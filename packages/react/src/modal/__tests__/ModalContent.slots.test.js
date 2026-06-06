@@ -3,10 +3,10 @@ import { render } from '@tonic-ui/react/test-utils/render';
 import {
   Box,
   ButtonBase,
-  Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerBody,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalBody,
 } from '@tonic-ui/react/src';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
 import React from 'react';
@@ -26,19 +26,19 @@ const CustomTransition = React.forwardRef(({ in: _in, children, ...rest }, ref) 
 ));
 CustomTransition.displayName = 'CustomTransition';
 
-describe('DrawerContent slots / slotProps', () => {
+describe('ModalContent slots / slotProps', () => {
   beforeEach(() => {
     warnDeprecatedProps.mockClear();
   });
 
   it('A — slots.transition renders the custom transition component', () => {
     render(
-      <Drawer isOpen onClose={jest.fn()} placement="right">
-        <DrawerOverlay />
-        <DrawerContent slots={{ transition: CustomTransition }}>
-          <DrawerBody>content</DrawerBody>
-        </DrawerContent>
-      </Drawer>
+      <Modal isOpen onClose={jest.fn()}>
+        <ModalOverlay />
+        <ModalContent slots={{ transition: CustomTransition }}>
+          <ModalBody>content</ModalBody>
+        </ModalContent>
+      </Modal>
     );
 
     expect(screen.getByTestId('custom-transition')).toBeInTheDocument();
@@ -46,15 +46,15 @@ describe('DrawerContent slots / slotProps', () => {
 
   it('B — slotProps.transition passes additional props to the transition element', () => {
     render(
-      <Drawer isOpen onClose={jest.fn()} placement="right">
-        <DrawerOverlay />
-        <DrawerContent
+      <Modal isOpen onClose={jest.fn()}>
+        <ModalOverlay />
+        <ModalContent
           slots={{ transition: CustomTransition }}
           slotProps={{ transition: { 'data-foo': 'bar' } }}
         >
-          <DrawerBody>content</DrawerBody>
-        </DrawerContent>
-      </Drawer>
+          <ModalBody>content</ModalBody>
+        </ModalContent>
+      </Modal>
     );
 
     expect(screen.getByTestId('custom-transition')).toHaveAttribute('data-foo', 'bar');
@@ -62,40 +62,40 @@ describe('DrawerContent slots / slotProps', () => {
 
   it('C — deprecated TransitionComponent still renders and warns; deprecated TransitionProps warns', () => {
     render(
-      <Drawer isOpen onClose={jest.fn()} placement="right">
-        <DrawerOverlay />
-        <DrawerContent
+      <Modal isOpen onClose={jest.fn()}>
+        <ModalOverlay />
+        <ModalContent
           TransitionComponent={CustomTransition}
           TransitionProps={{}}
         >
-          <DrawerBody>content</DrawerBody>
-        </DrawerContent>
-      </Drawer>
+          <ModalBody>content</ModalBody>
+        </ModalContent>
+      </Modal>
     );
 
     expect(screen.getByTestId('custom-transition')).toBeInTheDocument();
     expect(warnDeprecatedProps).toHaveBeenCalledWith('TransitionComponent', {
-      prefix: 'DrawerContent:',
+      prefix: 'ModalContent:',
       alternative: 'slots.transition',
       willRemove: true,
     });
     expect(warnDeprecatedProps).toHaveBeenCalledWith('TransitionProps', {
-      prefix: 'DrawerContent:',
+      prefix: 'ModalContent:',
       alternative: 'slotProps.transition',
       willRemove: true,
     });
   });
 });
 
-describe('DrawerContent slots / slotProps (closeButton)', () => {
+describe('ModalContent slots / slotProps (closeButton)', () => {
   it('A — slots.closeButton renders the custom close button component', () => {
     render(
-      <Drawer isOpen isClosable onClose={jest.fn()} placement="right">
-        <DrawerOverlay />
-        <DrawerContent slots={{ closeButton: CustomCloseButton }}>
-          <DrawerBody>content</DrawerBody>
-        </DrawerContent>
-      </Drawer>
+      <Modal isOpen isClosable onClose={jest.fn()}>
+        <ModalOverlay />
+        <ModalContent slots={{ closeButton: CustomCloseButton }}>
+          <ModalBody>content</ModalBody>
+        </ModalContent>
+      </Modal>
     );
 
     expect(screen.getByTestId('custom-close-button')).toBeInTheDocument();
@@ -103,12 +103,12 @@ describe('DrawerContent slots / slotProps (closeButton)', () => {
 
   it('B — slotProps.closeButton passes additional props to the close button', () => {
     render(
-      <Drawer isOpen isClosable onClose={jest.fn()} placement="right">
-        <DrawerOverlay />
-        <DrawerContent slotProps={{ closeButton: { 'data-foo': 'bar' } }}>
-          <DrawerBody>content</DrawerBody>
-        </DrawerContent>
-      </Drawer>
+      <Modal isOpen isClosable onClose={jest.fn()}>
+        <ModalOverlay />
+        <ModalContent slotProps={{ closeButton: { 'data-foo': 'bar' } }}>
+          <ModalBody>content</ModalBody>
+        </ModalContent>
+      </Modal>
     );
 
     expect(screen.getByRole('button', { name: 'Close' })).toHaveAttribute('data-foo', 'bar');

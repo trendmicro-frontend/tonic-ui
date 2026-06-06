@@ -1,7 +1,7 @@
 import { useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 import { ariaAttr, callAll, callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils';
 import { forwardRef } from 'react';
-import useSlot from '../slot';
+import { useSlot } from '../slot';
 import { useDefaultProps } from '../default-props';
 import { Fade } from '../transitions';
 import { useAnimatePresence } from '../utils/animate-presence';
@@ -55,6 +55,14 @@ const ModalContent = forwardRef((inProps, ref) => {
   const tabIndex = -1;
   const styleProps = useModalContentStyle({ placement, scrollBehavior, size, tabIndex });
 
+  const [CloseButtonSlot, closeButtonSlotProps] = useSlot({
+    name: 'closeButton',
+    ownerDisplayName: ModalContent.displayName,
+    props: {},
+    slot: slots.closeButton ?? ModalCloseButton,
+    slotProps: slotProps.closeButton,
+  });
+
   const [TransitionSlot, transitionSlotProps] = useSlot({
     name: 'transition',
     ownerDisplayName: ModalContent.displayName,
@@ -91,7 +99,7 @@ const ModalContent = forwardRef((inProps, ref) => {
     >
       {children}
       {!!isClosable && (
-        <ModalCloseButton />
+        <CloseButtonSlot {...closeButtonSlotProps} />
       )}
     </TransitionSlot>
   );

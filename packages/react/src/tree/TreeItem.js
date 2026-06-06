@@ -6,7 +6,7 @@ import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
 import { Collapse } from '../transitions';
-import useSlot from '../slot';
+import { useSlot } from '../slot';
 import { Descendant, useDescendant } from '../utils/descendant';
 import { TreeItemContext } from './context';
 import { useTreeItemStyle } from './styles';

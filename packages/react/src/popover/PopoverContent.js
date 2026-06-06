@@ -16,7 +16,7 @@ import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { Popper } from '../popper';
 import { Grow } from '../transitions';
-import useSlot from '../slot';
+import { useSlot } from '../slot';
 import PopoverArrow from './PopoverArrow';
 import { usePopoverContentStyle } from './styles';
 import usePopover from './usePopover';
