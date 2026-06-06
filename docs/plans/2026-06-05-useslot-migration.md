@@ -6,7 +6,7 @@
 
 **Architecture:** Each component resolves its slot inline (`slots.transition ?? TransitionComponent ?? Default`), passes internal/computed props through `useSlot`'s `props` (slotProps win), and chains coordinated handlers + `in` after the spread. This is a **behavior-preserving refactor** — existing tests and snapshots must stay green. `ModalContent` (`packages/react/src/modal/ModalContent.js`) is the already-migrated canonical reference.
 
-**Tech Stack:** React, `@tonic-ui/react`, `useSlot` (`../utils/useSlot`), jest + React Testing Library + snapshot tests, eslint.
+**Tech Stack:** React, `@tonic-ui/react`, `useSlot` (`../slot`), jest + React Testing Library + snapshot tests, eslint.
 
 ## Acceptance criteria (per component) — validated by TESTS, not by inspection
 
@@ -25,7 +25,7 @@ A task is **done** only when: the new acceptance tests pass, the pre-existing su
 2. **Working dir for jest/eslint:** `packages/react`.
 3. **Precedence / merge:** element resolves by precedence `slots.X ?? XComponent ?? Default`; props are **merged** MUI-style `{ ...XProps, ...slotProps.X }` (new wins on conflict, both apply) — NOT `??` replace.
 4. **`in` always goes after the spread** — the component owns open/close state, even if the original code spread `TransitionProps` last.
-5. **Imports:** `import useSlot from '../utils/useSlot';` (internal, NOT from react-hooks). Add `warnDeprecatedProps` from `@tonic-ui/utils`, `useOnceWhen` from `@tonic-ui/react-hooks`, and `callAll`/`callEventHandlers` only if actually used.
+5. **Imports:** `import useSlot from '../slot';` (internal, NOT from react-hooks). Add `warnDeprecatedProps` from `@tonic-ui/utils`, `useOnceWhen` from `@tonic-ui/react-hooks`, and `callAll`/`callEventHandlers` only if actually used.
 6. **Deprecation block** for every migrated prop (`TransitionComponent`, `TransitionProps`, and where present `PopperComponent`, `PopperProps`) — copy the exact pattern from the skill.
 7. **Lint:** fix eslint **errors** only; leave warnings (e.g. `dot-notation`) untouched.
 8. **Do not** touch unrelated code, refactor adjacent logic, or change behavior. Out of scope: `AccordionToggleIcon`, `MenuToggleIcon`, `TreeItemToggleIcon`, `PopoverArrowComponent`/`PopoverArrowProps` (leave as-is).
@@ -382,7 +382,7 @@ A full sweep of the package for `*Component` / `*Props` injection pairs found on
 
 - **`InputControl` (`input/InputControl.js`)** — deprecated `inputComponent` (= `InputBase`) + deprecated `inputProps` → `slots.input` / `slotProps.input`; plus a **new `root` slot** (`slots.root ?? Box` / `slotProps.root`) for the outer `<Box>`, matching MUI's `InputBase` which exposes both `root` and `input`.
 
-**Public Export:** `useSlot` has been moved from the internal `utils/useSlot.js` to `slot/index.js` and is now exported publicly from `@tonic-ui/react`. Within the `react` package itself, components import it from `'../slot'` (the internal path). External code (react-docs, user projects) imports it via `import { useSlot } from '@tonic-ui/react'`.
+**Public Export:** Within the `react` package itself, components import `useSlot` from `'../slot'` (the internal path). External code (react-docs, user projects) imports it via `import { useSlot } from '@tonic-ui/react'`.
 
 Both `inputComponent` and `inputProps` are deprecated and fire deprecation warnings. The merge pattern remains the same (`{ ...inputProps, ...slotProps.input }`), with `slotProps.input` winning on conflict, and both sets of props apply to the slot element.
 

@@ -9,7 +9,7 @@ const CustomInput = forwardRef(function CustomInput({ slots = {}, slotProps = {}
     ownerDisplayName: 'CustomInput',
     props: { ref },
     slot: slots.input ?? InputBase,
-    slotProps: slotProps.input ?? {},
+    slotProps: slotProps.input ?? {}, // use { ...legacyProp, ...slotProps.input } when merging a legacy prop
   });
 
   return (

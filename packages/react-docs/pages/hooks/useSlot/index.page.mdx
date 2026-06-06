@@ -11,7 +11,13 @@ import { useSlot } from '@tonic-ui/react';
 ## Usage
 
 ```js
-const [SlotElement, slotProps] = useSlot({ name, ownerDisplayName, props, slot, slotProps });
+const [InputSlot, inputSlotProps] = useSlot({
+  name: 'input',
+  ownerDisplayName: 'CustomInput',
+  props: { ref },
+  slot: slots.input ?? InputBase,
+  slotProps: slotProps.input,
+});
 ```
 
 ### Parameters
