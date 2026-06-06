@@ -103,7 +103,7 @@ const AutocompleteInput = forwardRef((inProps, ref) => {
       // `inputProps` carries the hook-managed ARIA / ref / value / handlers.
       // HTML attrs and visual state are passed at the top level — InputControl
       // forwards them onto the underlying `<input>` itself.
-      inputProps={inputProps}
+      slotProps={{ input: inputProps }}
       placeholder={placeholder}
       id={id}
       name={name}
