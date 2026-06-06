@@ -1,6 +1,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import { render } from '@tonic-ui/react/test-utils/render';
 import {
+  Box,
   Menu,
   MenuButton,
   MenuList,
@@ -18,16 +19,16 @@ jest.mock('@tonic-ui/utils', () => ({
 }));
 
 const CustomTransition = React.forwardRef(({ in: _in, children, ...rest }, ref) => (
-  <div ref={ref} data-testid="custom-transition" {...rest}>{children}</div>
+  <Box ref={ref} data-testid="custom-transition" {...rest}>{children}</Box>
 ));
 CustomTransition.displayName = 'CustomTransition';
 
 const CustomPopper = React.forwardRef(({ children, ...rest }, ref) => (
-  <div ref={ref} data-testid="custom-popper" {...rest}>
+  <Box ref={ref} data-testid="custom-popper" {...rest}>
     {typeof children === 'function'
       ? children({ placement: 'right-start', transition: { in: true, onEnter: () => {}, onExited: () => {} } })
       : children}
-  </div>
+  </Box>
 ));
 CustomPopper.displayName = 'CustomPopper';
 

@@ -5,6 +5,7 @@ import {
   AccordionItem,
   AccordionHeader,
   AccordionContent,
+  Box,
 } from '@tonic-ui/react/src';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
 import React from 'react';
@@ -15,7 +16,7 @@ jest.mock('@tonic-ui/utils', () => ({
 }));
 
 const CustomTransition = React.forwardRef(({ in: _in, children, ...rest }, ref) => (
-  <div ref={ref} data-testid="custom-transition" {...rest}>{children}</div>
+  <Box ref={ref} data-testid="custom-transition" {...rest}>{children}</Box>
 ));
 CustomTransition.displayName = 'CustomTransition';
 

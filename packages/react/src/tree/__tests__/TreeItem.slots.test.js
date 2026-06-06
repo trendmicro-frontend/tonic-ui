@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
 import { render } from '@tonic-ui/react/test-utils/render';
 import {
+  Box,
   Tree,
   TreeItem,
   TreeItemContent,
@@ -14,7 +15,7 @@ jest.mock('@tonic-ui/utils', () => ({
 }));
 
 const CustomTransition = React.forwardRef(({ in: _in, children, ...rest }, ref) => (
-  <div ref={ref} data-testid="custom-transition" {...rest}>{children}</div>
+  <Box ref={ref} data-testid="custom-transition" {...rest}>{children}</Box>
 ));
 CustomTransition.displayName = 'CustomTransition';
 

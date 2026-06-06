@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
 import { render } from '@tonic-ui/react/test-utils/render';
 import {
+  Box,
   Button,
   Popover,
   PopoverTrigger,
@@ -15,25 +16,25 @@ jest.mock('@tonic-ui/utils', () => ({
 }));
 
 const CustomTransition = React.forwardRef(({ in: _in, children, onEnter, onExited, appear, ...rest }, ref) => (
-  <div ref={ref} data-testid="custom-transition" {...rest}>
+  <Box ref={ref} data-testid="custom-transition" {...rest}>
     {typeof children === 'function'
       ? children('entered', { ref: { current: null }, style: {} })
       : children}
-  </div>
+  </Box>
 ));
 CustomTransition.displayName = 'CustomTransition';
 
 const CustomPopper = React.forwardRef(({ children, ...rest }, ref) => (
-  <div ref={ref} data-testid="custom-popper" {...rest}>
+  <Box ref={ref} data-testid="custom-popper" {...rest}>
     {typeof children === 'function'
       ? children({ placement: 'bottom', transition: { in: true, onEnter: () => {}, onExited: () => {} } })
       : children}
-  </div>
+  </Box>
 ));
 CustomPopper.displayName = 'CustomPopper';
 
 const CustomArrow = React.forwardRef((props, ref) => (
-  <div ref={ref} data-testid="custom-arrow" {...props} />
+  <Box ref={ref} data-testid="custom-arrow" {...props} />
 ));
 CustomArrow.displayName = 'CustomArrow';
 

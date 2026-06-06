@@ -1,5 +1,6 @@
 import { screen, waitFor } from '@testing-library/react';
 import { render } from '@tonic-ui/react/test-utils/render';
+import { Box } from '@tonic-ui/react/src';
 import DatePickerContent from '@tonic-ui/react/src/date-pickers/DatePicker/DatePickerContent';
 import { DatePickerProvider } from '@tonic-ui/react/src/date-pickers/DatePicker/context';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
@@ -11,16 +12,16 @@ jest.mock('@tonic-ui/utils', () => ({
 }));
 
 const CustomTransition = React.forwardRef(({ in: _in, children, ...rest }, ref) => (
-  <div ref={ref} data-testid="custom-transition" {...rest}>{children}</div>
+  <Box ref={ref} data-testid="custom-transition" {...rest}>{children}</Box>
 ));
 CustomTransition.displayName = 'CustomTransition';
 
 const CustomPopper = React.forwardRef(({ children, ...rest }, ref) => (
-  <div ref={ref} data-testid="custom-popper" {...rest}>
+  <Box ref={ref} data-testid="custom-popper" {...rest}>
     {typeof children === 'function'
       ? children({ placement: 'bottom', transition: { in: true, onEnter: () => {}, onExited: () => {} } })
       : children}
-  </div>
+  </Box>
 ));
 CustomPopper.displayName = 'CustomPopper';
 
@@ -52,7 +53,7 @@ const renderOpenDatePickerContent = (datePickerContentProps = {}) => {
   return render(
     <DatePickerContentWrapper>
       <DatePickerContent {...datePickerContentProps}>
-        <div data-testid="date-picker-body">calendar content</div>
+        <Box data-testid="date-picker-body">calendar content</Box>
       </DatePickerContent>
     </DatePickerContentWrapper>
   );

@@ -1,7 +1,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
-import { Button, Toast, ToastManager, useToastManager } from '@tonic-ui/react/src';
+import { Box, Button, Toast, ToastManager, useToastManager } from '@tonic-ui/react/src';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { useCallback } from 'react';
 
@@ -11,7 +11,7 @@ jest.mock('@tonic-ui/utils', () => ({
 }));
 
 const CustomTransition = React.forwardRef(({ in: _in, children, ...rest }, ref) => (
-  <div ref={ref} data-testid="custom-transition" {...rest}>{children}</div>
+  <Box ref={ref} data-testid="custom-transition" {...rest}>{children}</Box>
 ));
 CustomTransition.displayName = 'CustomTransition';
 

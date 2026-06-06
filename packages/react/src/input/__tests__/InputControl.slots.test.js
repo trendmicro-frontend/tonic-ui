@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
-import { InputControl } from '@tonic-ui/react/src';
+import { Box, InputControl } from '@tonic-ui/react/src';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
 import React from 'react';
 
@@ -16,7 +16,7 @@ const CustomInput = React.forwardRef((props, ref) => (
 CustomInput.displayName = 'CustomInput';
 
 const CustomRoot = React.forwardRef(({ children, ...props }, ref) => (
-  <div ref={ref} data-testid="custom-root" {...props}>{children}</div>
+  <Box ref={ref} data-testid="custom-root" {...props}>{children}</Box>
 ));
 CustomRoot.displayName = 'CustomRoot';
 
