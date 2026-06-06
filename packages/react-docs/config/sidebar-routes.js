@@ -438,11 +438,11 @@ export const routes = [
       { title: 'CSSBaseline', path: 'components/css-baseline' },
       { title: 'Portal', path: 'components/portal' },
       { title: 'PortalManager', path: 'components/portal-manager' },
-      { title: 'usePortalManager', path: 'components/portal-manager/usePortalManager' },
       { title: 'ResizeHandle', path: 'components/resize-handle' },
       { title: 'Scrollbar', path: 'components/scrollbar' },
-      { title: 'VisuallyHidden', path: 'components/visually-hidden' },
+      { title: 'usePortalManager', path: 'components/portal-manager/usePortalManager' },
       { title: 'useSlot', path: 'hooks/useSlot' },
+      { title: 'VisuallyHidden', path: 'components/visually-hidden' },
     ],
   },
   {
