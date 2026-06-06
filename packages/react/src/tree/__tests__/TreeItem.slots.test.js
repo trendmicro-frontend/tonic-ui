@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import { screen } from '@testing-library/react';
 import { render } from '@tonic-ui/react/test-utils/render';
 import {
