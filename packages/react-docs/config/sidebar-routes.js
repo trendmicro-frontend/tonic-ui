@@ -442,7 +442,7 @@ export const routes = [
       { title: 'Scrollbar', path: 'components/scrollbar' },
       { title: 'VisuallyHidden', path: 'components/visually-hidden' },
       { title: 'usePortalManager', path: 'components/portal-manager/usePortalManager' },
-      { title: 'useSlot', path: 'hooks/useSlot' },
+      { title: 'useSlot', path: 'components/slot/useSlot' },
     ],
   },
   {
