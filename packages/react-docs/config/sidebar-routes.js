@@ -442,6 +442,7 @@ export const routes = [
       { title: 'ResizeHandle', path: 'components/resize-handle' },
       { title: 'Scrollbar', path: 'components/scrollbar' },
       { title: 'VisuallyHidden', path: 'components/visually-hidden' },
+      { title: 'useSlot', path: 'hooks/useSlot' },
     ],
   },
   {
@@ -474,7 +475,6 @@ export const routes = [
         ),
       },
       { title: 'usePrevious', path: 'hooks/usePrevious' },
-      { title: 'useSlot', path: 'hooks/useSlot' },
       { title: 'useToggle', path: 'hooks/useToggle' },
     ],
   },
