@@ -375,7 +375,7 @@ Add the two deprecation warnings (`...ArrowComponent` → `slots.arrow`, `...Arr
 
 `InputControl` exposes a swappable input element (`inputComponent`/`inputProps`) and renders an outer `<Box>` root. Both become slots:
 
-- **`input` slot:** `slots.input ?? inputComponent ?? InputBase` / merge `{ ...inputProps, ...slotProps.input }`. Deprecate `inputComponent` → `slots.input` and `inputProps` → `slotProps.input`.
+- **`input` slot:** `slots.input ?? inputComponent ?? InputBase` / merge `{ ...inputProps, ...slotProps.input }`. Deprecate `inputComponent` → `slots.input` and `inputProps` → `slotProps.input` (fires a deprecation warning during the merge).
 - **`root` slot:** `slots.root ?? Box` / `slotProps.root`. This is a **new** slot with no legacy prop, so no deprecation and nothing to merge.
 
 Two things make `InputControl` different from transition/popper/arrow:
@@ -430,7 +430,7 @@ import { callAll, callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils
 - `AccordionToggleIcon`, `MenuToggleIcon`, `TreeItemToggleIcon` — use `react-transition-group`'s `Transition` directly for icon rotation; no injectable `TransitionComponent` prop.
 - Standalone `*Props` prop-bag forwarders without a paired `*Component` (e.g. `scrollViewProps`, `selectProps`, `portalProps`, `linearProgressBarProps`) — prop forwarding, not element-swap slots. (`Radio`/`Checkbox`/`Switch` each expose their own `inputProps` for a hidden input but have no `inputComponent` — a possible future `slots.input`, separate decision.)
 
-**Done (beyond transition/popper/arrow):** `InputControl` (`input/InputControl.js`) now has `input` (`inputComponent`/`inputProps` → `slots.input`/`slotProps.input`) and `root` slots — see "The `input` and `root` slots" section.
+**Done (beyond transition/popper/arrow):** `InputControl` (`input/InputControl.js`) now has `input` (deprecated `inputComponent`/`inputProps` → `slots.input`/`slotProps.input`) and `root` slots — see "The `input` and `root` slots" section.
 
 ## Reference Implementation
 

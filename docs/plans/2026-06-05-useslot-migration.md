@@ -380,7 +380,9 @@ Confirm all components have tests proving: (a) `slots`/`slotProps` render + forw
 
 A full sweep of the package for `*Component` / `*Props` injection pairs found one more genuine candidate beyond transition/popper/arrow:
 
-- **`InputControl` (`input/InputControl.js`)** — `inputComponent` (= `InputBase`) + `inputProps` → `slots.input` / `slotProps.input`; plus a **new `root` slot** (`slots.root ?? Box` / `slotProps.root`) for the outer `<Box>`, matching MUI's `InputBase` which exposes both `root` and `input`.
+- **`InputControl` (`input/InputControl.js`)** — deprecated `inputComponent` (= `InputBase`) + deprecated `inputProps` → `slots.input` / `slotProps.input`; plus a **new `root` slot** (`slots.root ?? Box` / `slotProps.root`) for the outer `<Box>`, matching MUI's `InputBase` which exposes both `root` and `input`.
+
+Both `inputComponent` and `inputProps` are deprecated and fire deprecation warnings. The merge pattern remains the same (`{ ...inputProps, ...slotProps.input }`), with `slotProps.input` winning on conflict, and both sets of props apply to the slot element.
 
 Different from the mechanical recipe because `getInputProps()` is a **public contract** (render-prop form `children({ getInputProps })`) and the focus-state handlers chain the user's handlers:
 - `const resolvedInputProps = useMemo(() => ({ ...inputProps, ...slotProps.input }), [inputProps, slotProps.input])` feeds the `input` slot's `slotProps` and the four `handleClick/Blur/Change/Focus` handlers (`resolvedInputProps?.onX`).
