@@ -11,27 +11,25 @@ import { useSlot } from '@tonic-ui/react';
 ## Usage
 
 ```js
-const [IconSlot, iconSlotProps] = useSlot({
-  name: 'icon',
-  ownerDisplayName: 'StatusLabel',
-  props: { size: '4x' },          // internal defaults — user's slotProps wins on conflict
-  slot: slots.icon ?? InfoOIcon,  // element: slots.X ?? LegacyComponent ?? Default
-  slotProps: slotProps.icon ?? {},
+const [RootSlot, rootSlotProps] = useSlot({
+  name: 'root',
+  ownerDisplayName: 'MyComponent',
+  props: {
+    // Internal props
+  },
+  slot: slots.root ?? Box,
+  slotProps: { ...slotProps.root },
 });
 
 // Render
-<IconSlot {...iconSlotProps} />
+<RootSlot {...rootSlotProps} />
 ```
-
-**Merge order (later wins):** `props` → `slotProps`
-
-The element type resolves by precedence (`??`), not merge — an element type cannot be combined.
 
 ### Parameters
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| name | string | | Slot name used in dev-mode warnings (e.g. `'icon'`, `'transition'`). |
+| name | string | | Slot name used in dev-mode warnings (e.g. `'root'`). |
 | ownerDisplayName | string | | Component displayName used in dev-mode warnings. |
 | props | object | | Internal props set by the component. `slotProps` wins on conflict. Pass `ref` here. |
 | slot | ElementType | | Resolved element type for this slot. |
