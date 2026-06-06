@@ -56,13 +56,15 @@ const App = () => {
             isOpen
             placement="top"
             label="This is a tooltip"
-            PopperProps={{
-              modifiers: [
-                { // https://popper.js.org/docs/v2/modifiers/flip/
-                  name: 'flip',
-                  enabled: isFlipModifierEnabled,
-                },
-              ],
+            slotProps={{
+              popper: {
+                modifiers: [
+                  { // https://popper.js.org/docs/v2/modifiers/flip/
+                    name: 'flip',
+                    enabled: isFlipModifierEnabled,
+                  },
+                ],
+              },
             }}
           >
             <Text display="inline-block">

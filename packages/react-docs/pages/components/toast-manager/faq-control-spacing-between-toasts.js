@@ -103,20 +103,22 @@ const App = () => {
       </FormGroup>
       <Divider my="4x" />
       <ToastManager
-        TransitionProps={{
-          sx: {
-            '--data-toast-spacing': `${toastSpacing}px`,
-            '[data-toast-placement^="top"] > &:first-of-type': {
-              mt: edgeSpacing, // the space to the top edge of the screen
-            },
-            '[data-toast-placement^="bottom"] > &:last-of-type': {
-              mb: edgeSpacing, // the space to the bottom edge of the screen
-            },
-            '[data-toast-placement$="left"] > &': {
-              ml: edgeSpacing, // the space to the left edge of the screen
-            },
-            '[data-toast-placement$="right"] > &': {
-              mr: edgeSpacing, // the space to the right edge of the screen
+        slotProps={{
+          transition: {
+            sx: {
+              '--data-toast-spacing': `${toastSpacing}px`,
+              '[data-toast-placement^="top"] > &:first-of-type': {
+                mt: edgeSpacing, // the space to the top edge of the screen
+              },
+              '[data-toast-placement^="bottom"] > &:last-of-type': {
+                mb: edgeSpacing, // the space to the bottom edge of the screen
+              },
+              '[data-toast-placement$="left"] > &': {
+                ml: edgeSpacing, // the space to the left edge of the screen
+              },
+              '[data-toast-placement$="right"] > &': {
+                mr: edgeSpacing, // the space to the right edge of the screen
+              },
             },
           },
         }}

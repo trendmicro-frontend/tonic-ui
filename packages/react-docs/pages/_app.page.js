@@ -119,19 +119,21 @@ const App = (props) => {
           useCSSBaseline
         >
           <ToastManager
-            TransitionProps={{
-              sx: {
-                '[data-toast-placement^="top"] > &:first-of-type': {
-                  mt: '4x', // the space to the top edge of the screen
-                },
-                '[data-toast-placement^="bottom"] > &:last-of-type': {
-                  mb: '4x', // the space to the bottom edge of the screen
-                },
-                '[data-toast-placement$="left"] > &': {
-                  ml: '4x', // the space to the left edge of the screen
-                },
-                '[data-toast-placement$="right"] > &': {
-                  mr: '4x', // the space to the right edge of the screen
+            slotProps={{
+              transition: {
+                sx: {
+                  '[data-toast-placement^="top"] > &:first-of-type': {
+                    mt: '4x', // the space to the top edge of the screen
+                  },
+                  '[data-toast-placement^="bottom"] > &:last-of-type': {
+                    mb: '4x', // the space to the bottom edge of the screen
+                  },
+                  '[data-toast-placement$="left"] > &': {
+                    ml: '4x', // the space to the left edge of the screen
+                  },
+                  '[data-toast-placement$="right"] > &': {
+                    mr: '4x', // the space to the right edge of the screen
+                  },
                 },
               },
             }}

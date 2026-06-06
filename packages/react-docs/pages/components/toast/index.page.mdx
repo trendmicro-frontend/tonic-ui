@@ -218,6 +218,8 @@ const createCloseToastHandler = (id) => () => {
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
+| slots | object | `{}` | The slot components. Available slots: `closeButton`. |
+| slotProps | object | `{}` | The props for each slot. Available slots: `closeButton`. |
 | isClosable | boolean | | If `true`, a close button will appear on the right side. |
 | onClose | function | | A callback called when the close button is clicked. |
 | appearance | string | 'none' | One of: 'none', 'success', 'info', 'warning', 'error' |

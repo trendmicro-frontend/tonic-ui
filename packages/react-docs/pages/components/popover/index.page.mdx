@@ -281,14 +281,15 @@ The `Popover` component includes several accessibility features to ensure that i
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| PopperComponent | ElementType | Popper | The component used for the popper. |
-| PopperProps | object | | Props applied to the Popper component. |
-| PopoverArrowComponent | ElementType | PopoverArrow | The component used for the popover arrow. |
-| PopoverArrowProps | object | | Props applied to the `PopoverArrow` component. |
-| TransitionComponent | ElementType | Grow | The component used for the transition. |
-| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
-| TransitionProps.appear | boolean | true | |
 | children | ReactNode | | |
+| slots | object | `{}` | The slot components. Available slots: `arrow`, `popper`, `transition`. |
+| slotProps | object | `{}` | The props for each slot. Available slots: `arrow`, `popper`, `transition`. |
+| PopoverArrowComponent | ElementType | PopoverArrow | **Deprecated.** Use `slots.arrow` instead. |
+| PopoverArrowProps | object | | **Deprecated.** Use `slotProps.arrow` instead. |
+| PopperComponent | ElementType | Popper | **Deprecated.** Use `slots.popper` instead. |
+| PopperProps | object | | **Deprecated.** Use `slotProps.popper` instead. |
+| TransitionComponent | ElementType | Grow | **Deprecated.** Use `slots.transition` instead. |
+| TransitionProps | object | | **Deprecated.** Use `slotProps.transition` instead. |
 | onBlur | `(event: FocusEvent) => void` | | A callback called when the popover loses focus. |
 | onFocus | `(event: FocusEvent) => void` | | A callback called when the popover gains focus. |
 | onKeyDown | `(event: KeyboardEvent) => void` | | A callback called when the popover is pressed with any key. |

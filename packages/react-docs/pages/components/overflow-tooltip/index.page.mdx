@@ -55,13 +55,14 @@ To resolve this issue, set `portalled` on the `OverflowTooltip`.
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| PopperComponent | ElementType | Popper | The component used for the popover. |
-| PopperProps | object | | Props applied to the Popper component. |
-| TooltipArrowComponent | ElementType | TooltipArrow | The component used for the tooltip arrow. |
-| TooltipArrowProps | object | | Props applied to the `TooltipArrow` component. |
-| TransitionComponent | ElementType | Grow | The component used for the transition. |
-| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
-| TransitionProps.appear | boolean | true | |
+| slots | object | `{}` | The slot components. Available slots: `arrow`, `popper`, `transition`. |
+| slotProps | object | `{}` | The props for each slot. Available slots: `arrow`, `popper`, `transition`. |
+| TooltipArrowComponent | ElementType | TooltipArrow | **Deprecated.** Use `slots.arrow` instead. |
+| TooltipArrowProps | object | | **Deprecated.** Use `slotProps.arrow` instead. |
+| PopperComponent | ElementType | Popper | **Deprecated.** Use `slots.popper` instead. |
+| PopperProps | object | | **Deprecated.** Use `slotProps.popper` instead. |
+| TransitionComponent | ElementType | Grow | **Deprecated.** Use `slots.transition` instead. |
+| TransitionProps | object | | **Deprecated.** Use `slotProps.transition` instead. |
 | arrow | boolean | true | If `true`, adds an arrow to the tooltip. Note: The arrow is not visible when `followCursor` or `nextToCursor` is enabled. |
 | children | ReactNode \| `(context) => ReactNode` | | |
 | closeOnClick | boolean | true | If `true`, close the tooltip on click. |

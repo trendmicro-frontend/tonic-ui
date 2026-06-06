@@ -110,6 +110,8 @@ To animate the alert, you can use a transition component to apply an animation e
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
+| slots | object | `{}` | The slot components. Available slots: `closeButton`. |
+| slotProps | object | `{}` | The props for each slot. Available slots: `closeButton`. |
 | isClosable | boolean | | If `true`, a close button will appear on the right side. |
 | onClose | function | | A callback called when the close button is clicked. |
 | variant | string | 'solid' | The variant to use. One of: 'solid', 'outline' |

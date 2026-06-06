@@ -107,19 +107,21 @@ When `closeOnInteractOutside` is set to `true`, the drawer will close when users
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| TransitionComponent | ElementType | Fade | The component used for the transition. |
-| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
-| TransitionProps.appear | boolean | true | |
 | children | ReactNode | | |
+| slots | object | `{}` | The slot components. Available slots: `transition`. |
+| slotProps | object | `{}` | The props for each slot. Available slots: `transition`. |
+| TransitionComponent | ElementType | Fade | **Deprecated.** Use `slots.transition` instead. |
+| TransitionProps | object | | **Deprecated.** Use `slotProps.transition` instead. |
 
 ### DrawerContent
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| TransitionComponent | ElementType | Slide | The component used for the transition. |
-| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
-| TransitionProps.appear | boolean | true | |
 | children | ReactNode | | |
+| slots | object | `{}` | The slot components. Available slots: `closeButton`, `transition`. |
+| slotProps | object | `{}` | The props for each slot. Available slots: `closeButton`, `transition`. |
+| TransitionComponent | ElementType | Slide | **Deprecated.** Use `slots.transition` instead. |
+| TransitionProps | object | | **Deprecated.** Use `slotProps.transition` instead. |
 
 ### DrawerHeader
 
