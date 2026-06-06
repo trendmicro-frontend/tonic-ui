@@ -38,9 +38,11 @@ The main way to prepend or append an input adornment is to use the `InputAdornme
 | disabled | boolean | | If `true`, the user cannot interact with the control. |
 | error | boolean \| string | | If `true` or a non-empty string value is provided, the input will display an error state. The error message will also be set as the input's custom validity message using the `setCustomValidity()` method, allowing for form validation to be performed. |
 | endAdornment | ReactNode | | End `InputAdornment` for this component. |
-| inputComponent | ElementType | InputBase | The input component to render. |
-| ~~inputProps~~ | object | | Deprecated. Use `slotProps.input` instead. |
+| inputComponent *(deprecated)* | ElementType | InputBase | The input component to render.<br />⚠️ This prop is deprecated and will be removed in a future release. Use `slots.input` instead. |
+| inputProps *(deprecated)* | object | | Props applied to the input element.<br />⚠️ This prop is deprecated and will be removed in a future release. Use `slotProps.input` instead. |
 | inputRef | RefObject | | A `ref` to access the input element. |
+| slots | object | | Slot components. `slots.input` replaces `inputComponent`; `slots.root` replaces the outer `<Box>`. |
+| slotProps | object | | Props for each slot. `slotProps.input` replaces `inputProps`; `slotProps.root` for the outer container. |
 | size | string | 'md' | The visual size of the `input` element. One of: 'sm', 'md', 'lg' |
 | variant | string | 'outline' | The variant of the input style to use. One of: 'outline', 'filled', 'flush', 'unstyled' |
 | startAdornment | ReactNode | | Start `InputAdornment` for this component. |

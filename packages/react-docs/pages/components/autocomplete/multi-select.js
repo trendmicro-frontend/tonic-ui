@@ -81,17 +81,15 @@ const App = () => {
             renderTag={(_, index) => values[index].label}
             onRemoveTag={removeAt}
             placeholder={values.length === 0 ? 'Search fruits' : ''}
-            slotProps={{
-              input: {
-                ...inputProps,
-                // Backspace on an empty input removes the last chip.
-                onKeyDown: (event) => {
-                  if (event.key === 'Backspace' && !inputProps.value && values.length > 0) {
-                    removeAt(values.length - 1);
-                    return;
-                  }
-                  inputProps.onKeyDown?.(event);
-                },
+            inputProps={{
+              ...inputProps,
+              // Backspace on an empty input removes the last chip.
+              onKeyDown: (event) => {
+                if (event.key === 'Backspace' && !inputProps.value && values.length > 0) {
+                  removeAt(values.length - 1);
+                  return;
+                }
+                inputProps.onKeyDown?.(event);
               },
             }}
           />
