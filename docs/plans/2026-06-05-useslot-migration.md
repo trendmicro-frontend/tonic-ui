@@ -382,6 +382,8 @@ A full sweep of the package for `*Component` / `*Props` injection pairs found on
 
 - **`InputControl` (`input/InputControl.js`)** — deprecated `inputComponent` (= `InputBase`) + deprecated `inputProps` → `slots.input` / `slotProps.input`; plus a **new `root` slot** (`slots.root ?? Box` / `slotProps.root`) for the outer `<Box>`, matching MUI's `InputBase` which exposes both `root` and `input`.
 
+**Public Export:** `useSlot` has been moved from the internal `utils/useSlot.js` to `slot/index.js` and is now exported publicly from `@tonic-ui/react`. Within the `react` package itself, components import it from `'../slot'` (the internal path). External code (react-docs, user projects) imports it via `import { useSlot } from '@tonic-ui/react'`.
+
 Both `inputComponent` and `inputProps` are deprecated and fire deprecation warnings. The merge pattern remains the same (`{ ...inputProps, ...slotProps.input }`), with `slotProps.input` winning on conflict, and both sets of props apply to the slot element.
 
 Different from the mechanical recipe because `getInputProps()` is a **public contract** (render-prop form `children({ getInputProps })`) and the focus-state handlers chain the user's handlers:

@@ -33,10 +33,14 @@ slotProps: { ...TransitionProps, ...slotProps.transition }   // ✅ merge — bo
 
 A consumer mid-migration who sets both the deprecated prop and the new `slotProps` keeps both. The **element** still resolves by precedence (`slots.X ?? XComponent ?? Default`) since an element type cannot be merged. (Bonus: because the merged value is always an object, the dev-only "slotProps not provided" warning never fires.)
 
-**Import:** `useSlot` lives in `'../utils/useSlot'` — it is internal to the `react` package, not exported from `@tonic-ui/react-hooks`.
+**Import:** `useSlot` is exported from `@tonic-ui/react`. Within the `react` package itself, import from `'../slot'` (the internal path).
 
 ```js
-import useSlot from '../utils/useSlot';
+// In components inside packages/react:
+import useSlot from '../slot';
+
+// In external code (react-docs, user projects):
+import { useSlot } from '@tonic-ui/react';
 ```
 
 ## Handler Placement
@@ -396,8 +400,8 @@ The root slot's coordinated `onClick` goes after the spread: `onClick={callEvent
 ### 4. Update imports
 
 ```js
-// Internal useSlot — NOT from react-hooks
-import useSlot from '../utils/useSlot';
+// Internal useSlot — import from '../slot' (moved from '../utils/useSlot')
+import useSlot from '../slot';
 
 // Add to react-hooks import (only what's actually used)
 import { useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
@@ -446,4 +450,4 @@ Key rules carried from the migration:
 7. DOM event handlers go after the spread using `callEventHandlers(transitionSlotProps.handler, internalFn)`
 8. Lifecycle callbacks (onExited, onEnter) go after the spread using `callAll(internalFn, transitionSlotProps.handler)`
 9. Array props that must merge (e.g. Popper `modifiers`) go after the spread with explicit merge
-10. `useSlot` is an internal utility (`../utils/useSlot`), not exported from `@tonic-ui/react-hooks`
+10. `useSlot` is now exported from `@tonic-ui/react`; within the `react` package, import from `../slot` (internal path)
