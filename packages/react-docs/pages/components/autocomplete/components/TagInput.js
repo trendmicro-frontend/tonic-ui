@@ -1,4 +1,4 @@
-import { Box, ButtonBase, Flex, InputBase, Tag, useColorMode } from '@tonic-ui/react';
+import { Box, ButtonBase, Flex, InputBase, Tag, useColorMode, useSlot } from '@tonic-ui/react';
 import { CloseSIcon } from '@tonic-ui/react-icons';
 import { createTransitionStyle } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
@@ -20,8 +20,12 @@ const TagInput = forwardRef((props, ref) => {
     ...rest
   } = props;
 
-  const InputSlot = slots.input ?? InputBase;
-  const inputProps = { ...inputPropsProp, ...slotProps.input };
+  const [InputSlot, inputProps] = useSlot({
+    name: 'input',
+    ownerDisplayName: TagInput.displayName,
+    slot: slots.input ?? InputBase,
+    slotProps: { ...inputPropsProp, ...slotProps.input },
+  });
 
   const [colorMode] = useColorMode();
   const borderColor = {
