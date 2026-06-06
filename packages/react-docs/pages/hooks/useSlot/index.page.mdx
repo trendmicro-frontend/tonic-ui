@@ -1,6 +1,6 @@
 # useSlot
 
-A hook for building components that support the `slots`/`slotProps` API, allowing consumers to swap out or customize internal elements.
+A hook for building components that expose a `slots`/`slotProps` API — letting consumers swap out internal elements or forward props to them without forking the component.
 
 ## Import
 
@@ -11,28 +11,35 @@ import { useSlot } from '@tonic-ui/react';
 ## Usage
 
 ```js
-const [InputSlot, inputSlotProps] = useSlot({
-  name: 'input',
-  ownerDisplayName: 'CustomInput',
-  props: { ref },
-  slot: slots.input ?? InputBase,
-  slotProps: slotProps.input,
+const [IconSlot, iconSlotProps] = useSlot({
+  name: 'icon',
+  ownerDisplayName: 'StatusLabel',
+  props: { size: '4x' },          // internal defaults — user's slotProps wins on conflict
+  slot: slots.icon ?? InfoOIcon,  // element: slots.X ?? LegacyComponent ?? Default
+  slotProps: slotProps.icon ?? {},
 });
+
+// Render
+<IconSlot {...iconSlotProps} />
 ```
+
+**Merge order (later wins):** `props` → `slotProps`
+
+The element type resolves by precedence (`??`), not merge — an element type cannot be combined.
 
 ### Parameters
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| name | string | | Slot name — used in dev-mode error messages (e.g. `'input'`, `'transition'`). |
-| ownerDisplayName | string | | Parent component displayName — used in dev-mode error messages. |
-| props | object | | Internal component props merged first; `slotProps` wins on conflict. Include `ref` here. |
-| slot | ElementType | | The resolved element type for this slot. |
-| slotProps | object | | User-supplied props for this slot; wins over `props` on conflict. |
+| name | string | | Slot name used in dev-mode warnings (e.g. `'icon'`, `'transition'`). |
+| ownerDisplayName | string | | Component displayName used in dev-mode warnings. |
+| props | object | | Internal props set by the component. `slotProps` wins on conflict. Pass `ref` here. |
+| slot | ElementType | | Resolved element type for this slot. |
+| slotProps | object | | User-supplied props; wins over `props` on conflict. |
 
 ### Returns
 
-Returns `[ElementType, mergedProps]` — the element type to render and the merged props object to spread.
+Returns `[ElementType, mergedProps]` — spread `mergedProps` onto `ElementType` in JSX.
 
 ## Demos
 
