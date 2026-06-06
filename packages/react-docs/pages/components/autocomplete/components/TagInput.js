@@ -8,7 +8,9 @@ const preventDefault = (event) => event.preventDefault();
 
 const TagInput = forwardRef((props, ref) => {
   const {
-    inputProps,
+    inputProps: inputPropsProp,
+    slots = {},
+    slotProps = {},
     isClearable,
     onClearInput,
     onRemoveTag,
@@ -17,6 +19,9 @@ const TagInput = forwardRef((props, ref) => {
     tags: tagsProp,
     ...rest
   } = props;
+
+  const InputSlot = slots.input ?? InputBase;
+  const inputProps = { ...inputPropsProp, ...slotProps.input };
 
   const [colorMode] = useColorMode();
   const borderColor = {
@@ -87,7 +92,7 @@ const TagInput = forwardRef((props, ref) => {
             {typeof renderTag === 'function' ? renderTag(tag, index) : tag}
           </Tag>
         ))}
-        <InputBase
+        <InputSlot
           {...inputProps}
           fontSize="inherit"
           lineHeight="inherit"
