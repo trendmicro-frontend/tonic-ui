@@ -76,8 +76,8 @@ describe('InputControl slots / slotProps', () => {
     );
     const input = screen.getByTestId('custom-input');
     expect(input).toHaveAttribute('data-legacy', 'legacy'); // legacy-only key preserved
-    expect(input).toHaveAttribute('data-new', 'new');       // new-only key applied
-    expect(input).toHaveAttribute('data-shared', 'new');    // conflict: new wins
+    expect(input).toHaveAttribute('data-new', 'new'); // new-only key applied
+    expect(input).toHaveAttribute('data-shared', 'new'); // conflict: new wins
   });
 
   // handler chaining: a slotProps.input handler still fires
@@ -100,6 +100,6 @@ describe('InputControl slots / slotProps', () => {
     );
     const input = screen.getByTestId('render-prop-input');
     expect(input).toHaveAttribute('placeholder', 'hello'); // internal prop
-    expect(input).toHaveAttribute('data-foo', 'bar');      // slotProps.input
+    expect(input).toHaveAttribute('data-foo', 'bar'); // slotProps.input
   });
 });
