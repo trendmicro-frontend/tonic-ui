@@ -1,0 +1,33 @@
+# useSlot
+
+A hook for building components that support the `slots`/`slotProps` API, allowing consumers to swap out or customize internal elements.
+
+## Import
+
+```js
+import { useSlot } from '@tonic-ui/react';
+```
+
+## Usage
+
+```js
+const [SlotElement, slotProps] = useSlot({ name, ownerDisplayName, props, slot, slotProps });
+```
+
+### Parameters
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| name | string | | Slot name — used in dev-mode error messages (e.g. `'input'`, `'transition'`). |
+| ownerDisplayName | string | | Parent component displayName — used in dev-mode error messages. |
+| props | object | | Internal component props merged first; `slotProps` wins on conflict. Include `ref` here. |
+| slot | ElementType | | The resolved element type for this slot. |
+| slotProps | object | | User-supplied props for this slot; wins over `props` on conflict. |
+
+### Returns
+
+Returns `[ElementType, mergedProps]` — the element type to render and the merged props object to spread.
+
+## Demos
+
+{render('./useSlot')}

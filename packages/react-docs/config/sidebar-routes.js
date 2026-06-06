@@ -466,6 +466,7 @@ export const routes = [
       { title: 'useMergeRefs', path: 'hooks/useMergeRefs' },
       { title: 'useOnce', path: 'hooks/useOnce' },
       { title: 'useOnceWhen', path: 'hooks/useOnceWhen' },
+      { title: 'useSlot', path: 'hooks/useSlot' },
       {
         title: 'useOutsideClick',
         path: 'hooks/useOutsideClick',
