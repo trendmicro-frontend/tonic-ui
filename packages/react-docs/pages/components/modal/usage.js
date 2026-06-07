@@ -401,7 +401,6 @@ const App = () => {
         </Box>
       </FormGroup>
       <Modal
-        slots={{ transition: null }}
         autoFocus={autoFocus}
         closeOnEsc={closeOnEsc}
         closeOnInteractOutside={closeOnInteractOutside}
