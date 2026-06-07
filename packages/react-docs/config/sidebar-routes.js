@@ -73,6 +73,7 @@ export const routes = [
     routes: [
       { title: 'Content Security Policy (CSP)', path: 'customization/content-security-policy' },
       { title: 'CSS theme variables', path: 'customization/css-theme-variables' },
+      { title: 'Overriding component structure', path: 'customization/overriding-component-structure' },
       { title: 'Shadow DOM', path: 'customization/shadow-dom' },
     ],
   },
