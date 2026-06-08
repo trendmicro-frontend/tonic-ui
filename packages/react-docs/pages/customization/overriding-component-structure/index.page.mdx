@@ -20,28 +20,43 @@ You customize a slot in two independent ways:
 
 ## Passing props to a slot
 
-Use `slotProps` to forward props to a slot's element without replacing it. A common use case is adding a `data-test` attribute to a close button for UI automation:
+Use `slotProps` to forward props to a slot's element without replacing it. The `Alert`, `Drawer`, `Modal`, `Tag`, and `Toast` components support a `closeButton` slot. Use `slotProps.closeButton` to pass additional props to the close button, or `slots.closeButton` to replace the default close button implementation.
+
+For `Alert`, `Tag`, and `Toast`, specify `slotProps.closeButton` directly on the component.
 
 ```jsx
-// Alert, Tag, and Toast — set slotProps on the component
 <Alert
   isClosable
   onClose={onClose}
   slotProps={{
-    closeButton: { 'data-test': 'alert-close-button' },
-  }}
-/>
-
-// Modal and Drawer — set slotProps on ModalContent / DrawerContent
-<ModalContent
-  isClosable
-  onClose={onClose}
-  slotProps={{
-    closeButton: { 'data-test': 'modal-close-button' },
+    closeButton: {
+      'data-test': 'alert-close-button',
+    },
   }}
 >
-  ...
-</ModalContent>
+  Alert content
+</Alert>
+```
+
+For `Modal` and `Drawer`, set `isClosable` and `onClose` on the root component, and configure the close button using `slotProps.closeButton` on `ModalContent` or `DrawerContent`.
+
+```jsx
+<Modal
+  isOpen={isOpen}
+  isClosable
+  onClose={onClose}
+>
+  <ModalOverlay />
+  <ModalContent
+    slotProps={{
+      closeButton: {
+        'data-test': 'modal-close-button',
+      },
+    }}
+  >
+    Modal content
+  </ModalContent>
+</Modal>
 ```
 
 The slot's default element is preserved; your props are merged into it.
@@ -52,8 +67,14 @@ Use `slots` when you need to replace a slot's element entirely—both its render
 
 ```jsx
 <ModalContent
-  slots={{ transition: Fade }}
-  slotProps={{ transition: { appear: false } }}
+  slots={{
+    transition: Fade,
+  }}
+  slotProps={{
+    transition: {
+      appear: false,
+    },
+  }}
 />
 ```
 
@@ -61,35 +82,45 @@ Use `slots` when you need to replace a slot's element entirely—both its render
 
 ## The `root` slot
 
-Where a component exposes a `root` slot, you can customize its outermost element through `slots.root` and `slotProps.root`. For example, `InputControl` lets you swap the outer container while keeping the input element intact:
+Where a component exposes a `root` slot, you can customize its outermost element through `slots.root` and `slotProps.root`. `InputControl`, for example, exposes both a `root` slot (the outer container) and an `input` slot (the underlying input element). Use `slots` to replace either element with your own component, or `slotProps` to forward props (such as native input attributes) to the defaults:
 
 ```jsx
 <InputControl
-  slots={{ root: CustomContainer }}
-  slotProps={{ root: { 'data-test': 'input-root' } }}
+  slots={{
+    root: CustomContainer,
+    input: CustomInput,
+  }}
+  slotProps={{
+    root: {
+      'data-test': 'input-root',
+    },
+    input: {
+      'data-test': 'my-input',
+    },
+  }}
 />
 ```
 
 ## References
 
-| Component | Slots (`slots`, `slotProps`) | Replaces deprecated props |
-| :--- | :--- | :--- |
-| `AccordionContent` | `transition` | `TransitionComponent`, `TransitionProps` |
-| `DatePickerContent` | `popper`, `transition` | `PopperComponent`, `PopperProps`, `TransitionComponent`, `TransitionProps` |
-| `DrawerContent` | `transition`, `closeButton` | `TransitionComponent`, `TransitionProps` |
-| `DrawerOverlay` | `transition` | `TransitionComponent`, `TransitionProps` |
-| `InputControl` | `root`, `input` | `inputComponent`, `inputProps` |
-| `MenuContent` | `popper`, `transition` | `PopperComponent`, `PopperProps`, `TransitionComponent`, `TransitionProps` |
-| `SubmenuContent` | `popper`, `transition` | `PopperComponent`, `PopperProps`, `TransitionComponent`, `TransitionProps` |
-| `ModalContent` | `transition`, `closeButton` | `TransitionComponent`, `TransitionProps` |
-| `ModalOverlay` | `transition` | `TransitionComponent`, `TransitionProps` |
-| `PopoverContent` | `popper`, `transition`, `arrow` | `PopperComponent`, `PopperProps`, `PopoverArrowComponent`, `PopoverArrowProps`, `TransitionComponent`, `TransitionProps` |
-| `Tooltip`, `TooltipContent` | `popper`, `transition`, `arrow` | `PopperComponent`, `PopperProps`, `TooltipArrowComponent`, `TooltipArrowProps`, `TransitionComponent`, `TransitionProps` |
-| `ToastManager` | `transition` | `TransitionComponent`, `TransitionProps` |
-| `TreeItem` | `transition` | `TransitionComponent`, `TransitionProps` |
-| `Alert` | `closeButton` | — |
-| `Tag` | `closeButton` | — |
-| `Toast` | `closeButton` | — |
+| Component | Slots (`slots`, `slotProps`) |
+| :--- | :--- |
+| [`AccordionContent`](../../components/accordion) | `transition` |
+| [`DatePickerContent`](../../components/date-pickers/date-picker) | `popper`, `transition` |
+| [`DrawerContent`](../../components/drawer) | `transition`, `closeButton` |
+| [`DrawerOverlay`](../../components/drawer) | `transition` |
+| [`InputControl`](../../components/input-control) | `root`, `input` |
+| [`MenuContent`](../../components/menu) | `popper`, `transition` |
+| [`SubmenuContent`](../../components/menu) | `popper`, `transition` |
+| [`ModalContent`](../../components/modal) | `transition`, `closeButton` |
+| [`ModalOverlay`](../../components/modal) | `transition` |
+| [`PopoverContent`](../../components/popover) | `popper`, `transition`, `arrow` |
+| [`Tooltip`](../../components/tooltip), [`TooltipContent`](../../components/tooltip) | `popper`, `transition`, `arrow` |
+| [`ToastManager`](../../components/toast-manager) | `transition` |
+| [`TreeItem`](../../components/tree) | `transition` |
+| [`Alert`](../../components/alert) | `closeButton` |
+| [`Tag`](../../components/tag) | `closeButton` |
+| [`Toast`](../../components/toast) | `closeButton` |
 
 ## API
 
