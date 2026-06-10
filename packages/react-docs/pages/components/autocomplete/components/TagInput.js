@@ -1,4 +1,4 @@
-import { Box, ButtonBase, Flex, InputBase, Tag, useColorMode } from '@tonic-ui/react';
+import { Box, ButtonBase, Flex, InputBase, Tag, useColorMode, useSlot } from '@tonic-ui/react';
 import { CloseSIcon } from '@tonic-ui/react-icons';
 import { createTransitionStyle } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
@@ -8,7 +8,9 @@ const preventDefault = (event) => event.preventDefault();
 
 const TagInput = forwardRef((props, ref) => {
   const {
-    inputProps,
+    inputProps: inputPropsProp,
+    slots = {},
+    slotProps = {},
     isClearable,
     onClearInput,
     onRemoveTag,
@@ -17,6 +19,13 @@ const TagInput = forwardRef((props, ref) => {
     tags: tagsProp,
     ...rest
   } = props;
+
+  const [InputSlot, inputProps] = useSlot({
+    name: 'input',
+    ownerDisplayName: TagInput.displayName,
+    slot: slots.input ?? InputBase,
+    slotProps: { ...inputPropsProp, ...slotProps.input },
+  });
 
   const [colorMode] = useColorMode();
   const borderColor = {
@@ -87,7 +96,7 @@ const TagInput = forwardRef((props, ref) => {
             {typeof renderTag === 'function' ? renderTag(tag, index) : tag}
           </Tag>
         ))}
-        <InputBase
+        <InputSlot
           {...inputProps}
           fontSize="inherit"
           lineHeight="inherit"

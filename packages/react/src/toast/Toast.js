@@ -2,6 +2,7 @@ import { runIfFn } from '@tonic-ui/utils';
 import { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import { useSlot } from '../slot';
 import useShallowMemo from '../utils/useShallowMemo';
 import ToastCloseButton from './ToastCloseButton';
 import ToastIcon from './ToastIcon';
@@ -20,6 +21,8 @@ const Toast = forwardRef((inProps, ref) => {
     icon,
     isClosable = false,
     onClose,
+    slots = {},
+    slotProps = {},
     children,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Toast' });
@@ -33,6 +36,14 @@ const Toast = forwardRef((inProps, ref) => {
   });
   const styleProps = useToastStyle({ appearance });
 
+  const [CloseButtonSlot, closeButtonSlotProps] = useSlot({
+    name: 'closeButton',
+    ownerDisplayName: Toast.displayName,
+    props: {},
+    slot: slots.closeButton ?? ToastCloseButton,
+    slotProps: slotProps.closeButton,
+  });
+
   return (
     <ToastContext.Provider value={context}>
       <Box
@@ -45,7 +56,7 @@ const Toast = forwardRef((inProps, ref) => {
           {runIfFn(children, context)}
         </ToastMessage>
         {!!isClosable && (
-          <ToastCloseButton />
+          <CloseButtonSlot {...closeButtonSlotProps} />
         )}
       </Box>
     </ToastContext.Provider>

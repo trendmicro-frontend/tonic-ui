@@ -95,6 +95,7 @@ Here is an example of customizing the accordion:
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | children | ReactNode | | |
-| TransitionComponent | ElementType | Collapse | The component used for the transition. |
-| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
-| TransitionProps.appear | boolean | false | |
+| slots | object | `{}` | The slot components. Available slots: `transition`. |
+| slotProps | object | `{}` | The props for each slot. Available slots: `transition`. |
+| TransitionComponent | ElementType | Collapse | **Deprecated.** Use `slots.transition` instead. |
+| TransitionProps | object | | **Deprecated.** Use `slotProps.transition` instead. |

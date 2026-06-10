@@ -1,9 +1,10 @@
-import { useHydrated } from '@tonic-ui/react-hooks';
-import { isNullish, runIfFn } from '@tonic-ui/utils';
+import { useHydrated, useOnceWhen } from '@tonic-ui/react-hooks';
+import { isNullish, runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureArray, ensureString } from 'ensure-type';
 import { useCallback, useState } from 'react';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
+import { useSlot } from '../slot';
 import { Portal } from '../portal';
 import isValidComponent from '../utils/isValidComponent';
 import ToastContainer from './ToastContainer';
@@ -47,12 +48,41 @@ const renderComponentOrValue = (componentOrValue, props) => {
 
 const ToastManager = (inProps) => {
   const {
-    TransitionComponent = ToastTransition,
-    TransitionProps,
+    TransitionComponent, // deprecated
+    TransitionProps, // deprecated
+    slots = {},
+    slotProps = {},
     children,
     containerRef,
     placement: placementProp = defaultPlacement,
   } = useDefaultProps({ props: inProps, name: 'ToastManager' });
+
+  { // deprecation warning
+    const prefix = `${ToastManager.displayName}:`;
+    useOnceWhen(() => {
+      warnDeprecatedProps('TransitionComponent', {
+        prefix,
+        alternative: 'slots.transition',
+        willRemove: true,
+      });
+    }, TransitionComponent !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('TransitionProps', {
+        prefix,
+        alternative: 'slotProps.transition',
+        willRemove: true,
+      });
+    }, TransitionProps !== undefined);
+  }
+
+  const [TransitionSlot, transitionSlotProps] = useSlot({
+    name: 'transition',
+    ownerDisplayName: ToastManager.displayName,
+    props: {},
+    slot: slots.transition ?? TransitionComponent ?? ToastTransition,
+    slotProps: { ...TransitionProps, ...slotProps.transition },
+  });
+
   const shallowMemo = useShallowMemo();
   const isHydrated = useHydrated();
   const [state, setState] = useState(() => (
@@ -237,11 +267,11 @@ const ToastManager = (inProps) => {
                   {toasts.map((toast) => {
                     const onClose = createCloseToastHandler(toast.id, placement);
                     return (
-                      <TransitionComponent
+                      <TransitionSlot
+                        {...transitionSlotProps}
                         key={toast.id}
                         in
                         unmountOnExit
-                        {...TransitionProps}
                       >
                         <ToastController
                           duration={toast.duration}
@@ -254,7 +284,7 @@ const ToastManager = (inProps) => {
                             placement: toast.placement,
                           })}
                         </ToastController>
-                      </TransitionComponent>
+                      </TransitionSlot>
                     );
                   })}
                 </ToastTransitionGroup>

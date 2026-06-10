@@ -1,10 +1,11 @@
-import { useHydrated, useMergeRefs } from '@tonic-ui/react-hooks';
+import { useHydrated, useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 import {
   ariaAttr,
   callAll,
   isBlankString,
   isEmptyArray,
   isHTMLElement,
+  warnDeprecatedProps,
 } from '@tonic-ui/utils';
 import { ensureArray, ensureFiniteNumber } from 'ensure-type';
 import { forwardRef, useMemo, useRef } from 'react';
@@ -12,6 +13,7 @@ import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { Popper } from '../popper';
 import { Grow } from '../transitions';
+import { useSlot } from '../slot';
 import TooltipArrow from './TooltipArrow';
 import { useTooltipContentStyle } from './styles';
 import useTooltip from './useTooltip';
@@ -33,15 +35,64 @@ const mapPlacementToTransformOrigin = placement => ({
 
 const TooltipContent = forwardRef((inProps, ref) => {
   const {
-    PopperComponent = Popper,
-    PopperProps,
-    TooltipArrowComponent = TooltipArrow,
-    TooltipArrowProps,
-    TransitionComponent = Grow,
-    TransitionProps,
+    PopperComponent, // deprecated
+    PopperProps, // deprecated
+    TooltipArrowComponent, // deprecated
+    TooltipArrowProps, // deprecated
+    TransitionComponent, // deprecated
+    TransitionProps, // deprecated
+    slots = {},
+    slotProps = {},
     children,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'TooltipContent' });
+
+  { // deprecation warning
+    const prefix = `${TooltipContent.displayName}:`;
+    useOnceWhen(() => {
+      warnDeprecatedProps('TransitionComponent', {
+        prefix,
+        alternative: 'slots.transition',
+        willRemove: true,
+      });
+    }, TransitionComponent !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('TransitionProps', {
+        prefix,
+        alternative: 'slotProps.transition',
+        willRemove: true,
+      });
+    }, TransitionProps !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('PopperComponent', {
+        prefix,
+        alternative: 'slots.popper',
+        willRemove: true,
+      });
+    }, PopperComponent !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('PopperProps', {
+        prefix,
+        alternative: 'slotProps.popper',
+        willRemove: true,
+      });
+    }, PopperProps !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('TooltipArrowComponent', {
+        prefix,
+        alternative: 'slots.arrow',
+        willRemove: true,
+      });
+    }, TooltipArrowComponent !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('TooltipArrowProps', {
+        prefix,
+        alternative: 'slotProps.arrow',
+        willRemove: true,
+      });
+    }, TooltipArrowProps !== undefined);
+  }
+
   const isHydrated = useHydrated();
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);
@@ -127,6 +178,47 @@ const TooltipContent = forwardRef((inProps, ref) => {
     },
   ], [skidding, distance, tooltipTriggerElement, followCursor, nextToCursor, mousePageX, mousePageY]);
 
+  const [PopperSlot, popperSlotProps] = useSlot({
+    name: 'popper',
+    ownerDisplayName: TooltipContent.displayName,
+    props: {
+      'aria-hidden': ariaAttr(!isOpen),
+      'aria-labelledby': tooltipTriggerId,
+      'data-popper-placement': placement,
+      id: tooltipId,
+      isOpen: isOpen,
+      placement: placement,
+      pointerEvents: 'none',
+      ref: tooltipContentRef,
+      referenceRef: tooltipTriggerRef,
+      role: 'tooltip',
+      unmountOnExit: true,
+      portalled,
+      willUseTransition: true,
+      zIndex: 'tooltip',
+    },
+    slot: slots.popper ?? PopperComponent ?? Popper,
+    slotProps: { ...PopperProps, ...slotProps.popper },
+  });
+
+  const [TransitionSlot, transitionSlotProps] = useSlot({
+    name: 'transition',
+    ownerDisplayName: TooltipContent.displayName,
+    props: {
+      ref: combinedRef,
+      appear: true,
+    },
+    slot: slots.transition ?? TransitionComponent ?? Grow,
+    slotProps: { ...TransitionProps, ...slotProps.transition },
+  });
+
+  const [ArrowSlot, arrowSlotProps] = useSlot({
+    name: 'arrow',
+    ownerDisplayName: TooltipContent.displayName,
+    slot: slots.arrow ?? TooltipArrowComponent ?? TooltipArrow,
+    slotProps: { ...TooltipArrowProps, ...slotProps.arrow },
+  });
+
   if (!isHydrated) {
     return null;
   }
@@ -141,39 +233,23 @@ const TooltipContent = forwardRef((inProps, ref) => {
   }
 
   return (
-    <PopperComponent
-      aria-hidden={ariaAttr(!isOpen)}
-      aria-labelledby={tooltipTriggerId}
-      data-popper-placement={placement}
-      id={tooltipId}
-      isOpen={isOpen}
-      placement={placement}
-      pointerEvents="none"
-      ref={tooltipContentRef}
-      referenceRef={tooltipTriggerRef}
-      role="tooltip"
-      unmountOnExit={true}
-      portalled={portalled}
-      willUseTransition={true}
-      zIndex="tooltip"
-      {...PopperProps}
+    <PopperSlot
+      {...popperSlotProps}
       modifiers={[
         // Default modifiers
         ...popperModifiers,
         // User-defined modifiers
-        ...ensureArray(PopperProps?.modifiers),
+        ...ensureArray(popperSlotProps?.modifiers),
       ]}
     >
       {({ placement, transition }) => {
         const { in: inProp, onEnter, onExited } = { ...transition };
         return (
-          <TransitionComponent
-            appear={true}
-            {...TransitionProps}
-            ref={combinedRef}
+          <TransitionSlot
+            {...transitionSlotProps}
             in={inProp}
-            onEnter={callAll(onEnter, TransitionProps?.onEnter)}
-            onExited={callAll(onExited, TransitionProps?.onExited)}
+            onEnter={callAll(onEnter, transitionSlotProps.onEnter)}
+            onExited={callAll(onExited, transitionSlotProps.onExited)}
           >
             {(state, { ref, style: transitionStyle }) => {
               return (
@@ -186,15 +262,15 @@ const TooltipContent = forwardRef((inProps, ref) => {
                 >
                   {children}
                   {!!arrow && (
-                    <TooltipArrowComponent {...TooltipArrowProps} />
+                    <ArrowSlot {...arrowSlotProps} />
                   )}
                 </Box>
               );
             }}
-          </TransitionComponent>
+          </TransitionSlot>
         );
       }}
-    </PopperComponent>
+    </PopperSlot>
   );
 });
 

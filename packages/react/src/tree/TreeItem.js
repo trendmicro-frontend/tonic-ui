@@ -1,11 +1,12 @@
-import { useMergeRefs } from '@tonic-ui/react-hooks';
-import { ariaAttr, isNullish, runIfFn } from '@tonic-ui/utils';
+import { useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
+import { ariaAttr, isNullish, runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureFiniteNumber } from 'ensure-type';
 import { Children, forwardRef, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
 import { Collapse } from '../transitions';
+import { useSlot } from '../slot';
 import { Descendant, useDescendant } from '../utils/descendant';
 import { TreeItemContext } from './context';
 import { useTreeItemStyle } from './styles';
@@ -13,8 +14,10 @@ import useTree from './useTree';
 
 const TreeItem = forwardRef((inProps, ref) => {
   const {
-    TransitionComponent = Collapse,
-    TransitionProps,
+    TransitionComponent, // deprecated
+    TransitionProps, // deprecated
+    slots = {},
+    slotProps = {},
     children,
     disabled: disabledProp,
     id: idAttrProp,
@@ -22,6 +25,25 @@ const TreeItem = forwardRef((inProps, ref) => {
     render,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'TreeItem' });
+
+  { // deprecation warning
+    const prefix = `${TreeItem.displayName}:`;
+    useOnceWhen(() => {
+      warnDeprecatedProps('TransitionComponent', {
+        prefix,
+        alternative: 'slots.transition',
+        willRemove: true,
+      });
+    }, TransitionComponent !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('TransitionProps', {
+        prefix,
+        alternative: 'slotProps.transition',
+        willRemove: true,
+      });
+    }, TransitionProps !== undefined);
+  }
+
   const shallowMemo = useShallowMemo();
   const {
     focusNode,
@@ -149,6 +171,18 @@ const TreeItem = forwardRef((inProps, ref) => {
 
   const styleProps = useTreeItemStyle();
 
+  const [TransitionSlot, transitionSlotProps] = useSlot({
+    name: 'transition',
+    ownerDisplayName: TreeItem.displayName,
+    props: {
+      appear: false,
+      role: 'group',
+      unmountOnExit: true,
+    },
+    slot: slots.transition ?? TransitionComponent ?? Collapse,
+    slotProps: { ...TransitionProps, ...slotProps.transition },
+  });
+
   const context = shallowMemo({
     contentRef, // internal use only
     isDisabled,
@@ -182,15 +216,12 @@ const TreeItem = forwardRef((inProps, ref) => {
             depth={nodeDepth}
             id={nodeId}
           >
-            <TransitionComponent
-              appear={false} // do not perform the enter transition when it first mounts
+            <TransitionSlot
+              {...transitionSlotProps}
               in={isExpanded}
-              role="group"
-              unmountOnExit={true}
-              {...TransitionProps}
             >
               {children}
-            </TransitionComponent>
+            </TransitionSlot>
           </Descendant>
         )}
       </Box>

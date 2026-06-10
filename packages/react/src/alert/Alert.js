@@ -2,6 +2,7 @@ import { runIfFn } from '@tonic-ui/utils';
 import { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import { useSlot } from '../slot';
 import useShallowMemo from '../utils/useShallowMemo';
 import AlertCloseButton from './AlertCloseButton';
 import AlertIcon from './AlertIcon';
@@ -22,6 +23,8 @@ const Alert = forwardRef((inProps, ref) => {
     severity = defaultSeverity,
     variant = defaultVariant,
     icon,
+    slots = {},
+    slotProps = {},
     children,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Alert' });
@@ -36,6 +39,14 @@ const Alert = forwardRef((inProps, ref) => {
   });
   const styleProps = useAlertStyle({ variant, severity });
 
+  const [CloseButtonSlot, closeButtonSlotProps] = useSlot({
+    name: 'closeButton',
+    ownerDisplayName: Alert.displayName,
+    props: {},
+    slot: slots.closeButton ?? AlertCloseButton,
+    slotProps: slotProps.closeButton,
+  });
+
   return (
     <AlertContext.Provider value={context}>
       <Box
@@ -48,7 +59,7 @@ const Alert = forwardRef((inProps, ref) => {
           {runIfFn(children, context)}
         </AlertMessage>
         {!!isClosable && (
-          <AlertCloseButton />
+          <CloseButtonSlot {...closeButtonSlotProps} />
         )}
       </Box>
     </AlertContext.Provider>

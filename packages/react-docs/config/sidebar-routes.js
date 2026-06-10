@@ -73,6 +73,7 @@ export const routes = [
     routes: [
       { title: 'Content Security Policy (CSP)', path: 'customization/content-security-policy' },
       { title: 'CSS theme variables', path: 'customization/css-theme-variables' },
+      { title: 'Overriding component structure', path: 'customization/overriding-component-structure' },
       { title: 'Shadow DOM', path: 'customization/shadow-dom' },
     ],
   },
@@ -438,10 +439,11 @@ export const routes = [
       { title: 'CSSBaseline', path: 'components/css-baseline' },
       { title: 'Portal', path: 'components/portal' },
       { title: 'PortalManager', path: 'components/portal-manager' },
-      { title: 'usePortalManager', path: 'components/portal-manager/usePortalManager' },
       { title: 'ResizeHandle', path: 'components/resize-handle' },
       { title: 'Scrollbar', path: 'components/scrollbar' },
       { title: 'VisuallyHidden', path: 'components/visually-hidden' },
+      { title: 'usePortalManager', path: 'components/portal-manager/usePortalManager' },
+      { title: 'useSlot', path: 'components/slot/useSlot' },
     ],
   },
   {

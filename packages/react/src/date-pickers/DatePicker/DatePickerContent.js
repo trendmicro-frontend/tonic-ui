@@ -1,7 +1,8 @@
-import { useEventCallback, useMergeRefs } from '@tonic-ui/react-hooks';
-import { callAll, callEventHandlers } from '@tonic-ui/utils';
+import { useEventCallback, useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
+import { callAll, callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
 import { forwardRef, useMemo, useRef } from 'react';
+import { useSlot } from '../../slot';
 import { Collapse } from '../../transitions';
 import { Popper } from '../../popper';
 import { useDatePickerContentStyle } from './styles';
@@ -9,16 +10,50 @@ import useDatePicker from './useDatePicker';
 
 const DatePickerContent = forwardRef((
   {
-    PopperComponent = Popper,
-    PopperProps,
-    TransitionComponent = Collapse,
-    TransitionProps,
+    PopperComponent, // deprecated
+    PopperProps, // deprecated
+    TransitionComponent, // deprecated
+    TransitionProps, // deprecated
+    slots = {},
+    slotProps = {},
     children,
     onKeyDown: onKeyDownProp,
     ...rest
   },
   ref,
 ) => {
+  { // deprecation warning
+    const prefix = `${DatePickerContent.displayName}:`;
+    useOnceWhen(() => {
+      warnDeprecatedProps('TransitionComponent', {
+        prefix,
+        alternative: 'slots.transition',
+        willRemove: true,
+      });
+    }, TransitionComponent !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('TransitionProps', {
+        prefix,
+        alternative: 'slotProps.transition',
+        willRemove: true,
+      });
+    }, TransitionProps !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('PopperComponent', {
+        prefix,
+        alternative: 'slots.popper',
+        willRemove: true,
+      });
+    }, PopperComponent !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('PopperProps', {
+        prefix,
+        alternative: 'slotProps.popper',
+        willRemove: true,
+      });
+    }, PopperProps !== undefined);
+  }
+
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);
   const datePickerContext = useDatePicker(); // context might be an undefined value
@@ -42,10 +77,6 @@ const DatePickerContent = forwardRef((
 
   const styleProps = useDatePickerContentStyle();
 
-  const eventHandler = {
-    onKeyDown: callEventHandlers(onKeyDownProp, onKeyDown),
-  };
-
   const [
     skidding = 0,
     distance = 0,
@@ -62,53 +93,74 @@ const DatePickerContent = forwardRef((
     return modifiers;
   }, [skidding, distance]);
 
+  const [PopperSlot, popperSlotProps] = useSlot({
+    name: 'popper',
+    ownerDisplayName: DatePickerContent.displayName,
+    props: {
+      ref: datePickerContentRef,
+      'aria-labelledby': datePickerToggleId,
+      id: datePickerContentId,
+      isOpen,
+      placement,
+      referenceRef: datePickerToggleRef,
+      role: 'menu',
+      tabIndex: -1,
+      unmountOnExit: true,
+      portalled,
+      willUseTransition: true,
+      zIndex: 'dropdown',
+    },
+    slot: slots.popper ?? PopperComponent ?? Popper,
+    slotProps: { ...PopperProps, ...slotProps.popper },
+  });
+
+  const [TransitionSlot, transitionSlotProps] = useSlot({
+    name: 'transition',
+    ownerDisplayName: DatePickerContent.displayName,
+    props: {
+      ref: combinedRef,
+      appear: true,
+      easing: 'linear',
+      timeout: {
+        enter: 133,
+        exit: Math.floor(133 * 0.7),
+      },
+    },
+    slot: slots.transition ?? TransitionComponent ?? Collapse,
+    slotProps: { ...TransitionProps, ...slotProps.transition },
+  });
+
   return (
-    <PopperComponent
-      aria-labelledby={datePickerToggleId}
-      id={datePickerContentId}
-      isOpen={isOpen}
-      modifiers={popperModifiers}
-      placement={placement}
-      ref={datePickerContentRef}
-      referenceRef={datePickerToggleRef}
-      role="menu"
-      tabIndex={-1}
-      unmountOnExit={true}
-      portalled={portalled}
-      willUseTransition={true}
-      zIndex="dropdown"
+    <PopperSlot
+      {...popperSlotProps}
+      modifiers={[
+        ...popperModifiers,
+        ...ensureArray(popperSlotProps?.modifiers),
+      ]}
+      onKeyDown={callEventHandlers(onKeyDownProp, onKeyDown)}
       {...styleProps}
-      {...eventHandler}
-      {...PopperProps}
       {...rest}
     >
       {({ placement, transition }) => {
         const { in: inProp, onEnter, onExited } = { ...transition };
         return (
-          <TransitionComponent
-            appear={true}
-            easing="linear"
-            timeout={{
-              enter: 133,
-              exit: Math.floor(133 * 0.7),
-            }}
-            {...TransitionProps}
-            ref={combinedRef}
+          <TransitionSlot
+            {...transitionSlotProps}
             in={inProp}
             onEnter={callAll(
               onEnter,
-              TransitionProps?.onEnter,
+              transitionSlotProps.onEnter,
             )}
             onExited={callAll(
               onExited,
-              TransitionProps?.onExited,
+              transitionSlotProps.onExited,
             )}
           >
             {children}
-          </TransitionComponent>
+          </TransitionSlot>
         );
       }}
-    </PopperComponent>
+    </PopperSlot>
   );
 });
 

@@ -14,19 +14,21 @@ Next, wrap your application with `ToastManager`:
 
 ```jsx
 <ToastManager
-  TransitionProps={{
-    sx: {
-      '[data-toast-placement^="top"] > &:first-of-type': {
-        mt: '4x', // the space to the top edge of the screen
-      },
-      '[data-toast-placement^="bottom"] > &:last-of-type': {
-        mb: '4x', // the space to the bottom edge of the screen
-      },
-      '[data-toast-placement$="left"] > &': {
-        ml: '4x', // the space to the left edge of the screen
-      },
-      '[data-toast-placement$="right"] > &': {
-        mr: '4x', // the space to the right edge of the screen
+  slotProps={{
+    transition: {
+      sx: {
+        '[data-toast-placement^="top"] > &:first-of-type': {
+          mt: '4x', // the space to the top edge of the screen
+        },
+        '[data-toast-placement^="bottom"] > &:last-of-type': {
+          mb: '4x', // the space to the bottom edge of the screen
+        },
+        '[data-toast-placement$="left"] > &': {
+          ml: '4x', // the space to the left edge of the screen
+        },
+        '[data-toast-placement$="right"] > &': {
+          mr: '4x', // the space to the right edge of the screen
+        },
       },
     },
   }}
@@ -98,23 +100,25 @@ See the [useToastManager](../toast-manager/useToastManager) Hook for detailed us
 
 ### Control the spacing to the edges of the screen
 
-To control the spacing to the edges of the screen, make use of the `TransitionProps` prop in the `ToastManager`. Pass the `sx` prop to the transition component with your preferred spacing.
+To control the spacing to the edges of the screen, pass `sx` to the transition slot via `slotProps.transition`.
 
 ```jsx
 <ToastManager
-  TransitionProps={{
-    sx: {
-      '[data-toast-placement^="top"] > &:first-of-type': {
-        mt: edgeSpacing, // the space to the top edge of the screen
-      },
-      '[data-toast-placement^="bottom"] > &:last-of-type': {
-        mb: edgeSpacing, // the space to the bottom edge of the screen
-      },
-      '[data-toast-placement$="left"] > &': {
-        ml: edgeSpacing, // the space to the left edge of the screen
-      },
-      '[data-toast-placement$="right"] > &': {
-        mr: edgeSpacing, // the space to the right edge of the screen
+  slotProps={{
+    transition: {
+      sx: {
+        '[data-toast-placement^="top"] > &:first-of-type': {
+          mt: edgeSpacing, // the space to the top edge of the screen
+        },
+        '[data-toast-placement^="bottom"] > &:last-of-type': {
+          mb: edgeSpacing, // the space to the bottom edge of the screen
+        },
+        '[data-toast-placement$="left"] > &': {
+          ml: edgeSpacing, // the space to the left edge of the screen
+        },
+        '[data-toast-placement$="right"] > &': {
+          mr: edgeSpacing, // the space to the right edge of the screen
+        },
       },
     },
   }}
@@ -131,8 +135,10 @@ To control the spacing to the edges of the screen, make use of the `TransitionPr
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| TransitionComponent | ElementType | ToastTransition | The component used for the transition. |
-| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+| slots | object | `{}` | The slot components. Available slots: `transition`. |
+| slotProps | object | `{}` | The props for each slot. Available slots: `transition`. |
+| TransitionComponent | ElementType | ToastTransition | **Deprecated.** Use `slots.transition` instead. |
+| TransitionProps | object | | **Deprecated.** Use `slotProps.transition` instead. |
 | children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
 | containerRef | RefObject | | A `ref` to the component where the toasts will be rendered. |
 | placement | string | 'bottom-right' | The default placement to place toasts. One of: 'top', 'top-right', 'top-left', 'bottom', 'bottom-left', 'bottom-right' |

@@ -61,13 +61,15 @@ const App = () => {
               </Text>
             </PopoverTrigger>
             <PopoverContent
-              PopperProps={{
-                modifiers: [
-                  { // https://popper.js.org/docs/v2/modifiers/flip/
-                    name: 'flip',
-                    enabled: isFlipModifierEnabled,
-                  },
-                ],
+              slotProps={{
+                popper: {
+                  modifiers: [
+                    { // https://popper.js.org/docs/v2/modifiers/flip/
+                      name: 'flip',
+                      enabled: isFlipModifierEnabled,
+                    },
+                  ],
+                },
               }}
             >
               Popover

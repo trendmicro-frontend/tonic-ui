@@ -186,8 +186,10 @@ Keyboard shortcuts include:
 
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
-| TransitionComponent | ElementType | Collapse | The component used for the transition. |
-| TransitionProps | object | | Props applied to the [Transition](http://reactcommunity.org/react-transition-group/transition#Transition-props) element. |
+| slots | object | `{}` | The slot components. Available slots: `transition`. |
+| slotProps | object | `{}` | The props for each slot. Available slots: `transition`. |
+| TransitionComponent | ElementType | Collapse | **Deprecated.** Use `slots.transition` instead. |
+| TransitionProps | object | | **Deprecated.** Use `slotProps.transition` instead. |
 | children | ReactNode | | The children of the tree item. |
 | disabled | bool | false | Determines if the tree item is disabled. |
 | nodeId | string | | `REQUIRED` The id of the node. |

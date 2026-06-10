@@ -1,4 +1,4 @@
-import { useHydrated, useMergeRefs } from '@tonic-ui/react-hooks';
+import { useHydrated, useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 import {
   ariaAttr,
   callAll,
@@ -8,6 +8,7 @@ import {
   isBlankString,
   isEmptyArray,
   isHTMLElement,
+  warnDeprecatedProps,
 } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
 import { forwardRef, useMemo, useRef } from 'react';
@@ -15,6 +16,7 @@ import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { Popper } from '../popper';
 import { Grow } from '../transitions';
+import { useSlot } from '../slot';
 import PopoverArrow from './PopoverArrow';
 import { usePopoverContentStyle } from './styles';
 import usePopover from './usePopover';
@@ -36,12 +38,14 @@ const mapPlacementToTransformOrigin = placement => ({
 
 const PopoverContent = forwardRef((inProps, ref) => {
   const {
-    PopperComponent = Popper,
-    PopperProps,
-    PopoverArrowComponent = PopoverArrow,
-    PopoverArrowProps,
-    TransitionComponent = Grow,
-    TransitionProps,
+    PopperComponent, // deprecated
+    PopperProps, // deprecated
+    PopoverArrowComponent, // deprecated
+    PopoverArrowProps, // deprecated
+    TransitionComponent, // deprecated
+    TransitionProps, // deprecated
+    slots = {},
+    slotProps = {},
     children,
     onBlur: onBlurProp,
     onKeyDown: onKeyDownProp,
@@ -49,6 +53,52 @@ const PopoverContent = forwardRef((inProps, ref) => {
     onMouseLeave: onMouseLeaveProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'PopoverContent' });
+
+  { // deprecation warning
+    const prefix = `${PopoverContent.displayName}:`;
+    useOnceWhen(() => {
+      warnDeprecatedProps('TransitionComponent', {
+        prefix,
+        alternative: 'slots.transition',
+        willRemove: true,
+      });
+    }, TransitionComponent !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('TransitionProps', {
+        prefix,
+        alternative: 'slotProps.transition',
+        willRemove: true,
+      });
+    }, TransitionProps !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('PopperComponent', {
+        prefix,
+        alternative: 'slots.popper',
+        willRemove: true,
+      });
+    }, PopperComponent !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('PopperProps', {
+        prefix,
+        alternative: 'slotProps.popper',
+        willRemove: true,
+      });
+    }, PopperProps !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('PopoverArrowComponent', {
+        prefix,
+        alternative: 'slots.arrow',
+        willRemove: true,
+      });
+    }, PopoverArrowComponent !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('PopoverArrowProps', {
+        prefix,
+        alternative: 'slotProps.arrow',
+        willRemove: true,
+      });
+    }, PopoverArrowProps !== undefined);
+  }
   const isHydrated = useHydrated();
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);
@@ -160,6 +210,45 @@ const PopoverContent = forwardRef((inProps, ref) => {
     return modifiers;
   }, [computedSkidding, computedDistance]);
 
+  const [PopperSlot, popperSlotProps] = useSlot({
+    name: 'popper',
+    ownerDisplayName: PopoverContent.displayName,
+    props: {
+      ref: popoverContentRef,
+      'aria-hidden': ariaAttr(!isOpen),
+      'aria-labelledby': popoverTriggerId,
+      id: popoverId,
+      isOpen,
+      placement,
+      referenceRef: popoverTriggerRef,
+      role,
+      unmountOnExit: true,
+      portalled,
+      willUseTransition: true,
+      zIndex: 'popover',
+    },
+    slot: slots.popper ?? PopperComponent ?? Popper,
+    slotProps: { ...PopperProps, ...slotProps.popper },
+  });
+
+  const [TransitionSlot, transitionSlotProps] = useSlot({
+    name: 'transition',
+    ownerDisplayName: PopoverContent.displayName,
+    props: {
+      ref: combinedRef,
+      appear: true,
+    },
+    slot: slots.transition ?? TransitionComponent ?? Grow,
+    slotProps: { ...TransitionProps, ...slotProps.transition },
+  });
+
+  const [ArrowSlot, arrowSlotProps] = useSlot({
+    name: 'arrow',
+    ownerDisplayName: PopoverContent.displayName,
+    slot: slots.arrow ?? PopoverArrowComponent ?? PopoverArrow,
+    slotProps: { ...PopoverArrowProps, ...slotProps.arrow },
+  });
+
   if (!isHydrated) {
     return null;
   }
@@ -174,38 +263,24 @@ const PopoverContent = forwardRef((inProps, ref) => {
   }
 
   return (
-    <PopperComponent
-      aria-hidden={ariaAttr(!isOpen)}
-      aria-labelledby={popoverTriggerId}
-      id={popoverId}
-      isOpen={isOpen}
-      placement={placement}
-      ref={popoverContentRef}
-      referenceRef={popoverTriggerRef}
-      role={role}
-      unmountOnExit={true}
-      portalled={portalled}
-      willUseTransition={true}
-      zIndex="popover"
-      {...PopperProps}
+    <PopperSlot
+      {...popperSlotProps}
       modifiers={[
         // Default modifiers
         ...popperModifiers,
         // User-defined modifiers
-        ...ensureArray(PopperProps?.modifiers),
+        ...ensureArray(popperSlotProps?.modifiers),
       ]}
     >
       {({ placement, transition }) => {
         const { in: inProp, onEnter, onExited } = { ...transition };
         return (
-          <TransitionComponent
-            appear={true}
-            {...TransitionProps}
-            ref={combinedRef}
+          <TransitionSlot
+            {...transitionSlotProps}
             in={inProp}
             onEnter={callAll(
               onEnter,
-              TransitionProps?.onEnter,
+              transitionSlotProps.onEnter,
               (event) => {
                 // set focus on the popover content
                 if (inProp && trigger === 'click') {
@@ -217,7 +292,7 @@ const PopoverContent = forwardRef((inProps, ref) => {
             )}
             onExited={callAll(
               onExited,
-              TransitionProps?.onExited,
+              transitionSlotProps.onExited,
             )}
           >
             {(state, { ref, style: transitionStyle }) => {
@@ -235,16 +310,16 @@ const PopoverContent = forwardRef((inProps, ref) => {
                   {...rest}
                 >
                   {!!arrow && (
-                    <PopoverArrowComponent {...PopoverArrowProps} />
+                    <ArrowSlot {...arrowSlotProps} />
                   )}
                   {children}
                 </Box>
               );
             }}
-          </TransitionComponent>
+          </TransitionSlot>
         );
       }}
-    </PopperComponent>
+    </PopperSlot>
   );
 });
 

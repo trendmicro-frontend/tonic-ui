@@ -300,6 +300,9 @@ test('should match expected exports', () => {
     // truncate
     'Truncate',
 
+    // slot
+    'useSlot',
+
     // visually-hidden
     'VisuallyHidden',
   ];
