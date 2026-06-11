@@ -78,4 +78,26 @@ describe('getIsPassiveListenerSupported', () => {
     expect(second).toBe(false);
     expect(addEventListenerSpy).toHaveBeenCalledTimes(1);
   });
+
+  it('should detect support per window and not reuse another window\'s cached result', () => {
+    const supportingWindow = {
+      addEventListener: jest.fn((type, listener, options) => {
+        // Access the `passive` getter to simulate a browser that supports it
+        void options?.passive;
+      }),
+      removeEventListener: jest.fn(),
+    };
+    const throwingWindow = {
+      addEventListener: jest.fn(() => {
+        throw new Error('not supported');
+      }),
+      removeEventListener: jest.fn(),
+    };
+
+    expect(getIsPassiveListenerSupported(supportingWindow)).toBe(true);
+    // The second window must be probed independently, not served the first
+    // window's cached `true`.
+    expect(getIsPassiveListenerSupported(throwingWindow)).toBe(false);
+    expect(throwingWindow.addEventListener).toHaveBeenCalledTimes(1);
+  });
 });
