@@ -14,6 +14,7 @@ import { ensureArray, ensureFunction } from 'ensure-type';
 import { forwardRef, useMemo, useRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import { useEnvironment } from '../environment';
 import { Popper } from '../popper';
 import { Grow } from '../transitions';
 import { useSlot } from '../slot';
@@ -124,6 +125,7 @@ const PopoverContent = forwardRef((inProps, ref) => {
     popoverTriggerRef,
     trigger,
   } = usePopover();
+  const { getDocument } = useEnvironment();
   const role = {
     'click': 'dialog',
     'hover': 'tooltip',
@@ -143,7 +145,7 @@ const PopoverContent = forwardRef((inProps, ref) => {
     eventHandler.onBlur = function (event) {
       // https://developer.mozilla.org/en-US/docs/Web/API/FocusEvent/relatedTarget
       // The relatedTarget property represents the `EventTarget` receiving focus or losing focus during a `blur` or `focus` event, respectively.
-      const focusTarget = event.relatedTarget || document.activeElement; // `relatedTarget` is the `EventTarget` receiving focus (if any)
+      const focusTarget = event.relatedTarget || getDocument().activeElement; // `relatedTarget` is the `EventTarget` receiving focus (if any)
       const isOutsidePopoverTrigger = !(popoverTriggerRef.current?.contains?.(focusTarget));
       const isOutsidePopoverContent = !(popoverContentRef.current?.contains?.(focusTarget));
       const shouldClose = isOpen && closeOnBlur && !!focusTarget && isOutsidePopoverTrigger && isOutsidePopoverContent;
