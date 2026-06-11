@@ -1,6 +1,7 @@
 import { canUseDOM, noop } from '@tonic-ui/utils';
 import { useCallback, useEffect, useReducer } from 'react';
 import { useDefaultProps } from '../default-props';
+import { useEnvironment } from '../environment';
 import useShallowMemo from '../utils/useShallowMemo';
 import { ColorModeContext } from './context';
 import { getColorScheme, colorSchemeQuery } from './utils';
@@ -25,6 +26,7 @@ const ColorModeProvider = (inProps) => {
     onChange: onChangeProp,
     useSystemColorMode,
   } = useDefaultProps({ props: inProps, name: 'ColorModeProvider' });
+  const { getWindow } = useEnvironment();
   const shallowMemo = useShallowMemo();
   const defaultColorMode = (defaultValueProp === 'dark') ? 'dark' : 'light';
   const [colorMode, setColorMode] = useReducer(colorModeReducer, ensureColorMode(valueProp ?? defaultColorMode));
@@ -58,10 +60,11 @@ const ColorModeProvider = (inProps) => {
       return noop;
     }
 
-    const systemColorMode = getColorScheme(defaultColorMode);
+    const ownerWindow = getWindow();
+    const systemColorMode = getColorScheme(defaultColorMode, ownerWindow);
     onChange(systemColorMode);
 
-    const mediaQueryList = window?.matchMedia?.(colorSchemeQuery.dark);
+    const mediaQueryList = ownerWindow?.matchMedia?.(colorSchemeQuery.dark);
     const listener = () => {
       onChange(mediaQueryList.matches ? 'dark' : 'light');
     };
@@ -69,7 +72,7 @@ const ColorModeProvider = (inProps) => {
     return () => {
       mediaQueryList.removeEventListener('change', listener);
     };
-  }, [defaultValueProp, valueProp, useSystemColorMode, defaultColorMode, onChange]);
+  }, [defaultValueProp, valueProp, useSystemColorMode, defaultColorMode, onChange, getWindow]);
 
   const colorModeState = shallowMemo({
     colorMode,
