@@ -1,5 +1,4 @@
-import { useEnvironment } from '@tonic-ui/react';
-import { Box, Text } from '@tonic-ui/react';
+import { Box, Text, useEnvironment } from '@tonic-ui/react';
 import { useEffect, useState } from 'react';
 
 const App = () => {
