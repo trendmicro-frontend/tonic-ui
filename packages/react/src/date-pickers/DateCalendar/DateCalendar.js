@@ -24,6 +24,7 @@ import subMonths from 'date-fns/subMonths';
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../../box';
 import { useDefaultProps } from '../../default-props';
+import { useEnvironment } from '../../environment';
 import useShallowMemo from '../../utils/useShallowMemo';
 import { validateDate } from '../validation';
 import { DateCalendarProvider } from './context';
@@ -101,6 +102,7 @@ const DateCalendar = forwardRef((inProps, ref) => {
     // Return initial date if it is valid, otherwise return today
     return isValid(initialDate) ? initialDate : today;
   });
+  const { getDocument } = useEnvironment();
   const isTabPressedRef = useRef(false); // Indicates if the focus was triggered by the "Tab" key
   const calendarMonthDateRef = useRef();
   const nextFocusIndexRef = useRef();
@@ -133,14 +135,15 @@ const DateCalendar = forwardRef((inProps, ref) => {
       isTabPressedRef.current = false;
     };
 
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('keyup', handleKeyUp);
+    const ownerDocument = getDocument();
+    ownerDocument.addEventListener('keydown', handleKeyDown);
+    ownerDocument.addEventListener('keyup', handleKeyUp);
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('keyup', handleKeyUp);
+      ownerDocument.removeEventListener('keydown', handleKeyDown);
+      ownerDocument.removeEventListener('keyup', handleKeyUp);
     };
-  }, []);
+  }, [getDocument]);
 
   useEffect(() => {
     if (validationError !== previousValidationError) {
