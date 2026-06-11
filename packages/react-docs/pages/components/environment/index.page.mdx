@@ -72,6 +72,12 @@ To render components inside an iframe, configure the `environment` prop with the
 
 {render('./usage-in-iframe')}
 
+### Why the environment matters in an iframe
+
+An iframe is a separate realm: its `document` and `window` are different objects from the page's global `document` and `window`. Since Tonic UI components render into the iframe from the parent page's JavaScript, the global `document`/`window` point at the parent page — the wrong realm. Configuring the `environment` lets `useEnvironment()` resolve to the iframe's own `document` and `window`. The example below renders the same probe twice — without the environment config (falls back to the global document/window) and with it (resolves to the iframe's):
+
+{render('./usage-in-iframe-environment')}
+
 ## Using `useEnvironment` hook
 
 The [useEnvironment](./useEnvironment) hook provides access to the correct `document` and `window` objects for the current environment. Use it when you need to query DOM elements, add event listeners, measure elements, or create portals in your custom components.
