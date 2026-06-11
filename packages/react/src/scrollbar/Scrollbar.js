@@ -67,7 +67,7 @@ const Scrollbar = forwardRef((inProps, ref) => {
   }
 
   const isHydrated = useHydrated();
-  const { getDocument } = useEnvironment();
+  const { getDocument, getWindow } = useEnvironment();
 
   const currentScrollLeftRef = useRef(0);
   const currentScrollTopRef = useRef(0);
@@ -497,8 +497,9 @@ const Scrollbar = forwardRef((inProps, ref) => {
     let mutationObserver = null;
     let resizeObserver = null;
 
-    const MutationObserver = globalThis.MutationObserver ?? globalThis.WebKitMutationObserver;
-    const ResizeObserver = globalThis.ResizeObserver;
+    const ownerWindow = getWindow();
+    const MutationObserver = ownerWindow.MutationObserver ?? ownerWindow.WebKitMutationObserver;
+    const ResizeObserver = ownerWindow.ResizeObserver;
 
     if (typeof MutationObserver !== 'undefined') {
       mutationObserver = new MutationObserver((mutations) => {
@@ -540,7 +541,7 @@ const Scrollbar = forwardRef((inProps, ref) => {
         resizeObserver.disconnect();
       }
     };
-  }, [update, el]);
+  }, [update, el, getWindow]);
 
   const containerStyle = useContainerStyle({ width, height, minWidth, maxWidth, minHeight, maxHeight });
   const scrollViewStyle = useScrollViewStyle({ width, height, minWidth, maxWidth, minHeight, maxHeight, overflowX, overflowY });
