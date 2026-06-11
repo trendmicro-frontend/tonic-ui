@@ -11,6 +11,7 @@ import { ensureArray, ensureFiniteNumber } from 'ensure-type';
 import { forwardRef, useMemo, useRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import { useEnvironment } from '../environment';
 import { Popper } from '../popper';
 import { Grow } from '../transitions';
 import { useSlot } from '../slot';
@@ -93,6 +94,7 @@ const TooltipContent = forwardRef((inProps, ref) => {
     }, TooltipArrowProps !== undefined);
   }
 
+  const { getWindow } = useEnvironment();
   const isHydrated = useHydrated();
   const nodeRef = useRef(null);
   const combinedRef = useMergeRefs(nodeRef, ref);
@@ -134,8 +136,9 @@ const TooltipContent = forwardRef((inProps, ref) => {
             const rect = tooltipTriggerElement.getBoundingClientRect();
 
             // Get the page coordinate
-            const elementPageX = rect.x + globalThis.scrollX;
-            const elementPageY = rect.y + globalThis.scrollY;
+            const ownerWindow = getWindow();
+            const elementPageX = rect.x + ownerWindow.scrollX;
+            const elementPageY = rect.y + ownerWindow.scrollY;
 
             // top, top-start, top-end, bottom, bottom-start, bottom-end
             if (placement.startsWith('top') || placement.startsWith('bottom')) {
@@ -176,7 +179,7 @@ const TooltipContent = forwardRef((inProps, ref) => {
         },
       },
     },
-  ], [skidding, distance, tooltipTriggerElement, followCursor, nextToCursor, mousePageX, mousePageY]);
+  ], [getWindow, skidding, distance, tooltipTriggerElement, followCursor, nextToCursor, mousePageX, mousePageY]);
 
   const [PopperSlot, popperSlotProps] = useSlot({
     name: 'popper',
