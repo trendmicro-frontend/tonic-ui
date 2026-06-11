@@ -1,7 +1,7 @@
+/* eslint-disable react/jsx-no-bind */
 import { fireEvent } from '@testing-library/react';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Box, EnvironmentProvider, Scrollbar } from '@tonic-ui/react/src';
-import React from 'react';
 
 describe('Scrollbar (non-standard DOM environment)', () => {
   it('binds drag listeners to the document provided by EnvironmentProvider, not the global document', () => {

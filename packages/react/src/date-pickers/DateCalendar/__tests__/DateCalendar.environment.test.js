@@ -1,6 +1,6 @@
+/* eslint-disable react/jsx-no-bind */
 import { render } from '@tonic-ui/react/test-utils/render';
 import { DateCalendar, EnvironmentProvider } from '@tonic-ui/react/src';
-import React from 'react';
 
 describe('DateCalendar (non-standard DOM environment)', () => {
   it('binds key listeners to the document provided by EnvironmentProvider, not the global document', () => {

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
@@ -9,7 +10,6 @@ import {
   PopoverTrigger,
 } from '@tonic-ui/react/src';
 import { act } from 'react';
-import React from 'react';
 
 describe('PopoverContent (non-standard DOM environment)', () => {
   it('reads the active element from the document provided by EnvironmentProvider, not the global document', async () => {

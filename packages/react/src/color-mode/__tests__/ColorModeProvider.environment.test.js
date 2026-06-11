@@ -1,6 +1,6 @@
+/* eslint-disable react/jsx-no-bind */
 import { render } from '@testing-library/react';
 import { ColorModeProvider, EnvironmentProvider } from '@tonic-ui/react/src';
-import React from 'react';
 
 const createMatchMedia = (matches) => jest.fn().mockImplementation((query) => ({
   matches,

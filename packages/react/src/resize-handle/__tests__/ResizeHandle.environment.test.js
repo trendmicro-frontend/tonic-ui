@@ -1,7 +1,7 @@
+/* eslint-disable react/jsx-no-bind */
 import { fireEvent, screen } from '@testing-library/react';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { EnvironmentProvider, ResizeHandle } from '@tonic-ui/react/src';
-import React from 'react';
 
 describe('ResizeHandle (non-standard DOM environment)', () => {
   it('binds resize listeners to the document provided by EnvironmentProvider, not the global document', () => {

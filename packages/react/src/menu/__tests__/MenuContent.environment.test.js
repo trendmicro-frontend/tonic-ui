@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import { fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
@@ -8,7 +9,6 @@ import {
   MenuItem,
   MenuList,
 } from '@tonic-ui/react/src';
-import React from 'react';
 
 describe('MenuContent (non-standard DOM environment)', () => {
   it('reads the active element from the document provided by EnvironmentProvider, not the global document', async () => {

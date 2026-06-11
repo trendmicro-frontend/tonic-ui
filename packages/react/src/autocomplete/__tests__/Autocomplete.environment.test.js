@@ -1,8 +1,8 @@
+/* eslint-disable react/jsx-no-bind */
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Autocomplete, EnvironmentProvider } from '@tonic-ui/react/src';
-import React from 'react';
 
 describe('Autocomplete (non-standard DOM environment)', () => {
   const items = [
