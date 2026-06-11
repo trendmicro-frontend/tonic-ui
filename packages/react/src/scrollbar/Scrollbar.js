@@ -4,6 +4,7 @@ import { ensurePositiveFiniteNumber } from 'ensure-type';
 import { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import { useEnvironment } from '../environment';
 import {
   useContainerStyle,
   useScrollViewStyle,
@@ -66,6 +67,7 @@ const Scrollbar = forwardRef((inProps, ref) => {
   }
 
   const isHydrated = useHydrated();
+  const { getDocument } = useEnvironment();
 
   const currentScrollLeftRef = useRef(0);
   const currentScrollTopRef = useRef(0);
@@ -466,20 +468,21 @@ const Scrollbar = forwardRef((inProps, ref) => {
   }, []);
 
   useEffect(() => {
+    const ownerDocument = getDocument();
     const isDragging = isDraggingRef.current;
     if (isDragging) {
-      document.addEventListener('mousemove', handleDrag);
-      document.addEventListener('mouseup', handleDragEnd);
+      ownerDocument.addEventListener('mousemove', handleDrag);
+      ownerDocument.addEventListener('mouseup', handleDragEnd);
     }
     if (!isDragging) {
-      document.removeEventListener('mousemove', handleDrag);
-      document.removeEventListener('mouseup', handleDragEnd);
+      ownerDocument.removeEventListener('mousemove', handleDrag);
+      ownerDocument.removeEventListener('mouseup', handleDragEnd);
     }
     return () => {
-      document.removeEventListener('mousemove', handleDrag);
-      document.removeEventListener('mouseup', handleDragEnd);
+      ownerDocument.removeEventListener('mousemove', handleDrag);
+      ownerDocument.removeEventListener('mouseup', handleDragEnd);
     };
-  }, [startDragging, handleDrag, handleDragEnd]);
+  }, [getDocument, startDragging, handleDrag, handleDragEnd]);
 
   const el = nodeRef?.current;
 
