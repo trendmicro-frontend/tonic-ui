@@ -2,6 +2,7 @@ import { callEventHandlers } from '@tonic-ui/utils';
 import { forwardRef, useCallback, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import { useEnvironment } from '../environment';
 import { useResizeHandleStyle } from './styles';
 import { getIsPassiveListenerSupported } from './utils';
 
@@ -14,6 +15,7 @@ const ResizeHandle = forwardRef((inProps, ref) => {
     onTouchStart: onTouchStartProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'ResizeHandle' });
+  const { getDocument, getWindow } = useEnvironment();
   const [isResizing, setIsResizing] = useState(false);
   const styleProps = useResizeHandleStyle({ isResizing });
 
@@ -34,8 +36,8 @@ const ResizeHandle = forwardRef((inProps, ref) => {
         onResizeProp?.({ clientX, clientY });
       },
       [endEvent]: (event) => {
-        document.removeEventListener('mousemove', eventHandler[moveEvent]);
-        document.removeEventListener('mouseup', eventHandler[endEvent]);
+        ownerDocument.removeEventListener('mousemove', eventHandler[moveEvent]);
+        ownerDocument.removeEventListener('mouseup', eventHandler[endEvent]);
         setIsResizing(false);
         const clientX = event.clientX;
         const clientY = event.clientY;
@@ -43,12 +45,13 @@ const ResizeHandle = forwardRef((inProps, ref) => {
       },
     };
 
-    const addEventListenerOptions = getIsPassiveListenerSupported()
+    const ownerDocument = getDocument();
+    const addEventListenerOptions = getIsPassiveListenerSupported(getWindow())
       ? { passive: false }
       : false;
-    document.addEventListener('mousemove', eventHandler[moveEvent], addEventListenerOptions);
-    document.addEventListener('mouseup', eventHandler[endEvent], addEventListenerOptions);
-  }, [onResizeProp, onResizeEndProp, onResizeStartProp]);
+    ownerDocument.addEventListener('mousemove', eventHandler[moveEvent], addEventListenerOptions);
+    ownerDocument.addEventListener('mouseup', eventHandler[endEvent], addEventListenerOptions);
+  }, [getDocument, getWindow, onResizeProp, onResizeEndProp, onResizeStartProp]);
 
   const onTouchStart = useCallback((event) => {
     const isTouchStartEvent = event.type === 'touchstart';
@@ -81,8 +84,8 @@ const ResizeHandle = forwardRef((inProps, ref) => {
         return false;
       },
       [endEvent]: (event) => {
-        document.removeEventListener('touchmove', eventHandler[moveEvent]);
-        document.removeEventListener('touchend', eventHandler[endEvent]);
+        ownerDocument.removeEventListener('touchmove', eventHandler[moveEvent]);
+        ownerDocument.removeEventListener('touchend', eventHandler[endEvent]);
         if (event.cancelable) {
           event.preventDefault();
           event.stopPropagation();
@@ -94,12 +97,13 @@ const ResizeHandle = forwardRef((inProps, ref) => {
       },
     };
 
-    const addEventListenerOptions = getIsPassiveListenerSupported()
+    const ownerDocument = getDocument();
+    const addEventListenerOptions = getIsPassiveListenerSupported(getWindow())
       ? { passive: false }
       : false;
-    document.addEventListener('touchmove', eventHandler[moveEvent], addEventListenerOptions);
-    document.addEventListener('touchend', eventHandler[endEvent], addEventListenerOptions);
-  }, [onResizeProp, onResizeEndProp, onResizeStartProp]);
+    ownerDocument.addEventListener('touchmove', eventHandler[moveEvent], addEventListenerOptions);
+    ownerDocument.addEventListener('touchend', eventHandler[endEvent], addEventListenerOptions);
+  }, [getDocument, getWindow, onResizeProp, onResizeEndProp, onResizeStartProp]);
 
   return (
     <Box

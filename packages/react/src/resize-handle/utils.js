@@ -1,7 +1,9 @@
 export const getIsPassiveListenerSupported = (() => {
   let isPassiveListenerSupported = null;
 
-  return () => {
+  // The `win` argument provides the window context (e.g. from `useEnvironment`)
+  // so this helper does not reference the global `window` directly.
+  return (win = window) => {
     if (typeof isPassiveListenerSupported === 'boolean') {
       return isPassiveListenerSupported;
     }
@@ -16,9 +18,8 @@ export const getIsPassiveListenerSupported = (() => {
 
       const noop = () => {};
 
-      // TODO: Use environment provider to obtain the global object and avoid referencing `window` directly
-      window.addEventListener('test', noop, options);
-      window.removeEventListener('test', noop);
+      win.addEventListener('test', noop, options);
+      win.removeEventListener('test', noop);
     } catch (_error) {
       isPassiveListenerSupported = false;
     }
