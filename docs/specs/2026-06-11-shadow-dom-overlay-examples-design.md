@@ -2,7 +2,7 @@
 
 **Date:** 2026-06-11
 **Page:** `packages/react-docs/pages/components/environment/`
-**Status:** Design approved (pending spec review)
+**Status:** ❌ Abandoned — not shipped (2026-06-11). The example was never built: no `usage-in-shadow-dom-overlays.js` file and no MDX subsection exist, and the WIP commits were reset away (no git trace). A Shadow DOM example cannot demonstrate the `useEnvironment` refactor's value because a shadow root shares the main `document`/`window` (`shadowRoot.ownerDocument === document`); the global-vs-environment difference only appears across a separate realm (iframe), which the iframe example covers.
 
 ## Goal
 

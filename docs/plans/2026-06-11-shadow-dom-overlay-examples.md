@@ -1,5 +1,7 @@
 # Shadow DOM Overlay Examples Implementation Plan
 
+> **Status: ❌ ABANDONED — not shipped (2026-06-11).** This plan was never implemented in the codebase: `packages/react-docs/pages/components/environment/usage-in-shadow-dom-overlays.js` does not exist, no MDX subsection was added to `index.page.mdx`, and the work-in-progress commits were reset away (unpushed, no git trace). **Reason:** a Shadow DOM example cannot demonstrate the `useEnvironment` refactor's value, because a shadow root shares the **main** `document`/`window` (`shadowRoot.ownerDocument === document`). The global-vs-environment difference only exists across a separate realm (an iframe), so the iframe example carries that demonstration instead. The tasks below are retained as a historical record of the abandoned plan.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Add a docs example showing Tooltip, Popover, and Menu rendering in-place inside a Shadow DOM boundary, on the Environment page.
