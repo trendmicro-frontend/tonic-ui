@@ -599,6 +599,16 @@ describe('warnDeprecatedProps', () => {
     });
     expect(fn).toHaveBeenCalledWith('TestComponent: \'isDisabled\' is deprecated and will be removed in the next major release. Use \'disabled\' instead.');
   });
+  it('should not warn in production', () => {
+    const originalNodeEnv = process.env.NODE_ENV;
+    process.env.NODE_ENV = 'production';
+    const fn = jest.spyOn(console, 'error').mockImplementation(() => {});
+    warnDeprecatedProps('isDisabled', {
+      prefix: 'TestComponent:',
+    });
+    expect(fn).not.toHaveBeenCalled();
+    process.env.NODE_ENV = originalNodeEnv;
+  });
 });
 
 describe('warnRemovedProps', () => {
@@ -616,5 +626,15 @@ describe('warnRemovedProps', () => {
       alternative: 'disabled',
     });
     expect(fn).toHaveBeenCalledWith('TestComponent: \'isDisabled\' is removed. Use \'disabled\' instead.');
+  });
+  it('should not warn in production', () => {
+    const originalNodeEnv = process.env.NODE_ENV;
+    process.env.NODE_ENV = 'production';
+    const fn = jest.spyOn(console, 'error').mockImplementation(() => {});
+    warnRemovedProps('isDisabled', {
+      prefix: 'TestComponent:',
+    });
+    expect(fn).not.toHaveBeenCalled();
+    process.env.NODE_ENV = originalNodeEnv;
   });
 });

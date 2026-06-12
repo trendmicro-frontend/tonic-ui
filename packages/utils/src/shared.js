@@ -176,6 +176,9 @@ export const runIfFn = (valueOrFn, ...args) => {
 };
 
 export const warnDeprecatedProps = (props, options) => {
+  if (process.env.NODE_ENV === 'production') {
+    return;
+  }
   const prefix = options?.prefix ?? 'Warning:';
   const alternative = ensureArray(options?.alternative);
   const willRemove = ensureBoolean(options?.willRemove);
@@ -207,6 +210,9 @@ export const warnDeprecatedProps = (props, options) => {
 };
 
 export const warnRemovedProps = (props, options) => {
+  if (process.env.NODE_ENV === 'production') {
+    return;
+  }
   const prefix = options?.prefix ?? 'Warning:';
   const alternative = ensureArray(options?.alternative);
   const message = ensureString(options?.message);
