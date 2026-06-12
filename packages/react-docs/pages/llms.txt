@@ -104,6 +104,12 @@
 
 [useColorStyle]({{PAGE_BASE}}/components/color-style/useColorStyle/): <classification>LLM should read this page when using the useColorStyle hook to access color style objects for the current color mode, implementing theme-aware color styling, or working with semantic color tokens and functional color values.</classification>
 
+### Environment
+
+[Overview]({{PAGE_BASE}}/components/environment/): <classification>LLM should read this page when rendering Tonic UI components inside non-standard DOM environments such as iframes or shadow DOM, configuring the EnvironmentProvider and the TonicProvider environment prop, or resolving the correct document/window for portals, focus tracking, and event listeners across realms.</classification>
+
+[useEnvironment]({{PAGE_BASE}}/components/environment/useEnvironment/): <classification>LLM should read this page when using the useEnvironment hook to resolve the document/window from the nearest EnvironmentProvider, accessing the correct realm in iframes or shadow DOM, or building components that read the DOM without hardcoding the global document/window.</classification>
+
 ### Layout
 
 [Box]({{PAGE_BASE}}/components/box/): <classification>LLM should read this page when using the Box component for layout containers, applying custom styling with style props, or creating flexible wrapper elements. Box is the foundational component for most layouts and works well with Flex, Grid, and Stack components.</classification>
@@ -265,6 +271,8 @@
 [Scrollbar]({{PAGE_BASE}}/components/scrollbar/): <classification>LLM should read this page when implementing custom scrollbars with consistent cross-platform appearance, creating scrollable content areas with custom styling, controlling scroll behavior, or integrating with virtualization libraries like React Virtuoso.</classification>
 
 [VisuallyHidden]({{PAGE_BASE}}/components/visually-hidden/): <classification>LLM should read this page when implementing accessibility features that hide content visually but keep it available to screen readers, creating accessible form labels, or providing screen reader-only content for better accessibility compliance.</classification>
+
+[useSlot]({{PAGE_BASE}}/components/slot/useSlot/): <classification>LLM should read this page when building Tonic UI components that expose a slots/slotProps API, swapping out a component's internal elements, forwarding props to internal slots, or customizing component structure without forking the component.</classification>
 
 ## Hooks
 
