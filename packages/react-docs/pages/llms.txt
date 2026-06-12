@@ -40,6 +40,8 @@
 
 [CSS theme variables]({{PAGE_BASE}}/customization/css-theme-variables/): <classification>LLM should read this page when working with CSS custom properties and theme variables, implementing custom styling with CSS variables, or understanding how to use theme tokens in CSS-in-JS and regular CSS.</classification>
 
+[Overriding component structure]({{PAGE_BASE}}/customization/overriding-component-structure/): <classification>LLM should read this page when customizing a component's internal structure via the slots and slotProps props, replacing the element rendered for a component part, forwarding extra props to internal parts, or migrating from the deprecated *Component/*Props prop pairs (such as TransitionComponent/TransitionProps and PopperComponent/PopperProps) to the standardized slots API.</classification>
+
 [Shadow DOM]({{PAGE_BASE}}/customization/shadow-dom/): <classification>LLM should read this page when using Tonic UI components within Shadow DOM environments, understanding styling isolation, and implementing components in web components or other Shadow DOM contexts.</classification>
 
 ## Experiments
@@ -212,8 +214,6 @@
 
 [Image]({{PAGE_BASE}}/components/image/): <classification>LLM should read this page when using the Image component as a replacement for the HTML img tag, displaying static images, or working with inline SVG content. The Image component provides a simple wrapper for image display with proper alt text support and src path specification.</classification>
 
-[SVGIcon]({{PAGE_BASE}}/icons/svg-icon/): <classification>LLM should read this page when using the SVGIcon component from @tonic-ui/react-icons for custom SVG icon implementation, creating accessible SVG icons with automatic scaling, or using the createSVGIcon utility. The SVGIcon component serves as a wrapper for custom SVG icons with built-in accessibility, automatic 16x16px viewport scaling, color inheritance, and support for direct SVG element children or external SVG files via the as prop.</classification>
-
 ### Navigation
 
 [Link]({{PAGE_BASE}}/components/link/): <classification>LLM should read this page when using the Link component for navigation and hyperlinks, implementing accessible link functionality, or creating both internal and external navigation with proper styling. Related to ButtonLink and LinkButton components.</classification>
@@ -249,6 +249,10 @@
 ### Typography
 
 [Code]({{PAGE_BASE}}/components/code/): <classification>LLM should read this page when using the Code component for displaying inline code or code snippets, formatting code content with monospace fonts, or implementing syntax highlighting and proper code presentation.</classification>
+
+[Highlight]({{PAGE_BASE}}/components/highlight/): <classification>LLM should read this page when using the Highlight component to highlight text that matches a search query, emphasizing matched terms within search results, or rendering query-matched substrings with distinct styling.</classification>
+
+[Mark]({{PAGE_BASE}}/components/mark/): <classification>LLM should read this page when using the Mark component to emphasize or draw attention to specific text, marking search keywords, or applying highlight-style variants to inline text.</classification>
 
 [Text]({{PAGE_BASE}}/components/text/): <classification>LLM should read this page when using the Text component for typography and text display, rendering text content with consistent styling, or applying various text properties like size, weight, and color across the application.</classification>
 
@@ -293,6 +297,8 @@
 [useEventListener]({{PAGE_BASE}}/hooks/useEventListener/): <classification>LLM should read this page when attaching event listeners to DOM elements or the window object, handling keyboard shortcuts, or implementing custom event handling with proper cleanup.</classification>
 
 [useHydrated]({{PAGE_BASE}}/hooks/useHydrated/): <classification>LLM should read this page when detecting if the component has been hydrated on the client side, handling server-side rendering differences, or conditionally rendering content based on hydration status.</classification>
+
+[useId]({{PAGE_BASE}}/hooks/useId/): <classification>LLM should read this page when generating unique, SSR-safe IDs for accessibility attributes and form elements, ensuring compatibility with React 18's built-in `useId` and providing a fallback for earlier React versions.</classification>
 
 [useIsomorphicEffect]({{PAGE_BASE}}/hooks/useIsomorphicEffect/): <classification>LLM should read this page when running effects that work consistently between server-side rendering and client-side rendering, handling SSR compatibility, or avoiding hydration mismatches.</classification>
 
