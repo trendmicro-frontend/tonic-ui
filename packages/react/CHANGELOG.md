@@ -1,5 +1,16 @@
 # @tonic-ui/react
 
+## 2.14.0
+
+### Minor Changes
+
+- feat: add `useSlot` for slot-based component customization by [@cheton](https://github.com/cheton) in [#1126](https://github.com/trendmicro-frontend/tonic-ui/pull/1126)
+
+### Patch Changes
+
+- Updated dependencies [[`d242a7e`](https://github.com/trendmicro-frontend/tonic-ui/commit/d242a7e7d0dcd9b4a5dea05b758420fb3b529f6f)]
+  - @tonic-ui/utils@2.3.0
+
 ## 2.13.0
 
 ### Minor Changes
