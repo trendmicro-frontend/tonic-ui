@@ -1,5 +1,11 @@
 # @tonic-ui/utils
 
+## 2.3.0
+
+### Minor Changes
+
+- feat(utils): skip deprecation and removed prop warnings in production by [@cheton](https://github.com/cheton) in [`d242a7e`](https://github.com/trendmicro-frontend/tonic-ui/commit/d242a7e7d0dcd9b4a5dea05b758420fb3b529f6f)
+
 ## 2.2.0
 
 ### Minor Changes
