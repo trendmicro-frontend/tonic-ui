@@ -1,0 +1,1 @@
+(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[4052],{14989:(_,n,e)=>{(window.__NEXT_P=window.__NEXT_P||[]).push(["/components/color-style",function(){return e(79513)}])}},_=>{_.O(0,[6503,9513,636,6593,8792],()=>_(_.s=14989)),_N_E=_.O()}]);
