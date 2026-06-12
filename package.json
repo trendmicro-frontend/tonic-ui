@@ -37,7 +37,7 @@
     "@commitlint/config-conventional": "17.x",
     "@tonic-ui/changelog-github": "workspace:*",
     "husky": "8.x",
-    "lerna": "7.x"
+    "lerna": "9.x"
   },
   "packageManager": "yarn@3.2.4"
 }
