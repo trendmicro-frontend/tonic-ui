@@ -132,6 +132,10 @@ test('should match expected exports', () => {
     'Link',
     'LinkButton',
 
+    // list
+    'List',
+    'ListItem',
+
     // mark
     'Mark',
 

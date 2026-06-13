@@ -23,6 +23,7 @@ export * from './icon';
 export * from './image';
 export * from './input';
 export * from './link';
+export * from './list';
 export * from './mark';
 export * from './menu';
 export * from './modal';

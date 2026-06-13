@@ -1,0 +1,42 @@
+# List
+
+`List` and `ListItem` are used to display a list of items.
+
+## Import
+
+```js
+import { List, ListItem } from '@tonic-ui/react';
+```
+
+## Usage
+
+### Unordered
+
+{render('./unordered')}
+
+### Ordered
+
+Pass `as="ol"` to render an ordered list.
+
+{render('./ordered')}
+
+### Custom marker
+
+Use `listStyleType` to change the marker. It accepts any CSS [`list-style-type`](https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-type) value. Select one below to preview it on the list.
+
+{render('./custom')}
+
+## Props
+
+### List
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| as | string | 'ul' | The HTML element to render. Set to `'ol'` for an ordered list. |
+| children | node | | The content of the list. |
+
+### ListItem
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | node | | The content of the list item. |

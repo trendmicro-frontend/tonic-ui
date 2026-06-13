@@ -415,6 +415,17 @@ export const routes = [
       },
       { title: 'Highlight', path: 'components/highlight' },
       {
+        title: 'List',
+        path: 'components/list',
+        render: () => {
+          return (
+            <Tooltip label={<Text>tag: ul</Text>}>
+              <CodeIcon cursor="default" />
+            </Tooltip>
+          );
+        },
+      },
+      {
         title: 'Mark',
         path: 'components/mark',
         render: () => {
