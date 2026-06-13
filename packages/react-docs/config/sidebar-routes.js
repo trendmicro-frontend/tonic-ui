@@ -95,7 +95,6 @@ export const routes = [
       { title: 'SearchDropdown', path: 'experiments/search-dropdown' },
 
       { title: 'TYPOGRAPHY', heading: true },
-      { title: 'List', path: 'experiments/list' },
       { title: 'MutedText', path: 'experiments/muted-text' },
 
       { title: 'MISCELLANEOUS', heading: true },
