@@ -10,11 +10,11 @@ import {
   Flex,
   Grid,
   Highlight,
+  List,
+  ListItem,
   Text,
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
-import List from '@/experiments/list/List';
-import ListItem from '@/experiments/list/ListItem';
 import { useState } from 'react';
 import { fruitItems } from './constants';
 
