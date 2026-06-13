@@ -87,6 +87,10 @@ test('should match expected exports', () => {
     'DrawerOverlay',
     'useDrawer',
 
+    // environment
+    'EnvironmentProvider',
+    'useEnvironment',
+
     // flex
     'Flex',
 

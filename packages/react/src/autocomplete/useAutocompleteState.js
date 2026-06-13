@@ -2,6 +2,7 @@ import { useClickOutside, useId, usePrevious } from '@tonic-ui/react-hooks';
 import { ariaAttr, callEventHandlers, dataAttr, isNullish, isPlainObject } from '@tonic-ui/utils';
 import { ensureFunction, ensureString } from 'ensure-type';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEnvironment } from '../environment';
 
 const defaultGetItemLabel = (item) => {
   if (isNullish(item)) {
@@ -49,6 +50,7 @@ const useAutocompleteState = ({
   selectOnFocus = false,
   value: valueProp,
 } = {}) => {
+  const { getDocument } = useEnvironment();
   const isInputValueControlled = (inputValueProp !== undefined);
   const isValueControlled = (valueProp !== undefined);
 
@@ -245,11 +247,11 @@ const useAutocompleteState = ({
       // for jsdom (test env), which doesn't implement it on `Element.prototype`;
       // real browsers always have it.
       requestAnimationFrame(() => {
-        const el = document.getElementById(getItemId(index));
+        const el = getDocument().getElementById(getItemId(index));
         el?.scrollIntoView?.({ block: 'nearest', behavior: 'instant' });
       });
     }
-  }, [onHighlightChange, filteredItems, getItemId]);
+  }, [getDocument, onHighlightChange, filteredItems, getItemId]);
 
   const clearValue = useCallback(() => {
     if (!isValueControlled) {

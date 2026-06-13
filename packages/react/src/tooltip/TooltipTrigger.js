@@ -1,8 +1,9 @@
 import { useEventListener, useMergeRefs } from '@tonic-ui/react-hooks';
-import { callEventHandlers, getOwnerDocument } from '@tonic-ui/utils';
+import { callEventHandlers } from '@tonic-ui/utils';
 import { Children, cloneElement, forwardRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import { useEnvironment } from '../environment';
 import { mergeRefs } from '../utils/refs';
 import { useTooltipTriggerStyle } from './styles';
 import useTooltip from './useTooltip';
@@ -35,6 +36,7 @@ const TooltipTrigger = forwardRef((inProps, ref) => {
     tooltipTriggerId,
     tooltipTriggerRef,
   } = useTooltip();
+  const { getDocument } = useEnvironment();
   const combinedRef = useMergeRefs(tooltipTriggerRef, ref);
   const styleProps = useTooltipTriggerStyle();
   const [enableMouseMove, setEnableMouseMove] = useState(true);
@@ -84,7 +86,7 @@ const TooltipTrigger = forwardRef((inProps, ref) => {
   };
 
   useEventListener(
-    () => getOwnerDocument(tooltipTriggerRef.current), // owner document
+    () => getDocument(), // environment document
     'keydown',
     closeOnEsc ? eventHandler.onKeyDown : undefined,
   );

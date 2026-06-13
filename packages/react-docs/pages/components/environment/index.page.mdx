@@ -1,0 +1,120 @@
+# Environment
+
+The `EnvironmentProvider` enables Tonic UI components to work correctly in non-standard DOM environments such as iframes, Shadow DOM, or Electron applications.
+
+## Why do I need this?
+
+**TL;DR:** If your app renders in a standard browser environment, you don't need to configure anything. The environment context is automatically provided by default.
+
+Many Tonic UI components internally use DOM APIs like `document.querySelector()` or `window.getComputedStyle()`. In standard environments, these work fine. However, in special contexts like iframes or Shadow DOM, the global `document` and `window` objects don't reference the correct context, causing components to malfunction.
+
+The `EnvironmentProvider` solves this by providing the correct DOM context to all components.
+
+## When do I need to configure this?
+
+You need to configure the environment when rendering your application in:
+
+- **Shadow DOM** - Components are rendered inside a shadow root
+- **iframes** - Components are rendered inside an iframe's document
+- **Electron apps** - When using multiple browser windows
+- **Web Components** - When building custom elements with isolated DOM trees
+
+For standard browser applications, the default configuration works out of the box.
+
+## Setup
+
+By using `TonicProvider` at root of your application, it will add `EnvironmentProvider` internally to provide the environment context to all components.
+
+To get environment working correctly in non-standard DOM contexts, you need to pass the `environment` config to `TonicProvider` with `value` set to your custom root node.
+
+```jsx
+import React from 'react';
+import { Box, TonicProvider } from '@tonic-ui/react';
+
+function App(props) {
+  return (
+    <TonicProvider
+      /**
+       * The `environment` config
+       * @param {RootNode | (() => RootNode)} value The root node or a function that returns the root node.
+       */
+      environment={{
+        value: document, // or `() => document`
+      }}
+    >
+      <Box {...props} />
+    </TonicProvider>
+  );
+}
+```
+
+The above setup is equivalent to:
+
+```jsx
+<EnvironmentProvider value={document}>
+  <Box {...props} />
+</EnvironmentProvider>
+```
+
+**Note:** Use a function `() => rootNode` when the root node might change or isn't available during initial render.
+
+## Examples
+
+### Usage with Shadow DOM
+
+To render components inside a Shadow DOM, configure the `environment` prop with the shadow root. This ensures modals and other portal-based components render within the shadow DOM boundary:
+
+{render('./usage-in-shadow-dom')}
+
+### Usage with iframe
+
+To render components inside an iframe, configure the `environment` prop with the iframe's document. This ensures modals and other portal-based components render within the iframe context:
+
+{render('./usage-in-iframe')}
+
+### Why the environment matters in an iframe
+
+An iframe is a separate realm: its `document` and `window` are different objects from the page's global `document` and `window`. Since Tonic UI components render into the iframe from the parent page's JavaScript, the global `document`/`window` point at the parent page — the wrong realm. Configuring the `environment` lets `useEnvironment()` resolve to the iframe's own `document` and `window`. The example below renders the same probe twice — without the environment config (falls back to the global document/window) and with it (resolves to the iframe's):
+
+{render('./usage-in-iframe-environment')}
+
+## Using `useEnvironment` hook
+
+The [useEnvironment](./useEnvironment) hook provides access to the correct `document` and `window` objects for the current environment. Use it when you need to query DOM elements, add event listeners, measure elements, or create portals in your custom components.
+
+```jsx
+const { getRootNode, getDocument, getWindow } = useEnvironment();
+
+const doc = getDocument();
+const win = getWindow();
+
+// Query elements in the correct context
+const element = doc.querySelector('#my-element');
+
+// Get computed styles from the correct window
+const styles = win.getComputedStyle(element);
+```
+
+## Props
+
+### EnvironmentProvider
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | The content of the component. |
+| value | RootNode \| (() => RootNode) | `document` | The root node or a function that returns the root node. Can be a `Document`, `ShadowRoot`, or any `Node`. Use a function when the node might not be available during initial render. |
+
+### useEnvironment
+
+The `useEnvironment` hook returns an object with the following methods:
+
+| Method | Return Type | Description |
+| :----- | :---------- | :---------- |
+| getRootNode | () => RootNode | Returns the root node of the current environment. |
+| getDocument | () => Document | Returns the document object for the current environment. |
+| getWindow | () => Window | Returns the window object for the current environment. |
+
+## See also
+
+- [Customization › Shadow DOM](../../customization/shadow-dom)
+- [useEnvironment](./useEnvironment)

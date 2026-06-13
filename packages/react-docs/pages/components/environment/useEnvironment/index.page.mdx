@@ -1,0 +1,40 @@
+# useEnvironment
+
+`useEnvironment` is a custom Hook that provides access to the current DOM environment context, allowing you to interact with the correct `document` and `window` objects in non-standard environments like Shadow DOM or iframes.
+
+Use `useEnvironment` when you need to:
+- Query DOM elements in the correct context
+- Add event listeners to the correct window/document
+- Measure elements using the correct viewport
+- Create portals to the correct document
+- Access any DOM API that depends on the current environment
+
+## Import
+
+```js
+import { useEnvironment } from '@tonic-ui/react';
+```
+
+## Usage
+
+```js
+const { getRootNode, getDocument, getWindow } = useEnvironment();
+```
+
+### Returns
+
+The hook returns an object with the following methods:
+
+| Method | Return Type | Description |
+| :----- | :---------- | :---------- |
+| getRootNode | () => RootNode | Returns the root node of the current environment (Document, ShadowRoot, or Node). |
+| getDocument | () => Document | Returns the document object for the current environment. |
+| getWindow | () => Window | Returns the window object for the current environment. |
+
+## Demos
+
+{render('./viewport-size')}
+
+## See also
+
+- [EnvironmentProvider](../)

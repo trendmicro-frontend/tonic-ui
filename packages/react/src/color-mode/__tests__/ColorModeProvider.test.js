@@ -86,7 +86,7 @@ describe('ColorModeProvider', () => {
     };
     const { result } = renderHook(() => useColorMode(), { wrapper: WrapperComponent });
 
-    expect(getColorSchemeSpy).toHaveBeenCalledWith('light');
+    expect(getColorSchemeSpy).toHaveBeenCalledWith('light', expect.anything());
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(onChange).toHaveBeenCalledWith('dark');
     expect(result.current[0]).toEqual('dark');

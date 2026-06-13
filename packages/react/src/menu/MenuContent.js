@@ -4,6 +4,7 @@ import { ensureArray, ensureFunction } from 'ensure-type';
 import { forwardRef, useMemo, useRef } from 'react';
 import { useSlot } from '../slot';
 import { useDefaultProps } from '../default-props';
+import { useEnvironment } from '../environment';
 import { Popper } from '../popper';
 import { Collapse } from '../transitions';
 import { useMenuContentStyle } from './styles';
@@ -75,13 +76,14 @@ const MenuContent = forwardRef((inProps, ref) => {
     portalled,
     submenuContentRefs,
   } = { ...menuContext };
+  const { getDocument } = useEnvironment();
   const eventHandler = {};
 
   // Close the menu on blur
   eventHandler.onBlur = function (event) {
     // https://developer.mozilla.org/en-US/docs/Web/API/FocusEvent/relatedTarget
     // The relatedTarget property represents the `EventTarget` receiving focus or losing focus during a `blur` or `focus` event, respectively.
-    const focusTarget = event.relatedTarget || document.activeElement; // `relatedTarget` is the `EventTarget` receiving focus (if any)
+    const focusTarget = event.relatedTarget || getDocument().activeElement; // `relatedTarget` is the `EventTarget` receiving focus (if any)
     const isOutsideMenuToggle = !(menuToggleRef.current?.contains?.(focusTarget));
     const isOutsideMenuContent = !(menuContentRef.current?.contains?.(focusTarget));
 

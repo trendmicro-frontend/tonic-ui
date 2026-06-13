@@ -3,6 +3,7 @@ import { callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils';
 import { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import { useEnvironment } from '../environment';
 import { useSlot } from '../slot';
 import InputBase from './InputBase';
 import { defaultSize, defaultVariant } from './constants';
@@ -53,6 +54,7 @@ const InputControl = forwardRef((inProps, ref) => {
     variant: variantProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'InputControl' });
+  const { getWindow } = useEnvironment();
 
   { // deprecation warning
     const prefix = `${InputControl.displayName}:`;
@@ -173,7 +175,8 @@ const InputControl = forwardRef((inProps, ref) => {
 
     let mutationObserver = null;
 
-    const MutationObserver = globalThis.MutationObserver ?? globalThis.WebKitMutationObserver;
+    const ownerWindow = getWindow();
+    const MutationObserver = ownerWindow.MutationObserver ?? ownerWindow.WebKitMutationObserver;
 
     if (typeof MutationObserver !== 'undefined') {
       mutationObserver = new MutationObserver((mutations) => {
@@ -190,7 +193,7 @@ const InputControl = forwardRef((inProps, ref) => {
         mutationObserver.disconnect();
       }
     };
-  }, [el, valid]);
+  }, [el, valid, getWindow]);
 
   const [InputSlot, inputSlotProps] = useSlot({
     name: 'input',

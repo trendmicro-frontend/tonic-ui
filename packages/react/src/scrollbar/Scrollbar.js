@@ -4,6 +4,7 @@ import { ensurePositiveFiniteNumber } from 'ensure-type';
 import { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import { useEnvironment } from '../environment';
 import {
   useContainerStyle,
   useScrollViewStyle,
@@ -66,6 +67,7 @@ const Scrollbar = forwardRef((inProps, ref) => {
   }
 
   const isHydrated = useHydrated();
+  const { getDocument, getWindow } = useEnvironment();
 
   const currentScrollLeftRef = useRef(0);
   const currentScrollTopRef = useRef(0);
@@ -466,20 +468,21 @@ const Scrollbar = forwardRef((inProps, ref) => {
   }, []);
 
   useEffect(() => {
+    const ownerDocument = getDocument();
     const isDragging = isDraggingRef.current;
     if (isDragging) {
-      document.addEventListener('mousemove', handleDrag);
-      document.addEventListener('mouseup', handleDragEnd);
+      ownerDocument.addEventListener('mousemove', handleDrag);
+      ownerDocument.addEventListener('mouseup', handleDragEnd);
     }
     if (!isDragging) {
-      document.removeEventListener('mousemove', handleDrag);
-      document.removeEventListener('mouseup', handleDragEnd);
+      ownerDocument.removeEventListener('mousemove', handleDrag);
+      ownerDocument.removeEventListener('mouseup', handleDragEnd);
     }
     return () => {
-      document.removeEventListener('mousemove', handleDrag);
-      document.removeEventListener('mouseup', handleDragEnd);
+      ownerDocument.removeEventListener('mousemove', handleDrag);
+      ownerDocument.removeEventListener('mouseup', handleDragEnd);
     };
-  }, [startDragging, handleDrag, handleDragEnd]);
+  }, [getDocument, startDragging, handleDrag, handleDragEnd]);
 
   const el = nodeRef?.current;
 
@@ -494,8 +497,9 @@ const Scrollbar = forwardRef((inProps, ref) => {
     let mutationObserver = null;
     let resizeObserver = null;
 
-    const MutationObserver = globalThis.MutationObserver ?? globalThis.WebKitMutationObserver;
-    const ResizeObserver = globalThis.ResizeObserver;
+    const ownerWindow = getWindow();
+    const MutationObserver = ownerWindow.MutationObserver ?? ownerWindow.WebKitMutationObserver;
+    const ResizeObserver = ownerWindow.ResizeObserver;
 
     if (typeof MutationObserver !== 'undefined') {
       mutationObserver = new MutationObserver((mutations) => {
@@ -537,7 +541,7 @@ const Scrollbar = forwardRef((inProps, ref) => {
         resizeObserver.disconnect();
       }
     };
-  }, [update, el]);
+  }, [update, el, getWindow]);
 
   const containerStyle = useContainerStyle({ width, height, minWidth, maxWidth, minHeight, maxHeight });
   const scrollViewStyle = useScrollViewStyle({ width, height, minWidth, maxWidth, minHeight, maxHeight, overflowX, overflowY });

@@ -1,5 +1,7 @@
 # useSlot Migration Implementation Plan
 
+> **Status: ✅ COMPLETED & MERGED** — all 12 components were migrated to the `slots`/`slotProps` API and shipped in `748a7230b0` (`feat(react): add useSlot and migrate components to slots/slotProps API (#1126)`). Every target file uses `useSlot` with its deprecation block, and every migration test file exists. Checkboxes below are retained as the historical task record.
+
 > **For agentic workers:** Each task below is dispatched to a **fresh Sonnet subagent**. Every subagent MUST invoke the `/tonic-ui-use-slot` skill first — it is the authoritative implementation spec. This plan documents per-component deltas, the required tests, and verification. Each task is **test-first** (write failing acceptance tests → migrate → green). Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Migrate 11 Tonic UI components from the deprecated `TransitionComponent`/`TransitionProps` (and `PopperComponent`/`PopperProps`) API to the `useSlot` hook with `slots`/`slotProps`.
@@ -165,11 +167,11 @@ Default transition: `Fade`. Mirror `ModalContent` closely (same directory, same 
 
 Note: the current file builds an `overlayProps` object (`ref`, `...styleProps`, `...rest`) and spreads it onto `<TransitionComponent>`. Decompose that into the `props`/after-spread split above; drop the intermediate `overlayProps` object if it no longer carries its weight.
 
-- [ ] **Test first:** Invoke `/tonic-ui-use-slot`; read `ModalContent.js` + `Modal.test.js`; add recipe tests A/B/C for `ModalOverlay` (render an open `<Modal>` and assert on the overlay). Prefix = `ModalOverlay:`.
-- [ ] Run `yarn jest src/modal --watchAll=false` → new tests FAIL (slots not supported yet)
-- [ ] Add `slots`/`slotProps` to destructure; add deprecation block; replace `<TransitionComponent>` with `useSlot` + `<TransitionSlot>`; update imports (add `useOnceWhen`, `warnDeprecatedProps`; keep `callAll`)
-- [ ] Run `yarn jest src/modal --watchAll=false` → all PASS; then snapshot diff + lint (Verification, `<dir>` = `modal`)
-- [ ] Commit: `feat(react): migrate ModalOverlay to slots/slotProps API`
+- [x] **Test first:** Invoke `/tonic-ui-use-slot`; read `ModalContent.js` + `Modal.test.js`; add recipe tests A/B/C for `ModalOverlay` (render an open `<Modal>` and assert on the overlay). Prefix = `ModalOverlay:`.
+- [x] Run `yarn jest src/modal --watchAll=false` → new tests FAIL (slots not supported yet)
+- [x] Add `slots`/`slotProps` to destructure; add deprecation block; replace `<TransitionComponent>` with `useSlot` + `<TransitionSlot>`; update imports (add `useOnceWhen`, `warnDeprecatedProps`; keep `callAll`)
+- [x] Run `yarn jest src/modal --watchAll=false` → all PASS; then snapshot diff + lint (Verification, `<dir>` = `modal`)
+- [x] Commit: `feat(react): migrate ModalOverlay to slots/slotProps API`
 
 ---
 
@@ -191,11 +193,11 @@ props: { ref: combinedRef, appear: !!drawerContext, direction: transitionDirecti
 ### DrawerOverlay — default `Fade` (same shape as ModalOverlay)
 `props: { ref: combinedRef, appear: !!drawerContext }`; `onExited={callAll(safeToRemove, transitionSlotProps.onExited)}` after spread.
 
-- [ ] **Test first:** Invoke `/tonic-ui-use-slot`; read `ModalContent.js` + both drawer files + `Drawer.test.js`; add recipe tests A/B/C for **both** `DrawerContent` (prefix `DrawerContent:`) and `DrawerOverlay` (prefix `DrawerOverlay:`)
-- [ ] Run `yarn jest src/drawer --watchAll=false` → new tests FAIL
-- [ ] Migrate `DrawerContent` (computed `direction` → `props`); migrate `DrawerOverlay`; update imports in both
-- [ ] Run `yarn jest src/drawer --watchAll=false` → all PASS; snapshot diff + lint (`<dir>` = `drawer`)
-- [ ] Commit: `feat(react): migrate DrawerContent and DrawerOverlay to slots/slotProps API`
+- [x] **Test first:** Invoke `/tonic-ui-use-slot`; read `ModalContent.js` + both drawer files + `Drawer.test.js`; add recipe tests A/B/C for **both** `DrawerContent` (prefix `DrawerContent:`) and `DrawerOverlay` (prefix `DrawerOverlay:`)
+- [x] Run `yarn jest src/drawer --watchAll=false` → new tests FAIL
+- [x] Migrate `DrawerContent` (computed `direction` → `props`); migrate `DrawerOverlay`; update imports in both
+- [x] Run `yarn jest src/drawer --watchAll=false` → all PASS; snapshot diff + lint (`<dir>` = `drawer`)
+- [x] Commit: `feat(react): migrate DrawerContent and DrawerOverlay to slots/slotProps API`
 
 ---
 
@@ -210,11 +212,11 @@ Default transition: `Collapse`. Renders a plain `<Box>` when there is **no** acc
 **`props`:** `ref`, `appear: false`, `'aria-hidden': ariaAttr(!context?.isExpanded)`, `'aria-labelledby': context?.accordionToggleId`, `id: context?.accordionContentId`, `role: 'region'` (match the actual attrs in the file).
 **After spread:** `{...rest} in={context.isExpanded}`.
 
-- [ ] **Test first:** Invoke `/tonic-ui-use-slot`; read `ModalContent.js` + `AccordionContent.js` + the accordion test file; add recipe tests A/B/C (render an expanded `<Accordion>` with context). Prefix = `AccordionContent:`. Also add one assertion that the **no-context fallback still renders a `<Box>`** (regression guard).
-- [ ] Run `yarn jest src/accordion --watchAll=false` → new tests FAIL
-- [ ] Add `slots`/`slotProps` + deprecation block; call `useSlot` BEFORE the `if (!context) return <Box .../>` early return (hooks run unconditionally); leave the fallback `<Box>` untouched; replace the context-present `<TransitionComponent>` with `<TransitionSlot>`; update imports
-- [ ] Run `yarn jest src/accordion --watchAll=false` → all PASS; snapshot diff + lint (`<dir>` = `accordion`)
-- [ ] Commit: `feat(react): migrate AccordionContent to slots/slotProps API`
+- [x] **Test first:** Invoke `/tonic-ui-use-slot`; read `ModalContent.js` + `AccordionContent.js` + the accordion test file; add recipe tests A/B/C (render an expanded `<Accordion>` with context). Prefix = `AccordionContent:`. Also add one assertion that the **no-context fallback still renders a `<Box>`** (regression guard).
+- [x] Run `yarn jest src/accordion --watchAll=false` → new tests FAIL
+- [x] Add `slots`/`slotProps` + deprecation block; call `useSlot` BEFORE the `if (!context) return <Box .../>` early return (hooks run unconditionally); leave the fallback `<Box>` untouched; replace the context-present `<TransitionComponent>` with `<TransitionSlot>`; update imports
+- [x] Run `yarn jest src/accordion --watchAll=false` → all PASS; snapshot diff + lint (`<dir>` = `accordion`)
+- [x] Commit: `feat(react): migrate AccordionContent to slots/slotProps API`
 
 ---
 
@@ -235,11 +237,11 @@ The original spreads `TransitionProps` **last**, letting the user override `in`.
 **`props`:** `appear: false`, `role: 'group'`, `unmountOnExit: true`. (No internal `ref`/`combinedRef` is passed to the transition here — `combinedRef` belongs to the outer Box. Do not invent one.)
 **After spread:** `in={isExpanded}`.
 
-- [ ] **Test first:** Invoke `/tonic-ui-use-slot`; read `ModalContent.js` + `TreeItem.js` + the tree test file; add recipe tests A/B/C for a `<TreeItem>` that has children (so the expandable branch renders). Prefix = `TreeItem:`.
-- [ ] Run `yarn jest src/tree --watchAll=false` → new tests FAIL
-- [ ] Add `slots = {}`, `slotProps = {}` to destructure; remove `TransitionComponent = Collapse` default and resolve via `slots.transition ?? TransitionComponent ?? Collapse`; add deprecation block (`prefix = ${TreeItem.displayName}:`); replace the `<TransitionComponent>` inside `<Descendant>` with `<TransitionSlot>` (keep `in` after spread); update imports (add `useOnceWhen`, `warnDeprecatedProps`)
-- [ ] Run `yarn jest src/tree --watchAll=false` → all PASS; snapshot diff + lint (`<dir>` = `tree`)
-- [ ] Commit: `feat(react): migrate TreeItem to slots/slotProps API`
+- [x] **Test first:** Invoke `/tonic-ui-use-slot`; read `ModalContent.js` + `TreeItem.js` + the tree test file; add recipe tests A/B/C for a `<TreeItem>` that has children (so the expandable branch renders). Prefix = `TreeItem:`.
+- [x] Run `yarn jest src/tree --watchAll=false` → new tests FAIL
+- [x] Add `slots = {}`, `slotProps = {}` to destructure; remove `TransitionComponent = Collapse` default and resolve via `slots.transition ?? TransitionComponent ?? Collapse`; add deprecation block (`prefix = ${TreeItem.displayName}:`); replace the `<TransitionComponent>` inside `<Descendant>` with `<TransitionSlot>` (keep `in` after spread); update imports (add `useOnceWhen`, `warnDeprecatedProps`)
+- [x] Run `yarn jest src/tree --watchAll=false` → all PASS; snapshot diff + lint (`<dir>` = `tree`)
+- [x] Commit: `feat(react): migrate TreeItem to slots/slotProps API`
 
 ---
 
@@ -253,11 +255,11 @@ Default transition: `ToastTransition` (currently `TransitionComponent = ToastTra
 
 **Key sizing note:** `useSlot` is a hook — call it ONCE at the top level (near the other hooks) to get `[TransitionSlot, transitionSlotProps]`; do NOT call it inside `.map`. Inside the map, use `<TransitionSlot {...transitionSlotProps} ...>` with per-toast props (`key`, `in`, the toast's data/handlers) applied after the spread.
 
-- [ ] **Test first:** Invoke `/tonic-ui-use-slot`; read `ModalContent.js` + `ToastManager.js` (esp. lines 40–60, 225–262) + the existing test (note it already renders with `state`/toasts and uses a `data-testid="custom-container"` pattern); add recipe tests A/B/C — render `ToastManager` with at least one toast so the map produces a transition. Prefix = `ToastManager:`.
-- [ ] Run `yarn jest src/toast --watchAll=false` → new tests FAIL
-- [ ] Add `slots`/`slotProps`; resolve `slots.transition ?? TransitionComponent ?? ToastTransition` (remove the `= ToastTransition` default); add deprecation block; call `useSlot` at top level; replace `<TransitionComponent>` in the map with `<TransitionSlot>` (per-toast props after spread); update imports
-- [ ] Run `yarn jest src/toast --watchAll=false` → all PASS; snapshot diff + lint (`<dir>` = `toast`)
-- [ ] Commit: `feat(react): migrate ToastManager to slots/slotProps API`
+- [x] **Test first:** Invoke `/tonic-ui-use-slot`; read `ModalContent.js` + `ToastManager.js` (esp. lines 40–60, 225–262) + the existing test (note it already renders with `state`/toasts and uses a `data-testid="custom-container"` pattern); add recipe tests A/B/C — render `ToastManager` with at least one toast so the map produces a transition. Prefix = `ToastManager:`.
+- [x] Run `yarn jest src/toast --watchAll=false` → new tests FAIL
+- [x] Add `slots`/`slotProps`; resolve `slots.transition ?? TransitionComponent ?? ToastTransition` (remove the `= ToastTransition` default); add deprecation block; call `useSlot` at top level; replace `<TransitionComponent>` in the map with `<TransitionSlot>` (per-toast props after spread); update imports
+- [x] Run `yarn jest src/toast --watchAll=false` → all PASS; snapshot diff + lint (`<dir>` = `toast`)
+- [x] Commit: `feat(react): migrate ToastManager to slots/slotProps API`
 
 ---
 
@@ -303,11 +305,11 @@ Both have BOTH a Popper slot and a Transition slot. Default transition: `Collaps
 ```
 Preserve the original handler chaining exactly (match the variable names in each file). Use whatever `ensureArray` source the repo already uses (`@tonic-ui/utils` or `ensure-type`).
 
-- [ ] **Test first:** Invoke `/tonic-ui-use-slot`; read `ModalContent.js` + both menu files + the menu test file; add the **transition** recipe trio (A/B/C) AND the **popper** recipe trio (custom popper stand-in must invoke its render-prop child — see recipe) for `MenuContent`. Prefixes = `MenuContent:`. (SubmenuContent: at minimum add the deprecation-warning tests with prefix `SubmenuContent:`; replicate slot tests if the existing harness makes it practical.)
-- [ ] Run `yarn jest src/menu --watchAll=false` → new tests FAIL
-- [ ] Migrate `MenuContent`: popper slot + transition slot, two deprecation blocks, explicit `modifiers` merge; migrate `SubmenuContent` identically; update imports in both (`useSlot`, `useOnceWhen`, `warnDeprecatedProps`, `callAll`, `callEventHandlers`, `ensureArray`)
-- [ ] Run `yarn jest src/menu --watchAll=false` → all PASS; snapshot diff + lint (`<dir>` = `menu`)
-- [ ] Commit: `feat(react): migrate MenuContent and SubmenuContent to slots/slotProps API`
+- [x] **Test first:** Invoke `/tonic-ui-use-slot`; read `ModalContent.js` + both menu files + the menu test file; add the **transition** recipe trio (A/B/C) AND the **popper** recipe trio (custom popper stand-in must invoke its render-prop child — see recipe) for `MenuContent`. Prefixes = `MenuContent:`. (SubmenuContent: at minimum add the deprecation-warning tests with prefix `SubmenuContent:`; replicate slot tests if the existing harness makes it practical.)
+- [x] Run `yarn jest src/menu --watchAll=false` → new tests FAIL
+- [x] Migrate `MenuContent`: popper slot + transition slot, two deprecation blocks, explicit `modifiers` merge; migrate `SubmenuContent` identically; update imports in both (`useSlot`, `useOnceWhen`, `warnDeprecatedProps`, `callAll`, `callEventHandlers`, `ensureArray`)
+- [x] Run `yarn jest src/menu --watchAll=false` → all PASS; snapshot diff + lint (`<dir>` = `menu`)
+- [x] Commit: `feat(react): migrate MenuContent and SubmenuContent to slots/slotProps API`
 
 ---
 
@@ -324,11 +326,11 @@ Same Popper + Transition structure as Task 6. Default transition: `Grow`. **Diff
 
 **Parent threading:** `Tooltip.js` renders `TooltipContent` internally and forwards the deprecated props. Drop its `TooltipArrowComponent = TooltipArrow` (and the now-unused `TooltipArrow` import); `slots`/`slotProps` are already threaded so the `arrow` slot flows through.
 
-- [ ] **Test first:** Invoke `/tonic-ui-use-slot`; read `ModalContent.js` + `TooltipContent.js` + `Tooltip.js` + the tooltip test file; add transition trio + popper trio + **arrow trio** (custom popper stand-in must call its render-prop child; arrow defaults on). Render a visible/open tooltip. Prefix = `TooltipContent:`.
-- [ ] Run `yarn jest src/tooltip --watchAll=false` → new tests FAIL
-- [ ] Migrate popper + transition + arrow slots (default transition `Grow`); three deprecation blocks (transition/popper/arrow); explicit `modifiers` merge; preserve render-prop children; thread `Tooltip.js`; update imports
-- [ ] Run `yarn jest src/tooltip --watchAll=false` → all PASS; snapshot diff (`<dir>` = `tooltip`)
-- [ ] Commit: `feat(react): migrate TooltipContent to slots/slotProps API` (+ `feat(react): add arrow slot to TooltipContent` if done as a follow-up)
+- [x] **Test first:** Invoke `/tonic-ui-use-slot`; read `ModalContent.js` + `TooltipContent.js` + `Tooltip.js` + the tooltip test file; add transition trio + popper trio + **arrow trio** (custom popper stand-in must call its render-prop child; arrow defaults on). Render a visible/open tooltip. Prefix = `TooltipContent:`.
+- [x] Run `yarn jest src/tooltip --watchAll=false` → new tests FAIL
+- [x] Migrate popper + transition + arrow slots (default transition `Grow`); three deprecation blocks (transition/popper/arrow); explicit `modifiers` merge; preserve render-prop children; thread `Tooltip.js`; update imports
+- [x] Run `yarn jest src/tooltip --watchAll=false` → all PASS; snapshot diff (`<dir>` = `tooltip`)
+- [x] Commit: `feat(react): migrate TooltipContent to slots/slotProps API` (+ `feat(react): add arrow slot to TooltipContent` if done as a follow-up)
 
 ---
 
@@ -340,11 +342,11 @@ Same Popper + Transition structure as Task 6. Default transition: `Grow`. **Diff
 
 Same as Task 7 (default transition `Grow`, render-prop children). **`arrow` slot:** PopoverContent renders `<PopoverArrowComponent {...PopoverArrowProps} />`. Migrate it to `slots.arrow ?? PopoverArrowComponent ?? PopoverArrow` / `slotProps.arrow ?? PopoverArrowProps`, add the two deprecation warnings, and drop the `= PopoverArrow` default. **No parent threading needed** — `PopoverContent` is a user-facing child (not rendered internally by `Popover`), so `slots`/`slotProps`/deprecated props reach it directly.
 
-- [ ] **Test first:** Invoke `/tonic-ui-use-slot`; read `ModalContent.js` + `PopoverContent.js` + the popover test file; add transition trio + popper trio + **arrow trio** (custom popper stand-in calls render-prop child; arrow defaults on). Render an open popover. Prefix = `PopoverContent:`.
-- [ ] Run `yarn jest src/popover --watchAll=false` → new tests FAIL
-- [ ] Migrate popper + transition + arrow slots (default transition `Grow`); three deprecation blocks; explicit `modifiers` merge; preserve render-prop children; update imports
-- [ ] Run `yarn jest src/popover --watchAll=false` → all PASS; snapshot diff (`<dir>` = `popover`)
-- [ ] Commit: `feat(react): migrate PopoverContent to slots/slotProps API` (+ `feat(react): add arrow slot to PopoverContent` if done as a follow-up)
+- [x] **Test first:** Invoke `/tonic-ui-use-slot`; read `ModalContent.js` + `PopoverContent.js` + the popover test file; add transition trio + popper trio + **arrow trio** (custom popper stand-in calls render-prop child; arrow defaults on). Render an open popover. Prefix = `PopoverContent:`.
+- [x] Run `yarn jest src/popover --watchAll=false` → new tests FAIL
+- [x] Migrate popper + transition + arrow slots (default transition `Grow`); three deprecation blocks; explicit `modifiers` merge; preserve render-prop children; update imports
+- [x] Run `yarn jest src/popover --watchAll=false` → all PASS; snapshot diff (`<dir>` = `popover`)
+- [x] Commit: `feat(react): migrate PopoverContent to slots/slotProps API` (+ `feat(react): add arrow slot to PopoverContent` if done as a follow-up)
 
 ---
 
@@ -356,11 +358,11 @@ Same as Task 7 (default transition `Grow`, render-prop children). **`arrow` slot
 
 Same Popper + Transition structure as Task 6 (default transition `Collapse`). **Difference:** this file already imports/uses `useEventCallback` (from `@tonic-ui/react-hooks`) for `onKeyDown`, and does NOT currently import `useOnceWhen` — **add `useOnceWhen` to the existing react-hooks import**. Keep the `useEventCallback` handler logic; route it through `callEventHandlers` after the spread if it was previously passed directly to the Popper.
 
-- [ ] **Test first:** Invoke `/tonic-ui-use-slot`; read `ModalContent.js` + `DatePickerContent.js`; create the test file with transition trio + popper trio (custom popper stand-in calls render-prop child). Prefix = `DatePickerContent:`.
-- [ ] Run `yarn jest src/date-pickers --watchAll=false` → new tests FAIL
-- [ ] Migrate popper slot + transition slot; two deprecation blocks (add `useOnceWhen` to the react-hooks import); explicit `modifiers` merge; preserve `useEventCallback` handlers; update imports
-- [ ] Run `yarn jest src/date-pickers --watchAll=false` → all PASS; lint (`yarn eslint` the component + new test)
-- [ ] Commit: `feat(react): migrate DatePickerContent to slots/slotProps API`
+- [x] **Test first:** Invoke `/tonic-ui-use-slot`; read `ModalContent.js` + `DatePickerContent.js`; create the test file with transition trio + popper trio (custom popper stand-in calls render-prop child). Prefix = `DatePickerContent:`.
+- [x] Run `yarn jest src/date-pickers --watchAll=false` → new tests FAIL
+- [x] Migrate popper slot + transition slot; two deprecation blocks (add `useOnceWhen` to the react-hooks import); explicit `modifiers` merge; preserve `useEventCallback` handlers; update imports
+- [x] Run `yarn jest src/date-pickers --watchAll=false` → all PASS; lint (`yarn eslint` the component + new test)
+- [x] Commit: `feat(react): migrate DatePickerContent to slots/slotProps API`
 
 ---
 

@@ -13,6 +13,7 @@ export * from './css-baseline';
 export * from './date-pickers';
 export * from './default-props';
 export * from './divider';
+export * from './environment';
 export * from './drawer';
 export * from './flex';
 export * from './form-control';

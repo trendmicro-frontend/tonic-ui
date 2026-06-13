@@ -4,6 +4,7 @@ import { ensurePositiveNumber } from 'ensure-type';
 import { forwardRef, useEffect, useRef } from 'react';
 import { useSlot } from '../slot';
 import { useDefaultProps } from '../default-props';
+import { useEnvironment } from '../environment';
 import { Fade } from '../transitions';
 import { useAnimatePresence } from '../utils/animate-presence';
 import {
@@ -19,6 +20,7 @@ const ModalOverlay = forwardRef((inProps, ref) => {
     slotProps = {},
     ...rest
   } = useDefaultProps({ props: inProps, name: 'ModalOverlay' });
+  const { getWindow } = useEnvironment();
 
   { // deprecation warning
     const prefix = `${ModalOverlay.displayName}:`;
@@ -90,7 +92,7 @@ const ModalOverlay = forwardRef((inProps, ref) => {
 
     let resizeObserver = null;
 
-    const ResizeObserver = globalThis.ResizeObserver;
+    const ResizeObserver = getWindow().ResizeObserver;
 
     if (typeof ResizeObserver !== 'undefined') {
       resizeObserver = new ResizeObserver((entries) => {
@@ -110,7 +112,7 @@ const ModalOverlay = forwardRef((inProps, ref) => {
         resizeObserver.disconnect();
       }
     };
-  }, [scrollBehavior, containerRef, contentRef]);
+  }, [scrollBehavior, containerRef, contentRef, getWindow]);
 
   return (
     <TransitionSlot
