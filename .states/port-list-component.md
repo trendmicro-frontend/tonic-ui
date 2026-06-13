@@ -21,6 +21,7 @@ _Branch: feat/list-component     Posture: supervised     Budget (run): n/a_
 - [x] U7 Update llms.txt — components/list added to Typography; experiments/list entry removed
 - [x] U8 Create changeset — `@tonic-ui/react` minor
 - [x] U9 Side-by-side verification — checker agent: PASS on all 9 file pairs and 5 structural checks
+- [x] U10 PR #496 gap check — found 10 files still importing from @/experiments/list; repointed autocomplete/playground.js, modal/usage.js, and 8 experiments pages → @tonic-ui/react (65e9e755d3)
 
 ## In progress
 
