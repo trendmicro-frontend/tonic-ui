@@ -9,18 +9,7 @@ import {
   isNullOrUndefined,
   warnDeprecatedProps,
 } from '@tonic-ui/utils';
-import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
-import addMonths from 'date-fns/addMonths';
-import endOfDay from 'date-fns/endOfDay';
-import format from 'date-fns/format';
-import isDate from 'date-fns/isDate';
-import isSameMonth from 'date-fns/isSameMonth';
-import isSameYear from 'date-fns/isSameYear';
-import isValid from 'date-fns/isValid';
-import startOfDay from 'date-fns/startOfDay';
-import startOfMonth from 'date-fns/startOfMonth';
-import startOfWeek from 'date-fns/startOfWeek';
-import subMonths from 'date-fns/subMonths';
+import { addMonths, differenceInCalendarDays, endOfDay, format, isDate, isSameMonth, isSameYear, isValid, startOfDay, startOfMonth, startOfWeek, subMonths } from 'date-fns';
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../../box';
 import { useDefaultProps } from '../../default-props';

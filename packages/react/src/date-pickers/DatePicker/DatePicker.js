@@ -1,11 +1,6 @@
 import { useClickOutside, useConst, useEventCallback, useId, useMergeRefs, usePrevious } from '@tonic-ui/react-hooks';
 import { callEventHandlers, isNullOrUndefined } from '@tonic-ui/utils';
-import format from 'date-fns/format';
-import endOfDay from 'date-fns/endOfDay';
-import isDate from 'date-fns/isDate';
-import isValid from 'date-fns/isValid';
-import parse from 'date-fns/parse';
-import startOfDay from 'date-fns/startOfDay';
+import { endOfDay, format, isDate, isValid, parse, startOfDay } from 'date-fns';
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../../box';
 import { useDefaultProps } from '../../default-props';

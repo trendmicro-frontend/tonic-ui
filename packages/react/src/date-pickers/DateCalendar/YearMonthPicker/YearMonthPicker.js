@@ -6,10 +6,7 @@ import {
   AngleDownIcon,
 } from '@tonic-ui/react-icons';
 import { getAllFocusable } from '@tonic-ui/utils';
-import addMonths from 'date-fns/addMonths';
-import addYears from 'date-fns/addYears';
-import subMonths from 'date-fns/subMonths';
-import subYears from 'date-fns/subYears';
+import { addMonths, addYears, subMonths, subYears } from 'date-fns';
 import { forwardRef, useCallback, useRef } from 'react';
 import { Box } from '../../../box';
 import { Button } from '../../../button';

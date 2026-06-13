@@ -45,7 +45,7 @@
     "boolean": "^3.2.0",
     "chance": "^1.1.12",
     "cross-env": "^7.0.3",
-    "date-fns": "2.x",
+    "date-fns": "^4.4.0",
     "del-cli": "^5.0.0",
     "dotenv-flow": "^3.2.0",
     "ensure-type": "^1.5.1",

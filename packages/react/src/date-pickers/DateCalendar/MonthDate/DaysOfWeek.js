@@ -1,5 +1,4 @@
-import addDays from 'date-fns/addDays';
-import startOfWeek from 'date-fns/startOfWeek';
+import { addDays, startOfWeek } from 'date-fns';
 import { forwardRef } from 'react';
 import { Box } from '../../../box';
 import { Grid } from '../../../grid';
