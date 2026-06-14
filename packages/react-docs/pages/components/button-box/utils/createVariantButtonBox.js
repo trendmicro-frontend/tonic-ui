@@ -1,6 +1,5 @@
-import { Box, Button } from '@tonic-ui/react';
+import { Box, Button, ButtonBox } from '@tonic-ui/react';
 import { forwardRef } from 'react';
-import { ButtonBox } from '@/experiments/button-box';
 
 const capitalize = ([first, ...rest]) => first.toUpperCase() + rest.join('').toLowerCase();
 

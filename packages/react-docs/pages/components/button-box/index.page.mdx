@@ -1,14 +1,15 @@
 import CodeBlock from '@/components/CodeBlock';
-import SourceCode from '@/components/SourceCode';
-import { List, ListItem } from '@tonic-ui/react';
-import _ButtonBox_ from '!!raw-loader!@/experiments/button-box/ButtonBox';
-import _useButtonBoxClickHandlers_ from '!!raw-loader!@/experiments/button-box/useButtonBoxClickHandlers';
-import _createVariantButtonBox_ from '!!raw-loader!@/pages/experiments/button-box/utils/createVariantButtonBox';
-import _styles_ from '!!raw-loader!@/experiments/button-box/styles';
+import _createVariantButtonBox_ from '!!raw-loader!@/pages/components/button-box/utils/createVariantButtonBox';
 
 # ButtonBox
 
-`ButtonBox` is a custom component designed to function and appear like a button. It can be used in contexts where native `<button>` elements are not permitted, such as within other buttons.
+`ButtonBox` looks and behaves like a button but renders a non-button element (`<div role="button">`). Use it where a native `<button>` is not permitted, such as a button nested inside another button.
+
+## Import
+
+```js
+import { ButtonBox } from '@tonic-ui/react';
+```
 
 ## Keyboard interaction
 
@@ -23,9 +24,9 @@ To support accessibility and expected user experience, `ButtonBox` emulates the 
   - Triggers the `onClick` handler on **keyup**, matching the native `<button>` behavior.
   - Ignores auto-repeat events (`event.repeat`) to avoid unintentional repeated clicks.
 
-## Examples
+## Usage
 
-### Variant buttons
+### Variants
 
 {render('./variant-buttons')}
 
@@ -47,19 +48,12 @@ A key use case for `ButtonBox` is when you need button-like behavior in contexts
 
 {render('./nested-buttons')}
 
-## Source code
+## Props
 
-<List>
-  <ListItem>
-    <SourceCode name="ButtonBox.js" code={_ButtonBox_} />
-  </ListItem>
-  <ListItem>
-    <SourceCode name="useButtonBoxClickHandlers.js" code={_useButtonBoxClickHandlers_} />
-  </ListItem>
-  <ListItem>
-    <SourceCode name="styles.js" code={_styles_} />
-  </ListItem>
-  <ListItem>
-    <SourceCode name="createVariantButtonBox.js" code={_createVariantButtonBox_} />
-  </ListItem>
-</List>
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| as | string \| ComponentType | 'div' | The HTML element or component to render. |
+| children | node | | The content of the button box. |
+| disabled | boolean | false | If `true`, the control is disabled. Sets `aria-disabled`; styleable via `_disabled`. |
+| onClick | function | | Callback fired when activated by a mouse click, the Enter key, or the Space key. |
+| tabIndex | number | 0 | The tab order. Removed (not focusable) when `disabled`. |

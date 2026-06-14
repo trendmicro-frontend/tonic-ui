@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ButtonBox should render correctly 1`] = `
+.emotion-0 {
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-tonic="ButtonBox"
+    role="button"
+    tabindex="0"
+  >
+    Click Me
+  </div>
+</div>
+`;
