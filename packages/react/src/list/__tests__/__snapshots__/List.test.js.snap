@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`List should render correctly 1`] = `
+.emotion-0 {
+  margin: 0;
+  padding-left: var(--tonic-space-6x);
+}
+
+<div>
+  <ul
+    class="emotion-0 emotion-1"
+    data-tonic="List"
+  >
+    <li
+      class="emotion-2 emotion-1"
+      data-tonic="ListItem"
+    >
+      Item 1
+    </li>
+    <li
+      class="emotion-2 emotion-1"
+      data-tonic="ListItem"
+    >
+      Item 2
+    </li>
+    <li
+      class="emotion-2 emotion-1"
+      data-tonic="ListItem"
+    >
+      Item 3
+    </li>
+  </ul>
+  <ol
+    class="emotion-0 emotion-1"
+    data-tonic="List"
+  >
+    <li
+      class="emotion-2 emotion-1"
+      data-tonic="ListItem"
+    >
+      Item 1
+    </li>
+    <li
+      class="emotion-2 emotion-1"
+      data-tonic="ListItem"
+    >
+      Item 2
+    </li>
+    <li
+      class="emotion-2 emotion-1"
+      data-tonic="ListItem"
+    >
+      Item 3
+    </li>
+  </ol>
+</div>
+`;
