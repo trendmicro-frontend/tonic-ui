@@ -3,7 +3,7 @@ import _createVariantButtonBox_ from '!!raw-loader!@/pages/components/button-box
 
 # ButtonBox
 
-`ButtonBox` looks and behaves like a button but renders a non-button element (`<div role="button">`). Use it where a native `<button>` is not permitted, such as a button nested inside another button.
+A native `<button>` cannot contain another interactive element such as a `<button>` or an `<a>` — that is invalid HTML and breaks keyboard and screen reader behavior. `ButtonBox` solves this by rendering a non-button element (`<div role="button">`) that still looks and behaves like a button, so you can make a container clickable while placing a real button inside it.
 
 ## Import
 
@@ -11,22 +11,17 @@ import _createVariantButtonBox_ from '!!raw-loader!@/pages/components/button-box
 import { ButtonBox } from '@tonic-ui/react';
 ```
 
-## Keyboard interaction
+## Building a clickable menu item with an inline action
 
-To support accessibility and expected user experience, `ButtonBox` emulates the keyboard behavior of a native button:
+A menu item is a single interactive surface. Building it from a native `<button>` makes it impossible to place another control—such as a dismiss button—inside it, because nesting interactive elements is invalid HTML. `ButtonBox` resolves this by rendering the item as a `<div role="button">`, preserving full button semantics while allowing a real `<button>` to live within it.
 
-- **Enter key**:
-  - Triggers the `onClick` handler on **keydown**.
-  - Ignores auto-repeat events (`event.repeat`) to avoid firing multiple times while the key is held down.
+The example below pairs a list of dismissible items with a details pane. Selecting an item on the left updates the details on the right; the dismiss (×) button removes the item and calls `event.stopPropagation()` so the item is not selected at the same time.
 
-- **Space key**:
-  - Prevents the default scrolling behavior on **keydown**.
-  - Triggers the `onClick` handler on **keyup**, matching the native `<button>` behavior.
-  - Ignores auto-repeat events (`event.repeat`) to avoid unintentional repeated clicks.
+{render('./menu-item')}
 
-## Usage
+## Custom variant buttons
 
-### Variants
+By default a `ButtonBox` is unstyled. When you need it to match the look of the standard `Button` variants, you can compose the two:
 
 {render('./variant-buttons')}
 
@@ -42,11 +37,18 @@ const GhostButtonBox = createVariantButtonBox('ghost');
 
 <CodeBlock code={_createVariantButtonBox_} />
 
-### Nested buttons
+## Accessibility
 
-A key use case for `ButtonBox` is when you need button-like behavior in contexts where native buttons aren't allowed, such as having a button inside another button:
+To support accessibility and expected user experience, `ButtonBox` emulates the keyboard behavior of a native button:
 
-{render('./nested-buttons')}
+- **Enter key**:
+  - Triggers the `onClick` handler on **keydown**.
+  - Ignores auto-repeat events (`event.repeat`) to avoid firing multiple times while the key is held down.
+
+- **Space key**:
+  - Prevents the default scrolling behavior on **keydown**.
+  - Triggers the `onClick` handler on **keyup**, matching the native `<button>` behavior.
+  - Ignores auto-repeat events (`event.repeat`) to avoid unintentional repeated clicks.
 
 ## Props
 
