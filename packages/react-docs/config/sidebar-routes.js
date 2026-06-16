@@ -95,7 +95,6 @@ export const routes = [
       { title: 'SearchDropdown', path: 'experiments/search-dropdown' },
 
       { title: 'TYPOGRAPHY', heading: true },
-      { title: 'List', path: 'experiments/list' },
       { title: 'MutedText', path: 'experiments/muted-text' },
 
       { title: 'MISCELLANEOUS', heading: true },
@@ -414,6 +413,17 @@ export const routes = [
         },
       },
       { title: 'Highlight', path: 'components/highlight' },
+      {
+        title: 'List',
+        path: 'components/list',
+        render: () => {
+          return (
+            <Tooltip label={<Text>tag: ul</Text>}>
+              <CodeIcon cursor="default" />
+            </Tooltip>
+          );
+        },
+      },
       {
         title: 'Mark',
         path: 'components/mark',

@@ -60,8 +60,6 @@
 
 ### Typography
 
-[List]({{PAGE_BASE}}/experiments/list/): <classification>LLM should read this page when using the experimental List component for structured list displays, implementing custom list layouts, or exploring advanced list formatting and styling options.</classification>
-
 [MutedText]({{PAGE_BASE}}/experiments/muted-text/): <classification>LLM should read this page when using the experimental MutedText component for subdued text display, implementing secondary text styling, or creating text with reduced visual emphasis.</classification>
 
 ### Miscellaneous
@@ -251,6 +249,8 @@
 [Code]({{PAGE_BASE}}/components/code/): <classification>LLM should read this page when using the Code component for displaying inline code or code snippets, formatting code content with monospace fonts, or implementing syntax highlighting and proper code presentation.</classification>
 
 [Highlight]({{PAGE_BASE}}/components/highlight/): <classification>LLM should read this page when using the Highlight component to highlight text that matches a search query, emphasizing matched terms within search results, or rendering query-matched substrings with distinct styling.</classification>
+
+[List]({{PAGE_BASE}}/components/list/): <classification>LLM should read this page when using List and ListItem components for structured list displays, implementing unordered or ordered lists, nesting lists, or customizing list marker styles with the listStyleType prop.</classification>
 
 [Mark]({{PAGE_BASE}}/components/mark/): <classification>LLM should read this page when using the Mark component to emphasize or draw attention to specific text, marking search keywords, or applying highlight-style variants to inline text.</classification>
 

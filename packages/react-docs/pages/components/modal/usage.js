@@ -10,6 +10,8 @@ import {
   Flex,
   Grid,
   Input,
+  List,
+  ListItem,
   Modal,
   ModalBody,
   ModalContent,
@@ -35,7 +37,6 @@ import {
 import { useRef, useState } from 'react';
 import PreformattedText from '@/components/PreformattedText';
 import SkeletonBlock from '@/components/SkeletonBlock';
-import { List, ListItem } from '@/experiments/list';
 
 const FormGroup = (props) => (
   <Box mb="4x" {...props} />
