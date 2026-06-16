@@ -173,7 +173,7 @@ const MenuContent = forwardRef((inProps, ref) => {
 
   const [PopperSlot, popperSlotProps] = useSlot({
     name: 'popper',
-    ownerDisplayName: MenuContent.displayName,
+    ownerName: MenuContent.displayName,
     props: {
       ref: menuContentRef,
       'aria-labelledby': menuToggleId,
@@ -196,7 +196,7 @@ const MenuContent = forwardRef((inProps, ref) => {
 
   const [TransitionSlot, transitionSlotProps] = useSlot({
     name: 'transition',
-    ownerDisplayName: MenuContent.displayName,
+    ownerName: MenuContent.displayName,
     props: {
       ref: combinedRef,
       appear: true,

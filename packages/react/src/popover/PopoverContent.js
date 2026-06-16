@@ -214,7 +214,7 @@ const PopoverContent = forwardRef((inProps, ref) => {
 
   const [PopperSlot, popperSlotProps] = useSlot({
     name: 'popper',
-    ownerDisplayName: PopoverContent.displayName,
+    ownerName: PopoverContent.displayName,
     props: {
       ref: popoverContentRef,
       'aria-hidden': ariaAttr(!isOpen),
@@ -235,7 +235,7 @@ const PopoverContent = forwardRef((inProps, ref) => {
 
   const [TransitionSlot, transitionSlotProps] = useSlot({
     name: 'transition',
-    ownerDisplayName: PopoverContent.displayName,
+    ownerName: PopoverContent.displayName,
     props: {
       ref: combinedRef,
       appear: true,
@@ -246,7 +246,7 @@ const PopoverContent = forwardRef((inProps, ref) => {
 
   const [ArrowSlot, arrowSlotProps] = useSlot({
     name: 'arrow',
-    ownerDisplayName: PopoverContent.displayName,
+    ownerName: PopoverContent.displayName,
     slot: slots.arrow ?? PopoverArrowComponent ?? PopoverArrow,
     slotProps: { ...PopoverArrowProps, ...slotProps.arrow },
   });

@@ -173,7 +173,7 @@ const TreeItem = forwardRef((inProps, ref) => {
 
   const [TransitionSlot, transitionSlotProps] = useSlot({
     name: 'transition',
-    ownerDisplayName: TreeItem.displayName,
+    ownerName: TreeItem.displayName,
     props: {
       appear: false,
       role: 'group',

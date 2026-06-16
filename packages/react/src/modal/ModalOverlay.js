@@ -54,7 +54,7 @@ const ModalOverlay = forwardRef((inProps, ref) => {
 
   const [TransitionSlot, transitionSlotProps] = useSlot({
     name: 'transition',
-    ownerDisplayName: ModalOverlay.displayName,
+    ownerName: ModalOverlay.displayName,
     props: {
       ref: combinedRef,
       appear: !!modalContext,

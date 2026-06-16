@@ -48,7 +48,7 @@ const DrawerOverlay = forwardRef((inProps, ref) => {
 
   const [TransitionSlot, transitionSlotProps] = useSlot({
     name: 'transition',
-    ownerDisplayName: DrawerOverlay.displayName,
+    ownerName: DrawerOverlay.displayName,
     props: {
       ref: combinedRef,
       appear: !!drawerContext,

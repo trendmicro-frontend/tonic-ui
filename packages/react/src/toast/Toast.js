@@ -38,7 +38,7 @@ const Toast = forwardRef((inProps, ref) => {
 
   const [CloseButtonSlot, closeButtonSlotProps] = useSlot({
     name: 'closeButton',
-    ownerDisplayName: Toast.displayName,
+    ownerName: Toast.displayName,
     props: {},
     slot: slots.closeButton ?? ToastCloseButton,
     slotProps: slotProps.closeButton,

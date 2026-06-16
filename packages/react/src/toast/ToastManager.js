@@ -77,7 +77,7 @@ const ToastManager = (inProps) => {
 
   const [TransitionSlot, transitionSlotProps] = useSlot({
     name: 'transition',
-    ownerDisplayName: ToastManager.displayName,
+    ownerName: ToastManager.displayName,
     props: {},
     slot: slots.transition ?? TransitionComponent ?? ToastTransition,
     slotProps: { ...TransitionProps, ...slotProps.transition },

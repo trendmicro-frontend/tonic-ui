@@ -183,7 +183,7 @@ const TooltipContent = forwardRef((inProps, ref) => {
 
   const [PopperSlot, popperSlotProps] = useSlot({
     name: 'popper',
-    ownerDisplayName: TooltipContent.displayName,
+    ownerName: TooltipContent.displayName,
     props: {
       'aria-hidden': ariaAttr(!isOpen),
       'aria-labelledby': tooltipTriggerId,
@@ -206,7 +206,7 @@ const TooltipContent = forwardRef((inProps, ref) => {
 
   const [TransitionSlot, transitionSlotProps] = useSlot({
     name: 'transition',
-    ownerDisplayName: TooltipContent.displayName,
+    ownerName: TooltipContent.displayName,
     props: {
       ref: combinedRef,
       appear: true,
@@ -217,7 +217,7 @@ const TooltipContent = forwardRef((inProps, ref) => {
 
   const [ArrowSlot, arrowSlotProps] = useSlot({
     name: 'arrow',
-    ownerDisplayName: TooltipContent.displayName,
+    ownerName: TooltipContent.displayName,
     slot: slots.arrow ?? TooltipArrowComponent ?? TooltipArrow,
     slotProps: { ...TooltipArrowProps, ...slotProps.arrow },
   });

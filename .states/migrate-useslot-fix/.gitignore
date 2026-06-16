@@ -1,0 +1,5 @@
+*
+!/.gitignore
+!/STATE.md
+!/docs/
+!/docs/**
