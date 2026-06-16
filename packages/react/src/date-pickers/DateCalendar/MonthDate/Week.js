@@ -1,4 +1,4 @@
-import addDays from 'date-fns/addDays';
+import { addDays } from 'date-fns';
 import Day from './Day';
 
 const Week = ({

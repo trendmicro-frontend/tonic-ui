@@ -1,9 +1,5 @@
 import { callEventHandlers, dataAttr } from '@tonic-ui/utils';
-import formatISO from 'date-fns/formatISO';
-import isAfter from 'date-fns/isAfter';
-import isBefore from 'date-fns/isBefore';
-import isSameDay from 'date-fns/isSameDay';
-import isSameMonth from 'date-fns/isSameMonth';
+import { formatISO, isAfter, isBefore, isSameDay, isSameMonth } from 'date-fns';
 import { forwardRef } from 'react';
 import { Box } from '../../../box';
 import useButtonEventHandlers from '../../../utils/useButtonEventHandlers';

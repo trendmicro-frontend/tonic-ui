@@ -24,7 +24,7 @@ describe('DatePicker', () => {
     const inputError = false;
     const formatDate = useCallback((date, format) => {
       const options = {
-        locale: dateFnsLocale['en-US'],
+        locale: dateFnsLocale['enUS'],
       };
       return dateFns.format(date, format, options);
     }, []);
