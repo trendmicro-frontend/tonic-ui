@@ -1,30 +1,41 @@
 import {
+  Badge,
   Box,
   Button,
   ButtonBox,
   Divider,
   Flex,
   Link,
+  Menu,
+  MenuItem,
+  MenuList,
+  MenuToggle,
   Text,
   useColorStyle,
 } from '@tonic-ui/react';
-import { CloseSIcon } from '@tonic-ui/react-icons';
+import { MoreIcon } from '@tonic-ui/react-icons';
 import { useState } from 'react';
 
 const initialActions = [
   {
     id: 'immediate',
     title: 'Immediate action required',
+    count: 3,
+    badgeColor: 'red:50',
     summary: '3 critical alerts need to be reviewed and triaged right away.',
   },
   {
     id: 'unmanaged',
     title: 'Unmanaged endpoints',
+    count: 12,
+    badgeColor: 'yellow:50',
     summary: '12 endpoints have been discovered but are not yet protected.',
   },
   {
     id: 'update',
     title: 'Update required',
+    count: 8,
+    badgeColor: 'yellow:50',
     summary: '8 agents are running an outdated version and should be updated.',
   },
 ];
@@ -36,9 +47,7 @@ const App = () => {
 
   const selectedAction = actions.find((action) => action.id === selectedId);
 
-  const handleDismiss = (id) => (event) => {
-    // Prevent the card's onClick from firing when the dismiss button is clicked
-    event.stopPropagation();
+  const handleDismiss = (id) => () => {
     const remaining = actions.filter((action) => action.id !== id);
     setActions(remaining);
     if (selectedId === id) {
@@ -83,19 +92,75 @@ const App = () => {
                 }}
                 onClick={() => setSelectedId(action.id)}
               >
-                <Text>{action.title}</Text>
+                <Flex alignItems="center" columnGap="2x" minWidth={0}>
+                  <Text>{action.title}</Text>
+                  {/*
+                    The count sits beside the title for quick recognition. Its
+                    color reflects severity: red for critical, yellow for warnings.
+                    Yellow needs dark text to stay legible.
+                  */}
+                  <Badge
+                    variant="solid"
+                    badgeContent={action.count}
+                    backgroundColor={action.badgeColor}
+                    color={action.badgeColor === 'yellow:50' ? 'black:primary' : undefined}
+                  />
+                </Flex>
                 {/*
                   A native `<button>` cannot be nested inside another `<button>`.
-                  Because the card is a `ButtonBox`, this real `<button>` can live inside it.
+                  Because the card is a `ButtonBox`, this `Menu` (whose toggle is a
+                  real `<button>`) can live inside it.
                 */}
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  aria-label={`Dismiss ${action.title}`}
-                  onClick={handleDismiss(action.id)}
-                >
-                  <CloseSIcon />
-                </Button>
+                <Menu>
+                  {/*
+                    Stop the toggle's click on the toggle itself so it never
+                    selects the card. `MenuToggle` composes this with its own
+                    handler, so the menu still opens.
+                  */}
+                  <MenuToggle onClick={(event) => event.stopPropagation()}>
+                    {({ getMenuToggleProps }) => (
+                      <Button
+                        {...getMenuToggleProps()}
+                        variant="ghost"
+                        size="sm"
+                        aria-label={`More options for ${action.title}`}
+                      >
+                        <MoreIcon />
+                      </Button>
+                    )}
+                  </MenuToggle>
+                  <MenuList
+                    // Render the menu in a portal so it can escape the pane's
+                    // bounds, then stop each item's click from bubbling to the
+                    // card (which would otherwise select the row).
+                    portalled
+                    sx={{
+                      minWidth: 'max-content',
+                    }}
+                  >
+                    {/*
+                      The menu lives in the card's React tree, so a menu item's
+                      click bubbles up to the card. Stop it so a menu action
+                      never changes which card is selected.
+                    */}
+                    <MenuItem
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        // A real app would open a settings dialog for this action.
+                      }}
+                    >
+                      Configure
+                    </MenuItem>
+                    <MenuItem
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        handleDismiss(action.id)();
+                      }}
+                    >
+                      Remove
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
               </ButtonBox>
             );
           })
