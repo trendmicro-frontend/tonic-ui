@@ -64,6 +64,13 @@ describe('InputControl slots / slotProps', () => {
     expect(screen.getByTestId('custom-root')).toHaveAttribute('data-foo', 'bar');
   });
 
+  it('E2 — rendering without slotProps emits no useSlot warning', () => {
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    render(<InputControl />);
+    expect(consoleErrorSpy).not.toHaveBeenCalledWith(expect.stringContaining('useSlot:'));
+    consoleErrorSpy.mockRestore();
+  });
+
   // merge semantics (MUI-style): legacy inputProps AND slotProps.input both apply, new wins on conflict
 
   it('F — legacy inputProps and slotProps.input are merged (new wins on conflict)', () => {

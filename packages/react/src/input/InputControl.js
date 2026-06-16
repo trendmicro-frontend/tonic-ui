@@ -197,7 +197,7 @@ const InputControl = forwardRef((inProps, ref) => {
 
   const [InputSlot, inputSlotProps] = useSlot({
     name: 'input',
-    ownerDisplayName: InputControl.displayName,
+    ownerName: InputControl.displayName,
     props: {
       autoComplete: autoCompleteProp,
       autoFocus: autoFocusProp,
@@ -230,7 +230,7 @@ const InputControl = forwardRef((inProps, ref) => {
 
   const [RootSlot, rootSlotProps] = useSlot({
     name: 'root',
-    ownerDisplayName: InputControl.displayName,
+    ownerName: InputControl.displayName,
     props: {
       ref,
       css,

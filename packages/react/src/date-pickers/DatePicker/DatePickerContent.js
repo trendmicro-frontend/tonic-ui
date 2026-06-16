@@ -95,7 +95,7 @@ const DatePickerContent = forwardRef((
 
   const [PopperSlot, popperSlotProps] = useSlot({
     name: 'popper',
-    ownerDisplayName: DatePickerContent.displayName,
+    ownerName: DatePickerContent.displayName,
     props: {
       ref: datePickerContentRef,
       'aria-labelledby': datePickerToggleId,
@@ -116,7 +116,7 @@ const DatePickerContent = forwardRef((
 
   const [TransitionSlot, transitionSlotProps] = useSlot({
     name: 'transition',
-    ownerDisplayName: DatePickerContent.displayName,
+    ownerName: DatePickerContent.displayName,
     props: {
       ref: combinedRef,
       appear: true,

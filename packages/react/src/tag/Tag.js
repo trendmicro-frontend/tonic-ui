@@ -43,7 +43,7 @@ const Tag = forwardRef((inProps, ref) => {
 
   const [CloseButtonSlot, closeButtonSlotProps] = useSlot({
     name: 'closeButton',
-    ownerDisplayName: Tag.displayName,
+    ownerName: Tag.displayName,
     props: {},
     slot: slots.closeButton ?? TagCloseButton,
     slotProps: slotProps.closeButton,

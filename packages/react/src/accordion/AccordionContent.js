@@ -38,7 +38,7 @@ const AccordionContent = forwardRef((inProps, ref) => {
 
   const [TransitionSlot, transitionSlotProps] = useSlot({
     name: 'transition',
-    ownerDisplayName: AccordionContent.displayName,
+    ownerName: AccordionContent.displayName,
     props: {
       ref,
       appear: false,

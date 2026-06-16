@@ -11,8 +11,8 @@ import { useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
  *   props → slotProps
  *
  * @param {object} options
- * @param {string} [options.name] - Slot name (e.g. 'transition', 'popper') — used in dev error messages
- * @param {string} [options.ownerDisplayName] - Parent component displayName — used in dev error messages
+ * @param {string} [options.name] - Slot name (e.g. 'root') — identifies the slot in dev error messages
+ * @param {string} [options.ownerName] - Parent component displayName — used in dev error messages
  * @param {object} [options.props] - Internal props set by the component (including ref); user's slotProps take precedence
  * @param {React.ElementType} options.slot - Resolved element type (caller resolves slots/fallback before calling)
  * @param {object} options.slotProps - Resolved props for this slot (caller resolves slotProps[name] before calling)
@@ -21,20 +21,19 @@ import { useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 const useSlot = (options) => {
   const {
     name,
-    ownerDisplayName,
+    ownerName,
     props,
     slot,
     slotProps,
   } = options;
 
-  const slotPropsLabel = name ? `slotProps.${name}` : 'slotProps';
-  const suffix = ownerDisplayName ? ` in ${ownerDisplayName}.` : '.';
-  useOnceWhen(() => {
-    console.error(`useSlot: slot is required but was not provided${suffix}`);
-  }, process.env.NODE_ENV !== 'production' && slot === undefined);
-  useOnceWhen(() => {
-    console.error(`useSlot: ${slotPropsLabel} is required but was not provided${suffix}`);
-  }, process.env.NODE_ENV !== 'production' && slotProps === undefined);
+  { // Assertion check
+    const slotLabel = name ? `slots.${name}` : 'slot element';
+    const suffix = ownerName ? ` in ${ownerName}.` : '.';
+    useOnceWhen(() => {
+      console.error(`useSlot: ${slotLabel} is required but was not provided${suffix}`);
+    }, process.env.NODE_ENV !== 'production' && slot === undefined);
+  }
 
   const { ref: propsRef, ...restProps } = props ?? {};
   const { ref: slotRef, ...restSlotProps } = slotProps ?? {};

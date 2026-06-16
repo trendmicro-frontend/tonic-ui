@@ -94,39 +94,25 @@ describe('useSlot', () => {
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
       renderHook(() => useSlot({
         name: 'transition',
-        ownerDisplayName: 'TestOwner',
+        ownerName: 'TestOwner',
         slot: undefined,
         slotProps: {},
       }));
       expect(consoleSpy).toHaveBeenCalledWith(
-        'useSlot: slot is required but was not provided in TestOwner.'
+        'useSlot: slots.transition is required but was not provided in TestOwner.'
       );
       consoleSpy.mockRestore();
     });
 
-    it('logs an error when slotProps is not provided', () => {
+    it('does not warn when slotProps is undefined', () => {
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
       renderHook(() => useSlot({
         name: 'transition',
-        ownerDisplayName: 'TestOwner',
+        ownerName: 'TestOwner',
         slot: DefaultElement,
         slotProps: undefined,
       }));
-      expect(consoleSpy).toHaveBeenCalledWith(
-        'useSlot: slotProps.transition is required but was not provided in TestOwner.'
-      );
-      consoleSpy.mockRestore();
-    });
-
-    it('uses generic label in error when name is not provided', () => {
-      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-      renderHook(() => useSlot({
-        slot: DefaultElement,
-        slotProps: undefined,
-      }));
-      expect(consoleSpy).toHaveBeenCalledWith(
-        'useSlot: slotProps is required but was not provided.'
-      );
+      expect(consoleSpy).not.toHaveBeenCalled();
       consoleSpy.mockRestore();
     });
   });

@@ -64,7 +64,7 @@ const DrawerContent = forwardRef((inProps, ref) => {
 
   const [CloseButtonSlot, closeButtonSlotProps] = useSlot({
     name: 'closeButton',
-    ownerDisplayName: DrawerContent.displayName,
+    ownerName: DrawerContent.displayName,
     props: {},
     slot: slots.closeButton ?? DrawerCloseButton,
     slotProps: slotProps.closeButton,
@@ -72,7 +72,7 @@ const DrawerContent = forwardRef((inProps, ref) => {
 
   const [TransitionSlot, transitionSlotProps] = useSlot({
     name: 'transition',
-    ownerDisplayName: DrawerContent.displayName,
+    ownerName: DrawerContent.displayName,
     props: {
       ref: combinedRef,
       appear: !!drawerContext,

@@ -57,7 +57,7 @@ const ModalContent = forwardRef((inProps, ref) => {
 
   const [CloseButtonSlot, closeButtonSlotProps] = useSlot({
     name: 'closeButton',
-    ownerDisplayName: ModalContent.displayName,
+    ownerName: ModalContent.displayName,
     props: {},
     slot: slots.closeButton ?? ModalCloseButton,
     slotProps: slotProps.closeButton,
@@ -65,7 +65,7 @@ const ModalContent = forwardRef((inProps, ref) => {
 
   const [TransitionSlot, transitionSlotProps] = useSlot({
     name: 'transition',
-    ownerDisplayName: ModalContent.displayName,
+    ownerName: ModalContent.displayName,
     props: {
       ref: combinedRef,
       appear: !!modalContext,

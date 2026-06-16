@@ -41,7 +41,7 @@ const Alert = forwardRef((inProps, ref) => {
 
   const [CloseButtonSlot, closeButtonSlotProps] = useSlot({
     name: 'closeButton',
-    ownerDisplayName: Alert.displayName,
+    ownerName: Alert.displayName,
     props: {},
     slot: slots.closeButton ?? AlertCloseButton,
     slotProps: slotProps.closeButton,
