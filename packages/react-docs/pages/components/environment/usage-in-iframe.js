@@ -51,7 +51,7 @@ const IFrame = ({ children, ...rest }) => {
       {...styleProps}
       {...rest}
     >
-      {mountNode && createPortal(children({ document: mountNode.ownerDocument }), mountNode)}
+      {!!mountNode && createPortal(children({ document: mountNode.ownerDocument }), mountNode)}
     </Box>
   );
 };

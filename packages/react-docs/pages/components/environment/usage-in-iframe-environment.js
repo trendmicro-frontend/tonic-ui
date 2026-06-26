@@ -38,7 +38,7 @@ const IFrame = ({ children, ...rest }) => {
       border="none"
       {...rest}
     >
-      {mountNode && createPortal(children({ document: mountNode.ownerDocument }), mountNode)}
+      {!!mountNode && createPortal(children({ document: mountNode.ownerDocument }), mountNode)}
     </Box>
   );
 };
@@ -47,7 +47,16 @@ const IFrame = ({ children, ...rest }) => {
 // resolve to the iframe's own realm or to the global (top-level) one.
 const EnvironmentProbe = ({ frameDocument, title, description }) => {
   const [colorStyle] = useColorStyle();
-  const { getDocument, getWindow } = useEnvironment();
+  const { getRootNode, getDocument, getWindow } = useEnvironment();
+
+  useEffect(() => {
+    console.log('useEnvironment', {
+      getRootNode: getRootNode(),
+      getDocument: getDocument(),
+      getWindow: getWindow(),
+    });
+  }, [getRootNode, getDocument, getWindow]);
+
   const isIframeDocument = getDocument() === frameDocument;
   const isIframeWindow = getWindow() === frameDocument.defaultView;
 

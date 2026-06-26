@@ -58,21 +58,80 @@ The above setup is equivalent to:
 
 **Note:** Use a function `() => rootNode` when the root node might change or isn't available during initial render.
 
-## Examples
+## Iframe vs Shadow DOM
+
+Both contexts require an `environment` config. Shadow DOM also needs extra setup for CSS-in-JS scoping and CSS variables.
+
+| | Iframe | Shadow DOM |
+| :--- | :----- | :--------- |
+| `environment` value | `iframe.contentDocument` | shadow root (`ShadowRoot`) |
+| Emotion cache `container` | `iframe.contentDocument.head` | shadow root |
+| CSS variables root | not needed (defaults to `:root`) | `':host'` — scopes CSS variables to the shadow host |
+| Full setup guide | — | [Shadow DOM](../../customization/shadow-dom) |
 
 ### Usage with Shadow DOM
 
-To render components inside a Shadow DOM, configure the `environment` prop with the shadow root. This ensures modals and other portal-based components render within the shadow DOM boundary:
+Set `environment` to the shadow root. Portal-based components then render within the shadow DOM boundary. See [Shadow DOM](../../customization/shadow-dom) for the complete setup, including `createShadowDOM`, cache, and theme configuration.
+
+```jsx
+const cache = createCache({
+  key: 'tonic-ui-css',
+  nonce: 'your-nonce-value',
+  prepend: true,
+  container: shadowRoot,
+});
+
+const shadowTheme = createTheme({
+  cssVariables: {
+    prefix: 'tonic-ui',
+    rootSelector: ':host',
+  },
+});
+
+<CacheProvider value={cache}>
+  <TonicProvider
+    environment={{ value: shadowRoot }}
+    theme={shadowTheme}
+  >
+    <App />
+  </TonicProvider>
+</CacheProvider>
+```
 
 {render('./usage-in-shadow-dom')}
 
 ### Usage with iframe
 
-To render components inside an iframe, configure the `environment` prop with the iframe's document. This ensures modals and other portal-based components render within the iframe context:
+Set `environment` to the iframe's document. Portal-based components then render within the iframe context.
+
+```jsx
+const cache = createCache({
+  key: 'tonic-ui-css',
+  nonce: 'your-nonce-value',
+  prepend: true,
+  container: iframe.contentDocument.head,
+});
+
+const theme = createTheme({
+  cssVariables: {
+    prefix: 'tonic-ui',
+    rootSelector: ':root', // ':root' works correctly in the iframe's own document
+  },
+});
+
+<CacheProvider value={cache}>
+  <TonicProvider
+    environment={{ value: iframe.contentDocument }}
+    theme={theme}
+  >
+    <App />
+  </TonicProvider>
+</CacheProvider>
+```
 
 {render('./usage-in-iframe')}
 
-### Why the environment matters in an iframe
+## Why the environment matters in an iframe
 
 An iframe is a separate realm: its `document` and `window` are different objects from the page's global `document` and `window`. Since Tonic UI components render into the iframe from the parent page's JavaScript, the global `document`/`window` point at the parent page — the wrong realm. Configuring the `environment` lets `useEnvironment()` resolve to the iframe's own `document` and `window`. The example below renders the same probe twice — without the environment config (falls back to the global document/window) and with it (resolves to the iframe's):
 
@@ -84,16 +143,13 @@ The [useEnvironment](./useEnvironment) hook provides access to the correct `docu
 
 ```jsx
 const { getRootNode, getDocument, getWindow } = useEnvironment();
-
-const doc = getDocument();
-const win = getWindow();
-
-// Query elements in the correct context
-const element = doc.querySelector('#my-element');
-
-// Get computed styles from the correct window
-const styles = win.getComputedStyle(element);
 ```
+
+| | Standard browser | Shadow DOM | iframe |
+| :-- | :-- | :-- | :-- |
+| `getRootNode()` | `document` | `ShadowRoot` | `iframe.contentDocument` |
+| `getDocument()` | `document` | `shadowRoot.ownerDocument` | `iframe.contentDocument` |
+| `getWindow()` | `window` | `shadowRoot.ownerDocument.defaultView` | `iframe.contentWindow` |
 
 ## Props
 
@@ -110,11 +166,12 @@ The `useEnvironment` hook returns an object with the following methods:
 
 | Method | Return Type | Description |
 | :----- | :---------- | :---------- |
-| getRootNode | () => RootNode | Returns the root node of the current environment. |
-| getDocument | () => Document | Returns the document object for the current environment. |
-| getWindow | () => Window | Returns the window object for the current environment. |
+| getRootNode | () => RootNode | Returns the configured root node — `document` in a standard browser, `ShadowRoot` in a shadow DOM, or `iframe.contentDocument` in an iframe. |
+| getDocument | () => Document | Returns the `Document` for the current environment — `document` in a standard browser, `shadowRoot.ownerDocument` in a shadow DOM, or `iframe.contentDocument` in an iframe. |
+| getWindow | () => Window | Returns the `Window` for the current environment — `window` in a standard browser, `shadowRoot.ownerDocument.defaultView` in a shadow DOM, or `iframe.contentWindow` in an iframe. |
 
 ## See also
 
+- [Getting started › Micro frontend](../../getting-started/micro-frontend) — Module Federation and Wujie demos with live comparison
 - [Customization › Shadow DOM](../../customization/shadow-dom)
 - [useEnvironment](./useEnvironment)

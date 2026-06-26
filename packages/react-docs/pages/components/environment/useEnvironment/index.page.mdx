@@ -21,15 +21,22 @@ import { useEnvironment } from '@tonic-ui/react';
 const { getRootNode, getDocument, getWindow } = useEnvironment();
 ```
 
+| | Standard browser | Shadow DOM | iframe |
+| :-- | :-- | :-- | :-- |
+| `getRootNode()` | `document` | `ShadowRoot` | `iframe.contentDocument` |
+| `getDocument()` | `document` | `shadowRoot.ownerDocument` | `iframe.contentDocument` |
+| `getWindow()` | `window` | `shadowRoot.ownerDocument.defaultView` | `iframe.contentWindow` |
+
+
 ### Returns
 
 The hook returns an object with the following methods:
 
 | Method | Return Type | Description |
 | :----- | :---------- | :---------- |
-| getRootNode | () => RootNode | Returns the root node of the current environment (Document, ShadowRoot, or Node). |
-| getDocument | () => Document | Returns the document object for the current environment. |
-| getWindow | () => Window | Returns the window object for the current environment. |
+| getRootNode | () => RootNode | Returns the configured root node — `document` in a standard browser, `ShadowRoot` in a shadow DOM, or `iframe.contentDocument` in an iframe. |
+| getDocument | () => Document | Returns the `Document` for the current environment — `document` in a standard browser, `shadowRoot.ownerDocument` in a shadow DOM, or `iframe.contentDocument` in an iframe. |
+| getWindow | () => Window | Returns the `Window` for the current environment — `window` in a standard browser, `shadowRoot.ownerDocument.defaultView` in a shadow DOM, or `iframe.contentWindow` in an iframe. |
 
 ## Demos
 

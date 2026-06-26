@@ -2,10 +2,16 @@ import { Box, Text, useEnvironment } from '@tonic-ui/react';
 import { useEffect, useState } from 'react';
 
 const App = () => {
-  const { getWindow } = useEnvironment();
+  const { getRootNode, getDocument, getWindow } = useEnvironment();
   const [size, setSize] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
+    console.log('useEnvironment', {
+      getRootNode: getRootNode(),
+      getDocument: getDocument(),
+      getWindow: getWindow(),
+    });
+
     const win = getWindow();
 
     const updateSize = () => {
@@ -19,7 +25,7 @@ const App = () => {
     win.addEventListener('resize', updateSize);
 
     return () => win.removeEventListener('resize', updateSize);
-  }, [getWindow]);
+  }, [getRootNode, getDocument, getWindow]);
 
   return (
     <Box>

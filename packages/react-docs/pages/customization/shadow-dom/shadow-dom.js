@@ -34,10 +34,38 @@ import {
   useToggle,
 } from '@tonic-ui/react-hooks';
 import BorderedBox from '@/components/BorderedBox';
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
 
 const NONCE = process.env.NONCE ?? '';
+
+const createShadowDOM = (container) => {
+  if (!(container instanceof Element)) {
+    throw new Error('createShadowDOM: container must be a DOM Element');
+  }
+
+  const shadowRoot = container.shadowRoot ?? container.attachShadow({ mode: 'open' });
+
+  shadowRoot.replaceChildren();
+  const mountElement = document.createElement('div');
+  mountElement.setAttribute('data-shadow-root', 'true');
+  mountElement.style.display = 'contents';
+  shadowRoot.appendChild(mountElement);
+
+  const root = createRoot(mountElement);
+
+  return {
+    shadowRoot,
+    render: (children) => root.render(children),
+    unmount: () => root.unmount(),
+  };
+};
+
+const useLayoutUnmount = (fn) => {
+  const fnRef = useRef(fn);
+  fnRef.current = fn;
+  useLayoutEffect(() => () => fnRef.current(), []);
+};
 
 const DrawerComponent = ({ isOpen, onClose }) => {
   return (
@@ -122,98 +150,49 @@ const ModalComponent = ({ isOpen, onClose }) => {
 
 const ShadowDOMContainer = ({ children, colorMode, ...rest }) => {
   const containerRef = useRef();
-  const shadowRootElementRef = useRef();
-  const rootRef = useRef();
+  const shadowDOMRef = useRef();
+  const cacheRef = useRef();
+  const themeRef = useRef();
 
-  useEffect(() => {
+  // Re-runs on [children, colorMode] change — re-renders the shadow tree (reconcile)
+  useLayoutEffect(() => {
     const container = containerRef.current;
     if (!container) {
-      return () => {};
-    }
-
-    const shadowContainer = container.shadowRoot ?? container.attachShadow({ mode: 'open' });
-    const shadowRootElement = document.createElement('div');
-    shadowContainer.appendChild(shadowRootElement);
-    shadowRootElementRef.current = shadowRootElement;
-    rootRef.current = createRoot(shadowRootElement);
-
-    return () => {
-      setTimeout(() => {
-        rootRef.current.unmount(); // Clean up React state
-        rootRef.current = null;
-        shadowRootElementRef.current = null; // Clear the reference
-        shadowContainer.replaceChildren(); // Clear the shadow DOM content
-      }, 0);
-    };
-  }, []); // Run only once on mount
-
-  useEffect(() => {
-    const shadowRootElement = shadowRootElementRef.current;
-    if (!(shadowRootElement instanceof HTMLElement)) {
-      console.error('The shadow root element is not an HTMLElement.');
       return;
     }
-    const shadowContainer = shadowRootElement.parentNode;
 
-    // https://emotion.sh/docs/@emotion/cache
-    const cache = createCache({
-      key: 'tonic-css',
-      nonce: NONCE, // Needed to comply with Content Security Policy (CSP) for inline execution
-      prepend: true,
-      container: shadowContainer,
-    });
+    if (!shadowDOMRef.current) {
+      shadowDOMRef.current = createShadowDOM(container);
+    }
 
-    const shadowTheme = createTheme({
-      cssVariables: {
-        prefix: 'tonic',
-        rootSelector: ':host',
-      },
-      components: {
-        Drawer: {
-          defaultProps: {
-            portalProps: {
-              containerRef: shadowRootElementRef,
-            },
-          },
-        },
-        Modal: {
-          defaultProps: {
-            portalProps: {
-              containerRef: shadowRootElementRef,
-            },
-          },
-        },
-        Popper: {
-          defaultProps: {
-            portalProps: {
-              containerRef: shadowRootElementRef,
-            },
-          },
-        },
-        PortalManager: {
-          defaultProps: {
-            containerRef: shadowRootElementRef,
-          },
-        },
-        ToastManager: {
-          defaultProps: {
-            containerRef: shadowRootElementRef,
-          },
-        },
-      },
-    });
+    if (!cacheRef.current) {
+      cacheRef.current = createCache({
+        key: 'tonic-css',
+        nonce: NONCE,
+        prepend: true,
+        container: shadowDOMRef.current.shadowRoot,
+      });
+    }
 
-    const root = rootRef.current;
-    root.render(
-      <CacheProvider value={cache}>
+    if (!themeRef.current) {
+      themeRef.current = createTheme({
+        cssVariables: {
+          prefix: 'tonic',
+          rootSelector: ':host',
+        },
+      });
+    }
+
+    shadowDOMRef.current.render(
+      <CacheProvider value={cacheRef.current}>
         <TonicProvider
           colorMode={{
             value: colorMode,
           }}
           environment={{
-            value: () => shadowContainer.getRootNode(),
+            value: shadowDOMRef.current.shadowRoot,
           }}
-          theme={shadowTheme}
+          theme={themeRef.current}
         >
           <ToastManager
             slotProps={{
@@ -244,8 +223,16 @@ const ShadowDOMContainer = ({ children, colorMode, ...rest }) => {
     );
   }, [children, colorMode]);
 
+  // Cleanup runs only on unmount — destroys the shadow tree
+  useLayoutUnmount(() => {
+    shadowDOMRef.current?.unmount();
+    shadowDOMRef.current = null;
+    cacheRef.current = null;
+    themeRef.current = null;
+  });
+
   return (
-    <div ref={containerRef} {...rest} />
+    <Box ref={containerRef} {...rest} />
   );
 };
 
@@ -253,6 +240,7 @@ const InsideShadowDOMComponent = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useToggle(false);
   const [isModalOpen, setIsModalOpen] = useToggle(false);
   const toast = useToastManager();
+
   const handleOpenDrawer = () => {
     setIsDrawerOpen(true);
   };
@@ -336,6 +324,7 @@ const OutsideShadowDOMComponent = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useToggle(false);
   const [isModalOpen, setIsModalOpen] = useToggle(false);
   const toast = useToastManager();
+
   const handleOpenDrawer = () => {
     setIsDrawerOpen(true);
   };
@@ -400,10 +389,7 @@ const OutsideShadowDOMComponent = () => {
         >
           Show Toast Notification
         </Button>
-        <Tooltip
-          portalled
-          label="This is a tooltip"
-        >
+        <Tooltip label="This is a tooltip">
           <Button variant="secondary">
             Display Tooltip on Hover
           </Button>
@@ -419,20 +405,12 @@ const App = () => {
   const [colorMode] = useColorMode();
 
   return (
-    <Box
-      sx={{
-        'button': {
-          opacity: '.65 !important',
-        },
-      }}
-    >
-      <Stack spacing="4x">
-        <ShadowDOMContainer colorMode={colorMode}>
-          <InsideShadowDOMComponent />
-        </ShadowDOMContainer>
-        <OutsideShadowDOMComponent />
-      </Stack>
-    </Box>
+    <>
+      <OutsideShadowDOMComponent />
+      <ShadowDOMContainer colorMode={colorMode}>
+        <InsideShadowDOMComponent />
+      </ShadowDOMContainer>
+    </>
   );
 };
 
