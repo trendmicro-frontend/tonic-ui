@@ -38,9 +38,11 @@ export default defineConfig([
     ignores: [
       '.next',
       'build',
+      'coverage',
       'dist',
-      'node_modules',
       'docs',
+      'node_modules',
+      'public',
     ],
   },
 ]);

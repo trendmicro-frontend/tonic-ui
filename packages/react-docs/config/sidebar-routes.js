@@ -58,6 +58,7 @@ export const routes = [
         ),
       },
       { title: 'AI assistant with MCP', path: 'getting-started/mcp' },
+      { title: 'Micro frontend', path: 'getting-started/micro-frontend' },
       { title: 'The sx prop', path: 'getting-started/the-sx-prop' },
       { title: 'Versions', path: 'getting-started/versions' },
     ],
