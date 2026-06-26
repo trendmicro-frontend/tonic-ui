@@ -1,9 +1,17 @@
 /* @jest-environment jsdom */
 import userEvent from '@testing-library/user-event';
-import { fireEvent, render, screen } from '../../../test-utils/render';
-import ButtonBox from '../ButtonBox';
+import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
+import { fireEvent, render, screen } from '@tonic-ui/react/test-utils/render';
+import { ButtonBox } from '@tonic-ui/react/src';
+import React from 'react';
 
 describe('ButtonBox', () => {
+  it('should render correctly', async () => {
+    const { container } = render(<ButtonBox>Click Me</ButtonBox>);
+    expect(container).toMatchSnapshot();
+    await testA11y(container);
+  });
+
   it('calls onClick when clicked', async () => {
     const user = userEvent.setup();
     const handleClick = jest.fn();

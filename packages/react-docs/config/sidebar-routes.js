@@ -89,7 +89,6 @@ export const routes = [
       { title: 'Getting started', path: 'experiments' },
 
       { title: 'FORM CONTROLS', heading: true },
-      { title: 'ButtonBox', path: 'experiments/button-box' },
       { title: 'Dropdown', path: 'experiments/dropdown' },
       { title: 'DropdownBase', path: 'experiments/dropdown-base' },
       { title: 'SearchDropdown', path: 'experiments/search-dropdown' },
@@ -212,6 +211,7 @@ export const routes = [
           );
         },
       },
+      { title: 'ButtonBox', path: 'components/button-box' },
       { title: 'ButtonGroup', path: 'components/button-group' },
       {
         title: 'Checkbox',

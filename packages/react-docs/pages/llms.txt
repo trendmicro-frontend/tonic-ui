@@ -50,8 +50,6 @@
 
 ### Form controls
 
-[ButtonBox]({{PAGE_BASE}}/experiments/button-box/): <classification>LLM should read this page when using the experimental ButtonBox component for advanced button layouts, implementing button groups with complex arrangements, or exploring alternative button container patterns.</classification>
-
 [Dropdown]({{PAGE_BASE}}/experiments/dropdown/): <classification>LLM should read this page when using the experimental Dropdown component for dropdown menus and selection interfaces, implementing custom dropdown behavior, or exploring advanced dropdown patterns.</classification>
 
 [DropdownBase]({{PAGE_BASE}}/experiments/dropdown-base/): <classification>LLM should read this page when using the experimental DropdownBase component for building custom dropdown implementations, creating foundational dropdown functionality, or extending dropdown behavior.</classification>
@@ -175,6 +173,8 @@
 [Button]({{PAGE_BASE}}/components/button/): <classification>LLM should read this page when using the Button component for clickable actions, implementing various button variants and sizes, or creating interactive elements. Related to ButtonGroup, ButtonBase, ButtonLink, and LinkButton components.</classification>
 
 [ButtonBase]({{PAGE_BASE}}/components/button-base/): <classification>LLM should read this page when using the ButtonBase component for custom button implementations, building custom button variants, or creating interactive elements with foundational button functionality. Used as the base for Button and related components.</classification>
+
+[ButtonBox]({{PAGE_BASE}}/components/button-box/): <classification>LLM should read this page when using the ButtonBox component to create a button-like control in contexts where a native button element is not allowed (for example, an interactive element nested inside another button). Covers its keyboard interaction (Enter on key-down, Space on key-up), the disabled state, and the createVariantButtonBox helper for styled variants.</classification>
 
 [ButtonGroup]({{PAGE_BASE}}/components/button-group/): <classification>LLM should read this page when using the ButtonGroup component for grouping related buttons, implementing button toolbars, or creating button sets with consistent spacing and styling. Provides proper visual grouping and accessibility for multiple related buttons.</classification>
 

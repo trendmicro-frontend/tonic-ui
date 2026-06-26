@@ -1,0 +1,61 @@
+import CodeBlock from '@/components/CodeBlock';
+import _createVariantButtonBox_ from '!!raw-loader!@/pages/components/button-box/utils/createVariantButtonBox';
+
+# ButtonBox
+
+A native `<button>` cannot contain another interactive element such as a `<button>` or an `<a>` — that is invalid HTML and breaks keyboard and screen reader behavior. `ButtonBox` solves this by rendering a non-button element (`<div role="button">`) that still looks and behaves like a button, so you can make a container clickable while placing a real button inside it.
+
+## Import
+
+```js
+import { ButtonBox } from '@tonic-ui/react';
+```
+
+## Building a clickable menu item with an inline action
+
+A menu item is a single interactive surface. Building it from a native `<button>` makes it impossible to place another control—such as a dismiss button—inside it, because nesting interactive elements is invalid HTML. `ButtonBox` resolves this by rendering the item as a `<div role="button">`, preserving full button semantics while allowing a real `<button>` to live within it.
+
+The example below pairs a list of dismissible items with a details pane. Selecting an item on the left updates the details on the right; the dismiss (×) button removes the item and calls `event.stopPropagation()` so the item is not selected at the same time.
+
+{render('./menu-item')}
+
+## Custom variant buttons
+
+By default a `ButtonBox` is unstyled. When you need it to match the look of the standard `Button` variants, you can compose the two:
+
+{render('./variant-buttons')}
+
+You can utilize the following utility function to create a `ButtonBox` that supports variants:
+
+```js
+const EmphasisButtonBox = createVariantButtonBox('emphasis');
+const PrimaryButtonBox = createVariantButtonBox('primary');
+const DefaultButtonBox = createVariantButtonBox('default');
+const SecondaryButtonBox = createVariantButtonBox('secondary');
+const GhostButtonBox = createVariantButtonBox('ghost');
+```
+
+<CodeBlock code={_createVariantButtonBox_} />
+
+## Accessibility
+
+To support accessibility and expected user experience, `ButtonBox` emulates the keyboard behavior of a native button:
+
+- **Enter key**:
+  - Triggers the `onClick` handler on **keydown**.
+  - Ignores auto-repeat events (`event.repeat`) to avoid firing multiple times while the key is held down.
+
+- **Space key**:
+  - Prevents the default scrolling behavior on **keydown**.
+  - Triggers the `onClick` handler on **keyup**, matching the native `<button>` behavior.
+  - Ignores auto-repeat events (`event.repeat`) to avoid unintentional repeated clicks.
+
+## Props
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| as | string \| ComponentType | 'div' | The HTML element or component to render. |
+| children | node | | The content of the button box. |
+| disabled | boolean | false | If `true`, the control is disabled. Sets `aria-disabled`; styleable via `_disabled`. |
+| onClick | function | | Callback fired when activated by a mouse click, the Enter key, or the Space key. |
+| tabIndex | number | 0 | The tab order. Removed (not focusable) when `disabled`. |
