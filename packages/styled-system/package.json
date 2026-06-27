@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/styled-system",
-  "version": "2.2.1",
+  "version": "3.0.0-alpha.0",
   "description": "A framework-independent styling engine for Tonic UI.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -20,7 +20,7 @@
     "test": "jest --maxWorkers=2"
   },
   "dependencies": {
-    "@tonic-ui/utils": "^2.2.0",
+    "@tonic-ui/utils": "^3.0.0-alpha.0",
     "ensure-type": "^1.5.1"
   },
   "devDependencies": {

@@ -1,11 +1,16 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@3.0.2/schema.json",
-  "changelog": ["@tonic-ui/changelog-github", { "repo": "trendmicro-frontend/tonic-ui" }],
+  "changelog": [
+    "@tonic-ui/changelog-github",
+    {
+      "repo": "trendmicro-frontend/tonic-ui"
+    }
+  ],
   "commit": false,
   "fixed": [],
   "linked": [],
   "access": "public",
-  "baseBranch": "v2",
+  "baseBranch": "main",
   "updateInternalDependencies": "patch",
   "ignore": [],
   "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {

@@ -1,5 +1,16 @@
 # @tonic-ui/react-icons
 
+## 3.0.0-alpha.0
+
+### Major Changes
+
+- Begin the Tonic UI v3 development line (3.0.0). First prerelease (alpha) on the `main` branch.
+
+### Patch Changes
+
+- Updated dependencies
+  - @tonic-ui/react-base@3.0.0-alpha.0
+
 ## 2.1.3
 
 ### Patch Changes
