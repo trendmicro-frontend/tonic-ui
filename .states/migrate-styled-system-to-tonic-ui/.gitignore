@@ -1,0 +1,6 @@
+# Loop dir: ignore everything by default; commit only the spine and docs.
+*
+!/.gitignore
+!/STATE.md
+!/docs/
+!/docs/**
