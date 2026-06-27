@@ -11,6 +11,7 @@ const LightMode = forwardRef((inProps, ref) => {
       <Box
         ref={ref}
         colorScheme="light"
+        data-color-scheme="light"
         {...props}
       />
     </ColorModeProvider>

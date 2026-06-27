@@ -1,8 +1,13 @@
-import { ThemeProvider } from '../theme';
+import React from 'react';
+import { useOnceWhen } from '@tonic-ui/react-hooks';
+import { isNullish, isPlainObject } from '@tonic-ui/utils';
 import { ColorModeProvider } from '../color-mode';
 import { ColorStyleProvider } from '../color-style';
 import { CSSBaseline } from '../css-baseline';
+import { CSSVariables } from '../theme';
 import { EnvironmentProvider } from '../environment';
+import { ThemeProvider } from '../theme';
+import { TONIC_THEME } from '../theme/constants';
 
 const TonicProvider = ({
   children,
@@ -11,34 +16,56 @@ const TonicProvider = ({
   environment: environmentProps = {},
   theme,
   useCSSBaseline = false,
+  useCSSVariables = false,
+  ...rest
 }) => {
-  if (typeof colorModeProps !== 'object') {
+  useOnceWhen(() => {
     console.error(
-      'TonicProvider: "colorMode" prop must be an object if provided.\n' +
-      'See https://trendmicro-frontend.github.io/tonic-ui for more information.'
+      'TonicProvider: "useCssBaseline" is not a valid prop. Did you mean "useCSSBaseline"?'
     );
-  }
+  }, process.env.NODE_ENV !== 'production' && ('useCssBaseline' in rest));
 
-  if (typeof colorStyleProps !== 'object') {
+  useOnceWhen(() => {
     console.error(
-      'TonicProvider: "colorStyle" prop must be an object if provided.\n' +
-      'See https://trendmicro-frontend.github.io/tonic-ui for more information.'
+      'TonicProvider: "useCssVariables" is not a valid prop. Did you mean "useCSSVariables"?'
     );
-  }
+  }, process.env.NODE_ENV !== 'production' && ('useCssVariables' in rest));
 
-  if (typeof environmentProps !== 'object') {
+  useOnceWhen(() => {
     console.error(
-      'TonicProvider: "environment" prop must be an object if provided.\n' +
-      'See https://trendmicro-frontend.github.io/tonic-ui for more information.'
+      'TonicProvider: "colorMode" prop must be an object if provided.'
     );
-  }
+  }, !isPlainObject(colorModeProps));
+
+  useOnceWhen(() => {
+    console.error(
+      'TonicProvider: "colorStyle" prop must be an object if provided.'
+    );
+  }, !isPlainObject(colorStyleProps));
+
+  useOnceWhen(() => {
+    console.error(
+      'TonicProvider: "environment" prop must be an object if provided.'
+    );
+  }, !isPlainObject(environmentProps));
+
+  useOnceWhen(() => {
+    console.error(
+      'TonicProvider: "theme" prop should be created using createTheme() for optimal performance. Pass a stable reference to avoid re-running createTheme() on every render.'
+    );
+  }, process.env.NODE_ENV !== 'production' && !isNullish(theme) && theme[TONIC_THEME] !== true);
 
   return (
+    // useCSSVariables serves two purposes:
+    // 1. Pass to ThemeProvider to inject into the theme — styled-system reads theme.useCSSVariables
+    //    to decide whether to output var(--tonic-...) references instead of raw token values.
+    // 2. Render <CSSVariables />, which injects the CSS variable definitions into the DOM.
     <EnvironmentProvider {...environmentProps}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme} useCSSVariables={useCSSVariables}>
+        {!!useCSSBaseline && <CSSBaseline />}
+        {!!useCSSVariables && <CSSVariables />}
         <ColorModeProvider {...colorModeProps}>
           <ColorStyleProvider {...colorStyleProps}>
-            {!!useCSSBaseline && <CSSBaseline />}
             {children}
           </ColorStyleProvider>
         </ColorModeProvider>

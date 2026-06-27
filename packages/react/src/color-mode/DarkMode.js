@@ -11,6 +11,7 @@ const DarkMode = forwardRef((inProps, ref) => {
       <Box
         ref={ref}
         colorScheme="dark"
+        data-color-scheme="dark"
         {...props}
       />
     </ColorModeProvider>

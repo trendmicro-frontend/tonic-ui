@@ -14,6 +14,7 @@ const InvertedMode = forwardRef((inProps, ref) => {
       <Box
         ref={ref}
         colorScheme={invertedColorMode}
+        data-color-scheme={invertedColorMode}
         {...props}
       />
     </ColorModeProvider>
