@@ -67,6 +67,17 @@ The most recent stable version (✓) is recommended for use in production.
   <TableBody>
     <TableRow>
       <TableCell>
+        <Text>__TONIC_UI_V3_RELEASE_VERSION__ <sup>Preview</sup></Text>
+      </TableCell>
+      <TableCell>
+        <Link href="__TONIC_UI_V3_RELEASE_DOCUMENTATION__">Documentation</Link>
+      </TableCell>
+      <TableCell>
+        <Link href="__TONIC_UI_V3_RELEASE_NOTES__">Release notes</Link>
+      </TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>
         <Text>__TONIC_UI_V2_RELEASE_VERSION__ ✓</Text>
       </TableCell>
       <TableCell>
@@ -87,17 +98,6 @@ The most recent stable version (✓) is recommended for use in production.
         <Link href="__TONIC_UI_V1_RELEASE_NOTES__">Release notes</Link>
       </TableCell>
     </TableRow>
-    <TableRow>
-      <TableCell>
-        <Text>__TONIC_UI_V0_RELEASE_VERSION__</Text>
-      </TableCell>
-      <TableCell>
-        <Link href="__TONIC_UI_V0_RELEASE_DOCUMENTATION__">Documentation</Link>
-      </TableCell>
-      <TableCell>
-        <Link href="__TONIC_UI_V0_RELEASE_NOTES__">Release notes</Link>
-      </TableCell>
-    </TableRow>
   </TableBody>
 </Table>
 
@@ -105,6 +105,17 @@ The most recent stable version (✓) is recommended for use in production.
 
 <Table>
   <TableBody>
+    <TableRow>
+      <TableCell>
+        <Text>__TONIC_UI_V3_BRANCH__ branch <sup>Preview</sup></Text>
+      </TableCell>
+      <TableCell>
+        <Link href="__TONIC_UI_V3_DOCUMENTATION__">Documentation</Link>
+      </TableCell>
+      <TableCell>
+        <Link href="__TONIC_UI_V3_SOURCE_CODE__">Source code</Link>
+      </TableCell>
+    </TableRow>
     <TableRow>
       <TableCell>
         <Text>__TONIC_UI_V2_BRANCH__ branch</Text>
@@ -125,17 +136,6 @@ The most recent stable version (✓) is recommended for use in production.
       </TableCell>
       <TableCell>
         <Link href="__TONIC_UI_V1_SOURCE_CODE__">Source code</Link>
-      </TableCell>
-    </TableRow>
-    <TableRow>
-      <TableCell>
-        <Text>__TONIC_UI_V0_BRANCH__ branch</Text>
-      </TableCell>
-      <TableCell>
-        <Link href="__TONIC_UI_V0_DOCUMENTATION__">Documentation</Link>
-      </TableCell>
-      <TableCell>
-        <Link href="__TONIC_UI_V0_SOURCE_CODE__">Source code</Link>
       </TableCell>
     </TableRow>
   </TableBody>

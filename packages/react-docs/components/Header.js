@@ -39,20 +39,29 @@ const GITHUB_REPO_URL = 'https://github.com/trendmicro-frontend/tonic-ui';
 // The TONIC_UI_REACT_DOCS_VERSION environment variable might be one of: latest, pr-<number>, or version (e.g. 0.1.0) for a tag release
 const TONIC_UI_REACT_DOCS_VERSION = ensureString(process.env.TONIC_UI_REACT_DOCS_VERSION);
 
-const versionMap = {
-  'v2': {
-    label: 'v2',
-    url: ensureString(process.env.TONIC_UI_V2_DOCUMENTATION),
-  },
-  'v1': {
-    label: 'v1',
-    url: ensureString(process.env.TONIC_UI_V1_DOCUMENTATION),
-  },
-  'v0': {
-    label: 'v0',
-    url: ensureString(process.env.TONIC_UI_V0_DOCUMENTATION),
-  },
-};
+// Base docs URL — a single literal env var that Next.js can inline at build time.
+const TONIC_UI_REACT_DOCS_URL = ensureString(process.env.TONIC_UI_REACT_DOCS_URL);
+
+// Space-separated list of version labels (e.g. "v3 v2 v1") — a single literal env var.
+const TONIC_UI_VERSION_LABELS = ensureString(process.env.TONIC_UI_VERSION_LABELS);
+
+// Space-separated list of prerelease labels (e.g. "v3") — a single literal env var.
+// Avoids dynamic process.env[computedKey] access which Next.js cannot inline.
+const TONIC_UI_PRERELEASE_LABELS = ensureString(process.env.TONIC_UI_PRERELEASE_LABELS);
+const prereleaseLabels = new Set(TONIC_UI_PRERELEASE_LABELS.split(/\s+/).filter(Boolean));
+
+// Build the version map from the labels list + a literal base URL (no dynamic env key access).
+// URL pattern mirrors tonic-ui.env: ${TONIC_UI_REACT_DOCS_URL}/react/${label}/getting-started
+const versionMap = Object.fromEntries(
+  TONIC_UI_VERSION_LABELS.split(/\s+/).filter(Boolean).map(label => [
+    label,
+    {
+      label,
+      url: `${TONIC_UI_REACT_DOCS_URL}/react/${label}/getting-started`,
+      prerelease: prereleaseLabels.has(label),
+    },
+  ])
+);
 
 const Header = forwardRef((
   {
@@ -233,8 +242,8 @@ const Header = forwardRef((
                     whiteSpace="nowrap"
                   >
                     {(key === version)
-                      ? <>{value?.label}<Space width="2x" />✓</>
-                      : value?.label}
+                      ? <>{value?.label}{value?.prerelease ? <><Space width="1x" /><sup>Preview</sup></> : null}<Space width="2x" />✓</>
+                      : <>{value?.label}{value?.prerelease ? <><Space width="1x" /><sup>Preview</sup></> : null}</>}
                   </MenuItem>
                 ))}
                 <MenuDivider />
