@@ -8,6 +8,7 @@ import {
   ColorIcon,
   FileImageOIcon,
   HookIcon,
+  LinkIcon,
   MigrateSuccessIcon,
   RocketIcon,
   SearchOIcon,
@@ -37,8 +38,20 @@ export const routes = [
           </Tag>
         ),
       },
-      { title: 'Color mode', path: 'getting-started/color-mode' },
-      { title: 'Color style', path: 'getting-started/color-style' },
+      {
+        title: 'Color mode',
+        path: 'components/color-mode',
+        render: () => (
+          <LinkIcon />
+        ),
+      },
+      {
+        title: 'Color style',
+        path: 'components/color-style',
+        render: () => (
+          <LinkIcon />
+        ),
+      },
       { title: 'Icons', path: 'getting-started/icons' },
       { title: 'The sx prop', path: 'getting-started/the-sx-prop' },
       { title: 'Versions', path: 'getting-started/versions' },
