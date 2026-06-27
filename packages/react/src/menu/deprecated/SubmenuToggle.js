@@ -1,7 +1,7 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { ariaAttr, callEventHandlers, getAllFocusable } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
-import { forwardRef, useRef } from 'react';
+import React, { forwardRef, useRef } from 'react';
 import { Box } from '../../box';
 import { useDefaultProps } from '../../default-props';
 import useSubmenu from '../useSubmenu';
@@ -10,6 +10,17 @@ import {
 } from './styles';
 
 /**
+ * @typedef {Object} SubmenuToggleProps
+ * @property {React.ReactNode | ((context: { getSubmenuToggleProps: () => React.HTMLAttributes<HTMLDivElement> & { ref: React.RefCallback<HTMLElement> } }) => React.ReactNode)} [children] - Content or render function.
+ * @property {boolean} [disabled] - If `true`, the submenu toggle is disabled.
+ * @property {React.FocusEventHandler<HTMLDivElement>} [onFocus] - Callback when the submenu toggle receives focus.
+ * @property {React.KeyboardEventHandler<HTMLDivElement>} [onKeyDown] - Callback when a key is pressed.
+ * @property {React.MouseEventHandler<HTMLDivElement>} [onMouseEnter] - Callback when mouse enters the submenu toggle.
+ * @property {React.MouseEventHandler<HTMLDivElement>} [onMouseLeave] - Callback when mouse leaves the submenu toggle.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', SubmenuToggleProps>}
  * @deprecated SubmenuToggle is deprecated and will be removed in a future version.
  * Use SubmenuTrigger instead, which combines MenuItem functionality with submenu trigger behavior.
  *

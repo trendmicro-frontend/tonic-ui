@@ -1,7 +1,7 @@
 import { useHydrated, useMergeRefs } from '@tonic-ui/react-hooks';
 import { callEventHandlers } from '@tonic-ui/utils';
 import { ensurePositiveFiniteNumber } from 'ensure-type';
-import { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
+import React, { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { useEnvironment } from '../environment';
@@ -21,6 +21,31 @@ import VerticalTrack from './VerticalTrack';
 import HorizontalThumb from './HorizontalThumb';
 import VerticalThumb from './VerticalThumb';
 
+/**
+ * @typedef {Object} ScrollbarProps
+ * @property {React.ReactNode | ((context: { ScrollView: React.ElementType; HorizontalTrack: React.ElementType; HorizontalThumb: React.ElementType; VerticalTrack: React.ElementType; VerticalThumb: React.ElementType; getScrollViewProps: () => React.HTMLAttributes<HTMLDivElement> & { ref: React.RefCallback<HTMLElement> }; getHorizontalTrackProps: () => React.HTMLAttributes<HTMLDivElement> & { ref: React.RefCallback<HTMLElement> }; getHorizontalThumbProps: () => React.HTMLAttributes<HTMLDivElement> & { ref: React.RefCallback<HTMLElement> }; getVerticalTrackProps: () => React.HTMLAttributes<HTMLDivElement> & { ref: React.RefCallback<HTMLElement> }; getVerticalThumbProps: () => React.HTMLAttributes<HTMLDivElement> & { ref: React.RefCallback<HTMLElement> } }) => React.ReactNode)} [children] - The content of the scrollbar.
+ * @property {number | string} [width='auto'] - The width of the scrollbar. If set to 'auto', you can constrain the width using the `minWidth` and `maxWidth` props.
+ * @property {number | string} [height='auto'] - The height of the scrollbar. If set to 'auto', you can constrain the height using the `minHeight` and `maxHeight` props.
+ * @property {number | string} [minWidth] - The minimum width of the scrollbar.
+ * @property {number | string} [maxWidth] - The maximum width of the scrollbar.
+ * @property {number | string} [minHeight] - The minimum height of the scrollbar.
+ * @property {number | string} [maxHeight] - The maximum height of the scrollbar.
+ * @property {number} [minThumbWidth=32] - The minimum width of the thumb in pixels.
+ * @property {number} [minThumbHeight=32] - The minimum height of the thumb in pixels.
+ * @property {(event: React.UIEvent<HTMLDivElement>) => void} [onScroll] - A callback function that is called when the scrollbar is scrolled. Signature: `function(event: UIEvent) => void`
+ * @property {(values: { left: number; top: number; scrollLeft: number; scrollTop: number; scrollWidth: number; scrollHeight: number; clientWidth: number; clientHeight: number }) => void} [onUpdate] - A callback function that is called when the scroll position or size of the content changes. The function is passed an object containing the following properties: `left`, `top`, `scrollLeft`, `scrollTop`, `scrollWidth`, `scrollHeight`, `clientWidth`, `clientHeight`.
+ * @property {string} [overflow='auto'] - The overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'.
+ * @property {string} [overflowX] - The horizontal overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'.
+ * @property {string} [overflowY] - The vertical overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'.
+ * @property {number} [scrollLeft=0] - The horizontal scroll position of the scrollable content.
+ * @property {number} [scrollTop=0] - The vertical scroll position of the scrollable content.
+ * @property {{ style?: React.CSSProperties }} [scrollViewProps] - Additional props to be applied to the `ScrollView` component.
+ * @property {React.RefObject<HTMLDivElement>} [scrollViewRef] - A `ref` to the `ScrollView` component.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', ScrollbarProps>}
+ */
 const Scrollbar = forwardRef((inProps, ref) => {
   const {
     children,
