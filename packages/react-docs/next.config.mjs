@@ -115,17 +115,13 @@ const versionConfig = await import('../../tonic-ui-version.config.js').then(m =>
 // enumerated here explicitly.
 const buildVersionEnvVars = () => {
   const envVars = {};
-  versionConfig.versions.forEach(({ label, prerelease = false }) => {
+  versionConfig.versions.forEach(({ label }) => {
     const prefix = `TONIC_UI_${label.toUpperCase()}`;
     envVars[`${prefix}_BRANCH`] = process.env[`${prefix}_BRANCH`];
+    envVars[`${prefix}_CHANGELOG`] = process.env[`${prefix}_CHANGELOG`];
     envVars[`${prefix}_DOCUMENTATION`] = process.env[`${prefix}_DOCUMENTATION`];
-    envVars[`${prefix}_SOURCE_CODE`] = process.env[`${prefix}_SOURCE_CODE`];
-    envVars[`${prefix}_TAGNAME`] = process.env[`${prefix}_TAGNAME`];
-    envVars[`${prefix}_RELEASE_VERSION`] = process.env[`${prefix}_RELEASE_VERSION`];
-    envVars[`${prefix}_RELEASE_DOCUMENTATION`] = process.env[`${prefix}_RELEASE_DOCUMENTATION`];
-    envVars[`${prefix}_RELEASE_NOTES`] = process.env[`${prefix}_RELEASE_NOTES`];
-    // Bake the prerelease flag as a string so Header.js can read it without dynamic key access
-    envVars[`${prefix}_PRERELEASE`] = String(prerelease);
+    envVars[`${prefix}_LABEL`] = process.env[`${prefix}_LABEL`];
+    envVars[`${prefix}_SOURCE_URL`] = process.env[`${prefix}_SOURCE_URL`];
   });
   return envVars;
 };
@@ -329,7 +325,7 @@ const initialNextConfig = {
     // Algolia
     ALGOLIA_APPLICATION_ID: '7V00GBK8V8',
     ALGOLIA_SEARCH_API_KEY: 'c87cfe40f6ec7c43d4caf4316afd1816',
-    ALGOLIA_INDEX_NAME: 'tonic-ui-v2',
+    ALGOLIA_INDEX_NAME: 'tonic-ui-v3',
     // common
     TONIC_UI_REACT_DOCS_BASE_PATH: process.env.TONIC_UI_REACT_DOCS_BASE_PATH,
     TONIC_UI_REACT_DOCS_URL: process.env.TONIC_UI_REACT_DOCS_URL,
