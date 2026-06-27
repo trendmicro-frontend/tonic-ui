@@ -15,7 +15,8 @@ To explore the available color styles to use, refer to the [color-style](../colo
 ```js
 const [colorMode] = useColorMode();
 const [colorStyle] = useColorStyle(); // Use `useColorStyle({ colorMode })` to enforce a specific color mode if needed
-const { colors } = useTheme();
+const theme = useTheme();
+const { colors } = theme;
 
 console.log(colorMode);
 // => 'dark' / 'light'
@@ -23,9 +24,17 @@ console.log(colorStyle.color.primary);
 // => 'white:primary' / 'black:primary'
 console.log(colorStyle.background.primary);
 // => 'gray:100' / 'white:emphasis'
+
+// Resolve the token alias to its raw color value — bracket notation
 console.log(colors[colorStyle.color.primary]);
 // => 'rgba(255, 255, 255, .92)' / 'rgba(0, 0, 0, .92)'
 console.log(colors[colorStyle.background.primary]);
+// => '#151515' / 'rgba(255, 255, 255, 1.0)'
+
+// Alternatively, use theme.get() when the theme is created with createTheme()
+console.log(theme.get('colors.' + colorStyle.color.primary));
+// => 'rgba(255, 255, 255, .92)' / 'rgba(0, 0, 0, .92)'
+console.log(theme.get('colors.' + colorStyle.background.primary));
 // => '#151515' / 'rgba(255, 255, 255, 1.0)'
 ```
 

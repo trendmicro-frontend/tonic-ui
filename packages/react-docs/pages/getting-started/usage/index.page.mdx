@@ -189,17 +189,20 @@ Sometimes you may need to apply base CSS styles to your application. Tonic UI pr
 
 ### Enabling CSS theme variables
 
-Tonic UI supports converting theme tokens defined in the theme to CSS variables. You can enable this behavior by configuring the theme as shown below:
+Tonic UI can emit all theme tokens as `--tonic-*` CSS custom properties. Enable this with two steps: pass `cssVariables: true` to `createTheme`, and add the `useCSSVariables` prop to `TonicProvider`:
 
 ```jsx
+const theme = createTheme({
+  cssVariables: true, // Generate the CSS variable map
+});
+
 <TonicProvider
-  theme={createTheme({
-    cssVariables: true, // Enable CSS theme variables
-  })}
+  theme={theme}
+  useCSSVariables // Inject variables into the document and emit var(--tonic-*) in component styles
 />
 ```
 
-For example, consider a theme object that looks like this:
+Tonic UI uses colon-delimited token names (e.g. `gray:10`). In CSS variables, colons and dots are replaced with hyphens:
 
 ```js
 {
@@ -210,8 +213,6 @@ For example, consider a theme object that looks like this:
 }
 ```
 
-When this theme is passed to `TonicProvider`, Tonic UI will generate CSS variables automatically, as shown below:
-
 ```css
 :root {
   --tonic-colors-gray-10: #fafafa;
@@ -219,7 +220,9 @@ When this theme is passed to `TonicProvider`, Tonic UI will generate CSS variabl
 }
 ```
 
-These CSS variables can then be used to style components, providing a consistent look and feel throughout the application.
+Once injected, these variables are available everywhere — in Emotion styles, plain CSS, and inline `style` attributes — without importing the theme object.
+
+> See [CSS theme variables](../../customization/css-theme-variables) for prefix and shadow DOM options.
 
 ### Extending the color style
 
@@ -329,6 +332,45 @@ const customTheme = createTheme({
 const theme = useTheme();
 const brandColor = theme?.colors?.brand?.[90];
 ```
+
+### Using theme.get()
+
+When `createTheme()` is used, `useTheme()` returns a resolved theme object with a `get(path, defaultValue)` helper. Use it to look up any token by its dot-separated path:
+
+```jsx
+import { useTheme } from '@tonic-ui/react';
+
+function MyComponent() {
+  const theme = useTheme();
+
+  // Look up a color token (colon tokens use dot-path notation)
+  const gray100 = theme.get('colors.gray:100');
+
+  // Look up a typography token
+  const smFontSize = theme.get('fontSizes.sm');
+
+  // Provide a fallback for missing paths
+  const fallback = theme.get('colors.brand.90', '#1a365d');
+
+  return (
+    <div style={{ color: gray100, fontSize: smFontSize }}>
+      Hello
+    </div>
+  );
+}
+```
+
+`theme.get()` accepts a default value as its second argument, returned when the path does not exist in the theme.
+
+You can also use `useTheme()` to resolve tokens for a specific color mode without changing the active mode:
+
+```jsx
+// Always resolves tokens for light mode, regardless of the active color mode
+const lightTheme = useTheme({ colorMode: 'light' });
+const lightBg = lightTheme.get('colors.gray:10');
+```
+
+> `theme.get()` requires a theme created with `createTheme()`. For themes not created this way, use direct property access (`theme?.colors?.['gray:100']`) instead.
 
 ## How to use Tonic UI
 
