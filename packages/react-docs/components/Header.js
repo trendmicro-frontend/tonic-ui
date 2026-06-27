@@ -39,20 +39,25 @@ const GITHUB_REPO_URL = 'https://github.com/trendmicro-frontend/tonic-ui';
 // The TONIC_UI_REACT_DOCS_VERSION environment variable might be one of: latest, pr-<number>, or version (e.g. 0.1.0) for a tag release
 const TONIC_UI_REACT_DOCS_VERSION = ensureString(process.env.TONIC_UI_REACT_DOCS_VERSION);
 
-const versionMap = {
-  'v2': {
-    label: 'v2',
-    url: ensureString(process.env.TONIC_UI_V2_DOCUMENTATION),
-  },
-  'v1': {
-    label: 'v1',
-    url: ensureString(process.env.TONIC_UI_V1_DOCUMENTATION),
-  },
-  'v0': {
-    label: 'v0',
-    url: ensureString(process.env.TONIC_UI_V0_DOCUMENTATION),
-  },
-};
+const TONIC_UI_REACT_DOCS_URL = ensureString(process.env.TONIC_UI_REACT_DOCS_URL);
+
+// Available version labels from environment (e.g., "v2 v1")
+const TONIC_UI_VERSION_LABELS = ensureString(process.env.TONIC_UI_VERSION_LABELS);
+
+// Build version map from labels.
+// Note: the documentation URL is derived from the statically-referenced
+// TONIC_UI_REACT_DOCS_URL (inlined by Next.js at build time) plus the label.
+// A dynamic process.env[`...${label}...`] lookup would NOT be inlined and
+// would resolve to undefined in the browser bundle.
+const versionMap = Object.fromEntries(
+  ensureString(TONIC_UI_VERSION_LABELS).split(/\s+/).filter(Boolean).map(versionLabel => [
+    versionLabel,
+    {
+      label: versionLabel,
+      url: `${TONIC_UI_REACT_DOCS_URL}/react/${versionLabel}`,
+    },
+  ])
+);
 
 const Header = forwardRef((
   {

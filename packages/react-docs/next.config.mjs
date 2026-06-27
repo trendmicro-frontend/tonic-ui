@@ -292,6 +292,23 @@ const withMDX = mdxPlugin({
 plugins.push(withMDX);
 plugins.push(withSVGR);
 
+// Load version configuration
+const versionConfig = await import('../../tonic-ui-version.config.js').then(m => m.default);
+
+// Build environment variables dynamically for all versions
+const buildVersionEnvVars = () => {
+  const envVars = {};
+  versionConfig.versions.forEach(({ label }) => {
+    const prefix = `TONIC_UI_${label.toUpperCase()}`;
+    envVars[`${prefix}_BRANCH`] = process.env[`${prefix}_BRANCH`];
+    envVars[`${prefix}_CHANGELOG`] = process.env[`${prefix}_CHANGELOG`];
+    envVars[`${prefix}_DOCUMENTATION`] = process.env[`${prefix}_DOCUMENTATION`];
+    envVars[`${prefix}_LABEL`] = process.env[`${prefix}_LABEL`];
+    envVars[`${prefix}_SOURCE_URL`] = process.env[`${prefix}_SOURCE_URL`];
+  });
+  return envVars;
+};
+
 const initialNextConfig = {
   env: {
     // CI
@@ -312,30 +329,9 @@ const initialNextConfig = {
     TONIC_UI_REACT_DOCS_VERSION: process.env.TONIC_UI_REACT_DOCS_VERSION,
     TONIC_UI_REACT_PACKAGE_VERSION: process.env.TONIC_UI_REACT_PACKAGE_VERSION,
     TONIC_UI_REPO_ROOT: process.env.TONIC_UI_REPO_ROOT,
-    // v2
-    TONIC_UI_V2_BRANCH: process.env.TONIC_UI_V2_BRANCH,
-    TONIC_UI_V2_DOCUMENTATION: process.env.TONIC_UI_V2_DOCUMENTATION,
-    TONIC_UI_V2_SOURCE_CODE: process.env.TONIC_UI_V2_SOURCE_CODE,
-    TONIC_UI_V2_TAGNAME: process.env.TONIC_UI_V2_TAGNAME,
-    TONIC_UI_V2_RELEASE_VERSION: process.env.TONIC_UI_V2_RELEASE_VERSION,
-    TONIC_UI_V2_RELEASE_DOCUMENTATION: process.env.TONIC_UI_V2_RELEASE_DOCUMENTATION,
-    TONIC_UI_V2_RELEASE_NOTES: process.env.TONIC_UI_V2_RELEASE_NOTES,
-    // v1
-    TONIC_UI_V1_BRANCH: process.env.TONIC_UI_V1_BRANCH,
-    TONIC_UI_V1_DOCUMENTATION: process.env.TONIC_UI_V1_DOCUMENTATION,
-    TONIC_UI_V1_SOURCE_CODE: process.env.TONIC_UI_V1_SOURCE_CODE,
-    TONIC_UI_V1_TAGNAME: process.env.TONIC_UI_V1_TAGNAME,
-    TONIC_UI_V1_RELEASE_VERSION: process.env.TONIC_UI_V1_RELEASE_VERSION,
-    TONIC_UI_V1_RELEASE_DOCUMENTATION: process.env.TONIC_UI_V1_RELEASE_DOCUMENTATION,
-    TONIC_UI_V1_RELEASE_NOTES: process.env.TONIC_UI_V1_RELEASE_NOTES,
-    // v0
-    TONIC_UI_V0_BRANCH: process.env.TONIC_UI_V0_BRANCH,
-    TONIC_UI_V0_DOCUMENTATION: process.env.TONIC_UI_V0_DOCUMENTATION,
-    TONIC_UI_V0_SOURCE_CODE: process.env.TONIC_UI_V0_SOURCE_CODE,
-    TONIC_UI_V0_TAGNAME: process.env.TONIC_UI_V0_TAGNAME,
-    TONIC_UI_V0_RELEASE_VERSION: process.env.TONIC_UI_V0_RELEASE_VERSION,
-    TONIC_UI_V0_RELEASE_DOCUMENTATION: process.env.TONIC_UI_V0_RELEASE_DOCUMENTATION,
-    TONIC_UI_V0_RELEASE_NOTES: process.env.TONIC_UI_V0_RELEASE_NOTES,
+    TONIC_UI_VERSION_LABELS: process.env.TONIC_UI_VERSION_LABELS,
+    // Version-specific variables (dynamically generated)
+    ...buildVersionEnvVars(),
   },
   basePath: process.env.TONIC_UI_REACT_DOCS_BASE_PATH,
   distDir: process.env.NODE_ENV === 'production' ? 'dist' : 'build',
