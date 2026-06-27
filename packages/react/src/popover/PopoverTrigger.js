@@ -1,7 +1,7 @@
 import { useEventCallback, useEventListener, useMergeRefs } from '@tonic-ui/react-hooks';
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
-import { Children, cloneElement, forwardRef, useRef, useState } from 'react';
+import React, { Children, cloneElement, forwardRef, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { mergeRefs } from '../utils/refs';
@@ -9,6 +9,15 @@ import useButtonEventHandlers from '../utils/useButtonEventHandlers';
 import { usePopoverTriggerStyle } from './styles';
 import usePopover from './usePopover';
 
+/**
+ * @typedef {Object} PopoverTriggerProps
+ * @property {React.ReactNode | ((context: { getPopoverTriggerProps: (ownProps?: React.HTMLAttributes<HTMLElement>, ownRef?: React.Ref<HTMLElement> | null) => React.HTMLAttributes<HTMLElement> }) => React.ReactNode)} [children] - The content of the popover trigger or a function that returns content.
+ * @property {boolean} [shouldWrapChildren=false] - Whether to wrap children in a Box component.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', PopoverTriggerProps>}
+ */
 const PopoverTrigger = forwardRef((inProps, ref) => {
   const {
     children,

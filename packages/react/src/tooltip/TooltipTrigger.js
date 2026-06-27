@@ -1,6 +1,6 @@
 import { useEventListener, useMergeRefs } from '@tonic-ui/react-hooks';
 import { callEventHandlers } from '@tonic-ui/utils';
-import { Children, cloneElement, forwardRef, useState } from 'react';
+import React, { Children, cloneElement, forwardRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { useEnvironment } from '../environment';
@@ -8,6 +8,14 @@ import { mergeRefs } from '../utils/refs';
 import { useTooltipTriggerStyle } from './styles';
 import useTooltip from './useTooltip';
 
+/**
+ * @typedef {Object} TooltipTriggerProps
+ * @property {React.ReactNode} [children] - The trigger element for the tooltip.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', TooltipTriggerProps>}
+ */
 const TooltipTrigger = forwardRef((inProps, ref) => {
   const {
     children,

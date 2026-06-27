@@ -2,7 +2,7 @@ import { createPopper } from '@popperjs/core';
 import { useEffectOnce, useOnceWhen } from '@tonic-ui/react-hooks';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
-import { forwardRef, useEffect, useRef, useState, useCallback } from 'react';
+import React, { forwardRef, useEffect, useRef, useState, useCallback } from 'react';
 import { useDefaultProps } from '../default-props';
 import { Portal } from '../portal';
 import { Box } from '../box';
@@ -24,6 +24,38 @@ const matchWidthModifier = {
   },
 };
 
+/**
+ * @typedef {Object} PopperChildProps
+ * @property {string} placement - The current placement of the popper.
+ * @property {{ in: boolean; onEnter: () => void; onExited: () => void }} [transition] - Transition props when `willUseTransition` is true.
+ */
+
+/**
+ * @typedef {Object} PopperInstance
+ * @property {() => void} destroy - Destroy the popper instance.
+ * @property {() => void} forceUpdate - Force update the popper position.
+ */
+
+/**
+ * @typedef {Object} PopperProps
+ * @property {HTMLElement | (() => HTMLElement) | null} [anchorEl] - Deprecated: Use `referenceRef` instead. The element or a function returning an element to which the popper is attached.
+ * @property {React.ReactNode | ((context: PopperChildProps) => React.ReactNode)} [children] - The content of the popper. Can be a ReactNode or a render function that receives `{ placement }`.
+ * @property {boolean} [isOpen] - Whether the popper is open.
+ * @property {boolean} [matchWidth=false] - If `true`, sizes the popper to match the reference element's width on every update. Useful for autocomplete, date-picker, and select patterns.
+ * @property {Array<import('@popperjs/core').Modifier<string, object>>} [modifiers] - Popper.js modifiers to customize positioning behavior.
+ * @property {'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end'} [placement='bottom-start'] - The placement of the popper.
+ * @property {React.MutableRefObject<PopperInstance | null>} [popperRef] - Reference to receive the popper instance.
+ * @property {boolean} [portalled] - If `true`, renders the popper in a portal. Takes precedence over `usePortal` when provided.
+ * @property {import('../portal/Portal').PortalProps} [portalProps] - Props to pass to the Portal component when `portalled` is true.
+ * @property {React.RefObject<HTMLElement>} [referenceRef] - Reference to the element the popper is positioned relative to.
+ * @property {boolean} [unmountOnExit=false] - Whether to unmount the popper when not open.
+ * @property {boolean} [usePortal=false] - Whether to render in a portal. Use `portalled` instead.
+ * @property {boolean} [willUseTransition=false] - Whether the popper uses transitions.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', PopperProps>}
+ */
 const Popper = forwardRef((inProps, ref) => {
   const {
     anchorEl, // deprecated

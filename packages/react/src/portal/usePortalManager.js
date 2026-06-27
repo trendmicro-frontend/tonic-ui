@@ -1,6 +1,16 @@
 import { useContext, useRef } from 'react';
 import { PortalManagerContext } from './context';
 
+/**
+ * @typedef {Object} PortalManagerContextValue
+ * @property {(render: (remove: () => void) => React.ReactNode, options?: { id?: string; appendToParentPortal?: boolean; containerRef?: React.RefObject<HTMLElement> }) => string} add - Add a portal and return its id.
+ * @property {(id: string) => void} remove - Remove a portal by its id.
+ */
+
+/**
+ * A hook to access the portal manager context.
+ * @returns {PortalManagerContextValue & ((render: (remove: () => void) => React.ReactNode, options?: { id?: string; appendToParentPortal?: boolean; containerRef?: React.RefObject<HTMLElement> }) => string)} The portal manager object. Can also be called as a function to add a portal.
+ */
 const usePortalManager = () => {
   const createPortalRef = useRef(null);
   const portalManagerRef = useRef(null);

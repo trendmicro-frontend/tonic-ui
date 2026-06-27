@@ -1,7 +1,7 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureFiniteNumber } from 'ensure-type';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { CircularProgress } from '../progress';
 import { useDefaultProps } from '../default-props';
 
@@ -29,6 +29,15 @@ const mapSpinnerSizeToThickness = (size) => {
   return sizeToThicknessMap[size] ?? sizeToThicknessMap[defaultSize];
 };
 
+/**
+ * @typedef {Object} SpinnerProps
+ * @property {string} [color='blue:60'] - The color of the spinner. It supports both default and custom theme colors.
+ * @property {'xl' | 'lg' | 'md' | 'sm' | 'xs'} [size='md'] - The size of the spinner.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', SpinnerProps>}
+ */
 const Spinner = forwardRef((inProps, ref) => {
   const {
     lineColor: lineColorProp, // deprecated

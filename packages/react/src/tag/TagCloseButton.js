@@ -1,11 +1,19 @@
 import { CloseSIcon } from '@tonic-ui/react-icons';
 import { callEventHandlers } from '@tonic-ui/utils';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
 import { useTagCloseButtonStyle } from './styles';
 import useTag from './useTag';
 
+/**
+ * @typedef {Object} TagCloseButtonProps
+ * @property {React.ReactNode} [children] - The content of the tag close button.
+ */
+
+/**
+ * @type {ForwardRefComponent<'button', TagCloseButtonProps>}
+ */
 const TagCloseButton = forwardRef((inProps, ref) => {
   const {
     children,

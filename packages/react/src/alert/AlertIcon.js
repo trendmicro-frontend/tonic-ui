@@ -4,7 +4,7 @@ import {
   WarningMinorIcon,
   ErrorIcon,
 } from '@tonic-ui/react-icons';
-import { forwardRef, useMemo } from 'react';
+import React, { forwardRef, useMemo } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { Icon } from '../icon';
@@ -13,6 +13,14 @@ import {
 } from './styles';
 import useAlert from './useAlert';
 
+/**
+ * @typedef {Object} AlertIconProps
+ * @property {React.ReactNode} [children] - The content of the alert icon.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', AlertIconProps>}
+ */
 const AlertIcon = forwardRef((inProps, ref) => {
   const props = useDefaultProps({ props: inProps, name: 'AlertIcon' });
   const alertContext = useAlert(); // context might be an undefined value

@@ -1,6 +1,6 @@
 import { useIsomorphicEffect } from '@tonic-ui/react-hooks';
 import { getOwnerDocument, noop } from '@tonic-ui/utils';
-import { useContext, useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
@@ -10,6 +10,16 @@ import { PortalContext } from './context';
 const PORTAL_CLASSNAME = 'tonic-ui-portal';
 const PORTAL_SELECTOR = `.${PORTAL_CLASSNAME}`;
 
+/**
+ * @typedef {Object} PortalProps
+ * @property {boolean} [appendToParentPortal=false] - The portal will check if it is within a parent portal and append itself to the parent's portal node.
+ * @property {React.ReactNode} [children] -
+ * @property {React.RefObject<HTMLElement>} [containerRef] - A `ref` to the container where the portal will be rendered.
+ */
+
+/**
+ * @type {React.FC<PortalProps>}
+ */
 const Portal = (inProps) => {
   const {
     appendToParentPortal = false,
