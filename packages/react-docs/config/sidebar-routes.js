@@ -30,15 +30,6 @@ export const routes = [
       { title: 'Installation', path: 'getting-started/installation' },
       { title: 'Usage', path: 'getting-started/usage' },
       {
-        title: 'AI assistant with MCP',
-        path: 'getting-started/mcp',
-        render: () => (
-          <Tag variant="outline" borderColor="yellow:50" color="yellow:50" size="sm">
-            NEW
-          </Tag>
-        ),
-      },
-      {
         title: 'Color mode',
         path: 'components/color-mode',
         render: () => (
@@ -52,7 +43,21 @@ export const routes = [
           <LinkIcon />
         ),
       },
-      { title: 'Icons', path: 'getting-started/icons' },
+      {
+        title: 'Environment',
+        path: 'components/environment',
+        render: () => (
+          <LinkIcon />
+        ),
+      },
+      {
+        title: 'Icons',
+        path: 'icons',
+        render: () => (
+          <LinkIcon />
+        ),
+      },
+      { title: 'AI assistant with MCP', path: 'getting-started/mcp' },
       { title: 'The sx prop', path: 'getting-started/the-sx-prop' },
       { title: 'Versions', path: 'getting-started/versions' },
     ],
