@@ -1,7 +1,8 @@
 import tonicTheme from '@tonic-ui/theme';
-import { merge } from '@tonic-ui/utils';
+import { merge, resolveTheme } from '@tonic-ui/utils';
 import { ensurePlainObject } from 'ensure-type';
 import { mapThemeToCSSVariables } from './utils/css-vars';
+import { TONIC_THEME } from './constants';
 
 const defaultCSSVariablePrefix = 'tonic';
 const defaultCSSVariableRootSelector = ':root';
@@ -28,6 +29,14 @@ const createTheme = (options = {}, ...args) => {
   // Merge additional arguments into the theme
   theme = args.reduce((acc, arg) => merge(acc, arg), theme);
 
+  // Resolve token references (e.g., {colors.primary} → actual value).
+  // Over flat v3 colon tokens (gray:100) there are no {refs} to resolve, so this
+  // is a near pass-through that simply attaches toColorMode() to the theme.
+  theme = resolveTheme(theme);
+
+  // TONIC_THEME is a non-enumerable property used to identify themes created with `createTheme()`.
+  Object.defineProperty(theme, TONIC_THEME, { value: true, enumerable: false });
+
   if (cssVariableConfig) {
     if (typeof cssVariableConfig !== 'boolean' && typeof cssVariableConfig !== 'object') {
       throw new Error('The `cssVariables` config must be a boolean or an object');
@@ -47,14 +56,17 @@ const createTheme = (options = {}, ...args) => {
       )
     );
 
-    // Create CSS variables with the appropriate prefix
-    const cssVariables = mapThemeToCSSVariables(cssVariableTheme, { prefix: cssVariablePrefix });
+    // Create CSS variables with the appropriate prefix.
+    // Frozen so the shared map cannot be mutated by consumers.
+    const cssVariables = Object.freeze(mapThemeToCSSVariables(cssVariableTheme, { prefix: cssVariablePrefix }));
 
-    // Merge CSS variables into the theme
-    theme = merge(theme, {
-      cssVariablePrefix,
-      cssVariables,
-      rootSelector,
+    // All the following properties must be enumerable to remain accessible in `styled-system`
+    // and `CSSVariables` after theme propagation. The Proxy variants in resolveTheme delegate
+    // missing properties back to this resolved object, so attaching here is sufficient.
+    Object.defineProperties(theme, {
+      cssVariablePrefix: { value: cssVariablePrefix, enumerable: true, configurable: true },
+      cssVariables: { value: cssVariables, enumerable: true, configurable: true },
+      rootSelector: { value: rootSelector, enumerable: true, configurable: true },
     });
   }
 
