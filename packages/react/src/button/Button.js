@@ -1,5 +1,5 @@
 import { ariaAttr, dataAttr } from '@tonic-ui/utils';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { useDefaultProps } from '../default-props';
 import ButtonBase from './ButtonBase';
 import { useButtonStyle } from './styles';
@@ -9,6 +9,18 @@ const defaultSize = 'md';
 const defaultVariant = 'default';
 const defaultOrientation = 'horizontal';
 
+/**
+ * @typedef {Object} ButtonProps
+ * @property {React.ReactNode} [children]
+ * @property {boolean} [disabled] - Disables the button and prevents user interactions.
+ * @property {boolean} [selected] - Marks the button as selected and prevents interactions.
+ * @property {'sm' | 'md' | 'lg'} [size='md'] - The size of the button.
+ * @property {'emphasis' | 'primary' | 'default' | 'secondary' | 'ghost'} [variant='default'] - The variant of the button style to use.
+ */
+
+/**
+ * @type {ForwardRefComponent<'button', ButtonProps>}
+ */
 const Button = forwardRef((inProps, ref) => {
   const {
     disabled: disabledProp,

@@ -1,8 +1,17 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { useDefaultProps } from '../default-props';
 import Text from './Text';
 import { useTextLabelStyle } from './styles';
 
+/**
+ * @typedef {Object} TextLabelProps
+ * @property {React.ReactNode} [children] -
+ * @property {'4xl' | '3xl' | '2xl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs'} [size] -
+ */
+
+/**
+ * @type {ForwardRefComponent<'label', TextLabelProps>}
+ */
 const TextLabel = forwardRef((inProps, ref) => {
   const {
     size,

@@ -1,7 +1,15 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 
+/**
+ * @typedef {Object} FlexProps
+ * @property {React.ReactNode} [children] -
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', FlexProps>}
+ */
 const Flex = forwardRef((inProps, ref) => {
   const {
     direction,
