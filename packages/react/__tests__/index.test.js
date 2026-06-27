@@ -67,6 +67,7 @@ test('should match expected exports', () => {
 
     // css-baseline
     'CSSBaseline',
+    'CSSVariables',
 
     // date-pickers
     'DateCalendar',

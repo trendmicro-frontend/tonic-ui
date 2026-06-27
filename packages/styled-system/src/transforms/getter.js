@@ -1,5 +1,4 @@
-import { toCSSVariable } from '@tonic-ui/utils';
-import { get, isNullish } from '@tonic-ui/utils';
+import { toCSSVariable, get, isNullish } from '@tonic-ui/utils';
 
 // Legacy toCSSVariable matching the original tonic-ui behavior:
 // replaces ALL non-alphanumeric, non-hyphen, non-underscore characters with hyphens.
