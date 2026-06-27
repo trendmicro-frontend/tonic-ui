@@ -1,5 +1,11 @@
 # @tonic-ui/utils
 
+## 3.0.0-alpha.0
+
+### Major Changes
+
+- Begin the Tonic UI v3 development line (3.0.0). First prerelease (alpha) on the `main` branch.
+
 ## 2.3.0
 
 ### Minor Changes
