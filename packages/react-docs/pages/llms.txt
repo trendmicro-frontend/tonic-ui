@@ -6,13 +6,15 @@
 
 [Usage]({{PAGE_BASE}}/getting-started/usage/): <classification>LLM should read this page when starting to use Tonic UI components, setting up the theme provider, or implementing basic component usage patterns in your application.</classification>
 
+[Color mode]({{PAGE_BASE}}/components/color-mode/): <classification>LLM should read this page when implementing dark/light mode switching, understanding color mode context, or configuring theme-aware components that respond to color mode changes.</classification>
+
+[Color style]({{PAGE_BASE}}/components/color-style/): <classification>LLM should read this page when working with color styling approaches, implementing custom color schemes, or using color tokens and semantic color naming conventions.</classification>
+
+[Environment]({{PAGE_BASE}}/components/environment/): <classification>LLM should read this page when rendering Tonic One components inside non-standard DOM environments such as iframes or shadow DOM, configuring the EnvironmentProvider and the TonicProvider environment prop, or resolving the correct document/window for portals, focus tracking, and event listeners across realms.</classification>
+
+[Icons]({{PAGE_BASE}}/icons/): <classification>LLM should read this page when using icons in Tonic One, implementing custom icon components, or working with the Icon and SVGIcon components for displaying iconography.</classification>
+
 [AI assistant with MCP]({{PAGE_BASE}}/getting-started/mcp/): <classification>LLM should read this page when accessing the Model Context Protocol (MCP) server for Tonic UI documentation and resources.</classification>
-
-[Color mode]({{PAGE_BASE}}/getting-started/color-mode/): <classification>LLM should read this page when implementing dark/light mode switching, understanding color mode context, or configuring theme-aware components that respond to color mode changes.</classification>
-
-[Color style]({{PAGE_BASE}}/getting-started/color-style/): <classification>LLM should read this page when working with color styling approaches, implementing custom color schemes, or using color tokens and semantic color naming conventions.</classification>
-
-[Icons]({{PAGE_BASE}}/getting-started/icons/): <classification>LLM should read this page when using icons in Tonic UI, implementing custom icon components, or working with the Icon and SVGIcon components for displaying iconography.</classification>
 
 [The sx prop]({{PAGE_BASE}}/getting-started/the-sx-prop/): <classification>LLM should read this page when using the sx prop for custom styling, applying theme-aware styles, or implementing responsive styling patterns across components.</classification>
 
@@ -212,6 +214,8 @@
 
 [Image]({{PAGE_BASE}}/components/image/): <classification>LLM should read this page when using the Image component as a replacement for the HTML img tag, displaying static images, or working with inline SVG content. The Image component provides a simple wrapper for image display with proper alt text support and src path specification.</classification>
 
+[SVGIcon]({{PAGE_BASE}}/components/svg-icon/): <classification>LLM should read this page when using the SVGIcon component for custom SVG icons, creating accessible SVG icons with automatic scaling, implementing custom icon components with createSVGIcon utility, or working with external SVG files using the as prop with svgr loaders.</classification>
+
 ### Navigation
 
 [Link]({{PAGE_BASE}}/components/link/): <classification>LLM should read this page when using the Link component for navigation and hyperlinks, implementing accessible link functionality, or creating both internal and external navigation with proper styling. Related to ButtonLink and LinkButton components.</classification>
@@ -268,13 +272,13 @@
 
 [PortalManager]({{PAGE_BASE}}/components/portal-manager/): <classification>LLM should read this page when setting up portal management in applications, creating and managing multiple portals programmatically, or implementing modal systems that require centralized portal control and lifecycle management.</classification>
 
-[usePortalManager]({{PAGE_BASE}}/components/portal-manager/usePortalManager/): <classification>LLM should read this page when using the usePortalManager hook to create, remove, and manage portals programmatically, implementing dynamic modal creation, or building custom overlay components that need portal functionality with lifecycle control.</classification>
-
 [ResizeHandle]({{PAGE_BASE}}/components/resize-handle/): <classification>LLM should read this page when implementing resizable UI elements, adding resize functionality to tables, tree views, or panels, or creating interactive resize handles withdrag-and-drop behavior and visual feedback.</classification>
 
 [Scrollbar]({{PAGE_BASE}}/components/scrollbar/): <classification>LLM should read this page when implementing custom scrollbars with consistent cross-platform appearance, creating scrollable content areas with custom styling, controlling scroll behavior, or integrating with virtualization libraries like React Virtuoso.</classification>
 
 [VisuallyHidden]({{PAGE_BASE}}/components/visually-hidden/): <classification>LLM should read this page when implementing accessibility features that hide content visually but keep it available to screen readers, creating accessible form labels, or providing screen reader-only content for better accessibility compliance.</classification>
+
+[usePortalManager]({{PAGE_BASE}}/components/portal-manager/usePortalManager/): <classification>LLM should read this page when using the usePortalManager hook to create, remove, and manage portals programmatically, implementing dynamic modal creation, or building custom overlay components that need portal functionality with lifecycle control.</classification>
 
 [useSlot]({{PAGE_BASE}}/components/slot/useSlot/): <classification>LLM should read this page when building Tonic UI components that expose a slots/slotProps API, swapping out a component's internal elements, forwarding props to internal slots, or customizing component structure without forking the component.</classification>
 
