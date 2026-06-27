@@ -1,5 +1,23 @@
 # @tonic-ui/react
 
+## 2.15.0
+
+### Minor Changes
+
+- feat: add `List` and `ListItem` components by [@cheton](https://github.com/cheton) in [#1160](https://github.com/trendmicro-frontend/tonic-ui/pull/1160)
+
+- feat(react): Add `ButtonBox` component by [@cheton](https://github.com/cheton) in [#1161](https://github.com/trendmicro-frontend/tonic-ui/pull/1161)
+
+- feat: add `EnvironmentProvider` to support non-standard DOM environments by [@cheton](https://github.com/cheton) in [#1088](https://github.com/trendmicro-frontend/tonic-ui/pull/1088)
+
+### Patch Changes
+
+- chore(react): upgrade `date-fns` from v2 to v4 by [@cheton](https://github.com/cheton) in [#1159](https://github.com/trendmicro-frontend/tonic-ui/pull/1159)
+
+- fix(react): remove false-positive `slotProps` warning in `useSlot` by [@cheton](https://github.com/cheton) in [#1162](https://github.com/trendmicro-frontend/tonic-ui/pull/1162)
+
+- feat(react/portal): `Portal` now supports Shadow DOM by resolving its default container from the mounted root instead of `document.body`. by [@cheton](https://github.com/cheton) in [#1166](https://github.com/trendmicro-frontend/tonic-ui/pull/1166)
+
 ## 2.14.0
 
 ### Minor Changes
