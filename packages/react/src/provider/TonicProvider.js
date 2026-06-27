@@ -8,6 +8,37 @@ import { CSSVariables, ThemeProvider } from '../theme';
 import { EnvironmentProvider } from '../environment';
 import { TONIC_THEME } from '../theme/constants';
 
+/**
+ * @typedef {Object} ColorModeConfig
+ * @property {'light' | 'dark'} [value] - Controlled color mode value.
+ * @property {'light' | 'dark'} [defaultValue='light'] - Default color mode value for uncontrolled usage.
+ */
+
+/**
+ * @typedef {Object} ColorStyleConfig
+ * @property {ThemeScales} [value] - Controlled color style value.
+ * @property {ThemeScales} [defaultValue] - Default color style value for uncontrolled usage.
+ */
+
+/**
+ * @typedef {Object} EnvironmentConfig
+ * @property {Node | (() => Node)} [value] - The root node (or a function returning one) used to resolve the environment's document and window.
+ */
+
+/**
+ * @typedef {Object} TonicProviderProps
+ * @property {React.ReactNode} [children] - The content to render within the provider.
+ * @property {ColorModeConfig} [colorMode] - Color mode configuration object.
+ * @property {ColorStyleConfig} [colorStyle] - Color style configuration object.
+ * @property {EnvironmentConfig} [environment] - Environment configuration object.
+ * @property {ThemeScales} [theme] - Custom theme object created with `createTheme()`.
+ * @property {boolean} [useCSSBaseline=false] - If `true`, applies CSS reset and base styles globally.
+ * @property {boolean} [useCSSVariables=false] - If `true`, enables CSS variable replacement for theme tokens.
+ */
+
+/**
+ * @type {React.FC<TonicProviderProps>}
+ */
 const TonicProvider = ({
   children,
   colorMode: colorModeProps = {},

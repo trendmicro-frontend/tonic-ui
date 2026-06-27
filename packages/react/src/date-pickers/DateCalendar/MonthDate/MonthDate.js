@@ -4,6 +4,13 @@ import { useMonthDateStyle } from '../styles';
 import DaysOfWeek from './DaysOfWeek';
 import Weeks from './Weeks';
 
+/**
+ * @typedef {Object} MonthDateProps
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', MonthDateProps>}
+ */
 const MonthDate = forwardRef((
   props,
   ref

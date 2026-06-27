@@ -7,6 +7,24 @@ import { TONIC_THEME } from './constants';
 const defaultCSSVariablePrefix = 'tonic';
 const defaultCSSVariableRootSelector = ':root';
 
+/**
+ * @typedef {Object} CSSVariableConfig
+ * @property {string} [prefix='tonic'] - Custom prefix for CSS variables.
+ * @property {string} [rootSelector=':root'] - Root selector where CSS variables are defined.
+ */
+
+/**
+ * @typedef {Object} CreateThemeOptions
+ * @property {boolean | CSSVariableConfig} [cssVariables=false] - CSS variables configuration. `false` (default) disables CSS variables; `true` enables them with default settings; an object enables them with custom `prefix` and `rootSelector`.
+ */
+
+/**
+ * Creates a theme object, optionally generating CSS variables.
+ *
+ * @param {CreateThemeOptions & ThemeScales} [options={}] - Theme configuration options.
+ * @param {...ThemeScales} args - Additional theme objects to merge.
+ * @returns {ThemeScales & { cssVariablePrefix?: string, cssVariables?: ThemeScales, rootSelector?: string }} The created theme object. When CSS variables are enabled, `cssVariablePrefix`, `cssVariables`, and `rootSelector` are attached.
+ */
 const createTheme = (options = {}, ...args) => {
   const {
     // CSS variables configuration for the theme:

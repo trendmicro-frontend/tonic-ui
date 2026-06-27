@@ -1,7 +1,7 @@
 import { useClickOutside, useConst, useEventCallback, useId, useMergeRefs, usePrevious } from '@tonic-ui/react-hooks';
 import { callEventHandlers, isNullOrUndefined } from '@tonic-ui/utils';
 import { endOfDay, format, isDate, isValid, parse, startOfDay } from 'date-fns';
-import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../../box';
 import { useDefaultProps } from '../../default-props';
 import useShallowMemo from '../../utils/useShallowMemo';
@@ -54,6 +54,32 @@ const mapValueToEndOfDay = (value) => {
   return (isDate(date) && isValid(date)) ? endOfDay(date) : null;
 };
 
+/**
+ * @typedef {Object} DatePickerProps
+ * @property {boolean} [closeOnSelect=false] - Determines if the date picker should close automatically after a date is selected.
+ * @property {Date|string} [defaultValue] - The default selected date. If the `defaultValue` is a string, it will be parsed to a `Date` object in accordance with the `inputFormat`.
+ * @property {boolean} [defaultIsOpen=false] - Whether the date picker is open by default.
+ * @property {number} [firstDayOfWeek=0] - The first day of the week. 0 = Sunday, 1 = Monday, 2 = Tuesday, 3 = Wednesday, 4 = Thursday, 5 = Friday, 6 = Saturday.
+ * @property {(date: Date, formatStr: string, options: { locale?: Locale }) => void} [formatDate] - A callback called to return the formatted date string in the given format.
+ * @property {string} [inputFormat='yyyy-MM-dd'] - The default date format is ISO 8601 (`yyyy-MM-dd`). You can change the input format in accordance with the locale. The input value will be parsed to a `Date` object with `dd` as day, `MM` as month, and `yyyy` as year.
+ * @property {boolean} [isOpen] - If `true`, the date picker will be open.
+ * @property {[number, number]} [offset=[0, 0]] - The skidding and distance of the date picker.
+ * @property {boolean} [portalled=false] - If `true`, renders the date picker in a portal.
+ * @property {Date} [minDate] - The minimum date that can be selected.
+ * @property {Date} [maxDate] - The maximum date that can be selected.
+ * @property {(date: Date) => void} [onChange] - A callback called when the value (the selected date) changes.
+ * @property {() => void} [onClose] - Callback when the date picker is closed.
+ * @property {(error: string, date: Date) => void} [onError] - An error-first callback called when the date validation returns an error (or the date is valid after error).
+ * @property {() => void} [onOpen] - Callback when the date picker is opened.
+ * @property {string} [placement='bottom-start'] - The placement of the date picker. One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'.
+ * @property {(props: { error: string | undefined, inputProps: React.HTMLAttributes<HTMLElement> & { ref: React.RefCallback<HTMLElement>, value: string } }) => React.ReactNode} [renderInput] - The `renderInput` prop allows you to customize the rendered input. The `props` argument of this render prop contains props of InputControl that you need to forward.
+ * @property {(date: Date) => boolean} [shouldDisableDate] - Disable specific date. Return `true` if the date will be disabled.
+ * @property {Date|string} [value] - The selected date. If the `value` is a string, it will be parsed to a `Date` object in accordance with the `inputFormat`.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', DatePickerProps>}
+ */
 const DatePicker = forwardRef((inProps, ref) => {
   const {
     children, // eslint-disable-line no-unused-vars

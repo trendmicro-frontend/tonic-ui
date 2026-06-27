@@ -5,6 +5,13 @@ import { Grid } from '../../../grid';
 import useDateCalendar from '../useDateCalendar';
 import { useDaysOfWeekStyle } from '../styles';
 
+/**
+ * @typedef {Object} DaysOfWeekProps
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', DaysOfWeekProps>}
+ */
 const DaysOfWeek = forwardRef((props, ref) => {
   const dateCalendarContext = useDateCalendar();
   const {

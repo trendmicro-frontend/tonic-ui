@@ -9,6 +9,13 @@ const isWeekInMonth = (startDateOfWeek, activeDate) => {
   return isSameMonth(startDateOfWeek, activeDate) || isSameMonth(endDateOfWeek, activeDate);
 };
 
+/**
+ * @typedef {Object} WeeksProps
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', WeeksProps>}
+ */
 const Weeks = forwardRef((
   props,
   ref,

@@ -20,6 +20,13 @@ import {
   useYearMonthPickerYearButtonStyle,
 } from '../styles';
 
+/**
+ * @typedef {Object} YearMonthPickerProps
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', YearMonthPickerProps>}
+ */
 const YearMonthPicker = forwardRef((props, ref) => {
   const dateCalendarContext = useDateCalendar();
   const {

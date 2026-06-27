@@ -1,6 +1,15 @@
 import { addDays } from 'date-fns';
+import React from 'react';
 import Day from './Day';
 
+/**
+ * @typedef {Object} WeekProps
+ * @property {Date} startDateOfWeek - The start date of the week.
+ */
+
+/**
+ * @type {React.FC<WeekProps>}
+ */
 const Week = ({
   startDateOfWeek,
 }) => {
