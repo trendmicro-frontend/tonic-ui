@@ -38,6 +38,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
+          check-latest: true
       - name: Install Dependencies
         id: install-dependencies
         run: yarn install
