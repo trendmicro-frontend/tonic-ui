@@ -32,6 +32,9 @@ test('should match expected exports', () => {
     // dom-query
     'getAllFocusable',
 
+    // resolveTheme
+    'resolveTheme',
+
     // shared
     'ariaAttr',
     'callAll',
@@ -44,6 +47,9 @@ test('should match expected exports', () => {
     'runIfFn',
     'warnDeprecatedProps',
     'warnRemovedProps',
+
+    // toCSSVariable
+    'toCSSVariable',
 
     // transition
     'transitionDuration',
