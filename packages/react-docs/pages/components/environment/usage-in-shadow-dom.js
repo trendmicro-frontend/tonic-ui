@@ -21,12 +21,40 @@ import {
   useColorStyle,
   usePortalManager,
 } from '@tonic-ui/react';
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import BorderedBox from '@/components/BorderedBox';
 
 const NONCE = process.env.NONCE ?? '';
+
+const createShadowDOM = (container) => {
+  if (!(container instanceof Element)) {
+    throw new Error('createShadowDOM: container must be a DOM Element');
+  }
+
+  const shadowRoot = container.shadowRoot ?? container.attachShadow({ mode: 'open' });
+
+  shadowRoot.replaceChildren();
+  const mountElement = document.createElement('div');
+  mountElement.setAttribute('data-shadow-root', 'true');
+  mountElement.style.display = 'contents';
+  shadowRoot.appendChild(mountElement);
+
+  const root = createRoot(mountElement);
+
+  return {
+    shadowRoot,
+    render: (children) => root.render(children),
+    unmount: () => root.unmount(),
+  };
+};
+
+const useLayoutUnmount = (fn) => {
+  const fnRef = useRef(fn);
+  fnRef.current = fn;
+  useLayoutEffect(() => () => fnRef.current(), []);
+};
 
 const ModalComponent = ({ onClose }) => {
   return (
@@ -95,99 +123,56 @@ const ShadowDOMContent = () => {
 };
 
 const ShadowDOMContainer = ({ children, colorMode }) => {
-  const hostRef = useRef(null);
-  const shadowRootElementRef = useRef(null);
-  const rootRef = useRef(null);
+  const containerRef = useRef();
+  const shadowDOMRef = useRef();
+  const cacheRef = useRef();
+  const themeRef = useRef();
 
-  useEffect(() => {
-    const host = hostRef.current;
-    if (!host) {
+  // Re-runs on [children, colorMode] change — re-renders the shadow tree (reconcile)
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+    if (!container) {
       return;
     }
 
-    const shadowRoot = host.shadowRoot ?? host.attachShadow({ mode: 'open' });
-    const shadowRootElement = document.createElement('div');
-    shadowRoot.appendChild(shadowRootElement);
-    shadowRootElementRef.current = shadowRootElement;
-    rootRef.current = createRoot(shadowRootElement);
-
-    return () => {
-      setTimeout(() => {
-        rootRef.current?.unmount();
-        rootRef.current = null;
-        shadowRootElementRef.current = null;
-        shadowRoot.replaceChildren();
-      }, 0);
-    };
-  }, []);
-
-  useEffect(() => {
-    const shadowRootElement = shadowRootElementRef.current;
-    if (!(shadowRootElement instanceof HTMLElement)) {
-      return;
+    if (!shadowDOMRef.current) {
+      shadowDOMRef.current = createShadowDOM(container);
     }
-    const shadowRoot = shadowRootElement.parentNode;
 
-    // Create Emotion cache with shadow root as container
-    const cache = createCache({
-      key: 'css',
-      nonce: NONCE,
-      prepend: true,
-      container: shadowRoot,
-    });
+    if (!cacheRef.current) {
+      cacheRef.current = createCache({
+        key: 'tonic-ui-css',
+        nonce: NONCE,
+        prepend: true,
+        container: shadowDOMRef.current.shadowRoot,
+      });
+    }
 
-    // Create theme with CSS variables scoped to :host
-    const shadowTheme = createTheme({
-      cssVariables: {
-        prefix: 'tonic',
-        rootSelector: ':host',
-      },
-      components: {
-        Drawer: {
-          defaultProps: {
-            portalProps: {
-              containerRef: shadowRootElementRef,
-            },
-          },
+    // Create theme with CSS variables scoped to :container. Portal-based components
+    // (Modal, Drawer, Popper, ToastManager, PortalManager) resolve their portal
+    // container from the DOM tree they are mounted in (the shadow root), so they render
+    // inside the shadow root automatically — no per-component `containerRef` is needed.
+    // The `environment` config below is for resolving `getDocument()`/`getWindow()`
+    // to the correct realm, not for portal placement.
+    if (!themeRef.current) {
+      themeRef.current = createTheme({
+        cssVariables: {
+          prefix: 'tonic-ui',
+          rootSelector: ':host',
         },
-        Modal: {
-          defaultProps: {
-            portalProps: {
-              containerRef: shadowRootElementRef,
-            },
-          },
-        },
-        Popper: {
-          defaultProps: {
-            portalProps: {
-              containerRef: shadowRootElementRef,
-            },
-          },
-        },
-        PortalManager: {
-          defaultProps: {
-            containerRef: shadowRootElementRef,
-          },
-        },
-        ToastManager: {
-          defaultProps: {
-            containerRef: shadowRootElementRef,
-          },
-        },
-      },
-    });
+      });
+    }
 
-    const root = rootRef.current;
-    root.render(
-      <CacheProvider value={cache}>
+    shadowDOMRef.current.render(
+      <CacheProvider value={cacheRef.current}>
         <TonicProvider
           colorMode={{
             value: colorMode,
           }}
           environment={{
-            value: shadowRoot,
+            value: shadowDOMRef.current.shadowRoot,
           }}
-          theme={shadowTheme}
+          theme={themeRef.current}
         >
           <ToastManager>
             <PortalManager>
@@ -199,7 +184,15 @@ const ShadowDOMContainer = ({ children, colorMode }) => {
     );
   }, [children, colorMode]);
 
-  return <Box ref={hostRef} />;
+  // Cleanup runs only on unmount — destroys the shadow tree
+  useLayoutUnmount(() => {
+    shadowDOMRef.current?.unmount();
+    shadowDOMRef.current = null;
+    cacheRef.current = null;
+    themeRef.current = null;
+  });
+
+  return <Box ref={containerRef} />;
 };
 
 const App = () => {

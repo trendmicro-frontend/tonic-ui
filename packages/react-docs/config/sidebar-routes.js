@@ -8,6 +8,7 @@ import {
   ColorIcon,
   FileImageOIcon,
   HookIcon,
+  LinkIcon,
   MigrateSuccessIcon,
   RocketIcon,
   SearchOIcon,
@@ -29,17 +30,34 @@ export const routes = [
       { title: 'Installation', path: 'getting-started/installation' },
       { title: 'Usage', path: 'getting-started/usage' },
       {
-        title: 'AI assistant with MCP',
-        path: 'getting-started/mcp',
+        title: 'Color mode',
+        path: 'components/color-mode',
         render: () => (
-          <Tag variant="outline" borderColor="yellow:50" color="yellow:50" size="sm">
-            NEW
-          </Tag>
+          <LinkIcon />
         ),
       },
-      { title: 'Color mode', path: 'getting-started/color-mode' },
-      { title: 'Color style', path: 'getting-started/color-style' },
-      { title: 'Icons', path: 'getting-started/icons' },
+      {
+        title: 'Color style',
+        path: 'components/color-style',
+        render: () => (
+          <LinkIcon />
+        ),
+      },
+      {
+        title: 'Environment',
+        path: 'components/environment',
+        render: () => (
+          <LinkIcon />
+        ),
+      },
+      {
+        title: 'Icons',
+        path: 'icons',
+        render: () => (
+          <LinkIcon />
+        ),
+      },
+      { title: 'AI assistant with MCP', path: 'getting-started/mcp' },
       { title: 'The sx prop', path: 'getting-started/the-sx-prop' },
       { title: 'Versions', path: 'getting-started/versions' },
     ],

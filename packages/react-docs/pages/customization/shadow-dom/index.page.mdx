@@ -1,134 +1,42 @@
 # Shadow DOM
 
-The shadow DOM allows you to encapsulate parts of your application, isolating them from global styles and preventing interference with the regular DOM tree.
+The shadow DOM encapsulates parts of your application, isolating them from global styles and preventing interference with the regular DOM tree.
 
-## Getting started
+This page covers two setup patterns, depending on where you mount your app.
 
-To enable styling within the shadow DOM, start by importing `createCache` and `CacheProvider`:
+## Global root
 
-```js
+Use this pattern when mounting outside a React tree — for example in an MFE entry point, a web component lifecycle callback, or any `main.js`-style entry point.
+
+```jsx
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
-```
+import { TonicProvider, ToastManager, PortalManager, createTheme } from '@tonic-ui/react';
 
-### 1. Applying styles inside the shadow DOM
+const container = document.getElementById('root');
+const shadowDOM = createShadowDOM(container);
 
-The shadow DOM creates an isolated DOM tree attached to a host element, helping prevent style conflicts across components. Below is an example of how to create and style a shadow DOM:
-
-```js
-const container = document.querySelector('#root');
-const shadowContainer = container.shadowRoot || container.attachShadow({ mode: 'open' });
-const shadowRootElement = document.createElement('div');
-shadowContainer.appendChild(shadowRootElement);
-
-// If you're using a functional component, you might want to use `useRef` to store the `shadowRootElement`.
-const shadowRootElementRef = {
-  current: shadowRootElement,
-};
-
-// https://emotion.sh/docs/@emotion/cache
 const cache = createCache({
   key: 'tonic-css',
   prepend: true,
-  container: shadowContainer,
-  nonce: process.env.CSP_NONCE || 'your-nonce-string', // [optional] to comply with Content Security Policy (CSP) for inline execution
+  container: shadowDOM.shadowRoot,
 });
-```
 
-### 2. Theming components inside the shadow DOM
-
-`PortalManager`, `ToastManager`, and components such as `Drawer`, `Modal`, and `Popper` render outside the main DOM hierarchy through a `Portal`, which defaults to `document.body`. To maintain consistent theming inside the shadow DOM, proper configuration is needed.
-
-Below is an example configuration using a custom theme:
-
-```js
-const shadowTheme = createTheme({
-  components: {
-    Drawer: {
-      defaultProps: {
-        portalProps: {
-          containerRef: shadowRootElementRef,
-        },
-      },
-    },
-    Modal: {
-      defaultProps: {
-        portalProps: {
-          containerRef: shadowRootElementRef,
-        },
-      },
-    },
-    Popper: {
-      defaultProps: {
-        portalProps: {
-          containerRef: shadowRootElementRef,
-        },
-      },
-    },
-    PortalManager: {
-      defaultProps: {
-        containerRef: shadowRootElementRef,
-      },
-    },
-    ToastManager: {
-      defaultProps: {
-        containerRef: shadowRootElementRef,
-      },
-    },
-  },
-});
-```
-
-### 3. Using CSS theme variables (optional)
-
-To use CSS theme variables within the shadow DOM, specify the root selector for generating the CSS variables:
-
-```js
-const shadowTheme = createTheme({
+const theme = createTheme({
   cssVariables: {
     prefix: 'tonic',
     rootSelector: ':host',
   },
-  components: {
-    // Same as the above step
-  },
 });
-```
 
-### 4. Rendering components inside the shadow DOM
-
-The following code snippet demonstrates how to render components inside the shadow DOM:
-
-```jsx
-ReactDOM.createRoot(shadowRootElement).render(
+shadowDOM.render(
   <CacheProvider value={cache}>
     <TonicProvider
-      colorMode={{
-        value: colorMode,
-      }}
-      theme={shadowTheme}
+      colorMode={{ value: 'light' }}
+      environment={{ value: shadowDOM.shadowRoot }}
+      theme={theme}
     >
-      <ToastManager
-        // Ensure that `ToastManager` is positioned above `PortalManager` to allow toast notifications to be displayed within a portal.
-        slotProps={{
-          transition: {
-            sx: {
-              '[data-toast-placement^="top"] > &:first-of-type': {
-                mt: '4x', // the space to the top edge of the screen
-              },
-              '[data-toast-placement^="bottom"] > &:last-of-type': {
-                mb: '4x', // the space to the bottom edge of the screen
-              },
-              '[data-toast-placement$="left"] > &': {
-                ml: '4x', // the space to the left edge of the screen
-              },
-              '[data-toast-placement$="right"] > &': {
-                mr: '4x', // the space to the right edge of the screen
-              },
-            },
-          },
-        }}
-      >
+      <ToastManager>
         <PortalManager>
           <App />
         </PortalManager>
@@ -138,9 +46,140 @@ ReactDOM.createRoot(shadowRootElement).render(
 );
 ```
 
+**What each piece does:**
+
+| Piece | Purpose |
+| :---- | :------ |
+| `createCache({ container: shadowRoot })` | Injects Emotion `<style>` tags into the shadow root instead of `<head>`, keeping styles scoped inside the shadow boundary |
+| `createTheme({ rootSelector: ':host' })` | Emits CSS variables on the shadow host element (`:host`) so they are visible inside the shadow tree |
+| `environment={{ value: shadowRoot }}` | Tells portal-based components (`Modal`, `Drawer`, `Tooltip`, `ToastManager`) to resolve their portal container from the shadow root instead of `document` |
+
+### `createShadowDOM` helper
+
+Copy this helper into your project. It attaches a shadow root to a host element, creates a React root inside it, and returns a `{ shadowRoot, render, unmount }` object modelled after React's own `createRoot` API.
+
+```js
+import { createRoot } from 'react-dom/client';
+
+const createShadowDOM = (container) => {
+  if (!(container instanceof Element)) {
+    throw new Error('createShadowDOM: container must be a DOM Element');
+  }
+
+  const shadowRoot = container.shadowRoot ?? container.attachShadow({ mode: 'open' });
+
+  shadowRoot.replaceChildren();
+  const mountElement = document.createElement('div');
+  mountElement.setAttribute('data-shadow-root', 'true');
+  mountElement.style.display = 'contents';
+  shadowRoot.appendChild(mountElement);
+
+  const root = createRoot(mountElement);
+
+  return {
+    shadowRoot,
+    render: (children) => root.render(children),
+    unmount: () => root.unmount(),
+  };
+};
+```
+
+## React component wrapper
+
+Use this pattern when your shadow DOM host lives inside an existing React tree — for example in a docs site, a dashboard embedding a widget, or anywhere you control the host element's lifecycle via React.
+
+```jsx
+import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/react';
+import { TonicProvider, ToastManager, PortalManager, createTheme } from '@tonic-ui/react';
+import { useLayoutEffect, useRef } from 'react';
+
+const ShadowDOMContainer = ({ children, colorMode, ...rest }) => {
+  const containerRef = useRef();
+  const shadowDOMRef = useRef();
+  const cacheRef = useRef();
+  const themeRef = useRef();
+
+  // Re-runs on [children, colorMode] change — re-renders the shadow tree (reconcile)
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+    if (!container) {
+      return;
+    }
+
+    if (!shadowDOMRef.current) {
+      shadowDOMRef.current = createShadowDOM(container);
+    }
+
+    if (!cacheRef.current) {
+      cacheRef.current = createCache({
+        key: 'tonic-css',
+        prepend: true,
+        container: shadowDOMRef.current.shadowRoot,
+      });
+    }
+
+    if (!themeRef.current) {
+      themeRef.current = createTheme({
+        cssVariables: {
+          prefix: 'tonic',
+          rootSelector: ':host',
+        },
+      });
+    }
+
+    shadowDOMRef.current.render(
+      <CacheProvider value={cacheRef.current}>
+        <TonicProvider
+          colorMode={{ value: colorMode }}
+          environment={{ value: shadowDOMRef.current.shadowRoot }}
+          theme={themeRef.current}
+        >
+          <ToastManager>
+            <PortalManager>
+              {children}
+            </PortalManager>
+          </ToastManager>
+        </TonicProvider>
+      </CacheProvider>
+    );
+  }, [children, colorMode]);
+
+  // Cleanup runs only on unmount — destroys the shadow tree
+  useLayoutUnmount(() => {
+    shadowDOMRef.current?.unmount();
+    shadowDOMRef.current = null;
+    cacheRef.current = null;
+    themeRef.current = null;
+  });
+
+  return <div ref={containerRef} {...rest} />;
+};
+```
+
+**Why two separate layout effects:**
+
+The first `useLayoutEffect` re-renders the shadow tree on every `[children, colorMode]` change via React reconciliation — the root stays alive. The `useLayoutUnmount` cleanup runs only on component unmount, destroying the root exactly once.
+
+Putting `unmount()` in the first effect's cleanup would destroy and recreate the shadow tree on every prop change, losing all component state inside and causing visual flashes.
+
+### `useLayoutUnmount` helper
+
+A semantic wrapper for the cleanup-only `useLayoutEffect` pattern. It uses `useLayoutEffect` (not `useEffect`) so inner layout-effect cleanups inside the shadow tree run synchronously during the same commit phase.
+
+```js
+import { useLayoutEffect, useRef } from 'react';
+
+const useLayoutUnmount = (fn) => {
+  const fnRef = useRef(fn);
+  fnRef.current = fn;
+  useLayoutEffect(() => () => fnRef.current(), []);
+};
+```
+
 ## Demo
 
-This example applies a global button style. The button outside the shadow DOM inherits the global styling, while the button inside the shadow DOM remains unaffected:
+This example applies a global button style. The button outside the shadow DOM inherits it; the button inside the shadow DOM stays unaffected:
 
 ```jsx
 sx={{
