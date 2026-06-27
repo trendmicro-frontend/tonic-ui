@@ -8,6 +8,14 @@ import { useTreeItemContentStyle } from './styles';
 import useTree from './useTree';
 import useTreeItem from './useTreeItem';
 
+/**
+ * @typedef {Object} TreeItemContentProps
+ * @property {React.ReactNode} [children] - Content of the tree item.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', TreeItemContentProps>}
+ */
 const TreeItemContent = forwardRef((inProps, ref) => {
   const {
     onClick: onClickProp,

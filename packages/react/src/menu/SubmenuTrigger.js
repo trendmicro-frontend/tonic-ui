@@ -10,8 +10,15 @@ import useMenu from './useMenu';
 import useSubmenu from './useSubmenu';
 
 /**
- * SubmenuTrigger acts as a menu item that opens a submenu when interacted with.
- * It combines MenuItem functionality with submenu trigger behavior for a cleaner API.
+ * @typedef {Object} SubmenuTriggerProps
+ * @property {React.ReactNode} [children] - The content of the submenu trigger.
+ * @property {boolean} [disabled] - Whether the submenu trigger is disabled.
+ * @property {React.MouseEventHandler<HTMLButtonElement>} [onClick] - Callback when the submenu trigger is clicked.
+ * @property {React.KeyboardEventHandler<HTMLButtonElement>} [onKeyDown] - Callback when a key is pressed.
+ */
+
+/**
+ * @type {ForwardRefComponent<'button', SubmenuTriggerProps>}
  */
 const SubmenuTrigger = forwardRef((inProps, ref) => {
   const {

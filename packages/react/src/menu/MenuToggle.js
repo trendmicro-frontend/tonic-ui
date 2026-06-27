@@ -10,6 +10,17 @@ import {
 } from './styles';
 import useMenu from './useMenu';
 
+/**
+ * @typedef {Object} MenuToggleProps
+ * @property {React.ReactNode | ((context: { getMenuToggleProps: () => React.HTMLAttributes<HTMLButtonElement> & { ref: React.RefCallback<HTMLElement> } }) => React.ReactNode)} [children] - The content of the menu toggle or a function that returns content.
+ * @property {boolean} [disabled] - Whether the menu toggle is disabled.
+ * @property {React.MouseEventHandler<HTMLButtonElement>} [onClick] - Callback when the menu toggle is clicked.
+ * @property {React.KeyboardEventHandler<HTMLButtonElement>} [onKeyDown] - Callback when the user presses a key.
+ */
+
+/**
+ * @type {ForwardRefComponent<'button', MenuToggleProps>}
+ */
 const MenuToggle = forwardRef((inProps, ref) => {
   const {
     children,

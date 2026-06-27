@@ -7,6 +7,14 @@ import { TableGroupContext } from './context';
 import { useTableBodyStyle } from './styles';
 import useTable from './useTable';
 
+/**
+ * @typedef {Object} TableBodyProps
+ * @property {React.ReactNode} [children] - The content of the table body.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', TableBodyProps>}
+ */
 const TableBody = forwardRef((inProps, ref) => {
   const {
     role: roleProp,

@@ -35,6 +35,19 @@ const getAriaLabel = ({ type, page, selected }) => {
   return `Go to ${type} page`;
 };
 
+/**
+ * @typedef {Object} PaginationItemProps
+ * @property {boolean} [disabled=false] - If `true`, the component is disabled.
+ * @property {number} [page] - The current page number.
+ * @property {boolean} [selected=false] - If `true`, the pagination item is selected.
+ * @property {{ 'start-ellipsis'?: React.ReactNode, 'end-ellipsis'?: React.ReactNode, first?: React.ReactNode, previous?: React.ReactNode, next?: React.ReactNode, last?: React.ReactNode }} [slot] - Custom content for different pagination item types.
+ * @property {'page' | 'first' | 'last' | 'previous' | 'next' | 'start-ellipsis' | 'end-ellipsis'} [type='page'] - The type of the pagination item.
+ * @property {string} [variant='ghost'] - The variant to use.
+ */
+
+/**
+ * @type {ForwardRefComponent<'button', PaginationItemProps>}
+ */
 const PaginationItem = forwardRef((inProps, ref) => {
   const {
     'aria-label': ariaLabel,

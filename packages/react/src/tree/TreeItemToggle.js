@@ -9,6 +9,15 @@ import {
 } from './styles';
 import useTreeItem from './useTreeItem';
 
+/**
+ * @typedef {Object} TreeItemToggleProps
+ * @property {React.ReactNode | ((context: { getTreeItemToggleProps: () => React.HTMLAttributes<HTMLButtonElement> & { ref: React.RefCallback<HTMLElement> } }) => React.ReactNode)} [children] - A function child can be used instead of a React element. This function is called with `getTreeItemToggleProps`.
+ * @property {boolean} [disabled] - Whether the toggle is disabled.
+ */
+
+/**
+ * @type {ForwardRefComponent<'button', TreeItemToggleProps>}
+ */
 const TreeItemToggle = forwardRef((inProps, ref) => {
   const {
     children,

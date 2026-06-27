@@ -4,6 +4,14 @@ import SubmenuContent from './SubmenuContent';
 import { useSubmenuListStyle } from './styles';
 import useSubmenu from './useSubmenu';
 
+/**
+ * @typedef {Object} SubmenuListProps
+ * @property {React.ReactNode} [children] - The submenu items to be displayed.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', SubmenuListProps>}
+ */
 const SubmenuList = forwardRef((inProps, ref) => {
   const props = useDefaultProps({ props: inProps, name: 'SubmenuList' });
   const submenuContext = useSubmenu(); // context might be an undefined value

@@ -9,6 +9,18 @@ import config from '../shared/config';
 import { AccordionItemContext } from './context';
 import useAccordion from './useAccordion';
 
+/**
+ * @typedef {Object} AccordionItemProps
+ * @property {React.ReactNode | ((context: { accordionToggleId: string; accordionContentId: string; disabled?: boolean; isExpanded?: boolean; onToggle: () => void; variant?: string }) => React.ReactNode)} [children] - A function child can be used intead of a React element. This function is called with the context object.
+ * @property {boolean} [disabled] - Whether the accordion item is disabled.
+ * @property {boolean} [isExpanded] - Whether the accordion item is expanded.
+ * @property {boolean} [defaultIsExpanded] - Whether the accordion item is expanded by default.
+ * @property {(event: { isExpanded: boolean }) => void} [onToggle] - A callback that is called when the accordion item is toggled.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', AccordionItemProps>}
+ */
 const AccordionItem = forwardRef((inProps, ref) => {
   const {
     children,

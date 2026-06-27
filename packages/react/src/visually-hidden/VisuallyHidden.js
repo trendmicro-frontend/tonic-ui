@@ -3,6 +3,14 @@ import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { useVisuallyHiddenStyle } from './styles';
 
+/**
+ * @typedef {Object} VisuallyHiddenProps
+ * @property {React.ReactNode} [children] - The content to be visually hidden.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', VisuallyHiddenProps>}
+ */
 const VisuallyHidden = forwardRef((inProps, ref) => {
   const props = useDefaultProps({ props: inProps, name: 'VisuallyHidden' });
   const styleProps = useVisuallyHiddenStyle();

@@ -7,6 +7,14 @@ import { TableGroupContext } from './context';
 import { useTableFooterStyle } from './styles';
 import useTable from './useTable';
 
+/**
+ * @typedef {Object} TableFooterProps
+ * @property {React.ReactNode} [children] - The content of the table footer.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', TableFooterProps>}
+ */
 const TableFooter = forwardRef((inProps, ref) => {
   const {
     role: roleProp,

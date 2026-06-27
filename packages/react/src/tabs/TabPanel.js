@@ -10,6 +10,15 @@ import { useTabPanelStyle } from './styles';
 
 const isIndexEqual = (index1, index2) => !isNullOrUndefined(index1) && !isNullOrUndefined(index2) && (index1 === index2);
 
+/**
+ * @typedef {Object} TabPanelProps
+ * @property {React.ReactNode | ((context: { getTabPanelProps: () => React.HTMLAttributes<HTMLDivElement> & { ref: React.RefCallback<HTMLElement> }; index: number | string; isSelected: boolean }) => React.ReactNode)} [children] - A function child can be used instead of a React element. This function is called with the following props: `getTabPanelProps`, `index`, `isSelected`.
+ * @property {number | string} [index] - The index of the tab panel. An index number starting from 0 will be provided if not specified.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', TabPanelProps>}
+ */
 const TabPanel = forwardRef((inProps, ref) => {
   const {
     children,

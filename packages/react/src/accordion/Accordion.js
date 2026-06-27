@@ -6,6 +6,14 @@ import useShallowMemo from '../utils/useShallowMemo';
 import { AccordionContext } from './context';
 import { useAccordionStyle } from './styles';
 
+/**
+ * @typedef {Object} AccordionProps
+ * @property {React.ReactNode | ((context: {}) => React.ReactNode)} [children] - A function child can be used intead of a React element. This function is called with the context object.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', AccordionProps>}
+ */
 const Accordion = forwardRef((inProps, ref) => {
   const {
     children,

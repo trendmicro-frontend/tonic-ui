@@ -7,6 +7,14 @@ import useButtonEventHandlers from '../utils/useButtonEventHandlers';
 import useAccordionItem from './useAccordionItem';
 import { useAccordionToggleStyle } from './styles';
 
+/**
+ * @typedef {Object} AccordionToggleProps
+ * @property {React.ReactNode | ((context: { getAccordionToggleProps: () => React.HTMLAttributes<HTMLElement> & { ref: React.RefCallback<HTMLElement> } }) => React.ReactNode)} [children] - A function child can be used instead of a React element. This function is called with the context object containing `getAccordionToggleProps`.
+ */
+
+/**
+ * @type {ForwardRefComponent<'button', AccordionToggleProps>}
+ */
 const AccordionToggle = forwardRef((inProps, ref) => {
   const {
     children,

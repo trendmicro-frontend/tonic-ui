@@ -9,6 +9,24 @@ import { Descendant } from '../utils/descendant';
 import { TreeContext } from './context';
 import { useTreeStyle } from './styles';
 
+/**
+ * @typedef {Object} TreeProps
+ * @property {Array<string>} [defaultExpanded] - An array of expanded node ids for initial state (uncontrolled).
+ * @property {Array<string>} [defaultSelected] - An array of selected node ids for initial state (uncontrolled).
+ * @property {Array<string>} [expanded] - An array of expanded node ids for controlled state.
+ * @property {string} [id] - The `id` prop used for accessibility purpose. If not provided, a random id will be generated.
+ * @property {boolean} [isSelectable=false] - Determines if the tree allows node selection.
+ * @property {boolean} [isUnselectable=false] - Determines if the tree allows node unselection.
+ * @property {boolean} [multiSelect=false] - If true, `ctrl` and `shift` will trigger multiselect.
+ * @property {(nodeId: string) => void} [onNodeFocus] - A callback function invoked when a tree node is focused.
+ * @property {(nodeIds: Array<string>) => void} [onNodeSelect] - A callback function triggered when tree nodes are selected/unselected.
+ * @property {(nodeIds: Array<string>) => void} [onNodeToggle] - A callback function triggered when tree nodes are expanded/collapsed.
+ * @property {Array<string>} [selected] - An array of selected node ids for controlled state.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', TreeProps>}
+ */
 const Tree = forwardRef((inProps, ref) => {
   const {
     defaultExpanded = [],

@@ -4,6 +4,15 @@ import { useDefaultProps } from '../default-props';
 import { useTabListStyle } from './styles';
 import useTabs from './useTabs';
 
+/**
+ * @typedef {Object} TabListProps
+ * @property {string} [aria-label] - A label for the tab list.
+ * @property {React.ReactNode} [children] - The children of the tab list.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', TabListProps>}
+ */
 const TabList = forwardRef((inProps, ref) => {
   const {
     'aria-label': ariaLabel,

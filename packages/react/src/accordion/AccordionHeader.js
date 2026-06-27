@@ -7,6 +7,14 @@ import AccordionToggleIcon from './AccordionToggleIcon';
 import useAccordionItem from './useAccordionItem';
 import { useAccordionHeaderStyle } from './styles';
 
+/**
+ * @typedef {Object} AccordionHeaderProps
+ * @property {React.ReactNode} [children] - The content of the accordion header.
+ */
+
+/**
+ * @type {ForwardRefComponent<'button', AccordionHeaderProps>}
+ */
 const AccordionHeader = forwardRef((inProps, ref) => {
   const {
     children,

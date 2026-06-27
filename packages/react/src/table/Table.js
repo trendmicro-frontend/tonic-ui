@@ -6,6 +6,17 @@ import { LAYOUT_FLEXBOX, LAYOUT_TABLE, SIZE_MEDIUM, VARIANT_DEFAULT } from './co
 import { TableContext } from './context';
 import { useTableStyle } from './styles';
 
+/**
+ * @typedef {Object} TableProps
+ * @property {'flexbox' | 'table'} [layout='flexbox'] - The layout of the table.
+ * @property {'sm' | 'md' | 'lg'} [size='md'] - The size of TableCells.
+ * @property {'default' | 'outline'} [variant='default'] - The variant of the table style to use.
+ * @property {React.ReactNode} [children] -
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', TableProps>}
+ */
 const Table = forwardRef((inProps, ref) => {
   const {
     layout = LAYOUT_FLEXBOX,

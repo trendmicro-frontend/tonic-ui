@@ -7,6 +7,14 @@ import { useTableCellStyle } from './styles';
 import useTable from './useTable';
 import useTableGroup from './useTableGroup';
 
+/**
+ * @typedef {Object} TableCellProps
+ * @property {React.ReactNode} [children] - The content of the table cell.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', TableCellProps>}
+ */
 const TableCell = forwardRef((inProps, ref) => {
   const {
     role: roleProp,

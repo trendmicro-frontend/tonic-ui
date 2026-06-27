@@ -6,6 +6,17 @@ import MenuToggle from './MenuToggle';
 import MenuToggleIcon from './MenuToggleIcon';
 import { useMenuButtonCSS, useMenuButtonStyle } from './styles';
 
+/**
+ * @typedef {Object} MenuButtonProps
+ * @property {React.ReactNode} [children] - The content of the menu button.
+ * @property {boolean} [disabled] - Whether the menu button is disabled.
+ * @property {React.MouseEventHandler<HTMLButtonElement>} [onClick] - Callback when the menu button is clicked.
+ * @property {React.KeyboardEventHandler<HTMLButtonElement>} [onKeyDown] - Callback when the user presses a key.
+ */
+
+/**
+ * @type {ForwardRefComponent<'button', MenuButtonProps>}
+ */
 const MenuButton = forwardRef((inProps, ref) => {
   const {
     children,

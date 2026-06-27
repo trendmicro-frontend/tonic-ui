@@ -19,6 +19,28 @@ const mapPlacementToDirection = (placement) => {
   return direction;
 };
 
+/**
+ * @typedef {Object} MenuProps
+ * @property {HTMLElement | null} [anchorEl] - The element to which the menu is attached.
+ * @property {boolean} [autoSelect=true] - Whether to automatically select the first menu item when the menu is opened.
+ * @property {React.ReactNode | ((context: { isOpen: boolean; onClose: () => void; onOpen: () => void; onToggle: () => void; placement: string }) => React.ReactNode)} [children] - A function child can be used intead of a React element. This function is called with the context object.
+ * @property {boolean} [closeOnBlur=true] - Whether to close the menu when the user clicks outside of the menu.
+ * @property {boolean} [closeOnSelect=true] - Whether to close the menu when the user selects a menu item.
+ * @property {number} [defaultActiveIndex=-1] - The index of the menu item to be selected by default.
+ * @property {boolean} [defaultIsOpen=false] - Whether the menu is open by default.
+ * @property {boolean} [isOpen] - Whether the menu is open.
+ * @property {boolean} [matchWidth=false] - If `true`, sizes the menu to match the toggle's width on every update.
+ * @property {[number, number]} [offset=[0, 0]] - The skidding and distance of the menu.
+ * @property {() => void} [onClose] - Callback when the menu is closed.
+ * @property {() => void} [onOpen] - Callback when the menu is opened.
+ * @property {boolean} [portalled=false] - If `true`, renders the menu in a portal.
+ * @property {'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end'} [placement='bottom-start'] - The placement of the menu.
+ * @property {boolean} [returnFocusOnClose=true] - The menu will return the focus to the trigger element when closing. Otherwise, it will leave focus unchanged.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', MenuProps>}
+ */
 const Menu = forwardRef((inProps, ref) => {
   const {
     anchorEl,
