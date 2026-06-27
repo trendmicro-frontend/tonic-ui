@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { ensureArray } from 'ensure-type';
 import { useId } from '@tonic-ui/react-hooks';
 import { Text } from '../text';
@@ -8,6 +8,15 @@ import {
   useFormErrorMessageStyle,
   useFormErrorMessageListStyle,
 } from './styles';
+
+/**
+ * @typedef {Object} FormErrorMessageProps
+ * @property {React.ReactNode | React.ReactNode[]} [errors=[]] - The error message(s) to display. Can be a single message or an array of messages.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', FormErrorMessageProps>}
+ */
 
 const FormErrorMessage = forwardRef(({ errors = [], ...rest }, ref) => {
   const defaultId = useId();

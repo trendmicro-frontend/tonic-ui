@@ -1,8 +1,17 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { Spinner } from '../spinner';
 import { useSearchInputLoadingIconStyle } from './styles';
 
+/**
+ * @typedef {Object} SearchInputLoadingIconProps
+ * @property {React.ReactNode} [children] -
+ * @property {string} [variant] - The visual style of the loading icon.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', SearchInputLoadingIconProps>}
+ */
 const SearchInputLoadingIcon = forwardRef((
   {
     children,

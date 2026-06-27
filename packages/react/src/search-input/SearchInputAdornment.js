@@ -1,7 +1,15 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useSearchInputAdornmentStyle } from './styles';
 
+/**
+ * @typedef {Object} SearchInputAdornmentProps
+ * @property {React.ReactNode} [children] -
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', SearchInputAdornmentProps>}
+ */
 const SearchInputAdornment = forwardRef((props, ref) => {
   const styleProps = useSearchInputAdornmentStyle();
 

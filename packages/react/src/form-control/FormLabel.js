@@ -1,10 +1,19 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { ariaAttr } from '@tonic-ui/utils';
 import { TextLabel } from '../text';
 import { Box } from '../box';
 import useFormControl from './useFormControl';
 import { useFormLabelStyle, useFormLabelRequiredStyle } from './styles';
 
+/**
+ * @typedef {Object} FormLabelProps
+ * @property {React.ReactNode} [children] -
+ * @property {boolean} [required=false] - If `true`, shows a red asterisk indicator next to the label.
+ */
+
+/**
+ * @type {ForwardRefComponent<'label', FormLabelProps>}
+ */
 const FormLabel = forwardRef(({ children, required = false, ...rest }, ref) => {
   const { fieldId } = useFormControl() ?? {};
   const labelStyleProps = useFormLabelStyle();

@@ -1,7 +1,7 @@
 import { useEffectOnceWhen, useMergeRefs } from '@tonic-ui/react-hooks';
 import { isNullish } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
-import { forwardRef, useRef } from 'react';
+import React, { forwardRef, useRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { VisuallyHidden } from '../visually-hidden';
@@ -10,6 +10,29 @@ import RadioControlBox from './RadioControlBox';
 import useRadioGroup from './useRadioGroup';
 import { useRadioStyle } from './styles';
 
+/**
+ * @template [T=string]
+ * @typedef {Object} RadioProps
+ * @property {boolean} [checked] - The radio button will be selected. Use the `onChange` prop to update the state for a controlled component.
+ * @property {React.ReactNode} [children] - The content within the radio button component.
+ * @property {boolean} [defaultChecked] - The radio button will be selected initially.
+ * @property {boolean} [disabled] - Disables the radio button and prevents user interaction.
+ * @property {string} [id] - The `id` attribute of the input field.
+ * @property {React.InputHTMLAttributes<HTMLInputElement>} [inputProps] - Additional props to be applied to the input element.
+ * @property {React.RefObject<HTMLInputElement>} [inputRef] - A `ref` to access the input element.
+ * @property {string} [name] - The name of the input field in a series of radio buttons. The name is useful for form submissions.
+ * @property {React.FocusEventHandler<HTMLInputElement>} [onBlur] - A callback function invoked when the radio button loses focus.
+ * @property {React.ChangeEventHandler<HTMLInputElement>} [onChange] - A callback function invoked when the state of the radio button changes.
+ * @property {React.MouseEventHandler<HTMLInputElement>} [onClick] - A callback function invoked when the radio button is clicked.
+ * @property {React.FocusEventHandler<HTMLInputElement>} [onFocus] - A callback function invoked when the radio button receives focus.
+ * @property {'sm' | 'md' | 'lg'} [size='md'] - The size of the radio button.
+ * @property {T} [value] - The value of the radio button.
+ * @property {string} [variantColor='blue'] - The color of the radio button when it is selected. The color should be one of the color keys in the theme (for example, 'green', 'red')
+ */
+
+/**
+ * @type {{ <T = string>(props: StyleProps & RadioProps<T> & React.RefAttributes<HTMLElement>): React.ReactElement | null; displayName?: string }}
+ */
 const Radio = forwardRef((inProps, ref) => {
   const {
     checked: checkedProp,
