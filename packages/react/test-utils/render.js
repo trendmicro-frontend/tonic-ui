@@ -1,6 +1,7 @@
 import { matchers } from '@emotion/jest';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
+import * as React from 'react';
 import {
   PortalManager,
   ToastManager,
@@ -14,22 +15,20 @@ import {
 expect.extend(matchers);
 
 const customRender = (ui, options) => {
-  const {
-    theme: themeOptions = {
-      cssVariables: {
-        prefix: 'tonic',
-        rootSelector: ':root',
-      },
+  const theme = createTheme({
+    cssVariables: {
+      prefix: 'tonic',
+      rootSelector: ':root',
     },
-    ...rest
-  } = { ...options };
+  });
 
   const wrapper = ({ children }) => (
     <TonicProvider
       colorMode={{
         defaultValue: 'dark',
       }}
-      theme={createTheme(themeOptions)}
+      theme={theme}
+      useCSSVariables
     >
       <PortalManager>
         <ToastManager>
@@ -39,7 +38,7 @@ const customRender = (ui, options) => {
     </TonicProvider>
   );
 
-  return render(ui, { wrapper, ...rest });
+  return render(ui, { wrapper, ...options });
 };
 
 // re-export everything
