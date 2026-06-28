@@ -244,7 +244,7 @@ exports[`Modal should render correctly 1`] = `
 <body>
   <div />
   <div
-    class="tonic-one-portal"
+    class="tonic-ui-portal"
   >
     <div
       data-focus-guard="true"
@@ -316,7 +316,7 @@ exports[`Modal should render correctly 1`] = `
     />
   </div>
   <div
-    class="tonic-one-portal"
+    class="tonic-ui-portal"
   >
     <div
       class="emotion-16 emotion-1"
