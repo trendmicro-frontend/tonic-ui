@@ -1,7 +1,6 @@
-import _createTheme from './createTheme.js';
-const createTheme = _createTheme;
-export { createTheme };
+import createTheme from './createTheme'; // deprecated
 
-import _theme from './createTheme.js';
-const theme = (_theme as any)('rem');
+const theme = createTheme('rem');
+
+export { createTheme };
 export default theme;

@@ -1,4 +1,4 @@
-import * as moduleExport from '@tonic-ui/theme/src';
+import * as moduleExport from '@tonic-one/theme/src';
 
 test('should match expected exports', () => {
   const expectedExports = [

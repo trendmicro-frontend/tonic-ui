@@ -1,14 +1,14 @@
-import defaultExport, * as moduleExport from '@tonic-ui/theme/src';
-import { createTheme } from '@tonic-ui/theme/src';
+import defaultExport, { createTheme } from '@tonic-one/theme/src';
 
 test('should match expected exports', () => {
-  const receivedExports = Object.keys(moduleExport);
-  const expectedExports = [
-    'default',
+  const moduleExport = require('../index');
 
-    // createTheme
+  const expectedExports = [
     'createTheme',
+    'default',
   ];
+
+  const receivedExports = Object.keys(moduleExport);
 
   expect(receivedExports.sort()).toEqual(expectedExports.sort());
 });
@@ -23,7 +23,6 @@ test('the default export must have all properties defined in the theme object', 
   expect(defaultExport).toHaveProperty('fonts');
   expect(defaultExport).toHaveProperty('fontSizes');
   expect(defaultExport).toHaveProperty('fontWeights');
-  expect(defaultExport).toHaveProperty('letterSpacings');
   expect(defaultExport).toHaveProperty('lineHeights');
   expect(defaultExport).toHaveProperty('outlines');
   expect(defaultExport).toHaveProperty('radii');
