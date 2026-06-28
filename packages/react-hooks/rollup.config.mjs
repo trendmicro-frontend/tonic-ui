@@ -10,11 +10,18 @@ const pkg = createRequire(import.meta.url)('./package.json');
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const input = path.resolve(__dirname, 'src', 'index.js');
-const dtsInput = path.resolve(__dirname, 'src', 'index.ts');
+const input = path.resolve(__dirname, 'src', 'index.ts');
 const cjsOutputDirectory = path.resolve(__dirname, 'dist', 'cjs');
 const esmOutputDirectory = path.resolve(__dirname, 'dist', 'esm');
+const extensions = ['.js', '.jsx', '.ts', '.tsx', '.mjs'];
 const isExternal = id => !id.startsWith('.') && !id.startsWith('/');
+
+const babelPlugin = babel({
+  configFile: './babel.config.js',
+  babelHelpers: 'bundled',
+  exclude: /node_modules/,
+  extensions: extensions,
+});
 
 export default [
   {
@@ -30,8 +37,8 @@ export default [
     },
     external: isExternal,
     plugins: [
-      nodeResolve(),
-      babel({ babelHelpers: 'bundled' }),
+      nodeResolve({ extensions }),
+      babelPlugin,
       // Put the Codecov rollup plugin after all other plugins
       codecovRollupPlugin({
         enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
@@ -49,8 +56,8 @@ export default [
     },
     external: isExternal,
     plugins: [
-      nodeResolve(),
-      babel({ babelHelpers: 'bundled' }),
+      nodeResolve({ extensions }),
+      babelPlugin,
       // Put the Codecov rollup plugin after all other plugins
       codecovRollupPlugin({
         enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
@@ -60,7 +67,7 @@ export default [
     ],
   },
   {
-    input: dtsInput,
+    input,
     output: [{ file: 'dist/index.d.ts', format: 'es' }],
     plugins: [
       dts(),
