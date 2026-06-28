@@ -627,7 +627,9 @@ describe('SubmenuToggle', () => {
       await user.unhover(submenuList);
 
       // Advance timers to trigger the close timeout
-      jest.advanceTimersByTime(150);
+      act(() => {
+        jest.advanceTimersByTime(150);
+      });
 
       // The submenu should be closed after the timeout
       await waitFor(() => {

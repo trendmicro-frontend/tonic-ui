@@ -1,6 +1,6 @@
 import { render } from '@tonic-ui/react/test-utils/render';
 import { ResizeHandle } from '@tonic-ui/react/src';
-import React from 'react';
+import React, { act } from 'react';
 
 describe('ResizeHandle', () => {
   it('should render correctly', () => {
@@ -33,7 +33,7 @@ describe('ResizeHandle', () => {
       clientX: 100,
       clientY: 100,
     });
-    resizeHandle.dispatchEvent(mouseDownEvent);
+    act(() => { resizeHandle.dispatchEvent(mouseDownEvent); });
 
     expect(onResizeStart).toHaveBeenCalledWith({ clientX: 100, clientY: 100 });
 
@@ -53,7 +53,7 @@ describe('ResizeHandle', () => {
       clientX: 200,
       clientY: 200,
     });
-    document.dispatchEvent(mouseUpEvent);
+    act(() => { document.dispatchEvent(mouseUpEvent); });
 
     expect(onResizeEnd).toHaveBeenCalledWith({ clientX: 200, clientY: 200 });
   });
@@ -78,7 +78,7 @@ describe('ResizeHandle', () => {
       bubbles: true,
       touches: [{ clientX: 100, clientY: 100 }],
     });
-    resizeHandle.dispatchEvent(touchStartEvent);
+    act(() => { resizeHandle.dispatchEvent(touchStartEvent); });
 
     expect(onResizeStart).toHaveBeenCalledWith({ clientX: 100, clientY: 100 });
 
@@ -98,7 +98,7 @@ describe('ResizeHandle', () => {
       cancelable: true,
       touches: [{ clientX: 200, clientY: 200 }],
     });
-    document.dispatchEvent(touchEndEvent);
+    act(() => { document.dispatchEvent(touchEndEvent); });
 
     expect(onResizeEnd).toHaveBeenCalledWith({ clientX: 200, clientY: 200 });
   });

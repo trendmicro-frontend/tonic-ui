@@ -6672,30 +6672,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react@npm:^15.0.0":
-  version: 15.0.7
-  resolution: "@testing-library/react@npm:15.0.7"
+"@testing-library/react@npm:^16.0.0":
+  version: 16.3.2
+  resolution: "@testing-library/react@npm:16.3.2"
   dependencies:
     "@babel/runtime": ^7.12.5
-    "@testing-library/dom": ^10.0.0
-    "@types/react-dom": ^18.0.0
   peerDependencies:
-    "@types/react": ^18.0.0
-    react: ^18.0.0
-    react-dom: ^18.0.0
+    "@testing-library/dom": ^10.0.0
+    "@types/react": ^18.0.0 || ^19.0.0
+    "@types/react-dom": ^18.0.0 || ^19.0.0
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: eb33fd82eb811bb8612aa154e430a2c1c251d5ed45a477ef57fe20095db494ea7dcfa6b1e1e2bffb0c7ee10c86e408745d95a879be8ca8fbe301bb91e5f2e5db
+    "@types/react-dom":
+      optional: true
+  checksum: 1f6f4d8374aab54214229eecdd429d5e878e902c6136a48e187a24d4917014bf91ab9aa7fab18c17f6bf05f226fac228ba9a5c1803657129173dd8a062139c17
   languageName: node
   linkType: hard
 
-"@testing-library/user-event@npm:^14.4.3":
-  version: 14.5.2
-  resolution: "@testing-library/user-event@npm:14.5.2"
+"@testing-library/user-event@npm:^14.0.0":
+  version: 14.6.1
+  resolution: "@testing-library/user-event@npm:14.6.1"
   peerDependencies:
     "@testing-library/dom": ">=7.21.4"
-  checksum: d76937dffcf0082fbf3bb89eb2b81a31bf5448048dd61c33928c5f10e33a58e035321d39145cefd469bb5a499c68a5b4086b22f1a44e3e7c7e817dc5f6782867
+  checksum: 4cb8a81fea1fea83a42619e9545137b51636bb7a3182c596bb468e5664f1e4699a275c2d0fb8b6dcc3fe2684f9d87b0637ab7cb4f566051539146872c9141fcb
   languageName: node
   linkType: hard
 
@@ -6825,8 +6827,8 @@ __metadata:
     "@rollup/plugin-babel": ^6.0.0
     "@rollup/plugin-node-resolve": ^15.0.0
     "@testing-library/jest-dom": ^6.0.0
-    "@testing-library/react": ^15.0.0
-    "@testing-library/user-event": ^14.4.3
+    "@testing-library/react": ^16.0.0
+    "@testing-library/user-event": ^14.0.0
     "@tonic-ui/styled-system": ^3.0.0-alpha.0
     "@trendmicro/babel-config": ^1.0.2
     cross-env: ^7.0.3
@@ -6968,8 +6970,8 @@ __metadata:
     "@rollup/plugin-babel": ^6.0.0
     "@rollup/plugin-node-resolve": ^15.0.0
     "@testing-library/jest-dom": ^6.0.0
-    "@testing-library/react": ^15.0.0
-    "@testing-library/user-event": ^14.4.3
+    "@testing-library/react": ^16.0.0
+    "@testing-library/user-event": ^14.0.0
     "@tonic-ui/utils": ^3.0.0-alpha.0
     "@trendmicro/babel-config": ^1.0.2
     "@typescript-eslint/eslint-plugin": ^8.58.0
@@ -7052,9 +7054,10 @@ __metadata:
     "@popperjs/core": 2.x
     "@rollup/plugin-babel": ^6.0.0
     "@rollup/plugin-node-resolve": ^15.0.0
+    "@testing-library/dom": ^10.0.0
     "@testing-library/jest-dom": ^6.0.0
-    "@testing-library/react": ^15.0.0
-    "@testing-library/user-event": ^14.4.3
+    "@testing-library/react": ^16.0.0
+    "@testing-library/user-event": ^14.0.0
     "@tonic-ui/react-base": ^3.0.0-alpha.0
     "@tonic-ui/react-hooks": ^3.0.0-alpha.0
     "@tonic-ui/react-icons": ^3.0.0-alpha.0
@@ -7601,15 +7604,6 @@ __metadata:
   version: 6.9.14
   resolution: "@types/qs@npm:6.9.14"
   checksum: d3b76021d36b86c0063ec4b7373e9fa470754914e486fbfe54b3a8866dad037800a2c2068ecbcaa9399ae3ed15772a26b07e67793ed2519cf2de199104014716
-  languageName: node
-  linkType: hard
-
-"@types/react-dom@npm:^18.0.0":
-  version: 18.2.23
-  resolution: "@types/react-dom@npm:18.2.23"
-  dependencies:
-    "@types/react": "*"
-  checksum: ebed13ffc393f96b3dbe2f959c857c3124c20e84718cded13016eaa2e3b650590557ea75584c4d3d3f226b0aae206167c9c81e971632c1f24bbd258f1d295b96
   languageName: node
   linkType: hard
 
