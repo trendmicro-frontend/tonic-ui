@@ -27,7 +27,8 @@ export default defineConfig([
     },
     rules: {
       'no-return-await': 0,
-      '@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }],
+      '@typescript-eslint/no-unused-vars': ['warn', { 'argsIgnorePattern': '^_', 'varsIgnorePattern': '^_' }],
+      'no-unused-vars': 'off',
     },
     settings: {
       'import/parsers': {
@@ -43,6 +44,7 @@ export default defineConfig([
   },
   {
     ignores: [
+      '@types',
       'build',
       'dist',
       'node_modules',

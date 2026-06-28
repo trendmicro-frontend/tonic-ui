@@ -1,3 +1,3 @@
-export * from "./pseudo.js";
-export { default as sx } from "./sx.js";
-export { default as system } from "./system.js";
+export * from './pseudo';
+export sx from './sx';
+export system from './system';
