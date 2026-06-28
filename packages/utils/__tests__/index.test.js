@@ -1,6 +1,7 @@
-import * as moduleExport from '@tonic-ui/utils/src';
+import * as moduleExport from '../src';
 
 test('should match expected exports', () => {
+  const receivedExports = Object.keys(moduleExport);
   const expectedExports = [
     // assertion
     'isBlankString',
@@ -32,9 +33,6 @@ test('should match expected exports', () => {
     // dom-query
     'getAllFocusable',
 
-    // resolveTheme
-    'resolveTheme',
-
     // shared
     'ariaAttr',
     'callAll',
@@ -48,17 +46,13 @@ test('should match expected exports', () => {
     'warnDeprecatedProps',
     'warnRemovedProps',
 
-    // toCSSVariable
-    'toCSSVariable',
-
     // transition
-    'transitionDuration',
-    'transitionEasing',
+    'createTransitionStyle',
     'getEnterTransitionProps',
     'getExitTransitionProps',
-    'createTransitionStyle',
+    'transitionDuration',
+    'transitionEasing',
   ];
-  const receivedExports = Object.keys(moduleExport);
 
   expect(receivedExports.sort()).toEqual(expectedExports.sort());
 });

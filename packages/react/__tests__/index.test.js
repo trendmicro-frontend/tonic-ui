@@ -1,4 +1,4 @@
-import * as moduleExport from '@tonic-ui/react/src/index';
+import * as moduleExport from '../src';
 
 test('should match expected exports', () => {
   const expectedExports = [

@@ -1,9 +1,9 @@
 import {
   getAllFocusable,
-} from '@tonic-ui/utils/src';
+} from '../dom-query';
 import {
   createMockElement,
-} from '@tonic-ui/utils/test-utils/jsdom-mock';
+} from '../../test-utils/jsdom-mock';
 
 describe('getAllFocusable', () => {
   test('should return all focusable elements', () => {

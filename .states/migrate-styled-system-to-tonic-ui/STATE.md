@@ -35,7 +35,8 @@ _MFE moved into Phase 2 (2026-06-27): MFE demos crash without the engine (`theme
 - [x] FINAL FROZEN-TREE INTEGRATION GATE on 01dff8f4c3 (2026-06-27): build-public ×2 EXIT 0 (IDEMPOTENT, all public pkgs incl dts); react dist/index.d.ts now emits REAL types (6612 lines, 353 type refs — was loose/any pre-U14); lint EXIT 0 (0 errors, React warnings only); test 754/756 pass. The 2 failing suites = CONFIRMED flaky (DatePicker: failed 1/3 then passed 2/3; SubmenuToggle: passed 3/3 isolated) — pre-existing date-fns-v4/popper-timing family, NOT U14 regressions (all E diffs comment/import-only). BRANCH CERTIFIED READY for Phase 2 PR.
 
 ## In progress
-- (none) — U18 + U19 COMPLETE on the #1168 branch (local, NOT pushed). Phase 2 (U14 + PR #1168) DONE+certified. Phase 3 PARKED (Q-C: wait for #1168 merge).
+- [ ] U20 FULL eslint parity (user 2026-06-28) — owner: session (Sonnet maker). Align EVERY tonic-ui package's eslint.config.mjs to its tonic-one counterpart. Parser mismatch = react-hooks only (tonic-one tsParser; tonic-ui babel). Apply two uniform tonic-ui deltas: (a) keep @typescript-eslint/no-unused-vars ON where tsParser used; (b) ignore '@types' + delete stale post-U18 @types/ dirs. #1168 PUSHED by user; U18+U19 already on origin.
+- (prior) U18 + U19 COMPLETE. Phase 2 (U14 + PR #1168) DONE+certified. Phase 3 PARKED (Q-C: wait for #1168 merge).
 
 ## DONE — U19 eslint config alignment (Option 1, 2026-06-28; NOT pushed)
 - [x] Removed legacy packages/react/.eslintrc.js (flat config authoritative post-upgrade). Committed 1f15efbc3d.

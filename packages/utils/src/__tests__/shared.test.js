@@ -1,4 +1,5 @@
 import { runInNewContext } from 'node:vm';
+import _get from 'lodash/get';
 import {
   ariaAttr,
   callAll,
@@ -11,8 +12,7 @@ import {
   runIfFn,
   warnDeprecatedProps,
   warnRemovedProps,
-} from '@tonic-ui/utils/src';
-import _get from 'lodash/get';
+} from '../shared';
 
 afterEach(() => {
   jest.resetAllMocks();

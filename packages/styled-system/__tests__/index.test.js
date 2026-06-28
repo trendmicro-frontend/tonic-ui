@@ -1,4 +1,4 @@
-import * as moduleExport from '@tonic-ui/styled-system/src';
+import * as moduleExport from '../src';
 
 test('should match expected exports', () => {
   const expectedExports = [

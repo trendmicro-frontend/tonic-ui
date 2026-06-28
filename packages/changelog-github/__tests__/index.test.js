@@ -1,4 +1,4 @@
-import moduleExport from '@tonic-ui/changelog-github/src';
+import moduleExport from '../src';
 
 test('should match expected exports', () => {
   const expectedExports = [

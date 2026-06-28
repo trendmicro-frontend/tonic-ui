@@ -71,6 +71,10 @@
     "typescript": "^5.0.0"
   },
   "jest": {
+    "moduleNameMapper": {
+      "^@tonic-ui/utils/src$": "<rootDir>/src/index.js",
+      "^@tonic-ui/utils/test-utils/(.*)$": "<rootDir>/test-utils/$1"
+    },
     "collectCoverage": true,
     "collectCoverageFrom": [
       "<rootDir>/src/**/*.js"
