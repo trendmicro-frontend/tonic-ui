@@ -35,7 +35,17 @@ _MFE moved into Phase 2 (2026-06-27): MFE demos crash without the engine (`theme
 - [x] FINAL FROZEN-TREE INTEGRATION GATE on 01dff8f4c3 (2026-06-27): build-public ×2 EXIT 0 (IDEMPOTENT, all public pkgs incl dts); react dist/index.d.ts now emits REAL types (6612 lines, 353 type refs — was loose/any pre-U14); lint EXIT 0 (0 errors, React warnings only); test 754/756 pass. The 2 failing suites = CONFIRMED flaky (DatePicker: failed 1/3 then passed 2/3; SubmenuToggle: passed 3/3 isolated) — pre-existing date-fns-v4/popper-timing family, NOT U14 regressions (all E diffs comment/import-only). BRANCH CERTIFIED READY for Phase 2 PR.
 
 ## In progress
-- (none) — LOOP COMPLETE. U14 annotation done+certified; U12 Phase 2 PR OPENED.
+- (none) — U18 COMPLETE (committed d066e056ec). Phase 2 (U14 + PR #1168) DONE+certified. Phase 3 PARKED (Q-C: wait for #1168 merge). NOT pushed (PR #1168 is draft; push is the human gate).
+- USER REFINEMENT (2026-06-28): (1) styled-system → use the .ts convention like other pkgs (rename to index.ts) — applied single index.ts entry UNIFORMLY to ALL pkgs (diverge from tonic-one's mixed .js/.ts; cleaner). (2) ALL public pkgs emit dist/index.d.ts where FEASIBLE. (3) SKIP a pkg's dts if not worth doing.
+
+## DONE — U18 build/types mechanism alignment (committed d066e056ec, 2026-06-28; NOT pushed)
+- [x] U18a react-base (PILOT) — single index.ts, preset-typescript, pure dts()+injectGlobalTypes, NO tsc step, codecov kept. d.ts 68 lines real types; idempotent; 3/3 tests + 1 snap zero churn; lint 0.
+- [x] U18b utils — single index.ts; d.ts 108 lines/10 refs; 9 suites/167 tests; 0 churn; lint 0.
+- [x] U18c styled-system — single index.ts (renamed per user); dts EMITTED (51 lines/37 refs, real namespaces/signatures); 27 suites/144 tests; 0 churn; lint 0.
+- [x] U18d react-hooks — single index.ts; d.ts 157 lines; 18 suites/57 tests; 0 churn; lint 0.
+- [x] U18e theme — single index.ts; cjs exports:'named'; d.ts 5 lines (createTheme+default theme; loose by pre-existing createTheme.js JSDoc — NOT a regression); 4 suites/8 tests; 0 churn; lint 0.
+- [x] U18f react (BIGGEST ~370 files) — single index.ts; injectGlobalTypes; d.ts 6612 lines/996 refs (NOT regressed vs post-U14); 114 suites/756 tests green; 0 churn; lint 0.
+- [x] U18g INTEGRATION (orchestrator/checker, independent) — `yarn build-public` IDEMPOTENT 2× (exit 0, 9 pkgs); every public pkg emits real dist/index.d.ts EXCEPT @tonic-ui/codemod (JS-only by design — the "skip if not worth it" case); all 6 src/index.js deleted, index.ts sole entry; react d.ts unchanged at 6612 lines. CERTIFIED.
 
 ## DONE — U12 Phase 2 PR
 - [x] DRAFT PR #1168 opened (feat/semantic-token-css-variables → main), 2026-06-27. https://github.com/trendmicro-frontend/tonic-ui/pull/1168
@@ -58,6 +68,22 @@ _MFE moved into Phase 2 (2026-06-27): MFE demos crash without the engine (`theme
 
 ## Next            ← ordered by dependency; pull from the top
 
+### U18 — ALIGN BUILD/TYPES MECHANISM WITH TONIC-ONE (ACTIVE, user 2026-06-28; Phase-2 correction, lands on #1168 branch BEFORE Phase 3)
+GOAL (user): make rollup.config.mjs / tsconfig.json / src entry (index.js|index.ts) MECHANISM in tonic-ui IDENTICAL to /home/cheton/Code/trend-common-platform/tonic-one. User flagged the dual index.js+index.ts as the visible symptom. Use a SONNET maker to sync the files (user directive 2026-06-28).
+TONIC-ONE MECHANISM (verified 2026-06-28, the target):
+  - SINGLE entry per pkg: index.ts (react-base, react, theme, react-hooks) | index.js (styled-system, utils). NEVER both.
+  - babel.config.js adds `['@babel/preset-typescript', { rewriteImportExtensions: true }]` (devDep @babel/preset-typescript ^7.28.5).
+  - rollup.config.mjs: one `input` → 3 outputs [cjs(preserveModules,interop:auto), esm(preserveModules), dts({file:dist/index.d.ts}, dts()+injectGlobalTypes())]; babelPlugin = babel({configFile:'./babel.config.js', babelHelpers:'bundled', exclude:/node_modules/, extensions:['.js','.jsx','.ts','.tsx','.mjs']}); nodeResolve({extensions}).
+  - injectGlobalTypes() ONLY where global.d.ts exists → react-base, react (tonic-ui already has both global.d.ts).
+  - NO tsc step / NO @types intermediate: build = `cross-env rollup --config rollup.config.mjs`; clean drops @types; remove types:build/types:clear scripts. dts() reads JSDoc from .js via tsconfig allowJs (tonic-one utils proves .js-entry + dts() works).
+  - theme cjs output needs `exports:'named'` (mixed default/named) — mirror tonic-one theme.
+DECISIONS (orchestrator, flagged; revisit if user objects):
+  - KEEP tonic-ui codecov rollup plugin (CI feature, orthogonal to TS mechanism; tonic-one lacks it). Deviation noted.
+  - KEEP styled-system dts: tonic-one styled-system has NO dts, but mirror tonic-one's UTILS pattern (.js entry + dts() stage) so Phase 2's "all pkgs emit .d.ts" is not regressed.
+  - Per-pkg entry MATCHES tonic-one: delete index.js for react-base/react/theme/react-hooks (keep index.ts); delete index.ts for styled-system/utils (keep index.js). NOTE tonic-ui index.ts files already use standard `export {default as X} from './x.js'` + extensions (dts-valid); current index.js uses babel export-default-from shorthand.
+HARD CONSTRAINT (Phase 2 invariant): runtime export surface + behavior BYTE-IDENTICAL — zero snapshot churn, no missing exports. dist/index.d.ts must still carry REAL types (react was 6612 lines/353 refs post-U14 — pure dts() must match, not regress to any).
+- ✅ U18a–U18g ALL DONE + checker-verified — committed d066e056ec (2026-06-28). See "## DONE — U18 build/types mechanism alignment" above for per-unit results. NOT pushed.
+
 ### PHASE 3 — v4 theme token integration (NEW, user 2026-06-27; re-opens the v4 scope Phase 2 deferred)
 GOAL (user): (1) clone ALL Tonic One v4 theme tokens from the tonic-one v4 theme package into Tonic UI v3 (main line); (2) make react-docs theme pages identical to Tonic One v4 theme pages; (3) update ALL necessary docs — getting-started guide AND/OR migration guide — for the newly added primitive + semantic tokens (user 2026-06-27).
 CONTEXT: This ACTIVATES the engine Phase 2 landed dormant (resolveTheme/toColorMode/_dark/_light, CSS-vars [data-color-scheme]). Phase 2's "keep v3 flat values" + "out of scope: v4 token content" decisions are SUPERSEDED for theme tokens. Expect large snapshot/visual churn (no longer byte-identical).
@@ -66,6 +92,7 @@ OPEN QUESTIONS (gate the decomposition — see chat):
   - Q-B ENGINE ACTIVATION: with v4 semantic tokens present, switch dark/light to the CSS-var [data-color-scheme] mechanism (activate deferred U6–U10), or keep colorStyle as the driver?
   - Q-C BRANCH/SEQUENCING: stack Phase 3 on the Phase 2 PR #1168 branch, or wait for #1168 to merge to main then branch fresh off main?
   - Q-D SCOPE: all token scales (colors + typography + spacing + shadows + radii + …) or colors only? which react-docs theme pages exactly?
+RESOLVED (user 2026-06-28): Q-A = WHOLESALE v4 VALUES (clone tonic-one v4 token values verbatim; expect visual churn; supersedes the v3-values TOKEN DECISIONS). Q-B = ACTIVATE the CSS-var [data-color-scheme] mechanism (turn on the dormant U6–U10 engine; components consume _dark/_light in Phase 4). Q-C = WAIT for #1168 to merge, then branch Phase 3 fresh off main (Phase 3 mutations PARKED until then; read-only discovery may run now). Q-D = ALL token scales (colors+typography+spacing+shadows+radii+…); discovery enumerates exact set + react-docs pages.
 PROVISIONAL UNITS (refine after Q-A..Q-D answered):
 - [ ] V1 DISCOVERY (yield): map tonic-one v4 theme package (all token files + structure) vs tonic-ui v3 @tonic-ui/theme; define "clone" precisely; list react-docs theme pages to mirror; write docs/v4-theme-port-plan.md. done when: plan exists + user approves.
 - [ ] V2 clone v4 tokens into @tonic-ui/theme (per Q-A). done when: theme builds; resolveTheme resolves _dark/_light.
@@ -146,6 +173,8 @@ PROVISIONAL UNITS (refine after Phase 3 + Q-E..Q-G):
 ## Log
 - 2026-06-26 bootstrap: Phase 1 (env provider) faithful to 4a0e44dbc for in-scope SOURCE (later found docs/files are STALE — handled in the env-mfe loop); Portal committed 1d5a0ecdf8; Phase 2 branch created.
 - 2026-06-26 U1 discovery workflow complete: wrote docs/token-mapping.md (+10 open questions) and docs/port-plan.md. AWAITING USER REVIEW of token-mapping open questions before code mutation (supervised gate).
+- 2026-06-28 RESUME: Phase 3 Q-A..Q-D resolved by user (wholesale v4 values / activate CSS-var engine / wait for #1168 then branch off main / all token scales). Phase 3 PARKED per Q-C.
+- 2026-06-28 U18 (NEW, user): align rollup/tsconfig/index build+types mechanism with tonic-one; user flagged dual index.js+index.ts. Sonnet makers: U18a react-base pilot PASS; U18b-f (utils, styled-system, react-hooks, theme, react) PASS. styled-system renamed to index.ts per user; all public pkgs emit dts (codemod skipped, JS-only). Orchestrator integration check: build-public idempotent 2×, all real d.ts, react 6612 lines unchanged, 756/756 react tests zero churn. Committed d066e056ec (6 pkgs ×5 files + yarn.lock). NOT pushed.
 
 ## TOKEN DECISIONS (resolved 2026-06-27 — these OVERRIDE token-mapping.md where they conflict; U3 maker MUST follow these)
 - Q1 KEY FORMAT = **keep v3 colon keys** (gray:100, white:primary) — NO colon→dot rename. Semantic _dark/_light tokens reference primitives as `{gray:100}` (flat-key lookup works); CSS var name → `--tonic-colors-gray_100`. Zero blast radius on existing color usage / colorStyle. token-mapping.md's colon→dot assumption is SUPERSEDED — use colon refs in the value pairs.
