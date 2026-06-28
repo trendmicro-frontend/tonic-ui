@@ -43,8 +43,11 @@ export default function App() {
         },
       ],
     });
-    return () => chart.dispose();
-  }, [data, colorMode]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    return () => {
+      chart.dispose();
+    };
+  }, [data, colorMode]);
 
   return (
     <Box

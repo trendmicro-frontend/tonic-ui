@@ -1,13 +1,6 @@
-import { useColorMode } from '../color-mode';
 import { VARIANT_EMPHASIS, VARIANT_HIGHLIGHT } from './constants';
 
 const useMarkStyle = ({ variant }) => {
-  const [colorMode] = useColorMode();
-  const emphasisTextColor = {
-    dark: 'white:emphasis',
-    light: 'black:emphasis',
-  }[colorMode];
-
   const baseStyle = {
     display: 'inline', // highlight and mark elements are inline by default
 
@@ -25,12 +18,12 @@ const useMarkStyle = ({ variant }) => {
   const variantStyle = {
     [VARIANT_EMPHASIS]: {
       backgroundColor: 'inherit',
-      color: emphasisTextColor,
+      color: 'text.accent', // semantic color token
       fontWeight: 'semibold',
     },
     [VARIANT_HIGHLIGHT]: {
-      backgroundColor: '#fce79e',
-      color: 'black:primary',
+      backgroundColor: '_highlight',
+      color: 'text._fixed.light.accent',
     },
   }[variant];
 

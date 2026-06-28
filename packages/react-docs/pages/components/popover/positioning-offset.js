@@ -13,9 +13,9 @@ const App = () => {
         </Box>
         <Flex columnGap="4x">
           <input
+            aria-label="skidding"
             type="range"
             name="skidding"
-            aria-label="skidding"
             min={-50}
             max={50}
             value={skidding}
@@ -30,9 +30,9 @@ const App = () => {
         </Box>
         <Flex columnGap="4x">
           <input
+            aria-label="distance"
             type="range"
             name="distance"
-            aria-label="distance"
             min={-50}
             max={50}
             value={distance}

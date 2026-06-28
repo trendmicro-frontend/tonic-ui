@@ -2,7 +2,6 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import {
-  Button,
   Menu,
   MenuButton,
   MenuDivider,
@@ -15,7 +14,7 @@ import {
   Text,
 } from '@tonic-ui/react/src';
 import { AngleRightIcon } from '@tonic-ui/react-icons';
-import { act } from 'react';
+import React, { act } from 'react';
 
 describe('Submenu', () => {
   describe('Submenu keyboard navigation', () => {
@@ -56,11 +55,15 @@ describe('Submenu', () => {
       // Open the menu
       await user.click(menuButton);
       expect(await screen.findByRole('menu')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByTestId('menu-list')).toHaveFocus();
+      });
 
       // Navigate to the submenu toggle using keyboard
       await user.keyboard('[ArrowDown]'); // Focus menu-item-1
       await user.keyboard('[ArrowDown]'); // Focus menu-item-2
       await user.keyboard('[ArrowDown]'); // Focus submenu-trigger
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       const submenuTrigger = screen.getByTestId('submenu-trigger');
       await waitFor(() => {
@@ -69,9 +72,7 @@ describe('Submenu', () => {
 
       // Press ArrowRight to open submenu
       await user.keyboard('[ArrowRight]');
-      await act(() => new Promise(resolve => {
-        requestAnimationFrame(resolve);
-      }));
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       // The submenu should be open
       await waitFor(() => {
@@ -93,11 +94,15 @@ describe('Submenu', () => {
       // Open the menu
       await user.click(menuButton);
       expect(await screen.findByRole('menu')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByTestId('menu-list')).toHaveFocus();
+      });
 
       // Navigate to the submenu toggle and open it
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       const submenuTrigger = screen.getByTestId('submenu-trigger');
       await waitFor(() => {
@@ -105,9 +110,7 @@ describe('Submenu', () => {
       });
 
       await user.keyboard('[ArrowRight]');
-      await act(() => new Promise(resolve => {
-        requestAnimationFrame(resolve);
-      }));
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       // The submenu should be open
       await waitFor(() => {
@@ -145,11 +148,15 @@ describe('Submenu', () => {
       // Open the menu
       await user.click(menuButton);
       expect(await screen.findByRole('menu')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByTestId('menu-list')).toHaveFocus();
+      });
 
       // Navigate to the submenu toggle and open it
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       const submenuTrigger = screen.getByTestId('submenu-trigger');
       await waitFor(() => {
@@ -157,9 +164,7 @@ describe('Submenu', () => {
       });
 
       await user.keyboard('[ArrowRight]');
-      await act(() => new Promise(resolve => {
-        requestAnimationFrame(resolve);
-      }));
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       // The submenu should be open
       await waitFor(() => {
@@ -192,11 +197,15 @@ describe('Submenu', () => {
       // Open the menu
       await user.click(menuButton);
       expect(await screen.findByRole('menu')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByTestId('menu-list')).toHaveFocus();
+      });
 
       // Navigate to the submenu toggle
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       const submenuTrigger = screen.getByTestId('submenu-trigger');
       await waitFor(() => {
@@ -205,9 +214,7 @@ describe('Submenu', () => {
 
       // Open the submenu
       await user.keyboard('[ArrowRight]');
-      await act(() => new Promise(resolve => {
-        requestAnimationFrame(resolve);
-      }));
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       // Wait for submenu to open and first item to be focused
       await waitFor(() => {
@@ -241,11 +248,15 @@ describe('Submenu', () => {
       // Open the menu
       await user.click(menuButton);
       expect(await screen.findByRole('menu')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByTestId('menu-list')).toHaveFocus();
+      });
 
       // Navigate to the submenu toggle and open it
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       const submenuTrigger = screen.getByTestId('submenu-trigger');
       await waitFor(() => {
@@ -253,9 +264,7 @@ describe('Submenu', () => {
       });
 
       await user.keyboard('[ArrowRight]');
-      await act(() => new Promise(resolve => {
-        requestAnimationFrame(resolve);
-      }));
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       // Wait for submenu to open
       await waitFor(() => {
@@ -284,6 +293,9 @@ describe('Submenu', () => {
       // Open the menu
       await user.click(menuButton);
       expect(await screen.findByRole('menu')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByTestId('menu-list')).toHaveFocus();
+      });
 
       // The submenu toggle should have role="menuitem"
       const submenuTrigger = screen.getByTestId('submenu-trigger');
@@ -296,6 +308,7 @@ describe('Submenu', () => {
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       // Wait for submenu toggle to have focus before opening it
       await waitFor(() => {
@@ -303,9 +316,7 @@ describe('Submenu', () => {
       });
 
       await user.keyboard('[ArrowRight]');
-      await act(() => new Promise(resolve => {
-        requestAnimationFrame(resolve);
-      }));
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       await waitFor(() => {
         expect(submenuTrigger).toHaveAttribute('aria-expanded', 'true');
@@ -359,7 +370,7 @@ describe('Submenu', () => {
       render(
         <>
           <SubmenuTestComponent />
-          <Button data-testid="outside-button">Outside</Button>
+          <button type="button" data-testid="outside-button">Outside</button>
         </>
       );
 
@@ -535,9 +546,7 @@ describe('Submenu', () => {
       await user.unhover(submenuList);
 
       // Advance timers to trigger the close timeout
-      await act(() => {
-        jest.advanceTimersByTime(150);
-      });
+      jest.advanceTimersByTime(150);
 
       // The submenu should be closed after the timeout
       await waitFor(() => {
@@ -581,10 +590,14 @@ describe('Submenu', () => {
       // Open the menu
       await user.click(menuButton);
       expect(await screen.findByRole('menu')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByTestId('menu-list')).toHaveFocus();
+      });
 
       // Navigate to the submenu trigger
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       const submenuTrigger = screen.getByTestId('submenu-trigger');
       await waitFor(() => {
@@ -597,9 +610,7 @@ describe('Submenu', () => {
 
       // Press ArrowRight to open submenu
       await user.keyboard('[ArrowRight]');
-      await act(() => new Promise(resolve => {
-        requestAnimationFrame(resolve);
-      }));
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       // The submenu should be open
       await waitFor(() => {
@@ -765,10 +776,14 @@ describe('Submenu', () => {
       const menuButton = screen.getByTestId('menu-button');
       await user.click(menuButton);
       expect(await screen.findByRole('menu')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByTestId('menu-list')).toHaveFocus();
+      });
 
       // Navigate to the submenu trigger
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       const submenuTrigger = screen.getByTestId('submenu-trigger');
       await waitFor(() => {
@@ -825,10 +840,14 @@ describe('Submenu', () => {
       const menuButton = screen.getByTestId('menu-button');
       await user.click(menuButton);
       expect(await screen.findByRole('menu')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByTestId('menu-list')).toHaveFocus();
+      });
 
       // Navigate to the submenu trigger
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       const submenuTrigger = screen.getByTestId('submenu-trigger');
       await waitFor(() => {

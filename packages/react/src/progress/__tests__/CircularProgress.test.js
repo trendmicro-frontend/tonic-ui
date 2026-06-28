@@ -1,6 +1,7 @@
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { CircularProgress } from '@tonic-ui/react/src';
+import React from 'react';
 
 describe('CircularProgress', () => {
   it('renders correctly', async () => {
@@ -48,7 +49,7 @@ describe('CircularProgress', () => {
       <CircularProgress
         aria-label="custom"
         thickness={5}
-        color="red:60"
+        color="red.600"
         value={50}
         variant="determinate"
       />
@@ -60,9 +61,9 @@ describe('CircularProgress', () => {
     const track = progress.querySelector('svg circle:first-of-type');
     const indicator = progress.querySelector('svg circle:last-of-type');
     expect(track).toHaveAttribute('stroke-width', '5');
-    expect(track).toHaveStyleRule('color', 'rgba(255, 255, 255, 0.12)');
+    expect(track).toHaveStyleRule('color', 'var(--tonic-colors-_overlay-thin)');
     expect(indicator).toHaveAttribute('stroke-width', '5');
-    expect(indicator).toHaveStyleRule('color', 'var(--tonic-colors-red-60)');
+    expect(indicator).toHaveStyleRule('color', 'var(--tonic-colors-red-600)');
   });
 
   it('should handle unknown variant gracefully', () => {

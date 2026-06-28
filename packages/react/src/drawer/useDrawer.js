@@ -26,10 +26,6 @@ import { DrawerContext } from './context';
  * @returns {DrawerContextValue | undefined} The drawer context, or `undefined` if not within a `Drawer`.
  */
 const useDrawer = () => {
-  if (!useContext) {
-    throw new Error('The `useContext` hook is not available with your React version.');
-  }
-
   const context = useContext(DrawerContext);
   return context;
 };

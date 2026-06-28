@@ -1,4 +1,4 @@
-import { ButtonBase, useColorMode, useTheme } from '@tonic-ui/react';
+import { ButtonBase, useTheme } from '@tonic-ui/react';
 import { CloseIcon } from '@tonic-ui/react-icons';
 import {
   createTransitionStyle,
@@ -6,22 +6,13 @@ import {
 import { forwardRef } from 'react';
 
 const useIconButtonStyle = ({ size = '8x' }) => {
-  const { colors } = useTheme();
-  const [colorMode] = useColorMode();
-  const color = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
-  const activeColor = color;
-  const hoverColor = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-  const focusColor = color;
+  const theme = useTheme();
+  const color = 'text.secondary';
+  const activeColor = 'text.primary';
+  const hoverColor = 'text.primary';
+  const focusColor = 'text.secondary';
   const focusHoverColor = hoverColor;
   const focusActiveColor = activeColor;
-  const focusBorderColor = 'blue:60'
-  const focusBoxShadowBorderColor = 'blue:60';
 
   return {
     display: 'flex',
@@ -29,26 +20,28 @@ const useIconButtonStyle = ({ size = '8x' }) => {
     justifyContent: 'center',
     border: 1,
     borderColor: 'transparent',
+    borderRadius: '_control.sm',
     color,
     width: size,
     height: size,
     transition: createTransitionStyle(['border-color', 'box-shadow', 'color'], { duration: 200 }),
     _hover: {
       color: hoverColor,
+      backgroundColor: '_foreground.subtle.hovered',
     },
     _active: {
       color: activeColor,
     },
     _focus: {
-      borderColor: focusBorderColor,
-      boxShadow: focusBoxShadowBorderColor ? `inset 0 0 0 1px ${colors[focusBoxShadowBorderColor]}` : undefined,
+      borderColor: '_component.keyboardFocused.outerFocusRing',
+      boxShadow: `inset 0 0 0 1px ${theme.get('colors._component.keyboardFocused.outerFocusRing')}`,
       color: focusColor,
       '&:hover': {
         color: focusHoverColor,
       },
       '&:active': {
-        borderColor: focusBorderColor,
-        boxShadow: focusBoxShadowBorderColor ? `inset 0 0 0 1px ${colors[focusBoxShadowBorderColor]}` : undefined,
+        borderColor: '_component.keyboardFocused.outerFocusRing',
+        boxShadow: `inset 0 0 0 1px ${theme.get('colors._component.keyboardFocused.outerFocusRing')}`,
         color: focusActiveColor,
       },
     },

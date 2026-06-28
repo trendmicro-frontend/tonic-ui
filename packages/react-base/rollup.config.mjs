@@ -1,7 +1,7 @@
 import { createRequire } from 'node:module';
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import fs from 'node:fs';
 import { codecovRollupPlugin } from '@codecov/rollup-plugin';
 import { babel } from '@rollup/plugin-babel';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
@@ -25,9 +25,10 @@ function injectGlobalTypes() {
 }
 
 const input = path.resolve(__dirname, 'src', 'index.ts');
+const internalInput = path.resolve(__dirname, 'src', 'internal', 'index.js');
 const cjsOutputDirectory = path.resolve(__dirname, 'dist', 'cjs');
 const esmOutputDirectory = path.resolve(__dirname, 'dist', 'esm');
-const extensions = ['.js', '.jsx', '.ts', '.tsx', '.mjs'];
+const extensions = ['.js', '.jsx', '.ts', '.tsx'];
 const isExternal = id => !id.startsWith('.') && !id.startsWith('/');
 
 const babelPlugin = babel({
@@ -39,7 +40,7 @@ const babelPlugin = babel({
 
 export default [
   {
-    input,
+    input: [input, internalInput],
     output: {
       dir: cjsOutputDirectory,
       format: 'cjs',
@@ -61,7 +62,7 @@ export default [
     ],
   },
   {
-    input,
+    input: [input, internalInput],
     output: {
       dir: esmOutputDirectory,
       format: 'esm',
@@ -80,7 +81,7 @@ export default [
     ],
   },
   {
-    input,
+    input: input,
     output: [{ file: 'dist/index.d.ts', format: 'es' }],
     plugins: [
       dts(),

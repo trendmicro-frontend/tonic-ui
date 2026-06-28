@@ -9,8 +9,6 @@ import {
   Text,
   TextLabel,
   Tooltip,
-  useColorMode,
-  useColorStyle,
 } from '@tonic-ui/react';
 
 const FormGroup = (props) => (
@@ -18,8 +16,6 @@ const FormGroup = (props) => (
 );
 
 const App = () => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
   const [isFlipModifierEnabled, toggleIsFlipModifierEnabled] = useToggle(true);
 
   return (
@@ -45,7 +41,6 @@ const App = () => {
         width={180}
         overflowY="visible"
         border={1}
-        borderColor={colorStyle.divider}
       >
         <Flex
           alignItems="center"

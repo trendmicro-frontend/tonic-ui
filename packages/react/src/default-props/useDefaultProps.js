@@ -22,10 +22,6 @@ const getThemeProps = ({ props, name, theme }) => {
 };
 
 const useDefaultProps = ({ props, name }) => {
-  if (!useContext) {
-    throw new Error('The `useContext` hook is not available with your React version.');
-  }
-
   if (!name || typeof name !== 'string') {
     throw new Error('Invalid or missing component name provided to `useDefaultProps`');
   }

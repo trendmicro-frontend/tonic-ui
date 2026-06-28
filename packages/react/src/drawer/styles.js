@@ -1,5 +1,3 @@
-import { useColorMode } from '../color-mode';
-import { useColorStyle } from '../color-style';
 import { useIconButtonStyle } from '../shared/styles';
 import { useTheme } from '../theme';
 import pixelize from '../utils/pixelize';
@@ -49,11 +47,7 @@ const useDrawerContainerStyle = ({
 };
 
 const useDrawerOverlayStyle = () => {
-  const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'rgba(0, 0, 0, .7)',
-    light: 'rgba(0, 0, 0, .7)',
-  }[colorMode];
+  const backgroundColor = '_overlay._fixed.light.thicker';
 
   return {
     position: 'absolute',
@@ -71,8 +65,6 @@ const useDrawerContentStyle = ({
   tabIndex,
 }) => {
   const isLeftOrRight = (placement === 'left' || placement === 'right');
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
   const baseStyle = {
     display: 'flex',
     flexDirection: 'column',
@@ -81,23 +73,13 @@ const useDrawerContentStyle = ({
     position: 'relative',
   };
   const colorModeStyle = {
-    light: {
-      color: 'black:primary',
-      bg: 'white',
-      borderWidth: '1q',
-      borderStyle: 'solid',
-      borderColor: 'gray:30',
-      boxShadow: colorStyle?.shadow?.thick,
-    },
-    dark: {
-      color: 'white:primary',
-      bg: 'gray:90',
-      borderWidth: '1q',
-      borderStyle: 'solid',
-      borderColor: 'gray:80',
-      boxShadow: colorStyle?.shadow?.thick,
-    },
-  }[colorMode];
+    color: 'text.accent',
+    bg: 'background.high',
+    borderWidth: '1q',
+    borderStyle: 'solid',
+    boxShadow: 'medium',
+    borderColor: 'border._fixed.dark.subtle',
+  };
   const placementStyle = {
     // https://stackoverflow.com/questions/33454533/cant-scroll-to-top-of-flex-item-that-is-overflowing-container
     top: {
@@ -159,18 +141,12 @@ const useDrawerContentStyle = ({
 };
 
 const useDrawerCloseButtonStyle = () => {
-  const [colorMode] = useColorMode();
   const { sizes } = useTheme();
-  const color = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
+  const color = 'text.secondary';
   const size = '8x';
-  const focusVisibleOutlineColor = 'blue:60';
-  const hoverColor = {
-    dark: 'white:emphasis',
-    light: 'black:primary',
-  }[colorMode];
+  const focusVisibleOutlineColor = '_component.keyboardFocused.outerFocusRing';
+  const hoverColor = 'text.accent';
+  const hoverBackgroundColor = '_foreground.subtle.hovered';
   const iconButtonStyle = useIconButtonStyle({ color, size });
   const parentBorderWidth = sizes['1q'];
   const top = `calc(${sizes['2x']} - ${parentBorderWidth})`;
@@ -187,6 +163,8 @@ const useDrawerCloseButtonStyle = () => {
       outlineWidth: '1h',
     },
     _hover: {
+      // The close button applies a background color when hovered
+      backgroundColor: hoverBackgroundColor,
       color: hoverColor,
     },
     position: 'absolute',

@@ -25,10 +25,6 @@ import { ModalContext } from './context';
  * @returns {ModalContextValue | undefined} The modal context, or `undefined` if not within a `Modal`.
  */
 const useModal = () => {
-  if (!useContext) {
-    throw new Error('The `useContext` hook is not available with your React version.');
-  }
-
   const context = useContext(ModalContext);
   return context;
 };

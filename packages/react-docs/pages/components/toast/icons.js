@@ -1,4 +1,4 @@
-import { Box, Button, Stack, Toast, useColorMode, useColorStyle, useToastManager } from '@tonic-ui/react';
+import { Box, Button, Stack, Toast, useToastManager } from '@tonic-ui/react';
 import { CheckCircleOIcon } from '@tonic-ui/react-icons';
 
 const ToastWithDefaultIcon = ({ onClose }) => (
@@ -16,7 +16,7 @@ const ToastWithProprietaryIcon = ({ onClose }) => (
     isClosable
     onClose={onClose}
     appearance="success"
-    icon={<CheckCircleOIcon color="gray:80" />}
+    icon={<CheckCircleOIcon color="text.primary" />}
   >
     This is a success toast.
   </Toast>
@@ -34,9 +34,7 @@ const ToastWithoutIcon = ({ onClose }) => (
 );
 
 const ToastLayout = (props) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const boxShadow = colorStyle.shadow.thin;
+  const boxShadow = 'down.high';
 
   return (
     <Box

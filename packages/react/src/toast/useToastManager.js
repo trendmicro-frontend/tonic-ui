@@ -31,10 +31,6 @@ const useToastManager = () => {
   const createToastRef = useRef(null);
   const toastManagerRef = useRef(null);
 
-  if (!useContext) {
-    throw new Error('The `useContext` hook is not available with your React version.');
-  }
-
   const context = useContext(ToastManagerContext);
 
   if (!context) {

@@ -29,10 +29,6 @@ import { MenuContext } from './context';
  * @returns {MenuContextValue | undefined} The menu context, or `undefined` if not within a `Menu`.
  */
 const useMenu = () => {
-  if (!useContext) {
-    throw new Error('The `useContext` hook is not available with your React version.');
-  }
-
   const context = useContext(MenuContext);
   return context;
 };

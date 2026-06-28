@@ -6,4 +6,4 @@ const useHighlightStyle = () => {
 
 export {
   useHighlightStyle,
-};
+}

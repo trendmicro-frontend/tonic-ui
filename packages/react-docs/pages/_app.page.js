@@ -117,6 +117,7 @@ const App = (props) => {
           }}
           theme={customTheme}
           useCSSBaseline
+          useCSSVariables
         >
           <ToastManager
             slotProps={{
@@ -139,10 +140,15 @@ const App = (props) => {
             }}
           >
             <PortalManager>
-              <MDXProvider components={MDXComponents}>
-                <Page {...props} />
-                <GlobalStyles />
-              </MDXProvider>
+              <GlobalStyles />
+              <Box
+                backgroundColor="background.low" // semantic token
+                color="text.primary" // semantic token
+              >
+                <MDXProvider components={MDXComponents}>
+                  <Page {...props} />
+                </MDXProvider>
+              </Box>
             </PortalManager>
           </ToastManager>
         </TonicProvider>
@@ -165,7 +171,7 @@ const DocsPage = (props) => {
   );
   const [isSidebarVisible, toggleSidebarVisible] = useToggle(isMediaQueryMatched ? true : false);
   const theme = useTheme();
-  const headerHeight = theme.sizes['12x'];
+  const headerHeight = theme.get('sizes.12x');
   const handleDragResizableHandle = useCallback((e) => {
     const { left: parentLeft } = containerRef.current.getBoundingClientRect();
     const minWidth = 240;
@@ -225,7 +231,7 @@ const DocsPage = (props) => {
         lg: sidebarWidth,
       },
       pt: headerHeight,
-      height: '100vh',
+      minHeight: '100vh',
       width: {
         sm: '100%',
         lg: `calc(100% - ${sidebarWidth}px)`,

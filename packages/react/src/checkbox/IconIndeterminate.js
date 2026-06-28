@@ -1,3 +1,4 @@
+import React from 'react';
 import { SVGIcon } from '../icon';
 
 const IconIndeterminate = (props) => {

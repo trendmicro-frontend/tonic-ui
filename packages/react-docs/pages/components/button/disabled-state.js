@@ -1,21 +1,10 @@
 import {
   Button,
-  useColorMode,
-  useColorStyle,
 } from '@tonic-ui/react';
 
 const App = () => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const disabledBackgroundColor = {
-    dark: 'gray:60',
-    light: 'gray:20',
-  }[colorMode];
-  const disabledColor = colorStyle.color.emphasis;
-  const disabledOpacity = {
-    dark: '0.28',
-    light: '0.3',
-  }[colorMode];
+  const disabledBackgroundColor = '_foreground.secondary.disabled';
+  const disabledColor = 'text.disabled';
 
   return (
     <Button
@@ -25,7 +14,6 @@ const App = () => {
         backgroundColor: disabledBackgroundColor,
         color: disabledColor,
         cursor: 'not-allowed',
-        opacity: disabledOpacity,
       }}
     >
       Custom Button

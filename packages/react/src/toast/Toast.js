@@ -8,6 +8,7 @@ import ToastCloseButton from './ToastCloseButton';
 import ToastIcon from './ToastIcon';
 import ToastMessage from './ToastMessage';
 import { ToastContext } from './context';
+import { LightMode } from '../color-mode';
 import {
   defaultAppearance,
 } from './defaults';
@@ -58,19 +59,21 @@ const Toast = forwardRef((inProps, ref) => {
 
   return (
     <ToastContext.Provider value={context}>
-      <Box
-        ref={ref}
-        {...styleProps}
-        {...rest}
-      >
-        <ToastIcon />
-        <ToastMessage>
-          {runIfFn(children, context)}
-        </ToastMessage>
-        {!!isClosable && (
-          <CloseButtonSlot {...closeButtonSlotProps} />
-        )}
-      </Box>
+      <LightMode>
+        <Box
+          ref={ref}
+          {...styleProps}
+          {...rest}
+        >
+          <ToastIcon />
+          <ToastMessage>
+            {runIfFn(children, context)}
+          </ToastMessage>
+          {!!isClosable && (
+            <CloseButtonSlot {...closeButtonSlotProps} />
+          )}
+        </Box>
+      </LightMode>
     </ToastContext.Provider>
   );
 });

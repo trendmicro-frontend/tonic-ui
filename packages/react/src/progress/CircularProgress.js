@@ -39,7 +39,7 @@ const CircularProgress = forwardRef((inProps, ref) => {
 
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
-    color = 'blue:60',
+    color = '_foreground.primary.active',
     min = 0,
     max = 100,
     size = defaultSize,

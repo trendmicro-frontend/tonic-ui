@@ -25,7 +25,7 @@ const App = () => {
     win.addEventListener('resize', updateSize);
 
     return () => win.removeEventListener('resize', updateSize);
-  }, [getRootNode, getDocument, getWindow]);
+  }, [getWindow]);
 
   return (
     <Box>

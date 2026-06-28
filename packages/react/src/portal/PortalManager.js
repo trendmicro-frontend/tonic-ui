@@ -41,7 +41,6 @@ const PortalManager = (inProps) => {
   const remove = useCallback(id => {
     setPortals(portals => portals.filter(portal => portal.id !== id));
   }, []);
-
   const context = shallowMemo({ add, remove });
 
   return (

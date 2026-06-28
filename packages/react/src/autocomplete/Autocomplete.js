@@ -10,6 +10,21 @@ import { AutocompleteContext } from './context';
 import { useAutocompleteStyle } from './styles';
 import useAutocompleteState from './useAutocompleteState';
 
+const defaultRenderInput = (params) => <AutocompleteInput {...params} />;
+
+const defaultRenderItem = (item) => {
+  if (item === null || item === undefined) {
+    return '';
+  }
+  if (typeof item === 'string') {
+    return item;
+  }
+  if (isPlainObject(item)) {
+    return item.label ?? item.value ?? '';
+  }
+  return String(item);
+};
+
 /**
  * @typedef {Object} AutocompleteRenderInputParams
  * @property {object} inputProps - Hook-managed props for the underlying `<input>`: ref, value, ARIA, and event handlers.
@@ -45,21 +60,6 @@ import useAutocompleteState from './useAutocompleteState';
  * @property {{ content?: { width?: string | number; [key: string]: any } }} [slotProps] - Props forwarded to internal slots. `slotProps.content` is spread on `<AutocompleteList>`.
  * @property {any} [value] - Controlled selected item (or `null` for no selection). Pair with `onChange` to manage the value externally. When set, the input automatically syncs to `getItemLabel(value)` on every value change. Pass a referentially stable item (memoize if needed) to avoid spurious sync updates.
  */
-
-const defaultRenderInput = (params) => <AutocompleteInput {...params} />;
-
-const defaultRenderItem = (item) => {
-  if (item === null || item === undefined) {
-    return '';
-  }
-  if (typeof item === 'string') {
-    return item;
-  }
-  if (isPlainObject(item)) {
-    return item.label ?? item.value ?? '';
-  }
-  return String(item);
-};
 
 /**
  * @type {ForwardRefComponent<'div', AutocompleteProps>}

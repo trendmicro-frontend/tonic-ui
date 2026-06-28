@@ -6,7 +6,7 @@ import {
   MoreHorizIcon,
 } from '@tonic-ui/react-icons';
 import { ariaAttr } from '@tonic-ui/utils';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Button } from '../button';
 import { useDefaultProps } from '../default-props';
 import {

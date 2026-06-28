@@ -34,7 +34,6 @@ import {
   Tag,
   Text,
   useColorMode,
-  useColorStyle,
   usePortalManager,
 } from '@tonic-ui/react';
 import {
@@ -53,7 +52,7 @@ import {
 } from '@tonic-ui/react-icons';
 import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
-import { forwardRef, useCallback, useEffect } from 'react';
+import { forwardRef, useCallback } from 'react';
 import InstantSearchModal from '../components/InstantSearchModal';
 import SearchButton from '../components/SearchButton';
 import SkeletonBlock from '../components/SkeletonBlock';
@@ -61,7 +60,6 @@ import useTrack from '../hooks/useTrack';
 import CodeSandboxIcon from '../icons/CodeSandboxIcon';
 import GitHubIcon from '../icons/GitHubIcon';
 import { open as openInCodeSandbox } from '../sandbox/codesandbox';
-import persistColorMode from '../utils/persist-color-mode';
 
 const BASE_PATH = ensureString(process.env.TONIC_UI_REACT_DOCS_BASE_PATH);
 
@@ -70,17 +68,7 @@ const GITHUB_REPO_URL = 'https://github.com/trendmicro-frontend/tonic-ui';
 // The TONIC_UI_REACT_DOCS_VERSION environment variable might be one of: latest, pr-<number>, or version (e.g. 0.1.0) for a tag release
 const TONIC_UI_REACT_DOCS_VERSION = ensureString(process.env.TONIC_UI_REACT_DOCS_VERSION);
 
-const DefaultPage = (props) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const codeBlockBackgroundColor = {
-    light: 'white',
-    dark: 'black',
-  }[colorMode];
-  const dividerColor = {
-    dark: 'gray:70',
-    light: 'gray:30',
-  }[colorMode];
+const DefaultPage = ({ onColorModeChange, ...props }) => {
   const docsFontSize = 'md';
   const docsLineHeight = 'md';
   const codeBlockFontSize = 'sm';
@@ -88,14 +76,14 @@ const DefaultPage = (props) => {
 
   return (
     <Box
-      backgroundColor={colorStyle.background.primary}
-      color={colorStyle.color.primary}
+      backgroundColor="background.low"
+      color="text.primary"
       fontSize={docsFontSize}
       lineHeight={docsLineHeight}
-      height="100vh"
+      minHeight="100vh"
       {...props}
     >
-      <DefaultPageHeader />
+      <DefaultPageHeader onColorModeChange={onColorModeChange} />
       <Box
         maxWidth={{
           lg: '1024px',
@@ -131,7 +119,7 @@ const DefaultPage = (props) => {
               mb="5x"
             >
               <Text
-                color={colorStyle.color.tertiary}
+                color="text.tertiary"
               >
                 Tonic UI is a UI component library for React, built with Emotion and Styled System. It is designed to be easy to use and easy to customize.
               </Text>
@@ -180,8 +168,8 @@ const DefaultPage = (props) => {
           <Box
             flex="1"
             p="6x"
-            backgroundColor={codeBlockBackgroundColor}
-            boxShadow={colorStyle.shadow.thick}
+            backgroundColor="background.highest"
+            boxShadow="down.low"
             width="100%"
             fontSize={codeBlockFontSize}
             lineHeight={codeBlockLineHeight}
@@ -257,11 +245,11 @@ const DefaultPage = (props) => {
                       <Button>
                         <ChartAreaIcon />
                       </Button>
-                      <Divider orientation="vertical" color={dividerColor} />
+                      <Divider orientation="vertical" color="border.secondary" />
                       <Button>
                         <ChartBarIcon />
                       </Button>
-                      <Divider orientation="vertical" color={dividerColor} />
+                      <Divider orientation="vertical" color="border.secondary" />
                       <Button>
                         <ChartPieIcon />
                       </Button>
@@ -373,17 +361,12 @@ const DefaultPage = (props) => {
   );
 };
 
-const DefaultPageHeader = forwardRef((props, ref) => {
+const DefaultPageHeader = forwardRef(({ onColorModeChange, ...props }, ref) => {
   const portal = usePortalManager();
-  const [colorMode, toggleColorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
+  const [colorMode] = useColorMode();
   const logo = {
     light: 'tonic-logo-light.svg',
     dark: 'tonic-logo-dark.svg',
-  }[colorMode];
-  const boxShadowColor = {
-    light: 'rgba(0, 0, 0, 0.12)',
-    dark: 'rgba(255, 255, 255, 0.12)',
   }[colorMode];
   const track = useTrack();
 
@@ -408,10 +391,6 @@ const DefaultPageHeader = forwardRef((props, ref) => {
     });
   };
 
-  useEffect(() => {
-    persistColorMode(colorMode);
-  }, [colorMode]);
-
   return (
     <Box
       as="header"
@@ -422,8 +401,9 @@ const DefaultPageHeader = forwardRef((props, ref) => {
       height="12x"
       width="100%"
       backdropFilter="blur(20px)"
-      backgroundColor={colorStyle.background.primary}
-      boxShadow={`0px -1px 1px inset ${boxShadowColor}`}
+      backgroundColor="background.high"
+      borderBottom={1}
+      borderBottomColor="border.subtle"
       transition="all 0.2s"
       {...props}
     >
@@ -439,7 +419,7 @@ const DefaultPageHeader = forwardRef((props, ref) => {
             <Link
               data-track="Header|click_landing_page"
               background="transparent"
-              color={colorStyle.color.primary}
+              color="text.primary"
               fontSize="xl"
               lineHeight="lg"
               outline="none"
@@ -447,13 +427,13 @@ const DefaultPageHeader = forwardRef((props, ref) => {
               py="2x"
               textDecoration="none"
               _active={{
-                color: colorStyle.color.emphasis,
+                color: 'text.accent',
               }}
               _hover={{
-                color: colorStyle.color.emphasis,
+                color: 'text.accent',
               }}
               _visited={{
-                color: colorStyle.color.primary,
+                color: 'text.primary',
               }}
             >
               <Flex alignItems="center" columnGap="2x">
@@ -500,12 +480,12 @@ const DefaultPageHeader = forwardRef((props, ref) => {
           <Box
             data-track={`Header|click_toggle_color_mode|${colorMode === 'light' ? 'dark' : 'light'}`}
             as="a"
-            color={colorStyle.color.secondary}
+            color="text.secondary"
             _hover={{
-              color: colorStyle.color.primary,
+              color: 'text.primary',
               cursor: 'pointer',
             }}
-            onClick={() => toggleColorMode()}
+            onClick={onColorModeChange}
             display="inline-flex"
             textDecoration="none"
             title="Toggle color mode"
@@ -521,13 +501,13 @@ const DefaultPageHeader = forwardRef((props, ref) => {
             data-track={`Header|click_github_repo_url|${GITHUB_REPO_URL}`}
             as="a"
             href={GITHUB_REPO_URL}
-            color={colorStyle.color.secondary}
+            color="text.secondary"
             _hover={{
-              color: colorStyle.color.primary,
+              color: 'text.primary',
               cursor: 'pointer',
             }}
             _visited={{
-              color: colorStyle.color.secondary,
+              color: 'text.secondary',
             }}
             display="inline-flex"
             textDecoration="none"

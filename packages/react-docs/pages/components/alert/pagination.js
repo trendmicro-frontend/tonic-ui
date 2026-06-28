@@ -13,12 +13,12 @@ const pageMax = alerts.length > 0 ? alerts.length : 0;
 
 const IconButton = (props) => (
   <ButtonBase
-    color="black:secondary"
+    color="text.secondary"
     _disabled={{
-      color: 'black:disabled',
+      color: 'text.disabled',
     }}
     _hover={{
-      color: 'black:primary',
+      color: 'text.accent',
     }}
     {...props}
   />
@@ -44,7 +44,7 @@ const App = () => {
           >
             <ChevronUpIcon />
           </IconButton>
-          <Text>{page}/{pageMax}</Text>
+          <Text color="text.primary">{page}/{pageMax}</Text>
           <IconButton
             disabled={page >= pageMax}
             onClick={() => setPage(Math.min(pageMax, page + 1))}

@@ -54,7 +54,7 @@ const App = () => {
             <Box ref={ref}>
               <SearchInput
                 value={inputProps.value}
-                slotProps={{ input: inputProps }}
+                inputProps={inputProps}
                 onClearInput={handleClear}
                 placeholder="Search fruits"
               />

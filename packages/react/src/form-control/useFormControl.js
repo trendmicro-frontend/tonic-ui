@@ -18,10 +18,6 @@ import { FormControlContext } from './context';
  * @returns {FormControlContextValue | undefined} The form control context, or `undefined` if not within a `FormControl`.
  */
 const useFormControl = () => {
-  if (!useContext) {
-    throw new Error('The `useContext` hook is not available with your React version.');
-  }
-
   const context = useContext(FormControlContext);
   return context;
 };

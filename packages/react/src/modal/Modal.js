@@ -3,9 +3,9 @@ import { getAllFocusable, runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import FocusLock from 'react-focus-lock/dist/cjs';
 import { useDefaultProps } from '../default-props';
-import useShallowMemo from '../utils/useShallowMemo';
 import { Portal } from '../portal';
 import { AnimatePresence } from '../utils/animate-presence';
+import useShallowMemo from '../utils/useShallowMemo';
 import ModalContainer from './ModalContainer';
 import { ModalContext } from './context';
 
@@ -77,7 +77,6 @@ const Modal = forwardRef((inProps, ref) => {
   const [isMounted, setIsMounted] = useState(isOpen);
   const containerRef = useRef();
   const contentRef = useRef();
-
   const context = shallowMemo({
     autoFocus,
     closeOnEsc,

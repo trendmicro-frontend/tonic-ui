@@ -14,7 +14,6 @@ import {
   TableRow,
   TableCell,
   Truncate,
-  useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
 import { ColumnsIcon } from '@tonic-ui/react-icons';
@@ -46,7 +45,6 @@ const getTextWidth = (text, font) => {
 
 const App = () => {
   const theme = useTheme();
-  const [colorStyle] = useColorStyle();
   const defaultColumnOrder = [
     'priority',
     'policy',
@@ -146,7 +144,7 @@ const App = () => {
       theme.fontWeights.semibold,
       theme.fontSizes.sm,
       theme.fonts.base,
-    ].join(' '); // => '600 14px "Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif'
+    ].join(' '); // => '600 14px 'Inter, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif'
 
     // Fixed columns are columns with a fixed size (e.g. 100 or '10%')
     const fixedColumns = table.getAllColumns()
@@ -363,10 +361,10 @@ const App = () => {
                     key={row.id}
                     data-selected={dataAttr(row.getIsSelected())}
                     _hover={{
-                      backgroundColor: colorStyle.background.highlighted,
+                      backgroundColor: 'actions.hovered',
                     }}
                     _selected={{
-                      backgroundColor: colorStyle.background.selected,
+                      backgroundColor: 'actions.selected',
                     }}
                   >
                     {row.getVisibleCells().map(cell => {

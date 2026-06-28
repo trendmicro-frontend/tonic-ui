@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 import { render, renderHook } from '@testing-library/react';
 import React from 'react';
-import { Text } from '@tonic-ui/react/src';
 import EnvironmentProvider from '../EnvironmentProvider';
 import useEnvironment from '../useEnvironment';
 
@@ -181,7 +180,7 @@ describe('EnvironmentProvider', () => {
   it('should render children correctly', () => {
     const { getByTestId } = render(
       <EnvironmentProvider value={document}>
-        <Text data-testid="child">Test Content</Text>
+        <div data-testid="child">Test Content</div>
       </EnvironmentProvider>
     );
 

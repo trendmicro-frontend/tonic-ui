@@ -40,7 +40,6 @@ const Tag = forwardRef((inProps, ref) => {
     'aria-disabled': ariaAttr(disabled),
     'aria-invalid': ariaAttr(error),
   };
-
   const context = shallowMemo({
     disabled,
     error,

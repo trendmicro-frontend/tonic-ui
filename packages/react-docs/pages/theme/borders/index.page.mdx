@@ -1,11 +1,17 @@
 import { Box, Stack } from "@tonic-ui/react";
-import ThemeParser from "@/components/ThemeParser";
+import ThemeTokens from "@/components/ThemeTokens";
 
-# Borders
+# borders
 
 ## Design tokens
 
-<ThemeParser theme="borders" />
+### Primitive tokens (v4)
+
+<ThemeTokens type="primitive" scales={[{ name: 'borders', defaultIsExpanded: true }]} />
+
+### Primitive tokens (v3)
+
+<ThemeTokens type="legacy" scales={[{ name: 'borders', defaultIsExpanded: true }]} />
 
 ## Examples
 

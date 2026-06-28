@@ -2,9 +2,9 @@ import { useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 import { callAll, getComputedStyle, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensurePositiveNumber } from 'ensure-type';
 import { forwardRef, useEffect, useRef } from 'react';
+import { useEnvironment } from '../environment';
 import { useSlot } from '../slot';
 import { useDefaultProps } from '../default-props';
-import { useEnvironment } from '../environment';
 import { Fade } from '../transitions';
 import { useAnimatePresence } from '../utils/animate-presence';
 import {
@@ -20,7 +20,6 @@ const ModalOverlay = forwardRef((inProps, ref) => {
     slotProps = {},
     ...rest
   } = useDefaultProps({ props: inProps, name: 'ModalOverlay' });
-  const { getWindow } = useEnvironment();
 
   { // deprecation warning
     const prefix = `${ModalOverlay.displayName}:`;
@@ -40,6 +39,7 @@ const ModalOverlay = forwardRef((inProps, ref) => {
     }, TransitionProps !== undefined);
   }
 
+  const { getWindow } = useEnvironment();
   const [, safeToRemove] = useAnimatePresence();
   const modalContext = useModal(); // context might be an undefined value
   const {

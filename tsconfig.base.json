@@ -8,12 +8,12 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "resolveJsonModule": true,
-    "noEmit": false,
+    "noEmit": false, // emitDeclarationOnly will generate .d.ts files
     "allowJs": true,
-    "checkJs": false,
-    "strict": false,
-    "declaration": true,
-    "emitDeclarationOnly": true,
+    "checkJs": false, // Enable this if you want to type-check JS files as well
+    "strict": false, // turn on once you have time to fix all the errors
+    "declaration": true, // Optional, but recommended to catch more errors
+    "emitDeclarationOnly": true, // https://www.typescriptlang.org/tsconfig/#emitDeclarationOnly
     "allowImportingTsExtensions": false,
     "allowSyntheticDefaultImports": true,
     "noEmitOnError": false,

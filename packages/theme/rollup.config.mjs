@@ -35,7 +35,7 @@ export default [
       interop: 'auto',
       preserveModules: true,
 
-      // The `@tonic-ui/theme` package mixed default and named exports. See `output.exports` for more info.
+      // The `@tonic-one/theme` package mixed default and named exports. See `output.exports` for more info.
       //
       // https://rollupjs.org/guide/en/#outputexports
       // As with regular entry points, files that mix default and named exports will produce warnings.
@@ -45,8 +45,8 @@ export default [
     },
     external: isExternal,
     plugins: [
-      nodeResolve({ extensions }),
       babelPlugin,
+      nodeResolve({ extensions }),
       // Put the Codecov rollup plugin after all other plugins
       codecovRollupPlugin({
         enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
@@ -64,8 +64,8 @@ export default [
     },
     external: isExternal,
     plugins: [
-      nodeResolve({ extensions }),
       babelPlugin,
+      nodeResolve({ extensions }),
       // Put the Codecov rollup plugin after all other plugins
       codecovRollupPlugin({
         enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
@@ -75,7 +75,7 @@ export default [
     ],
   },
   {
-    input,
+    input: input,
     output: [{ file: 'dist/index.d.ts', format: 'es' }],
     plugins: [
       dts(),

@@ -4,8 +4,9 @@ import { isNullish, isPlainObject } from '@tonic-ui/utils';
 import { ColorModeProvider } from '../color-mode';
 import { ColorStyleProvider } from '../color-style';
 import { CSSBaseline } from '../css-baseline';
-import { CSSVariables, ThemeProvider } from '../theme';
+import { CSSVariables } from '../css-variables';
 import { EnvironmentProvider } from '../environment';
+import { ThemeProvider } from '../theme';
 import { TONIC_THEME } from '../theme/constants';
 
 /**

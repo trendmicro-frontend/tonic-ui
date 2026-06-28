@@ -1,7 +1,16 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "lib",
-    "rootDir": "src"
-  }
+    "rootDir": "src",
+    "lib": ["esnext", "dom", "dom.iterable"],
+    "jsx": "react-jsx",
+    "skipLibCheck": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationDir": "@types",
+    "isolatedModules": true,
+    "declarationMap": true,
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist/**/*", "src/__tests__","index.test.js", "coverage"]
 }

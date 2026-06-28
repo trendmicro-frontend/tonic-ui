@@ -20,6 +20,35 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   type StyleProps = Record<string, any>;
 
+  /* eslint-disable @typescript-eslint/no-empty-object-type */
+
+  /**
+   * A `forwardRef` component that merges `StyleProps`, native element props
+   * (with conflicting keys omitted), custom props, and a ref attribute.
+   *
+   * @template E - The intrinsic element type (e.g. `'div'`, `'button'`).
+   * @template P - Custom component props.
+   * @template [R=HTMLElement] - The ref element type.
+   */
+  type ForwardRefComponent<
+    E extends React.ElementType,
+    P = {},
+    R extends Element = HTMLElement,
+  > = React.ForwardRefExoticComponent<
+    StyleProps
+      & Omit<React.ComponentPropsWithoutRef<E>, keyof P>
+      & P
+      & React.RefAttributes<R>
+  >;
+
+  /**
+   * A functional component that merges `StyleProps` with custom props.
+   * Useful for components that don't need `forwardRef` (e.g. providers, containers).
+   *
+   * @template P - Custom component props.
+   */
+  type StyledFC<P = {}> = React.FC<StyleProps & P>;
+
   /**
    * Theme token scales returned by `createTheme()` and `useTheme()`.
    * Represents the theme object structure with nested token values

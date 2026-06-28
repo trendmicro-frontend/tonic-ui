@@ -1,11 +1,11 @@
 import { useId, usePrevious } from '@tonic-ui/react-hooks';
 import { getAllFocusable, runIfFn } from '@tonic-ui/utils';
 import { ensureString } from 'ensure-type';
-import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
-import useShallowMemo from '../utils/useShallowMemo';
 import config from '../shared/config';
+import useShallowMemo from '../utils/useShallowMemo';
 import { MenuContext } from './context';
 import { useMenuStyle } from './styles';
 
@@ -204,7 +204,6 @@ const Menu = forwardRef((inProps, ref) => {
   const menuId = `${config.name}:Menu-${defaultId}`;
   const menuToggleId = `${config.name}:MenuToggle-${defaultId}`;
   const direction = mapPlacementToDirection(placement);
-
   const context = shallowMemo({
     autoSelect,
     closeOnBlur,
@@ -220,8 +219,8 @@ const Menu = forwardRef((inProps, ref) => {
     onClose,
     onOpen,
     onToggle,
-    placement,
     portalled,
+    placement,
     menuId,
     menuContentRef,
     menuToggleId,

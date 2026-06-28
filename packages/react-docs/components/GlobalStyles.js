@@ -1,39 +1,27 @@
 import { Global, css } from '@emotion/react';
 import {
   useColorMode,
-  useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
 
 const GlobalStyles = () => {
   const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const { colors, fontSizes, lineHeights } = useTheme();
-  const backgroundColor = colorStyle.background.primary;
-  const color = colorStyle.color.primary;
-  const scrollbarThumbBackgroundColor = colorStyle.color.disabled;
-  const scrollbarThumbHoverBackgroundColor = colorStyle.color.tertiary;
-  const scrollbarThumbHoverBorderColor = colorStyle.color.secondary;
-  const scrollbarTrackBackgroundColor = {
-    light: 'gray:30',
-    dark: 'gray:70',
-  }[colorMode];
+
+  const theme = useTheme();
 
   return (
     <Global
       styles={css`
-        :root {
+        :root, :host {
           color-scheme: ${colorMode};
-          scroll-behavior: smooth;
+          scroll-behavior: smooth; // Enable smooth scrolling for the TOC links
         }
         :focus:not(:focus-visible) {
           outline: none;
         }
         body {
-          background-color: ${colors[backgroundColor]};
-          color: ${colors[color]};
-          font-size: ${fontSizes.sm};
-          line-height: ${lineHeights.sm};
+          font-size: ${theme.get('fontSizes.sm')};
+          line-height: ${theme.get('lineHeights.sm')};
         }
 
         ::-webkit-scrollbar {
@@ -41,14 +29,16 @@ const GlobalStyles = () => {
           height: 8px;
         }
         ::-webkit-scrollbar-track {
-          background-color: ${colors[scrollbarTrackBackgroundColor]};
+          background-color: ${theme.get('colors._component.scrollbar.track.enabled')};
+        }
+        ::-webkit-scrollbar-track:hover {
+          background-color: ${theme.get('colors._component.scrollbar.track.hovered')};
         }
         ::-webkit-scrollbar-thumb {
-          background-color: ${colors[scrollbarThumbBackgroundColor]};
+          background-color: ${theme.get('colors._component.scrollbar.thumb.enabled')};
         }
         ::-webkit-scrollbar-thumb:hover {
-          background-color: ${colors[scrollbarThumbHoverBackgroundColor]};
-          border: 1px solid ${colors[scrollbarThumbHoverBorderColor]};
+          background-color: ${theme.get('colors._component.scrollbar.thumb.hovered')};
         }
       `}
     />

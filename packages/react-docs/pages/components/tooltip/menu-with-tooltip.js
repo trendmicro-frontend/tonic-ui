@@ -8,14 +8,10 @@ import {
   MenuList,
   Text,
   Tooltip,
-  useColorMode,
-  useColorStyle,
 } from '@tonic-ui/react';
 import { useCallback, useRef, useState } from 'react';
 
 const App = () => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
   const inputRef = useRef();
   const [menuItem, setMenuItem] = useState('hostname');
   const handleMenuClick = useCallback((event) => {
@@ -42,7 +38,7 @@ const App = () => {
         <Menu>
           <MenuButton mr="4x">
             <Text
-              color={colorMode === 'dark' ? 'white:secondary' : 'black:secondary'}
+              color="text.secondary"
             >
               {buttonText}
             </Text>
@@ -57,8 +53,7 @@ const App = () => {
       </InputGroupPrepend>
       <Tooltip
         label="Use commas to separate multiple keywords"
-        backgroundColor={colorStyle.background.secondary}
-        color={colorStyle.color.primary}
+        color="text.primary"
         px="2x"
         py="3x"
       >

@@ -1,5 +1,5 @@
-import { Box, Button, ButtonGroup, Divider, Flex, LinearProgress, Text, TextLabel } from '@tonic-ui/react';
 import { useState } from 'react';
+import { Box, Button, ButtonGroup, Divider, Flex, LinearProgress, Text, TextLabel } from '@tonic-ui/react';
 
 const heightOptions = [2, 4, 8, 12];
 const defaultHeight = 4;

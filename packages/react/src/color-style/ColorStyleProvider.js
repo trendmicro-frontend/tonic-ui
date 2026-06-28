@@ -1,5 +1,5 @@
 import { ensurePlainObject } from 'ensure-type';
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
 import defaultColorStyle from './color-style';

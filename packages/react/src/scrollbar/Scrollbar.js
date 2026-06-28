@@ -92,6 +92,7 @@ const Scrollbar = forwardRef((inProps, ref) => {
   }
 
   const isHydrated = useHydrated();
+
   const { getDocument, getWindow } = useEnvironment();
 
   const currentScrollLeftRef = useRef(0);

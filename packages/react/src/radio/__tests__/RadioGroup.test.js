@@ -2,6 +2,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Radio, RadioGroup } from '@tonic-ui/react/src';
+import React from 'react';
 
 describe('RadioGroup', () => {
   it('should render correctly', () => {
@@ -20,7 +21,7 @@ describe('RadioGroup', () => {
     const onChange = jest.fn();
     const user = userEvent.setup();
     render(
-      <RadioGroup defaultValue="" onChange={onChange}>
+      <RadioGroup onChange={onChange}>
         <Radio value="apple">Apple</Radio>
         <Radio value="banana">Banana</Radio>
       </RadioGroup>
@@ -37,7 +38,7 @@ describe('RadioGroup', () => {
     const onChange = jest.fn();
     const user = userEvent.setup();
     render(
-      <RadioGroup defaultValue="" onChange={onChange}>
+      <RadioGroup onChange={onChange}>
         <Radio value={1}>One</Radio>
         <Radio value={2}>Two</Radio>
       </RadioGroup>
@@ -54,7 +55,7 @@ describe('RadioGroup', () => {
     const onChange = jest.fn();
     const user = userEvent.setup();
     render(
-      <RadioGroup defaultValue="" onChange={onChange}>
+      <RadioGroup onChange={onChange}>
         <Radio value={true}>True</Radio>
         <Radio value={false}>False</Radio>
       </RadioGroup>
@@ -74,7 +75,7 @@ describe('RadioGroup', () => {
     const value2 = { id: 2, name: 'Option 2' };
 
     render(
-      <RadioGroup defaultValue="" onChange={onChange}>
+      <RadioGroup onChange={onChange}>
         <Radio value={value1}>Option 1</Radio>
         <Radio value={value2}>Option 2</Radio>
       </RadioGroup>
@@ -131,7 +132,7 @@ describe('RadioGroup', () => {
     const onChange = jest.fn();
     const user = userEvent.setup();
     render(
-      <RadioGroup disabled defaultValue="" onChange={onChange}>
+      <RadioGroup disabled onChange={onChange}>
         <Radio value="1">Option 1</Radio>
         <Radio value="2">Option 2</Radio>
       </RadioGroup>

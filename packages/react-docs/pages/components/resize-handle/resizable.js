@@ -2,23 +2,13 @@ import {
   Box,
   Flex,
   ResizeHandle,
-  useColorMode,
-  useColorStyle,
 } from '@tonic-ui/react';
 import { useRef, useState } from 'react';
 
 const App = () => {
   const [isResizing, setIsResizing] = useState(false);
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle();
-  const dividerColor = {
-    dark: 'gray:50',
-    light: 'gray:50',
-  }[colorMode];
-  const highlightedDividerColor = {
-    dark: 'gray:50',
-    light: 'gray:50',
-  }[colorMode];
+  const dividerColor = 'gray.500';
+  const highlightedDividerColor = 'gray.500';
   const containerRef = useRef();
   const resizableRef = useRef();
 
@@ -26,7 +16,7 @@ const App = () => {
     <Flex
       ref={containerRef}
       sx={{
-        boxShadow: colorStyle.shadow.thick,
+        boxShadow: 'down.low',
         cursor: isResizing ? 'col-resize' : 'default',
       }}
     >

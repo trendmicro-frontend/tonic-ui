@@ -17,7 +17,6 @@ import {
 /**
  * @type {ForwardRefComponent<'div', FormErrorMessageProps>}
  */
-
 const FormErrorMessage = forwardRef(({ errors = [], ...rest }, ref) => {
   const defaultId = useId();
   const { error, formErrorMessageId } = useFormControl() ?? {};
@@ -38,13 +37,7 @@ const FormErrorMessage = forwardRef(({ errors = [], ...rest }, ref) => {
   const isSingleError = normalizedErrors.length === 1;
 
   return (
-    <Text
-      ref={ref}
-      id={id}
-      role="alert"
-      {...styleProps}
-      {...rest}
-    >
+    <Text ref={ref} id={id} role="alert" {...styleProps} {...rest}>
       {isSingleError ? (
         normalizedErrors[0]
       ) : (

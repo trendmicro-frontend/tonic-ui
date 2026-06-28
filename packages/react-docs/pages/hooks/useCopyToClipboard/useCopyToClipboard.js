@@ -13,7 +13,7 @@ const App = () => {
         <Button
           minWidth={120}
           onClick={async function () {
-            const ok = await copy('https://github.com/trendmicro-frontend/tonic-ui')
+            const ok = await copy('https://adc.github.trendmicro.com/trend-common-platform/tonic-ui')
             setButtonIsCopied(!!ok);
             setTimeout(() => setButtonIsCopied(null), 1000);
           }}
@@ -24,7 +24,7 @@ const App = () => {
         </Button>
         <LinkButton
           onClick={async function () {
-            const ok = await copy('https://github.com/trendmicro-frontend/tonic-ui')
+            const ok = await copy('https://adc.github.trendmicro.com/trend-common-platform/tonic-ui')
             setLinkIsCopied(!!ok);
             setTimeout(() => setLinkIsCopied(null), 1000);
           }}

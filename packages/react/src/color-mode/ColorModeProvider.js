@@ -1,9 +1,9 @@
 import { canUseDOM, noop } from '@tonic-ui/utils';
+import { ColorModeContext } from '@tonic-ui/react-base/internal';
 import React, { useCallback, useEffect, useReducer } from 'react';
 import { useDefaultProps } from '../default-props';
 import { useEnvironment } from '../environment';
 import useShallowMemo from '../utils/useShallowMemo';
-import { ColorModeContext } from './context';
 import { getColorScheme, colorSchemeQuery } from './utils';
 
 const ensureColorMode = (colorMode) => {

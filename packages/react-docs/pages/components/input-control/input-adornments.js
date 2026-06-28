@@ -4,18 +4,14 @@ import {
   InputAdornment,
   InputControl,
   Text,
-  useColorMode,
-  useColorStyle,
 } from '@tonic-ui/react';
 import { CalendarIcon, CheckIcon, MobileIcon, ViewIcon, ViewOffIcon } from '@tonic-ui/react-icons';
 import { useState } from 'react';
 
 const App = () => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
   const [view, setView] = useState(false);
   const toggleView = () => setView(view => !view);
-  const iconColor = colorStyle.color.tertiary;
+  const iconColor = 'text.tertiary';
 
   return (
     <Flex direction="column" rowGap="4x">
@@ -45,7 +41,7 @@ const App = () => {
         )}
         endAdornment={(
           <InputAdornment>
-            <CheckIcon color="green:50" />
+            <CheckIcon color="success.icon" />
           </InputAdornment>
         )}
       />

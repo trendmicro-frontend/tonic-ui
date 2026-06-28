@@ -1,19 +1,5 @@
-import { toCSSVariable, get, isNullish } from '@tonic-ui/utils';
-
-// Legacy toCSSVariable matching the original tonic-ui behavior:
-// replaces ALL non-alphanumeric, non-hyphen, non-underscore characters with hyphens.
-// Used only in the backward-compat path to preserve byte-identical output for v3 flat tokens.
-const toCSSVariableLegacy = (name, options) => {
-  const {
-    prefix = '',
-    delimiter = '-',
-  } = { ...options };
-  const variableName = ([prefix, name].filter(Boolean).join(delimiter))
-    .replace(/\s+/g, delimiter)
-    .replace(/[^a-zA-Z0-9-_]/g, delimiter)
-    .replace(/^-+|-+$/g, '');
-  return `--${variableName}`;
-};
+import { toCSSVariable } from '@tonic-ui/utils/internal';
+import { get, isNullish } from '@tonic-ui/utils';
 
 const getter = (scale, value, options) => {
   let result = get(scale, value);
@@ -37,11 +23,7 @@ const getter = (scale, value, options) => {
 
   const theme = options?.props?.theme;
 
-  // Priority 1: Check if `useCSSVariables` is enabled (new tonic-one semantic path)
-  //
-  // This path handles _dark/_light token objects and emits var(--…) references.
-  // It is gated on theme.useCSSVariables (injected by ThemeProvider/TonicProvider)
-  // and is DORMANT by default until useCSSVariables is explicitly set to true.
+  // Priority 1: Check if `useCSSVariables` is enabled
   if (theme?.useCSSVariables) {
     const cssVariablePrefix = theme?.cssVariablePrefix;
     const cssVariables = theme?.cssVariables;
@@ -144,28 +126,6 @@ const getter = (scale, value, options) => {
       // `main` — color-mode-neutral primitive default (e.g. red.600.main)
       // `value` — single-value token fallback
       result = result?.main ?? result?.value;
-    }
-  }
-
-  // Backward-compat CSS variable substitution path (tonic-ui v3 flat tokens):
-  // When theme.cssVariables is present but useCSSVariables was not explicitly set,
-  // preserve the original tonic-ui behavior of substituting raw values with var(--…).
-  // This path is ONLY reached for non-object results (flat scalar tokens).
-  // FIXME: `theme.config.prefix` and `theme.__cssVariableMap` are deprecated and will be removed in the next major release
-  if (!theme?.useCSSVariables) {
-    const hasCSSVariables = !!(theme?.cssVariables ?? theme?.__cssVariableMap);
-    if (hasCSSVariables) {
-      const cssVariablePrefix = (theme?.cssVariablePrefix) ?? (theme?.config?.prefix);
-      const cssVariables = (theme?.cssVariables) ?? (theme?.__cssVariableMap);
-      const contextScale = options?.context?.scale;
-      const cssVariable = toCSSVariableLegacy(
-        [contextScale, String(value ?? '')].filter(Boolean).join('.'),
-        { prefix: cssVariablePrefix, delimiter: '-' },
-      );
-      const cssVariableValue = cssVariables?.[cssVariable];
-      if (cssVariableValue !== undefined) {
-        return String(result ?? '').replaceAll(cssVariableValue, `var(${cssVariable})`);
-      }
     }
   }
 

@@ -42,7 +42,6 @@ const Alert = forwardRef((inProps, ref) => {
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Alert' });
   const shallowMemo = useShallowMemo();
-
   const context = shallowMemo({
     icon,
     isClosable,

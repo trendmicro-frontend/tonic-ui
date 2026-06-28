@@ -22,10 +22,6 @@ import { TreeItemContext } from './context';
  * @returns {TreeItemContextValue | undefined} The tree item context, or `undefined` if not within a `TreeItem`.
  */
 const useTreeItem = () => {
-  if (!useContext) {
-    throw new Error('The `useContext` hook is not available with your React version.');
-  }
-
   const context = useContext(TreeItemContext);
   return context;
 };

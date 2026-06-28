@@ -71,8 +71,8 @@ test('the `name` property in `useDefaultProps` should match the component name',
 
                 try {
                   expect(namePropertyValue).toEqual(componentName);
-                } catch (_err) {
-                  throw new Error(`Mismatch in file "${file}": Expected component name '${componentName}' but found '${namePropertyValue}'`, { cause: _err });
+                } catch (err) {
+                  throw new Error(`Mismatch in file "${file}": Expected component name '${componentName}' but found '${namePropertyValue}'`, { cause: err });
                 }
 
                 passCount++;

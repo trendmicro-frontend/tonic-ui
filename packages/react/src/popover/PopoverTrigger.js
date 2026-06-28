@@ -1,13 +1,15 @@
 import { useEventCallback, useEventListener, useMergeRefs } from '@tonic-ui/react-hooks';
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
-import { ensureFunction } from 'ensure-type';
-import React, { Children, cloneElement, forwardRef, useRef, useState } from 'react';
+import { ensureFunction, ensureString } from 'ensure-type';
+import React, { cloneElement, forwardRef, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { mergeRefs } from '../utils/refs';
 import useButtonEventHandlers from '../utils/useButtonEventHandlers';
 import { usePopoverTriggerStyle } from './styles';
 import usePopover from './usePopover';
+
+const REACT_MAJOR_VERSION = parseInt(ensureString(React.version).split('.')[0], 10);
 
 /**
  * @typedef {Object} PopoverTriggerProps
@@ -158,20 +160,18 @@ const PopoverTrigger = forwardRef((inProps, ref) => {
   }
 
   // Ensure popover has only one child node
-  const child = Children.only(children);
+  const child = React.Children.only(children);
 
   // Access the child's props for later use
   const childProps = child?.props;
 
-  // In React 19, `ref` on function components is passed as a normal prop.
-  // This fallback maintains compatibility with both React 18 and 19.
+  // Retrieve the child's ref for merging with the popover trigger ref.
   //
-  // React 19 will not throw an error if `ref` is `null` or `undefined`:
-  // ```
-  // Accessing `element.ref` was removed in React 19. `ref` is now a regular prop.
-  // It will be removed from the JSX Element type in a future release.
-  // ```
-  const childRef = child?.props?.ref ?? child?.ref;
+  // In React 17/18, `ref` is stored on `element.ref` and accessing `element.props.ref` triggers a warning: "ref is not a prop".
+  // In React 19, `ref` is a regular prop on `element.props.ref`, and `element.ref` is deprecated.
+  //
+  // Use version detection to access the correct property without triggering warnings on either version.
+  const childRef = (REACT_MAJOR_VERSION >= 19) ? child?.props?.ref : child?.ref;
 
   const popoverTriggerProps = getPopoverTriggerProps(childProps, childRef);
 

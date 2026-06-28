@@ -1,4 +1,4 @@
-import * as moduleExport from '@tonic-ui/react/src';
+import * as moduleExport from '@tonic-ui/react/src/index';
 
 test('should match expected exports', () => {
   const expectedExports = [
@@ -67,6 +67,8 @@ test('should match expected exports', () => {
 
     // css-baseline
     'CSSBaseline',
+
+    // css-variables
     'CSSVariables',
 
     // date-pickers
@@ -312,11 +314,11 @@ test('should match expected exports', () => {
     // truncate
     'Truncate',
 
-    // slot
-    'useSlot',
-
     // visually-hidden
     'VisuallyHidden',
+
+    // slot
+    'useSlot',
   ];
   const receivedExports = Object.keys(moduleExport);
 

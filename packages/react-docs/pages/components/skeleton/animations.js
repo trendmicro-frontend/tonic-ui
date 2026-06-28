@@ -1,12 +1,12 @@
+import React from 'react';
 import { Box, Button, ButtonGroup, Divider, Skeleton, Stack, TextLabel } from '@tonic-ui/react';
-import { useState } from 'react';
 
 const FormGroup = (props) => (
   <Box mb="4x" {...props} />
 );
 
 const useSelection = (defaultValue) => {
-  const [value, setValue] = useState(defaultValue);
+  const [value, setValue] = React.useState(defaultValue);
   const changeBy = (value) => () => setValue(value);
   return [value, changeBy];
 };

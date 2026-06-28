@@ -33,7 +33,6 @@ const ButtonGroup = forwardRef((inProps, ref) => {
   } = useDefaultProps({ props: inProps, name: 'ButtonGroup' });
   const shallowMemo = useShallowMemo();
   const styleProps = useButtonGroupStyle({ orientation });
-
   const context = shallowMemo({
     disabled,
     orientation,

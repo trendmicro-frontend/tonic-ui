@@ -34,10 +34,6 @@ import { PopoverContext } from './context';
  * @returns {PopoverContextValue | undefined} The popover context, or `undefined` if not within a `Popover`.
  */
 const usePopover = () => {
-  if (!useContext) {
-    throw new Error('The `useContext` hook is not available with your React version.');
-  }
-
   const context = useContext(PopoverContext);
   return context;
 };

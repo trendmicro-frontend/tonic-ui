@@ -139,7 +139,7 @@ const Radio = forwardRef((inProps, ref) => {
         <Box
           ml="2x"
           userSelect="none"
-          opacity={disabled ? 0.28 : 1}
+          color={disabled ? 'text.disabled' : 'text.primary'}
         >
           {children}
         </Box>

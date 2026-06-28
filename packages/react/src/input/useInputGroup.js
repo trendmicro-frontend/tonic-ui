@@ -12,10 +12,6 @@ import { InputGroupContext } from './context';
  * @returns {InputGroupContextValue | undefined} The input group context, or `undefined` if not within an `InputGroup`.
  */
 const useInputGroup = () => {
-  if (!useContext) {
-    throw new Error('The `useContext` hook is not available with your React version.');
-  }
-
   const context = useContext(InputGroupContext);
   return context;
 };

@@ -1,4 +1,4 @@
-import { Flex, useColorStyle } from '@tonic-ui/react';
+import { Flex } from '@tonic-ui/react';
 import { createSVGIcon } from '@tonic-ui/react-icons';
 
 const CircleIcon = createSVGIcon(
@@ -19,11 +19,10 @@ const PlusIcon = createSVGIcon(
 );
 
 const App = () => {
-  const [colorStyle] = useColorStyle();
   return (
     <Flex alignItems="center" columnGap="4x">
-      <CircleIcon color={colorStyle.color.secondary} />
-      <PlusIcon color={colorStyle.color.secondary} />
+      <CircleIcon color="text.secondary" />
+      <PlusIcon color="text.secondary" />
     </Flex>
   );
 };

@@ -5,13 +5,12 @@
     "outDir": "@types",
     "declaration": true,
     "emitDeclarationOnly": true,
+    "allowJs": true,
     "jsx": "react-jsx",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "strict": false,
-    "skipLibCheck": true,
-    "typeRoots": ["../../node_modules/@types"]
+    "skipLibCheck": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx"],
-  "exclude": ["node_modules", "**/__tests__/*", "coverage/*", "dist/**/*"]
+  "include": ["src/**/*.js", "src/**/*.jsx", "src/index.ts"],
+  "exclude": ["node_modules", "__tests__/*", "coverage/*", "dist/**/*"]
 }

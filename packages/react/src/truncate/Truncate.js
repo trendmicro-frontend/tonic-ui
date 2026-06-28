@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { useDefaultProps } from '../default-props';
 import { Text } from '../text';
 import { useTruncateStyle } from './styles';

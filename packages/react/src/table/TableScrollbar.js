@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { useDefaultProps } from '../default-props';
 import { Scrollbar } from '../scrollbar';
 import { useTableScrollbarTrackStyle } from './styles';

@@ -1,7 +1,7 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
-import { forwardRef, useRef } from 'react';
+import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
 import useButtonEventHandlers from '../utils/useButtonEventHandlers';
@@ -56,7 +56,7 @@ const SubmenuTrigger = forwardRef((inProps, ref) => {
   const tabIndex = -1;
   const styleProps = useSubmenuTriggerStyle({ tabIndex });
 
-  const mouseLeaveTimeoutRef = useRef();
+  const mouseLeaveTimeoutRef = React.useRef();
 
   // Use button event handlers for click and Enter/Space key activation
   const { onClick, onKeyDown } = useButtonEventHandlers({

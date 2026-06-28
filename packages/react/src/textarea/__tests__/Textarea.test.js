@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { Textarea } from '@tonic-ui/react/src';
+import React from 'react';
 
 describe('Textarea', () => {
   it('should render correctly', async () => {
@@ -110,9 +111,9 @@ describe('Textarea', () => {
       <Textarea data-testid="textarea" />
     );
     const textarea = screen.getByTestId('textarea');
-    const defaultBorderColor = 'var(--tonic-colors-gray-60)'; // [dark] gray:60 / [light] gray:30
-    const focusBorderColor = 'var(--tonic-colors-blue-60)'; // [dark] blue:60 / [light] blue:60
-    const hoverBorderColor = 'var(--tonic-colors-blue-50)'; // [dark] blue:50 / [light] blue:50
+    const defaultBorderColor = 'var(--tonic-colors-border-_primary-enabled)'; // [dark] border._interactive.general.enabled
+    const focusBorderColor = 'var(--tonic-colors-border-_primary-focused)'; // [dark] blue:60 / [light] blue:60
+    const hoverBorderColor = 'var(--tonic-colors-border-_primary-hovered)'; // [dark] blue:50 / [light] blue:50
 
     expect(textarea).toBeValid();
     expect(document.body).toHaveFocus();

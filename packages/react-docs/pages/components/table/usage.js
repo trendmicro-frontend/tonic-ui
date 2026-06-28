@@ -16,7 +16,6 @@ import {
   Text,
   TextLabel,
   Truncate,
-  useColorStyle,
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
 import { callAll } from '@tonic-ui/utils';
@@ -78,7 +77,6 @@ const FormGroup = (props) => (
 );
 
 const App = () => {
-  const [colorStyle] = useColorStyle();
   const [updateKey, forceUpdate] = useReducer((value) => !value, false);
   const [layout, changeLayoutBy] = useSelection('flexbox');
   const [variant, changeVariantBy] = useSelection('default');
@@ -268,7 +266,7 @@ const App = () => {
           <Text fontFamily="mono" whiteSpace="nowrap">TableScrollbar</Text>
         </TextLabel>
         <Box ml="6x" mb="4x">
-          <Text mb="2x" color={colorStyle.color.secondary}>
+          <Text mb="2x" color="text.secondary">
             Note: <Code>TableScrollbar</Code> is only supported when the <Code>layout</Code> prop is set to <Code>flexbox</Code>.
           </Text>
         </Box>
@@ -322,7 +320,7 @@ const App = () => {
                 {rows.map(row => {
                   const styleProps = {
                     _hover: {
-                      backgroundColor: colorStyle.background.highlighted,
+                      backgroundColor: 'actions.hovered',
                     },
                   };
                   return (

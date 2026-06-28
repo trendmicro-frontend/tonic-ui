@@ -1,25 +1,32 @@
 import { useTheme as useEmotionTheme } from '@emotion/react';
+import { ColorModeContext } from '@tonic-ui/react-base/internal';
 import { ensurePlainObject } from 'ensure-type';
 import { useContext } from 'react';
-import { ColorModeContext } from '../color-mode/context';
 
 /**
  * @typedef {Object} useThemeOptions
- * @property {'light' | 'dark'} [colorMode] - The color mode to use for resolving theme tokens.
- *   If not specified, uses the current color mode from ColorModeContext.
+ * @property {'light' | 'dark'} [colorMode] - The color mode to use for resolving theme tokens. If not specified, uses the current color mode from ColorModeContext.
  */
 
 /**
- * Returns the theme object with color mode tokens (_dark/_light) resolved based on the
- * current or specified color mode.
+ * Returns the theme object with color mode tokens (_dark/_light) resolved based on the current or specified color mode.
  *
- * When the base theme comes from `createTheme()` (which attaches `toColorMode`), the hook
- * resolves the theme for the active color mode so consumers get a pre-resolved, flattened
- * theme with a `get()` helper. If the base theme has no `toColorMode` (e.g. a plain theme
- * not from `createTheme()`), the theme is returned as-is so nothing breaks.
+ * This hook wraps Emotion's useTheme and automatically resolves color mode-specific tokens.
+ * Components using this hook will receive a theme where all _dark and _light properties are
+ * resolved to their appropriate values based on the active color mode.
  *
  * @param {useThemeOptions} [options] - Optional configuration for the hook.
- * @returns {object} The resolved theme object.
+ * @returns {ThemeScales & { get: (path: string, defaultValue?: string) => string }} The resolved theme object with color mode tokens resolved.
+ *
+ * @example
+ * // Using current color mode from context
+ * const theme = useTheme();
+ * console.log(theme.get('colors.text.primary')); // Resolved color token for current mode
+ *
+ * @example
+ * // Specifying a color mode
+ * const theme = useTheme({ colorMode: 'dark' });
+ * console.log(theme.get('colors.text.primary')); // Always uses _dark value
  */
 const useTheme = (options) => {
   const theme = useEmotionTheme();
@@ -27,11 +34,7 @@ const useTheme = (options) => {
   const { colorMode: currentColorMode } = ensurePlainObject(useContext(ColorModeContext));
   const colorMode = specifiedColorMode ?? currentColorMode;
 
-  if (typeof theme?.toColorMode === 'function') {
-    return theme.toColorMode(colorMode);
-  }
-
-  return theme;
+  return theme.toColorMode(colorMode);
 };
 
 export default useTheme;

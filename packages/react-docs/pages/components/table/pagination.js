@@ -54,7 +54,6 @@ const data = _.range(360).map((i) => {
 });
 
 const App = () => {
-  const [colorStyle] = useColorStyle();
   const columns = useMemo(() => [
     {
       header: 'Endpoint',
@@ -158,7 +157,7 @@ const App = () => {
               <TableRow
                 key={row.id}
                 _hover={{
-                  backgroundColor: colorStyle.background.highlighted,
+                  backgroundColor: 'actions.hovered',
                 }}
               >
                 {row.getVisibleCells().map(cell => {

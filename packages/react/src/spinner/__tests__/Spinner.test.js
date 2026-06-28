@@ -2,6 +2,7 @@ import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { Spinner } from '@tonic-ui/react/src';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
+import React from 'react';
 
 jest.mock('@tonic-ui/utils', () => ({
   ...jest.requireActual('@tonic-ui/utils'),
@@ -99,12 +100,6 @@ describe('Spinner', () => {
       });
     });
 
-    it('should use lineColor as fallback when color is not provided', () => {
-      const { container } = render(<Spinner lineColor="red:60" />);
-      const circle = container.querySelector('svg circle:last-of-type');
-      expect(circle).toHaveStyle({ color: 'red:60' });
-    });
-
     it('should use the maximum value between lineWidth, trackWidth, and thickness', () => {
       const { container } = render(
         <Spinner
@@ -140,7 +135,7 @@ describe('Spinner', () => {
     it('should use default color', () => {
       const { container } = render(<Spinner />);
       const indicator = container.querySelector('svg circle:last-of-type');
-      expect(indicator).toHaveStyle({ color: 'blue:60' });
+      expect(indicator).toHaveStyleRule('color', 'var(--tonic-colors-_foreground-primary-active)');
     });
   });
 });

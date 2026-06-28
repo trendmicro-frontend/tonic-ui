@@ -16,10 +16,6 @@ import { AccordionItemContext } from './context';
  * @returns {AccordionItemContextValue | undefined} The accordion item context, or `undefined` if not within an `AccordionItem`.
  */
 const useAccordionItem = () => {
-  if (!useContext) {
-    throw new Error('The `useContext` hook is not available with your React version.');
-  }
-
   const context = useContext(AccordionItemContext);
   return context;
 };

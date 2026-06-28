@@ -112,6 +112,10 @@ const Checkbox = forwardRef((inProps, ref) => {
 
   const styleProps = useCheckboxStyle({ disabled });
 
+  const sx = {
+    color: disabled ? 'text.disabled' : 'text.primary',
+  };
+
   return (
     <Box
       as="label"
@@ -145,7 +149,7 @@ const Checkbox = forwardRef((inProps, ref) => {
         <Box
           ml="2x"
           userSelect="none"
-          opacity={disabled ? 0.28 : 1}
+          sx={sx}
         >
           {children}
         </Box>

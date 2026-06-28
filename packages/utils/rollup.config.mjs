@@ -10,22 +10,15 @@ const pkg = createRequire(import.meta.url)('./package.json');
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const input = path.resolve(__dirname, 'src', 'index.ts');
+const input = path.resolve(__dirname, 'src', 'index.js');
+const internalInput = path.resolve(__dirname, 'src', 'internal', 'index.js');
 const cjsOutputDirectory = path.resolve(__dirname, 'dist', 'cjs');
 const esmOutputDirectory = path.resolve(__dirname, 'dist', 'esm');
-const extensions = ['.js', '.jsx', '.ts', '.tsx', '.mjs'];
 const isExternal = id => !id.startsWith('.') && !id.startsWith('/');
-
-const babelPlugin = babel({
-  configFile: './babel.config.js',
-  babelHelpers: 'bundled',
-  exclude: /node_modules/,
-  extensions: extensions,
-});
 
 export default [
   {
-    input,
+    input: [input, internalInput],
     output: {
       dir: cjsOutputDirectory,
       format: 'cjs',
@@ -37,8 +30,8 @@ export default [
     },
     external: isExternal,
     plugins: [
-      nodeResolve({ extensions }),
-      babelPlugin,
+      nodeResolve(),
+      babel({ babelHelpers: 'bundled' }),
       // Put the Codecov rollup plugin after all other plugins
       codecovRollupPlugin({
         enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
@@ -48,7 +41,7 @@ export default [
     ],
   },
   {
-    input,
+    input: [input, internalInput],
     output: {
       dir: esmOutputDirectory,
       format: 'esm',
@@ -56,8 +49,8 @@ export default [
     },
     external: isExternal,
     plugins: [
-      nodeResolve({ extensions }),
-      babelPlugin,
+      nodeResolve(),
+      babel({ babelHelpers: 'bundled' }),
       // Put the Codecov rollup plugin after all other plugins
       codecovRollupPlugin({
         enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
@@ -67,10 +60,17 @@ export default [
     ],
   },
   {
-    input,
+    input: input,
     output: [{ file: 'dist/index.d.ts', format: 'es' }],
     plugins: [
       dts(),
     ],
-  }
+  },
+  {
+    input: internalInput,
+    output: [{ file: 'dist/internal/index.d.ts', format: 'es' }],
+    plugins: [
+      dts(),
+    ],
+  },
 ];

@@ -54,6 +54,7 @@ const InputControl = forwardRef((inProps, ref) => {
     variant: variantProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'InputControl' });
+
   const { getWindow } = useEnvironment();
 
   { // deprecation warning

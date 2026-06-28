@@ -14,12 +14,11 @@ const input = path.resolve(__dirname, 'src', 'index.ts');
 const cjsOutputDirectory = path.resolve(__dirname, 'dist', 'cjs');
 const esmOutputDirectory = path.resolve(__dirname, 'dist', 'esm');
 const extensions = ['.js', '.jsx', '.ts', '.tsx', '.mjs'];
-const isExternal = id => !id.startsWith('.') && !id.startsWith('/');
+const isExternal = (id) => !id.startsWith('.') && !id.startsWith('/');
 
 const babelPlugin = babel({
   configFile: './babel.config.js',
   babelHelpers: 'bundled',
-  exclude: /node_modules/,
   extensions: extensions,
 });
 
@@ -29,7 +28,6 @@ export default [
     output: {
       dir: cjsOutputDirectory,
       format: 'cjs',
-
       // https://rollupjs.org/guide/en/#changed-defaults
       // https://rollupjs.org/guide/en/#outputinterop
       interop: 'auto',
@@ -37,8 +35,8 @@ export default [
     },
     external: isExternal,
     plugins: [
-      nodeResolve({ extensions }),
       babelPlugin,
+      nodeResolve({ extensions }),
       // Put the Codecov rollup plugin after all other plugins
       codecovRollupPlugin({
         enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
@@ -56,8 +54,8 @@ export default [
     },
     external: isExternal,
     plugins: [
-      nodeResolve({ extensions }),
       babelPlugin,
+      nodeResolve({ extensions }),
       // Put the Codecov rollup plugin after all other plugins
       codecovRollupPlugin({
         enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
@@ -67,10 +65,10 @@ export default [
     ],
   },
   {
-    input,
+    input: input,
     output: [{ file: 'dist/index.d.ts', format: 'es' }],
     plugins: [
       dts(),
     ],
-  }
+  },
 ];

@@ -1,21 +1,11 @@
-import { Badge, Grid, Skeleton, Text, useColorMode } from '@tonic-ui/react';
+import { Badge, Grid, Skeleton, Text } from '@tonic-ui/react';
 
 const OutlineBadge = (props) => {
-  const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'gray:100',
-    light: 'white',
-  }[colorMode];
-  const borderColor = {
-    dark: 'yellow:50',
-    light: 'yellow:50',
-  }[colorMode];
+  const backgroundColor = 'background.highest';
+  const borderColor = 'minorWarning.icon';
   const borderStyle = 'solid';
   const borderWidth = '2px';
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
+  const color = 'text.primary';
   const height = '5x';
   const minWidth = '5x';
 

@@ -23,7 +23,6 @@ import useAutocompleteContext from './useAutocompleteContext';
 /**
  * @type {ForwardRefComponent<'div', AutocompleteListProps>}
  */
-
 const AutocompleteList = forwardRef((inProps, ref) => {
   const {
     PopperComponent = Popper,

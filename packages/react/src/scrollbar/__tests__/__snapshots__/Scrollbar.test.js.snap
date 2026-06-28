@@ -29,60 +29,82 @@ exports[`Scrollbar should render correctly 1`] = `
 }
 
 .emotion-6 {
-  position: absolute;
   height: var(--tonic-sizes-2x);
-  right: 0;
-  bottom: 0;
   left: 0;
-  visibility: hidden;
   opacity: 0;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  position: absolute;
+  visibility: hidden;
+  right: 0;
+  bottom: 0;
+}
+
+.emotion-6:hover,
+.emotion-6[data-hover] {
+  background-color: var(--tonic-colors-_component-scrollbar-track-hovered);
+}
+
+.emotion-6:active,
+.emotion-6[data-active] {
+  background-color: var(--tonic-colors-_component-scrollbar-track-active);
 }
 
 .emotion-8 {
   position: relative;
   height: 100%;
   cursor: pointer;
-  background-color: var(--tonic-colors-white-disabled);
-  border-radius: inherit;
-  border: var(--tonic-borders-1);
-  border-color: var(--tonic-colors-transparent);
+  background-color: var(--tonic-colors-_component-scrollbar-thumb-enabled);
 }
 
 .emotion-8:hover,
 .emotion-8[data-hover] {
-  background-color: var(--tonic-colors-white-tertiary);
-  border-color: var(--tonic-colors-white-secondary);
+  background-color: var(--tonic-colors-_component-scrollbar-thumb-hovered);
+}
+
+.emotion-8:active,
+.emotion-8[data-active] {
+  background-color: var(--tonic-colors-_component-scrollbar-thumb-active);
 }
 
 .emotion-10 {
-  position: absolute;
   width: var(--tonic-sizes-2x);
-  right: 0;
-  bottom: 0;
   top: 0;
-  visibility: hidden;
   opacity: 0;
   -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
   transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  position: absolute;
+  visibility: hidden;
+  right: 0;
+  bottom: 0;
+}
+
+.emotion-10:hover,
+.emotion-10[data-hover] {
+  background-color: var(--tonic-colors-_component-scrollbar-track-hovered);
+}
+
+.emotion-10:active,
+.emotion-10[data-active] {
+  background-color: var(--tonic-colors-_component-scrollbar-track-active);
 }
 
 .emotion-12 {
-  position: relative;
   display: block;
-  width: 100%;
+  position: relative;
+  height: 100%;
   cursor: pointer;
-  background-color: var(--tonic-colors-white-disabled);
-  border-radius: inherit;
-  border: var(--tonic-borders-1);
-  border-color: var(--tonic-colors-transparent);
+  background-color: var(--tonic-colors-_component-scrollbar-thumb-enabled);
 }
 
 .emotion-12:hover,
 .emotion-12[data-hover] {
-  background-color: var(--tonic-colors-white-tertiary);
-  border-color: var(--tonic-colors-white-secondary);
+  background-color: var(--tonic-colors-_component-scrollbar-thumb-hovered);
+}
+
+.emotion-12:active,
+.emotion-12[data-active] {
+  background-color: var(--tonic-colors-_component-scrollbar-thumb-active);
 }
 
 <div>

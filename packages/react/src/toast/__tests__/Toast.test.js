@@ -20,9 +20,9 @@ import {
   ToastTransitionGroup,
   useColorStyle,
 } from '@tonic-ui/react/src';
-import { useToggle } from '@tonic-ui/react-hooks/src';
-import { callEventHandlers, transitionDuration } from '@tonic-ui/utils/src';
-import { useState } from 'react';
+import { useToggle } from '@tonic-ui/react-hooks';
+import { callEventHandlers, transitionDuration } from '@tonic-ui/utils';
+import React, { useState } from 'react';
 
 const InlineToastContainer = (props) => (
   <Flex
@@ -61,7 +61,9 @@ describe('Toast', () => {
       );
     };
 
-    render(<TestComponent onClose={handleClose} />);
+    const { container } = render(<TestComponent onClose={handleClose} />);
+
+    expect(container).toMatchSnapshot();
 
     const toastElement = screen.getByTestId('toast');
     expect(toastElement).toBeInTheDocument();
@@ -71,7 +73,9 @@ describe('Toast', () => {
     await user.click(closeButton);
     expect(handleClose).toHaveBeenCalledTimes(1);
 
-    await waitForElementToBeRemoved(() => screen.getByTestId('toast'), {
+    await waitForElementToBeRemoved(() => {
+      return screen.getByTestId('toast');
+    }, {
       timeout: transitionDuration.standard + 100, // see "transitions/Collapse.js"
     });
   });

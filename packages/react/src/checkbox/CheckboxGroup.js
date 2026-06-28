@@ -3,8 +3,8 @@ import { runIfFn } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDefaultProps } from '../default-props';
-import useShallowMemo from '../utils/useShallowMemo';
 import config from '../shared/config';
+import useShallowMemo from '../utils/useShallowMemo';
 import { CheckboxGroupContext } from './context';
 
 /**
@@ -34,8 +34,8 @@ const CheckboxGroup = (inProps) => {
     value: valueProp,
     variantColor,
   } = useDefaultProps({ props: inProps, name: 'CheckboxGroup' });
-  const shallowMemo = useShallowMemo();
   const defaultId = useId();
+  const shallowMemo = useShallowMemo();
   const name = nameProp ?? `${config.name}:CheckboxGroup-${defaultId}`;
 
   const [state, setState] = useState({
@@ -64,7 +64,6 @@ const CheckboxGroup = (inProps) => {
       onChangeProp(nextValue);
     }
   }, [onChangeProp, state.value, valueProp]);
-
   const context = shallowMemo({
     disabled,
     name,

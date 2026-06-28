@@ -1,53 +1,34 @@
-import { Box, Code, TextLabel, Input, Stack, Text, Divider, useColorStyle } from '@tonic-ui/react';
+import { Box, TextLabel, Input, Stack } from '@tonic-ui/react';
 import { useId } from '@tonic-ui/react-hooks';
 
 const App = () => {
-  const [colorStyle] = useColorStyle();
-
-  // Form field IDs
+  // Auto-generated IDs
   const emailId = useId();
   const passwordId = useId();
 
-  // ARIA relationship IDs
-  const passwordHelperId = useId();
-
   return (
-    <Box>
-      <Box mb="3x">
-        <Stack spacing="1x">
-          <TextLabel htmlFor={emailId}>Email:</TextLabel>
-          <Input
-            id={emailId}
-            type="email"
-            placeholder="Enter your email"
-          />
-        </Stack>
-      </Box>
+    <Box display="flex" flexDirection="column" rowGap="3x">
       <Box>
-        <Stack spacing="1x">
-          <TextLabel htmlFor={passwordId}>Password:</TextLabel>
-          <Input
-            id={passwordId}
-            type="password"
-            placeholder="Enter your password"
-            aria-describedby={passwordHelperId}
-          />
-          <Text id={passwordHelperId} color={colorStyle.color.secondary}>
-            Must be at least 8 characters long
-          </Text>
-        </Stack>
+        <TextLabel htmlFor={emailId}>Email</TextLabel>
+        <Input id={emailId} type="email" placeholder="Enter your email" />
       </Box>
-      <Divider my="3x" />
+
       <Box>
-        <Text fontWeight="semibold" mb="2x">
-          Generated IDs
-        </Text>
-        <Stack spacing="1x">
-          <Text>Email field ID: <Code>{emailId}</Code></Text>
-          <Text>Password field ID: <Code>{passwordId}</Code></Text>
-          <Text>Password helper ID: <Code>{passwordHelperId}</Code></Text>
-        </Stack>
+        <TextLabel htmlFor={passwordId}>Password</TextLabel>
+        <Input
+          id={passwordId}
+          type="password"
+          placeholder="Enter your password"
+        />
       </Box>
+
+      <Stack p="2x">
+        <Box mb="2x">Generated IDs:</Box>
+        <Box>
+          <Box>Email ID: {emailId || 'undefined'}</Box>
+          <Box>Password ID: {passwordId || 'undefined'}</Box>
+        </Box>
+      </Stack>
     </Box>
   );
 };

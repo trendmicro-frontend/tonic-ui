@@ -1,11 +1,11 @@
 import { useId } from '@tonic-ui/react-hooks';
 import { runIfFn } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
-import { forwardRef, useCallback, useEffect, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
-import useShallowMemo from '../utils/useShallowMemo';
 import config from '../shared/config';
+import useShallowMemo from '../utils/useShallowMemo';
 import { AccordionItemContext } from './context';
 import useAccordion from './useAccordion';
 

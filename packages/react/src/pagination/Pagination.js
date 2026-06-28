@@ -1,4 +1,4 @@
-import { Fragment, forwardRef } from 'react';
+import React, { Fragment, forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { usePaginationStyle } from './styles';

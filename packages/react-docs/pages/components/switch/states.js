@@ -20,15 +20,14 @@ const App = () => {
           Label
         </Switch>
       </Flex>
+      <Divider />
       <Flex columnGap="6x">
-        <Flex alignItems="center" columnGap="2x">
-          <Switch checked={false} disabled />
+        <Switch checked={false} readOnly>
           Label
-        </Flex>
-        <Flex alignItems="center" columnGap="2x">
-          <Switch checked={true} disabled />
+        </Switch>
+        <Switch checked={true} readOnly>
           Label
-        </Flex>
+        </Switch>
       </Flex>
     </Stack>
   );

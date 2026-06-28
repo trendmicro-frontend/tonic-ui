@@ -10,7 +10,6 @@ import {
   TableRow,
   TableCell,
   Truncate,
-  useColorStyle,
 } from '@tonic-ui/react';
 import { useMemo } from 'react';
 
@@ -24,7 +23,6 @@ const data = [
 ];
 
 const App = () => {
-  const [colorStyle] = useColorStyle();
   const columns = useMemo(() => [
     {
       header: 'Event Type',
@@ -64,7 +62,7 @@ const App = () => {
 
   // If you want to manage your own state and override the state manager, you can uncomment and modify the following code:
   /*
-  const [state, setState] = useState(table.initialState);
+  const [state, setState] = React.useState(table.initialState);
   table.setOptions(prevOptions => ({
     ...prevOptions,
     state,
@@ -106,7 +104,7 @@ const App = () => {
           <TableRow
             key={row.id}
             _hover={{
-              backgroundColor: colorStyle.background.highlighted,
+              backgroundColor: 'actions.hovered',
             }}
           >
             {row.getVisibleCells().map(cell => {

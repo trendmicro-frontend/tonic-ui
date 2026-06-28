@@ -1,5 +1,5 @@
 import { addDays, addWeeks, isSameMonth, startOfMonth, startOfWeek } from 'date-fns';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Grid } from '../../../grid';
 import useDateCalendar from '../useDateCalendar';
 import Week from './Week';

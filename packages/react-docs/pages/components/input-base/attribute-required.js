@@ -9,7 +9,7 @@ const App = () => (
     border={1}
     borderColor="transparent"
     _invalid={{
-      borderColor: 'red:50',
+      borderColor: 'border.negative',
     }}
   />
 );

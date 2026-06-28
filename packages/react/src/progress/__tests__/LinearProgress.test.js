@@ -2,6 +2,7 @@ import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { LinearProgress } from '@tonic-ui/react/src';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
+import React from 'react';
 
 jest.mock('@tonic-ui/utils', () => ({
   ...jest.requireActual('@tonic-ui/utils'),
@@ -59,29 +60,29 @@ describe('LinearProgress', () => {
     const { getByRole, rerender } = render(
       <LinearProgress
         aria-label="custom color"
-        color="red:60"
+        color="red.600"
         value={50}
         variant="determinate"
       />
     );
 
     let progress = getByRole('progressbar');
-    expect(progress).toHaveStyleRule('background-color', 'rgba(255, 255, 255, 0.12)');
-    expect(progress.firstChild).toHaveStyleRule('background', '#e52630');
+    expect(progress).toHaveStyleRule('background-color', 'var(--tonic-colors-_overlay-thin)');
+    expect(progress.firstChild).toHaveStyleRule('background', '#dd1128');
 
     // Gradient colors
     rerender(
       <LinearProgress
         aria-label="gradient"
-        color={['blue:60', 'teal:40']}
+        color={['blue.600', 'teal.400']}
         value={50}
         variant="determinate"
       />
     );
 
     progress = getByRole('progressbar');
-    expect(progress).toHaveStyleRule('background-color', 'rgba(255, 255, 255, 0.12)');
-    expect(progress.firstChild).toHaveStyleRule('background', 'linear-gradient(90deg,#1e5ede,#04caa1)');
+    expect(progress).toHaveStyleRule('background-color', 'var(--tonic-colors-_overlay-thin)');
+    expect(progress.firstChild).toHaveStyleRule('background', 'linear-gradient(90deg,#1362fc,#33bcae)');
   });
 
   it('should handle unknown variant gracefully', () => {

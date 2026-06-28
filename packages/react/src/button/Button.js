@@ -15,8 +15,9 @@ const defaultOrientation = 'horizontal';
  * @property {boolean} [disabled] - Disables the button and prevents user interactions.
  * @property {boolean} [selected] - Marks the button as selected and prevents interactions.
  * @property {'sm' | 'md' | 'lg'} [size='md'] - The size of the button.
- * @property {'emphasis' | 'primary' | 'default' | 'secondary' | 'ghost'} [variant='default'] - The variant of the button style to use.
- */
+ * @property {'emphasis' | 'primary' | 'default' | 'secondary' | 'ghost'} [variant='default'] - The
+variant of the button style to use.
+  */
 
 /**
  * @type {ForwardRefComponent<'button', ButtonProps>}
@@ -71,6 +72,7 @@ const Button = forwardRef((inProps, ref) => {
   };
 
   const styleProps = useButtonStyle({
+    isInButtonGroup: !!buttonGroupContext,
     orientation, // No default value if not used within `ButtonGroup`
     size,
     variant,

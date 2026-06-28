@@ -14,7 +14,7 @@ const App = () => {
       timeoutRef.current = null;
     }
     timeoutRef.current = setTimeout(() => {
-      alert(`Latest count value: ${latestRef.current}`);
+      window.alert(`Latest count value: ${latestRef.current}`);
       timeoutRef.current = null;
       setCountdownMode(false);
     }, 3000);

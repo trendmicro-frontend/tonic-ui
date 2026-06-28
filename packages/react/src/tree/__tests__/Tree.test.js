@@ -15,7 +15,7 @@ import {
   useColorStyle,
 } from '@tonic-ui/react/src';
 import { ensureArray } from 'ensure-type';
-import { act } from 'react';
+import React, { act } from 'react';
 
 const buildTreeNodes = () => {
   const treeNodes = [

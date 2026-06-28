@@ -1,4 +1,4 @@
-import { isValidElement } from 'react';
+import React from 'react';
 import { findAllChunks, transformJSXTextNodes } from '../utils';
 
 describe('findAllChunks', () => {
@@ -543,7 +543,7 @@ describe('transformJSXTextNodes', () => {
       const result = transformJSXTextNodes(children, callback);
 
       expect(result).toHaveLength(1);
-      expect(isValidElement(result[0])).toBe(true);
+      expect(React.isValidElement(result[0])).toBe(true);
     });
 
     it('should transform text nodes within React elements', () => {
@@ -552,7 +552,7 @@ describe('transformJSXTextNodes', () => {
       const result = transformJSXTextNodes(children, callback);
 
       expect(result).toHaveLength(1);
-      expect(isValidElement(result[0])).toBe(true);
+      expect(React.isValidElement(result[0])).toBe(true);
       expect(result[0].props.children).toEqual(['HELLO WORLD']);
     });
 
@@ -567,7 +567,7 @@ describe('transformJSXTextNodes', () => {
 
       expect(result).toHaveLength(3);
       expect(result[0]).toBe('HELLO');
-      expect(isValidElement(result[1])).toBe(true);
+      expect(React.isValidElement(result[1])).toBe(true);
       expect(result[2]).toBe('TEST');
     });
   });
@@ -583,12 +583,12 @@ describe('transformJSXTextNodes', () => {
       const result = transformJSXTextNodes(children, callback);
 
       expect(result).toHaveLength(1);
-      expect(isValidElement(result[0])).toBe(true);
+      expect(React.isValidElement(result[0])).toBe(true);
 
       const divChildren = result[0].props.children;
       expect(divChildren).toHaveLength(2);
       expect(divChildren[0]).toBe('HELLO ');
-      expect(isValidElement(divChildren[1])).toBe(true);
+      expect(React.isValidElement(divChildren[1])).toBe(true);
       expect(divChildren[1].props.children).toEqual(['WORLD']);
     });
 
@@ -604,7 +604,7 @@ describe('transformJSXTextNodes', () => {
       const result = transformJSXTextNodes(children, callback);
 
       expect(result).toHaveLength(1);
-      expect(isValidElement(result[0])).toBe(true);
+      expect(React.isValidElement(result[0])).toBe(true);
     });
 
     it('should preserve element structure', () => {
@@ -635,7 +635,7 @@ describe('transformJSXTextNodes', () => {
       const result = transformJSXTextNodes(children, callback);
 
       expect(result).toHaveLength(1);
-      expect(isValidElement(result[0])).toBe(true);
+      expect(React.isValidElement(result[0])).toBe(true);
       expect(result[0].type).toBe('mark');
     });
 
@@ -650,8 +650,8 @@ describe('transformJSXTextNodes', () => {
       expect(result).toHaveLength(1);
       expect(Array.isArray(result[0])).toBe(true);
       expect(result[0]).toHaveLength(2);
-      expect(isValidElement(result[0][0])).toBe(true);
-      expect(isValidElement(result[0][1])).toBe(true);
+      expect(React.isValidElement(result[0][0])).toBe(true);
+      expect(React.isValidElement(result[0][1])).toBe(true);
     });
 
     it('should filter out null values returned by callback', () => {
@@ -728,7 +728,7 @@ describe('transformJSXTextNodes', () => {
 
       expect(result.length).toBeGreaterThan(0);
       expect(result.some(child => typeof child === 'string')).toBe(true);
-      expect(result.some(child => isValidElement(child))).toBe(true);
+      expect(result.some(child => React.isValidElement(child))).toBe(true);
     });
 
     it('should handle elements with no children', () => {
@@ -737,7 +737,7 @@ describe('transformJSXTextNodes', () => {
       const result = transformJSXTextNodes(children, callback);
 
       expect(result).toHaveLength(1);
-      expect(isValidElement(result[0])).toBe(true);
+      expect(React.isValidElement(result[0])).toBe(true);
     });
 
     it('should handle elements with empty string children', () => {
@@ -746,7 +746,7 @@ describe('transformJSXTextNodes', () => {
       const result = transformJSXTextNodes(children, callback);
 
       expect(result).toHaveLength(1);
-      expect(isValidElement(result[0])).toBe(true);
+      expect(React.isValidElement(result[0])).toBe(true);
     });
 
     it('should handle fragments', () => {
@@ -787,7 +787,7 @@ describe('transformJSXTextNodes', () => {
       const result = transformJSXTextNodes(children, callback);
 
       expect(result).toHaveLength(1);
-      expect(isValidElement(result[0])).toBe(true);
+      expect(React.isValidElement(result[0])).toBe(true);
       expect(result[0].type).toBe('span');
       expect(result[0].props.className).toBe('wrapper');
     });
@@ -802,7 +802,7 @@ describe('transformJSXTextNodes', () => {
       const result = transformJSXTextNodes(children, callback);
 
       expect(result).toHaveLength(1);
-      expect(isValidElement(result[0])).toBe(true);
+      expect(React.isValidElement(result[0])).toBe(true);
 
       const divChildren = result[0].props.children;
       // The callback returns an array which gets wrapped
@@ -813,7 +813,7 @@ describe('transformJSXTextNodes', () => {
       const flatChildren = divChildren.flat();
       expect(flatChildren.length).toBe(3);
       flatChildren.forEach(child => {
-        expect(isValidElement(child)).toBe(true);
+        expect(React.isValidElement(child)).toBe(true);
         expect(child.type).toBe('mark');
       });
     });
@@ -833,7 +833,7 @@ describe('transformJSXTextNodes', () => {
       const result = transformJSXTextNodes(children, callback);
 
       expect(result).toHaveLength(1);
-      expect(isValidElement(result[0])).toBe(true);
+      expect(React.isValidElement(result[0])).toBe(true);
     });
   });
 });

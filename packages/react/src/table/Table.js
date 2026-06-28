@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
@@ -25,10 +25,9 @@ const Table = forwardRef((inProps, ref) => {
     variant = VARIANT_DEFAULT,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Table' });
-  const shallowMemo = useShallowMemo();
   const as = layout === LAYOUT_TABLE ? 'table' : undefined;
   const role = roleProp ?? 'table';
-
+  const shallowMemo = useShallowMemo();
   const context = shallowMemo({
     layout,
     size,

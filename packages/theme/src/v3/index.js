@@ -1,6 +1,5 @@
-// v3/index.js
 import createV2Theme from '../v2';
-import createPrimitives from './primitives';
+import createPrimitive from './primitive';
 import createSemantic from './semantic';
 
 /**
@@ -10,8 +9,8 @@ import createSemantic from './semantic';
  * @returns {Object} Combined v3 theme object
  */
 const createTheme = (unit = 'rem') => {
-  const deprecatedTheme = createV3Theme(unit);
-  const primitiveTheme = createPrimitives(unit);
+  const deprecatedTheme = createV2Theme(unit);
+  const primitiveTheme = createPrimitive(unit);
   const semanticTheme = createSemantic(unit);
 
   // Merge strategy: deprecated provides base, primitive overrides conflicts
@@ -87,6 +86,6 @@ const createTheme = (unit = 'rem') => {
 
 export default createTheme;
 
-// Re-export primitives and semantic for direct access
-export { default as createPrimitives } from './primitives';
+// Re-export primitive and semantic for direct access
+export { default as createPrimitive } from './primitive';
 export { default as createSemantic } from './semantic';

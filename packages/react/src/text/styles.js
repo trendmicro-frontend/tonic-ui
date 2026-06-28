@@ -1,4 +1,3 @@
-import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 
 const useTextStyle = ({ size }) => {
@@ -13,11 +12,7 @@ const useTextStyle = ({ size }) => {
 
 const useTextLabelStyle = ({ size }) => {
   const textStyle = useTextStyle({ size });
-  const [colorMode] = useColorMode();
-  const color = {
-    dark: 'white:secondary',
-    light: 'black:secondary',
-  }[colorMode];
+  const color = 'text.secondary';
 
   return {
     ...textStyle,

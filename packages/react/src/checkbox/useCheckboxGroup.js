@@ -16,10 +16,6 @@ import { CheckboxGroupContext } from './context';
  * @returns {CheckboxGroupContextValue | undefined} The checkbox group context, or `undefined` if not within a `CheckboxGroup`.
  */
 const useCheckboxGroup = () => {
-  if (!useContext) {
-    throw new Error('The `useContext` hook is not available with your React version.');
-  }
-
   const context = useContext(CheckboxGroupContext);
   return context;
 };

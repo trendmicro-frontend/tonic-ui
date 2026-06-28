@@ -11,7 +11,7 @@
  * | AlertCloseButton  | useAlertCloseButtonStyle  | no                         | no                                 | no                     |
  * | DrawerCloseButton | useDrawerCloseButtonStyle | no                         | no                                 | no                     |
  * | ModalCloseButton  | useModalCloseButtonStyle  | no                         | no                                 | no                     |
- * | TagCloseButton    | useTagCloseButtonStyle    | no                         | no                                 | no                     |
+ * | TagCloseButton    | useTagCloseButtonStyle    | yes (Tag)                  | yes                                | yes                    |
  * | ToastCloseButton  | useToastCloseButtonStyle  | no                         | no                                 | no                     |
  */
 const useIconButtonStyle = ({

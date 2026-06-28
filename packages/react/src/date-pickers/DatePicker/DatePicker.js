@@ -4,8 +4,8 @@ import { endOfDay, format, isDate, isValid, parse, startOfDay } from 'date-fns';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../../box';
 import { useDefaultProps } from '../../default-props';
-import useShallowMemo from '../../utils/useShallowMemo';
 import config from '../../shared/config';
+import useShallowMemo from '../../utils/useShallowMemo';
 import DateCalendar from '../DateCalendar';
 import { validateDate } from '../validation';
 import DatePickerContent from './DatePickerContent';
@@ -20,7 +20,7 @@ const mapFormattedValueToDate = (value, formatString, referenceDate = new Date()
   if (typeof value === 'string') {
     try {
       return parse(value, formatString, referenceDate);
-    } catch (_e) {
+    } catch {
       return new Date(''); // Invalid Date
     }
   }
@@ -245,7 +245,6 @@ const DatePicker = forwardRef((inProps, ref) => {
   const defaultId = useId();
   const datePickerContentId = `${config.name}:DatePickerContent-${defaultId}`;
   const datePickerToggleId = `${config.name}:DatePickerToggle-${defaultId}`;
-
   const context = shallowMemo({
     isOpen,
     offset,

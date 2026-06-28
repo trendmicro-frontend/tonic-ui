@@ -1,10 +1,10 @@
 import { useId } from '@tonic-ui/react-hooks';
 import { getAllFocusable, runIfFn } from '@tonic-ui/utils';
-import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
-import useShallowMemo from '../utils/useShallowMemo';
 import config from '../shared/config';
+import useShallowMemo from '../utils/useShallowMemo';
 import { SubmenuContext } from './context';
 import { useSubmenuStyle } from './styles';
 
@@ -146,7 +146,6 @@ const Submenu = forwardRef((inProps, ref) => {
   const submenuId = `${config.name}:Submenu-${defaultId}`;
   const submenuTriggerId = `${config.name}:SubmenuTrigger-${defaultId}`;
   const styleProps = useSubmenuStyle();
-
   const context = shallowMemo({
     focusOnFirstItem,
     focusOnLastItem,

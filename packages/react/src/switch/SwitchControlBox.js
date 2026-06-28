@@ -1,9 +1,9 @@
 import { ariaAttr, createTransitionStyle } from '@tonic-ui/utils';
 import { ensureArray, ensureString } from 'ensure-type';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useColorMode } from '../color-mode';
-import { defaultSize, defaultVariantColor } from './constants';
+import { checkSizeBySwitchSize, defaultSize, defaultVariantColor } from './constants';
 import { useSwitchControlBoxStyle } from './styles';
 import { useTheme } from '../theme';
 
@@ -31,6 +31,7 @@ const SwitchControlBox = forwardRef((inProps, ref) => {
     md: 9,
     lg: 12,
   }[size];
+  const checkSize = checkSizeBySwitchSize[size];
   const switchOuterBorderWidth = 2;
   const switchInnerBorderWidth = 1;
   const switchOuterBorderX = 0;
@@ -43,40 +44,33 @@ const SwitchControlBox = forwardRef((inProps, ref) => {
   const viewBoxHeight = height + (switchOuterBorderWidth + switchInnerBorderWidth) * 2;
 
   // switch-outer-border
-  const switchOuterBorderColor = {
-    dark: `${variantColor}:60`,
-    light: `${variantColor}:60`,
-  }[colorMode];
+  const switchOuterBorderColor = '_component.keyboardFocused.outerFocusRing';
 
   // switch-inner-border
-  const switchInnerBorderColor = {
-    dark: 'black',
-    light: 'white',
-  }[colorMode];
+  const switchInnerBorderColor = '_component.keyboardFocused.innerFocusRing';
 
   // switch-track
-  const switchTrackColor = {
-    dark: 'gray:60',
-    light: 'gray:30',
-  }[colorMode];
-  const switchTrackHoverColor = {
-    dark: 'gray:50',
-    light: 'gray:20',
-  }[colorMode];
-  const switchTrackCheckedColor = {
-    dark: `${variantColor}:60`,
-    light: `${variantColor}:60`,
-  }[colorMode];
-  const switchTrackCheckedHoverColor = {
-    dark: `${variantColor}:50`,
-    light: `${variantColor}:50`,
-  }[colorMode];
+  const switchTrackColor = '_foreground.primaryVariant.enabled';
+  const switchTrackHoverColor = '_foreground.primaryVariant.hovered';
+  const switchTrackCheckedColor = variantColor === defaultVariantColor ? '_foreground.primaryVariant.selected' : `${variantColor}:60`;
+  // Default variant uses a semantic token that already flips light/dark.
+  // Custom variantColors (raw colour scales) need an explicit mode lookup —
+  // light mode darkens (`:70`), dark mode lightens (`:50`), mirroring default.
+  const switchTrackCheckedHoverColor = variantColor === defaultVariantColor
+    ? '_foreground.primaryVariant.selectedHovered'
+    : {
+        light: `${variantColor}:70`,
+        dark: `${variantColor}:50`,
+      }[colorMode];
+  const switchTrackDisabledColor = '_foreground.primaryVariant.disabled';
 
   // switch-thumb
-  const switchThumbColor = {
-    dark: 'white',
-    light: 'white',
-  }[colorMode];
+  const switchThumbColor = 'text._fixed.dark.accent';
+  const switchThumbDisabledColor = 'text.disabled';
+
+  const switchTrackReadOnlyBorderColor = 'border._primary.disabled';
+  const switchThumbReadOnlyColor = 'text.disabled';
+  const switchCheckMutedColor = 'text._inverse.disabled';
 
   const inputType = 'checkbox';
   const getSwitchControlBoxSelector = (pseudos) => {
@@ -92,16 +86,18 @@ const SwitchControlBox = forwardRef((inProps, ref) => {
     return getSwitchControlBoxSelector(pseudos) + '> [data-switch] > [data-switch-track]';
   };
   const getSwitchThumbSelector = (pseudos) => {
-    return getSwitchControlBoxSelector(pseudos) + '> [data-switch] > [data-switch-thumb]';
+    return getSwitchControlBoxSelector(pseudos) + '> [data-switch] > [data-switch-thumb-group] > [data-switch-thumb]';
   };
-  const toColor = color => theme?.colors?.[color] ?? color;
+  const getSwitchThumbGroupSelector = (pseudos) => {
+    return getSwitchControlBoxSelector(pseudos) + '> [data-switch] > [data-switch-thumb-group]';
+  };
+  const getSwitchCheckSelector = (pseudos) => {
+    return getSwitchControlBoxSelector(pseudos) + '> [data-switch] > [data-switch-thumb-group] > [data-switch-check]';
+  };
+  const toColor = token => theme.get(`colors.${token}`) ?? token;
   const sx = {
     width: viewBoxWidth,
     height: viewBoxHeight,
-
-    [getSwitchControlBoxSelector(':disabled')]: {
-      opacity: 0.28,
-    },
 
     // switch-outer-border
     [getSwitchOuterBorderSelector()]: {
@@ -126,19 +122,57 @@ const SwitchControlBox = forwardRef((inProps, ref) => {
     [getSwitchTrackSelector(':checked')]: {
       fill: toColor(switchTrackCheckedColor),
     },
-    [getSwitchTrackSelector(':hover:not(:disabled)')]: {
+    [getSwitchTrackSelector(':hover:not(:disabled):not([aria-readonly="true"])')]: {
       fill: toColor(switchTrackHoverColor),
     },
-    [getSwitchTrackSelector(':checked:hover:not(:disabled)')]: {
+    [getSwitchTrackSelector(':checked:hover:not(:disabled):not([aria-readonly="true"])')]: {
       fill: toColor(switchTrackCheckedHoverColor),
+    },
+    [getSwitchTrackSelector(':disabled')]: {
+      fill: toColor(switchTrackDisabledColor),
+    },
+
+    [getSwitchThumbGroupSelector()]: {
+      transform: 'translateX(0)',
+      transformBox: 'fill-box',
+      transition: createTransitionStyle('transform', { duration: 200 }),
+    },
+    [getSwitchThumbGroupSelector(':checked')]: {
+      transform: `translateX(${height}px)`,
     },
 
     // switch-thumb
     [getSwitchThumbSelector()]: {
       fill: toColor(switchThumbColor),
     },
-    [getSwitchThumbSelector(':checked')]: {
-      transform: `translateX(${height}px)`,
+    [getSwitchThumbSelector(':disabled')]: {
+      fill: toColor(switchThumbDisabledColor),
+    },
+
+    [getSwitchCheckSelector()]: {
+      opacity: 0,
+      color: toColor(switchTrackCheckedColor),
+      transition: createTransitionStyle('opacity', { duration: 200 }),
+    },
+    [getSwitchCheckSelector(':checked')]: {
+      opacity: 1,
+    },
+    [getSwitchCheckSelector(':checked:disabled')]: {
+      color: toColor(switchCheckMutedColor),
+    },
+
+    // Read-only is driven by `aria-readonly="true"` on the input (set by Switch
+    // when the `readOnly` prop is true).
+    [getSwitchTrackSelector('[aria-readonly="true"]:not(:disabled)')]: {
+      fill: 'transparent',
+      stroke: toColor(switchTrackReadOnlyBorderColor),
+      strokeWidth: 1,
+    },
+    [getSwitchThumbSelector('[aria-readonly="true"]:not(:disabled)')]: {
+      fill: toColor(switchThumbReadOnlyColor),
+    },
+    [getSwitchCheckSelector('[aria-readonly="true"]:checked:not(:disabled)')]: {
+      color: toColor(switchCheckMutedColor),
     },
   };
   const styleProps = useSwitchControlBoxStyle();
@@ -189,15 +223,28 @@ const SwitchControlBox = forwardRef((inProps, ref) => {
           pointerEvents="all"
         />
         <Box
-          as="circle"
-          data-switch-thumb
-          cx={viewBoxHeight / 2}
-          cy={viewBoxHeight / 2}
-          r={radius}
-          transform="translateX(0)"
-          transformBox="fill-box"
-          transition={createTransitionStyle('transform', { duration: 200 })}
-        />
+          as="g"
+          data-switch-thumb-group
+        >
+          <Box
+            as="circle"
+            data-switch-thumb
+            cx={viewBoxHeight / 2}
+            cy={viewBoxHeight / 2}
+            r={radius}
+          />
+          <svg
+            data-switch-check
+            x={viewBoxHeight / 2 - checkSize / 2}
+            y={viewBoxHeight / 2 - checkSize / 2}
+            width={checkSize}
+            height={checkSize}
+            viewBox="0 0 16 16"
+            fill="currentColor"
+          >
+            <path d="M6 11.060l-3-3-1 1 4 4 9-9-1-1z" />
+          </svg>
+        </Box>
       </Box>
     </Box>
   );

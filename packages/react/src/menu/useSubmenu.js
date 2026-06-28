@@ -26,10 +26,6 @@ import { SubmenuContext } from './context';
  * @returns {SubmenuContextValue | undefined} The submenu context, or `undefined` if not within a `Submenu`.
  */
 const useSubmenu = () => {
-  if (!useContext) {
-    throw new Error('The `useContext` hook is not available with your React version.');
-  }
-
   const context = useContext(SubmenuContext);
   return context;
 };

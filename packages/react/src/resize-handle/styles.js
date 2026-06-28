@@ -1,11 +1,5 @@
-import { useColorMode } from '../color-mode';
-
 const useResizeHandleStyle = ({ isResizing }) => {
-  const [colorMode] = useColorMode();
-  const translucentBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
+  const translucentBackgroundColor = '_overlay.thin';
   const hoverableWidth = '2x';
   const translucentWidth = '1x';
 

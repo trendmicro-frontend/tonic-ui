@@ -3,6 +3,12 @@ import { useOnce } from '@tonic-ui/react-hooks';
 import { forwardRef } from 'react';
 import USBIcon from '../USBIcon';
 
+/** @import { ForwardRefExoticComponent, SVGProps, RefAttributes } from 'react' */
+
+/**
+ * @deprecated Use `USBIcon` instead.
+ * @type {ForwardRefExoticComponent<StyleProps & SVGProps<SVGSVGElement> & import('../../SVGIcon').SVGIconProps & RefAttributes<SVGSVGElement>>}
+ */
 const UsbIcon = forwardRef((props, ref) => {
   useOnce(() => {
     console.error('Warning: The `UsbIcon` component is deprecated and will be removed in the next major release. Use the `USBIcon` component instead.');

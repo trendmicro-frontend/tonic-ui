@@ -4,7 +4,6 @@ import {
   KeyboardSensor,
   MouseSensor,
   PointerSensor,
-  defaultDropAnimationSideEffects,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
@@ -28,7 +27,6 @@ import {
   Flex,
   LinkButton,
   Text,
-  useColorStyle,
 } from '@tonic-ui/react';
 import { isNullish } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
@@ -39,7 +37,6 @@ import {
   forwardRef,
   useCallback,
   useEffect,
-  useMemo,
   useReducer,
   useState,
 } from 'react';
@@ -74,18 +71,8 @@ const DragHandle = forwardRef((props, ref) => {
 DragHandle.displayName = 'DragHandle';
 
 const SortableOverlay = ({ children }) => {
-  const dropAnimationConfig = useMemo(() => ({
-    sideEffects: defaultDropAnimationSideEffects({
-      styles: {
-        active: {
-          opacity: '0.4',
-        },
-      },
-    }),
-  }), []);
-
   return (
-    <DragOverlay dropAnimation={dropAnimationConfig}>
+    <DragOverlay>
       {children}
     </DragOverlay>
   );
@@ -114,7 +101,6 @@ const ColumnSettingsDrawer = ({
   isOpen,
   onClose,
 }) => {
-  const [colorStyle] = useColorStyle();
   const [state, dispatch] = useReducer(reducer, {
     columns: ensureArray(columnsProp),
   });
@@ -187,9 +173,8 @@ const ColumnSettingsDrawer = ({
         if (!column.isPinned) {
           styleProps = {
             _hover: {
-              backgroundColor: isDragging ? 'gray:70' : colorStyle.background.highlighted,
+              backgroundColor: isDragging ? 'actions.dragged' : 'actions.hovered',
             },
-            opacity: isDragging ? 0.4 : undefined,
             transform: CSS.Translate.toString(transform),
             transition,
             // Ensure the draggable element appears on top of other elements when dragged
@@ -284,7 +269,7 @@ const ColumnSettingsDrawer = ({
             alignItems="center"
             justifyContent="space-between"
           >
-            <Text color={colorStyle.color.secondary}>
+            <Text color="text.secondary">
               Shown in table
             </Text>
             <LinkButton onClick={toggleAllColumns}>

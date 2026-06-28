@@ -15,7 +15,7 @@ import {
   Text,
 } from '@tonic-ui/react/src';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
-import { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 
 jest.mock('@tonic-ui/utils', () => ({
   ...jest.requireActual('@tonic-ui/utils'),

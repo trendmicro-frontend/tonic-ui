@@ -16,10 +16,6 @@ import { RadioGroupContext } from './context';
  * @returns {RadioGroupContextValue | undefined} The radio group context, or `undefined` if not within a `RadioGroup`.
  */
 const useRadioGroup = () => {
-  if (!useContext) {
-    throw new Error('The `useContext` hook is not available with your React version.');
-  }
-
   const context = useContext(RadioGroupContext);
   return context;
 };

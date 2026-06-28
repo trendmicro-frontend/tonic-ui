@@ -10,33 +10,33 @@ exports[`Link should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  color: var(--tonic-colors-blue-40);
+  color: var(--tonic-colors-_link-enabled);
   cursor: pointer;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
 .emotion-0:focus-visible {
-  outline-color: var(--tonic-colors-blue-60);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: 0;
   outline-style: solid;
   outline-width: var(--tonic-sizes-1q);
 }
 
 .emotion-0:visited {
-  color: var(--tonic-colors-purple-50);
+  color: var(--tonic-colors-_link-visited);
 }
 
 .emotion-0:hover,
 .emotion-0[data-hover] {
-  color: var(--tonic-colors-blue-40);
+  color: var(--tonic-colors-_link-hovered);
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
 
 .emotion-0:active,
 .emotion-0[data-active] {
-  color: var(--tonic-colors-blue-60);
+  color: var(--tonic-colors-_link-active);
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
@@ -50,33 +50,33 @@ exports[`Link should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  color: var(--tonic-colors-blue-40);
+  color: var(--tonic-colors-_link-enabled);
   cursor: pointer;
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
 
 .emotion-2:focus-visible {
-  outline-color: var(--tonic-colors-blue-60);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: 0;
   outline-style: solid;
   outline-width: var(--tonic-sizes-1q);
 }
 
 .emotion-2:visited {
-  color: var(--tonic-colors-purple-50);
+  color: var(--tonic-colors-_link-visited);
 }
 
 .emotion-2:hover,
 .emotion-2[data-hover] {
-  color: var(--tonic-colors-blue-40);
+  color: var(--tonic-colors-_link-hovered);
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
 .emotion-2:active,
 .emotion-2[data-active] {
-  color: var(--tonic-colors-blue-60);
+  color: var(--tonic-colors-_link-active);
   -webkit-text-decoration: none;
   text-decoration: none;
 }
@@ -90,33 +90,33 @@ exports[`Link should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  color: var(--tonic-colors-white-secondary);
+  color: var(--tonic-colors-text-secondary);
   cursor: pointer;
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
 
 .emotion-4:focus-visible {
-  outline-color: var(--tonic-colors-blue-60);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: 0;
   outline-style: solid;
   outline-width: var(--tonic-sizes-1q);
 }
 
 .emotion-4:visited {
-  color: var(--tonic-colors-purple-50);
+  color: var(--tonic-colors-_link-visited);
 }
 
 .emotion-4:hover,
 .emotion-4[data-hover] {
-  color: var(--tonic-colors-blue-40);
+  color: var(--tonic-colors-_link-hovered);
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
 
 .emotion-4:active,
 .emotion-4[data-active] {
-  color: var(--tonic-colors-blue-60);
+  color: var(--tonic-colors-_link-active);
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
@@ -130,33 +130,33 @@ exports[`Link should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  color: var(--tonic-colors-blue-40);
+  color: var(--tonic-colors-_link-enabled);
   cursor: pointer;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
 .emotion-6:focus-visible {
-  outline-color: var(--tonic-colors-blue-60);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: 0;
   outline-style: solid;
   outline-width: var(--tonic-sizes-1q);
 }
 
 .emotion-6:visited {
-  color: var(--tonic-colors-purple-50);
+  color: var(--tonic-colors-_link-visited);
 }
 
 .emotion-6:hover,
 .emotion-6[data-hover] {
-  color: var(--tonic-colors-blue-40);
+  color: var(--tonic-colors-_link-hovered);
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
 
 .emotion-6:active,
 .emotion-6[data-active] {
-  color: var(--tonic-colors-blue-60);
+  color: var(--tonic-colors-_link-active);
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
@@ -168,7 +168,7 @@ exports[`Link should render correctly 1`] = `
 .emotion-6[aria-disabled=true]:focus,
 .emotion-6[aria-disabled=true]:hover,
 .emotion-6[data-disabled] {
-  color: var(--tonic-colors-white-disabled);
+  color: var(--tonic-colors-_link-disabled);
   cursor: not-allowed;
 }
 
@@ -181,33 +181,33 @@ exports[`Link should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  color: var(--tonic-colors-blue-40);
+  color: var(--tonic-colors-_link-enabled);
   cursor: pointer;
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
 
 .emotion-8:focus-visible {
-  outline-color: var(--tonic-colors-blue-60);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: 0;
   outline-style: solid;
   outline-width: var(--tonic-sizes-1q);
 }
 
 .emotion-8:visited {
-  color: var(--tonic-colors-purple-50);
+  color: var(--tonic-colors-_link-visited);
 }
 
 .emotion-8:hover,
 .emotion-8[data-hover] {
-  color: var(--tonic-colors-blue-40);
+  color: var(--tonic-colors-_link-hovered);
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
 .emotion-8:active,
 .emotion-8[data-active] {
-  color: var(--tonic-colors-blue-60);
+  color: var(--tonic-colors-_link-active);
   -webkit-text-decoration: none;
   text-decoration: none;
 }
@@ -219,7 +219,7 @@ exports[`Link should render correctly 1`] = `
 .emotion-8[aria-disabled=true]:focus,
 .emotion-8[aria-disabled=true]:hover,
 .emotion-8[data-disabled] {
-  color: var(--tonic-colors-white-disabled);
+  color: var(--tonic-colors-_link-disabled);
   cursor: not-allowed;
 }
 
@@ -232,33 +232,33 @@ exports[`Link should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  color: var(--tonic-colors-white-secondary);
+  color: var(--tonic-colors-text-secondary);
   cursor: pointer;
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
 
 .emotion-10:focus-visible {
-  outline-color: var(--tonic-colors-blue-60);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: 0;
   outline-style: solid;
   outline-width: var(--tonic-sizes-1q);
 }
 
 .emotion-10:visited {
-  color: var(--tonic-colors-purple-50);
+  color: var(--tonic-colors-_link-visited);
 }
 
 .emotion-10:hover,
 .emotion-10[data-hover] {
-  color: var(--tonic-colors-blue-40);
+  color: var(--tonic-colors-_link-hovered);
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
 
 .emotion-10:active,
 .emotion-10[data-active] {
-  color: var(--tonic-colors-blue-60);
+  color: var(--tonic-colors-_link-active);
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
@@ -270,7 +270,7 @@ exports[`Link should render correctly 1`] = `
 .emotion-10[aria-disabled=true]:focus,
 .emotion-10[aria-disabled=true]:hover,
 .emotion-10[data-disabled] {
-  color: var(--tonic-colors-white-disabled);
+  color: var(--tonic-colors-_link-disabled);
   cursor: not-allowed;
 }
 

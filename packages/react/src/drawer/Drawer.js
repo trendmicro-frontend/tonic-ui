@@ -3,9 +3,9 @@ import { getAllFocusable, runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import FocusLock from 'react-focus-lock/dist/cjs';
 import { useDefaultProps } from '../default-props';
-import useShallowMemo from '../utils/useShallowMemo';
 import { Portal } from '../portal';
 import { AnimatePresence } from '../utils/animate-presence';
+import useShallowMemo from '../utils/useShallowMemo';
 import DrawerContainer from './DrawerContainer';
 import { DrawerContext } from './context';
 
@@ -79,7 +79,6 @@ const Drawer = forwardRef((inProps, ref) => {
   const [isMounted, setIsMounted] = useState(isOpen);
   const containerRef = useRef();
   const contentRef = useRef(null);
-
   const context = shallowMemo({
     autoFocus,
     backdrop,

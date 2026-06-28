@@ -25,7 +25,7 @@ export const getIsPassiveListenerSupported = (() => {
 
       win.addEventListener('test', noop, options);
       win.removeEventListener('test', noop);
-    } catch (_error) {
+    } catch {
       isPassiveListenerSupported = false;
     }
 

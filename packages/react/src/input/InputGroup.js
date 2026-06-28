@@ -24,7 +24,6 @@ const InputGroup = forwardRef((inProps, ref) => {
     ...rest
   } = useDefaultProps({ props: inProps, name: 'InputGroup' });
   const shallowMemo = useShallowMemo();
-
   const context = shallowMemo({ size, variant });
   const styleProps = useInputGroupStyle();
 

@@ -30,10 +30,7 @@ const Badge = forwardRef((inProps, ref) => {
   } = useDefaultProps({ props: inProps, name: 'Badge' });
   const badgeContent = (variant === 'dot') ? null : badgeContentProp;
   const isInvisible = isInvisibleProp ?? (() => {
-    if ((badgeContent === null || badgeContent === undefined) && (variant !== 'dot')) {
-      return true;
-    }
-    return false;
+    return (badgeContent === null || badgeContent === undefined) && (variant !== 'dot');
   })();
 
   const badgeStyle = useBadgeStyle();

@@ -1,11 +1,8 @@
-import { Box, Divider, Flex, Skeleton, Stack, useColorMode, useColorStyle } from '@tonic-ui/react';
+import { Box, Divider, Flex, Skeleton, Stack } from '@tonic-ui/react';
 
 const App = () => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-
   return (
-    <Stack direction="column" width="max(320px, 50%)" backgroundColor={colorStyle.background.secondary}>
+    <Stack direction="column" width="max(320px, 50%)" backgroundColor="background.highest">
       <Flex alignItems="center" columnGap="5x" p="4x">
         <Flex flex="none">
           <Skeleton variant="circle" animation="wave" width={40} height={40} />

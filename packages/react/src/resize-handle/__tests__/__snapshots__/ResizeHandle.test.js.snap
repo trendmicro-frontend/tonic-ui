@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ResizeHandle should render correctly 1`] = `
+.emotion-0 {
+  background-color: var(--tonic-colors-transparent);
+  box-sizing: border-box;
+  cursor: col-resize;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: var(--tonic-sizes-2x);
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-tonic="ResizeHandle"
+  />
+</div>
+`;

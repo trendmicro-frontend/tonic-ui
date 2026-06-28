@@ -1,24 +1,11 @@
-import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 
-const getSolidBadgeContentStyle = ({
-  colorMode,
-  theme,
-}) => {
-  const backgroundColor = {
-    dark: 'red:60',
-    light: 'red:60',
-  }[colorMode];
+const getSolidBadgeContentStyle = (theme) => {
+  const backgroundColor = 'error.icon';
   const boxShadowSpreadRadius = theme?.sizes?.['1q'];
-  const boxShadowColor = {
-    dark: theme?.colors?.['gray:100'],
-    light: 'white',
-  }[colorMode];
+  const boxShadowColor = theme.get('colors._component.keyboardFocused.innerFocusRing');
   const boxShadow = `0 0 0 ${boxShadowSpreadRadius} ${boxShadowColor}`;
-  const color = {
-    dark: 'white:primary',
-    light: 'white:primary',
-  }[colorMode];
+  const color = 'text._fixed.dark.accent';
   const size = theme?.sizes?.['4x'];
 
   return {
@@ -34,25 +21,13 @@ const getSolidBadgeContentStyle = ({
   };
 };
 
-const getDotBadgeContentStyle = ({
-  colorMode,
-  theme,
-}) => {
-  const backgroundColor = {
-    dark: 'red:60',
-    light: 'red:60',
-  }[colorMode];
-  const borderRadius = 'circle';
+const getDotBadgeContentStyle = (theme) => {
+  const backgroundColor = 'error.icon';
+  const borderRadius = '50%';
   const boxShadowSpreadRadius = theme?.sizes?.['1q'];
-  const boxShadowColor = {
-    dark: theme?.colors?.['gray:100'],
-    light: 'white',
-  }[colorMode];
+  const boxShadowColor = theme.get('colors._component.keyboardFocused.innerFocusRing');
   const boxShadow = `0 0 0 ${boxShadowSpreadRadius} ${boxShadowColor}`;
-  const color = {
-    dark: 'white:primary',
-    light: 'white:primary',
-  }[colorMode];
+  const color = 'text.accent';
   const height = theme?.sizes?.['2x'];
   const width = theme?.sizes?.['2x'];
 
@@ -77,7 +52,6 @@ const useBadgeStyle = () => {
 const useBadgeContentStyle = ({
   variant,
 }) => {
-  const [colorMode] = useColorMode();
   const theme = useTheme();
   const baseStyle = {
     display: 'inline-flex',
@@ -85,14 +59,8 @@ const useBadgeContentStyle = ({
     justifyContent: 'center',
   };
   const variantStyle = {
-    'solid': getSolidBadgeContentStyle({
-      colorMode,
-      theme,
-    }),
-    'dot': getDotBadgeContentStyle({
-      colorMode,
-      theme,
-    }),
+    'solid': getSolidBadgeContentStyle(theme),
+    'dot': getDotBadgeContentStyle(theme),
   }[variant];
 
   return {

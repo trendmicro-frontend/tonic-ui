@@ -1,42 +1,33 @@
-import { useColorMode } from '../color-mode';
 import { useIconButtonStyle } from '../shared/styles';
 import { useTheme } from '../theme';
 
 const getSolidTagStyle = ({
-  colorMode,
   theme,
 }) => {
   // Normal
-  const backgroundColor = {
-    dark: 'gray:70',
-    light: 'gray:20',
-  }[colorMode];
-  const color = {
-    dark: 'gray:20',
-    light: 'black:emphasis',
-  }[colorMode];
-  const focusVisibleOutlineColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
+  const backgroundColor = '_component.tags.foreground.gray';
+  const color = 'text.primary';
+  const focusVisibleOutlineColor = 'border._primary.focused';
+
+  // Hover
+  const hoverBackgroundColor = backgroundColor;
+  const hoverColor = color;
+
   // Disable
-  const disabledOpacity = {
-    dark: 0.28,
-    light: 0.3,
-  }[colorMode];
+  const disabledBackgroundColor = '_foreground.tertiary.disabled';
+  const disabledColor = 'text.disabled';
+
   // Invalid
-  const invalidBackgroundColor = {
-    dark: 'red:60',
-    light: 'red:20',
-  }[colorMode];
-  const invalidColor = {
-    dark: 'white:emphasis',
-    light: 'red:100',
-  }[colorMode];
+  const invalidBackgroundColor = '_foreground.negative.enabled';
+  const invalidColor = 'text._fixed.dark.accent';
 
   return {
     backgroundColor,
     color,
+    _hover: {
+      color: hoverColor,
+      backgroundColor: hoverBackgroundColor,
+    },
     _focusVisible: {
       outlineColor: focusVisibleOutlineColor,
       outlineOffset: '-1h',
@@ -44,51 +35,46 @@ const getSolidTagStyle = ({
       outlineWidth: '1h',
     },
     _invalid: {
+      _hover: {
+        color: invalidColor,
+        backgroundColor: invalidBackgroundColor,
+      },
       backgroundColor: invalidBackgroundColor,
       color: invalidColor,
     },
     _disabled: {
+      backgroundColor: disabledBackgroundColor,
+      color: disabledColor,
       cursor: 'not-allowed',
-      opacity: disabledOpacity,
     },
   };
 };
 
 const getOutlineTagStyle = ({
-  colorMode,
   theme,
 }) => {
   // Normal
-  const borderColor = {
-    dark: 'gray:40',
-    light: 'gray:60',
-  }[colorMode];
-  const color = {
-    dark: 'gray:40',
-    light: 'gray:60',
-  }[colorMode];
-  const focusVisibleOutlineColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
+  const borderColor = '_component.tags.border.gray';
+  const color = '_component.tags.onBackground.gray';
+  const focusVisibleOutlineColor = 'border._primary.focused';
+
+  // Hover
+  const hoverBorderColor = borderColor;
+  const hoverColor = color;
   // Disable
-  const disabledOpacity = {
-    dark: 0.28,
-    light: 0.3,
-  }[colorMode];
+  const disabledColor = 'text.disabled';
+  const disabledBorderColor = '_foreground.tertiary.disabled';
   // Invalid
-  const invalidBackgroundColor = {
-    dark: 'red:60',
-    light: 'red:20',
-  }[colorMode];
-  const invalidColor = {
-    dark: 'white:emphasis',
-    light: 'red:100',
-  }[colorMode];
+  const invalidBorderColor = '_foreground.negative.enabled';
+  const invalidColor = 'text._fixed.dark.primary';
 
   return {
     borderColor,
     color,
+    _hover: {
+      color: hoverColor,
+      borderColor: hoverBorderColor,
+    },
     _focusVisible: {
       outlineColor: focusVisibleOutlineColor,
       outlineOffset: '-1h',
@@ -96,13 +82,17 @@ const getOutlineTagStyle = ({
       outlineWidth: '1h',
     },
     _invalid: {
-      borderColor: invalidBackgroundColor,
-      backgroundColor: invalidBackgroundColor,
+      borderColor: invalidBorderColor,
       color: invalidColor,
+      _hover: {
+        color: invalidColor,
+        borderColor: invalidBorderColor,
+      },
     },
     _disabled: {
+      color: disabledColor,
       cursor: 'not-allowed',
-      opacity: disabledOpacity,
+      borderColor: disabledBorderColor,
     },
   };
 };
@@ -111,7 +101,6 @@ const useTagStyle = ({
   size,
   variant,
 }) => {
-  const [colorMode] = useColorMode();
   const theme = useTheme();
   const { sizes } = theme;
   const borderWidth = sizes['1q'];
@@ -146,8 +135,8 @@ const useTagStyle = ({
     },
   }[size];
   const variantStyle = {
-    'solid': getSolidTagStyle({ colorMode, theme }),
-    'outline': getOutlineTagStyle({ colorMode, theme }),
+    'solid': getSolidTagStyle({ theme }),
+    'outline': getOutlineTagStyle({ theme }),
   }[variant];
 
   return {
@@ -160,19 +149,11 @@ const useTagStyle = ({
 const useTagCloseButtonStyle = ({
   isClosable,
 }) => {
-  const [colorMode] = useColorMode();
-  const color = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
-  const hoverColor = {
-    dark: 'white:emphasis',
-    light: 'black:emphasis',
-  }[colorMode];
-  const focusVisibleOutlineColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
+  const color = 'text.secondary';
+  const hoverColor = 'text.accent';
+  const hoverBackgroundColor = '_foreground.subtle.hovered';
+  const focusVisibleOutlineColor = '_component.keyboardFocused.outerFocusRing';
+  const disabledColor = 'text.disabled';
   const size = '4x';
   const iconButtonStyle = useIconButtonStyle({ color, size });
 
@@ -180,14 +161,21 @@ const useTagCloseButtonStyle = ({
     ...iconButtonStyle,
     // Set the background color to transparent to prevent the parent opacity from being applied twice
     backgroundColor: 'transparent',
-    _hover: {
-      color: hoverColor,
+    _disabled: {
+      backgroundColor: 'transparent',
+      color: disabledColor,
+      cursor: 'not-allowed',
     },
     _focusVisible: {
       outlineColor: focusVisibleOutlineColor,
       outlineOffset: '-1q',
       outlineStyle: 'solid',
       outlineWidth: '1q',
+    },
+    _hover: {
+      // The close button applies a background color when hovered
+      backgroundColor: hoverBackgroundColor,
+      color: hoverColor,
     },
   };
 

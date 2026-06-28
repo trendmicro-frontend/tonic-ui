@@ -10,23 +10,6 @@ const ActionButton = forwardRef((props, ref) => (
   <Button
     ref={ref}
     variant="secondary"
-    borderColor="black:primary"
-    color="black:primary"
-    sx={{
-      ':active': {
-        color: 'black:primary',
-      },
-      ':focus': {
-        color: 'black:primary',
-      },
-      ':hover': {
-        background: 'rgba(0, 0, 0, 0.12)',
-        color: 'black:primary',
-      },
-      ':hover:not(:focus)': {
-        boxShadow: 'none',
-      },
-    }}
     {...props}
   />
 ));

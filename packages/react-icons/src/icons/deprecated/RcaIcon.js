@@ -3,6 +3,12 @@ import { useOnce } from '@tonic-ui/react-hooks';
 import { forwardRef } from 'react';
 import RCAIcon from '../RCAIcon';
 
+/** @import { ForwardRefExoticComponent, SVGProps, RefAttributes } from 'react' */
+
+/**
+ * @deprecated Use `RCAIcon` instead.
+ * @type {ForwardRefExoticComponent<StyleProps & SVGProps<SVGSVGElement> & import('../../SVGIcon').SVGIconProps & RefAttributes<SVGSVGElement>>}
+ */
 const RcaIcon = forwardRef((props, ref) => {
   useOnce(() => {
     console.error('Warning: The `RcaIcon` component is deprecated and will be removed in the next major release. Use the `RCAIcon` component instead.');

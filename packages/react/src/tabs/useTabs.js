@@ -19,10 +19,6 @@ import { TabsContext } from './context';
  * @returns {TabsContextValue | undefined} The tabs context, or `undefined` if not within a `Tabs`.
  */
 const useTabs = () => {
-  if (!useContext) {
-    throw new Error('The `useContext` hook is not available with your React version.');
-  }
-
   const context = useContext(TabsContext);
   return context;
 };

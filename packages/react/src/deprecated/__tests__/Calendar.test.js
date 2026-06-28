@@ -1,5 +1,6 @@
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Calendar } from '@tonic-ui/react/src';
+import React from 'react';
 
 describe('Calendar component', () => {
   it('logs a deprecation warning when used', () => {

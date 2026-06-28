@@ -1,4 +1,4 @@
-import defaultExport, { createTheme } from '@tonic-one/theme/src';
+import defaultExport, { createTheme } from '@tonic-ui/theme/src';
 
 test('should match expected exports', () => {
   const moduleExport = require('../index');

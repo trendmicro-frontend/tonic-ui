@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import useFormControl from './useFormControl';
 
 /**
@@ -13,7 +13,7 @@ const defaultMapper = (context) => ({
 /**
  * Higher-order component that injects FormControlContext props into a component.
  * @param {React.ComponentType} Component - The component to wrap
- * @param {Function} [mapContextToProps] - Function to map context to props
+ * @param {(context: FormControlContextValue) => { disabled?: boolean; error?: boolean; readOnly?: boolean }} [mapContextToProps] - Function to map context to props
  * @returns {React.ComponentType} Enhanced component with injected props
  */
 const withFormControl = (Component, mapContextToProps = defaultMapper) => {

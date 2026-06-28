@@ -1,9 +1,9 @@
-import { createRef } from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { LinkButton } from '@tonic-ui/react/src';
+import React from 'react';
 
 describe('LinkButton', () => {
   it('should render correctly', async () => {
@@ -85,7 +85,7 @@ describe('LinkButton', () => {
   });
 
   it('should forward ref correctly', () => {
-    const ref = createRef();
+    const ref = React.createRef();
     render(
       <LinkButton ref={ref}>
         Test LinkButton
@@ -128,11 +128,11 @@ describe('LinkButton', () => {
     expect(button).toHaveStyleRule('text-decoration', 'underline');
 
     // :hover
-    expect(button).toHaveStyleRule('color', 'var(--tonic-colors-blue-40)', { target: ':hover' });
+    expect(button).toHaveStyleRule('color', 'var(--tonic-colors-_link-hovered)', { target: ':hover' });
     expect(button).toHaveStyleRule('text-decoration', 'underline', { target: ':hover' });
 
     // :active
-    expect(button).toHaveStyleRule('color', 'var(--tonic-colors-blue-60)', { target: ':active' });
+    expect(button).toHaveStyleRule('color', 'var(--tonic-colors-_link-active)', { target: ':active' });
     expect(button).toHaveStyleRule('text-decoration', 'underline', { target: ':active' });
   });
 

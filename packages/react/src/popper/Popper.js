@@ -86,6 +86,7 @@ const Popper = forwardRef((inProps, ref) => {
       });
     }, (anchorEl !== undefined));
 
+    /* TODO: Add a deprecation warning for `usePortal` once `portalled` has been officially available since v4
     useOnceWhen(() => {
       warnDeprecatedProps('usePortal', {
         prefix,
@@ -93,6 +94,7 @@ const Popper = forwardRef((inProps, ref) => {
         willRemove: true,
       });
     }, (usePortal !== undefined));
+    */
   }
 
   const nodeRef = useRef();

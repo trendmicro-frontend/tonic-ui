@@ -6,18 +6,13 @@ import {
   AccordionToggleIcon,
   Space,
   Text,
-  useColorMode,
 } from '@tonic-ui/react';
 import { ChevronDownIcon } from '@tonic-ui/react-icons';
 import { useState } from 'react';
 import SkeletonBlock from '@/components/SkeletonBlock';
 
 const App = () => {
-  const [colorMode] = useColorMode();
-  const borderColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
+  const borderColor = '_overlay.thinner';
   const [expandedItem, setExpandedItem] = useState(null);
   const handleToggle = item => ({ isExpanded }) => {
     setExpandedItem(isExpanded ? item : null);
@@ -59,14 +54,8 @@ const App = () => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'flex-start',
-      backgroundColor: {
-        dark: 'gray:90',
-        light: 'white',
-      }[colorMode],
-      color: {
-        dark: 'white:primary',
-        light: 'black:primary',
-      }[colorMode],
+      backgroundColor: '_overlay.thinner',
+      color: 'text.primary',
       px: '4x',
       minHeight: '12x',
     };

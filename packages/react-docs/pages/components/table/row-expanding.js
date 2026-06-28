@@ -18,8 +18,6 @@ import {
   Text,
   TextLabel,
   Truncate,
-  useColorMode,
-  useColorStyle,
 } from '@tonic-ui/react';
 import { AngleRightIcon } from '@tonic-ui/react-icons';
 import {
@@ -41,17 +39,9 @@ const data = [
 ];
 
 const App = () => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle();
   const renderExpandedRow = ({ row }) => {
-    const tableBorderColor = {
-      dark: 'gray:70',
-      light: 'gray:30',
-    }[colorMode];
-    const dividerColor = {
-      dark: 'gray:60',
-      light: 'gray:30',
-    }[colorMode];
+    const tableBorderColor = 'border.tertiary';
+    const dividerColor = 'border.tertiary';
     const entries = Object.entries(row.original);
     const renderValue = (value) => {
       if (Array.isArray(value)) {
@@ -215,10 +205,10 @@ const App = () => {
             <TableRow
               data-selected={dataAttr(row.getIsExpanded())}
               _hover={{
-                backgroundColor: colorStyle.background.highlighted,
+                backgroundColor: 'actions.hovered',
               }}
               _selected={{
-                backgroundColor: colorStyle.background.selected,
+                backgroundColor: 'actions.selected',
               }}
             >
               {row.getVisibleCells().map(cell => {

@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Box, Collapse } from '@tonic-ui/react/src';
+import React from 'react';
 
 describe('Collapse', () => {
   const boxHeight = 100;
@@ -40,11 +41,11 @@ describe('Collapse', () => {
     );
 
     const collapse = screen.getByTestId('collapse');
-    expect(collapse).toHaveStyle('height: 100px');
-    expect(collapse).toHaveStyle('opacity: 1');
-    expect(collapse).toHaveStyle('overflow: hidden');
-    expect(collapse).toHaveStyle('transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1),opacity 300ms cubic-bezier(0.4, 0, 0.2, 1)');
-    expect(collapse).not.toHaveStyle('visibility: hidden');
+    expect(collapse).toHaveStyleRule('height', '100px');
+    expect(collapse).toHaveStyleRule('opacity', '1');
+    expect(collapse).toHaveStyleRule('overflow', 'hidden');
+    expect(collapse).toHaveStyleRule('transition', 'height 300ms cubic-bezier(0.4, 0, 0.2, 1),opacity 300ms cubic-bezier(0.4, 0, 0.2, 1)');
+    expect(collapse).not.toHaveStyleRule('visibility', 'hidden');
   });
 
   it('applies correct styles when entered', () => {
@@ -55,10 +56,10 @@ describe('Collapse', () => {
     );
 
     const collapse = screen.getByTestId('collapse');
-    expect(collapse).toHaveStyle('height: auto');
-    expect(collapse).toHaveStyle('opacity: 1');
-    expect(collapse).toHaveStyle('transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1),opacity 300ms cubic-bezier(0.4, 0, 0.2, 1)');
-    expect(collapse).not.toHaveStyle('visibility: hidden');
+    expect(collapse).toHaveStyleRule('height', 'auto');
+    expect(collapse).toHaveStyleRule('opacity', '1');
+    expect(collapse).toHaveStyleRule('transition', 'height 300ms cubic-bezier(0.4, 0, 0.2, 1),opacity 300ms cubic-bezier(0.4, 0, 0.2, 1)');
+    expect(collapse).not.toHaveStyleRule('visibility', 'hidden');
   });
 
   it('applies correct styles when exiting', () => {
@@ -75,11 +76,11 @@ describe('Collapse', () => {
     );
 
     const collapse = screen.getByTestId('collapse');
-    expect(collapse).toHaveStyle('height: 0');
-    expect(collapse).toHaveStyle('opacity: 0');
-    expect(collapse).toHaveStyle('overflow: hidden');
-    expect(collapse).toHaveStyle('transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1),opacity 300ms cubic-bezier(0.4, 0, 0.2, 1)');
-    expect(collapse).not.toHaveStyle('visibility: hidden');
+    expect(collapse).toHaveStyleRule('height', '0');
+    expect(collapse).toHaveStyleRule('opacity', '0');
+    expect(collapse).toHaveStyleRule('overflow', 'hidden');
+    expect(collapse).toHaveStyleRule('transition', 'height 300ms cubic-bezier(0.4, 0, 0.2, 1),opacity 300ms cubic-bezier(0.4, 0, 0.2, 1)');
+    expect(collapse).not.toHaveStyleRule('visibility', 'hidden');
   });
 
   it('applies correct styles when exited', () => {
@@ -90,9 +91,9 @@ describe('Collapse', () => {
     );
 
     const collapse = screen.getByTestId('collapse');
-    expect(collapse).toHaveStyle('height: 0');
-    expect(collapse).toHaveStyle('opacity: 0');
-    expect(collapse).toHaveStyle('transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1),opacity 300ms cubic-bezier(0.4, 0, 0.2, 1)');
-    expect(collapse).toHaveStyle('visibility: hidden');
+    expect(collapse).toHaveStyleRule('height', '0');
+    expect(collapse).toHaveStyleRule('opacity', '0');
+    expect(collapse).toHaveStyleRule('transition', 'height 300ms cubic-bezier(0.4, 0, 0.2, 1),opacity 300ms cubic-bezier(0.4, 0, 0.2, 1)');
+    expect(collapse).toHaveStyleRule('visibility', 'hidden');
   });
 });

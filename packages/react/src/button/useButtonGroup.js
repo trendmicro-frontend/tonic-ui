@@ -14,10 +14,6 @@ import { ButtonGroupContext } from './context';
  * @returns {ButtonGroupContextValue | undefined} The button group context, or `undefined` if not within a `ButtonGroup`.
  */
 const useButtonGroup = () => {
-  if (!useContext) {
-    throw new Error('The `useContext` hook is not available with your React version.');
-  }
-
   const context = useContext(ButtonGroupContext);
   return context;
 };

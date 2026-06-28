@@ -1,10 +1,10 @@
 import { useCallback, useReducer } from 'react';
 
 const useRefresh = () => {
-  const [, forceUpdate] = useReducer((x) => x + 1, 0);
+  const [, rerender] = useReducer(x => !x, false);
   return useCallback(() => {
-    forceUpdate();
-  }, []);
+    rerender();
+  }, [rerender]);
 };
 
 export default useRefresh;

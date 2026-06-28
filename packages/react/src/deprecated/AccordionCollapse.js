@@ -1,5 +1,5 @@
 import { useOnce } from '@tonic-ui/react-hooks';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { AccordionContent } from '../accordion';
 
 /**
@@ -8,12 +8,12 @@ import { AccordionContent } from '../accordion';
  */
 const AccordionCollapse = forwardRef((props, ref) => {
   useOnce(() => {
-    console.error('Warning: The `AccordionCollapse` component is deprecated and will be removed in the next major release. Use the `AccordionContent` component instead.');
+    console.error(
+      'Warning: The `AccordionCollapse` component is deprecated and will be removed in the next major release. Use the `AccordionContent` component instead.'
+    );
   });
 
-  return (
-    <AccordionContent ref={ref} {...props} />
-  );
+  return <AccordionContent ref={ref} {...props} />;
 });
 
 AccordionCollapse.displayName = 'AccordionCollapse';
