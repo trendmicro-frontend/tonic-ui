@@ -7,7 +7,7 @@ import {
 } from '@tonic-ui/react-icons';
 import { getAllFocusable } from '@tonic-ui/utils';
 import { addMonths, addYears, subMonths, subYears } from 'date-fns';
-import { forwardRef, useCallback, useRef } from 'react';
+import React, { forwardRef, useCallback, useRef } from 'react';
 import { Box } from '../../../box';
 import { Button } from '../../../button';
 import { Text } from '../../../text';
@@ -20,6 +20,13 @@ import {
   useYearMonthPickerYearButtonStyle,
 } from '../styles';
 
+/**
+ * @typedef {Object} YearMonthPickerProps
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', YearMonthPickerProps>}
+ */
 const YearMonthPicker = forwardRef((props, ref) => {
   const dateCalendarContext = useDateCalendar();
   const {

@@ -18,10 +18,12 @@ export default defineConfig([
       },
     },
     rules: {
+      'max-lines-per-function': 0,
     },
   },
   {
     ignores: [
+      '@types',
       'build',
       'dist',
       'node_modules',

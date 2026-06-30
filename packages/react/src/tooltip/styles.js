@@ -1,5 +1,3 @@
-import { useColorMode } from '../color-mode';
-import { useColorStyle } from '../color-style';
 import { useTheme } from '../theme';
 import pixelize from '../utils/pixelize';
 
@@ -7,14 +5,10 @@ const useTooltipArrowStyle = ({
   arrowHeight: arrowHeightProp,
   arrowWidth: arrowWidthProp,
 }) => {
-  const [colorMode] = useColorMode();
   const { sizes } = useTheme();
   const arrowHeight = sizes[arrowHeightProp] ?? pixelize(arrowHeightProp);
   const arrowWidth = sizes[arrowWidthProp] ?? pixelize(arrowWidthProp);
-  const dropShadowColor = {
-    dark: 'rgba(0, 0, 0, 0.16)',
-    light: 'rgba(0, 0, 0, 0.08)',
-  }[colorMode];
+  const boxShadow = 'high';
 
   return {
     // https://popper.js.org/docs/v2/tutorial/#arrow
@@ -26,7 +20,7 @@ const useTooltipArrowStyle = ({
         borderTop: `${arrowHeight} solid`,
         borderLeft: `calc(${arrowWidth}/2) solid transparent`,
         borderRight: `calc(${arrowWidth}/2) solid transparent`,
-        filter: `drop-shadow(0 1px 1px ${dropShadowColor})`,
+        boxShadow,
         position: 'absolute',
         bottom: `-${arrowHeight}`,
         transform: 'translateX(-50%)',
@@ -40,7 +34,7 @@ const useTooltipArrowStyle = ({
         borderBottom: `${arrowHeight} solid`,
         borderLeft: `calc(${arrowWidth}/2) solid transparent`,
         borderRight: `calc(${arrowWidth}/2) solid transparent`,
-        filter: `drop-shadow(0 -1px 1px ${dropShadowColor})`,
+        boxShadow,
         position: 'absolute',
         top: `-${arrowHeight}`,
         transform: 'translateX(-50%)',
@@ -54,7 +48,7 @@ const useTooltipArrowStyle = ({
         borderLeft: `${arrowHeight} solid`,
         borderTop: `calc(${arrowWidth}/2) solid transparent`,
         borderBottom: `calc(${arrowWidth}/2) solid transparent`,
-        filter: `drop-shadow(1px 0px 1px ${dropShadowColor})`,
+        boxShadow,
         position: 'absolute',
         right: `-${arrowHeight}`,
         transform: 'translateY(-50%)',
@@ -68,7 +62,7 @@ const useTooltipArrowStyle = ({
         borderRight: `${arrowHeight} solid`,
         borderTop: `calc(${arrowWidth}/2) solid transparent`,
         borderBottom: `calc(${arrowWidth}/2) solid transparent`,
-        filter: `drop-shadow(-1px 0px 1px ${dropShadowColor})`,
+        boxShadow,
         position: 'absolute',
         left: `-${arrowHeight}`,
         transform: 'translateY(-50%)',
@@ -84,22 +78,11 @@ const useTooltipTriggerStyle = () => {
 };
 
 const useTooltipContentStyle = () => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const backgroundColor = {
-    dark: 'gray:80',
-    light: 'white',
-  }[colorMode];
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-
   return {
-    backgroundColor,
+    backgroundColor: 'background.highest',
     borderRadius: 'sm',
-    boxShadow: colorStyle?.shadow?.thin,
-    color,
+    boxShadow: 'high',
+    color: 'text.primary',
     fontWeight: 'normal',
     fontSize: 'sm',
     lineHeight: 'sm',

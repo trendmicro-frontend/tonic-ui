@@ -16,7 +16,6 @@ import {
   ToastController,
   ToastTransition,
   ToastTransitionGroup,
-  useColorStyle,
 } from '@tonic-ui/react';
 import { CloseSIcon } from '@tonic-ui/react-icons';
 import { useState } from 'react';
@@ -41,7 +40,6 @@ const InlineToastContainer = (props) => (
 let autoIncrementIndex = 0;
 
 const App = () => {
-  const [colorStyle] = useColorStyle();
   const [toasts, setToasts] = useState([]);
 
   const notify = (options) => {
@@ -173,7 +171,7 @@ const App = () => {
                           mb: '2x',
                           minWidth: 280, // The toast has a minimum width of 280 pixels
                           width: 'fit-content',
-                          boxShadow: colorStyle.shadow.thin,
+                          boxShadow: 'down.high',
                         }}
                       >
                         {toast.content}

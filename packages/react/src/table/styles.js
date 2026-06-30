@@ -1,10 +1,7 @@
-import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 import { GROUP_VARIANT_HEADER, LAYOUT_TABLE, VARIANT_OUTLINE } from './constants';
 
 const useTableStyle = ({ layout, variant }) => {
-  const [colorMode] = useColorMode();
-
   const layoutStyle = (() => {
     if (layout === LAYOUT_TABLE) {
       return {
@@ -22,10 +19,7 @@ const useTableStyle = ({ layout, variant }) => {
 
   const variantStyle = (() => {
     if (variant === VARIANT_OUTLINE) {
-      const borderColor = {
-        dark: 'gray:70',
-        light: 'gray:30',
-      }[colorMode];
+      const borderColor = 'border.tertiary';
       return {
         border: 1,
         borderColor,
@@ -115,7 +109,6 @@ const useTableRowStyle = ({ groupVariant, layout, role, variant }) => {
 
 const useTableCellStyle = ({ groupVariant, layout, size, variant }) => {
   const theme = useTheme();
-  const [colorMode] = useColorMode();
 
   // HEADER
   if (groupVariant === GROUP_VARIANT_HEADER) {
@@ -131,14 +124,8 @@ const useTableCellStyle = ({ groupVariant, layout, size, variant }) => {
     })();
     const variantStyle = (() => {
       const { sizes } = theme;
-      const borderColor = {
-        dark: 'gray:70',
-        light: 'gray:30',
-      }[colorMode];
-      const color = {
-        dark: 'white:secondary',
-        light: 'black:secondary',
-      }[colorMode];
+      const borderColor = 'border.tertiary';
+      const color = 'text.secondary';
       const px = '3x';
       const py = {
         'sm': '1x',
@@ -195,14 +182,8 @@ const useTableCellStyle = ({ groupVariant, layout, size, variant }) => {
   })();
   const variantStyle = (() => {
     const { sizes } = theme;
-    const borderColor = {
-      dark: 'gray:70',
-      light: 'gray:30',
-    }[colorMode];
-    const color = {
-      dark: 'white:primary',
-      light: 'black:primary',
-    }[colorMode];
+    const borderColor = 'border.tertiary';
+    const color = 'text.primary';
     const px = '3x';
     const py = {
       'sm': '1x',
@@ -246,11 +227,7 @@ const useTableCellStyle = ({ groupVariant, layout, size, variant }) => {
 };
 
 const useTableScrollbarTrackStyle = () => {
-  const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'gray:70',
-    light: 'gray:30',
-  }[colorMode];
+  const backgroundColor = '_component.scrollbar.track.enabled';
 
   return {
     backgroundColor,

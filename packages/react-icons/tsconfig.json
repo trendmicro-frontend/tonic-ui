@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "@types",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.js", "src/**/*.jsx", "src/index.ts"],
+  "exclude": ["node_modules", "__tests__/*", "coverage/*", "dist/**/*"]
+}

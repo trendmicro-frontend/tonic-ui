@@ -20,33 +20,33 @@ exports[`LinkButton should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  color: var(--tonic-colors-blue-40);
+  color: var(--tonic-colors-_link-enabled);
   cursor: pointer;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
 .emotion-1:focus-visible {
-  outline-color: var(--tonic-colors-blue-60);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: 0;
   outline-style: solid;
   outline-width: var(--tonic-sizes-1q);
 }
 
 .emotion-1:visited {
-  color: var(--tonic-colors-purple-50);
+  color: var(--tonic-colors-_link-visited);
 }
 
 .emotion-1:hover,
 .emotion-1[data-hover] {
-  color: var(--tonic-colors-blue-40);
+  color: var(--tonic-colors-_link-hovered);
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
 
 .emotion-1:active,
 .emotion-1[data-active] {
-  color: var(--tonic-colors-blue-60);
+  color: var(--tonic-colors-_link-active);
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
@@ -70,33 +70,33 @@ exports[`LinkButton should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  color: var(--tonic-colors-blue-40);
+  color: var(--tonic-colors-_link-enabled);
   cursor: pointer;
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
 
 .emotion-4:focus-visible {
-  outline-color: var(--tonic-colors-blue-60);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: 0;
   outline-style: solid;
   outline-width: var(--tonic-sizes-1q);
 }
 
 .emotion-4:visited {
-  color: var(--tonic-colors-purple-50);
+  color: var(--tonic-colors-_link-visited);
 }
 
 .emotion-4:hover,
 .emotion-4[data-hover] {
-  color: var(--tonic-colors-blue-40);
+  color: var(--tonic-colors-_link-hovered);
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
 .emotion-4:active,
 .emotion-4[data-active] {
-  color: var(--tonic-colors-blue-60);
+  color: var(--tonic-colors-_link-active);
   -webkit-text-decoration: none;
   text-decoration: none;
 }
@@ -120,33 +120,33 @@ exports[`LinkButton should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  color: var(--tonic-colors-white-secondary);
+  color: var(--tonic-colors-text-secondary);
   cursor: pointer;
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
 
 .emotion-7:focus-visible {
-  outline-color: var(--tonic-colors-blue-60);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: 0;
   outline-style: solid;
   outline-width: var(--tonic-sizes-1q);
 }
 
 .emotion-7:visited {
-  color: var(--tonic-colors-purple-50);
+  color: var(--tonic-colors-_link-visited);
 }
 
 .emotion-7:hover,
 .emotion-7[data-hover] {
-  color: var(--tonic-colors-blue-40);
+  color: var(--tonic-colors-_link-hovered);
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
 
 .emotion-7:active,
 .emotion-7[data-active] {
-  color: var(--tonic-colors-blue-60);
+  color: var(--tonic-colors-_link-active);
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
@@ -170,33 +170,33 @@ exports[`LinkButton should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  color: var(--tonic-colors-blue-40);
+  color: var(--tonic-colors-_link-enabled);
   cursor: pointer;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
 .emotion-10:focus-visible {
-  outline-color: var(--tonic-colors-blue-60);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: 0;
   outline-style: solid;
   outline-width: var(--tonic-sizes-1q);
 }
 
 .emotion-10:visited {
-  color: var(--tonic-colors-purple-50);
+  color: var(--tonic-colors-_link-visited);
 }
 
 .emotion-10:hover,
 .emotion-10[data-hover] {
-  color: var(--tonic-colors-blue-40);
+  color: var(--tonic-colors-_link-hovered);
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
 
 .emotion-10:active,
 .emotion-10[data-active] {
-  color: var(--tonic-colors-blue-60);
+  color: var(--tonic-colors-_link-active);
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
@@ -208,7 +208,7 @@ exports[`LinkButton should render correctly 1`] = `
 .emotion-10[aria-disabled=true]:focus,
 .emotion-10[aria-disabled=true]:hover,
 .emotion-10[data-disabled] {
-  color: var(--tonic-colors-white-disabled);
+  color: var(--tonic-colors-_link-disabled);
   cursor: not-allowed;
 }
 
@@ -231,33 +231,33 @@ exports[`LinkButton should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  color: var(--tonic-colors-blue-40);
+  color: var(--tonic-colors-_link-enabled);
   cursor: pointer;
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
 
 .emotion-13:focus-visible {
-  outline-color: var(--tonic-colors-blue-60);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: 0;
   outline-style: solid;
   outline-width: var(--tonic-sizes-1q);
 }
 
 .emotion-13:visited {
-  color: var(--tonic-colors-purple-50);
+  color: var(--tonic-colors-_link-visited);
 }
 
 .emotion-13:hover,
 .emotion-13[data-hover] {
-  color: var(--tonic-colors-blue-40);
+  color: var(--tonic-colors-_link-hovered);
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
 .emotion-13:active,
 .emotion-13[data-active] {
-  color: var(--tonic-colors-blue-60);
+  color: var(--tonic-colors-_link-active);
   -webkit-text-decoration: none;
   text-decoration: none;
 }
@@ -269,7 +269,7 @@ exports[`LinkButton should render correctly 1`] = `
 .emotion-13[aria-disabled=true]:focus,
 .emotion-13[aria-disabled=true]:hover,
 .emotion-13[data-disabled] {
-  color: var(--tonic-colors-white-disabled);
+  color: var(--tonic-colors-_link-disabled);
   cursor: not-allowed;
 }
 
@@ -292,33 +292,33 @@ exports[`LinkButton should render correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  color: var(--tonic-colors-white-secondary);
+  color: var(--tonic-colors-text-secondary);
   cursor: pointer;
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
 
 .emotion-16:focus-visible {
-  outline-color: var(--tonic-colors-blue-60);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: 0;
   outline-style: solid;
   outline-width: var(--tonic-sizes-1q);
 }
 
 .emotion-16:visited {
-  color: var(--tonic-colors-purple-50);
+  color: var(--tonic-colors-_link-visited);
 }
 
 .emotion-16:hover,
 .emotion-16[data-hover] {
-  color: var(--tonic-colors-blue-40);
+  color: var(--tonic-colors-_link-hovered);
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
 
 .emotion-16:active,
 .emotion-16[data-active] {
-  color: var(--tonic-colors-blue-60);
+  color: var(--tonic-colors-_link-active);
   -webkit-text-decoration: underline;
   text-decoration: underline;
 }
@@ -330,7 +330,7 @@ exports[`LinkButton should render correctly 1`] = `
 .emotion-16[aria-disabled=true]:focus,
 .emotion-16[aria-disabled=true]:hover,
 .emotion-16[data-disabled] {
-  color: var(--tonic-colors-white-disabled);
+  color: var(--tonic-colors-_link-disabled);
   cursor: not-allowed;
 }
 

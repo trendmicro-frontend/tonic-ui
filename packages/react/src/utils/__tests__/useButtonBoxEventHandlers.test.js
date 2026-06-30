@@ -1,6 +1,7 @@
 import { screen, fireEvent } from '@testing-library/react';
 import { Box } from '@tonic-ui/react/src';
 import { render } from '@tonic-ui/react/test-utils/render';
+import React from 'react';
 import useButtonBoxEventHandlers from '../useButtonBoxEventHandlers';
 
 function TestButtonBox({ disabled, onActivate }) {
@@ -85,7 +86,7 @@ describe('useButtonBoxEventHandlers', () => {
     expect(onActivate).not.toHaveBeenCalled();
   });
 
-  test('does not call onActivate on Space key when disabled (keyUp)', () => {
+  test('does not call onActivate on Space key when disabled', () => {
     const onActivate = jest.fn();
     render(<TestButtonBox disabled onActivate={onActivate} />);
     fireEvent.keyUp(screen.getByRole('button'), { key: ' ', repeat: false });

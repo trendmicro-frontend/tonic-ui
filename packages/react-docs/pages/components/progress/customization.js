@@ -6,37 +6,7 @@ import {
   LinearProgress,
   Stack,
   TextLabel,
-  useTheme,
 } from '@tonic-ui/react';
-
-const GradientCircularProgress = (props) => {
-  const theme = useTheme();
-  const stopColors = [
-    theme.colors?.['blue:60'],
-    theme.colors?.['teal:40'],
-  ];
-
-  return (
-    <Box>
-      <svg width={0} height={0}>
-        <defs>
-          <linearGradient id="my_linear_gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor={stopColors[0]} />
-            <stop offset="100%" stopColor={stopColors[1]} />
-          </linearGradient>
-        </defs>
-      </svg>
-      <CircularProgress
-        sx={{
-          'svg circle:last-of-type': {
-            stroke: 'url(#my_linear_gradient)',
-          },
-        }}
-        {...props}
-      />
-    </Box>
-  );
-}
 
 const App = () => {
   const width = 320;
@@ -59,7 +29,6 @@ const App = () => {
           >
             <CircularProgress
               variant="indeterminate"
-              color="blue:60"
               size={80}
               thickness={4}
             />
@@ -72,7 +41,7 @@ const App = () => {
           >
             <CircularProgress
               variant="indeterminate"
-              color="teal:40"
+              color="teal.400"
               size={80}
               thickness={4}
             />
@@ -82,14 +51,13 @@ const App = () => {
           <Flex alignItems="center" height="5x">
             <LinearProgress
               variant="indeterminate"
-              color="blue:60"
               width="100%"
             />
           </Flex>
           <Flex alignItems="center" height="5x">
             <LinearProgress
               variant="indeterminate"
-              color="teal:40"
+              color="teal.400"
               width="100%"
             />
           </Flex>
@@ -112,7 +80,6 @@ const App = () => {
           >
             <CircularProgress
               variant="determinate"
-              color="blue:60"
               value={40}
               size={80}
             />
@@ -136,7 +103,7 @@ const App = () => {
           >
             <CircularProgress
               variant="determinate"
-              color="teal:40"
+              color="teal.400"
               value={60}
               size={80}
             />
@@ -157,7 +124,6 @@ const App = () => {
           <Flex alignItems="center" columnGap="3x">
             <LinearProgress
               variant="determinate"
-              color="blue:60"
               value={40}
               width="100%"
             />
@@ -166,28 +132,13 @@ const App = () => {
           <Flex alignItems="center" columnGap="3x">
             <LinearProgress
               variant="determinate"
-              color="teal:40"
+              color="teal.400"
               value={60}
               width="100%"
             />
             <TextLabel>60%</TextLabel>
           </Flex>
         </Box>
-      </Stack>
-      <Divider my="4x" />
-      <Stack spacing="4x">
-        <TextLabel>Gradient</TextLabel>
-        <Box>
-          <GradientCircularProgress size={80} />
-        </Box>
-        <Flex alignItems="center" height="5x">
-          <LinearProgress
-            variant="determinate"
-            color={['blue:60', 'teal:40']}
-            value={100}
-            width="100%"
-          />
-        </Flex>
       </Stack>
     </Box>
   );

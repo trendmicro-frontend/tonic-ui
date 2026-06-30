@@ -1,10 +1,7 @@
-import { Button, Flex, Grid, Space, Stack, Text, TextLabel, useColorMode, useColorStyle, useTheme } from '@tonic-ui/react';
+import { Button, Flex, Grid, Space, Stack, Text, TextLabel, useColorMode, useTheme } from '@tonic-ui/react';
 import { useState } from 'react';
 
 const Block = (props) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-
   return (
     <Flex
       px="4x"
@@ -12,7 +9,7 @@ const Block = (props) => {
       alignItems="flex-start"
       justifyContent="center"
       flexDirection="column"
-      backgroundColor={colorStyle.background.secondary}
+      backgroundColor="background.high"
       {...props}
     />
   );
@@ -28,8 +25,8 @@ const App = () => {
   const borderStyle = 'solid';
   const borderWidths = ['thin', 'medium', 'thick'];
   const [borderWidth, setBorderWidth] = useState(borderWidths[0]);
-  const borderValue = theme.borders[borderWidth] || borderWidth;
-  const borderColorValue = theme.colors[borderColor] || borderColor;
+  const borderValue = theme.get('borders.' + borderWidth) || borderWidth;
+  const borderColorValue = theme.get('colors.' + borderColor) || borderColor;
 
   return (
     <>
@@ -58,45 +55,45 @@ const App = () => {
           borderColor={borderColor}
           borderStyle={borderStyle}
         >
-          <Text>border="{borderValue}"</Text>
-          <Text>borderColor="{borderColorValue}"</Text>
-          <Text>borderStyle="{borderStyle}"</Text>
+          <Text>border={borderValue}</Text>
+          <Text>borderColor={borderColorValue}</Text>
+          <Text>borderStyle={borderStyle}</Text>
         </Block>
         <Block
           borderTop={borderWidth}
           borderTopColor={borderColor}
           borderTopStyle={borderStyle}
         >
-          <Text>borderTop="{borderValue}"</Text>
-          <Text>borderTopColor="{borderColorValue}"</Text>
-          <Text>borderTopStyle="{borderStyle}"</Text>
+          <Text>borderTop={borderValue}</Text>
+          <Text>borderTopColor={borderColorValue}</Text>
+          <Text>borderTopStyle={borderStyle}</Text>
         </Block>
         <Block
           borderRight={borderWidth}
           borderRightColor={borderColor}
           borderRightStyle={borderStyle}
         >
-          <Text>borderRight="{borderValue}"</Text>
-          <Text>borderRightColor="{borderColorValue}"</Text>
-          <Text>borderRightStyle="{borderStyle}"</Text>
+          <Text>borderRight={borderValue}</Text>
+          <Text>borderRightColor={borderColorValue}</Text>
+          <Text>borderRightStyle={borderStyle}</Text>
         </Block>
         <Block
           borderBottom={borderWidth}
           borderBottomColor={borderColor}
           borderBottomStyle={borderStyle}
         >
-          <Text>borderBottom="{borderValue}"</Text>
-          <Text>borderBottomColor="{borderColorValue}"</Text>
-          <Text>borderBottomStyle="{borderStyle}"</Text>
+          <Text>borderBottom={borderValue}</Text>
+          <Text>borderBottomColor={borderColorValue}</Text>
+          <Text>borderBottomStyle={borderStyle}</Text>
         </Block>
         <Block
           borderLeft={borderWidth}
           borderLeftColor={borderColor}
           borderLeftStyle={borderStyle}
         >
-          <Text>borderLeft="{borderValue}"</Text>
-          <Text>borderLeftColor="{borderColorValue}"</Text>
-          <Text>borderLeftStyle="{borderStyle}"</Text>
+          <Text>borderLeft={borderValue}</Text>
+          <Text>borderLeftColor={borderColorValue}</Text>
+          <Text>borderLeftStyle={borderStyle}</Text>
         </Block>
       </Grid>
     </>

@@ -7,8 +7,6 @@ import {
   Stack,
   Text,
   Toast,
-  useColorMode,
-  useColorStyle,
   useToastManager,
 } from '@tonic-ui/react';
 import { forwardRef } from 'react';
@@ -17,23 +15,6 @@ const ActionButton = forwardRef((props, ref) => (
   <Button
     ref={ref}
     variant="secondary"
-    borderColor="black:primary"
-    color="black:primary"
-    sx={{
-      ':active': {
-        color: 'black:primary',
-      },
-      ':focus': {
-        color: 'black:primary',
-      },
-      ':hover': {
-        background: 'rgba(0, 0, 0, 0.12)',
-        color: 'black:primary',
-      },
-      ':hover:not(:focus)': {
-        boxShadow: 'none',
-      },
-    }}
     {...props}
   />
 ));
@@ -49,7 +30,7 @@ const ToastWithIcon = ({ onClose }) => (
   <Toast isClosable onClose={onClose} py="4x">
     <Flex alignItems="flex-start">
       <Box
-        bg="gray:40"
+        bg="gray.400"
         height={48}
         minWidth={48}
       />
@@ -104,7 +85,7 @@ const ToastWithAllTogether = ({ onClose }) => (
     </Box>
     <Flex alignItems="flex-start" mb="6x">
       <Box
-        bg="gray:40"
+        bg="gray.400"
         height={48}
         minWidth={48}
       />
@@ -123,9 +104,7 @@ const ToastWithAllTogether = ({ onClose }) => (
 );
 
 const ToastLayout = (props) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const boxShadow = colorStyle.shadow.thin;
+  const boxShadow = 'down.high';
 
   return (
     <Box

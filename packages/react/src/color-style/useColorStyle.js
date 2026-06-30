@@ -1,16 +1,16 @@
+import { ColorModeContext } from '@tonic-ui/react-base/internal';
 import { ensurePlainObject } from 'ensure-type';
 import { useCallback, useContext } from 'react';
-import { ColorModeContext } from '../color-mode/context';
 import { ColorStyleContext } from './context';
 
+/**
+ * @param {{ colorMode?: string }} [options] - Options for the hook.
+ * @returns {[{ [key: string]: string }, (value: { [key: string]: string } | ((prevStyle: { [colorMode: string]: { [key: string]: string } }) => { [key: string]: string })) => void]} A tuple of [colorStyle, setColorStyle].
+ */
 const useColorStyle = (options) => {
   const { colorMode: specifiedColorMode } = ensurePlainObject(options);
   const { colorMode: currentColorMode } = ensurePlainObject(useContext(ColorModeContext));
   const colorMode = specifiedColorMode ?? currentColorMode;
-
-  if (!useContext) {
-    throw new Error('The `useContext` hook is not available with your React version.');
-  }
 
   const context = useContext(ColorStyleContext);
   if (context === undefined) {

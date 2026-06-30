@@ -21,7 +21,7 @@ exports[`LinearProgress renders correctly 1`] = `
 .emotion-0 {
   position: relative;
   overflow: hidden;
-  background-color: rgba(255, 255, 255, 0.12);
+  background-color: var(--tonic-colors-_overlay-thin);
   height: var(--tonic-sizes-1x);
 }
 
@@ -30,7 +30,7 @@ exports[`LinearProgress renders correctly 1`] = `
   inset: 0;
   -webkit-animation: animation-0 1.6s linear .5s infinite;
   animation: animation-0 1.6s linear .5s infinite;
-  background: #1e5ede;
+  background: #014bd4;
   -webkit-transition: all 200ms linear;
   transition: all 200ms linear;
 }

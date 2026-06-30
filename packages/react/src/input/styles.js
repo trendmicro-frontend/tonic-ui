@@ -1,6 +1,5 @@
 import { sx } from '@tonic-ui/styled-system';
 import { createTransitionStyle } from '@tonic-ui/utils';
-import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 import {
   VARIANT_OUTLINE,
@@ -9,49 +8,30 @@ import {
   VARIANT_UNSTYLED,
 } from './constants';
 
+const color = 'text.primary';
+const disabledColor = 'text.disabled';
+const borderColor = 'border._primary.enabled';
+const hoverBorderColor = 'border._primary.hovered';
+const focusBorderColor = 'border._primary.focused';
+const disabledBorderColor = 'border._primary.disabled';
+const invalidBorderColor = 'border._negative.enabled';
+
+const backgroundColor = '_foreground.subtle.enabled';
+const hoverBackgroundColor = '_foreground.subtle.hovered';
+const disabledBackgroundColor = '_foreground.subtle.disabled';
+
+const placeholderColor = 'text.tertiary';
+
 /**
  * Input
  */
 
-const getInputOutlineStyle = ({
-  colorMode,
-}) => {
-  const backgroundColor = {
-    dark: 'transparent',
-    light: 'white',
-  }[colorMode];
-  const borderColor = {
-    dark: 'gray:60',
-    light: 'gray:30',
-  }[colorMode];
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-  const hoverBorderColor = {
-    dark: 'blue:50',
-    light: 'blue:50',
-  }[colorMode];
-  const focusBorderColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-  const disabledBorderColor = {
-    dark: 'gray:60',
-    light: 'gray:30',
-  }[colorMode];
-  const invalidBorderColor = {
-    dark: 'red:50',
-    light: 'red:60',
-  }[colorMode];
-  const placeholderColor = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
+const getInputOutlineStyle = () => {
   const _disabledStyle = {
+    color: disabledColor,
+    backgroundColor: disabledBackgroundColor,
     borderColor: disabledBorderColor,
     cursor: 'not-allowed',
-    opacity: '.28',
   };
   const _focusStyle = {
     borderColor: focusBorderColor,
@@ -60,6 +40,7 @@ const getInputOutlineStyle = ({
   };
   const _hoverStyle = {
     borderColor: hoverBorderColor,
+    backgroundColor: hoverBackgroundColor,
     // Use a higher z-index value to bring overlapping border to front when hovered
     zIndex: 2,
   };
@@ -87,7 +68,12 @@ const getInputOutlineStyle = ({
     borderColor,
     borderRadius: 'sm',
     color,
-    _disabled: _disabledStyle,
+    _disabled: {
+      ...(_disabledStyle),
+      __placeholder: {
+        color: disabledColor,
+      },
+    },
     _focus: _focusStyle,
     _hover: _hoverStyle,
     _invalid: _invalidStyle,
@@ -96,59 +82,26 @@ const getInputOutlineStyle = ({
   };
 };
 
-const getInputFilledStyle = ({
-  colorMode,
-}) => {
-  const backgroundColor = {
-    dark: 'gray:80',
-    light: 'gray:10',
-  }[colorMode];
+const getInputFilledStyle = () => {
+  const outlineStyle = getInputOutlineStyle();
+  const backgroundColor = '_foreground.secondary.enabled';
 
   return {
-    ...getInputOutlineStyle({ colorMode }),
+    ...outlineStyle,
     backgroundColor,
+    _hover: {
+      ...outlineStyle._hover,
+      backgroundColor,
+    }
   };
 };
 
-const getInputFlushStyle = ({
-  colorMode,
-}) => {
-  const backgroundColor = {
-    dark: 'transparent',
-    light: 'white',
-  }[colorMode];
-  const borderColor = {
-    dark: 'gray:60',
-    light: 'gray:30',
-  }[colorMode];
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-  const hoverBorderColor = {
-    dark: 'blue:50',
-    light: 'blue:50',
-  }[colorMode];
-  const focusBorderColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-  const disabledBorderColor = {
-    dark: 'gray:60',
-    light: 'gray:30',
-  }[colorMode];
-  const invalidBorderColor = {
-    dark: 'red:50',
-    light: 'red:60',
-  }[colorMode];
-  const placeholderColor = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
+const getInputFlushStyle = () => {
   const _disabledStyle = {
+    color: disabledColor,
+    backgroundColor: disabledBackgroundColor,
     borderBottomColor: disabledBorderColor,
     cursor: 'not-allowed',
-    opacity: '.28',
   };
   const _focusStyle = {
     borderBottomColor: focusBorderColor,
@@ -183,7 +136,12 @@ const getInputFlushStyle = ({
     borderBottom: 1,
     borderBottomColor: borderColor,
     color,
-    _disabled: _disabledStyle,
+    _disabled: {
+      ...(_disabledStyle),
+      __placeholder: {
+        color: disabledColor,
+      },
+    },
     _focus: _focusStyle,
     _hover: _hoverStyle,
     _invalid: _invalidStyle,
@@ -192,18 +150,7 @@ const getInputFlushStyle = ({
   };
 };
 
-const getInputUnstyledStyle = ({
-  colorMode,
-}) => {
-  const backgroundColor = {
-    dark: 'transparent',
-    light: 'white',
-  }[colorMode];
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-
+const getInputUnstyledStyle = () => {
   return {
     backgroundColor,
     border: 0,
@@ -211,24 +158,21 @@ const getInputUnstyledStyle = ({
   };
 };
 
-const getInputVariantStyle = ({
-  colorMode,
-  variant,
-}) => {
+const getInputVariantStyle = variant => {
   if (variant === VARIANT_OUTLINE) {
-    return getInputOutlineStyle({ colorMode });
+    return getInputOutlineStyle();
   }
 
   if (variant === VARIANT_FILLED) {
-    return getInputFilledStyle({ colorMode });
+    return getInputFilledStyle();
   }
 
   if (variant === VARIANT_FLUSH) {
-    return getInputFlushStyle({ colorMode });
+    return getInputFlushStyle();
   }
 
   if (variant === VARIANT_UNSTYLED) {
-    return getInputUnstyledStyle({ colorMode });
+    return getInputUnstyledStyle();
   }
 
   return {};
@@ -238,46 +182,12 @@ const getInputVariantStyle = ({
  * InputControl
  */
 
-const getInputControlOutlineStyle = ({
-  colorMode,
-  inputState,
-}) => {
-  const backgroundColor = {
-    dark: 'transparent',
-    light: 'white',
-  }[colorMode];
-  const borderColor = {
-    dark: 'gray:60',
-    light: 'gray:30',
-  }[colorMode];
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-  const hoverBorderColor = {
-    dark: 'blue:50',
-    light: 'blue:50',
-  }[colorMode];
-  const focusBorderColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-  const disabledBorderColor = {
-    dark: 'gray:60',
-    light: 'gray:30',
-  }[colorMode];
-  const invalidBorderColor = {
-    dark: 'red:50',
-    light: 'red:60',
-  }[colorMode];
-  const placeholderColor = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
+const getInputControlOutlineStyle = inputState => {
   const _disabledStyle = {
+    color: disabledColor,
+    backgroundColor: disabledBackgroundColor,
     borderColor: disabledBorderColor,
     cursor: 'not-allowed',
-    opacity: '.28',
   };
   const _focusStyle = {
     borderColor: focusBorderColor,
@@ -312,6 +222,9 @@ const getInputControlOutlineStyle = ({
         _invalid: undefined,
         _valid: undefined,
         ..._disabledStyle,
+        __placeholder: {
+          color: disabledColor,
+        },
       };
     }
 
@@ -327,7 +240,12 @@ const getInputControlOutlineStyle = ({
     borderColor,
     borderRadius: 'sm',
     color,
-    _disabled: _disabledStyle,
+    _disabled: {
+      ...(_disabledStyle),
+      __placeholder: {
+        color: disabledColor,
+      },
+    },
     _focus: _focusStyle,
     _hover: _hoverStyle,
     _invalid: _invalidStyle,
@@ -339,61 +257,26 @@ const getInputControlOutlineStyle = ({
   };
 };
 
-const getInputControlFilledStyle = ({
-  colorMode,
-  inputState,
-}) => {
-  const backgroundColor = {
-    dark: 'gray:80',
-    light: 'gray:10',
-  }[colorMode];
+const getInputControlFilledStyle = inputState => {
+  const outlineStyle = getInputControlOutlineStyle(inputState);
+  const backgroundColor = '_foreground.secondary.enabled';
 
   return {
-    ...getInputControlOutlineStyle({ colorMode, inputState }),
+    ...outlineStyle,
     backgroundColor,
+    _hover: {
+      ...outlineStyle._hover,
+      backgroundColor,
+    }
   };
 };
 
-const getInputControlFlushStyle = ({
-  colorMode,
-  inputState,
-}) => {
-  const backgroundColor = {
-    dark: 'transparent',
-    light: 'white',
-  }[colorMode];
-  const borderColor = {
-    dark: 'gray:60',
-    light: 'gray:30',
-  }[colorMode];
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-  const hoverBorderColor = {
-    dark: 'blue:50',
-    light: 'blue:50',
-  }[colorMode];
-  const focusBorderColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-  const disabledBorderColor = {
-    dark: 'gray:60',
-    light: 'gray:30',
-  }[colorMode];
-  const invalidBorderColor = {
-    dark: 'red:50',
-    light: 'red:60',
-  }[colorMode];
-  const placeholderColor = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
+const getInputControlFlushStyle = inputState => {
   const _disabledStyle = {
+    color: disabledColor,
+    backgroundColor: disabledBackgroundColor,
     borderBottomColor: disabledBorderColor,
     cursor: 'not-allowed',
-    opacity: '.28',
   };
   const _focusStyle = {
     borderBottomColor: focusBorderColor,
@@ -428,6 +311,9 @@ const getInputControlFlushStyle = ({
         _invalid: undefined,
         _valid: undefined,
         ..._disabledStyle,
+        __placeholder: {
+          color: disabledColor,
+        },
       };
     }
 
@@ -442,7 +328,12 @@ const getInputControlFlushStyle = ({
     borderBottom: 1,
     borderBottomColor: borderColor,
     color,
-    _disabled: _disabledStyle,
+    _disabled: {
+      ...(_disabledStyle),
+      __placeholder: {
+        color: disabledColor,
+      },
+    },
     _focus: _focusStyle,
     _hover: _hoverStyle,
     _invalid: _invalidStyle,
@@ -454,19 +345,7 @@ const getInputControlFlushStyle = ({
   };
 };
 
-const getInputControlUnstyledStyle = ({
-  colorMode,
-  inputState,
-}) => {
-  const backgroundColor = {
-    dark: 'transparent',
-    light: 'white',
-  }[colorMode];
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-
+const getInputControlUnstyledStyle = inputState => {
   return {
     backgroundColor,
     border: 0,
@@ -475,24 +354,23 @@ const getInputControlUnstyledStyle = ({
 };
 
 const getInputControlVariantStyle = ({
-  colorMode,
   inputState,
   variant,
 }) => {
   if (variant === VARIANT_OUTLINE) {
-    return getInputControlOutlineStyle({ colorMode, inputState });
+    return getInputControlOutlineStyle(inputState);
   }
 
   if (variant === VARIANT_FILLED) {
-    return getInputControlFilledStyle({ colorMode, inputState });
+    return getInputControlFilledStyle(inputState);
   }
 
   if (variant === VARIANT_FLUSH) {
-    return getInputControlFlushStyle({ colorMode, inputState });
+    return getInputControlFlushStyle(inputState);
   }
 
   if (variant === VARIANT_UNSTYLED) {
-    return getInputControlUnstyledStyle({ colorMode, inputState });
+    return getInputControlUnstyledStyle(inputState);
   }
 
   return {};
@@ -502,18 +380,7 @@ const getInputControlVariantStyle = ({
  * InputGroup
  */
 
-const getInputGroupAddonOutlineStyle = ({
-  colorMode,
-}) => {
-  const borderColor = {
-    dark: 'gray:60',
-    light: 'gray:30',
-  }[colorMode];
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-
+const getInputGroupAddonOutlineStyle = () => {
   return {
     border: 1,
     borderColor,
@@ -522,28 +389,17 @@ const getInputGroupAddonOutlineStyle = ({
   };
 };
 
-const getInputGroupAddonFilledStyle = ({
-  colorMode,
-}) => {
-  const backgroundColor = {
-    dark: 'gray:80',
-    light: 'gray:10',
-  }[colorMode];
+const getInputGroupAddonFilledStyle = () => {
+  const backgroundColor = '_foreground.secondary.enabled';
 
   return {
-    ...getInputGroupAddonOutlineStyle({ colorMode }),
+    ...getInputGroupAddonOutlineStyle(),
     backgroundColor,
   };
 };
 
-const getInputGroupAddonFlushStyle = ({
-  colorMode,
-}) => {
+const getInputGroupAddonFlushStyle = () => {
   const borderColor = 'transparent';
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
 
   return {
     borderBottom: 1,
@@ -552,14 +408,7 @@ const getInputGroupAddonFlushStyle = ({
   };
 };
 
-const getInputGroupAddonUnstyledStyle = ({
-  colorMode,
-}) => {
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-
+const getInputGroupAddonUnstyledStyle = () => {
   return {
     border: 0,
     borderRadius: 0,
@@ -567,24 +416,21 @@ const getInputGroupAddonUnstyledStyle = ({
   };
 };
 
-const getInputGroupAddonVariantStyle = ({
-  colorMode,
-  variant,
-}) => {
+const getInputGroupAddonVariantStyle = variant => {
   if (variant === VARIANT_OUTLINE) {
-    return getInputGroupAddonOutlineStyle({ colorMode });
+    return getInputGroupAddonOutlineStyle();
   }
 
   if (variant === VARIANT_FILLED) {
-    return getInputGroupAddonFilledStyle({ colorMode });
+    return getInputGroupAddonFilledStyle();
   }
 
   if (variant === VARIANT_FLUSH) {
-    return getInputGroupAddonFlushStyle({ colorMode });
+    return getInputGroupAddonFlushStyle();
   }
 
   if (variant === VARIANT_UNSTYLED) {
-    return getInputGroupAddonUnstyledStyle({ colorMode });
+    return getInputGroupAddonUnstyledStyle();
   }
 
   return {};
@@ -594,7 +440,6 @@ const useInputStyle = ({
   size,
   variant,
 }) => {
-  const [colorMode] = useColorMode();
   const { sizes } = useTheme();
   const baseStyle = {
     position: 'relative',
@@ -636,7 +481,7 @@ const useInputStyle = ({
 
     return _style;
   })();
-  const variantStyle = getInputVariantStyle({ colorMode, variant });
+  const variantStyle = getInputVariantStyle(variant);
 
   return {
     ...baseStyle,
@@ -697,7 +542,6 @@ const useInputGroupAddonStyle = ({
   size,
   variant,
 }) => {
-  const [colorMode] = useColorMode();
   const { sizes } = useTheme();
   const baseStyle = {
     position: 'relative',
@@ -738,7 +582,7 @@ const useInputGroupAddonStyle = ({
 
     return _style;
   })();
-  const variantStyle = getInputGroupAddonVariantStyle({ colorMode, variant });
+  const variantStyle = getInputGroupAddonVariantStyle(variant);
 
   return {
     ...baseStyle,
@@ -794,16 +638,6 @@ const useInputGroupPrependStyle = () => {
 };
 
 const useInputControlBaseCSS = ({ variant }) => {
-  const [colorMode] = useColorMode();
-  const focusBorderColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-  const invalidBorderColor = {
-    dark: 'red:50',
-    light: 'red:60',
-  }[colorMode];
-
   const borderKey = {
     [VARIANT_OUTLINE]: 'border',
     [VARIANT_FILLED]: 'border',
@@ -835,7 +669,6 @@ const useInputControlBaseStyle = ({
   size,
   variant,
 }) => {
-  const [colorMode] = useColorMode();
   const baseStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -869,7 +702,7 @@ const useInputControlBaseStyle = ({
 
     return _style;
   })();
-  const variantStyle = getInputControlVariantStyle({ colorMode, inputState, variant });
+  const variantStyle = getInputControlVariantStyle({ inputState, variant });
 
   return {
     ...baseStyle,

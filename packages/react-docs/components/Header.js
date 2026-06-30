@@ -13,7 +13,6 @@ import {
   Space,
   Text,
   useColorMode,
-  useColorStyle,
   usePortalManager,
 } from '@tonic-ui/react';
 import {
@@ -25,44 +24,43 @@ import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
 import { forwardRef, useCallback, useEffect } from 'react';
 import useTrack from '../hooks/useTrack';
-import CodeSandboxIcon from '../icons/CodeSandboxIcon';
 import GitHubIcon from '../icons/GitHubIcon';
-import { open as openInCodeSandbox } from '../sandbox/codesandbox';
 import persistColorMode from '../utils/persist-color-mode';
 import SearchButton from './SearchButton';
 import InstantSearchModal from './InstantSearchModal';
 
 const BASE_PATH = ensureString(process.env.TONIC_UI_REACT_DOCS_BASE_PATH);
 
-const GITHUB_REPO_URL = 'https://github.com/trendmicro-frontend/tonic-ui';
+const GITHUB_REPO_URL = 'https://adc.github.trendmicro.com/trend-common-platform/tonic-ui';
+
+const TONIC_UI_REACT_DOCS_URL = ensureString(process.env.TONIC_UI_REACT_DOCS_URL);
 
 // The TONIC_UI_REACT_DOCS_VERSION environment variable might be one of: latest, pr-<number>, or version (e.g. 0.1.0) for a tag release
 const TONIC_UI_REACT_DOCS_VERSION = ensureString(process.env.TONIC_UI_REACT_DOCS_VERSION);
 
-const versionMap = {
-  'v2': {
-    label: 'v2',
-    url: ensureString(process.env.TONIC_UI_V2_DOCUMENTATION),
-  },
-  'v1': {
-    label: 'v1',
-    url: ensureString(process.env.TONIC_UI_V1_DOCUMENTATION),
-  },
-  'v0': {
-    label: 'v0',
-    url: ensureString(process.env.TONIC_UI_V0_DOCUMENTATION),
-  },
-};
+// Available version labels from environment (e.g., "v3 v4")
+const TONIC_UI_VERSION_LABELS = ensureString(process.env.TONIC_UI_VERSION_LABELS);
+
+// Build version map from labels
+const versionMap = Object.fromEntries(
+  ensureString(TONIC_UI_VERSION_LABELS).split(/\s+/).map(versionLabel => [
+    versionLabel,
+    {
+      label: versionLabel,
+      url: `${TONIC_UI_REACT_DOCS_URL}/${versionLabel}/getting-started`,
+    },
+  ])
+);
 
 const Header = forwardRef((
   {
     onToggle,
+    onColorModeChange,
     ...rest
   },
   ref,
 ) => {
   const [colorMode, toggleColorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
   const portal = usePortalManager();
   const track = useTrack();
 
@@ -91,12 +89,6 @@ const Header = forwardRef((
     });
   }, [portal, track]);
 
-  const handleClickOpenInCodeSandbox = () => {
-    openInCodeSandbox({
-      title: 'Tonic UI',
-    });
-  };
-
   useEffect(() => {
     persistColorMode(colorMode);
   }, [colorMode]);
@@ -104,14 +96,6 @@ const Header = forwardRef((
   const logo = {
     light: 'tonic-logo-light.svg',
     dark: 'tonic-logo-dark.svg',
-  }[colorMode];
-  const boxShadowColor = {
-    light: 'rgba(0, 0, 0, 0.12)',
-    dark: 'rgba(255, 255, 255, 0.12)',
-  }[colorMode];
-  const focusVisibleOutlineColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
   }[colorMode];
 
   return (
@@ -124,8 +108,10 @@ const Header = forwardRef((
       height="12x"
       width="100%"
       backdropFilter="blur(20px)"
-      backgroundColor={colorStyle.background.primary}
-      boxShadow={`0px -1px 1px inset ${boxShadowColor}`}
+      backgroundColor="background.high"
+      borderBottom={1}
+      borderBottomColor="border.subtle"
+      boxShadow="down.medium"
       {...rest}
     >
       <Box
@@ -159,9 +145,10 @@ const Header = forwardRef((
             }}
           >
             <NextLink href="/" legacyBehavior passHref>
+              { }
               <Link
                 data-track="Header|click_landing_page"
-                color={colorStyle.color.primary}
+                color="text.primary"
                 fontSize="xl"
                 lineHeight="lg"
                 outline="none"
@@ -169,13 +156,13 @@ const Header = forwardRef((
                 py="2x"
                 textDecoration="none"
                 _active={{
-                  color: colorStyle.color.emphasis,
+                  color: 'text.accent',
                 }}
                 _hover={{
-                  color: colorStyle.color.emphasis,
+                  color: 'text.accent',
                 }}
                 _visited={{
-                  color: colorStyle.color.primary,
+                  color: 'text.primary',
                 }}
               >
                 <Flex alignItems="center" columnGap="2x">
@@ -250,30 +237,6 @@ const Header = forwardRef((
             </Menu>
           </Box>
           <ButtonBase
-            data-track="Header|click_codesandbox"
-            onClick={() => handleClickOpenInCodeSandbox()}
-            title="Open in CodeSandbox"
-            sx={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: colorStyle.color.secondary,
-              width: '8x',
-              height: '8x',
-              _hover: {
-                color: colorStyle.color.primary,
-                cursor: 'pointer',
-              },
-              _focusVisible: {
-                outlineColor: focusVisibleOutlineColor,
-                outlineStyle: 'solid',
-                outlineWidth: '1h',
-              },
-            }}
-          >
-            <CodeSandboxIcon size="6x" />
-          </ButtonBase>
-          <ButtonBase
             data-track={`Header|click_toggle_color_mode|${colorMode === 'light' ? 'dark' : 'light'}`}
             onClick={() => toggleColorMode()}
             title="Toggle color mode"
@@ -281,15 +244,15 @@ const Header = forwardRef((
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: colorStyle.color.secondary,
+              color: 'text.secondary',
               width: '8x',
               height: '8x',
               _hover: {
-                color: colorStyle.color.primary,
+                color: 'text.primary',
                 cursor: 'pointer',
               },
               _focusVisible: {
-                outlineColor: focusVisibleOutlineColor,
+                outlineColor: '_component.keyboardFocused.outerFocusRing',
                 outlineStyle: 'solid',
                 outlineWidth: '1h',
               },
@@ -310,15 +273,15 @@ const Header = forwardRef((
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: colorStyle.color.secondary,
+              color: 'text.secondary',
               width: '8x',
               height: '8x',
               _hover: {
-                color: colorStyle.color.primary,
+                color: 'text.primary',
                 cursor: 'pointer',
               },
               _focusVisible: {
-                outlineColor: focusVisibleOutlineColor,
+                outlineColor: '_component.keyboardFocused.outerFocusRing',
                 outlineStyle: 'solid',
                 outlineWidth: '1h',
               },

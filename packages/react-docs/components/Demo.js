@@ -1,31 +1,13 @@
-import {
-  Box,
-  Button,
-  Collapse,
-  Fade,
-  Flex,
-  Tooltip,
-  useColorMode,
-  useTheme,
-} from '@tonic-ui/react';
-import {
-  useToggle,
-} from '@tonic-ui/react-hooks';
-import {
-  CodeIcon,
-  FileCopyOIcon,
-  RedoIcon,
-} from '@tonic-ui/react-icons';
-import {
-  merge,
-} from '@tonic-ui/utils';
+import { Box, Button, Collapse, Fade, Flex, Tooltip, useColorMode, useTheme } from '@tonic-ui/react';
+import { useToggle } from '@tonic-ui/react-hooks';
+import { merge } from '@tonic-ui/utils';
+import { CodeIcon, FileCopyOIcon, RedoIcon } from '@tonic-ui/react-icons';
 import { useRouter } from 'next/router';
 import { themes } from 'prism-react-renderer'
 import { Fragment, useEffect, useCallback, useReducer } from 'react';
 import { LiveProvider, LiveEditor } from 'react-live';
 import useClipboard from '../hooks/useClipboard';
-import CodeSandboxIcon from '../icons/CodeSandboxIcon';
-import { open as openInCodeSandbox } from '../sandbox/codesandbox';
+import FigmaIcon from '../icons/FigmaIcon';
 import x from '../utils/json-stringify';
 import IconButton from './IconButton';
 
@@ -35,6 +17,7 @@ const Demo = ({
   expanded,
   file,
   sandbox,
+  figmaLink,
   ...rest
 }) => {
   const router = useRouter();
@@ -59,16 +42,13 @@ const Demo = ({
   }[colorMode];
   const [showSourceCode, toggleShowSourceCode] = useToggle(expanded ?? defaultExpanded);
   const { onCopy, hasCopied } = useClipboard(file?.data);
-  const handleClickEditInCodeSandbox = useCallback(() => {
-    openInCodeSandbox(sandbox);
-  }, [sandbox]);
   const reset = useCallback(() => {
     forceUpdate();
     toggleShowSourceCode(false);
   }, [forceUpdate, toggleShowSourceCode]);
 
   useEffect(() => {
-    const isControlled = (expanded !== undefined);
+    const isControlled = expanded !== undefined;
     if (isControlled && expanded !== showSourceCode) {
       toggleShowSourceCode(expanded);
     }
@@ -76,12 +56,7 @@ const Demo = ({
 
   if (!Component) {
     return (
-      <LiveProvider
-        code={file?.data}
-        disabled={true}
-        language="jsx"
-        theme={liveProviderTheme}
-      >
+      <LiveProvider code={file?.data} disabled={true} language="jsx" theme={liveProviderTheme}>
         <Box
           as={LiveEditor}
           sx={{
@@ -97,35 +72,21 @@ const Demo = ({
   }
 
   return (
-    <LiveProvider
-      code={file?.data}
-      disabled={true}
-      language="jsx"
-      theme={liveProviderTheme}
-    >
-      <Box
-        border={1}
-        borderColor={borderColor}
-        p="4x"
-      >
-        <Box
-          fontSize="sm"
-          lineHeight="sm"
-        >
+    <LiveProvider code={file?.data} disabled={true} language="jsx" theme={liveProviderTheme}>
+      <Box border={1} borderColor={borderColor} p="4x">
+        <Box fontSize="sm" lineHeight="sm">
           <Fragment key={updateKey}>
             <Component />
           </Fragment>
         </Box>
       </Box>
-      <Flex
-        columnGap="2x"
-        justifyContent="flex-end"
-        mb="4x"
-      >
+      <Flex columnGap="2x" justifyContent="flex-end" mb="4x">
         <IconButton
-          data-track={showSourceCode
-            ? `Code|hide_source|${x({ path: router.pathname })}`
-            : `Code|show_source|${x({ path: router.pathname })}`}
+          data-track={
+            showSourceCode
+              ? `Code|hide_source|${x({ path: router.pathname })}`
+              : `Code|show_source|${x({ path: router.pathname })}`
+          }
           onClick={toggleShowSourceCode}
         >
           <Tooltip label={showSourceCode ? 'Hide the source' : 'Show the source'}>
@@ -140,18 +101,17 @@ const Demo = ({
             <FileCopyOIcon />
           </Tooltip>
         </IconButton>
-        <IconButton
-          data-track={`Code|edit_in_codesandbox|${router.pathname}`}
-          onClick={handleClickEditInCodeSandbox}
-        >
-          <Tooltip label="Edit in CodeSandbox">
-            <CodeSandboxIcon />
-          </Tooltip>
-        </IconButton>
-        <IconButton
-          data-track={`Code|reset|${router.pathname}`}
-          onClick={reset}
-        >
+        {figmaLink ? (
+          <IconButton
+            onClick={() => window.open(figmaLink, '_blank')}
+            data-track={`CodeBlock|open_figma_link|${router.pathname}`}
+          >
+            <Tooltip label="View in Figma">
+              <FigmaIcon />
+            </Tooltip>
+          </IconButton>
+        ) : null}
+        <IconButton data-track={`Code|reset|${router.pathname}`} onClick={reset}>
           <Tooltip label="Reset the demo">
             <RedoIcon />
           </Tooltip>

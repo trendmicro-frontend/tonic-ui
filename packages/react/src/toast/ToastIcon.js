@@ -4,7 +4,7 @@ import {
   WarningMinorIcon,
   ErrorIcon,
 } from '@tonic-ui/react-icons';
-import { forwardRef, useMemo } from 'react';
+import React, { forwardRef, useMemo } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { Icon } from '../icon';
@@ -13,6 +13,14 @@ import {
 } from './styles';
 import useToast from './useToast';
 
+/**
+ * @typedef {Object} ToastIconProps
+ * @property {React.ReactNode} [children] - The content of the toast icon.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', ToastIconProps>}
+ */
 const ToastIcon = forwardRef((inProps, ref) => {
   const props = useDefaultProps({ props: inProps, name: 'ToastIcon' });
   const toastContext = useToast(); // context might be an undefined value

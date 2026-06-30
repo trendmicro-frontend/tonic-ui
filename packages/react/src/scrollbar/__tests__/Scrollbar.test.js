@@ -3,8 +3,8 @@ import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { Box, Button, Scrollbar } from '@tonic-ui/react/src';
-import { useToggle } from '@tonic-ui/react-hooks/src';
-import { useCallback, useEffect, useRef } from 'react';
+import { useToggle } from '@tonic-ui/react-hooks';
+import React, { useCallback, useEffect, useRef } from 'react';
 
 describe('Scrollbar', () => {
   it('should render correctly', async () => {

@@ -1,8 +1,8 @@
-import { useRef } from 'react';
 import { screen } from '@testing-library/react';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Portal } from '@tonic-ui/react/src';
 import { PortalContext } from '@tonic-ui/react/src/portal/context';
+import React from 'react';
 
 describe('Portal', () => {
   it('should render correctly', () => {
@@ -53,7 +53,7 @@ describe('Portal', () => {
 
   it('should render into a custom container', () => {
     const TestComponent = () => {
-      const ref = useRef(null);
+      const ref = React.useRef(null);
       return (
         <>
           <div data-testid="container" ref={ref} />

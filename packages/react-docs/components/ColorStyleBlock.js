@@ -19,8 +19,19 @@ const ColorStyleBlock = ({
 }) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
-  const primaryTextColor = colorStyle?.color?.primary;
-  const secondaryTextColor = colorStyle?.color?.secondary;
+
+  // Helper function to resolve v4 semantic token format
+  const resolveColorValue = (value) => {
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+      if ('_dark' in value || '_light' in value) {
+        return colorMode === 'dark' ? value._dark : value._light;
+      }
+    }
+    return value;
+  };
+
+  const primaryTextColor = resolveColorValue(colorStyle?.color?.primary);
+  const secondaryTextColor = resolveColorValue(colorStyle?.color?.secondary);
   const blockStyle = (() => {
     const style = {};
     const containerBackgroundColor = {
@@ -109,17 +120,22 @@ const ColorStyleBlock = ({
             spacing="2x"
             mb="1x"
           >
-            {colorValues.map(colorValue => (
-              <Text
-                key={colorValue}
-                color={secondaryTextColor}
-                fontFamily="mono"
-                fontSize="sm"
-                lineHeight="sm"
-              >
-                {colorValue}
-              </Text>
-            ))}
+            {colorValues.map((colorValue, index) => {
+              // Ensure we don't try to render an object
+              const displayValue = typeof colorValue === 'object' ? JSON.stringify(colorValue) : colorValue;
+              return (
+                <Text
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={displayValue + index}
+                  color={secondaryTextColor}
+                  fontFamily="mono"
+                  fontSize="sm"
+                  lineHeight="sm"
+                >
+                  {displayValue}
+                </Text>
+              );
+            })}
           </Stack>
         </>
       )}

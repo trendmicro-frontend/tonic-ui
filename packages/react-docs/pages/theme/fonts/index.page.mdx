@@ -1,11 +1,17 @@
 import { Box, Stack } from "@tonic-ui/react";
-import ThemeParser from "@/components/ThemeParser";
+import ThemeTokens from "@/components/ThemeTokens";
 
-# Fonts
+# fonts
 
 ## Design tokens
 
-<ThemeParser theme="fonts" />
+### Primitive tokens (v4)
+
+<ThemeTokens type="primitive" scales={[{ name: 'fonts', defaultIsExpanded: true }]} />
+
+### Primitive tokens (v3)
+
+<ThemeTokens type="legacy" scales={[{ name: 'fonts', defaultIsExpanded: true }]} />
 
 ## Examples
 

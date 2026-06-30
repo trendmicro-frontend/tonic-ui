@@ -10,7 +10,6 @@ import {
   TreeItemToggle,
   TreeItemToggleIcon,
   Tree,
-  useColorStyle,
   useTree,
 } from '@tonic-ui/react';
 import {
@@ -43,7 +42,6 @@ const TreeItemRender = ({
   node,
   nodeDepth = 0,
 }) => {
-  const [colorStyle] = useColorStyle();
   const {
     getIsNodeExpanded,
   } = useTree();
@@ -61,7 +59,7 @@ const TreeItemRender = ({
       }
       return ServerIcon;
     })();
-    const iconColor = colorStyle.color.primary;
+    const iconColor = 'text.primary';
 
     return (
       <TreeItemContent
@@ -70,7 +68,7 @@ const TreeItemRender = ({
           ':hover + [role="group"]': {
             position: 'relative',
             '::before': {
-              backgroundColor: colorStyle.background.highlighted,
+              backgroundColor: 'background.high',
               content: '""',
               position: 'absolute',
               top: 0,
@@ -106,7 +104,7 @@ const TreeItemRender = ({
         </OverflowTooltip>
       </TreeItemContent>
     );
-  }, [colorStyle, isLoading, nodeDepth, nodeLabel]);
+  }, [isLoading, nodeDepth, nodeLabel]);
 
   useEffect(() => {
     let timer = null;
@@ -143,22 +141,19 @@ const TreeItemRender = ({
     };
   }, [isExpanded, loadOnDemand, node, nodeId, nodeLabel, nodeDepth]);
 
-  const renderedChildren = loadOnDemand
-    ? <Box key="stub" />
-    : childNodes.map(node => <TreeItemRender key={node.id} node={node} nodeDepth={nodeDepth + 1} />);
-
   return (
     <TreeItem
       nodeId={nodeId}
       render={render}
     >
-      {renderedChildren}
+      {loadOnDemand
+        ? <Box key="stub" />
+        : childNodes.map(node => <TreeItemRender key={node.id} node={node} nodeDepth={nodeDepth + 1} />)}
     </TreeItem>
   );
 };
 
 const App = () => {
-  const [colorStyle] = useColorStyle();
   const treeNodes = useConst(() => buildLoadOnDemandTreeNodes(5));
 
   return (
@@ -166,7 +161,7 @@ const App = () => {
       sx={{
         // minWidth: 160,
         // maxWidth: '40%',
-        boxShadow: colorStyle.shadow.thick,
+        boxShadow: 'down.medium',
       }}
     >
       <Scrollbar

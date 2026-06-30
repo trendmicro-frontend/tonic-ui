@@ -50,16 +50,12 @@ exports[`Switch should render correctly 1`] = `
   height: 22px;
 }
 
-input[type="checkbox"]:disabled+.emotion-4 {
-  opacity: 0.28;
-}
-
 input[type="checkbox"]+.emotion-4>[data-switch]>[data-switch-outer-border] {
   fill: none;
 }
 
 input[type="checkbox"]:focus-visible+.emotion-4>[data-switch]>[data-switch-outer-border] {
-  fill: #1e5ede;
+  fill: #ffffff;
 }
 
 input[type="checkbox"]+.emotion-4>[data-switch]>[data-switch-inner-border] {
@@ -67,34 +63,81 @@ input[type="checkbox"]+.emotion-4>[data-switch]>[data-switch-inner-border] {
 }
 
 input[type="checkbox"]:focus-visible+.emotion-4>[data-switch]>[data-switch-inner-border] {
-  fill: black;
+  fill: #000000;
 }
 
 input[type="checkbox"]+.emotion-4>[data-switch]>[data-switch-track] {
-  fill: #5e5e5e;
+  fill: #393939;
 }
 
 input[type="checkbox"]:checked+.emotion-4>[data-switch]>[data-switch-track] {
-  fill: #1e5ede;
+  fill: #0150e1;
 }
 
-input[type="checkbox"]:hover:not(:disabled)+.emotion-4>[data-switch]>[data-switch-track] {
-  fill: #8a8a8a;
+input[type="checkbox"]:hover:not(:disabled):not([aria-readonly="true"])+.emotion-4>[data-switch]>[data-switch-track] {
+  fill: #595959;
 }
 
-input[type="checkbox"]:checked:hover:not(:disabled)+.emotion-4>[data-switch]>[data-switch-track] {
-  fill: #578aef;
+input[type="checkbox"]:checked:hover:not(:disabled):not([aria-readonly="true"])+.emotion-4>[data-switch]>[data-switch-track] {
+  fill: #2a6ce6;
 }
 
-input[type="checkbox"]+.emotion-4>[data-switch]>[data-switch-thumb] {
-  fill: white;
+input[type="checkbox"]:disabled+.emotion-4>[data-switch]>[data-switch-track] {
+  fill: color-mix(in srgb, #393939 48%, transparent);
 }
 
-input[type="checkbox"]:checked+.emotion-4>[data-switch]>[data-switch-thumb] {
+input[type="checkbox"]+.emotion-4>[data-switch]>[data-switch-thumb-group] {
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  transform: translateX(0);
+  transform-box: fill-box;
+  -webkit-transition: -webkit-transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+input[type="checkbox"]:checked+.emotion-4>[data-switch]>[data-switch-thumb-group] {
   -webkit-transform: translateX(16px);
   -moz-transform: translateX(16px);
   -ms-transform: translateX(16px);
   transform: translateX(16px);
+}
+
+input[type="checkbox"]+.emotion-4>[data-switch]>[data-switch-thumb-group]>[data-switch-thumb] {
+  fill: color-mix(in srgb, #ffffff 96%, transparent);
+}
+
+input[type="checkbox"]:disabled+.emotion-4>[data-switch]>[data-switch-thumb-group]>[data-switch-thumb] {
+  fill: color-mix(in srgb, #ffffff 24%, transparent);
+}
+
+input[type="checkbox"]+.emotion-4>[data-switch]>[data-switch-thumb-group]>[data-switch-check] {
+  opacity: 0;
+  color: #0150e1;
+  -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+input[type="checkbox"]:checked+.emotion-4>[data-switch]>[data-switch-thumb-group]>[data-switch-check] {
+  opacity: 1;
+}
+
+input[type="checkbox"]:checked:disabled+.emotion-4>[data-switch]>[data-switch-thumb-group]>[data-switch-check] {
+  color: color-mix(in srgb, #000000 24%, transparent);
+}
+
+input[type="checkbox"][aria-readonly="true"]:not(:disabled)+.emotion-4>[data-switch]>[data-switch-track] {
+  fill: transparent;
+  stroke: color-mix(in srgb, #393939 48%, transparent);
+  stroke-width: 1;
+}
+
+input[type="checkbox"][aria-readonly="true"]:not(:disabled)+.emotion-4>[data-switch]>[data-switch-thumb-group]>[data-switch-thumb] {
+  fill: color-mix(in srgb, #ffffff 24%, transparent);
+}
+
+input[type="checkbox"][aria-readonly="true"]:checked:not(:disabled)+.emotion-4>[data-switch]>[data-switch-thumb-group]>[data-switch-check] {
+  color: color-mix(in srgb, #000000 24%, transparent);
 }
 
 .emotion-6 {
@@ -118,7 +161,76 @@ input[type="checkbox"]:checked+.emotion-4>[data-switch]>[data-switch-thumb] {
   pointer-events: all;
 }
 
-.emotion-14 {
+.emotion-18 {
+  margin-left: var(--tonic-space-2x);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: var(--tonic-colors-text-accent);
+}
+
+.emotion-24 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 54px;
+  height: 30px;
+}
+
+input[type="checkbox"]+.emotion-24>[data-switch]>[data-switch-outer-border] {
+  fill: none;
+}
+
+input[type="checkbox"]:focus-visible+.emotion-24>[data-switch]>[data-switch-outer-border] {
+  fill: #ffffff;
+}
+
+input[type="checkbox"]+.emotion-24>[data-switch]>[data-switch-inner-border] {
+  fill: none;
+}
+
+input[type="checkbox"]:focus-visible+.emotion-24>[data-switch]>[data-switch-inner-border] {
+  fill: #000000;
+}
+
+input[type="checkbox"]+.emotion-24>[data-switch]>[data-switch-track] {
+  fill: #393939;
+}
+
+input[type="checkbox"]:checked+.emotion-24>[data-switch]>[data-switch-track] {
+  fill: #0150e1;
+}
+
+input[type="checkbox"]:hover:not(:disabled):not([aria-readonly="true"])+.emotion-24>[data-switch]>[data-switch-track] {
+  fill: #595959;
+}
+
+input[type="checkbox"]:checked:hover:not(:disabled):not([aria-readonly="true"])+.emotion-24>[data-switch]>[data-switch-track] {
+  fill: #2a6ce6;
+}
+
+input[type="checkbox"]:disabled+.emotion-24>[data-switch]>[data-switch-track] {
+  fill: color-mix(in srgb, #393939 48%, transparent);
+}
+
+input[type="checkbox"]+.emotion-24>[data-switch]>[data-switch-thumb-group] {
   -webkit-transform: translateX(0);
   -moz-transform: translateX(0);
   -ms-transform: translateX(0);
@@ -128,103 +240,67 @@ input[type="checkbox"]:checked+.emotion-4>[data-switch]>[data-switch-thumb] {
   transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.emotion-16 {
-  margin-left: var(--tonic-space-2x);
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  opacity: 1;
-}
-
-.emotion-22 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: 54px;
-  height: 30px;
-}
-
-input[type="checkbox"]:disabled+.emotion-22 {
-  opacity: 0.28;
-}
-
-input[type="checkbox"]+.emotion-22>[data-switch]>[data-switch-outer-border] {
-  fill: none;
-}
-
-input[type="checkbox"]:focus-visible+.emotion-22>[data-switch]>[data-switch-outer-border] {
-  fill: #1e5ede;
-}
-
-input[type="checkbox"]+.emotion-22>[data-switch]>[data-switch-inner-border] {
-  fill: none;
-}
-
-input[type="checkbox"]:focus-visible+.emotion-22>[data-switch]>[data-switch-inner-border] {
-  fill: black;
-}
-
-input[type="checkbox"]+.emotion-22>[data-switch]>[data-switch-track] {
-  fill: #5e5e5e;
-}
-
-input[type="checkbox"]:checked+.emotion-22>[data-switch]>[data-switch-track] {
-  fill: #1e5ede;
-}
-
-input[type="checkbox"]:hover:not(:disabled)+.emotion-22>[data-switch]>[data-switch-track] {
-  fill: #8a8a8a;
-}
-
-input[type="checkbox"]:checked:hover:not(:disabled)+.emotion-22>[data-switch]>[data-switch-track] {
-  fill: #578aef;
-}
-
-input[type="checkbox"]+.emotion-22>[data-switch]>[data-switch-thumb] {
-  fill: white;
-}
-
-input[type="checkbox"]:checked+.emotion-22>[data-switch]>[data-switch-thumb] {
+input[type="checkbox"]:checked+.emotion-24>[data-switch]>[data-switch-thumb-group] {
   -webkit-transform: translateX(24px);
   -moz-transform: translateX(24px);
   -ms-transform: translateX(24px);
   transform: translateX(24px);
 }
 
-.emotion-26 {
+input[type="checkbox"]+.emotion-24>[data-switch]>[data-switch-thumb-group]>[data-switch-thumb] {
+  fill: color-mix(in srgb, #ffffff 96%, transparent);
+}
+
+input[type="checkbox"]:disabled+.emotion-24>[data-switch]>[data-switch-thumb-group]>[data-switch-thumb] {
+  fill: color-mix(in srgb, #ffffff 24%, transparent);
+}
+
+input[type="checkbox"]+.emotion-24>[data-switch]>[data-switch-thumb-group]>[data-switch-check] {
+  opacity: 0;
+  color: #0150e1;
+  -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+input[type="checkbox"]:checked+.emotion-24>[data-switch]>[data-switch-thumb-group]>[data-switch-check] {
+  opacity: 1;
+}
+
+input[type="checkbox"]:checked:disabled+.emotion-24>[data-switch]>[data-switch-thumb-group]>[data-switch-check] {
+  color: color-mix(in srgb, #000000 24%, transparent);
+}
+
+input[type="checkbox"][aria-readonly="true"]:not(:disabled)+.emotion-24>[data-switch]>[data-switch-track] {
+  fill: transparent;
+  stroke: color-mix(in srgb, #393939 48%, transparent);
+  stroke-width: 1;
+}
+
+input[type="checkbox"][aria-readonly="true"]:not(:disabled)+.emotion-24>[data-switch]>[data-switch-thumb-group]>[data-switch-thumb] {
+  fill: color-mix(in srgb, #ffffff 24%, transparent);
+}
+
+input[type="checkbox"][aria-readonly="true"]:checked:not(:disabled)+.emotion-24>[data-switch]>[data-switch-thumb-group]>[data-switch-check] {
+  color: color-mix(in srgb, #000000 24%, transparent);
+}
+
+.emotion-28 {
   width: 54px;
   height: 30px;
 }
 
-.emotion-28 {
+.emotion-30 {
   width: 50px;
   height: 26px;
 }
 
-.emotion-30 {
+.emotion-32 {
   width: 48px;
   height: 24px;
   pointer-events: all;
 }
 
-.emotion-40 {
+.emotion-44 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -248,70 +324,113 @@ input[type="checkbox"]:checked+.emotion-22>[data-switch]>[data-switch-thumb] {
   height: 38px;
 }
 
-input[type="checkbox"]:disabled+.emotion-40 {
-  opacity: 0.28;
-}
-
-input[type="checkbox"]+.emotion-40>[data-switch]>[data-switch-outer-border] {
+input[type="checkbox"]+.emotion-44>[data-switch]>[data-switch-outer-border] {
   fill: none;
 }
 
-input[type="checkbox"]:focus-visible+.emotion-40>[data-switch]>[data-switch-outer-border] {
-  fill: #1e5ede;
+input[type="checkbox"]:focus-visible+.emotion-44>[data-switch]>[data-switch-outer-border] {
+  fill: #ffffff;
 }
 
-input[type="checkbox"]+.emotion-40>[data-switch]>[data-switch-inner-border] {
+input[type="checkbox"]+.emotion-44>[data-switch]>[data-switch-inner-border] {
   fill: none;
 }
 
-input[type="checkbox"]:focus-visible+.emotion-40>[data-switch]>[data-switch-inner-border] {
-  fill: black;
+input[type="checkbox"]:focus-visible+.emotion-44>[data-switch]>[data-switch-inner-border] {
+  fill: #000000;
 }
 
-input[type="checkbox"]+.emotion-40>[data-switch]>[data-switch-track] {
-  fill: #5e5e5e;
+input[type="checkbox"]+.emotion-44>[data-switch]>[data-switch-track] {
+  fill: #393939;
 }
 
-input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-track] {
-  fill: #1e5ede;
+input[type="checkbox"]:checked+.emotion-44>[data-switch]>[data-switch-track] {
+  fill: #0150e1;
 }
 
-input[type="checkbox"]:hover:not(:disabled)+.emotion-40>[data-switch]>[data-switch-track] {
-  fill: #8a8a8a;
+input[type="checkbox"]:hover:not(:disabled):not([aria-readonly="true"])+.emotion-44>[data-switch]>[data-switch-track] {
+  fill: #595959;
 }
 
-input[type="checkbox"]:checked:hover:not(:disabled)+.emotion-40>[data-switch]>[data-switch-track] {
-  fill: #578aef;
+input[type="checkbox"]:checked:hover:not(:disabled):not([aria-readonly="true"])+.emotion-44>[data-switch]>[data-switch-track] {
+  fill: #2a6ce6;
 }
 
-input[type="checkbox"]+.emotion-40>[data-switch]>[data-switch-thumb] {
-  fill: white;
+input[type="checkbox"]:disabled+.emotion-44>[data-switch]>[data-switch-track] {
+  fill: color-mix(in srgb, #393939 48%, transparent);
 }
 
-input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
+input[type="checkbox"]+.emotion-44>[data-switch]>[data-switch-thumb-group] {
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  transform: translateX(0);
+  transform-box: fill-box;
+  -webkit-transition: -webkit-transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+input[type="checkbox"]:checked+.emotion-44>[data-switch]>[data-switch-thumb-group] {
   -webkit-transform: translateX(32px);
   -moz-transform: translateX(32px);
   -ms-transform: translateX(32px);
   transform: translateX(32px);
 }
 
-.emotion-44 {
+input[type="checkbox"]+.emotion-44>[data-switch]>[data-switch-thumb-group]>[data-switch-thumb] {
+  fill: color-mix(in srgb, #ffffff 96%, transparent);
+}
+
+input[type="checkbox"]:disabled+.emotion-44>[data-switch]>[data-switch-thumb-group]>[data-switch-thumb] {
+  fill: color-mix(in srgb, #ffffff 24%, transparent);
+}
+
+input[type="checkbox"]+.emotion-44>[data-switch]>[data-switch-thumb-group]>[data-switch-check] {
+  opacity: 0;
+  color: #0150e1;
+  -webkit-transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+input[type="checkbox"]:checked+.emotion-44>[data-switch]>[data-switch-thumb-group]>[data-switch-check] {
+  opacity: 1;
+}
+
+input[type="checkbox"]:checked:disabled+.emotion-44>[data-switch]>[data-switch-thumb-group]>[data-switch-check] {
+  color: color-mix(in srgb, #000000 24%, transparent);
+}
+
+input[type="checkbox"][aria-readonly="true"]:not(:disabled)+.emotion-44>[data-switch]>[data-switch-track] {
+  fill: transparent;
+  stroke: color-mix(in srgb, #393939 48%, transparent);
+  stroke-width: 1;
+}
+
+input[type="checkbox"][aria-readonly="true"]:not(:disabled)+.emotion-44>[data-switch]>[data-switch-thumb-group]>[data-switch-thumb] {
+  fill: color-mix(in srgb, #ffffff 24%, transparent);
+}
+
+input[type="checkbox"][aria-readonly="true"]:checked:not(:disabled)+.emotion-44>[data-switch]>[data-switch-thumb-group]>[data-switch-check] {
+  color: color-mix(in srgb, #000000 24%, transparent);
+}
+
+.emotion-48 {
   width: 70px;
   height: 38px;
 }
 
-.emotion-46 {
+.emotion-50 {
   width: 66px;
   height: 34px;
 }
 
-.emotion-48 {
+.emotion-52 {
   width: 64px;
   height: 32px;
   pointer-events: all;
 }
 
-.emotion-90 {
+.emotion-80 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -324,13 +443,26 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
   cursor: not-allowed;
 }
 
-.emotion-106 {
+.emotion-98 {
   margin-left: var(--tonic-space-2x);
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  opacity: 0.28;
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-120 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  vertical-align: top;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  cursor: default;
 }
 
 <div>
@@ -378,17 +510,35 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
           x="3"
           y="3"
         />
-        <circle
+        <g
           class="emotion-14 emotion-1"
-          cx="11"
-          cy="11"
-          data-switch-thumb="true"
-          r="6"
-        />
+          data-switch-thumb-group="true"
+        >
+          <circle
+            class="emotion-14 emotion-1"
+            cx="11"
+            cy="11"
+            data-switch-thumb="true"
+            r="6"
+          />
+          <svg
+            data-switch-check="true"
+            fill="currentColor"
+            height="8"
+            viewBox="0 0 16 16"
+            width="8"
+            x="7"
+            y="7"
+          >
+            <path
+              d="M6 11.060l-3-3-1 1 4 4 9-9-1-1z"
+            />
+          </svg>
+        </g>
       </svg>
     </div>
     <div
-      class="emotion-16 emotion-1"
+      class="emotion-18 emotion-1"
     >
       Label
     </div>
@@ -406,7 +556,7 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
     />
     <div
       aria-hidden="true"
-      class="emotion-22 emotion-1"
+      class="emotion-24 emotion-1"
       role="switch"
     >
       <svg
@@ -415,7 +565,7 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
         viewBox="0 0 54 30"
       >
         <rect
-          class="emotion-26 emotion-1"
+          class="emotion-28 emotion-1"
           data-switch-outer-border="true"
           rx="15"
           stroke-width="0"
@@ -423,7 +573,7 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
           y="0"
         />
         <rect
-          class="emotion-28 emotion-1"
+          class="emotion-30 emotion-1"
           data-switch-inner-border="true"
           rx="13"
           stroke-width="0"
@@ -431,23 +581,41 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
           y="2"
         />
         <rect
-          class="emotion-30 emotion-1"
+          class="emotion-32 emotion-1"
           data-switch-track="true"
           rx="12"
           x="3"
           y="3"
         />
-        <circle
+        <g
           class="emotion-14 emotion-1"
-          cx="15"
-          cy="15"
-          data-switch-thumb="true"
-          r="9"
-        />
+          data-switch-thumb-group="true"
+        >
+          <circle
+            class="emotion-14 emotion-1"
+            cx="15"
+            cy="15"
+            data-switch-thumb="true"
+            r="9"
+          />
+          <svg
+            data-switch-check="true"
+            fill="currentColor"
+            height="12"
+            viewBox="0 0 16 16"
+            width="12"
+            x="9"
+            y="9"
+          >
+            <path
+              d="M6 11.060l-3-3-1 1 4 4 9-9-1-1z"
+            />
+          </svg>
+        </g>
       </svg>
     </div>
     <div
-      class="emotion-16 emotion-1"
+      class="emotion-18 emotion-1"
     >
       Label
     </div>
@@ -465,7 +633,7 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
     />
     <div
       aria-hidden="true"
-      class="emotion-40 emotion-1"
+      class="emotion-44 emotion-1"
       role="switch"
     >
       <svg
@@ -474,7 +642,7 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
         viewBox="0 0 70 38"
       >
         <rect
-          class="emotion-44 emotion-1"
+          class="emotion-48 emotion-1"
           data-switch-outer-border="true"
           rx="19"
           stroke-width="0"
@@ -482,7 +650,7 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
           y="0"
         />
         <rect
-          class="emotion-46 emotion-1"
+          class="emotion-50 emotion-1"
           data-switch-inner-border="true"
           rx="17"
           stroke-width="0"
@@ -490,81 +658,41 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
           y="2"
         />
         <rect
-          class="emotion-48 emotion-1"
+          class="emotion-52 emotion-1"
           data-switch-track="true"
           rx="16"
           x="3"
           y="3"
         />
-        <circle
+        <g
           class="emotion-14 emotion-1"
-          cx="19"
-          cy="19"
-          data-switch-thumb="true"
-          r="12"
-        />
+          data-switch-thumb-group="true"
+        >
+          <circle
+            class="emotion-14 emotion-1"
+            cx="19"
+            cy="19"
+            data-switch-thumb="true"
+            r="12"
+          />
+          <svg
+            data-switch-check="true"
+            fill="currentColor"
+            height="16"
+            viewBox="0 0 16 16"
+            width="16"
+            x="11"
+            y="11"
+          >
+            <path
+              d="M6 11.060l-3-3-1 1 4 4 9-9-1-1z"
+            />
+          </svg>
+        </g>
       </svg>
     </div>
     <div
-      class="emotion-16 emotion-1"
-    >
-      Label
-    </div>
-  </label>
-  <label
-    class="emotion-0 emotion-1"
-    data-tonic="Switch"
-  >
-    <input
-      class="emotion-2 emotion-1"
-      data-tonic="VisuallyHidden"
-      role="switch"
-      type="checkbox"
-    />
-    <div
-      aria-hidden="true"
-      class="emotion-22 emotion-1"
-      role="switch"
-    >
-      <svg
-        class="emotion-6 emotion-1"
-        data-switch="true"
-        viewBox="0 0 54 30"
-      >
-        <rect
-          class="emotion-26 emotion-1"
-          data-switch-outer-border="true"
-          rx="15"
-          stroke-width="0"
-          x="0"
-          y="0"
-        />
-        <rect
-          class="emotion-28 emotion-1"
-          data-switch-inner-border="true"
-          rx="13"
-          stroke-width="0"
-          x="2"
-          y="2"
-        />
-        <rect
-          class="emotion-30 emotion-1"
-          data-switch-track="true"
-          rx="12"
-          x="3"
-          y="3"
-        />
-        <circle
-          class="emotion-14 emotion-1"
-          cx="15"
-          cy="15"
-          data-switch-thumb="true"
-          r="9"
-        />
-      </svg>
-    </div>
-    <div
-      class="emotion-16 emotion-1"
+      class="emotion-18 emotion-1"
     >
       Label
     </div>
@@ -582,7 +710,7 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
     />
     <div
       aria-hidden="true"
-      class="emotion-22 emotion-1"
+      class="emotion-24 emotion-1"
       role="switch"
     >
       <svg
@@ -591,7 +719,7 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
         viewBox="0 0 54 30"
       >
         <rect
-          class="emotion-26 emotion-1"
+          class="emotion-28 emotion-1"
           data-switch-outer-border="true"
           rx="15"
           stroke-width="0"
@@ -599,7 +727,7 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
           y="0"
         />
         <rect
-          class="emotion-28 emotion-1"
+          class="emotion-30 emotion-1"
           data-switch-inner-border="true"
           rx="13"
           stroke-width="0"
@@ -607,29 +735,47 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
           y="2"
         />
         <rect
-          class="emotion-30 emotion-1"
+          class="emotion-32 emotion-1"
           data-switch-track="true"
           rx="12"
           x="3"
           y="3"
         />
-        <circle
+        <g
           class="emotion-14 emotion-1"
-          cx="15"
-          cy="15"
-          data-switch-thumb="true"
-          r="9"
-        />
+          data-switch-thumb-group="true"
+        >
+          <circle
+            class="emotion-14 emotion-1"
+            cx="15"
+            cy="15"
+            data-switch-thumb="true"
+            r="9"
+          />
+          <svg
+            data-switch-check="true"
+            fill="currentColor"
+            height="12"
+            viewBox="0 0 16 16"
+            width="12"
+            x="9"
+            y="9"
+          >
+            <path
+              d="M6 11.060l-3-3-1 1 4 4 9-9-1-1z"
+            />
+          </svg>
+        </g>
       </svg>
     </div>
     <div
-      class="emotion-16 emotion-1"
+      class="emotion-18 emotion-1"
     >
       Label
     </div>
   </label>
   <label
-    class="emotion-90 emotion-1"
+    class="emotion-80 emotion-1"
     data-tonic="Switch"
   >
     <input
@@ -641,7 +787,7 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
     />
     <div
       aria-hidden="true"
-      class="emotion-22 emotion-1"
+      class="emotion-24 emotion-1"
       role="switch"
     >
       <svg
@@ -650,7 +796,7 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
         viewBox="0 0 54 30"
       >
         <rect
-          class="emotion-26 emotion-1"
+          class="emotion-28 emotion-1"
           data-switch-outer-border="true"
           rx="15"
           stroke-width="0"
@@ -658,7 +804,7 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
           y="0"
         />
         <rect
-          class="emotion-28 emotion-1"
+          class="emotion-30 emotion-1"
           data-switch-inner-border="true"
           rx="13"
           stroke-width="0"
@@ -666,29 +812,47 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
           y="2"
         />
         <rect
-          class="emotion-30 emotion-1"
+          class="emotion-32 emotion-1"
           data-switch-track="true"
           rx="12"
           x="3"
           y="3"
         />
-        <circle
+        <g
           class="emotion-14 emotion-1"
-          cx="15"
-          cy="15"
-          data-switch-thumb="true"
-          r="9"
-        />
+          data-switch-thumb-group="true"
+        >
+          <circle
+            class="emotion-14 emotion-1"
+            cx="15"
+            cy="15"
+            data-switch-thumb="true"
+            r="9"
+          />
+          <svg
+            data-switch-check="true"
+            fill="currentColor"
+            height="12"
+            viewBox="0 0 16 16"
+            width="12"
+            x="9"
+            y="9"
+          >
+            <path
+              d="M6 11.060l-3-3-1 1 4 4 9-9-1-1z"
+            />
+          </svg>
+        </g>
       </svg>
     </div>
     <div
-      class="emotion-106 emotion-1"
+      class="emotion-98 emotion-1"
     >
       Label
     </div>
   </label>
   <label
-    class="emotion-90 emotion-1"
+    class="emotion-80 emotion-1"
     data-tonic="Switch"
   >
     <input
@@ -701,7 +865,7 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
     />
     <div
       aria-hidden="true"
-      class="emotion-22 emotion-1"
+      class="emotion-24 emotion-1"
       role="switch"
     >
       <svg
@@ -710,7 +874,7 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
         viewBox="0 0 54 30"
       >
         <rect
-          class="emotion-26 emotion-1"
+          class="emotion-28 emotion-1"
           data-switch-outer-border="true"
           rx="15"
           stroke-width="0"
@@ -718,7 +882,7 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
           y="0"
         />
         <rect
-          class="emotion-28 emotion-1"
+          class="emotion-30 emotion-1"
           data-switch-inner-border="true"
           rx="13"
           stroke-width="0"
@@ -726,23 +890,196 @@ input[type="checkbox"]:checked+.emotion-40>[data-switch]>[data-switch-thumb] {
           y="2"
         />
         <rect
-          class="emotion-30 emotion-1"
+          class="emotion-32 emotion-1"
           data-switch-track="true"
           rx="12"
           x="3"
           y="3"
         />
-        <circle
+        <g
           class="emotion-14 emotion-1"
-          cx="15"
-          cy="15"
-          data-switch-thumb="true"
-          r="9"
-        />
+          data-switch-thumb-group="true"
+        >
+          <circle
+            class="emotion-14 emotion-1"
+            cx="15"
+            cy="15"
+            data-switch-thumb="true"
+            r="9"
+          />
+          <svg
+            data-switch-check="true"
+            fill="currentColor"
+            height="12"
+            viewBox="0 0 16 16"
+            width="12"
+            x="9"
+            y="9"
+          >
+            <path
+              d="M6 11.060l-3-3-1 1 4 4 9-9-1-1z"
+            />
+          </svg>
+        </g>
       </svg>
     </div>
     <div
-      class="emotion-106 emotion-1"
+      class="emotion-98 emotion-1"
+    >
+      Label
+    </div>
+  </label>
+  <label
+    class="emotion-120 emotion-1"
+    data-tonic="Switch"
+  >
+    <input
+      aria-readonly="true"
+      class="emotion-2 emotion-1"
+      data-tonic="VisuallyHidden"
+      role="switch"
+      type="checkbox"
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-24 emotion-1"
+      role="switch"
+    >
+      <svg
+        class="emotion-6 emotion-1"
+        data-switch="true"
+        viewBox="0 0 54 30"
+      >
+        <rect
+          class="emotion-28 emotion-1"
+          data-switch-outer-border="true"
+          rx="15"
+          stroke-width="0"
+          x="0"
+          y="0"
+        />
+        <rect
+          class="emotion-30 emotion-1"
+          data-switch-inner-border="true"
+          rx="13"
+          stroke-width="0"
+          x="2"
+          y="2"
+        />
+        <rect
+          class="emotion-32 emotion-1"
+          data-switch-track="true"
+          rx="12"
+          x="3"
+          y="3"
+        />
+        <g
+          class="emotion-14 emotion-1"
+          data-switch-thumb-group="true"
+        >
+          <circle
+            class="emotion-14 emotion-1"
+            cx="15"
+            cy="15"
+            data-switch-thumb="true"
+            r="9"
+          />
+          <svg
+            data-switch-check="true"
+            fill="currentColor"
+            height="12"
+            viewBox="0 0 16 16"
+            width="12"
+            x="9"
+            y="9"
+          >
+            <path
+              d="M6 11.060l-3-3-1 1 4 4 9-9-1-1z"
+            />
+          </svg>
+        </g>
+      </svg>
+    </div>
+    <div
+      class="emotion-18 emotion-1"
+    >
+      Label
+    </div>
+  </label>
+  <label
+    class="emotion-120 emotion-1"
+    data-tonic="Switch"
+  >
+    <input
+      aria-readonly="true"
+      checked=""
+      class="emotion-2 emotion-1"
+      data-tonic="VisuallyHidden"
+      role="switch"
+      type="checkbox"
+    />
+    <div
+      aria-hidden="true"
+      class="emotion-24 emotion-1"
+      role="switch"
+    >
+      <svg
+        class="emotion-6 emotion-1"
+        data-switch="true"
+        viewBox="0 0 54 30"
+      >
+        <rect
+          class="emotion-28 emotion-1"
+          data-switch-outer-border="true"
+          rx="15"
+          stroke-width="0"
+          x="0"
+          y="0"
+        />
+        <rect
+          class="emotion-30 emotion-1"
+          data-switch-inner-border="true"
+          rx="13"
+          stroke-width="0"
+          x="2"
+          y="2"
+        />
+        <rect
+          class="emotion-32 emotion-1"
+          data-switch-track="true"
+          rx="12"
+          x="3"
+          y="3"
+        />
+        <g
+          class="emotion-14 emotion-1"
+          data-switch-thumb-group="true"
+        >
+          <circle
+            class="emotion-14 emotion-1"
+            cx="15"
+            cy="15"
+            data-switch-thumb="true"
+            r="9"
+          />
+          <svg
+            data-switch-check="true"
+            fill="currentColor"
+            height="12"
+            viewBox="0 0 16 16"
+            width="12"
+            x="9"
+            y="9"
+          >
+            <path
+              d="M6 11.060l-3-3-1 1 4 4 9-9-1-1z"
+            />
+          </svg>
+        </g>
+      </svg>
+    </div>
+    <div
+      class="emotion-18 emotion-1"
     >
       Label
     </div>

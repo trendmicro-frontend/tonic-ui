@@ -1,16 +1,13 @@
-import { DatePicker, InputAdornment, InputControl, TextLabel, useColorMode, useColorStyle } from '@tonic-ui/react';
+import { DatePicker, InputAdornment, InputControl, TextLabel } from '@tonic-ui/react';
 import { CalendarIcon } from '@tonic-ui/react-icons';
 import { forwardRef } from 'react';
 
 const DateInput = forwardRef((props, ref) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-
   return (
     <InputControl
       ref={ref}
       startAdornment={(
-        <InputAdornment color={colorStyle.color.secondary}>
+        <InputAdornment color="text.secondary">
           <CalendarIcon />
         </InputAdornment>
       )}

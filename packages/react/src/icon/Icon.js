@@ -1,10 +1,20 @@
 import { SVGIcon } from '@tonic-ui/react-icons';
 import { ensureArray } from 'ensure-type';
-import { forwardRef, useRef } from 'react';
+import React, { forwardRef, useRef } from 'react';
 import { useDefaultProps } from '../default-props';
 import { useIconStyle } from './styles';
 import { useTheme } from '../theme';
 
+/**
+ * @typedef {Object} IconProps
+ * @property {string} [icon] - The name of the icon.
+ * @property {boolean | 'cw' | 'ccw'} [spin=false] - If `true` or 'cw', it will rotate in the clockwise direction. If 'ccw', it will rotate in the counterclockwise direction. Otherwise, no rotation occurs.
+ * @property {React.ReactNode} [children] -
+ */
+
+/**
+ * @type {ForwardRefComponent<'svg', IconProps, SVGSVGElement>}
+ */
 const Icon = forwardRef((inProps, ref) => {
   const {
     children,

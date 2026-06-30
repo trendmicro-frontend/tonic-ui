@@ -1,4 +1,4 @@
-import { Children, forwardRef, isValidElement } from 'react';
+import React, { forwardRef, isValidElement } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import StackItem from './StackItem';
@@ -6,6 +6,15 @@ import { useStackStyle } from './styles';
 
 const defaultDirection = 'column';
 
+/**
+ * @typedef {Object} StackProps
+ * @property {React.ReactNode} [children] -
+ * @property {boolean} [shouldWrapChildren=false] - Each child will be wrapped in a `Box` with `display: inline-flex`.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', StackProps>}
+ */
 const Stack = forwardRef((inProps, ref) => {
   const {
     children,
@@ -19,7 +28,7 @@ const Stack = forwardRef((inProps, ref) => {
   const styleProps = useStackStyle({ direction, spacing });
 
   // Filter only the valid children of a component, and ignore any nullish or falsy child.
-  const validChildren = Children
+  const validChildren = React.Children
     .toArray(children)
     .filter(c => isValidElement(c));
 

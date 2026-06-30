@@ -7,7 +7,7 @@ on:
       - reopened
       - synchronize
     branches:
-      - v2
+      - main
 
 permissions:
   contents: write

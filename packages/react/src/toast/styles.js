@@ -1,36 +1,31 @@
-import { useColorMode } from '../color-mode';
 import { useIconButtonStyle } from '../shared/styles';
 
 const getAppearanceStyle = ({
   appearance,
-  colorMode,
 }) => {
-  const backgroundColor = {
-    dark: 'gray:10',
-    light: 'white',
-  }[colorMode];
-  const color = 'black:primary';
+  const backgroundColor = 'background.highest';
+  const color = 'text.primary';
   const appearanceStyle = {
     success: {
-      borderLeftColor: 'green:50',
+      borderLeftColor: 'success.icon',
       borderLeftStyle: 'solid',
       borderLeftWidth: '1x',
       pl: '3x',
     },
     info: {
-      borderLeftColor: 'blue:60',
+      borderLeftColor: 'info.icon',
       borderLeftStyle: 'solid',
       borderLeftWidth: '1x',
       pl: '3x',
     },
     warning: {
-      borderLeftColor: 'yellow:50',
+      borderLeftColor: 'minorWarning.icon',
       borderLeftStyle: 'solid',
       borderLeftWidth: '1x',
       pl: '3x',
     },
     error: {
-      borderLeftColor: 'red:60',
+      borderLeftColor: 'error.icon',
       borderLeftStyle: 'solid',
       borderLeftWidth: '1x',
       pl: '3x',
@@ -47,8 +42,7 @@ const getAppearanceStyle = ({
 const useToastStyle = ({
   appearance,
 }) => {
-  const [colorMode] = useColorMode();
-  const appearanceStyle = getAppearanceStyle({ appearance, colorMode });
+  const appearanceStyle = getAppearanceStyle({ appearance });
 
   return {
     display: 'flex',
@@ -65,10 +59,10 @@ const useToastIconStyle = ({
   appearance,
 }) => {
   const color = {
-    'success': 'green:50',
-    'info': 'blue:60',
-    'warning': 'yellow:50',
-    'error': 'red:60',
+    'success': 'success.icon',
+    'info': 'info.icon',
+    'warning': 'minorWarning.icon',
+    'error': 'error.icon',
   }[appearance];
 
   return {
@@ -108,17 +102,10 @@ const useToastCloseButtonStyle = ({
   isClosable,
   variant,
 }) => {
-  const [colorMode] = useColorMode();
-  const color = {
-    dark: 'black:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
+  const color = 'text.tertiary';
   const size = '8x';
-  const focusVisibleOutlineColor = 'blue:60';
-  const hoverColor = {
-    dark: 'black:primary',
-    light: 'black:primary',
-  }[colorMode];
+  const focusVisibleOutlineColor = '_component.keyboardFocused.outerFocusRing';
+  const hoverColor = 'text.primary';
   const iconButtonStyle = useIconButtonStyle({ color, size });
 
   const baseStyle = {

@@ -1,5 +1,5 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import {
@@ -7,6 +7,14 @@ import {
 } from './styles';
 import useDrawer from './useDrawer';
 
+/**
+ * @typedef {Object} DrawerContainerProps
+ * @property {React.ReactNode} [children] - The content of the drawer container.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', DrawerContainerProps>}
+ */
 const DrawerContainer = forwardRef((inProps, ref) => {
   const props = useDefaultProps({ props: inProps, name: 'DrawerContainer' });
   const drawerContext = useDrawer(); // context might be an undefined value

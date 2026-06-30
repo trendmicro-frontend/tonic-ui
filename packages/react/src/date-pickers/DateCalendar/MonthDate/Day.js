@@ -1,11 +1,21 @@
 import { callEventHandlers, dataAttr } from '@tonic-ui/utils';
 import { formatISO, isAfter, isBefore, isSameDay, isSameMonth } from 'date-fns';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../../../box';
 import useButtonEventHandlers from '../../../utils/useButtonEventHandlers';
 import { useDayStyle } from '../styles';
 import useDateCalendar from '../useDateCalendar';
 
+/**
+ * @typedef {Object} DayProps
+ * @property {Date} date - The date to display.
+ * @property {React.MouseEventHandler<HTMLButtonElement>} [onClick] - Callback when the day is clicked.
+ * @property {React.KeyboardEventHandler<HTMLButtonElement>} [onKeyDown] - Callback when a key is pressed.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', DayProps>}
+ */
 const Day = forwardRef((
   {
     date,

@@ -8,6 +8,17 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import useThrottledCallbackOnScroll from '../hooks/useThrottledCallbackOnScroll';
 import x from '../utils/json-stringify';
 
+const NavItem = ({ children, nodes, activeIndex, handleClick }) => {
+  return (
+    <Box as="li">
+      {children}
+      {(nodes.length > 0) && (
+        <NavList nodes={nodes} activeIndex={activeIndex} handleClick={handleClick} />
+      )}
+    </Box>
+  );
+};
+
 const NavList = ({ nodes, activeIndex, handleClick }) => {
   return (
     <Box as="ul" className="toc-list">
@@ -30,17 +41,6 @@ const NavList = ({ nodes, activeIndex, handleClick }) => {
           </NavItem>
         );
       })}
-    </Box>
-  );
-};
-
-const NavItem = ({ children, nodes, activeIndex, handleClick }) => {
-  return (
-    <Box as="li">
-      {children}
-      {(nodes.length > 0) && (
-        <NavList nodes={nodes} activeIndex={activeIndex} handleClick={handleClick} />
-      )}
     </Box>
   );
 };
@@ -83,7 +83,7 @@ const TableOfContents = (props) => {
 
   useEffect(() => {
     if (!canUseDOM()) {
-      return;
+      return undefined;
     }
 
     setActiveIndex(null);
@@ -103,6 +103,8 @@ const TableOfContents = (props) => {
         }, 200);
       }
     }
+
+    return undefined;
   }, [router.pathname]); // update nodes on routing change
 
   const [activeIndex, setActiveIndex] = useState(null);
@@ -173,9 +175,14 @@ const TableOfContents = (props) => {
   }, []);
 
   return (
-    <Box as="nav" className="toc" id="toc">
+    <Box
+      as="nav"
+      className="toc"
+      id="toc"
+      color="text.primary"
+    >
       <Box className="toc-heading">
-        Contents
+        CONTENTS
       </Box>
       <NavList nodes={tree.children} activeIndex={activeIndex} handleClick={handleClick} />
     </Box>

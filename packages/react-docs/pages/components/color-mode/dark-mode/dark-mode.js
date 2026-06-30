@@ -3,17 +3,15 @@ import {
   DarkMode,
   Text,
   useColorMode,
-  useColorStyle,
 } from '@tonic-ui/react';
 
 const Component = () => {
   const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
 
   return (
     <Box
-      backgroundColor={colorStyle.background.secondary}
-      color={colorStyle.color.primary}
+      backgroundColor="background.low"
+      color="text.primary"
     >
       <Text px="4x" py="3x">
         The color mode is set to {colorMode}

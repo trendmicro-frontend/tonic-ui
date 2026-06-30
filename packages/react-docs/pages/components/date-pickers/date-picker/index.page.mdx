@@ -45,14 +45,11 @@ import { CalendarIcon } from '@tonic-ui/react-icons';
 
 // DateInput
 const DateInput = React.forwardRef((props, ref) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-
   return (
     <InputControl
       ref={ref}
       startAdornment={(
-        <InputAdornment color={colorStyle.color.secondary}>
+        <InputAdornment color="text.secondary">
           <CalendarIcon />
         </InputAdornment>
       )}

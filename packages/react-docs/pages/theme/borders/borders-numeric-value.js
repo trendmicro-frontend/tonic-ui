@@ -1,10 +1,7 @@
-import { Button, Flex, Grid, Space, Stack, Text, TextLabel, useColorMode, useColorStyle, useTheme } from '@tonic-ui/react';
 import { useState } from 'react';
+import { Button, Flex, Grid, Space, Stack, Text, TextLabel, useColorMode, useTheme } from '@tonic-ui/react';
 
 const Block = (props) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-
   return (
     <Flex
       px="4x"
@@ -12,7 +9,7 @@ const Block = (props) => {
       alignItems="flex-start"
       justifyContent="center"
       flexDirection="column"
-      backgroundColor={colorStyle.background.secondary}
+      backgroundColor="background.high"
       {...props}
     />
   );
@@ -27,8 +24,8 @@ const App = () => {
   }[colorMode];
   const borderWidths = [1, 2, 3, 4, 5];
   const [borderWidth, setBorderWidth] = useState(borderWidths[0]);
-  const borderValue = theme.borders[borderWidth] || borderWidth;
-  const borderColorValue = theme.colors[borderColor] || borderColor;
+  const borderValue = theme.get('borders.' + borderWidth) || borderWidth;
+  const borderColorValue = theme.get('colors.' + borderColor) || borderColor;
 
   return (
     <>
@@ -56,36 +53,36 @@ const App = () => {
           border={borderWidth}
           borderColor={borderColor}
         >
-          <Text>border="{borderValue}"</Text>
-          <Text>borderColor="{borderColorValue}"</Text>
+          <Text>border={borderValue}</Text>
+          <Text>borderColor={borderColorValue}</Text>
         </Block>
         <Block
           borderTop={borderWidth}
           borderTopColor={borderColor}
         >
-          <Text>borderTop="{borderValue}"</Text>
-          <Text>borderTopColor="{borderColorValue}"</Text>
+          <Text>borderTop={borderValue}</Text>
+          <Text>borderTopColor={borderColorValue}</Text>
         </Block>
         <Block
           borderRight={borderWidth}
           borderRightColor={borderColor}
         >
-          <Text>borderRight="{borderValue}"</Text>
-          <Text>borderRightColor="{borderColorValue}"</Text>
+          <Text>borderRight={borderValue}</Text>
+          <Text>borderRightColor={borderColorValue}</Text>
         </Block>
         <Block
           borderBottom={borderWidth}
           borderBottomColor={borderColor}
         >
-          <Text>borderBottom="{borderValue}"</Text>
-          <Text>borderBottomColor="{borderColorValue}"</Text>
+          <Text>borderBottom={borderValue}</Text>
+          <Text>borderBottomColor={borderColorValue}</Text>
         </Block>
         <Block
           borderLeft={borderWidth}
           borderLeftColor={borderColor}
         >
-          <Text>borderLeft="{borderValue}"</Text>
-          <Text>borderLeftColor="{borderColorValue}"</Text>
+          <Text>borderLeft={borderValue}</Text>
+          <Text>borderLeftColor={borderColorValue}</Text>
         </Block>
       </Grid>
     </>

@@ -1,8 +1,7 @@
 import { ariaAttr } from '@tonic-ui/utils';
 import { ensureArray, ensureString } from 'ensure-type';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 import { defaultSize, defaultVariantColor } from './constants';
 import {
@@ -17,7 +16,6 @@ const RadioControlBox = forwardRef((inProps, ref) => {
     ...rest
   } = inProps;
   const theme = useTheme();
-  const [colorMode] = useColorMode();
   const width = {
     lg: '6x',
     md: '4x',
@@ -28,57 +26,45 @@ const RadioControlBox = forwardRef((inProps, ref) => {
     md: '4x',
     sm: '3x',
   }[size];
-  const iconWidth = `calc(${theme?.sizes?.[width]} / 2)`;
-  const iconHeight = `calc(${theme?.sizes?.[height]} / 2)`;
+  const iconWidth = `calc(${theme?.sizes?.[width]} * .375)`;
+  const iconHeight = `calc(${theme?.sizes?.[height]} * .375)`;
   const inputType = 'radio';
   const getRadioControlBoxSelector = (pseudos) => {
     return `input[type="${inputType}"]` + ensureString(pseudos) + ' + &';
   };
   const getDeterminateStyle = ({ variantColor }) => {
     // icon color
-    const color = {
-      dark: `${variantColor}:60`,
-      light: `${variantColor}:60`,
-    }[colorMode];
-    const hoverColor = {
-      dark: `${variantColor}:50`,
-      light: `${variantColor}:50`,
-    }[colorMode];
-    const disabledColor = {
-      dark: 'gray:60',
-      light: 'gray:40',
-    }[colorMode];
+    const color = 'transparent';
+    const checkedColor = 'text._fixed.dark.primary';
+    const checkedAndDisabledColor = 'text.disabled';
+
+    // background color
+    const backgroundColor = 'transparent';
+    const hoverBackgroundColor = '_foreground.subtle.hovered';
+    const disabledBackgroundColor = '_foreground.subtle.disabled';
+    const checkedBackgroundColor = variantColor === defaultVariantColor ? '_foreground.primaryVariant.selected' : `${variantColor}.600`;
+    const checkedAndCoveredBackgroundColor = variantColor === defaultVariantColor ? '_foreground.primaryVariant.selectedHovered' : `${variantColor}.500`;
+    const checkedAndDisabledBackgroundColor = '_foreground.primaryVariant.selectedDisabled';
 
     // border color
-    const borderColor = {
-      dark: 'gray:50',
-      light: 'gray:40',
-    }[colorMode];
-    const hoverBorderColor = {
-      dark: `${variantColor}:50`,
-      light: `${variantColor}:50`,
-    }[colorMode];
-    const disabledBorderColor = {
-      dark: 'gray:60',
-      light: 'gray:40',
-    }[colorMode];
-    const checkedBorderColor = {
-      dark: `${variantColor}:60`,
-      light: `${variantColor}:60`,
-    }[colorMode];
-    const checkedAndHoverBorderColor = hoverBorderColor;
-    const checkedAndDisabledBorderColor = disabledBorderColor;
+    const borderColor = 'border._primary.enabled';
+    const hoverBorderColor = variantColor === defaultVariantColor ? 'border._primary.hovered' : `${variantColor}.500`;
+    const disabledBorderColor = 'border._primary.disabled';
+    const checkedBorderColor = checkedBackgroundColor;
+    const checkedAndHoverBorderColor = checkedAndCoveredBackgroundColor;
+    const checkedAndDisabledBorderColor = 'transparent';
 
     // focus color
-    const focusVisibleOutlineColor = {
-      dark: `${variantColor}:60`,
-      light: `${variantColor}:60`,
-    }[colorMode];
+    const focusVisibleOutlineColor = '_component.keyboardFocused.outerFocusRing';
 
     return {
       borderColor: borderColor,
+      color,
+      backgroundColor,
+
       [getRadioControlBoxSelector(':hover')]: {
         borderColor: hoverBorderColor,
+        backgroundColor: hoverBackgroundColor,
       },
       [getRadioControlBoxSelector(':focus-visible')]: {
         outlineColor: focusVisibleOutlineColor,
@@ -87,35 +73,30 @@ const RadioControlBox = forwardRef((inProps, ref) => {
       },
       [getRadioControlBoxSelector(':disabled')]: {
         borderColor: disabledBorderColor,
-        opacity: 0.28,
+        backgroundColor: disabledBackgroundColor,
       },
       [getRadioControlBoxSelector(':checked')]: {
         borderColor: checkedBorderColor,
-        color: color,
+        backgroundColor: checkedBackgroundColor,
+        color: checkedColor,
       },
       [getRadioControlBoxSelector(':checked:hover:not(:disabled)')]: {
         borderColor: checkedAndHoverBorderColor,
-        color: hoverColor,
+        backgroundColor: checkedAndCoveredBackgroundColor,
+        color: checkedColor,
       },
       [getRadioControlBoxSelector(':checked:disabled')]: {
         borderColor: checkedAndDisabledBorderColor,
-        color: disabledColor,
-        opacity: 0.28,
+        backgroundColor: checkedAndDisabledBackgroundColor,
+        color: checkedAndDisabledColor,
       },
     };
   };
   const sx = {
     border: 1,
-    borderRadius: 'circle',
+    borderRadius: '50%',
     width,
     height,
-
-    [getRadioControlBoxSelector() + '> *']: {
-      opacity: 0,
-    },
-    [getRadioControlBoxSelector(':checked') + '> *']: {
-      opacity: 1,
-    },
     ...getDeterminateStyle({ variantColor }),
   };
   const styleProps = useRadioControlBoxStyle();
@@ -130,7 +111,7 @@ const RadioControlBox = forwardRef((inProps, ref) => {
     >
       <Box
         backgroundColor="currentColor"
-        borderRadius="circle"
+        borderRadius="50%"
         display="inline-flex"
         width={iconWidth}
         height={iconHeight}

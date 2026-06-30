@@ -13,6 +13,7 @@ import {
   SubmenuList,
   Text,
 } from '@tonic-ui/react/src';
+import React, { act } from 'react';
 import SubmenuToggle from '../SubmenuToggle';
 
 describe('SubmenuToggle', () => {
@@ -60,11 +61,15 @@ describe('SubmenuToggle', () => {
       // Open the menu
       await user.click(menuButton);
       expect(await screen.findByRole('menu')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByTestId('menu-list')).toHaveFocus();
+      });
 
       // Navigate to the submenu toggle using keyboard
       await user.keyboard('[ArrowDown]'); // Focus menu-item-1
       await user.keyboard('[ArrowDown]'); // Focus menu-item-2
       await user.keyboard('[ArrowDown]'); // Focus submenu-toggle
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       const submenuToggle = screen.getByTestId('submenu-toggle');
       await waitFor(() => {
@@ -94,11 +99,15 @@ describe('SubmenuToggle', () => {
       // Open the menu
       await user.click(menuButton);
       expect(await screen.findByRole('menu')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByTestId('menu-list')).toHaveFocus();
+      });
 
       // Navigate to the submenu toggle and open it
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       const submenuToggle = screen.getByTestId('submenu-toggle');
       await waitFor(() => {
@@ -143,11 +152,15 @@ describe('SubmenuToggle', () => {
       // Open the menu
       await user.click(menuButton);
       expect(await screen.findByRole('menu')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByTestId('menu-list')).toHaveFocus();
+      });
 
       // Navigate to the submenu toggle and open it
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       const submenuToggle = screen.getByTestId('submenu-toggle');
       await waitFor(() => {
@@ -187,11 +200,15 @@ describe('SubmenuToggle', () => {
       // Open the menu
       await user.click(menuButton);
       expect(await screen.findByRole('menu')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByTestId('menu-list')).toHaveFocus();
+      });
 
       // Navigate to the submenu toggle
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       const submenuToggle = screen.getByTestId('submenu-toggle');
       await waitFor(() => {
@@ -233,11 +250,15 @@ describe('SubmenuToggle', () => {
       // Open the menu
       await user.click(menuButton);
       expect(await screen.findByRole('menu')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByTestId('menu-list')).toHaveFocus();
+      });
 
       // Navigate to the submenu toggle and open it
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       const submenuToggle = screen.getByTestId('submenu-toggle');
       await waitFor(() => {
@@ -273,6 +294,9 @@ describe('SubmenuToggle', () => {
       // Open the menu
       await user.click(menuButton);
       expect(await screen.findByRole('menu')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByTestId('menu-list')).toHaveFocus();
+      });
 
       // The submenu toggle should have role="menuitem"
       const submenuToggle = screen.getByTestId('submenu-toggle');
@@ -285,6 +309,7 @@ describe('SubmenuToggle', () => {
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
       await user.keyboard('[ArrowDown]');
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       // Wait for submenu toggle to have focus before opening it
       await waitFor(() => {
@@ -332,6 +357,9 @@ describe('SubmenuToggle', () => {
       // Open the menu
       await user.click(menuButton);
       expect(await screen.findByRole('menu')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByTestId('menu-list')).toHaveFocus();
+      });
 
       // The wrapper should have role="presentation"
       const submenuToggleWrapper = screen.getByTestId('submenu-toggle-wrapper');
@@ -344,6 +372,7 @@ describe('SubmenuToggle', () => {
 
       // Navigate to the submenu toggle
       await user.keyboard('[ArrowDown]');
+      await act(() => new Promise(resolve => requestAnimationFrame(resolve)));
 
       await waitFor(() => {
         expect(submenuToggle).toHaveFocus();
@@ -451,7 +480,13 @@ describe('SubmenuToggle', () => {
 
       const SubmenuTestComponent = () => {
         return (
-          <Menu>
+          // `closeOnSelect={false}` keeps the menu open after selecting an item.
+          // With the default (`true`), clicking a submenu item calls the parent
+          // menu's `onClose`, which starts the menu-list exit transition and then
+          // unmounts it (`unmountOnExit`). The post-click "still open" assertion
+          // would then race that transition: it passes on fast machines that read
+          // it mid-transition and fails on slower CI that reads it after unmount.
+          <Menu closeOnSelect={false}>
             <MenuButton data-testid="menu-button">
               Options
             </MenuButton>
@@ -598,7 +633,9 @@ describe('SubmenuToggle', () => {
       await user.unhover(submenuList);
 
       // Advance timers to trigger the close timeout
-      jest.advanceTimersByTime(150);
+      act(() => {
+        jest.advanceTimersByTime(150);
+      });
 
       // The submenu should be closed after the timeout
       await waitFor(() => {

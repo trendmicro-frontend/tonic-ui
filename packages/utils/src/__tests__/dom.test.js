@@ -12,10 +12,10 @@ import {
   isElement,
   isHTMLElement,
   normalizeKeyboardEventKey,
-} from '@tonic-ui/utils/src';
+} from '../dom';
 import {
   createMockElement,
-} from '@tonic-ui/utils/test-utils/jsdom-mock';
+} from '../../test-utils/jsdom-mock';
 
 describe('canUseDOM', () => {
   it('should return true if window and document are defined', () => {

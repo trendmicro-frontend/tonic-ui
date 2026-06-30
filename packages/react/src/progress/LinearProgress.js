@@ -1,6 +1,6 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import {
@@ -10,13 +10,27 @@ import {
 
 const defaultVariant = 'indeterminate';
 
+/**
+ * @typedef {Object} LinearProgressProps
+ * @property {string | string[]} [color='blue:60'] - The color of the progress bar. It supports both default and custom theme colors.
+ * @property {number | string} [height=4] - The height of the progress bar, in pixels.
+ * @property {number} [min=0] - The minimum value of the progress indicator.
+ * @property {number} [max=100] - The maximum value of the progress indicator.
+ * @property {number} [value=0] - The value of the progress indicator for the determinate variant. Value between `min` and `max`.
+ * @property {'indeterminate' | 'determinate'} [variant='indeterminate'] - The variant to use.
+ * @property {number | string} [width] - The width of the progress bar, in pixels.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', LinearProgressProps>}
+ */
 const LinearProgress = forwardRef((inProps, ref) => {
   const {
     size: sizeProp, // deprecated
 
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
-    color = 'blue:60',
+    color = '_foreground.primary.active',
     min = 0,
     max = 100,
     value = 0,

@@ -4,7 +4,7 @@ import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { forwardRef, useEffect, useRef, useState } from 'react';
 
 const InlineError = (props) => (
-  <Text fontSize="sm" lineHeight="sm" color="red:50" {...props} />
+  <Text fontSize="sm" lineHeight="sm" color="error.text" {...props} />
 );
 
 const MultilineTextField = forwardRef((
@@ -41,7 +41,7 @@ const MultilineTextField = forwardRef((
         />
         {error ? (
           <Box position="absolute" right="3x" top="2x">
-            <WarningCircleIcon color="red:50" />
+            <WarningCircleIcon color="error.icon" />
           </Box>
         ) : null}
       </Flex>

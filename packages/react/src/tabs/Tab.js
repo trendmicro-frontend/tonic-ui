@@ -1,7 +1,7 @@
 import { useEffectOnce } from '@tonic-ui/react-hooks';
 import { ariaAttr, callEventHandlers, isNullOrUndefined, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
-import { forwardRef, useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
 import config from '../shared/config';
@@ -10,6 +10,17 @@ import useTabs from './useTabs';
 
 const isIndexEqual = (index1, index2) => !isNullOrUndefined(index1) && !isNullOrUndefined(index2) && (index1 === index2);
 
+/**
+ * @typedef {Object} TabProps
+ * @property {React.ReactNode | ((context: { getTabProps: () => React.HTMLAttributes<HTMLButtonElement> & { ref: React.RefCallback<HTMLElement> }; disabled?: boolean; index: number | string; isSelected: boolean }) => React.ReactNode)} [children] - A function child can be used instead of a React element. This function is called with the following props: `getTabProps`, `disabled`, `index`, `isSelected`.
+ * @property {boolean} [disabled] - Whether the tab is disabled.
+ * @property {number | string} [index] - The index of the tab. An index number starting from 0 will be provided if not specified.
+ * @property {React.MouseEventHandler<HTMLButtonElement>} [onClick] - A callback for when the tab is clicked.
+ */
+
+/**
+ * @type {ForwardRefComponent<'button', TabProps>}
+ */
 const Tab = forwardRef((inProps, ref) => {
   const {
     children,

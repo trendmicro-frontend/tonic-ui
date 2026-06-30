@@ -60,7 +60,11 @@ const App = () => {
         }}
         onKeyPress={onKeyPress}
         width={inputWidth}
-        slotProps={{ input: { textOverflow: 'ellipsis' } }}
+        slotProps={{
+          input: {
+            textOverflow: 'ellipsis',
+          },
+        }}
         sx={{
           transition: 'width .2s',
         }}

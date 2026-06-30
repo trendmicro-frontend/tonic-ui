@@ -1,17 +1,14 @@
 # Usage
 
-> The `createTheme` function was introduced in v2.5.0. If you're using a version prior to v2.5.0, please refer to the [v2.4.0 documentation](https://trendmicro-frontend.github.io/tonic-ui/react/2.4.0/getting-started/usage).
-
 You can use any of the components as demonstrated in the documentation. If you are the first time using Tonic UI, you may want to read the following sections to get started.
 
 ## Setup provider
 
-For Tonic UI to work, you will need to setup the `TonicProvder` at the root of your application.
+For Tonic UI to work, you will need to setup the `TonicProvider` at the root of your application.
 
 Go to the root of your application and do the following:
 
 ```jsx
-import React from 'react';
 import {
   Box,
   TonicProvider, // Provides theme and context for Tonic UI components
@@ -23,7 +20,9 @@ function App(props) {
       colorMode={{
         defaultValue: 'dark', // One of: 'dark', 'light'
       }}
-      useCSSBaseline={true} // If `true`, apply CSS reset and base styles
+      // Enable these only for standalone applications
+      useCSSBaseline // [optional] Applies CSS reset and base styles
+      useCSSVariables // [optional] Enables CSS variables
     >
       <Box {...props} />
     </TonicProvider>
@@ -31,11 +30,12 @@ function App(props) {
 }
 ```
 
+> 📢 **Important:** `useCSSBaseline` and `useCSSVariables` are intended for standalone applications only. If your app is integrated as a widget within another application (i.e., sharing the same document), disable them to avoid conflicts with global styles and CSS variables.
+
 See below for a more complete example:
 
 ```jsx
 import { Global, css } from '@emotion/react';
-import React from 'react';
 import {
   Box,
   PortalManager, // Manages portals in the application
@@ -47,9 +47,9 @@ import {
   useColorStyle, // Hook to manage color style
   useTheme,      // Hook to access the theme object
 } from '@tonic-ui/react';
+import { useEffect } from 'react';
 
 const customTheme = createTheme({
-  cssVariables: true, // Enable CSS theme variables
   components: {
     // Set default props for specific components
     //
@@ -65,16 +65,25 @@ const customTheme = createTheme({
 });
 
 function App(props) {
+  const colorMode = 'dark'; // Use `localStorage.getItem('uic_theme')` in TrendAI Vision One
+
+  useEffect(() => {
+    // Required for CSS theme variables with color mode support
+    document.documentElement.setAttribute('data-color-scheme', colorMode);
+  }, [colorMode]);
+
   return (
     <TonicProvider
       colorMode={{
         defaultValue: 'dark', // One of: 'dark', 'light'
       }}
       colorStyle={{
-        defaultValue: colorStyle,
+        defaultValue: colorStyle,  // [optional] Not required when using semantic tokens
       }}
       theme={customTheme}
-      useCSSBaseline={true} // If `true`, apply CSS reset and base styles
+      // Enable these only for standalone applications
+      useCSSBaseline // [optional] Applies CSS reset and base styles
+      useCSSVariables // [optional] Enables CSS variables
     >
       <ToastManager
         // Ensure that `ToastManager` is positioned above `PortalManager` to allow toast notifications to be displayed within a portal.
@@ -98,76 +107,63 @@ function App(props) {
         }}
       >
         <PortalManager>
-          <Layout>
-            <Box {...props} />
-          </Layout>
+          <GlobalStyles />
+          <Box
+            backgroundColor="background.low" // semantic token
+            color="text.primary" // semantic token
+            height="100vh"
+            {...props}
+          />
         </PortalManager>
       </ToastManager>
     </TonicProvider>
   );
 }
 
-function Layout(props) {
+function GlobalStyles() {
   const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle();
-  const { colors, fontSizes, lineHeights } = useTheme();
-  const backgroundColor = colorStyle.background.primary;
-  const color = colorStyle.color.primary;
-  const scrollbarThumbBackgroundColor = colorStyle.color.disabled;
-  const scrollbarThumbHoverBackgroundColor = colorStyle.color.tertiary;
-  const scrollbarThumbHoverBorderColor = colorStyle.color.secondary;
-  const scrollbarTrackBackgroundColor = {
-    light: 'gray:30',
-    dark: 'gray:70',
-  }[colorMode];
+
+  // useTheme() automatically resolves color mode tokens (_dark/_light) based on the current color mode.
+  // Use theme.get() to look up token values by path.
+  const theme = useTheme();
 
   return (
-    <>
-      <Global
-        styles={css`
-          :root, :host {
-            color-scheme: ${colorMode};
-          }
-          :focus:not(:focus-visible) {
-            outline: none;
-          }
-          body {
-            font-size: ${fontSizes.sm};
-            line-height: ${lineHeights.sm};
-          }
+    <Global
+      styles={css`
+        :root, :host {
+          color-scheme: ${colorMode};
+        }
+        :focus:not(:focus-visible) {
+          outline: none;
+        }
+        body {
+          font-size: ${theme.get('fontSizes.sm')};
+          line-height: ${theme.get('lineHeights.sm')};
+        }
 
-          ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-          }
-          ::-webkit-scrollbar-track {
-            background-color: ${colors[scrollbarTrackBackgroundColor]};
-          }
-          ::-webkit-scrollbar-thumb {
-            background-color: ${colors[scrollbarThumbBackgroundColor]};
-          }
-          ::-webkit-scrollbar-thumb:hover {
-            background-color: ${colors[scrollbarThumbHoverBackgroundColor]};
-            border: 1px solid ${colors[scrollbarThumbHoverBorderColor]};
-          }
-        `}
-      />
-      <Box
-        backgroundColor={backgroundColor}
-        color={color}
-        fontSize="sm"
-        lineHeight="sm"
-        height="100vh"
-        {...props}
-      />
-    </>
+        ::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+          background-color: ${theme.get('colors._component.scrollbar.track.enabled')};
+        }
+        ::-webkit-scrollbar-track:hover {
+          background-color: ${theme.get('colors._component.scrollbar.track.hovered')};
+        }
+        ::-webkit-scrollbar-thumb {
+          background-color: ${theme.get('colors._component.scrollbar.thumb.enabled')};
+        }
+        ::-webkit-scrollbar-thumb:hover {
+          background-color: ${theme.get('colors._component.scrollbar.thumb.hovered')};
+        }
+      `}
+    />
   );
 }
 ```
 
 > Learn more about [Color Mode](../../components/color-mode) in the documentation.
-
-> Learn more about [Color Style](../../components/color-style) in the documentation.
 
 > For the **`color-scheme`** CSS property, see [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme) for more information.
 
@@ -175,51 +171,83 @@ function Layout(props) {
 
 ### Applying base CSS styles
 
+> 📢 **Important:** `useCSSBaseline` is intended for standalone applications only. If your app is integrated as a widget within another application (i.e., sharing the same document), do not enable it to avoid conflicts with global styles.
+
 Sometimes you may need to apply base CSS styles to your application. Tonic UI provides an optional `CSSBaseline` component that fixes some inconsistencies across browsers and devices while providing slightly more opinionated resets to common HTML elements. `CSSBaseline` is recommended to add at the root to ensure all components work correctly.
 
 ```jsx
 <TonicProvider
-  useCSSBaseline={true}
+  useCSSBaseline
 >
   <App />
 </TonicProvider>
 ```
 
-> If you are not writing an application, you may want to set `useCSSBaseline` to `false` (or not set it at all) to prevent global styles pollution.
-
 ### Enabling CSS theme variables
 
-Tonic UI supports converting theme tokens defined in the theme to CSS variables. You can enable this behavior by configuring the theme as shown below:
+> 📢 **Important:** `useCSSVariables` is intended for standalone applications only. If your app is integrated as a widget within another application (i.e., sharing the same document), do not enable it to avoid conflicts with CSS variables.
+
+Tonic UI supports converting theme tokens defined in the theme to CSS variables. You can enable this behavior by pass `useCSSVariables` to `TonicProvider`:
 
 ```jsx
 <TonicProvider
-  theme={createTheme({
-    cssVariables: true, // Enable CSS theme variables
-  })}
-/>
+  useCSSVariables
+>
+  <App />
+</TonicProvider>
 ```
 
-For example, consider a theme object that looks like this:
-
-```js
-{
-  colors: {
-    'gray:10': '#fafafa',
-    'gray:20': '#f7f7f7',
-  },
-}
-```
-
-When this theme is passed to `TonicProvider`, Tonic UI will generate CSS variables automatically, as shown below:
+When this is enabled, Tonic UI will automatically generate CSS variables for theme color tokens:
 
 ```css
 :root {
-  --tonic-colors-gray-10: #fafafa;
-  --tonic-colors-gray-20: #f7f7f7;
+  --tonic-colors-gray-100: #fafafa;
+  --tonic-colors-gray-200: #f7f7f7;
+  --tonic-colors-gray-800: #1a1a1a;
+  --tonic-colors-background-high-light: var(--tonic-colors-gray-100);
+  --tonic-colors-background-high-dark: var(--tonic-colors-gray-800);
+  --tonic-colors-text-primary-light: var(--tonic-colors-gray-800);
+  --tonic-colors-text-primary-dark: var(--tonic-colors-gray-100);
+}
+
+[data-color-scheme="dark"] {
+  --tonic-colors-background-high: var(--tonic-colors-background-high-dark);
+  --tonic-colors-text-primary: var(--tonic-colors-text-primary-dark);
+}
+
+[data-color-scheme="light"] {
+  --tonic-colors-background-high: var(--tonic-colors-background-high-light);
+  --tonic-colors-text-primary: var(--tonic-colors-text-primary-light);
 }
 ```
 
-These CSS variables can then be used to style components, providing a consistent look and feel throughout the application.
+Components automatically use these CSS variables for consistent styling across the application.
+
+> 📢 **Important:** When `useCSSVariables` is enabled, remember to set `data-color-scheme` on the root element for color mode support. Without it, theme color tokens will not apply correctly.
+
+> **Note:** `useCSSVariables` is not applicable for Shadow DOM. CSS variables injected into `:root` are not accessible inside a shadow root.
+
+```jsx
+import { Box, useColorMode } from '@tonic-ui/react';
+import { useEffect } from 'react';
+
+function App() {
+  const [colorMode] = useColorMode();
+
+  useEffect(() => {
+    // Required for CSS theme variables with color mode support
+    document.documentElement.setAttribute('data-color-scheme', colorMode);
+  }, [colorMode]);
+
+  return (
+    <Box>
+      {/* Your app content */}
+    </Box>
+  );
+}
+```
+
+To understand how CSS theme variables work with color mode, see [CSS theme variables](../../customization/css-theme-variables/) for details.
 
 ### Extending the color style
 
@@ -237,32 +265,32 @@ import { merge } from '@tonic-ui/utils';
 const customColorStyle = merge(colorStyle, {
   dark: {
     risk: {
-      high: 'red:50',
-      medium: 'yellow:50',
-      low: 'green:40',
-      none: 'gray:50',
+      high: 'alert.riskLevel.high.text',
+      medium: 'alert.riskLevel.medium.text',
+      low: 'alert.riskLevel.low.text',
+      none: 'alert.riskLevel.uta.text',
     },
     severity: {
-      critical: 'magenta:60',
-      high: 'red:50',
-      medium: 'orange:50',
-      low: 'yellow:50',
-      info: 'gray:50',
+      critical: 'alert.severity.critical.text',
+      high: 'alert.severity.high.text',
+      medium: 'alert.severity.medium.text',
+      low: 'alert.severity.low.text',
+      info: 'alert.severity.informational.text',
     },
   },
   light: {
     risk: {
-      high: 'red:60',
-      medium: 'yellow:50',
-      low: 'green:50',
-      none: 'gray:50',
+      high: 'alert.riskLevel.high.text',
+      medium: 'alert.riskLevel.medium.text',
+      low: 'alert.riskLevel.low.text',
+      none: 'alert.riskLevel.uta.text',
     },
     severity: {
-      critical: 'magenta:60',
-      high: 'red:60',
-      medium: 'orange:50',
-      low: 'yellow:50',
-      info: 'gray:50',
+      critical: 'alert.severity.critical.text',
+      high: 'alert.severity.high.text',
+      medium: 'alert.severity.medium.text',
+      low: 'alert.severity.low.text',
+      info: 'alert.severity.informational.text',
     },
   },
 });
@@ -284,8 +312,8 @@ const customColorStyle = merge(colorStyle, {
 
 ```jsx
 const [colorStyle] = useColorStyle()
-console.log(colorStyle?.risk?.medium); // 'yellow:50'
-console.log(colorStyle?.severity?.critical); // 'magenta:60'
+console.log(colorStyle?.risk?.medium); // 'alert.riskLevel.medium.text'
+console.log(colorStyle?.severity?.critical); // 'alert.severity.critical.text'
 ```
 
 ### Extending the theme
@@ -294,20 +322,32 @@ Optionally, you can extend the theme object to override the defaults with custom
 
 #### 1. Overriding the theme
 
-Override the theme object and pass it to the `<ThemeProvider>` component.
+You can create a custom theme with primitive tokens, semantic tokens, and other customizations:
 
 ```js
-import {
-  createTheme, // For theme customization
-} from '@tonic-ui/react';
+import { createTheme } from '@tonic-ui/react';
 
 const customTheme = createTheme({
-  cssVariables: true, // Enable CSS theme variables
   colors: {
-    brand: {
-      90: "#1a365d",
-      80: "#153e75",
-      70: "#2a69ac",
+    // Primitive tokens
+    gray: {
+      100: '#fafafa',
+      200: '#f7f7f7',
+      800: '#1a1a1a',
+    },
+    
+    // Semantic tokens (use references that will be resolved based on color mode)
+    background: {
+      high: {
+        _light: '{gray.100}',
+        _dark: '{gray.800}',
+      },
+    },
+    text: {
+      primary: {
+        _light: '{gray.800}',
+        _dark: '{gray.100}',
+      },
     },
   },
 });
@@ -323,11 +363,53 @@ const customTheme = createTheme({
 </TonicProvider>
 ```
 
-#### 3. Using the theme
+#### 3. Using theme tokens
+
+Use semantic tokens directly in component props:
 
 ```jsx
-const theme = useTheme();
-const brandColor = theme?.colors?.brand?.[90];
+<Box backgroundColor="background.low" color="text.primary">
+  Content with semantic tokens
+</Box>
+```
+
+> 💡 **NOTICE**<br/>
+> You usually don't need `useTheme()` at all — pass semantic tokens like `"text.primary"` or `"background.low"` directly as style props. Use `useTheme()` only when you need to compose resolved values into expressions like `calc()`, `color-mix()`, `box-shadow`, or `linear-gradient`.
+
+The theme object returned by `useTheme()` includes a `get()` method for resolving nested token values by path. `theme.get()` automatically extracts the `main` value from primitive color objects that contain lighten/darken variants.
+
+```jsx
+import { useTheme } from '@tonic-ui/react';
+
+function MyComponent() {
+  const theme = useTheme();
+
+  // Resolve a semantic color token
+  const focusRingColor = theme.get('colors._component.keyboardFocused.innerFocusRing');
+
+  // Resolve a primitive color — automatically extracts `main` from nested objects
+  // Both return '#1362fc' (the main value of blue.600)
+  const blue600 = theme.get('colors.blue.600');
+
+  // Access lighten/darken variants directly
+  const blue600Darken80 = theme.get('colors.blue.600.darken.80');
+
+  // Supports default values for missing paths
+  const fallback = theme.get('colors.nonexistent', '#000000');
+
+  // Non-color values work too
+  const size = theme.get('sizes.4x');
+
+  // ...
+}
+```
+
+To resolve tokens for a specific color mode regardless of the current context, pass the `colorMode` option:
+
+```jsx
+// Always resolves tokens for light mode, regardless of the active color mode
+const theme = useTheme({ colorMode: 'light' });
+const lightBackground = theme.get('colors.background.high');
 ```
 
 ## How to use Tonic UI
@@ -353,7 +435,7 @@ There are some shorthands available for various CSS properties. These are docume
 
 ```jsx
 <Box
-  bg="white:primary" // backgroundColor: 'white:primary'
+  bg="background.high" // backgroundColor: 'background.high'
   mb="3x" // marginBottom: '3x'
   px="4x" // paddingLeft: '4x', paddingRight: '4x'
   py="3x" // paddingTop: '3x', paddingBottom: '3x'
@@ -372,7 +454,7 @@ The `sx` prop supports CSS syntax including child and pseudo-selectors, media qu
   <Box
     sx={{
       ':hover': {
-        backgroundColor: 'gray:10',
+        backgroundColor: 'background.high',
       },
     }}
   />
@@ -396,7 +478,7 @@ The `sx` prop supports CSS syntax including child and pseudo-selectors, media qu
   <Box
     sx={{
       '& .child-selector': {
-        backgroundColor: 'white:secondary',
+        backgroundColor: 'background.high',
       },
     }}
   />

@@ -1,13 +1,28 @@
 import { useId } from '@tonic-ui/react-hooks';
 import { getAllFocusable, runIfFn } from '@tonic-ui/utils';
-import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
-import useShallowMemo from '../utils/useShallowMemo';
 import config from '../shared/config';
+import useShallowMemo from '../utils/useShallowMemo';
 import { SubmenuContext } from './context';
 import { useSubmenuStyle } from './styles';
 
+/**
+ * @typedef {Object} SubmenuProps
+ * @property {React.ReactNode} [children] - The content of the submenu.
+ * @property {boolean} [defaultIsOpen=false] - Whether the submenu is open by default.
+ * @property {boolean} [isOpen] - Whether the submenu is open.
+ * @property {[number, number]} [offset=[0, 0]] - The skidding and distance of the menu.
+ * @property {() => void} [onClose] - Callback when the submenu is closed.
+ * @property {() => void} [onOpen] - Callback when the submenu is opened.
+ * @property {boolean} [portalled=false] - If `true`, renders the submenu in a portal.
+ * @property {string} [placement='right-start'] - The placement of the submenu. One of: 'right-start', 'right-end', 'left-start', 'left-end'
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', SubmenuProps>}
+ */
 const Submenu = forwardRef((inProps, ref) => {
   const {
     children,
@@ -131,7 +146,6 @@ const Submenu = forwardRef((inProps, ref) => {
   const submenuId = `${config.name}:Submenu-${defaultId}`;
   const submenuTriggerId = `${config.name}:SubmenuTrigger-${defaultId}`;
   const styleProps = useSubmenuStyle();
-
   const context = shallowMemo({
     focusOnFirstItem,
     focusOnLastItem,

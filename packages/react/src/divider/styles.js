@@ -1,14 +1,8 @@
-import { useColorMode } from '../color-mode';
-
 const useDividerStyle = ({
   orientation,
   variant,
 }) => {
-  const [colorMode] = useColorMode();
-  const dividerColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
+  const dividerColor = 'border.tertiary';
   const borderKey = {
     vertical: 'borderLeft',
     horizontal: 'borderTop',

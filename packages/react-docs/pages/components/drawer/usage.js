@@ -25,8 +25,6 @@ import {
   Text,
   TextLabel,
   Tooltip,
-  useColorMode,
-  useColorStyle,
 } from '@tonic-ui/react';
 import { EmailIcon, InfoOIcon, UserIcon } from '@tonic-ui/react-icons';
 import {
@@ -70,9 +68,7 @@ import { Global } from '@emotion/react';
 
 const App = () => {
   const initialFocusRef = useRef();
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const iconColor = colorStyle.color.tertiary;
+  const iconColor = 'text.tertiary';
   const [isOpen, toggleDrawer] = useToggle(false);
   const [placement, changePlacementBy] = useSelection('right');
   const [size, changeSizeBy] = useSelection('auto');
@@ -232,7 +228,7 @@ const App = () => {
           <Space width="2x" />
           <Text fontFamily="mono" whiteSpace="nowrap">closeOnOutsideClick (deprecated)</Text>
           <Space width="2x" />
-          <Text color={colorStyle.color.primary}>⚠️</Text>
+          <Text color="text.primary">⚠️</Text>
         </TextLabel>
       </FormGroup>
       <FormGroup>
@@ -403,7 +399,7 @@ const App = () => {
                   </TabPanel>
                   <TabPanel>
                     <Box
-                      backgroundColor={colorStyle.background.tertiary}
+                      backgroundColor="background.highest"
                       minHeight={1000}
                       px="3x"
                       py="2x"

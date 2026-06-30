@@ -3,6 +3,7 @@ import { useConst } from '@tonic-ui/react-hooks';
 
 const App = () => {
   const mountTime = useConst(() => new Date().toTimeString());
+
   const randomValue = useConst(Math.random());
 
   return (

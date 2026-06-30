@@ -5,20 +5,16 @@ import {
   TabList,
   Tabs,
   Text,
-  useColorMode,
-  useColorStyle,
 } from '@tonic-ui/react';
 
 const MyTabGroup = (props) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
   return (
     <TabList
       position="relative"
       __after={{
         content: '""',
         borderBottom: 1,
-        borderBottomColor: colorStyle.divider,
+        borderBottomColor: 'border.tertiary',
         position: 'absolute',
         bottom: 0,
         width: '100%',
@@ -30,16 +26,13 @@ const MyTabGroup = (props) => {
 };
 
 const App = () => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-
   return (
     <Flex flexDirection="column" rowGap="4x">
       <Box>
         <Text fontSize="lg" lineHeight="lg" mb="2x">
           Left-aligned
         </Text>
-        <Box backgroundColor={colorStyle.background.secondary} p="4x">
+        <Box p="4x">
           <Tabs>
             <MyTabGroup justifyContent="flex-start">
               <Tab>TAB 1</Tab>
@@ -53,7 +46,7 @@ const App = () => {
         <Text fontSize="lg" lineHeight="lg" mb="2x">
           Centered
         </Text>
-        <Box backgroundColor={colorStyle.background.secondary} p="4x">
+        <Box p="4x">
           <Tabs>
             <MyTabGroup justifyContent="center">
               <Tab>TAB 1</Tab>
@@ -67,7 +60,7 @@ const App = () => {
         <Text fontSize="lg" lineHeight="lg" mb="2x">
           Right-aligned
         </Text>
-        <Box backgroundColor={colorStyle.background.secondary} p="4x">
+        <Box p="4x">
           <Tabs>
             <MyTabGroup justifyContent="flex-end">
               <Tab>TAB 1</Tab>
@@ -81,7 +74,7 @@ const App = () => {
         <Text fontSize="lg" lineHeight="lg" mb="2x">
           Full width
         </Text>
-        <Box backgroundColor={colorStyle.background.secondary} p="4x">
+        <Box p="4x">
           <Tabs>
             <MyTabGroup>
               <Tab width="100%">TAB 1</Tab>
@@ -95,7 +88,7 @@ const App = () => {
         <Text fontSize="lg" lineHeight="lg" mb="2x">
           Auto-sizing
         </Text>
-        <Box backgroundColor={colorStyle.background.secondary} p="4x">
+        <Box p="4x">
           <Tabs>
             <MyTabGroup display="inline-flex">
               <Tab>TAB 1</Tab>

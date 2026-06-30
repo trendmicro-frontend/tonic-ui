@@ -1,5 +1,6 @@
 import { render } from '@tonic-ui/react/test-utils/render';
 import { AccordionCollapse } from '@tonic-ui/react/src';
+import React from 'react';
 
 describe('AccordionCollapse component', () => {
   it('logs a deprecation warning when used', () => {

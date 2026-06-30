@@ -11,7 +11,6 @@ import {
   Space,
   Text,
   useColorMode,
-  useColorStyle,
 } from '@tonic-ui/react';
 
 import {
@@ -40,17 +39,15 @@ const Avatar = (props) => (
 );
 
 const IconButton = (props) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
   return (
     <ButtonBase
-      color={colorStyle.color.secondary}
+      color="text.secondary"
       tabIndex={0}
       _disabled={{
-        color: colorStyle.color.disabled,
+        color: 'text.disabled',
       }}
       _hover={{
-        color: colorStyle.color.primary,
+        color: 'text.primary',
       }}
       {...props}
     />
@@ -60,8 +57,7 @@ const IconButton = (props) => {
 let shouldPreventDefaultOnNextBlur = false;
 
 const App = () => {
-  const [colorMode, setColorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
+  const [colorMode] = useColorMode();
   const [menuState, setMenuState] = useState('main');
   const navigateMenuBy = (nextMenuState) => (event) => {
     // Prevent the menu from closing when a menu item is clicked
@@ -82,10 +78,10 @@ const App = () => {
     >
       <MenuToggle>
         <Avatar
-          backgroundColor={colorStyle.background.secondary}
-          color={colorStyle.color.secondary}
+          backgroundColor="background.medium"
+          color="text.secondary"
           _hover={{
-            color: colorStyle.color.primary,
+            color: 'text.primary',
           }}
         >
           <UserTeamIcon size="5x" />
@@ -180,11 +176,7 @@ const App = () => {
                 </Text>
               )}
             >
-              <MenuItem
-                onClick={(event) => {
-                  setColorMode('dark');
-                }}
-              >
+              <MenuItem>
                 <Flex flex="none" mr="3x" minWidth="4x">
                   {colorMode === 'dark' && <CheckIcon />}
                 </Flex>
@@ -192,11 +184,7 @@ const App = () => {
                   Dark theme
                 </Flex>
               </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  setColorMode('light');
-                }}
-              >
+              <MenuItem>
                 <Flex flex="none" mr="3x" minWidth="4x">
                   {colorMode === 'light' && <CheckIcon />}
                 </Flex>

@@ -4,6 +4,7 @@
   "description": "A comprehensive React component library for Tonic UI.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -14,14 +15,15 @@
   "scripts": {
     "build": "cross-env rollup --config rollup.config.mjs",
     "clean": "del build coverage dist",
-    "lint": "eslint --ext .js,.jsx,.mjs .",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx,.mjs .",
     "pre-push": "bash -c 'echo -e \"=> \\e[1;33m$npm_package_name\\e[0m\"' && yarn run build && yarn run lint && yarn run test",
     "prepublishOnly": "yarn run build",
-    "test": "jest --maxWorkers=2"
+    "test": "cross-env NODE_ENV=test jest --maxWorkers=2",
+    "test:types": "tsc -p tsconfig.test.json",
+    "types:build": "tsc",
+    "types:clear": "del build coverage @types/"
   },
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
     "@popperjs/core": "2.x",
     "@tonic-ui/react-base": "^3.0.0-alpha.0",
     "@tonic-ui/react-hooks": "^3.0.0-alpha.0",
@@ -44,19 +46,26 @@
     "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.28.5",
     "@codecov/rollup-plugin": "^1.5.1",
     "@emotion/babel-plugin": "^11.13.0",
     "@emotion/jest": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@rollup/plugin-babel": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0",
+    "@testing-library/dom": "^10.0.0",
     "@testing-library/jest-dom": "^6.0.0",
-    "@testing-library/react": "^15.0.0",
-    "@testing-library/user-event": "^14.4.3",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.0.0",
     "@trendmicro/babel-config": "^1.0.2",
+    "@typescript-eslint/eslint-plugin": "^8.58.0",
+    "@typescript-eslint/parser": "^8.58.0",
     "cross-env": "^7.0.3",
     "del-cli": "^5.0.0",
     "eslint": "^9.26.0",
     "eslint-config-trendmicro": "^4.4.1",
+    "eslint-import-resolver-typescript": "^3.6.3",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
@@ -69,13 +78,20 @@
     "jest-extended": "^4.0.0",
     "react": "^16.14.0 || ^17 || ^18 || ^19",
     "react-dom": "^16.14.0 || ^17 || ^18 || ^19",
-    "rollup": "^3"
+    "rollup": "^3",
+    "rollup-plugin-dts": "^6.1.1",
+    "typescript": "^5.0.0"
   },
   "peerDependencies": {
+    "@emotion/react": "^11.0.0",
+    "@emotion/styled": "^11.0.0",
     "react": "^16.14.0 || ^17 || ^18 || ^19",
     "react-dom": "^16.14.0 || ^17 || ^18 || ^19"
   },
   "jest": {
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
+    },
     "clearMocks": true,
     "collectCoverage": true,
     "collectCoverageFrom": [

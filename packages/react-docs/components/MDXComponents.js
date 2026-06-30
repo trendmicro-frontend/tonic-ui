@@ -318,6 +318,15 @@ const AnchorComponent = props => (
   <Link as="a" {...props} />
 );
 
+const ImageComponent = props => (
+  <Image
+    maxWidth="100%"
+    alt="image-description"
+    maxHeight="100%"
+    {...props}
+  />
+);
+
 /**
  * https://mdxjs.com/getting-started#table-of-components
  */
@@ -343,7 +352,7 @@ const MDXComponents = {
   code: CodeComponent,
   hr: HRComponent,
   a: AnchorComponent,
-  img: Image,
+  img: ImageComponent,
 };
 
 export default MDXComponents;

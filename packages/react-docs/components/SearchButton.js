@@ -1,52 +1,22 @@
-import {
-  ButtonBase,
-  Flex,
-  Text,
-  useColorMode,
-  useColorStyle,
-} from '@tonic-ui/react';
-import {
-  SearchOIcon,
-} from '@tonic-ui/react-icons';
+import { ButtonBase, Flex, Text } from '@tonic-ui/react';
+import { SearchOIcon } from '@tonic-ui/react-icons';
 import { forwardRef } from 'react';
 
-const SearchButton = forwardRef((
-  {
-    children,
-    ...rest
-  },
-  ref,
-) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const borderColor = {
-    dark: 'gray:60',
-    light: 'gray:30',
-  }[colorMode];
-  const hoverBorderColor = {
-    dark: 'blue:50',
-    light: 'blue:50',
-  }[colorMode];
-  const focusBorderColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-
+const SearchButton = forwardRef(({ children, ...rest }, ref) => {
   return (
     <ButtonBase
       ref={ref}
       display="flex"
       alignItems="center"
       justifyContent="space-between"
-      color={colorStyle.color.primary}
       border={1}
-      borderColor={borderColor}
+      borderColor="border._primary.enabled"
       borderRadius="sm"
       _focus={{
-        borderColor: focusBorderColor,
+        borderColor: 'border._primary.focused',
       }}
       _hover={{
-        borderColor: hoverBorderColor,
+        borderColor: 'border._primary.hovered',
       }}
       fontSize="sm"
       lineHeight="sm"
@@ -59,17 +29,14 @@ const SearchButton = forwardRef((
       transition="min-width 0.2s"
       {...rest}
     >
-      <Flex
-        alignItems="center"
-        columnGap="2x"
-      >
+      <Flex alignItems="center" columnGap="2x">
         <SearchOIcon />
         <Text
           display={{
             sm: 'none',
             md: 'block',
           }}
-          color={colorStyle.color.secondary}
+          color="text.tertiary"
         >
           {children}
         </Text>

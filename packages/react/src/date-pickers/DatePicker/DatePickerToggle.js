@@ -1,13 +1,24 @@
 import { useEventCallback, useMergeRefs } from '@tonic-ui/react-hooks';
 import { callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../../box';
 import {
   useDatePickerToggleStyle,
 } from './styles';
 import useDatePicker from './useDatePicker';
 
+/**
+ * @typedef {Object} DatePickerToggleProps
+ * @property {React.ReactNode | ((context: { getDatePickerToggleProps: () => React.HTMLAttributes<HTMLDivElement> & { ref: React.RefCallback<HTMLElement> } }) => React.ReactNode)} [children] - Content or render function.
+ * @property {boolean} [disabled] - Whether the date picker toggle is disabled.
+ * @property {React.MouseEventHandler<HTMLButtonElement>} [onClick] - Callback when the toggle is clicked.
+ * @property {React.KeyboardEventHandler<HTMLButtonElement>} [onKeyDown] - Callback when a key is pressed.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', DatePickerToggleProps>}
+ */
 const DatePickerToggle = forwardRef((
   {
     children,

@@ -1,3 +1,4 @@
+import React, { useMemo, useRef, useState } from 'react';
 import {
   Table,
   TableHeader,
@@ -7,7 +8,6 @@ import {
   useColorMode,
   useTheme,
 } from '@tonic-ui/react';
-import { useMemo, useRef, useState } from 'react';
 import { useTable, useBlockLayout, useColumnOrder } from 'react-table';
 import { DragDropContext, Droppable, Draggable, resetServerContext } from 'react-beautiful-dnd';
 
@@ -41,7 +41,7 @@ const App = () => {
     },
   ], []);
 
-  const data = useMemo(() => [
+  const data = React.useMemo(() => [
     { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
     { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
     { id: 3, eventType: 'URL Filtering', affectedDevices: 15, detections: 598 },
@@ -51,7 +51,7 @@ const App = () => {
   ], []);
 
   const { colorMode } = useColorMode();
-  const { colors } = useTheme();
+  const theme = useTheme();
   const columnPlaceholderProps = {
     'dark': {
       backgroundColor: 'gray:90',
@@ -67,13 +67,13 @@ const App = () => {
       backgroundColor: 'gray:80',
       color: 'gray:30',
       boxShadow: '0 4px 16px 0 rgba(0, 0, 0, 0.48), 0 2px 4px 0 rgba(0, 0, 0, 0.16)',
-      border: `1px solid ${colors['gray:60']}`,
+      border: `1px solid ${theme.get('colors.gray:60')}`,
     },
     'light': {
       backgroundColor: 'gray:10',
       color: 'gray:80',
       boxShadow: '0 4px 16px 0 rgba(0, 0, 0, 0.16), 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-      border: `1px solid ${colors['gray:20']}`,
+      border: `1px solid ${theme.get('colors.gray:20')}`,
     }
   }[colorMode];
 

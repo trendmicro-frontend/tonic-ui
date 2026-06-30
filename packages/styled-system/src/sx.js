@@ -1,4 +1,4 @@
-import { get, isNullish } from '@tonic-ui/utils';
+import { get, isNullish, isPlainObject } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import system from './system';
 import { pseudoClassSelector, pseudoElementSelector } from './pseudo';
@@ -100,6 +100,17 @@ const sx = (valueOrFn) => (props = {}) => {
     return {};
   }
 
+  /**
+   * If an array is provided, each item is resolved independently and merged left to right.
+   *
+   * ```js
+   * sx([
+   *   { color: 'red:50' },
+   *   { bg: 'gray:80' },
+   *   (theme) => ({ fontSize: theme.fontSizes.sm }),
+   * ])
+   * ```
+   */
   if (Array.isArray(valueOrFn)) {
     return valueOrFn.reduce((acc, item) => ({
       ...acc,
@@ -124,9 +135,19 @@ const sx = (valueOrFn) => (props = {}) => {
     const styleValueOrFn = resolvedStyleProps[key];
     const value = (typeof styleValueOrFn === 'function') ? styleValueOrFn(theme) : styleValueOrFn;
 
-    if (value && typeof value === 'object') {
-      // Make a recursive call to handle nested objects
-      result[key] = sx(value)(theme);
+    if (isPlainObject(value)) {
+      /**
+       * An object value indicates a nested rule whose inner style tokens are resolved recursively against the theme.
+       *
+       * ```js
+       * sx({ '&:hover': { color: 'red:50', bg: 'gray:80' } })
+       * // key   → '&:hover'
+       * // value → { color: 'red:50', bg: 'gray:80' }
+       * ```
+       *
+       * `__colorMode` is forwarded so color tokens resolve correctly in dark mode.
+       */
+      result[key] = sx(value)({ theme, __colorMode: props.__colorMode });
       continue;
     }
 
@@ -159,7 +180,7 @@ const sx = (valueOrFn) => (props = {}) => {
 
     result = {
       ...result,
-      ..._sx(scale, value, { ...resolvedStyleProps, theme }),
+      ..._sx(scale, value, { ...resolvedStyleProps, theme, __colorMode: props.__colorMode }),
     };
   }
 

@@ -37,7 +37,7 @@ In the second example, a function is passed as a child of the `OverflowTooltip` 
 
 By default, the `OverflowTooltip` component positions the tooltip relative to its parent container. In some cases, the tooltip content might be cut off when it extends outside the container that holds it.
 
-To prevent this, set `portalled` on the `OverflowTooltip`. This will position the tooltip at the document root.
+To prevent this, pass `portalled` to the `OverflowTooltip`. This will position the tooltip at the document root.
 
 {render('./faq-tooltip-cut-off')}
 
@@ -45,7 +45,7 @@ To prevent this, set `portalled` on the `OverflowTooltip`. This will position th
 
 The `OverflowTooltip` is positioned next to the cursor by default. However, when used within a popup menu, the tooltip may not align correctly with the menu items.
 
-To resolve this issue, set `portalled` on the `OverflowTooltip`.
+To resolve this issue, set `portalled` on `OverflowTooltip`.
 
 {render('./faq-misalignment-with-menu-items')}
 

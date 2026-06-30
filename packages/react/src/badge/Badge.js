@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import {
@@ -7,6 +7,18 @@ import {
   useBadgeContentPlacementStyle,
 } from './styles';
 
+/**
+ * @typedef {Object} BadgeProps
+ * @property {React.ReactNode} [children] -
+ * @property {React.ReactNode | number | string} [badgeContent] - The badge content.
+ * @property {boolean} [isInvisible] - Whether the badge is invisible.
+ * @property {'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'} [placement='top-right'] - The placement of the badge.
+ * @property {'solid' | 'dot'} [variant='solid'] -
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', BadgeProps>}
+ */
 const Badge = forwardRef((inProps, ref) => {
   const {
     badgeContent: badgeContentProp,
@@ -18,10 +30,7 @@ const Badge = forwardRef((inProps, ref) => {
   } = useDefaultProps({ props: inProps, name: 'Badge' });
   const badgeContent = (variant === 'dot') ? null : badgeContentProp;
   const isInvisible = isInvisibleProp ?? (() => {
-    if ((badgeContent === null || badgeContent === undefined) && (variant !== 'dot')) {
-      return true;
-    }
-    return false;
+    return (badgeContent === null || badgeContent === undefined) && (variant !== 'dot');
   })();
 
   const badgeStyle = useBadgeStyle();

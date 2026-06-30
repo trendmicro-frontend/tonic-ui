@@ -5,7 +5,7 @@ import { useRef, useLayoutEffect } from 'react';
  * the DOM has been updated but before the browser paints. This is useful for synchronous
  * layout work (e.g., measuring element size/position) without causing visual flicker.
  *
- * @returns {function(Function): void} runAfterUpdate
+ * @returns {(callback: () => void) => void} runAfterUpdate
  *   A function that takes a callback. When you call `runAfterUpdate(callback)`, your
  *   callback will be stored and then invoked exactly once in the next layout phase
  *   (inside a useLayoutEffect) after the DOM mutation completes. After invocation, the

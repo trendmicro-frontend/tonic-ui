@@ -2,41 +2,29 @@ import { createTransitionStyle } from '@tonic-ui/utils';
 import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 
-const getOutlinedStyle = ({
-  colorMode,
-}) => {
-  const backgroundColor = {
-    dark: 'transparent',
-    light: 'white',
-  }[colorMode];
-  const borderColor = {
-    dark: 'gray:60',
-    light: 'gray:30',
-  }[colorMode];
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-  const hoverBorderColor = {
-    dark: 'blue:50',
-    light: 'blue:50',
-  }[colorMode];
-  const focusBorderColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-  const disabledBorderColor = {
-    dark: 'gray:60',
-    light: 'gray:30',
-  }[colorMode];
-  const invalidBorderColor = {
-    dark: 'red:50',
-    light: 'red:50',
-  }[colorMode];
-  const placeholderColor = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
+const getOutlinedStyle = () => {
+  // Normal
+  const backgroundColor = '_foreground.subtle.enabled';
+  const borderColor = 'border._primary.enabled';
+  const color = 'text.primary';
+  const placeholderColor = 'text.tertiary';
+
+  // Hover
+  const hoverBorderColor = 'border._primary.hovered';
+  const hoverBackgroundColor = '_foreground.subtle.hovered';
+
+  // Focus
+  const focusBorderColor = 'border._primary.focused';
+  const focusBackgroundColor = '_foreground.subtle.active';
+
+  // Disabled
+  const disabledColor = 'text.disabled';
+  const disabledBackgroundColor = '_foreground.subtle.disabled';
+  const disabledBorderColor = 'border._primary.disabled';
+  const disabledPlaceholderColor = disabledColor;
+
+  // Invalid
+  const invalidBorderColor = 'border._negative.enabled';
 
   return {
     backgroundColor,
@@ -45,14 +33,33 @@ const getOutlinedStyle = ({
     color,
     _hover: {
       borderColor: hoverBorderColor,
+      backgroundColor: hoverBackgroundColor,
     },
     _focus: {
       borderColor: focusBorderColor,
+      backgroundColor: focusBackgroundColor,
     },
     _disabled: {
+      color: disabledColor,
       borderColor: disabledBorderColor,
+      backgroundColor: disabledBackgroundColor,
       cursor: 'not-allowed',
-      opacity: '.28',
+      '&::placeholder': {
+        color: disabledPlaceholderColor,
+      },
+    },
+    _readOnly: {
+      backgroundColor: disabledBackgroundColor,
+      borderColor: disabledBorderColor,
+      color,
+      '&:hover': {
+        backgroundColor: disabledBackgroundColor,
+        borderColor: disabledBorderColor,
+      },
+      '&:focus': {
+        backgroundColor: disabledBackgroundColor,
+        borderColor: disabledBorderColor,
+      },
     },
     _valid: {
       // XXX - border color for valid input is not defined
@@ -68,37 +75,16 @@ const getOutlinedStyle = ({
     },
     __placeholder: {
       color: placeholderColor,
-      // Override Firefox's unusual default opacity
-      opacity: 1,
     },
   };
 };
 
-const getFilledStyle = ({
-  colorMode,
-}) => {
-  const backgroundColor = {
-    dark: 'gray:80',
-    light: 'gray:10',
-  }[colorMode];
-
-  return {
-    ...getOutlinedStyle({ colorMode }),
-    backgroundColor,
-  };
-};
-
-const getUnstyledStyle = ({
-  colorMode,
-}) => {
+const getUnstyledStyle = colorMode => {
   const backgroundColor = {
     dark: 'transparent',
-    light: 'white',
+    light: 'white.100',
   }[colorMode];
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
+  const color = 'text.primary';
 
   return {
     backgroundColor,
@@ -113,8 +99,8 @@ const getUnstyledStyle = ({
 const useTextareaStyle = ({
   variant,
 }) => {
-  const [colorMode] = useColorMode();
   const { sizes } = useTheme();
+  const [colorMode] = useColorMode();
   const sizeStyle = (() => {
     const borderWidth = sizes['1q'];
     const defaultSize = 'md';
@@ -134,13 +120,10 @@ const useTextareaStyle = ({
   })();
   const variantStyle = (() => {
     if (variant === 'outline') {
-      return getOutlinedStyle({ colorMode });
-    }
-    if (variant === 'filled') {
-      return getFilledStyle({ colorMode });
+      return getOutlinedStyle();
     }
     if (variant === 'unstyled') {
-      return getUnstyledStyle({ colorMode });
+      return getUnstyledStyle(colorMode);
     }
     return {};
   })();

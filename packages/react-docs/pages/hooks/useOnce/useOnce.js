@@ -3,7 +3,7 @@ import { useOnce } from '@tonic-ui/react-hooks';
 import { useReducer, useState } from 'react';
 
 const App = () => {
-  const [, forceUpdate] = useReducer((x) => x + 1, 0);
+  const [, rerender] = useReducer(x => !x, false);
   const [callCount, setCallCount] = useState(0);
 
   useOnce(() => {
@@ -16,7 +16,7 @@ const App = () => {
       <Box mb="4x">
         Callback called: {callCount}
       </Box>
-      <Button onClick={forceUpdate}>
+      <Button onClick={() => rerender()}>
         Click Me
       </Button>
     </>

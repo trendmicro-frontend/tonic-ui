@@ -9,7 +9,6 @@ import {
   Text,
   TextLabel,
   Tooltip,
-  useColorStyle,
 } from '@tonic-ui/react';
 import {
   CheckSIcon,
@@ -27,7 +26,6 @@ const useSelection = (defaultValue) => {
 };
 
 const App = () => {
-  const [colorStyle] = useColorStyle();
   const [placement, changePlacementBy] = useSelection('bottom');
   const [skidding, setSkidding] = useState(0);
   const [distance, setDistance] = useState(8);
@@ -78,9 +76,9 @@ const App = () => {
         </Box>
         <Flex columnGap="4x">
           <input
+            aria-label="skidding"
             type="range"
             name="skidding"
-            aria-label="skidding"
             min={-48}
             max={48}
             value={skidding}
@@ -95,9 +93,9 @@ const App = () => {
         </Box>
         <Flex columnGap="4x">
           <input
+            aria-label="distance"
             type="range"
             name="distance"
-            aria-label="distance"
             min={-48}
             max={48}
             value={distance}
@@ -116,8 +114,8 @@ const App = () => {
         <Flex
           sx={{
             border: 1,
-            backgroundColor: colorStyle.background.secondary,
-            borderColor: colorStyle.divider,
+            backgroundColor: 'background.high',
+            borderColor: 'border.secondary',
             width: 180,
             height: 120,
             alignItems: 'center',

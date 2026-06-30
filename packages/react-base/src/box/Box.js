@@ -14,6 +14,8 @@ const shouldForwardProp = (() => {
 
     // The `as` prop is supported by Emotion
     'as': true,
+    // Internal prop for color mode injection, should not be forwarded to DOM
+    '__colorMode': true,
   };
 
   return prop => isPropValid(prop) && !omittedStylePropMap[prop];

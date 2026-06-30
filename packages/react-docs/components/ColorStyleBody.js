@@ -22,6 +22,23 @@ const ColorStyleBody = ({
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const colorStyleOfType = _get(customColorStyle, colorType) ?? _get(colorStyle, colorType);
+
+  // Helper function to resolve theme color values (handles v4 semantic token format)
+  const resolveThemeColor = (tokenPath) => {
+    // Split token path by dots for proper lodash.get access
+    // e.g., 'purple.600' -> ['colors', 'purple', '600']
+    const pathArray = ['colors', ...tokenPath.split('.')];
+    const colorValue = _get(theme, pathArray);
+
+    // If the color value is an object with _dark/_light, resolve based on colorMode
+    if (colorValue && typeof colorValue === 'object' && !Array.isArray(colorValue)) {
+      if ('_dark' in colorValue || '_light' in colorValue) {
+        return colorValue[`_${colorMode}`];
+      }
+    }
+    return colorValue;
+  };
+
   const colorStyleBlocks = (() => {
     if (typeof colorStyleOfType === 'object') {
       return Object.keys(colorStyleOfType).map(colorKey => {
@@ -29,11 +46,17 @@ const ColorStyleBody = ({
           ? ''
           : `${colorType}.${colorKey}`;
         const originalColorValue = _get(customColorStyle, `${colorType}.${colorKey}`) ?? _get(colorStyle, `${colorType}.${colorKey}`);
+
         const colorTokens = ensureArray(originalColorValue).map(x => {
-          return _has(theme, ['colors', x]) ? x : null;
+          // Check if token exists in theme.colors by splitting the path
+          if (typeof x !== 'string') {
+            return null;
+          }
+          const pathArray = ['colors', ...x.split('.')];
+          return _has(theme, pathArray) ? x : null;
         });
         const colorValues = ensureArray(originalColorValue).map(x => {
-          return _get(theme, ['colors', x]) ?? x;
+          return typeof x === 'string' ? (resolveThemeColor(x) ?? x) : x;
         });
 
         if (Array.isArray(colorStyleOfType)) {
@@ -45,14 +68,14 @@ const ColorStyleBody = ({
          *
          * {
          *   background: {
-         *     secondary: 'gray:90',
+         *     secondary: 'background.high',
          *   }
          * }
          *
          * colorLabel = 'background.secondary'
          * colorType  = 'background'
          * colorKey   = 'secondary'
-         * colorTokens = ['gray:90']
+         * colorTokens = ['background.high']
          * colorValues = ['#212121']
          */
         return {
@@ -69,8 +92,14 @@ const ColorStyleBody = ({
       colorLabel: colorType,
       colorType,
       colorKey: colorType,
-      colorTokens: [_has(theme, ['colors', colorStyleOfType]) ? colorStyleOfType : null],
-      colorValues: [_get(theme, ['colors', colorStyleOfType]) ?? colorStyleOfType],
+      colorTokens: [(() => {
+        if (typeof colorStyleOfType !== 'string') {
+          return null;
+        }
+        const pathArray = ['colors', ...colorStyleOfType.split('.')];
+        return _has(theme, pathArray) ? colorStyleOfType : null;
+      })()],
+      colorValues: [typeof colorStyleOfType === 'string' ? (resolveThemeColor(colorStyleOfType) ?? colorStyleOfType) : colorStyleOfType],
     }];
   })();
 

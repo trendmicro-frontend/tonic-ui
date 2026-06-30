@@ -1,8 +1,16 @@
 import { ensureString } from 'ensure-type';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 
+/**
+ * @typedef {Object} ToastContainerProps
+ * @property {string} [placement] - The placement of the toast container.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', ToastContainerProps>}
+ */
 const ToastContainer = forwardRef((inProps, ref) => {
   const {
     placement: placementProp,

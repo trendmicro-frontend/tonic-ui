@@ -7,14 +7,12 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  useColorMode,
-  useColorStyle,
 } from '@tonic-ui/react';
 import { AngleLeftIcon, AngleRightIcon } from '@tonic-ui/react-icons';
 import {
   useEffectOnce,
 } from '@tonic-ui/react-hooks';
-import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 const easeInOutSin = (time) => {
   return (1 + Math.sin(Math.PI * time - Math.PI / 2)) / 2;
@@ -84,18 +82,16 @@ const debounce = (func, wait = 166) => {
 }
 
 const IconButton = (props) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
   return (
     <ButtonBase
       px="2x"
-      color={colorStyle.color.secondary}
+      color="text.secondary"
       tabIndex={0}
       _disabled={{
-        color: colorStyle.color.disabled,
+        color: 'text.disabled',
       }}
       _hover={{
-        color: colorStyle.color.primary,
+        color: 'text.primary',
       }}
       {...props}
     />
@@ -153,7 +149,7 @@ const useDragToScroll = (ref, options) => {
 
     const el = ref && ref.current;
     if (!el) {
-      return () => {};
+      return undefined;
     }
 
     const mouseMoveHandler = (event) => {
@@ -281,22 +277,18 @@ const App = () => {
     }
   }, []);
 
-  const handleScrollTabsRef = useRef(null);
-
-  useEffect(() => {
-    const fn = debounce(() => {
+  const handleScrollTabs = useMemo(() => {
+    return debounce(() => {
       updateScrollButtonState();
       updateScrollIndicatorOpacity();
     }, Math.floor(1000 / 60));
-    handleScrollTabsRef.current = fn;
-    return () => {
-      fn.clear();
-    };
   }, [updateScrollButtonState, updateScrollIndicatorOpacity]);
 
-  const handleScrollTabs = useCallback(() => {
-    handleScrollTabsRef.current?.();
-  }, []);
+  useEffect(() => {
+    return () => {
+      handleScrollTabs.clear();
+    };
+  }, [handleScrollTabs]);
 
   useEffectOnce(() => {
     updateScrollButtonState();

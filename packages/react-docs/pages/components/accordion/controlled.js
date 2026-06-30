@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Accordion,
   AccordionItem,
@@ -5,11 +6,10 @@ import {
   AccordionBody,
   Text,
 } from '@tonic-ui/react';
-import { useState } from 'react';
 import SkeletonBlock from '@/components/SkeletonBlock';
 
 const App = () => {
-  const [expandedItem, setExpandedItem] = useState('item1');
+  const [expandedItem, setExpandedItem] = React.useState('item1');
   const handleToggle = item => ({ isExpanded }) => {
     setExpandedItem(isExpanded ? item : null);
   };

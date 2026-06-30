@@ -1,13 +1,28 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { callAll, isNullish } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
-import { forwardRef, useMemo, useRef } from 'react';
+import React, { forwardRef, useMemo, useRef } from 'react';
 import { useDefaultProps } from '../default-props';
 import { Popper } from '../popper';
 import { Collapse } from '../transitions';
 import { useAutocompleteListStyle } from './styles';
 import useAutocompleteContext from './useAutocompleteContext';
 
+/**
+ * @typedef {Object} AutocompleteListProps
+ * @property {React.ElementType} [PopperComponent=Popper] - The component used for the popover.
+ * @property {{ placement?: string; usePortal?: boolean }} [PopperProps] - Props applied to the Popper component.
+ * @property {React.ElementType} [TransitionComponent=Collapse] - The component used for the transition.
+ * @property {{ appear?: boolean; timeout?: number | { appear?: number; enter?: number; exit?: number } }} [TransitionProps] - Props applied to the Transition element.
+ * @property {boolean} [TransitionProps.appear=true] - Whether to perform the enter transition when it first mounts.
+ * @property {boolean} [matchWidth=false] - If `true`, sizes the list to match the input's `offsetWidth` via the Popper `matchWidth` modifier.
+ * @property {string | number} [width] - Explicit width for the list. Ignored when `matchWidth` is set.
+ * @property {React.ReactNode} [children] - The list items to render.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', AutocompleteListProps>}
+ */
 const AutocompleteList = forwardRef((inProps, ref) => {
   const {
     PopperComponent = Popper,

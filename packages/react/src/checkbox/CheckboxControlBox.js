@@ -1,8 +1,7 @@
 import { ariaAttr } from '@tonic-ui/utils';
 import { ensureArray, ensureString } from 'ensure-type';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
-import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 import { defaultSize, defaultVariantColor } from './constants';
 import IconChecked from './IconChecked';
@@ -20,7 +19,6 @@ const CheckboxControlBox = forwardRef((inProps, ref) => {
     ...rest
   } = inProps;
   const { sizes } = useTheme();
-  const [colorMode] = useColorMode();
   const iconSize = {
     lg: sizes['6x'],
     md: sizes['4x'],
@@ -41,72 +39,34 @@ const CheckboxControlBox = forwardRef((inProps, ref) => {
     return `input[type="${inputType}"]` + ensureString(pseudos) + ' + &';
   };
   const getDeterminateStyle = ({ variantColor }) => {
-    const color = {
-      dark: 'white:primary',
-      light: 'white:primary',
-    }[colorMode];
+    const color = 'text._fixed.dark.accent';
     const hoverColor = color;
     const disabledColor = color;
     const checkedColor = color;
     const checkedAndHoverColor = color;
     const checkedAndFocusVisibleColor = color;
-    const checkedAndDisabledColor = color;
+    const checkedAndDisabledColor = 'text.disabled';
 
     // background color
     const backgroundColor = 'transparent';
-    const hoverBackgroundColor = backgroundColor;
+    const hoverBackgroundColor = '_foreground.subtle.hovered';
     const disabledBackgroundColor = backgroundColor;
-    const checkedBackgroundColor = {
-      dark: `${variantColor}:60`,
-      light: `${variantColor}:60`,
-    }[colorMode];
-    const checkedAndHoverBackgroundColor = {
-      dark: `${variantColor}:50`,
-      light: `${variantColor}:50`,
-    }[colorMode];
+    const checkedBackgroundColor = variantColor === 'blue' ? '_foreground.primaryVariant.selected' : `${variantColor}.600`;
+    const checkedAndHoverBackgroundColor = variantColor === 'blue' ? '_foreground.primaryVariant.selectedHovered' : `${variantColor}.500`;
     const checkedAndFocusVisibleBackgroundColor = checkedBackgroundColor;
-    const checkedAndDisabledBackgroundColor = {
-      dark: 'gray:60',
-      light: 'gray:60',
-    }[colorMode];
+    const checkedAndDisabledBackgroundColor = '_foreground.primaryVariant.selectedDisabled';
 
     // border color
-    const borderColor = {
-      dark: 'gray:50',
-      light: 'gray:40',
-    }[colorMode];
-    const hoverBorderColor = {
-      dark: `${variantColor}:50`,
-      light: `${variantColor}:50`,
-    }[colorMode];
-    const disabledBorderColor = {
-      dark: 'gray:50',
-      light: 'gray:40',
-    }[colorMode];
-    const checkedBorderColor = {
-      dark: `${variantColor}:60`,
-      light: `${variantColor}:60`,
-    }[colorMode];
-    const checkedAndHoverBorderColor = hoverBorderColor;
-    const checkedAndDisabledBorderColor = { // same as "checkedAndDisabledBackgroundColor"
-      dark: 'gray:60',
-      light: 'gray:60',
-    }[colorMode];
+    const borderColor = 'border._primary.enabled';
+    const hoverBorderColor = variantColor === 'blue' ? 'border._primary.hovered' : `${variantColor}.500`;
+    const disabledBorderColor = 'border._primary.disabled';
+    const checkedBorderColor = checkedBackgroundColor;
+    const checkedAndHoverBorderColor = checkedAndHoverBackgroundColor;
+    const checkedAndDisabledBorderColor = checkedAndDisabledBackgroundColor;
 
     // :focus-visible
-    const focusVisibleBorderColor = {
-      dark: 'black:primary',
-      light: 'white:primary',
-    }[colorMode];
-    const focusVisibleOutlineColor = {
-      dark: `${variantColor}:60`,
-      light: `${variantColor}:60`,
-    }[colorMode];
-
-    const disabledOpacity = {
-      dark: 0.28,
-      light: 0.3,
-    }[colorMode];
+    const focusVisibleOutlineColor = '_component.keyboardFocused.outerFocusRing';
+    const checkedFocusVisibleBorderColor = '_component.keyboardFocused.innerFocusRing';
 
     return {
       backgroundColor: backgroundColor,
@@ -121,7 +81,6 @@ const CheckboxControlBox = forwardRef((inProps, ref) => {
         backgroundColor: disabledBackgroundColor,
         borderColor: disabledBorderColor,
         color: disabledColor, // icon color
-        opacity: disabledOpacity,
       },
       [getCheckboxControlBoxSelector(':focus-visible')]: {
         outlineColor: focusVisibleOutlineColor,
@@ -139,7 +98,7 @@ const CheckboxControlBox = forwardRef((inProps, ref) => {
         color: checkedAndHoverColor, // icon color
       },
       [getCheckboxControlBoxSelector(':checked:focus-visible')]: {
-        borderColor: focusVisibleBorderColor,
+        borderColor: checkedFocusVisibleBorderColor,
         color: checkedAndFocusVisibleColor, // icon color
         outlineColor: focusVisibleOutlineColor,
         outlineOffset: 0,
@@ -147,7 +106,7 @@ const CheckboxControlBox = forwardRef((inProps, ref) => {
         outlineWidth: '1h',
       },
       [getCheckboxControlBoxSelector(':checked:focus-visible:hover')]: {
-        borderColor: focusVisibleBorderColor,
+        borderColor: checkedFocusVisibleBorderColor,
       },
       [getCheckboxControlBoxSelector(':checked:focus-visible') + '> div:first-of-type']: {
         backgroundColor: checkedAndFocusVisibleBackgroundColor,
@@ -156,62 +115,34 @@ const CheckboxControlBox = forwardRef((inProps, ref) => {
         backgroundColor: checkedAndDisabledBackgroundColor,
         borderColor: checkedAndDisabledBorderColor,
         color: checkedAndDisabledColor, // icon color
-        opacity: disabledOpacity,
+        borderWidth: 0,
       },
     };
   };
   const getIndeterminateStyle = ({ variantColor }) => {
     // icon color
-    const color = {
-      dark: `${variantColor}:60`,
-      light: `${variantColor}:60`,
-    }[colorMode];
-    const hoverColor = {
-      dark: `${variantColor}:50`,
-      light: `${variantColor}:50`,
-    }[colorMode];
-    const disabledColor = {
-      dark: 'gray:60',
-      light: 'gray:60',
-    }[colorMode];
+    const color = variantColor === 'blue' ? '_foreground.primaryVariant.selected' : `${variantColor}.600`;
+
+    const hoverColor = variantColor === 'blue' ? '_foreground.primaryVariant.selectedHovered' : `${variantColor}.500`;
+
+    const disabledColor = 'text.disabled';
 
     // border color
-    const borderColor = {
-      dark: 'gray:50',
-      light: 'gray:40',
-    }[colorMode];
-    const hoverBorderColor = {
-      dark: `${variantColor}:50`,
-      light: `${variantColor}:50`,
-    }[colorMode];
-    const disabledBorderColor = {
-      dark: 'gray:50',
-      light: 'gray:40',
-    }[colorMode];
+    const borderColor = 'border._primary.enabled';
+    const hoverBorderColor = variantColor === 'blue' ? 'border._primary.selectedHovered' : `${variantColor}.500`;
+    const disabledBorderColor = 'border._primary.disabled';
 
     // :focus-visible
-    const focusVisibleColor = {
-      dark: `${variantColor}:60`,
-      light: `${variantColor}:60`,
-    }[colorMode];
-    const focusVisibleBorderColor = {
-      dark: 'gray:50',
-      light: 'gray:40',
-    }[colorMode];
-    const focusVisibleOutlineColor = {
-      dark: `${variantColor}:60`,
-      light: `${variantColor}:60`,
-    }[colorMode];
+    const focusVisibleColor = variantColor === 'blue' ? '_foreground.primaryVariant.selected' : `${variantColor}.600`;
 
-    const disabledOpacity = {
-      dark: 0.28,
-      light: 0.3,
-    }[colorMode];
+    const focusVisibleBorderColor = 'border._primary.enabled';
+
+    const focusVisibleOutlineColor = variantColor === 'blue' ? '_component.keyboardFocused.outerFocusRing' : `${variantColor}.600`;
 
     return {
       [getCheckboxControlBoxSelector('[data-indeterminate]')]: {
-        borderColor: borderColor,
-        color: color, // icon color
+        borderColor,
+        color, // icon color
       },
       [getCheckboxControlBoxSelector('[data-indeterminate]:hover:not(:disabled)')]: {
         borderColor: hoverBorderColor,
@@ -228,13 +159,13 @@ const CheckboxControlBox = forwardRef((inProps, ref) => {
       [getCheckboxControlBoxSelector('[data-indeterminate]:disabled')]: {
         borderColor: disabledBorderColor,
         color: disabledColor, // icon color
-        opacity: disabledOpacity,
       },
     };
   };
   const sx = {
     position: 'relative',
-    border: 1,
+    border: 1.5,
+    borderRadius: 'sm',
     width,
     height,
     zIndex: 0,

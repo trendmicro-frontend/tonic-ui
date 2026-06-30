@@ -14,7 +14,6 @@ import {
   TableCell,
   TextLabel,
   Truncate,
-  useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
 import _ from 'lodash';
@@ -49,7 +48,6 @@ const getTextWidth = (text, font) => {
 
 const App = () => {
   const theme = useTheme();
-  const [colorStyle] = useColorStyle();
   const [columns, setColumns] = useState([
     {
       header: 'Event Type',
@@ -93,7 +91,7 @@ const App = () => {
       theme.fontWeights.semibold,
       theme.fontSizes.sm,
       theme.fonts.base,
-    ].join(' '); // => '600 14px "Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif'
+    ].join(' '); // => '600 14px 'Inter, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif'
 
     // Fixed columns are columns with a fixed size (e.g. 100 or '10%')
     const fixedColumns = table.getAllColumns()
@@ -298,7 +296,7 @@ const App = () => {
                 <TableRow
                   key={row.id}
                   _hover={{
-                    backgroundColor: colorStyle.background.highlighted,
+                    backgroundColor: 'actions.hovered',
                   }}
                 >
                   {row.getVisibleCells().map(cell => {

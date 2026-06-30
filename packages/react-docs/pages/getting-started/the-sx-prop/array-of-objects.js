@@ -4,21 +4,24 @@ const App = () => (
   <Box
     sx={[
       {
+        color: 'text.normal.primary',
+      },
+      {
         '&:hover': {
-          backgroundColor: 'gray:80',
-          color: 'white:primary',
+          backgroundColor: 'gray.800',
+          color: 'text.normal.primary',
         },
       },
       {
         '&:hover': {
-          backgroundColor: 'gray:50',
-          color: 'white:primary',
+          backgroundColor: 'gray.500',
+          color: 'text.normal.primary',
         },
       },
       {
         '&:hover': {
-          backgroundColor: 'yellow:50',
-          color: 'black:primary',
+          backgroundColor: 'yellow.500',
+          color: 'text.normal.inverse',
         },
       },
     ]}

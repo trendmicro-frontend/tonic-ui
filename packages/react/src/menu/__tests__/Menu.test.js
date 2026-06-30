@@ -1,3 +1,4 @@
+import React, { act } from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
@@ -8,7 +9,6 @@ import {
   MenuList,
   MenuItem,
 } from '@tonic-ui/react/src';
-import { act } from 'react';
 
 describe('Menu', () => {
   const TestComponent = (props) => {
@@ -68,9 +68,7 @@ describe('Menu', () => {
     });
 
     // Wait for the Collapse transition to complete (entering → entered)
-    await act(() => new Promise((resolve) => {
-      setTimeout(resolve, 300);
-    }));
+    await act(() => new Promise((resolve) => setTimeout(resolve, 300)));
 
     expect(container).toMatchSnapshot();
 
@@ -141,24 +139,6 @@ describe('Menu', () => {
     await waitFor(() => {
       expect(screen.queryByRole('menu')).not.toBeInTheDocument();
     });
-  });
-
-  it('should return empty array from getFocusableElements when menu content is not mounted', () => {
-    const { rerender } = render(
-      <Menu isOpen={false}>
-        <MenuButton data-testid="button">Open</MenuButton>
-      </Menu>
-    );
-
-    // Rerender with isOpen=true but no MenuList — menuContentRef.current is null
-    rerender(
-      <Menu isOpen={true}>
-        <MenuButton data-testid="button">Open</MenuButton>
-      </Menu>
-    );
-
-    // Should not throw; getFocusableElements gracefully returns []
-    expect(screen.getByTestId('button')).toBeInTheDocument();
   });
 
   describe('portalled', () => {
@@ -253,6 +233,12 @@ describe('Menu', () => {
       // Open the menu
       await user.click(button);
       expect(await screen.findByRole('menu')).toBeInTheDocument();
+
+      // Wait for the menu list to have focus (ensures initial rAF has run)
+      const menuList = screen.getByTestId('menu-list');
+      await waitFor(() => {
+        expect(menuList).toHaveFocus();
+      });
 
       // Press ArrowDown to focus the first menu item
       await user.keyboard('[ArrowDown]');

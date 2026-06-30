@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import {
@@ -6,6 +6,14 @@ import {
 } from './styles';
 import useAlert from './useAlert';
 
+/**
+ * @typedef {Object} AlertMessageProps
+ * @property {React.ReactNode} [children] - The content of the alert message.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', AlertMessageProps>}
+ */
 const AlertMessage = forwardRef((inProps, ref) => {
   const props = useDefaultProps({ props: inProps, name: 'AlertMessage' });
   const alertContext = useAlert(); // context might be an undefined value

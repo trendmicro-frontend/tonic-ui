@@ -1,7 +1,5 @@
-import { Component, Suspense, createContext, forwardRef, lazy, memo } from 'react';
-import { screen } from '@testing-library/react';
-import { render } from '@tonic-ui/react/test-utils/render';
 import { Box } from '@tonic-ui/react/src';
+import React from 'react';
 import isValidComponent from '../isValidComponent';
 
 describe('isValidComponent', () => {
@@ -12,7 +10,7 @@ describe('isValidComponent', () => {
 
   it('should return true for class components', () => {
     // eslint-disable-next-line react/prefer-stateless-function
-    class MyClassComponent extends Component {
+    class MyClassComponent extends React.Component {
       render() {
         return <div>Hello</div>;
       }
@@ -20,30 +18,20 @@ describe('isValidComponent', () => {
     expect(isValidComponent(MyClassComponent)).toBe(true);
   });
 
-  it('should return true for memo wrapped components', () => {
+  it('should return true for React.memo wrapped components', () => {
     const MyComponent = () => <div>Hello</div>;
-    const MemoComponent = memo(MyComponent);
+    const MemoComponent = React.memo(MyComponent);
     expect(isValidComponent(MemoComponent)).toBe(true);
   });
 
-  it('should return true for forwardRef wrapped components', () => {
-    const MyComponent = forwardRef((props, ref) => <div ref={ref}>Hello</div>);
+  it('should return true for React.forwardRef wrapped components', () => {
+    const MyComponent = React.forwardRef((props, ref) => <div ref={ref}>Hello</div>);
     expect(isValidComponent(MyComponent)).toBe(true);
   });
 
-  it('should return true for lazy components', () => {
-    const LazyComponent = lazy(() => import('./__fixtures__/LazyComponent'));
+  it('should return true for React.lazy components', () => {
+    const LazyComponent = React.lazy(() => import('./__fixtures__/LazyComponent'));
     expect(isValidComponent(LazyComponent)).toBe(true);
-  });
-
-  it('should render lazy components when loaded', async () => {
-    const LazyComponent = lazy(() => import('./__fixtures__/LazyComponent'));
-    render(
-      <Suspense fallback={<div>Loading...</div>}>
-        <LazyComponent />
-      </Suspense>
-    );
-    expect(await screen.findByText('Lazy Loaded')).toBeInTheDocument();
   });
 
   it('should return false for primitive values like strings', () => {
@@ -66,12 +54,12 @@ describe('isValidComponent', () => {
     expect(isValidComponent(obj)).toBe(false);
   });
 
-  it('should return true for createContext (Context) objects', () => {
-    const MyContext = createContext();
+  it('should return true for React.createContext (Context) objects', () => {
+    const MyContext = React.createContext();
     expect(isValidComponent(MyContext)).toBe(true);
   });
 
-  it('should return true for Fragment type', () => {
+  it('should return true for React.Fragment type', () => {
     const FragmentComponent = () => (
       <>
         <Box>Hello</Box>

@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
@@ -7,17 +7,24 @@ import { TableGroupContext } from './context';
 import { useTableFooterStyle } from './styles';
 import useTable from './useTable';
 
+/**
+ * @typedef {Object} TableFooterProps
+ * @property {React.ReactNode} [children] - The content of the table footer.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', TableFooterProps>}
+ */
 const TableFooter = forwardRef((inProps, ref) => {
   const {
     role: roleProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'TableFooter' });
-  const shallowMemo = useShallowMemo();
   const { layout } = useTable();
   const as = layout === LAYOUT_TABLE ? 'tfoot' : undefined;
   const role = roleProp ?? 'rowgroup';
   const groupVariant = GROUP_VARIANT_FOOTER;
-
+  const shallowMemo = useShallowMemo();
   const context = shallowMemo({
     groupVariant,
   });

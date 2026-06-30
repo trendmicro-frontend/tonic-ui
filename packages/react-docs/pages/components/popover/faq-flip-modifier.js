@@ -10,8 +10,6 @@ import {
   Space,
   Text,
   TextLabel,
-  useColorMode,
-  useColorStyle,
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
 
@@ -20,8 +18,6 @@ const FormGroup = (props) => (
 );
 
 const App = () => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
   const [isFlipModifierEnabled, toggleIsFlipModifierEnabled] = useToggle(true);
 
   return (
@@ -47,7 +43,7 @@ const App = () => {
         width={180}
         overflowY="visible"
         border={1}
-        borderColor={colorStyle.divider}
+        borderColor="border.primary"
       >
         <Flex
           alignItems="center"

@@ -10,15 +10,13 @@ import {
   Text,
   TextLabel,
   useColorMode,
-  useColorStyle,
 } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
 import { useState } from 'react';
 
 const Item = (props) => {
   const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const boxShadow = colorStyle.shadow.thin;
+  const boxShadow = 'down.high';
   const borderColor = colorMode === 'dark' ? 'gray:70' : 'gray:20';
   return (
     <Flex
@@ -38,10 +36,8 @@ const FormGroup = (props) => (
 );
 
 const Note = (props) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
   return (
-    <Text color={colorStyle.color.tertiary} {...props} />
+    <Text color="text.tertiary" {...props} />
   );
 };
 

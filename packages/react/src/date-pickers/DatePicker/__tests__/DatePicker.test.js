@@ -1,4 +1,4 @@
-import { screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { act, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
@@ -13,7 +13,7 @@ import {
 import { CalendarIcon } from '@tonic-ui/react-icons/src';
 import * as dateFns from 'date-fns';
 import * as dateFnsLocale from 'date-fns/locale';
-import { act, useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 describe('DatePicker', () => {
   const TestComponent = ({
@@ -24,7 +24,7 @@ describe('DatePicker', () => {
     const inputError = false;
     const formatDate = useCallback((date, format) => {
       const options = {
-        locale: dateFnsLocale['enUS'],
+        locale: dateFnsLocale['enUS'], // eslint-disable-line dot-notation
       };
       return dateFns.format(date, format, options);
     }, []);

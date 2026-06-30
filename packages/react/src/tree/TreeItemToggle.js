@@ -1,6 +1,6 @@
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
-import { forwardRef, useCallback } from 'react';
+import React, { forwardRef, useCallback } from 'react';
 import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
 import useButtonEventHandlers from '../utils/useButtonEventHandlers';
@@ -9,6 +9,15 @@ import {
 } from './styles';
 import useTreeItem from './useTreeItem';
 
+/**
+ * @typedef {Object} TreeItemToggleProps
+ * @property {React.ReactNode | ((context: { getTreeItemToggleProps: () => React.HTMLAttributes<HTMLButtonElement> & { ref: React.RefCallback<HTMLElement> } }) => React.ReactNode)} [children] - A function child can be used instead of a React element. This function is called with `getTreeItemToggleProps`.
+ * @property {boolean} [disabled] - Whether the toggle is disabled.
+ */
+
+/**
+ * @type {ForwardRefComponent<'button', TreeItemToggleProps>}
+ */
 const TreeItemToggle = forwardRef((inProps, ref) => {
   const {
     children,

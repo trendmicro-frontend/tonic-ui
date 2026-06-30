@@ -82,7 +82,7 @@ const App = () => {
           <TextLabel>
             Selected date:
           </TextLabel>
-          {error ? <Text color="red:50">{error}</Text> : null}
+          {error ? <Text color="error.text">{error}</Text> : null}
           {!error && (
             <Text>{displayDate}</Text>
           )}

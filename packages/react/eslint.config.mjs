@@ -1,14 +1,17 @@
 import { defineConfig } from 'eslint/config';
 import globals from 'globals';
-import babelParser from '@babel/eslint-parser';
+import tsParser from '@typescript-eslint/parser';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
 import trendmicroConfig from 'eslint-config-trendmicro';
 
 export default defineConfig([
+  tsPlugin.configs['flat/recommended'], // TypeScript-specific error rules
+  tsPlugin.configs['flat/stylistic'], // TypeScript style rules
   ...trendmicroConfig,
   {
-    files: ['**/*.js', '**/*.jsx', '**/*.mjs'],
+    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx', '**/*.mjs'],
     languageOptions: {
-      parser: babelParser,
+      parser: tsParser,
       sourceType: 'module',
       globals: {
         ...globals.es2025,
@@ -17,17 +20,66 @@ export default defineConfig([
         ...globals.jest,
       },
     },
+    plugins: {
+      '@typescript-eslint': tsPlugin,
+    },
     rules: {
+      '@typescript-eslint/no-empty-function': ['error', {
+        allow: ['arrowFunctions'],
+      }],
+      '@typescript-eslint/no-unused-expressions': ['error', {
+        allowShortCircuit: true,
+        allowTernary: true,
+      }],
+      '@typescript-eslint/no-unused-vars': 'off',
       'camelcase': ['error', { 'allow': ['^DEPRECATED_'] }],
-      'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
-      'react-hooks/exhaustive-deps': 'error', // Checks effect dependencies
-      'no-shadow': 0,
+      'react-hooks/exhaustive-deps': 'error',
+      'react-hooks/rules-of-hooks': 'error',
+      'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
+      'react/jsx-no-bind': 'warn',
+      'react/no-typos': 'warn',
+      'react/prop-types': 'off',
+    },
+    settings: {
+      react: {
+        pragma: 'React',
+        version: 'detect',
+      },
+      'import/parsers': {
+        '@typescript-eslint/parser': ['.ts', '.tsx'],
+      },
+      'import/resolver': {
+        'typescript': {
+          'alwaysTryTypes': true,
+          'project': './tsconfig.json',
+        }
+      }
+    },
+  },
+  {
+    files: ['**/*.d.ts'],
+    rules: {
+      'no-undef': 'off',
+    },
+  },
+  {
+    files: ['**/*.test-d.tsx'],
+    rules: {
+      'indent': 'off',
+      'no-undef': 'off',
+      'no-unused-vars': 'off',
+      'react/jsx-indent': 'off',
+      'react/jsx-no-bind': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'no-console': 'off',
     },
   },
   {
     ignores: [
+      '@types',
       'build',
       'dist',
+      'global.d.ts',
       'node_modules',
     ],
   },

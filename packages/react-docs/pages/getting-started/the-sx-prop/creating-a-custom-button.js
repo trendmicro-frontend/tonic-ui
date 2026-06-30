@@ -3,16 +3,16 @@ import { Button } from '@tonic-ui/react';
 const App = () => (
   <Button
     sx={{
-      backgroundColor: 'red:60',
-      color: 'white:primary',
+      backgroundColor: 'red.600',
+      color: 'text.primary',
       '&:focus:not(:active)': {
-        backgroundColor: 'red:60',
+        backgroundColor: 'red.600',
       },
       '&:hover': {
-        backgroundColor: 'red:50',
+        backgroundColor: 'red.500',
       },
       '&:active': {
-        backgroundColor: 'red:70',
+        backgroundColor: 'red.700',
       },
     }}
   >

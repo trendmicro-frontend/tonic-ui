@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import {
   Box,
   useColorMode,
@@ -39,14 +40,6 @@ const Lorem = forwardRef((
     <Box
       ref={ref}
       dangerouslySetInnerHTML={{ __html: html }}
-      sx={{
-        '> *:first-child': {
-          marginTop: 0,
-        },
-        '> *:last-child': {
-          marginBottom: 0,
-        }
-      }}
       {...styleProps}
       {...rest}
     />
@@ -55,4 +48,11 @@ const Lorem = forwardRef((
 
 Lorem.displayName = 'Lorem';
 
-export default Lorem;
+export default styled(Lorem)`
+  > *:first-child {
+    margin-top: 0;
+  }
+  > *:last-child {
+    margin-bottom: 0;
+  }
+`;

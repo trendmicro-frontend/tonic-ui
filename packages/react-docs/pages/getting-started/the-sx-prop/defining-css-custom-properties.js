@@ -8,7 +8,7 @@ const App = () => (
   >
     <Text
       backgroundColor="var(--my-color-dodger-blue)"
-      color="white:primary"
+      color="text.normal.primary"
     >
       This text has a background of Dodger Blue
     </Text>

@@ -1,6 +1,6 @@
 import { CloseSIcon } from '@tonic-ui/react-icons';
 import { callEventHandlers } from '@tonic-ui/utils';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
 import {
@@ -8,6 +8,14 @@ import {
 } from './styles';
 import useToast from './useToast';
 
+/**
+ * @typedef {Object} ToastCloseButtonProps
+ * @property {React.ReactNode} [children] - The content of the close button.
+ */
+
+/**
+ * @type {ForwardRefComponent<'button', ToastCloseButtonProps>}
+ */
 const ToastCloseButton = forwardRef((inProps, ref) => {
   const {
     children,

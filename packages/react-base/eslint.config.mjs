@@ -27,8 +27,10 @@ export default defineConfig([
   },
   {
     ignores: [
+      '@types',
       'build',
       'dist',
+      'global.d.ts',
       'node_modules',
     ],
   },

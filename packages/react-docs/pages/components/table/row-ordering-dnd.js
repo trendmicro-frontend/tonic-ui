@@ -31,7 +31,6 @@ import {
   TableCell,
   Text,
   Truncate,
-  useColorStyle,
 } from '@tonic-ui/react';
 import { dataAttr, isNullish } from '@tonic-ui/utils';
 import { Fragment, forwardRef, useCallback, useMemo, useState } from 'react';
@@ -90,7 +89,6 @@ const SortableOverlay = ({ children }) => {
 };
 
 const App = () => {
-  const [colorStyle] = useColorStyle();
   const [data, setData] = useState([
     { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
     { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
@@ -239,10 +237,10 @@ const App = () => {
           const sx = {
             cursor: isDragging ? 'move' : undefined,
             _hover: {
-              backgroundColor: isDragging ? 'gray:70' : colorStyle.background.highlighted,
+              backgroundColor: isDragging ? 'actions.dragged' : 'actions.hovered',
             },
             _selected: {
-              backgroundColor: isDragging ? 'gray:70' : colorStyle.background.selected,
+              backgroundColor: isDragging ? 'actions.dragged' : 'actions.selected',
             },
             opacity: isDragging ? 0.4 : undefined,
             transform: CSS.Translate.toString(transform),
@@ -303,7 +301,7 @@ const App = () => {
         }}
       </SortableItem>
     );
-  }, [colorStyle]);
+  }, []);
 
   return (
     <>

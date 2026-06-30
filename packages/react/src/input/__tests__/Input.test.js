@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { Input } from '@tonic-ui/react/src';
+import React from 'react';
 
 describe('Input', () => {
   it('should render correctly', async () => {
@@ -85,9 +86,9 @@ describe('Input', () => {
       <Input data-testid="input" />
     );
     const input = screen.getByTestId('input');
-    const defaultBorderColor = 'var(--tonic-colors-gray-60)'; // [dark] gray:60 / [light] gray:30
-    const focusBorderColor = 'var(--tonic-colors-blue-60)'; // [dark] blue:60 / [light] blue:60
-    const hoverBorderColor = 'var(--tonic-colors-blue-50)'; // [dark] blue:50 / [light] blue:50
+    const defaultBorderColor = 'var(--tonic-colors-border-_primary-enabled)';
+    const focusBorderColor = 'var(--tonic-colors-border-_primary-focused)';
+    const hoverBorderColor = 'var(--tonic-colors-border-_primary-hovered)';
 
     expect(input).toBeValid();
     expect(document.body).toHaveFocus();

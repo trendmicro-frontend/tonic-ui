@@ -75,15 +75,20 @@ class CustomDocument extends Document {
             <script
               nonce={NONCE}
               data-matomo-tag-manager
-              // eslint-disable-next-line react/no-danger -- inline analytics loader for Next.js _document
+              // eslint-disable-next-line react/no-danger
               dangerouslySetInnerHTML={{ __html: MATOMO_TAG_MANAGER_SCRIPT }}
             />
           ) : null}
           <script
             nonce={NONCE}
             data-tonic-ui
-            // eslint-disable-next-line react/no-danger -- pre-paint color mode init to avoid FOUC
+            // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{ __html: COLOR_MODE_SCRIPT }}
+          />
+          <script
+            src="https://cdn.jsdelivr.net/npm/echarts@6.0.0/dist/echarts.min.js"
+            nonce={NONCE}
+            async
           />
         </Head>
         <body>

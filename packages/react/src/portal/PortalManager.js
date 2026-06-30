@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
 import Portal from './Portal';
@@ -12,6 +12,15 @@ const uniqueId = (() => {
   };
 })();
 
+/**
+ * @typedef {Object} PortalManagerProps
+ * @property {React.ReactNode} [children] - The content to be rendered within the portal manager.
+ * @property {React.RefObject} [containerRef] - A `ref` to the component where the portals will be rendered.
+ */
+
+/**
+ * @type {StyledFC<PortalManagerProps>}
+ */
 const PortalManager = (inProps) => {
   const {
     children,
@@ -32,7 +41,6 @@ const PortalManager = (inProps) => {
   const remove = useCallback(id => {
     setPortals(portals => portals.filter(portal => portal.id !== id));
   }, []);
-
   const context = shallowMemo({ add, remove });
 
   return (

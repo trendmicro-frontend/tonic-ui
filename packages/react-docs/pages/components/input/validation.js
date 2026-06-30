@@ -1,10 +1,10 @@
+import React, { forwardRef, useEffect, useRef } from 'react';
 import { Box, Flex, Input, Text } from '@tonic-ui/react';
 import { WarningCircleIcon } from '@tonic-ui/react-icons';
 import { useMergeRefs } from '@tonic-ui/react-hooks';
-import { forwardRef, useEffect, useRef, useState } from 'react';
 
 const InlineError = (props) => (
-  <Text fontSize="sm" lineHeight="sm" color="red:50" {...props} />
+  <Text fontSize="sm" lineHeight="sm" color="error.text" {...props} />
 );
 
 const TextField = forwardRef((
@@ -39,7 +39,7 @@ const TextField = forwardRef((
         />
         {error ? (
           <Box position="absolute" right={0}>
-            <WarningCircleIcon mx="3x" color="red:50" />
+            <WarningCircleIcon mx="3x" color="error.icon" />
           </Box>
         ) : null}
       </Flex>
@@ -52,7 +52,7 @@ const TextField = forwardRef((
 TextField.displayName = 'TextField';
 
 const App = () => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = React.useState('');
   const onChange = (e) => {
     setValue(e.target.value);
   };

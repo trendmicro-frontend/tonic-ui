@@ -2,8 +2,9 @@ import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Alert, Collapse } from '@tonic-ui/react/src';
-import { useToggle } from '@tonic-ui/react-hooks/src';
-import { callEventHandlers, transitionDuration } from '@tonic-ui/utils/src';
+import { useToggle } from '@tonic-ui/react-hooks';
+import { callEventHandlers, transitionDuration } from '@tonic-ui/utils';
+import React from 'react';
 
 describe('Alert', () => {
   it('should render correctly', async () => {
@@ -28,11 +29,12 @@ describe('Alert', () => {
       );
     };
 
-    render(<TestComponent onClose={handleClose} />);
+    const { asFragment } = render(<TestComponent onClose={handleClose} />);
 
     const alertElement = screen.getByTestId('alert');
     expect(alertElement).toBeInTheDocument();
     expect(alertElement).toHaveTextContent(message);
+    expect(asFragment()).toMatchSnapshot();
 
     const closeButton = screen.getByRole('button');
     await user.click(closeButton);
@@ -40,6 +42,24 @@ describe('Alert', () => {
 
     await waitForElementToBeRemoved(() => screen.getByTestId('alert'), {
       timeout: transitionDuration.standard + 100, // see "transitions/Collapse.js"
+    });
+  });
+
+  describe('variants', () => {
+    const severities = ['success', 'info', 'warning', 'error'];
+    const variants = ['solid', 'outline'];
+
+    variants.forEach((variant) => {
+      severities.forEach((severity) => {
+        it(`should render ${variant} variant with ${severity} severity`, () => {
+          const { asFragment } = render(
+            <Alert variant={variant} severity={severity}>
+              This is a {severity} alert
+            </Alert>
+          );
+          expect(asFragment()).toMatchSnapshot();
+        });
+      });
     });
   });
 });

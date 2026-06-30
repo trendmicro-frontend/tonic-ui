@@ -1,71 +1,47 @@
 import { createTransitionStyle } from '@tonic-ui/utils';
 import { ensureBoolean } from 'ensure-type';
-import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 
-//
-// Default Button
-//
+// ---------------- Default Button ----------------//
 const defaultVariantStyle = ({
-  colorMode,
   theme,
+  isInButtonGroup = false,
 }) => {
-  // Normal
-  const backgroundColor = {
-    dark: 'gray:60',
-    light: 'gray:20',
-  }[colorMode];
-  const color = {
-    dark: 'white:emphasis',
-    light: 'black:emphasis',
-  }[colorMode];
-  // Hover
-  const hoverBackgroundColor = {
-    dark: 'gray:50',
-    light: 'gray:10',
-  }[colorMode];
-  // Active
-  const activeBackgroundColor = {
-    dark: 'gray:70',
-    light: 'gray:30',
-  }[colorMode];
-  // Focus
-  const focusVisibleBorderColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-  const focusVisibleBoxShadowOuterColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-  const focusVisibleBoxShadowOuterSpreadRadius = '1q';
-  const focusVisibleBoxShadowInnerColor = {
-    dark: 'black:emphasis',
-    light: 'white:emphasis',
-  }[colorMode];
-  const focusVisibleBoxShadowInnerSpreadRadius = '2q';
-  // Disabled
-  const disabledBackgroundColor = {
-    dark: 'gray:60',
-    light: 'gray:20',
-  }[colorMode];
-  const disabledColor = {
-    dark: 'white:emphasis',
-    light: 'black:emphasis',
-  }[colorMode];
-  const disabledOpacity = {
-    dark: 0.28,
-    light: 0.3,
-  }[colorMode];
-  // Selected
-  const selectedBackgroundColor = {
-    dark: 'gray:70',
-    light: 'gray:30',
-  }[colorMode];
-  const selectedColor = {
-    dark: 'white:emphasis',
-    light: 'black:emphasis',
-  }[colorMode];
+  // normal
+  const backgroundColor = isInButtonGroup
+    ? '_foreground.tertiary.enabled'
+    : '_foreground.secondary.enabled';
+  const color = isInButtonGroup
+    ? 'text.secondary'
+    : 'text.accent';
+
+  // hover
+  const hoverBackgroundColor = isInButtonGroup
+    ? '_foreground.tertiary.hovered'
+    : '_foreground.secondary.hovered';
+  const hoverColor = 'text.accent';
+
+  // active
+  const activeBackgroundColor = isInButtonGroup
+    ? '_foreground.tertiary.active'
+    : '_foreground.secondary.active';
+
+  // focusVisible
+  const focusVisibleBorderColor = '_component.keyboardFocused.outerFocusRing';
+  const focusVisibleBoxShadow = [
+    `inset 0 0 0 ${theme.get('sizes.1q')} ${theme.get('colors._component.keyboardFocused.outerFocusRing')}`,
+    `inset 0 0 0 ${theme.get('sizes.2q')} ${theme.get('colors._component.keyboardFocused.innerFocusRing')}`,
+  ].join(', ');
+
+  // disabled
+  const disabledBackgroundColor = isInButtonGroup
+    ? '_foreground.tertiary.disabled'
+    : '_foreground.secondary.disabled';
+  const disabledColor = 'text.disabled';
+
+  // selected (only for ButtonGroup)
+  const selectedBackgroundColor = '_foreground.tertiary.selected';
+  const selectedColor = 'text._inverse.accent';
 
   return {
     backgroundColor,
@@ -73,15 +49,13 @@ const defaultVariantStyle = ({
     color,
     _focusVisible: {
       borderColor: focusVisibleBorderColor,
-      boxShadow: [
-        `inset 0 0 0 ${theme?.sizes?.[focusVisibleBoxShadowOuterSpreadRadius]} ${theme?.colors?.[focusVisibleBoxShadowOuterColor]}`,
-        `inset 0 0 0 ${theme?.sizes?.[focusVisibleBoxShadowInnerSpreadRadius]} ${theme?.colors?.[focusVisibleBoxShadowInnerColor]}`,
-      ].join(', '),
+      boxShadow: focusVisibleBoxShadow,
       // Bring overlapping border to front when focused
       zIndex: 1,
     },
     _hover: {
       backgroundColor: hoverBackgroundColor,
+      color: hoverColor,
       // Use a higher z-index value to bring overlapping border to front when hovered
       zIndex: 2,
     },
@@ -92,92 +66,63 @@ const defaultVariantStyle = ({
       backgroundColor: disabledBackgroundColor,
       color: disabledColor,
       cursor: 'not-allowed',
-      opacity: disabledOpacity,
     },
-    _selected: {
-      backgroundColor: selectedBackgroundColor,
-      color: selectedColor,
-      pointerEvents: 'none', // Do not react to mouse events when selected
-    },
+    // Only add _selected style when in ButtonGroup
+    ...(isInButtonGroup && {
+      _selected: {
+        backgroundColor: selectedBackgroundColor,
+        color: selectedColor,
+        pointerEvents: 'none',
+      },
+    }),
   };
 };
 
-//
-// Secondary Button
-//
+// ---------------- Secondary Button ----------------//
 const secondaryVariantStyle = ({
-  colorMode,
   theme,
+  isInButtonGroup = false,
 }) => {
-  // Normal
-  const borderColor = {
-    dark: 'gray:60',
-    light: 'gray:30',
-  }[colorMode];
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-  // Hover
-  const hoverBorderColor = {
-    dark: 'blue:50',
-    light: 'blue:50',
-  }[colorMode];
-  const hoverColor = {
-    dark: 'blue:40',
-    light: 'blue:60',
-  }[colorMode];
-  // Active
-  const activeBackgroundColor = {
-    dark: 'rgba(0, 0, 0, 0.12)',
-    light: 'rgba(0, 0, 0, 0.08)',
-  }[colorMode];
-  const activeBorderColor = hoverBorderColor;
-  const activeColor = hoverColor;
-  // Focus
-  const focusVisibleBorderColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-  const focusVisibleBoxShadowOuterColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-  const focusVisibleBoxShadowOuterSpreadRadius = '1q';
-  const focusVisibleBoxShadowInnerColor = {
-    dark: 'black:emphasis',
-    light: 'white:emphasis',
-  }[colorMode];
-  const focusVisibleBoxShadowInnerSpreadRadius = '2q';
-  // Disabled
-  const disabledBorderColor = borderColor;
-  const disabledColor = {
-    dark: 'white:emphasis',
-    light: 'black:emphasis',
-  }[colorMode];
-  const disabledOpacity = {
-    dark: 0.28,
-    light: 0.3,
-  }[colorMode];
-  // Selected
-  const selectedBackgroundColor = {
-    dark: 'gray:70',
-    light: 'gray:30',
-  }[colorMode];
-  const selectedColor = {
-    dark: 'white:emphasis',
-    light: 'black:emphasis',
-  }[colorMode];
+  // normal
+  const borderColor = 'border._primary.enabled';
+  const backgroundColor = '_foreground.subtle.enabled';
+  const color = isInButtonGroup ? 'text.secondary' : 'text.accent';
+
+  // hover
+  const hoverBorderColor = 'border._primary.hovered';
+  const hoverBackgroundColor = '_foreground.subtle.hovered';
+  const hoverColor = 'text.accent';
+
+  // active
+  const activeBorderColor = 'border._primary.active';
+  const activeBackgroundColor = '_foreground.subtle.active';
+  const activeColor = 'text.accent';
+
+  // focusVisible
+  const focusVisibleBorderColor = '_component.keyboardFocused.outerFocusRing';
+  const focusVisibleBoxShadow = [
+    `inset 0 0 0 ${theme.get('sizes.1q')} ${theme.get('colors._component.keyboardFocused.outerFocusRing')}`,
+    `inset 0 0 0 ${theme.get('sizes.2q')} ${theme.get('colors._component.keyboardFocused.innerFocusRing')}`,
+    `inset 0 0 0 ${theme.get('sizes.3q')} ${theme.get('colors.border._primary.enabled')}`,
+  ].join(', ');
+
+  // disabled
+  const disabledBorderColor = 'border._primary.disabled';
+  const disabledBackgroundColor = '_foreground.subtle.disabled';
+  const disabledColor = 'text.disabled';
+
+  // selected (only for ButtonGroup)
+  const selectedBorderColor = 'border._primary.enabled';
+  const selectedBackgroundColor = '_foreground.subtle.selected';
+  const selectedColor = 'text.accent';
 
   return {
     borderColor,
+    backgroundColor,
     color,
     _focusVisible: {
       borderColor: focusVisibleBorderColor,
-      boxShadow: [
-        `inset 0 0 0 ${theme?.sizes?.[focusVisibleBoxShadowOuterSpreadRadius]} ${theme?.colors?.[focusVisibleBoxShadowOuterColor]}`,
-        `inset 0 0 0 ${theme?.sizes?.[focusVisibleBoxShadowInnerSpreadRadius]} ${theme?.colors?.[focusVisibleBoxShadowInnerColor]}`,
-      ].join(', '),
+      boxShadow: focusVisibleBoxShadow,
       // Bring overlapping border to front when focused
       zIndex: 1,
     },
@@ -186,6 +131,7 @@ const secondaryVariantStyle = ({
       '&:not(:focus-visible)': {
         borderColor: hoverBorderColor,
       },
+      backgroundColor: hoverBackgroundColor,
       // Use a higher z-index value to bring overlapping border to front when hovered
       zIndex: 2,
     },
@@ -196,124 +142,94 @@ const secondaryVariantStyle = ({
     },
     _disabled: {
       borderColor: disabledBorderColor,
+      backgroundColor: disabledBackgroundColor,
       color: disabledColor,
       cursor: 'not-allowed',
-      opacity: disabledOpacity,
     },
-    _selected: {
-      backgroundColor: selectedBackgroundColor,
-      color: selectedColor,
-      pointerEvents: 'none', // Do not react to mouse events when selected
-    },
+    // Only add _selected style when in ButtonGroup
+    ...(isInButtonGroup && {
+      _selected: {
+        borderColor: selectedBorderColor,
+        backgroundColor: selectedBackgroundColor,
+        color: selectedColor,
+        pointerEvents: 'none',
+      },
+    }),
   };
 };
 
-//
-// Ghost Button
-//
+// ---------------- Ghost Button ----------------//
 const ghostVariantStyle = ({
-  colorMode,
   theme,
 }) => {
   const style = secondaryVariantStyle({
-    colorMode,
     theme,
   });
-  // Selected
-  const selectedBackgroundColor = {
-    dark: 'gray:70',
-    light: 'gray:30',
-  }[colorMode];
-  const selectedBorderColor = {
-    dark: 'gray:70',
-    light: 'gray:30',
-  }[colorMode];
-  const selectedColor = {
-    dark: 'white:emphasis',
-    light: 'black:emphasis',
-  }[colorMode];
+  const color = 'text.secondary';
+  const hoverColor = 'text.accent';
+  const activeColor = 'text.accent';
+
+  // focusVisible
+  const focusVisibleBorderColor = '_component.keyboardFocused.outerFocusRing';
+  const focusVisibleBoxShadow = [
+    `inset 0 0 0 ${theme.get('sizes.1q')} ${theme.get('colors._component.keyboardFocused.outerFocusRing')}`,
+  ].join(', ');
 
   return {
     ...style,
     borderColor: 'transparent',
+    color,
+    _focusVisible: {
+      borderColor: focusVisibleBorderColor,
+      boxShadow: focusVisibleBoxShadow,
+      // Bring overlapping border to front when focused
+      zIndex: 1,
+    },
+    _hover: {
+      ...style._hover,
+      color: hoverColor,
+      '&:not(:focus-visible)': {
+        borderColor: 'transparent',
+      },
+    },
     _disabled: {
       ...style._disabled,
       borderColor: 'transparent',
       cursor: 'not-allowed',
     },
-    _selected: {
-      backgroundColor: selectedBackgroundColor,
-      borderColor: selectedBorderColor,
-      color: selectedColor,
-      pointerEvents: 'none', // Do not react to mouse events when selected
+    _active: {
+      ...style._active,
+      color: activeColor,
+      borderColor: 'transparent',
     },
   };
 };
 
-//
-// Emphasis / Primary Button
-//
+// ---------------- Emphasis / Primary Button ----------------//
 const fillColorVariantStyle = ({
-  color: colorProp,
-  colorMode,
+  type, // 'emphasis' | 'primary'
   theme,
 }) => {
-  // Normal
-  const backgroundColor = {
-    dark: `${colorProp}:60`,
-    light: `${colorProp}:60`,
-  }[colorMode];
-  const color = {
-    dark: 'white:emphasis',
-    light: 'white:emphasis',
-  }[colorMode];
-  // Hover
-  const hoverBackgroundColor = {
-    dark: `${colorProp}:50`,
-    light: `${colorProp}:50`,
-  }[colorMode];
-  // Active
-  const activeBackgroundColor = {
-    dark: `${colorProp}:70`,
-    light: `${colorProp}:70`,
-  }[colorMode];
-  // Focus
-  const focusVisibleBorderColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-  const focusVisibleBoxShadowOuterColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-  const focusVisibleBoxShadowOuterSpreadRadius = '1q';
-  const focusVisibleBoxShadowInnerColor = {
-    dark: 'black:emphasis',
-    light: 'white:emphasis',
-  }[colorMode];
-  const focusVisibleBoxShadowInnerSpreadRadius = '2q';
-  // Disabled
-  const disabledBackgroundColor = {
-    dark: 'gray:60',
-    light: 'gray:20',
-  }[colorMode];
-  const disabledColor = {
-    dark: 'white:emphasis',
-    light: 'black:emphasis',
-  }[colorMode];
-  const disabledOpacity = {
-    dark: 0.28,
-    light: 0.3,
-  }[colorMode];
-  // Selected
-  const selectedBackgroundColor = {
-    dark: `${colorProp}:80`,
-    light: `${colorProp}:80`,
-  }[colorMode];
-  const selectedColor = {
-    dark: 'white:emphasis',
-    light: 'white:emphasis',
-  }[colorMode];
+  // normal
+  const backgroundColor = (type === 'primary') ? '_foreground.primary.enabled' : 'red.600';
+  const color = 'text._fixed.dark.accent';
+
+  // hover
+  const hoverBackgroundColor = (type === 'primary') ? '_foreground.primary.hovered' : 'red.500';
+
+  // active
+  const activeBackgroundColor = (type === 'primary') ? '_foreground.primary.active' : 'red.700';
+
+  // focusVisible
+  const focusVisibleBorderColor = '_component.keyboardFocused.outerFocusRing';
+  const focusVisibleBoxShadow = [
+    `inset 0 0 0 ${theme.get('sizes.1q')} ${theme.get('colors._component.keyboardFocused.outerFocusRing')}`,
+    `inset 0 0 0 ${theme.get('sizes.2q')} ${theme.get('colors._component.keyboardFocused.innerFocusRing')}`,
+  ].join(', ');
+
+  // disabled
+  const disabledBackgroundColor = '_foreground.primary.disabled';
+  const disabledColor = 'text.disabled';
 
   return {
     backgroundColor,
@@ -321,10 +237,7 @@ const fillColorVariantStyle = ({
     color,
     _focusVisible: {
       borderColor: focusVisibleBorderColor,
-      boxShadow: [
-        `inset 0 0 0 ${theme?.sizes?.[focusVisibleBoxShadowOuterSpreadRadius]} ${theme?.colors?.[focusVisibleBoxShadowOuterColor]}`,
-        `inset 0 0 0 ${theme?.sizes?.[focusVisibleBoxShadowInnerSpreadRadius]} ${theme?.colors?.[focusVisibleBoxShadowInnerColor]}`,
-      ].join(', '),
+      boxShadow: focusVisibleBoxShadow,
       // Bring overlapping border to front when focused
       zIndex: 1,
     },
@@ -340,22 +253,16 @@ const fillColorVariantStyle = ({
       backgroundColor: disabledBackgroundColor,
       color: disabledColor,
       cursor: 'not-allowed',
-      opacity: disabledOpacity,
-    },
-    _selected: {
-      backgroundColor: selectedBackgroundColor,
-      color: selectedColor,
-      pointerEvents: 'none', // Do not react to mouse events when selected
     },
   };
 };
 
 const useButtonStyle = ({
+  isInButtonGroup = false,
   orientation, // No default value if not specified
   size,
   variant,
 }) => {
-  const [colorMode] = useColorMode();
   const theme = useTheme();
   const baseStyle = {
     display: 'inline-flex',
@@ -412,12 +319,13 @@ const useButtonStyle = ({
       lineHeight: 'sm',
     },
   }[size];
+
   const variantStyle = {
-    'secondary': secondaryVariantStyle({ colorMode, theme }),
-    'ghost': ghostVariantStyle({ colorMode, theme }),
-    'emphasis': fillColorVariantStyle({ color: 'red', colorMode, theme }),
-    'primary': fillColorVariantStyle({ color: 'blue', colorMode, theme }),
-    'default': defaultVariantStyle({ colorMode, theme }),
+    'secondary': secondaryVariantStyle({ theme, isInButtonGroup }),
+    'ghost': ghostVariantStyle({ theme }),
+    'emphasis': fillColorVariantStyle({ type: 'emphasis', theme }),
+    'primary': fillColorVariantStyle({ type: 'primary', theme }),
+    'default': defaultVariantStyle({ theme, isInButtonGroup }),
   }[variant];
 
   return {

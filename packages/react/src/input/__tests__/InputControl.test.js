@@ -1,3 +1,4 @@
+import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
@@ -91,9 +92,9 @@ describe('InputControl', () => {
     );
     const inputControl = screen.getByTestId('input');
     const input = inputControl.querySelector('input');
-    const defaultBorderColor = 'var(--tonic-colors-gray-60)'; // [dark] gray:60 / [light] gray:30
-    const focusBorderColor = 'var(--tonic-colors-blue-60)'; // [dark] blue:60 / [light] blue:60
-    const hoverBorderColor = 'var(--tonic-colors-blue-50)'; // [dark] blue:50 / [light] blue:50
+    const defaultBorderColor = 'var(--tonic-colors-border-_primary-enabled)';
+    const focusBorderColor = 'var(--tonic-colors-border-_primary-focused)';
+    const hoverBorderColor = 'var(--tonic-colors-border-_primary-hovered)';
 
     expect(input).toBeValid();
     expect(document.body).toHaveFocus();
@@ -118,8 +119,8 @@ describe('InputControl', () => {
     );
     const inputControl = screen.getByTestId('input');
     const input = inputControl.querySelector('input');
-    const errorBorderColor = 'var(--tonic-colors-red-50)'; // [dark] red:50 / [light] red:60
-    const focusBorderColor = 'var(--tonic-colors-blue-60)'; // [dark] blue:60 / [light] blue:60
+    const errorBorderColor = 'var(--tonic-colors-border-_negative-enabled)';
+    const focusBorderColor = 'var(--tonic-colors-border-_primary-focused)';
 
     expect(input).toBeInvalid();
     expect(document.body).toHaveFocus();

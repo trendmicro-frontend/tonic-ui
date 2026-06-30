@@ -4,6 +4,7 @@ import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import {
   Button,
+  Box,
   Input,
   Modal,
   ModalOverlay,
@@ -15,7 +16,7 @@ import {
   Text,
 } from '@tonic-ui/react/src';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
-import { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 
 jest.mock('@tonic-ui/utils', () => ({
   ...jest.requireActual('@tonic-ui/utils'),
@@ -285,6 +286,47 @@ describe('Modal', () => {
       expect(warnDeprecatedProps).toHaveBeenCalledWith('closeOnOutsideClick', {
         prefix: 'Modal:',
         alternative: 'closeOnInteractOutside',
+        willRemove: true,
+      });
+    });
+  });
+
+  describe('ModalContent deprecated props', () => {
+    const CustomTransition = React.forwardRef(({ in: _in, children, ...rest }, ref) => (
+      <Box ref={ref} data-testid="custom-transition" {...rest}>{children}</Box>
+    ));
+    CustomTransition.displayName = 'CustomTransition';
+
+    it('should show warning when using `TransitionComponent` prop', () => {
+      render(
+        <Modal isOpen onClose={jest.fn()}>
+          <ModalOverlay />
+          <ModalContent TransitionComponent={CustomTransition}>
+            <ModalBody>content</ModalBody>
+          </ModalContent>
+        </Modal>
+      );
+
+      expect(warnDeprecatedProps).toHaveBeenCalledWith('TransitionComponent', {
+        prefix: 'ModalContent:',
+        alternative: 'slots.transition',
+        willRemove: true,
+      });
+    });
+
+    it('should show warning when using `TransitionProps` prop', () => {
+      render(
+        <Modal isOpen onClose={jest.fn()}>
+          <ModalOverlay />
+          <ModalContent TransitionProps={{}}>
+            <ModalBody>content</ModalBody>
+          </ModalContent>
+        </Modal>
+      );
+
+      expect(warnDeprecatedProps).toHaveBeenCalledWith('TransitionProps', {
+        prefix: 'ModalContent:',
+        alternative: 'slotProps.transition',
         willRemove: true,
       });
     });

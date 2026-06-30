@@ -9,8 +9,8 @@ import {
 } from '@tonic-ui/utils';
 import useClipboard from '../hooks/useClipboard';
 import { ensureString } from 'ensure-type';
-import { LiveProvider, LiveEditor } from 'react-live';
 import { themes } from 'prism-react-renderer';
+import { LiveProvider, LiveEditor } from 'react-live';
 
 const CodeBlock = ({ code: codeProp, language, ...rest }) => {
   const theme = useTheme();
@@ -18,12 +18,12 @@ const CodeBlock = ({ code: codeProp, language, ...rest }) => {
   const liveProviderTheme = {
     dark: merge(themes.vsDark, {
       plain: {
-        backgroundColor: theme.colors['gray:90'],
+        backgroundColor: theme.colors.background._fixed.dark.high,
       },
     }),
     light: merge(themes.vsLight, {
       plain: {
-        backgroundColor: theme.colors['gray:10'],
+        backgroundColor: theme.colors.background._fixed.light.high,
       },
     }),
   }[colorMode];

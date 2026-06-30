@@ -21,7 +21,6 @@ import {
   Tooltip,
   Truncate,
   useColorMode,
-  useColorStyle,
 } from '@tonic-ui/react';
 import { InfoOIcon, SortDownIcon, SortUpIcon } from '@tonic-ui/react-icons';
 import {
@@ -40,7 +39,6 @@ const data = [
 
 const App = () => {
   const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle();
   const [sorting, setSorting] = useState([
     { id: 'eventType', desc: false },
   ]);
@@ -149,14 +147,14 @@ const App = () => {
                     cursor: 'pointer',
                     userSelect: 'none',
                     _hover: {
-                      backgroundColor: colorStyle.background.highlighted,
+                      backgroundColor: 'actions.hovered',
                     },
                   };
                 }
                 if (header.column.getIsSorted()) {
                   styleProps = {
                     ...styleProps,
-                    color: colorStyle.color.emphasis,
+                    color: 'text.accent',
                   };
                 }
                 return (
@@ -187,7 +185,7 @@ const App = () => {
             <TableRow
               key={row.id}
               _hover={{
-                backgroundColor: colorStyle.background.highlighted,
+                backgroundColor: 'actions.hovered',
               }}
             >
               {row.getVisibleCells().map(cell => {

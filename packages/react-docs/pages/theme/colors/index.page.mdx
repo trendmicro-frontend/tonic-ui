@@ -1,16 +1,27 @@
 import { Grid } from '@tonic-ui/react';
 import ColorPalette from '@/components/ColorPalette';
-import ThemeParser from '@/components/ThemeParser';
+import ColorPaletteV3 from '@/components/ColorPaletteV3';
+import ThemeTokens from '@/components/ThemeTokens';
 
-# Colors
+# colors
 
 ## Design tokens
 
-<ThemeParser theme="colors" />
+### Primitive tokens (v4)
 
-## Color palette
+<ThemeTokens type="primitive" scales={[{ name: 'colors', defaultIsExpanded: true }]} />
 
-The color palette is defined for both dark mode and light mode where `10` - `50` means to pass AA contrast with black text and `60` - `100` means to pass AA contrast with white text.
+### Primitive tokens (v3)
+
+<ThemeTokens type="legacy" scales={[{ name: 'colors', defaultIsExpanded: true }]} />
+
+### Semantic tokens
+
+<ThemeTokens type="semantic" scales={[{ name: 'colors', defaultIsExpanded: true }]} />
+
+## Color palettes
+
+### Color palette (v4)
 
 <Grid
   gap="6x"
@@ -25,4 +36,21 @@ The color palette is defined for both dark mode and light mode where `10` - `50`
   <ColorPalette hue="teal" />
   <ColorPalette hue="cyan" />
   <ColorPalette hue="gray" />
+</Grid>
+
+### Color palette (v3)
+
+<Grid
+  gap="6x"
+  templateColumns="repeat(auto-fit, 300px)"
+  mb="6x"
+>
+  <ColorPaletteV3 hue="red" />
+  <ColorPaletteV3 hue="magenta" />
+  <ColorPaletteV3 hue="purple" />
+  <ColorPaletteV3 hue="blue" />
+  <ColorPaletteV3 hue="green" />
+  <ColorPaletteV3 hue="teal" />
+  <ColorPaletteV3 hue="cyan" />
+  <ColorPaletteV3 hue="gray" />
 </Grid>

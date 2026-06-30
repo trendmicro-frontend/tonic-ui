@@ -67,7 +67,6 @@ const getVariantProps = ({ variant }) => {
   if (variant === 'text') {
     return {
       height: '3x',
-      borderRadius: 'sm',
       _empty: {
         '::before': {
           content: '"\\00a0"',
@@ -94,10 +93,7 @@ const useSkeletonStyle = ({
   variant,
 }) => {
   const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.08)',
-    light: 'rgba(0, 0, 0, 0.08)',
-  }[colorMode];
+  const backgroundColor = '_overlay.thinner';
   const animationProps = getAnimationProps({ animation, colorMode });
   const variantProps = getVariantProps({ variant });
 

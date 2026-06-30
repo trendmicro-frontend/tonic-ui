@@ -1,6 +1,6 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { ensureString } from 'ensure-type';
-import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { useDefaultProps } from '../default-props';
 import { InputControl } from '../input';
 import useRunAfterUpdate from '../utils/useRunAfterUpdate';
@@ -12,6 +12,21 @@ import SearchInputSearchIcon from './SearchInputSearchIcon';
 const defaultSize = 'md';
 const defaultVariant = 'outline';
 
+/**
+ * @typedef {Object} SearchInputProps
+ * @property {boolean} [disabled] - The input is disabled and the user cannot interact with it.
+ * @property {boolean} [error] - The input displays a red border to indicate an error.
+ * @property {boolean} [isLoading] - A loading spinner is displayed inside the input field.
+ * @property {React.ChangeEventHandler<HTMLInputElement>} [onChange] - A callback called when the value is changed.
+ * @property {(event: React.MouseEvent<HTMLButtonElement>) => void} [onClearInput] - A callback called when the clear button is clicked.
+ * @property {boolean} [readOnly] - The value of the input cannot be edited.
+ * @property {'sm' | 'md' | 'lg'} [size='md'] - The visual size of the `input` element.
+ * @property {'outline' | 'filled' | 'flush' | 'unstyled'} [variant='outline'] - The variant of the input style to use.
+ */
+
+/**
+ * @type {ForwardRefComponent<'input', SearchInputProps>}
+ */
 const SearchInput = forwardRef((inProps, ref) => {
   const {
     defaultValue: defaultValueProp = '',

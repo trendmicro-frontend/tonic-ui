@@ -39,8 +39,6 @@ import {
   TextLabel,
   Tooltip,
   Truncate,
-  useColorMode,
-  useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
 import { InfoOIcon, SortDownIcon, SortUpIcon } from '@tonic-ui/react-icons';
@@ -79,7 +77,6 @@ const SortableItem = ({ children, id }) => {
 };
 
 const DragItem = (props) => {
-  const [colorMode] = useColorMode();
   const baseStyle = {
     cursor: 'move',
     // display: 'inline-flex', // Uncomment this line and use 'inline-flex' if you prefer not to occupy the entire block
@@ -87,17 +84,10 @@ const DragItem = (props) => {
     py: '2x',
   };
   const colorStyle = {
-    dark: {
-      outline: 1,
-      outlineColor: 'gray:60',
-      backgroundColor: 'gray:70',
-    },
-    light: {
-      outline: 1,
-      outlineColor: 'gray:40',
-      backgroundColor: 'gray:30',
-    },
-  }[colorMode];
+    outline: 1,
+    outlineColor: 'border._interactive.general.selected',
+    backgroundColor: 'actions.dragged',
+  };
 
   return (
     <DragOverlay>
@@ -113,7 +103,6 @@ const DragItem = (props) => {
 
 const App = () => {
   const theme = useTheme();
-  const [colorStyle] = useColorStyle();
   const [activationConstraint, setActivationConstraint] = useState('distance'); // One of: 'distance', 'delay', or 'none'
   const [distanceConstraint, setDistanceConstraint] = useState({
     distance: 4,
@@ -232,7 +221,7 @@ const App = () => {
       theme.fontWeights.semibold,
       theme.fontSizes.sm,
       theme.fonts.base,
-    ].join(' '); // => '600 14px "Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif'
+    ].join(' '); // => '600 14px 'Inter, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif'
 
     // Fixed columns are columns with a fixed size (e.g. 100 or '10%')
     const fixedColumns = table.getAllColumns()
@@ -443,9 +432,9 @@ const App = () => {
                   </TextLabel>
                   <Flex columnGap="2x">
                     <input
+                      aria-label="distance"
                       disabled={activationConstraint !== 'distance'}
                       type="range"
-                      aria-label="distance"
                       min={0}
                       max={32}
                       step={1}
@@ -460,7 +449,7 @@ const App = () => {
                     />
                     <Text
                       sx={{
-                        color: activationConstraint === 'distance' ? colorStyle.color.primary : colorStyle.color.disabled,
+                        color: activationConstraint === 'distance' ? 'text.primary' : 'text.disabled',
                       }}
                     >
                       {distanceConstraint.distance}px
@@ -494,9 +483,9 @@ const App = () => {
                   </TextLabel>
                   <Flex columnGap="2x">
                     <input
+                      aria-label="delay"
                       disabled={activationConstraint !== 'delay'}
                       type="range"
-                      aria-label="delay"
                       min={0}
                       max={1000}
                       step={50}
@@ -511,7 +500,7 @@ const App = () => {
                     />
                     <Text
                       sx={{
-                        color: activationConstraint === 'delay' ? colorStyle.color.primary : colorStyle.color.disabled,
+                        color: activationConstraint === 'delay' ? 'text.primary' : 'text.disabled',
                       }}
                     >
                       {delayConstraint.delay}ms
@@ -530,9 +519,9 @@ const App = () => {
                   </TextLabel>
                   <Flex columnGap="2x">
                     <input
+                      aria-label="tolerance"
                       disabled={activationConstraint !== 'delay'}
                       type="range"
-                      aria-label="tolerance"
                       min={0}
                       max={32}
                       step={1}
@@ -547,7 +536,7 @@ const App = () => {
                     />
                     <Text
                       sx={{
-                        color: activationConstraint === 'delay' ? colorStyle.color.primary : colorStyle.color.disabled,
+                        color: activationConstraint === 'delay' ? 'text.primary' : 'text.disabled',
                       }}
                     >
                       {delayConstraint.tolerance}px
@@ -630,7 +619,6 @@ const App = () => {
                               },
                               !isPinned && {
                                 cursor: isDragging ? 'move' : undefined,
-                                opacity: isDragging ? 0.4 : undefined,
                                 transform: CSS.Translate.toString(transform), // translate instead of transform to avoid squishing
                                 transition,
                                 // Ensure the draggable element appears on top of other elements when dragged
@@ -682,10 +670,10 @@ const App = () => {
                     key={row.id}
                     data-selected={dataAttr(row.getIsSelected())}
                     _hover={{
-                      backgroundColor: colorStyle.background.highlighted,
+                      backgroundColor: 'actions.hovered',
                     }}
                     _selected={{
-                      backgroundColor: colorStyle.background.selected,
+                      backgroundColor: 'actions.selected',
                     }}
                   >
                     <SortableContext
@@ -738,7 +726,7 @@ const App = () => {
         <DragItem>
           {activeId ? (
             <Text
-              color={colorStyle.color.secondary}
+              color="text.secondary"
               fontWeight="semibold"
             >
               {columns.find(column => column.id === activeId)?.header}

@@ -14,7 +14,6 @@ import {
   TableScrollbar,
   Text,
   Truncate,
-  useColorStyle,
 } from '@tonic-ui/react';
 import _ from 'lodash';
 import { useMemo, useRef } from 'react';
@@ -42,7 +41,6 @@ const data = _.range(360).map((i) => {
 });
 
 const App = () => {
-  const [colorStyle] = useColorStyle();
   const columns = useMemo(() => [
     {
       header: 'Endpoint',
@@ -159,7 +157,7 @@ const App = () => {
                     {row ? (
                       <TableRow
                         _hover={{
-                          backgroundColor: colorStyle.background.highlighted,
+                          backgroundColor: 'actions.hovered',
                         }}
                       >
                         {row.getVisibleCells().map(cell => {

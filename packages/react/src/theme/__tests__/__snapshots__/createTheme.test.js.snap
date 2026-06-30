@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createTheme should apply custom \`rootSelector\` for CSS variables 1`] = `
+<style
+  data-emotion="css-global"
+  data-s=""
+>
+  
+</style>
+`;

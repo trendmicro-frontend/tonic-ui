@@ -1,7 +1,7 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
 import { AngleDownIcon } from '@tonic-ui/react-icons';
 import { ariaAttr, warnDeprecatedProps } from '@tonic-ui/utils';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { getIconWrapperProps, useSelectStyle } from './styles';
@@ -9,6 +9,17 @@ import splitProps from './split-props';
 
 const defaultVariant = 'outline';
 
+/**
+ * @typedef {Object} SelectProps
+ * @property {boolean} [disabled] - The select is disabled and the user cannot interact with it.
+ * @property {boolean} [error] - The select displays a red border to indicate an error.
+ * @property {'outline' | 'filled' | 'unstyled'} [variant='outline'] - The variant of the select style to use.
+ * @property {React.ReactNode} [children] -
+ */
+
+/**
+ * @type {ForwardRefComponent<'select', SelectProps>}
+ */
 const Select = forwardRef((inProps, ref) => {
   const {
     isInvalid, // deprecated

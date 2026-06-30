@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Skeleton should render correctly 1`] = `
+.emotion-0 {
+  -webkit-print-color-scheme: dark;
+  color-scheme: dark;
+}
+
+.emotion-2 {
+  display: block;
+  background-color: var(--tonic-colors-_overlay-thinner);
+  height: var(--tonic-sizes-3x);
+  width: 120px;
+}
+
+.emotion-2:empty::before {
+  content: "\\00a0";
+}
+
+.emotion-4 {
+  display: block;
+  background-color: var(--tonic-colors-_overlay-thinner);
+  width: 120px;
+  height: 40px;
+}
+
+.emotion-6 {
+  display: block;
+  background-color: var(--tonic-colors-_overlay-thinner);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.emotion-8 {
+  -webkit-print-color-scheme: light;
+  color-scheme: light;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-color-scheme="dark"
+    data-tonic="DarkMode"
+  >
+    <div
+      class="emotion-2 emotion-1"
+      data-testid="dark:text"
+      data-tonic="Skeleton"
+    />
+    <div
+      class="emotion-4 emotion-1"
+      data-testid="dark:rectangle"
+      data-tonic="Skeleton"
+    />
+    <div
+      class="emotion-6 emotion-1"
+      data-testid="dark:circle"
+      data-tonic="Skeleton"
+    />
+  </div>
+  <div
+    class="emotion-8 emotion-1"
+    data-color-scheme="light"
+    data-tonic="LightMode"
+  >
+    <div
+      class="emotion-2 emotion-1"
+      data-testid="light:text"
+      data-tonic="Skeleton"
+    />
+    <div
+      class="emotion-4 emotion-1"
+      data-testid="light:rectangle"
+      data-tonic="Skeleton"
+    />
+    <div
+      class="emotion-6 emotion-1"
+      data-testid="light:circle"
+      data-tonic="Skeleton"
+    />
+  </div>
+</div>
+`;

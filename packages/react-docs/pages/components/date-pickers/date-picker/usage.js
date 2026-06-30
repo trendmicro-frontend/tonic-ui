@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -18,8 +19,6 @@ import {
   Space,
   Text,
   TextLabel,
-  useColorMode,
-  useColorStyle,
 } from '@tonic-ui/react';
 import { CalendarIcon } from '@tonic-ui/react-icons';
 import {
@@ -27,7 +26,6 @@ import {
 } from '@tonic-ui/react-hooks';
 import * as dateFns from 'date-fns'
 import * as dateFnsLocale from 'date-fns/locale'
-import React, { useEffect, useState } from 'react';
 import PreformattedText from '@/components/PreformattedText';
 
 const FormGroup = (props) => (
@@ -58,14 +56,11 @@ const useSelection = (defaultValue) => {
 };
 
 const DateInput = React.forwardRef((props, ref) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-
   return (
     <InputControl
       ref={ref}
       startAdornment={(
-        <InputAdornment color={colorStyle.color.secondary}>
+        <InputAdornment color="text.secondary">
           <CalendarIcon />
         </InputAdornment>
       )}
@@ -119,7 +114,7 @@ const App = () => {
           <TextLabel>
             Selected date:
           </TextLabel>
-          {error ? <Text color="red:50">{error}</Text> : null}
+          {error ? <Text color="error.text">{error}</Text> : null}
           {!error && (
             <Text>{displayDate}</Text>
           )}
@@ -162,7 +157,7 @@ const App = () => {
                 placeholder={inputFormat}
                 readOnly={readOnly}
               />
-              {inputError ? <Text mt="1x" color="red:50">Invalid date</Text> : null}
+              {inputError ? <Text mt="1x" color="error.text">Invalid date</Text> : null}
             </Box>
           );
         }}

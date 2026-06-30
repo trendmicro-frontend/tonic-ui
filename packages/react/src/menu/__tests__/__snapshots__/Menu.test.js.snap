@@ -14,9 +14,9 @@ exports[`Menu should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: inherit;
+  background-color: var(--tonic-colors-_foreground-subtle-enabled);
   border: var(--tonic-borders-1);
-  color: var(--tonic-colors-white-primary);
+  color: var(--tonic-colors-text-accent);
   cursor: pointer;
   outline: 0;
   padding: 0;
@@ -44,40 +44,34 @@ exports[`Menu should render correctly 1`] = `
   min-height: var(--tonic-sizes-8x);
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
-  border-color: var(--tonic-colors-gray-60);
+  border-color: var(--tonic-colors-border-_primary-enabled);
   -webkit-column-gap: var(--tonic-sizes-1x);
   column-gap: var(--tonic-sizes-1x);
 }
 
 .emotion-2:focus-visible {
-  border-color: var(--tonic-colors-blue-60);
-  box-shadow: inset 0 0 0 .0625rem #1e5ede,inset 0 0 0 .125rem rgba(0, 0, 0, 1.0);
+  border-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
+  box-shadow: inset 0 0 0 .0625rem #ffffff,inset 0 0 0 .125rem #000000,inset 0 0 0 .1875rem #6f6f6f;
   z-index: 1;
-}
-
-.emotion-2[aria-selected=true],
-.emotion-2[data-selected] {
-  background-color: var(--tonic-colors-gray-70);
-  color: var(--tonic-colors-white-emphasis);
-  pointer-events: none;
 }
 
 .emotion-2:hover,
 .emotion-2[data-hover] {
-  color: var(--tonic-colors-blue-40);
+  color: var(--tonic-colors-text-accent);
+  background-color: var(--tonic-colors-_foreground-subtle-hovered);
   z-index: 2;
 }
 
 .emotion-2:hover:not(:focus-visible),
 .emotion-2[data-hover]:not(:focus-visible) {
-  border-color: var(--tonic-colors-blue-50);
+  border-color: var(--tonic-colors-border-_primary-hovered);
 }
 
 .emotion-2:active,
 .emotion-2[data-active] {
-  border-color: var(--tonic-colors-blue-50);
-  background-color: rgba(0, 0, 0, 0.12);
-  color: var(--tonic-colors-blue-40);
+  border-color: var(--tonic-colors-border-_primary-active);
+  background-color: var(--tonic-colors-_foreground-subtle-active);
+  color: var(--tonic-colors-text-accent);
 }
 
 .emotion-2:disabled,
@@ -87,18 +81,10 @@ exports[`Menu should render correctly 1`] = `
 .emotion-2[aria-disabled=true]:focus,
 .emotion-2[aria-disabled=true]:hover,
 .emotion-2[data-disabled] {
-  border-color: var(--tonic-colors-gray-60);
-  color: var(--tonic-colors-white-emphasis);
+  border-color: var(--tonic-colors-border-_primary-disabled);
+  background-color: var(--tonic-colors-_foreground-subtle-disabled);
+  color: var(--tonic-colors-text-disabled);
   cursor: not-allowed;
-  opacity: 0.28;
-}
-
-.emotion-2:hover {
-  color: var(--tonic-colors-white-primary);
-}
-
-.emotion-2:active {
-  color: var(--tonic-colors-white-primary);
 }
 
 .emotion-6 {
@@ -112,16 +98,6 @@ exports[`Menu should render correctly 1`] = `
   transform: rotate(-180deg);
   -webkit-transition: -webkit-transform 133ms cubic-bezier(0.0, 0, 0.2, 1);
   transition: transform 133ms cubic-bezier(0.0, 0, 0.2, 1);
-}
-
-.emotion-6:disabled,
-.emotion-6:disabled:focus,
-.emotion-6:disabled:hover,
-.emotion-6[aria-disabled=true],
-.emotion-6[aria-disabled=true]:focus,
-.emotion-6[aria-disabled=true]:hover,
-.emotion-6[data-disabled] {
-  opacity: .28;
 }
 
 .emotion-8 {
@@ -141,8 +117,8 @@ exports[`Menu should render correctly 1`] = `
   position: absolute;
   z-index: var(--tonic-zIndices-dropdown);
   outline: 0;
-  background-color: var(--tonic-colors-gray-80);
-  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.48),0 2px 4px 0 rgba(0, 0, 0, 0.16);
+  background-color: var(--tonic-colors-background-highest);
+  box-shadow: var(--tonic-shadows-high);
   color: inherit;
   margin: 0;
   padding: 0;
@@ -164,7 +140,7 @@ exports[`Menu should render correctly 1`] = `
   appearance: none;
   background-color: inherit;
   border: none;
-  color: var(--tonic-colors-white-primary);
+  color: var(--tonic-colors-text-primary);
   cursor: pointer;
   outline: 0;
   padding: 0;
@@ -193,7 +169,7 @@ exports[`Menu should render correctly 1`] = `
 }
 
 .emotion-16:focus-visible {
-  outline-color: var(--tonic-colors-blue-60);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: calc(0px - var(--tonic-space-1h));
   outline-style: solid;
   outline-width: var(--tonic-sizes-1h);
@@ -201,12 +177,13 @@ exports[`Menu should render correctly 1`] = `
 
 .emotion-16[aria-selected=true],
 .emotion-16[data-selected] {
-  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--tonic-colors-text-accent);
+  background-color: var(--tonic-colors-actions-selected);
 }
 
 .emotion-16:hover,
 .emotion-16[data-hover] {
-  background-color: rgba(255, 255, 255, 0.12);
+  background-color: var(--tonic-colors-actions-hovered);
 }
 
 .emotion-16:disabled,
@@ -217,7 +194,7 @@ exports[`Menu should render correctly 1`] = `
 .emotion-16[aria-disabled=true]:hover,
 .emotion-16[data-disabled] {
   background-color: inherit;
-  color: var(--tonic-colors-white-disabled);
+  color: var(--tonic-colors-text-disabled);
   cursor: not-allowed;
 }
 

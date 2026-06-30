@@ -3,7 +3,7 @@ name: ci-branch
 on:
   push:
     branches:
-      - v2
+      - main
   schedule:
     # run daily
     - cron: '0 0 * * *'
@@ -41,7 +41,12 @@ jobs:
       - name: Configure environment variables
         id: step_setup_env
         run: |
-          TONIC_UI_REACT_VERSION=v2
+          TONIC_UI_REACT_VERSION=$(node -p "
+            const c = require('./tonic-ui-version.config.js');
+            const v = c.versions.find(x => x.current) || c.versions[0];
+            v.label;
+          ")
+          if [ -z "$TONIC_UI_REACT_VERSION" ]; then echo 'no current version in config'; exit 1; fi
           echo "CI_BRANCH=${{ github.ref_name }}" >> $GITHUB_ENV
           echo "CI_COMMIT=${{ github.sha }}" >> $GITHUB_ENV
           echo "MATOMO_URL=//matomo.xdr.trendmicro.com" >> $GITHUB_ENV

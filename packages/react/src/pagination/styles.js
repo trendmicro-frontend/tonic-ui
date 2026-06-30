@@ -1,5 +1,3 @@
-import { useColorMode } from '../color-mode';
-
 const usePaginationStyle = () => {
   return {
     display: 'flex',
@@ -8,11 +6,7 @@ const usePaginationStyle = () => {
 };
 
 const usePaginationItemStyle = ({ type }) => {
-  const [colorMode] = useColorMode();
-  const selectedBorderColor = {
-    dark: 'blue:50',
-    light: 'blue:50',
-  }[colorMode];
+  const selectedBackgroundColor = '_foreground.subtle.selected';
   const sizeStyle = (({ type }) => {
     // page button
     if (type === 'page') {
@@ -33,7 +27,7 @@ const usePaginationItemStyle = ({ type }) => {
     ...sizeStyle,
     transition: 'none', // avoid unwanted transition effects on buttons
     _selected: {
-      borderColor: selectedBorderColor,
+      backgroundColor: selectedBackgroundColor,
     },
   };
 };

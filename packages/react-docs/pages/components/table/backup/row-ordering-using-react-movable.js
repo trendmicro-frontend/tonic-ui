@@ -14,7 +14,6 @@ import {
   TableCell,
   Text,
   Truncate,
-  useColorStyle,
 } from '@tonic-ui/react';
 import {
   useToggle,
@@ -49,7 +48,6 @@ const DragHandleIcon = ({ sx, ...rest }) => {
 };
 
 const App = () => {
-  const [colorStyle] = useColorStyle();
   const [data, setData] = useState([
     { id: 1, eventType: 'Virus/Malware', affectedDevices: 20, detections: 634 },
     { id: 2, eventType: 'Spyware/Grayware', affectedDevices: 20, detections: 634 },
@@ -222,10 +220,10 @@ const App = () => {
                 sx={{
                   cursor: isDragged ? 'move' : undefined,
                   _hover: {
-                    backgroundColor: isDragged ? 'gray:70' : colorStyle.background.highlighted,
+                    backgroundColor: isDragged ? 'actions.dragged' : 'actions.hovered',
                   },
                   _selected: {
-                    backgroundColor: isDragged ? 'gray:70' : colorStyle.background.selected,
+                    backgroundColor: isDragged ? 'actions.dragged' : 'actions.selected',
                   },
                 }}
                 {...props}

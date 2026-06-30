@@ -1,6 +1,5 @@
 import { createTransitionStyle } from '@tonic-ui/utils';
 import { useTheme } from '../theme';
-import { useColorMode } from '../color-mode';
 import {
   VARIANT_OUTLINE,
   VARIANT_FILLED,
@@ -15,20 +14,16 @@ const useSearchInputAdornmentStyle = () => {
 };
 
 const useSearchInputClearButtonStyle = ({ variant, size }) => {
-  const [colorMode] = useColorMode();
-  const color = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
+  const color = 'text.secondary';
   const activeColor = color;
   const borderColor = 'transparent';
   const borderStyle = 'solid';
-  const borderWidth = '1q';
-  const hoverColor = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-  const focusVisibleOutlineColor = 'blue:60';
+  const borderWidth = 1;
+  const borderRadius = 'sm';
+  const hoverColor = 'text.accent';
+  const hoverBackgroundColor = '_foreground.subtle.hovered';
+  const focusVisibleOutlineColor = '_component.keyboardFocused.outerFocusRing';
+
   const sizeStyle = (() => {
     const width = {
       sm: '6x',
@@ -67,6 +62,7 @@ const useSearchInputClearButtonStyle = ({ variant, size }) => {
     borderColor,
     borderStyle,
     borderWidth,
+    borderRadius,
     color,
     ...sizeStyle,
     transition: createTransitionStyle('border-color', { duration: 200 }),
@@ -74,10 +70,11 @@ const useSearchInputClearButtonStyle = ({ variant, size }) => {
       outlineColor: focusVisibleOutlineColor,
       outlineOffset: '-1h',
       outlineStyle: 'solid',
-      outlineWidth: '1h',
+      outlineWidth: 2,
     },
     _hover: {
       color: hoverColor,
+      backgroundColor: hoverBackgroundColor,
     },
     _active: {
       color: activeColor,

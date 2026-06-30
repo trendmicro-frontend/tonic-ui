@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { GROUP_VARIANT_BODY, LAYOUT_TABLE } from './constants';
@@ -6,6 +6,14 @@ import { useTableRowStyle } from './styles';
 import useTable from './useTable';
 import useTableGroup from './useTableGroup';
 
+/**
+ * @typedef {Object} TableRowProps
+ * @property {React.ReactNode} [children] - The content of the table row.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', TableRowProps>}
+ */
 const TableRow = forwardRef((inProps, ref) => {
   const {
     role: roleProp,

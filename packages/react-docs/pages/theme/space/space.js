@@ -1,23 +1,28 @@
-import { Box, Flex, useColorMode, useColorStyle } from '@tonic-ui/react';
+import { Box, Flex } from '@tonic-ui/react';
 
 const App = () => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const backgroundColor = colorStyle.background.secondary;
+  const styles = {
+    backgroundColor: 'background.high',
+    border: 1,
+    borderColor: 'border.tertiary',
+    boxShadow: 'down.low',
+    width: '18x',
+    height: '18x',
+  };
 
   return (
     <Flex flexDirection="column" rowGap="4x">
       <Flex columnGap="1x">
-        <Box display="inline-block" width="18x" height="18x" backgroundColor={backgroundColor} />
-        <Box display="inline-block" width="18x" height="18x" backgroundColor={backgroundColor} />
+        <Box {...styles} />
+        <Box {...styles} />
       </Flex>
       <Flex columnGap="2x">
-        <Box display="inline-block" width="18x" height="18x" backgroundColor={backgroundColor} />
-        <Box display="inline-block" width="18x" height="18x" backgroundColor={backgroundColor} />
+        <Box {...styles} />
+        <Box {...styles} />
       </Flex>
       <Flex columnGap="4x">
-        <Box display="inline-block" width="18x" height="18x" backgroundColor={backgroundColor} />
-        <Box display="inline-block" width="18x" height="18x" backgroundColor={backgroundColor} />
+        <Box {...styles} />
+        <Box {...styles} />
       </Flex>
     </Flex>
   );

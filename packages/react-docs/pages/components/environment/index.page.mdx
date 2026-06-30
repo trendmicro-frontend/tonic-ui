@@ -75,7 +75,7 @@ Set `environment` to the shadow root. Portal-based components then render within
 
 ```jsx
 const cache = createCache({
-  key: 'tonic-ui-css',
+  key: 'tonic-css',
   nonce: 'your-nonce-value',
   prepend: true,
   container: shadowRoot,
@@ -83,7 +83,7 @@ const cache = createCache({
 
 const shadowTheme = createTheme({
   cssVariables: {
-    prefix: 'tonic-ui',
+    prefix: 'tonic',
     rootSelector: ':host',
   },
 });
@@ -106,7 +106,7 @@ Set `environment` to the iframe's document. Portal-based components then render 
 
 ```jsx
 const cache = createCache({
-  key: 'tonic-ui-css',
+  key: 'tonic-css',
   nonce: 'your-nonce-value',
   prepend: true,
   container: iframe.contentDocument.head,
@@ -114,7 +114,7 @@ const cache = createCache({
 
 const theme = createTheme({
   cssVariables: {
-    prefix: 'tonic-ui',
+    prefix: 'tonic',
     rootSelector: ':root', // ':root' works correctly in the iframe's own document
   },
 });
@@ -172,5 +172,6 @@ The `useEnvironment` hook returns an object with the following methods:
 
 ## See also
 
+- [Getting started › Micro frontend](../../getting-started/micro-frontend) — Module Federation and Wujie demos with live comparison
 - [Customization › Shadow DOM](../../customization/shadow-dom)
 - [useEnvironment](./useEnvironment)

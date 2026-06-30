@@ -5,16 +5,14 @@ const App = () => (
     <Alert
       variant="solid"
       severity="none"
-      background="linear-gradient(90deg, var(--tonic-colors-purple-60) 0%, var(--tonic-colors-blue-50) 100%)"
-      color="white:emphasis"
+      backgroundColor="promotion._overlay"
     >
       <Text>This is a promotion message</Text>
     </Alert>
     <Alert
       variant="outline"
       severity="none"
-      borderImageSource="linear-gradient(90deg, var(--tonic-colors-purple-60) 0%, var(--tonic-colors-blue-50) 100%)"
-      borderImageSlice={1}
+      borderColor="promotion.icon"
     >
       <Text>This is a promotion message</Text>
     </Alert>
