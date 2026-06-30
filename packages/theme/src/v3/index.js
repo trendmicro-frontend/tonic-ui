@@ -1,6 +1,6 @@
 import createV2Theme from '../v2';
-import createPrimitive from './primitive';
-import createSemantic from './semantic';
+import { createPrimitiveTokens } from './primitive';
+import { createSemanticTokens } from './semantic';
 
 /**
  * Create v3 theme combining v2, primitives and semantic tokens
@@ -10,36 +10,36 @@ import createSemantic from './semantic';
  */
 const createTheme = (unit = 'rem') => {
   const deprecatedTheme = createV2Theme(unit);
-  const primitiveTheme = createPrimitive(unit);
-  const semanticTheme = createSemantic(unit);
+  const primitiveTokens = createPrimitiveTokens(unit);
+  const semanticTokens = createSemanticTokens(unit);
 
   // Merge strategy: deprecated provides base, primitive overrides conflicts
   // This way primitive tokens naturally override deprecated tokens with same names
   return {
     colors: {
       ...deprecatedTheme.colors,
-      ...primitiveTheme.colors,
-      ...semanticTheme.colors,
+      ...primitiveTokens.colors,
+      ...semanticTokens.colors,
     },
     borders: {
       ...deprecatedTheme.borders,
-      ...primitiveTheme.borders,
+      ...primitiveTokens.borders,
     },
     fonts: {
       ...deprecatedTheme.fonts,
-      ...primitiveTheme.fonts,
+      ...primitiveTokens.fonts,
     },
     fontSizes: {
       ...deprecatedTheme.fontSizes,
-      ...primitiveTheme.fontSizes,
+      ...primitiveTokens.fontSizes,
     },
     fontWeights: {
       ...deprecatedTheme.fontWeights,
-      ...primitiveTheme.fontWeights,
+      ...primitiveTokens.fontWeights,
     },
     radii: {
       ...deprecatedTheme.radii,
-      ...primitiveTheme.radii,
+      ...primitiveTokens.radii,
     },
     // breakpoints must be an array, cannot use object spread
     // Start with deprecated array, then override with primitive values
@@ -50,36 +50,36 @@ const createTheme = (unit = 'rem') => {
         merged[key] = deprecatedTheme.breakpoints[key];
       });
       // Override with primitive values (both array indices and named properties)
-      if (primitiveTheme.breakpoints) {
-        Object.keys(primitiveTheme.breakpoints).forEach(key => {
-          merged[key] = primitiveTheme.breakpoints[key];
+      if (primitiveTokens.breakpoints) {
+        Object.keys(primitiveTokens.breakpoints).forEach(key => {
+          merged[key] = primitiveTokens.breakpoints[key];
         });
       }
       return merged;
     })(),
     lineHeights: {
       ...deprecatedTheme.lineHeights,
-      ...primitiveTheme.lineHeights,
+      ...primitiveTokens.lineHeights,
     },
     outlines: {
       ...deprecatedTheme.outlines,
-      ...primitiveTheme.outlines,
+      ...primitiveTokens.outlines,
     },
     space: {
       ...deprecatedTheme.space,
-      ...primitiveTheme.space,
+      ...primitiveTokens.space,
     },
     sizes: {
       ...deprecatedTheme.sizes,
-      ...primitiveTheme.sizes,
+      ...primitiveTokens.sizes,
     },
     zIndices: {
       ...deprecatedTheme.zIndices,
-      ...primitiveTheme.zIndices,
+      ...primitiveTokens.zIndices,
     },
     shadows: {
       ...deprecatedTheme.shadows,
-      ...semanticTheme.shadows,
+      ...semanticTokens.shadows,
     },
   };
 };
@@ -87,5 +87,5 @@ const createTheme = (unit = 'rem') => {
 export default createTheme;
 
 // Re-export primitive and semantic for direct access
-export { default as createPrimitive } from './primitive';
-export { default as createSemantic } from './semantic';
+export { createPrimitiveTokens } from './primitive';
+export { createSemanticTokens } from './semantic';
