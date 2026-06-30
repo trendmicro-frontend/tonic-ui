@@ -3,7 +3,7 @@ name: ci-branch
 on:
   push:
     branches:
-      - v2
+      - main
   schedule:
     # run daily
     - cron: '0 0 * * *'
@@ -41,9 +41,6 @@ jobs:
       - name: Configure environment variables
         id: step_setup_env
         run: |
-          # Derive the current version label from tonic-ui-version.config.js (current: true entry).
-          # The on.push.branches trigger remains hardcoded to [v2]; this lookup keeps the label
-          # in one place so updating the config is the only change needed when the version changes.
           TONIC_UI_REACT_VERSION=$(node -p "
             const c = require('./tonic-ui-version.config.js');
             const v = c.versions.find(x => x.current) || c.versions[0];

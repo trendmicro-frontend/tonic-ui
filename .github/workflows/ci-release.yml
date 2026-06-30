@@ -5,7 +5,7 @@ name: ci-release
 on:
   push:
     branches:
-      - v2
+      - main
   workflow_dispatch:
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
