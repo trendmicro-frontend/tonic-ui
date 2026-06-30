@@ -1,4 +1,3 @@
-// semantic/colors/_foreground.js
 export const _foreground = {
   primary: {
     enabled: {

@@ -1,4 +1,3 @@
-// primitives/fontWeights.js
 export const fontWeights = {
   thin: 100,
   extralight: 200,

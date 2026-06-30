@@ -1,4 +1,3 @@
-// semantic/colors/_component.js
 export const _component = {
   scrollbar: {
     thumb: {

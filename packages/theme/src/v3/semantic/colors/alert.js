@@ -1,4 +1,3 @@
-// semantic/colors/alert.js
 export const riskLevel = {
   high: {
     text: {

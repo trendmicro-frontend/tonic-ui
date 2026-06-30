@@ -1,4 +1,3 @@
-// primitives/fontSizes.js
 export const fontSizes = {
   rem: {
     xs: '.75rem',

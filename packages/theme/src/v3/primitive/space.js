@@ -1,4 +1,3 @@
-// primitives/space.js
 import getUnitTokens from '../../utils/getUnitTokens';
 
 export const space = {

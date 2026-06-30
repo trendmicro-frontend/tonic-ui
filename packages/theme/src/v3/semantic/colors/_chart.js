@@ -1,4 +1,3 @@
-// semantic/colors/_chart.js
 export const _chart = {
   categorical: {
     unpredictable: {

@@ -1,4 +1,3 @@
-// semantic/colors/actions.js
 export const actions = {
   enabled: {
     _dark: 'color-mix(in srgb, {colors.gray.1000} 0%, transparent)',

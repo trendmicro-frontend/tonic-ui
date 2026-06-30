@@ -1,4 +1,3 @@
-// primitives/lineHeights.js
 export const lineHeights = {
   rem: {
     normal: 'normal',

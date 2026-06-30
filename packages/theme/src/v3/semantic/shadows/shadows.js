@@ -1,4 +1,3 @@
-// semantic/shadows/shadows.js
 export const shadows = {
   low: {
     main: '{low.down}',

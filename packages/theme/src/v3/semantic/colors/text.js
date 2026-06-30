@@ -1,4 +1,3 @@
-// semantic/colors/text.js
 export const text = {
   accent: {
     _dark: 'color-mix(in srgb, {colors.gray.100} 96%, transparent)',

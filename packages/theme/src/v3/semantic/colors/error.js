@@ -1,4 +1,3 @@
-// semantic/colors/error.js
 export const error = {
   text: {
     _dark: '{red.500}',

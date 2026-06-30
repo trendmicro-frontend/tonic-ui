@@ -1,4 +1,3 @@
-// semantic/colors/border.js
 export const border = {
   accent: {
     _dark: '{gray.100}',

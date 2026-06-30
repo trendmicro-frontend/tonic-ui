@@ -1,4 +1,3 @@
-// semantic/colors/index.js
 import { actions } from './actions';
 import { background } from './background';
 import { border } from './border';

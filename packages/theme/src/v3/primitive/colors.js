@@ -1,4 +1,3 @@
-// primitives/colors.js
 export const colors = {
   transparent: 'transparent',
   current: 'currentColor',

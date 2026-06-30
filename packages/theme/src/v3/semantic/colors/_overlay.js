@@ -1,4 +1,3 @@
-// semantic/colors/_overlay.js
 export const _overlay = {
   thinest: {
     _dark: 'color-mix(in srgb, {colors.gray.100} 4%, transparent)',

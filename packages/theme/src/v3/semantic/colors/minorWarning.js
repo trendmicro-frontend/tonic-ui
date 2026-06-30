@@ -1,4 +1,3 @@
-// semantic/colors/minorWarning.js
 export const minorWarning = {
   icon: {
     _dark: '{yellow.200}',

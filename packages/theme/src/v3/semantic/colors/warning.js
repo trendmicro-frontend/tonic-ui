@@ -1,4 +1,3 @@
-// semantic/colors/warning.js
 export const warning = {
   icon: {
     _dark: '{orange.400}',

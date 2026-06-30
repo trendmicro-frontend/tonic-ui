@@ -1,4 +1,3 @@
-// semantic/colors/background.js
 export const background = {
   highest: {
     _dark: '{black.300}',

@@ -1,4 +1,3 @@
-// primitives/radii.js
 export const radii = {
   rem: {
     xs: '0.125rem',

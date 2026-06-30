@@ -1,4 +1,3 @@
-// semantic/colors/promotion.js
 export const promotion = {
   icon: {
     _dark: '{purple.400}',

@@ -1,4 +1,3 @@
-// semantic/colors/success.js
 export const success = {
   icon: {
     _dark: '{green.400}',

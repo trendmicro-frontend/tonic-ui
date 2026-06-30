@@ -1,4 +1,3 @@
-// semantic/index.js
 import { colors } from './colors';
 import { shadows } from './shadows';
 

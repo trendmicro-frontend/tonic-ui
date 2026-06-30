@@ -1,4 +1,3 @@
-// primitives/outlines.js
 export const outlines = {
   rem: {
     1: '0.0625rem solid',

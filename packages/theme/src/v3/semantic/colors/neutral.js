@@ -1,4 +1,3 @@
-// semantic/colors/neutral.js
 export const neutral = {
   icon: {
     _dark: '{gray.350}',

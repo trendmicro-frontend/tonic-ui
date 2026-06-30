@@ -1,4 +1,3 @@
-// primitives/breakpoints.js
 export const breakpoints = [
   '320px',
   '744px',

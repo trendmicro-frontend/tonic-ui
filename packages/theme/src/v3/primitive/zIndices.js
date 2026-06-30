@@ -1,4 +1,3 @@
-// primitives/zIndices.js
 export const zIndices = {
   hide: -1,
   auto: 'auto',

@@ -1,4 +1,3 @@
-// semantic/colors/_link.js
 export const _link = {
   enabled: {
     _dark: '{blue.300}',

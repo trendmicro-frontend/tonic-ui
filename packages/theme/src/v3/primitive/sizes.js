@@ -1,4 +1,3 @@
-// primitives/sizes.js
 import getUnitTokens from '../../utils/getUnitTokens';
 
 export const sizes = {

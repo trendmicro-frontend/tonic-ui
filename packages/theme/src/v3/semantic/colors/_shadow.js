@@ -1,4 +1,3 @@
-// semantic/colors/_shadow.js
 export const _shadow = {
   low: {
     _dark: 'color-mix(in srgb, {colors.gray.1000} 80%, transparent)',

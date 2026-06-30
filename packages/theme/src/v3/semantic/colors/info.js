@@ -1,4 +1,3 @@
-// semantic/colors/info.js
 export const info = {
   icon: {
     _dark: '{blue.500}',

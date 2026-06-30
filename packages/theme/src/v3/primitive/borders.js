@@ -1,4 +1,3 @@
-// primitives/borders.js
 export const borders = {
   rem: {
     '0.5': '0.0313rem solid',
