@@ -465,9 +465,9 @@ const DefaultPageHeader = forwardRef(({ onColorModeChange, ...props }, ref) => {
           <Box
             data-track="Header|click_codesandbox"
             as="a"
-            color={colorStyle.color.secondary}
+            color="text.secondary"
             _hover={{
-              color: colorStyle.color.primary,
+              color: 'text.primary',
               cursor: 'pointer',
             }}
             onClick={() => handleClickOpenInCodeSandbox()}

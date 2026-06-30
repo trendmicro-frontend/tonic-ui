@@ -14,12 +14,10 @@ export { colors, shadows };
  * @param {string} unit - Unit type (px, rem, em, etc.)
  * @returns {Object} Semantic theme object organized by styled-system properties
  */
-const createSemantic = (unit) => {
+export const createSemanticTokens = (unit) => {
   // Organize into styled-system property structure
   return {
     colors,
     shadows,
   };
 };
-
-export default createSemantic;

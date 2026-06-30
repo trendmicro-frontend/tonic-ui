@@ -13,49 +13,59 @@ import {
   SearchInput,
   Space,
   Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableRow,
   Tag,
   Text,
   Tooltip,
   useAccordionItem,
   useTheme,
 } from '@tonic-ui/react';
-import { DataGrid } from '@tonic-ui/react-data-grid';
-import { AngleRightIcon, InfoOIcon } from '@tonic-ui/react-icons';
+import {
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
+import { AngleRightIcon, InfoOIcon, SortDownIcon, SortUpIcon } from '@tonic-ui/react-icons';
 import { isNullish, isPlainObject } from '@tonic-ui/utils';
 import ColorPreview from './ColorPreview';
 import { useMemo, useState, useTransition } from 'react';
 
-// Import v4 primitive tokens
-import { borders as primitiveBorders } from '@tonic-ui/theme/src/v4/primitives/borders';
-import { breakpoints as primitiveBreakpoints } from '@tonic-ui/theme/src/v4/primitives/breakpoints';
-import { colors as primitiveColors } from '@tonic-ui/theme/src/v4/primitives/colors';
-import { fonts as primitiveFonts } from '@tonic-ui/theme/src/v4/primitives/fonts';
-import { fontSizes as primitiveFontSizes } from '@tonic-ui/theme/src/v4/primitives/fontSizes';
-import { fontWeights as primitiveFontWeights } from '@tonic-ui/theme/src/v4/primitives/fontWeights';
-import { lineHeights as primitiveLineHeights } from '@tonic-ui/theme/src/v4/primitives/lineHeights';
-import { outlines as primitiveOutlines } from '@tonic-ui/theme/src/v4/primitives/outlines';
-import { radii as primitiveRadii } from '@tonic-ui/theme/src/v4/primitives/radii';
-import { sizes as primitiveSizes } from '@tonic-ui/theme/src/v4/primitives/sizes';
-import { space as primitiveSpace } from '@tonic-ui/theme/src/v4/primitives/space';
-import { zIndices as primitiveZIndices } from '@tonic-ui/theme/src/v4/primitives/zIndices';
+// Import v3 primitive tokens
+import { borders as primitiveBorders } from '@tonic-ui/theme/src/v3/primitive/borders';
+import { breakpoints as primitiveBreakpoints } from '@tonic-ui/theme/src/v3/primitive/breakpoints';
+import { colors as primitiveColors } from '@tonic-ui/theme/src/v3/primitive/colors';
+import { fonts as primitiveFonts } from '@tonic-ui/theme/src/v3/primitive/fonts';
+import { fontSizes as primitiveFontSizes } from '@tonic-ui/theme/src/v3/primitive/fontSizes';
+import { fontWeights as primitiveFontWeights } from '@tonic-ui/theme/src/v3/primitive/fontWeights';
+import { lineHeights as primitiveLineHeights } from '@tonic-ui/theme/src/v3/primitive/lineHeights';
+import { outlines as primitiveOutlines } from '@tonic-ui/theme/src/v3/primitive/outlines';
+import { radii as primitiveRadii } from '@tonic-ui/theme/src/v3/primitive/radii';
+import { sizes as primitiveSizes } from '@tonic-ui/theme/src/v3/primitive/sizes';
+import { space as primitiveSpace } from '@tonic-ui/theme/src/v3/primitive/space';
+import { zIndices as primitiveZIndices } from '@tonic-ui/theme/src/v3/primitive/zIndices';
 
-// Import v4 semantic tokens
-import { colors as semanticColors } from '@tonic-ui/theme/src/v4/semantic/colors/index';
-import { shadows as semanticShadows } from '@tonic-ui/theme/src/v4/semantic/shadows/shadows';
+// Import v3 semantic tokens
+import { colors as semanticColors } from '@tonic-ui/theme/src/v3/semantic/colors/index';
+import { shadows as semanticShadows } from '@tonic-ui/theme/src/v3/semantic/shadows/shadows';
 
-// Import v3 legacy tokens
-import v3Borders from '@tonic-ui/theme/src/v3/borders';
-import v3Colors from '@tonic-ui/theme/src/v3/colors';
-import v3Fonts from '@tonic-ui/theme/src/v3/fonts';
-import v3FontSizes from '@tonic-ui/theme/src/v3/fontSizes';
-import v3FontWeights from '@tonic-ui/theme/src/v3/fontWeights';
-import v3LineHeights from '@tonic-ui/theme/src/v3/lineHeights';
-import v3Outlines from '@tonic-ui/theme/src/v3/outlines';
-import v3Radii from '@tonic-ui/theme/src/v3/radii';
-import v3Shadows from '@tonic-ui/theme/src/v3/shadows';
-import v3Sizes from '@tonic-ui/theme/src/v3/sizes';
-import v3Space from '@tonic-ui/theme/src/v3/space';
-import v3ZIndices from '@tonic-ui/theme/src/v3/zIndices';
+// Import v2 legacy tokens
+import v2Borders from '@tonic-ui/theme/src/v2/borders';
+import v2Colors from '@tonic-ui/theme/src/v2/colors';
+import v2Fonts from '@tonic-ui/theme/src/v2/fonts';
+import v2FontSizes from '@tonic-ui/theme/src/v2/fontSizes';
+import v2FontWeights from '@tonic-ui/theme/src/v2/fontWeights';
+import v2LineHeights from '@tonic-ui/theme/src/v2/lineHeights';
+import v2Outlines from '@tonic-ui/theme/src/v2/outlines';
+import v2Radii from '@tonic-ui/theme/src/v2/radii';
+import v2Shadows from '@tonic-ui/theme/src/v2/shadows';
+import v2Sizes from '@tonic-ui/theme/src/v2/sizes';
+import v2Space from '@tonic-ui/theme/src/v2/space';
+import v2ZIndices from '@tonic-ui/theme/src/v2/zIndices';
 
 // Walk an object by a dot-separated path
 const walkPath = (obj, path) => {
@@ -234,6 +244,7 @@ const TokenCategory = ({ scale, tokens, defaultIsExpanded }) => {
   const hasUnpublishedTokens = useMemo(() => tokenRows.some(({ token }) => isUnpublishedToken(token)), [tokenRows]);
   const [filterQuery, setFilterQuery] = useState('');
   const [showUnpublished, setShowUnpublished] = useState(false);
+  const [sorting, setSorting] = useState([]);
   const [isFetching, startTransition] = useTransition();
   const theme = useTheme();
 
@@ -252,9 +263,9 @@ const TokenCategory = ({ scale, tokens, defaultIsExpanded }) => {
       id: 'token',
       accessorKey: 'token',
       header: 'Token',
-      width: '40%',
-      cell: ({ cell }) => {
-        const token = cell.value;
+      style: { width: '40%' },
+      cell: ({ getValue }) => {
+        const token = getValue();
         return (
           <Stack direction="row" alignItems="center" spacing="2x" flexWrap="wrap">
             <Tooltip label={`${scale}.${token}`}>
@@ -273,10 +284,10 @@ const TokenCategory = ({ scale, tokens, defaultIsExpanded }) => {
       id: 'value',
       accessorKey: 'value',
       header: 'Value',
-      isSortable: false,
-      width: 'auto',
-      cell: ({ cell }) => {
-        const value = cell.value;
+      enableSorting: false,
+      style: { width: 'auto' },
+      cell: ({ getValue }) => {
+        const value = getValue();
 
         if (isDarkLightPair(value)) {
           return (
@@ -304,6 +315,18 @@ const TokenCategory = ({ scale, tokens, defaultIsExpanded }) => {
       },
     },
   ], [scale, filterQuery]);
+
+  const table = useReactTable({
+    data: filteredRows,
+    columns,
+    state: {
+      sorting,
+    },
+    enableSortingRemoval: true,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
+  });
 
   const getAccordionToggleProps = () => {
     const backgroundColor = '_overlay.thinner';
@@ -390,15 +413,73 @@ const TokenCategory = ({ scale, tokens, defaultIsExpanded }) => {
             ) : null}
           </Flex>
         </Box>
-        <Box pl="7x" height={400} mb="2x">
-          <DataGrid
-            columns={columns}
-            data={filteredRows}
-            isLoading={isFetching}
-            isColumnResizable
-            isColumnSortable
-            autoSorting
-          />
+        <Box pl="7x" height={400} mb="2x" overflowY="auto" opacity={isFetching ? 0.5 : 1}>
+          <Table layout="table">
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    let styleProps = {
+                      ...header.column.columnDef.style,
+                    };
+                    if (header.column.getCanSort()) {
+                      styleProps = {
+                        ...styleProps,
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        _hover: {
+                          backgroundColor: 'actions.hovered',
+                        },
+                      };
+                    }
+                    if (header.column.getIsSorted()) {
+                      styleProps = {
+                        ...styleProps,
+                        color: 'text.accent',
+                      };
+                    }
+                    return (
+                      <TableCell
+                        key={header.id}
+                        onClick={header.column.getToggleSortingHandler()}
+                        {...styleProps}
+                      >
+                        {header.isPlaceholder ? null : (
+                          <Flex alignItems="center">
+                            {flexRender(header.column.columnDef.header, header.getContext())}
+                            {{
+                              asc: (<SortUpIcon size="5x" ml="1x" />),
+                              desc: (<SortDownIcon size="5x" ml="1x" />),
+                            }[header.column.getIsSorted()] ?? null}
+                          </Flex>
+                        )}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  _hover={{
+                    backgroundColor: 'actions.hovered',
+                  }}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
+                      verticalAlign="top"
+                      {...cell.column.columnDef.style}
+                    >
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </Box>
       </AccordionContent>
     </AccordionItem>
@@ -436,18 +517,18 @@ const getTokenData = (type) => {
   }
   if (type === 'legacy') {
     return {
-      borders: v3Borders.rem,
-      colors: v3Colors,
-      fonts: v3Fonts,
-      fontSizes: v3FontSizes.rem,
-      fontWeights: v3FontWeights,
-      lineHeights: v3LineHeights.rem,
-      outlines: v3Outlines.rem,
-      radii: v3Radii.rem,
-      shadows: v3Shadows,
-      sizes: v3Sizes.rem,
-      space: v3Space.rem,
-      zIndices: v3ZIndices,
+      borders: v2Borders.rem,
+      colors: v2Colors,
+      fonts: v2Fonts,
+      fontSizes: v2FontSizes.rem,
+      fontWeights: v2FontWeights,
+      lineHeights: v2LineHeights.rem,
+      outlines: v2Outlines.rem,
+      radii: v2Radii.rem,
+      shadows: v2Shadows,
+      sizes: v2Sizes.rem,
+      space: v2Space.rem,
+      zIndices: v2ZIndices,
     };
   }
   return {};

@@ -11,7 +11,7 @@ import { sizes } from './sizes';
 import { space } from './space';
 import { zIndices } from './zIndices';
 
-const createPrimitive = (unit) => {
+export const createPrimitiveTokens = (unit) => {
   return {
     borders: borders[unit],
     breakpoints,
@@ -27,8 +27,6 @@ const createPrimitive = (unit) => {
     zIndices,
   };
 };
-
-export default createPrimitive;
 
 // Re-export all primitives
 export { borders } from './borders';
