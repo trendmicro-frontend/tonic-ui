@@ -407,7 +407,13 @@ describe('Submenu', () => {
 
       const SubmenuTestComponent = () => {
         return (
-          <Menu>
+          // `closeOnSelect={false}` keeps the menu open after selecting an item.
+          // With the default (`true`), clicking a submenu item calls the parent
+          // menu's `onClose`, which starts the menu-list exit transition and then
+          // unmounts it (`unmountOnExit`). The post-click "still open" assertion
+          // would then race that transition: it passes on fast machines that read
+          // it mid-transition and fails on slower CI that reads it after unmount.
+          <Menu closeOnSelect={false}>
             <MenuButton data-testid="menu-button">
               Options
             </MenuButton>
