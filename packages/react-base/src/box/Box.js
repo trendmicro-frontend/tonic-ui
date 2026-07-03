@@ -16,6 +16,8 @@ const shouldForwardProp = (() => {
     'as': true,
     // Internal prop for color mode injection, should not be forwarded to DOM
     '__colorMode': true,
+    // Internal prop for base styles at the lowest priority, should not be forwarded to DOM
+    '__sx': true,
   };
 
   return prop => isPropValid(prop) && !omittedStylePropMap[prop];
@@ -30,16 +32,22 @@ const transformCSSPseudoSelectors = (props) => {
   return sx(Object.fromEntries(entries));
 };
 
-const transformCSSSuperset = (props) => {
+const transformBaseSxProp = (props) => {
+  // The internal `__sx` prop carries component base styles at the lowest priority,
+  // so consumer style props and `sx` can override them. Reuses the `sx` transform.
+  return sx(props?.__sx);
+};
+
+const transformSxProp = (props) => {
   // The `sx` prop is a shortcut for defining custom styles that has access to the theme
   return sx(props?.sx);
 };
 
 const Box = styled('div', { shouldForwardProp })(
-  system,
-  transformCSSPseudoSelectors,
-  transformCSSSuperset,
-  // Prioritize highest specificity by placing it at the end
+  transformBaseSxProp, // `__sx` — base styles, LOWEST priority
+  system, // style props
+  transformCSSPseudoSelectors, // pseudo props (unchanged)
+  transformSxProp, // `sx` — HIGHEST priority
 );
 
 Box.displayName = 'Box';
