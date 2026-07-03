@@ -1,19 +1,26 @@
-# Slot Migration Skill
+---
+name: tonic-ui-slots
+description: Author and migrate the slots / slotProps API (the useSlot hook) in this design system's React components — the architecture where slots.x replaces an internal part and slotProps.x merges props into it. Use this whenever you are wiring an internal component part so consumers can swap it via slots.x or configure it via slotProps.x, authoring a slot's props / handler chaining / element resolution, or migrating a component from the deprecated *Component / *Props pairs (TransitionComponent/TransitionProps, PopperComponent/PopperProps, inputComponent/inputProps, arrow, scrollView, etc.) to slots / slotProps. Trigger it even when the user only mentions "slots", "slotProps", "useSlot", "swappable part", "replace the transition/popper/arrow", or "migrate the *Component prop" while working on a React component library — even if they don't name useSlot explicitly.
+---
 
-Migrate Tonic UI components from `TransitionComponent`/`TransitionProps` (and `PopperComponent`/`PopperProps`) to the `useSlot` hook with `slots`/`slotProps` API.
+# Tonic UI Slots
+
+The `slots` / `slotProps` API gives consumers granular control over a component's internal parts — **`slots`** replaces the element rendered for a part, **`slotProps`** merges extra props into it — without forking the component. Internally, each slot is wired with the `useSlot` hook.
+
+This skill covers both **authoring slots** on a component and **migrating** the legacy `*Component` / `*Props` prop pairs (e.g. `TransitionComponent` / `TransitionProps`, `PopperComponent` / `PopperProps`) to the slots API.
 
 ## When to Use
 
-- Migrating a component that uses `TransitionComponent` / `TransitionProps`
-- Migrating a component that uses `PopperComponent` / `PopperProps`
-- Adding slot support to a new component
+- Adding slot support to a new or existing component (wire an internal part with `useSlot` so it can be replaced via `slots.x` or configured via `slotProps.x`)
+- Authoring the internal `props`, handler chaining, and slot resolution for a slot
+- Migrating a component from the deprecated `*Component` / `*Props` pairs to `slots` / `slotProps` — see [Migration](#migration)
 
 ## The useSlot API
 
 ```js
 const [SlotElement, slotProps] = useSlot({
   name,              // Optional — slot name (e.g. 'transition') for dev error messages
-  ownerDisplayName,  // Optional — parent component displayName for dev error messages
+  ownerName,         // Optional — parent component displayName for dev error messages
   props,             // Optional — internal component props (include ref here); slotProps take precedence
   slot,              // The resolved element type for this slot
   slotProps,         // The resolved slot props (e.g. { ...TransitionProps, ...slotProps.transition })
@@ -24,6 +31,14 @@ Returns: `[ElementType, mergedProps]`
 
 **Merge order (later wins):** `props` → `slotProps`
 
+**`ref` and `__sx` are composed, not replaced.** For every other key, `slotProps` overrides
+`props`. But the two stacking channels are merged: `ref` via `useMergeRefs` (component ref +
+caller ref both fire) and `__sx` via `mergeSx` (the component's base `__sx` in `props` stays
+*below* the caller's `slotProps.__sx`). So put a component's base styling in `props.__sx` and
+let `useSlot` keep it under any consumer slot `__sx` — never strip or hand-merge `__sx` at the
+call site. `__sx` is only emitted when at least one side supplies it (non-Box slot elements
+don't get a spurious `__sx`).
+
 **Legacy-prop merge (call site):** the deprecated prop and the new slot prop are **merged**, not replaced — the new API wins on conflict (MUI-style):
 
 ```js
@@ -31,19 +46,25 @@ slotProps: { ...TransitionProps, ...slotProps.transition }   // ✅ merge — bo
 // NOT: slotProps.transition ?? TransitionProps              // ❌ replace — drops the deprecated prop
 ```
 
-A consumer mid-migration who sets both the deprecated prop and the new `slotProps` keeps both. The **element** still resolves by precedence (`slots.X ?? XComponent ?? Default`) since an element type cannot be merged. (Bonus: because the merged value is always an object, the dev-only "slotProps not provided" warning never fires.)
+A consumer mid-migration who sets both the deprecated prop and the new `slotProps` keeps both. The **element** still resolves by precedence (`slots.X ?? XComponent ?? Default`) since an element type cannot be merged.
 
-**Import:** `useSlot` is exported from `@tonic-ui/react`. Within the `react` package itself, import from `'../slot'` (the internal path).
+**Dev warning:** `useSlot` warns (dev-only) only when the resolved `slot` (the element type) is `undefined` — e.g. `useSlot: slots.root is required but was not provided in InputControl.` (or `… slot element is required …` when `name` is omitted). `slotProps` is **optional**: an undefined `slotProps.x` is treated as `{}` and never warns, so a **new slot with no legacy prop** can pass `slotProps: slotProps.x` directly — no `{ ...legacy, ...new }` merge and no `?? {}` guard needed.
+
+> **Package scope.** Code examples below use `@tonic-ui/*` as a placeholder for this design system's published npm scope — substitute the scope used in the repo you're working in. The `useSlot` API, merge semantics, and the internal `'../slot'` path do not depend on the scope.
+
+**Import:** `useSlot` is a **named** export. From the published `react` package externally; within that package itself, from `'../slot'` (the internal path). It is *not* a default export — `import useSlot from '../slot'` will bind `undefined`.
 
 ```js
-// In components inside packages/react:
-import useSlot from '../slot';
+// In components inside packages/react (scope-independent):
+import { useSlot } from '../slot';
 
 // In external code (react-docs, user projects):
 import { useSlot } from '@tonic-ui/react';
 ```
 
-## Handler Placement
+## Authoring a Slot: props & handlers
+
+These rules apply to any slot you wire with `useSlot` — both new slots and migrated ones.
 
 ### Static internal props → `props`
 
@@ -123,7 +144,9 @@ Always set explicitly after the spread — the component owns open/close state:
 <TransitionSlot {...transitionSlotProps} in={isOpen} />
 ```
 
-## Step-by-Step Migration
+## Migration
+
+Migrate a component from the deprecated `*Component` / `*Props` pairs to the `slots` / `slotProps` API. Resolve `slot` by precedence (`slots.x ?? XComponent ?? Default`) and `slotProps` by merge (`{ ...XProps, ...slotProps.x }`) inline, so a consumer mid-migration who still passes the deprecated prop keeps working.
 
 ### 1. Accept new props, deprecate old ones
 
@@ -209,7 +232,7 @@ Resolve `slot` and `slotProps` inline — the element resolves by precedence (`?
 ```jsx
 const [TransitionSlot, transitionSlotProps] = useSlot({
   name: 'transition',
-  ownerDisplayName: ComponentName.displayName,
+  ownerName: ComponentName.displayName,
   props: {
     ref: combinedRef,
     appear: true,
@@ -237,7 +260,7 @@ Some components render a plain `<Box>` when no context is present. The migration
 ```js
 const [TransitionSlot, transitionSlotProps] = useSlot({
   name: 'transition',
-  ownerDisplayName: ComponentName.displayName,
+  ownerName: ComponentName.displayName,
   props: {
     ref,           // no combinedRef needed when there is no internal contentRef
     appear: false,
@@ -270,7 +293,7 @@ Migrate both the Popper and the Transition to slots. The `modifiers` array **mus
 ```jsx
 const [PopperSlot, popperSlotProps] = useSlot({
   name: 'popper',
-  ownerDisplayName: ComponentName.displayName,
+  ownerName: ComponentName.displayName,
   props: {
     ref: menuContentRef,
     'aria-labelledby': menuToggleId,
@@ -291,7 +314,7 @@ const [PopperSlot, popperSlotProps] = useSlot({
 
 const [TransitionSlot, transitionSlotProps] = useSlot({
   name: 'transition',
-  ownerDisplayName: ComponentName.displayName,
+  ownerName: ComponentName.displayName,
   props: {
     ref: combinedRef,
     appear: true,
@@ -357,7 +380,7 @@ TooltipContent and PopoverContent also render an arrow element (`TooltipArrowCom
 ```jsx
 const [ArrowSlot, arrowSlotProps] = useSlot({
   name: 'arrow',
-  ownerDisplayName: TooltipContent.displayName,
+  ownerName: TooltipContent.displayName,
   slot: slots.arrow ?? TooltipArrowComponent ?? TooltipArrow,
   slotProps: slotProps.arrow ?? TooltipArrowProps,
 });
@@ -399,9 +422,11 @@ The root slot's coordinated `onClick` goes after the spread: `onClick={callEvent
 
 ### 4. Update imports
 
+Scope shown as the `@tonic-ui/*` placeholder — substitute your repo's npm scope. The internal `'../slot'` import is scope-independent.
+
 ```js
-// Internal useSlot — import from '../slot' (moved from '../utils/useSlot')
-import useSlot from '../slot';
+// Internal useSlot — named import from '../slot' (moved from '../utils/useSlot')
+import { useSlot } from '../slot';
 
 // Add to react-hooks import (only what's actually used)
 import { useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
@@ -410,7 +435,7 @@ import { useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 import { callAll, callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils';
 ```
 
-## Components to Migrate
+### Components to migrate
 
 | Component | File | Slots needed | Status |
 |---|---|---|---|
@@ -436,7 +461,7 @@ import { callAll, callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils
 
 **Done (beyond transition/popper/arrow):** `InputControl` (`input/InputControl.js`) now has `input` (deprecated `inputComponent`/`inputProps` → `slots.input`/`slotProps.input`) and `root` slots — see "The `input` and `root` slots" section.
 
-## Reference Implementation
+### Reference implementation
 
 `ModalContent` (`packages/react/src/modal/ModalContent.js`) is the canonical example.
 
@@ -450,4 +475,4 @@ Key rules carried from the migration:
 7. DOM event handlers go after the spread using `callEventHandlers(transitionSlotProps.handler, internalFn)`
 8. Lifecycle callbacks (onExited, onEnter) go after the spread using `callAll(internalFn, transitionSlotProps.handler)`
 9. Array props that must merge (e.g. Popper `modifiers`) go after the spread with explicit merge
-10. `useSlot` is now exported from `@tonic-ui/react`; within the `react` package, import from `../slot` (internal path)
+10. `useSlot` is now exported from the published `react` package (`@tonic-ui/react`); within the `react` package, import from `../slot` (internal path)
