@@ -89,7 +89,7 @@ function resolveTokenReferences(value, allTokens, currentDomain = '') {
     // Handle strings with multiple token references (like color-mix syntax)
     if (typeof value === 'string' && value.includes('{')) {
       let result = value;
-      const tokenPattern = /\{[^}]+\}/g;
+      const tokenPattern = /\{[^{}]+\}/g;
       const matches = value.match(tokenPattern);
 
       if (matches) {

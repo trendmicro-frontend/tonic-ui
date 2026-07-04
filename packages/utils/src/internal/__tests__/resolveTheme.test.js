@@ -166,6 +166,62 @@ describe('resolveTheme', () => {
       expect(result.colors.edge.falseValue).toBe(false);
     });
   });
+
+  describe('polynomial regex / ReDoS resilience', () => {
+    // Regression coverage for the token-matching regex used for inline references
+    // (e.g. `color-mix(in srgb, {colors.red.600} 24%, transparent)`). The character
+    // class previously included `{`, letting the regex backtrack over overlapping
+    // ranges on malformed input with many unclosed braces (flagged by CodeQL as a
+    // polynomial/quadratic-time regex on strings starting with '{{').
+    it('should not hang on a long run of unclosed braces', () => {
+      const malicious = '{'.repeat(50000);
+      const theme = { text: { value: malicious } };
+
+      const start = Date.now();
+      const result = resolveTheme(theme);
+      const elapsed = Date.now() - start;
+
+      expect(result.text.value).toBe(malicious);
+      expect(elapsed).toBeLessThan(1000);
+    });
+
+    it('should not hang on many repeated "{{" pairs with no closing brace', () => {
+      const malicious = '{{'.repeat(30000);
+      const theme = { text: { value: malicious } };
+
+      const start = Date.now();
+      const result = resolveTheme(theme);
+      const elapsed = Date.now() - start;
+
+      expect(result.text.value).toBe(malicious);
+      expect(elapsed).toBeLessThan(1000);
+    });
+
+    it('should leave malformed nested braces unresolved when the inner path does not exist', () => {
+      const theme = { text: { nested: '{{unknown}}' } };
+      const result = resolveTheme(theme);
+      expect(result.text.nested).toBe('{{unknown}}');
+    });
+
+    it('should still resolve an inner reference found inside malformed outer braces', () => {
+      // The whole string starts with '{' and ends with '}', so it is treated as a
+      // single (unresolvable) token path — this is pre-existing, unchanged behavior,
+      // not something the regex fix touches. Documented here to distinguish it from
+      // the inline multi-reference path used for e.g. color-mix() strings.
+      const theme = { foo: 'red', text: { nested: '{{foo}}' } };
+      const result = resolveTheme(theme);
+      expect(result.text.nested).toBe('{{foo}}');
+    });
+
+    it('should still resolve legitimate multi-token inline references (color-mix syntax)', () => {
+      const theme = {
+        colors: { red: '#ff0000', blue: '#0000ff' },
+        text: { combo: 'linear-gradient({colors.red}, {colors.blue})' },
+      };
+      const result = resolveTheme(theme);
+      expect(result.text.combo).toBe('linear-gradient(#ff0000, #0000ff)');
+    });
+  });
 });
 
 describe('resolveTheme — toColorMode and get', () => {
