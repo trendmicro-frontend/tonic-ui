@@ -1,7 +1,7 @@
 # Implementation Plan — `Box` internal `__sx` base-style channel
 
 **Decision record:** [`docs/adr/2026-06-24-box-internal-sx-base-channel.md`](../adr/2026-06-24-box-internal-sx-base-channel.md)
-**Scope:** `@tonic-one/react-base` `Box` only. No component migrations.
+**Scope:** `@tonic-ui/react-base` `Box` only. No component migrations.
 **Safe rollback point:** clean `main` @ `b66d480dc` — additive change confined to 3 files; `git checkout` to revert.
 
 ## 1. Code change — `packages/react-base/src/box/Box.js`
@@ -57,11 +57,11 @@ Use `toHaveStyleRule` (already wired via `@emotion/jest`). Precedence tests use 
 
 Verify: all green; existing snapshot test unchanged (additive change doesn't alter `<Box>This is a box</Box>` output).
 
-## 4. Changeset — `.changeset/tonic-one-pr-<PR_NUMBER>.md`
+## 4. Changeset — `.changeset/tonic-ui-pr-<PR_NUMBER>.md`
 
 ```md
 ---
-"@tonic-one/react-base": minor
+"@tonic-ui/react-base": minor
 ---
 
 feat(react-base): add internal `__sx` base-style channel to `Box` so component

@@ -452,12 +452,15 @@ import { callAll, callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils
 | TreeItem | `tree/TreeItem.js` | `transition` | ✅ done |
 | ToastManager | `toast/ToastManager.js` | `transition` | ✅ done |
 | InputControl | `input/InputControl.js` | `input`, `root` | ✅ done |
+| Scrollbar | `scrollbar/Scrollbar.js` | `scrollView` | ✅ done (deprecates `scrollViewProps`/`scrollViewRef`) |
 
 `Tooltip.js` is also modified (parent threading for the `popper`/`transition`/`arrow` slots — see the arrow-slot section).
 
 **Not in scope:**
 - `AccordionToggleIcon`, `MenuToggleIcon`, `TreeItemToggleIcon` — use `react-transition-group`'s `Transition` directly for icon rotation; no injectable `TransitionComponent` prop.
-- Standalone `*Props` prop-bag forwarders without a paired `*Component` (e.g. `scrollViewProps`, `selectProps`, `portalProps`, `linearProgressBarProps`) — prop forwarding, not element-swap slots. (`Radio`/`Checkbox`/`Switch` each expose their own `inputProps` for a hidden input but have no `inputComponent` — a possible future `slots.input`, separate decision.)
+- Standalone `*Props` prop-bag forwarders without a paired `*Component` (e.g. `selectProps`, `portalProps`, `linearProgressBarProps`) — prop forwarding, not element-swap slots. (`Radio`/`Checkbox`/`Switch` each expose their own `inputProps` for a hidden input but have no `inputComponent` — a possible future `slots.input`, separate decision.)
+
+  **Reversed for `Scrollbar`:** `scrollViewProps` was originally listed here as a pure prop-bag. It is now a `scrollView` **slot** (`slots.scrollView` / `slotProps.scrollView`), because the `ScrollView` is a meaningful swappable element — it owns a ref contract (Scrollbar's `update()` measures `scrollLeft`/`scrollWidth`/… off it) that justifies element-swap, not just prop forwarding. `scrollViewProps` → `slotProps.scrollView` and `scrollViewRef` → `slotProps.scrollView.ref` are deprecated (`willRemove: true`). `slots.scrollView` takes effect in default mode; in the render-prop form the consumer owns the element, and `getScrollViewProps()` carries `slotProps.scrollView` into both modes.
 
 **Done (beyond transition/popper/arrow):** `InputControl` (`input/InputControl.js`) now has `input` (deprecated `inputComponent`/`inputProps` → `slots.input`/`slotProps.input`) and `root` slots — see "The `input` and `root` slots" section.
 

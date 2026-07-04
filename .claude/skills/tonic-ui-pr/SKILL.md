@@ -33,7 +33,7 @@ git log --oneline -10   # See recent commit message style
 | Draft commit messages | Automatically commit or push changes |
 | Review and summarize diffs | Add features or fix bugs |
 
-**If asked to create a changeset for a non-monorepo project**, explain that changesets are only used in Tonic UI and Tonic One monorepos.
+**If asked to create a changeset for a non-monorepo project**, explain that changesets are only used in Tonic UI and Tonic UI monorepos.
 
 ## PR Title Format
 
@@ -82,7 +82,7 @@ feat(react/date-pickers)!: deprecate Calendar and replace it with DateCalendar  
 
 **Common scopes:** `react/menu`, `react/table`, `react/scrollbar`, `react/checkbox`, `react/toast`, `react/date-pickers`, `styled-system`, `utils`, `react-hooks`, `react-icons`, `theme`
 
-**Cross-repo references:** When porting changes from/to Tonic One, include `[tonic-one-pr-NNN]` in the title.
+**Cross-repo references:** When porting changes from/to Tonic UI, include `[tonic-ui-pr-NNN]` in the title.
 
 **Examples:**
 ```
@@ -201,7 +201,7 @@ feat(react/scrollbar): add `scrollViewProps` to enable passing custom props to t
 | `@tonic-ui/react-base` | 5% |
 | `@tonic-ui/theme` | 2% |
 
-**Tonic One packages:** `@tonic-one/react`, `@tonic-one/react-icons`, `@tonic-one/react-hooks`, `@tonic-one/react-data-grid`
+**Tonic UI packages:** `@tonic-ui/react`, `@tonic-ui/react-icons`, `@tonic-ui/react-hooks`, `@tonic-ui/react-data-grid`
 
 **Never create changesets for:** `codemod`, `changelog-github`, `react-docs` (internal/dev packages)
 

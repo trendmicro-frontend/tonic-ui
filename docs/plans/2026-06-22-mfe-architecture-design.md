@@ -130,7 +130,7 @@ The `TonicProvider` and Emotion cache live in `main.jsx`, NOT in the component. 
 ```js
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
-import { TonicProvider } from '@tonic-one/react';
+import { TonicProvider } from '@tonic-ui/react';
 import { createMicroApp } from '../micro-app';
 import App from './App';
 
@@ -192,8 +192,8 @@ Of the two dashboard widgets, only `widget-os` renders an ECharts `<Charts>` (bu
 ```jsx
 import { useEffect, useState } from 'react';
 import * as echarts from 'echarts';
-import { Charts } from '@tonic-one/react-charts';
-import { Box, Text, useColorMode } from '@tonic-one/react';
+import { Charts } from '@tonic-ui/react-charts';
+import { Box, Text, useColorMode } from '@tonic-ui/react';
 import { inventoryApi } from '../../../shared/inventory/api.js';
 
 function OSDistributionWidget() {
@@ -240,7 +240,7 @@ Each MF remote has both `App.jsx` (the widget) and `main.jsx` (the federated ent
 // remotes/widget-os/main.jsx
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
-import { TonicProvider } from '@tonic-one/react';
+import { TonicProvider } from '@tonic-ui/react';
 import App from './App.jsx';
 
 const cache = createCache({ key: 'widget-os', prepend: true });
@@ -275,7 +275,7 @@ export const InventoryView = createRemote(() => import('inventory/main'));
 `createRemote.jsx` wraps `lazy()` + `Suspense` with a `LoadingSlot` (a centered `Spinner`), so callers declare WHAT to load, not HOW to handle loading state:
 
 ```jsx
-import { Box, Spinner } from '@tonic-one/react';
+import { Box, Spinner } from '@tonic-ui/react';
 import { lazy, Suspense } from 'react';
 
 function LoadingSlot() {
@@ -310,10 +310,10 @@ Both hosts are structurally identical. Only the adapter import and the layout la
 | Layout label | `"Wujie"` | `"Module Federation"` |
 | Root element | `root` | `root` |
 
-`colorMode` is read once at module scope from **`localStorage`** (`'tonic-one-color-mode'`), NOT from a URL param. The docs page remounts the iframe on color-mode change, so the module-scope value is always fresh.
+`colorMode` is read once at module scope from **`localStorage`** (`'tonic-ui-color-mode'`), NOT from a URL param. The docs page remounts the iframe on color-mode change, so the module-scope value is always fresh.
 
 ```jsx
-import { Box, Flex, TonicProvider, createTheme } from '@tonic-one/react';
+import { Box, Flex, TonicProvider, createTheme } from '@tonic-ui/react';
 import { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
@@ -321,7 +321,7 @@ import GlobalStyles from './GlobalStyles';
 import Layout from './Layout';
 import { WidgetUpdates, WidgetOS, InventoryView } from './apps'; // or './remotes'
 
-const colorMode = localStorage.getItem('tonic-one-color-mode') === 'dark' ? 'dark' : 'light';
+const colorMode = localStorage.getItem('tonic-ui-color-mode') === 'dark' ? 'dark' : 'light';
 
 const theme = createTheme();
 
@@ -362,7 +362,7 @@ createRoot(document.getElementById('root')).render(<App />);
 Three pieces of chrome are load-bearing for layout and color mode:
 
 - **`index.html` full-height chain**: every page sets `html, body { height: 100%; margin: 0 }`, and each Wujie sub-app additionally sets `#app-root { height: 100% }`. This definite-height chain is what lets the inventory `DataGrid` (`heightMode="fit-container"`) and the flex layouts resolve a real height instead of collapsing to `auto`.
-- **Color-mode flash guard**: each host/shell `index.html` runs a **blocking inline** `<script>` (not `type="module"`, so it runs before first paint) that reads `localStorage['tonic-one-color-mode']` and sets `data-color-scheme` + the `color-scheme` style on `<html>`, with a matching `html[data-color-scheme="dark"]` background rule — preventing a white flash before React mounts in dark mode.
+- **Color-mode flash guard**: each host/shell `index.html` runs a **blocking inline** `<script>` (not `type="module"`, so it runs before first paint) that reads `localStorage['tonic-ui-color-mode']` and sets `data-color-scheme` + the `color-scheme` style on `<html>`, with a matching `html[data-color-scheme="dark"]` background rule — preventing a white flash before React mounts in dark mode.
 - **`GlobalStyles.jsx`** (`@emotion/react` `<Global>`): sets `#root { height: 100% }`, `:root/:host { color-scheme }`, scrollbar colors, the body `font-size` + `line-height` from theme tokens, and a `:focus:not(:focus-visible) { outline: none }` reset.
 - **`Layout.jsx`**: renders the header label plus a fixed-width sidebar nav (Dashboard / Inventory) whose items drive `activeView` via `onSelectView`.
 
@@ -384,7 +384,7 @@ Every app builds **statically into `packages/react-docs/public/`** (no dev serve
 
 MF shell + remotes additionally run `federation()` from `@module-federation/vite`:
 
-- Remotes: `name` (`widget_os` / `widget_updates` / `inventory`), `filename: 'remoteEntry.js'`, `manifest: true`, `dev: false`, `dts: false`, `exposes: { './main': path.resolve(dirname, 'main.jsx') }`, and `shared: { react, 'react-dom' }` as **singletons only** — the component libraries (`@tonic-one/react`, `@tonic-one/react-data-grid`) are intentionally **bundled per remote**, not shared (sharing them as singletons crashed module-eval on a `DataGridCell` binding).
+- Remotes: `name` (`widget_os` / `widget_updates` / `inventory`), `filename: 'remoteEntry.js'`, `manifest: true`, `dev: false`, `dts: false`, `exposes: { './main': path.resolve(dirname, 'main.jsx') }`, and `shared: { react, 'react-dom' }` as **singletons only** — the component libraries (`@tonic-ui/react`, `@tonic-ui/react-data-grid`) are intentionally **bundled per remote**, not shared (sharing them as singletons crashed module-eval on a `DataGridCell` binding).
 - Build: `target: 'esnext'`, `minify: false`, and `rollupOptions.external: ['vite/module-runner']` (the MF runtime plugin statically references this Vite 8+ subpath but never loads it on Vite 5).
 - The shell declares each remote in its own `federation({ remotes })` block, resolved at runtime from base-path-prefixed root-relative URLs (`${TONIC_ONE_REACT_DOCS_BASE_PATH}/mfe-module-federation/<app>/mf-manifest.json`) that resolve same-origin from what Next serves out of `public/`.
 
@@ -404,10 +404,10 @@ MF shell + remotes additionally run `federation()` from `@module-federation/vite
 
   MF federation names replace hyphens with underscores because JS identifiers cannot contain hyphens (`inventory` has none, so it is unchanged).
 - **`environment` prop**: not passed in either strategy. Wujie sub-apps rely on `getRootNode()` resolving correctly inside the sandbox iframe (the `environment` prop was removed in commit `cf7af3bf5`); MF remotes mount into the main document.
-- **Color mode source**: the host/shell reads `localStorage['tonic-one-color-mode']`; Wujie sub-apps read `window.$wujie.props.colorMode` (forwarded via the `props` prop on `WujieReact`); MF remotes receive `colorMode` as a React prop from the shell.
+- **Color mode source**: the host/shell reads `localStorage['tonic-ui-color-mode']`; Wujie sub-apps read `window.$wujie.props.colorMode` (forwarded via the `props` prop on `WujieReact`); MF remotes receive `colorMode` as a React prop from the shell.
 
 ---
 
 ## Deferred Topics
 
-- **Unifying `CacheProvider` into `TonicProvider`**: today each `main.jsx` constructs its own Emotion cache and wraps `TonicProvider` in `CacheProvider`. Folding the cache key into `TonicProvider` (so callers never import `CacheProvider`) is a separate design tracked under `@tonic-one/react`.
+- **Unifying `CacheProvider` into `TonicProvider`**: today each `main.jsx` constructs its own Emotion cache and wraps `TonicProvider` in `CacheProvider`. Folding the cache key into `TonicProvider` (so callers never import `CacheProvider`) is a separate design tracked under `@tonic-ui/react`.
