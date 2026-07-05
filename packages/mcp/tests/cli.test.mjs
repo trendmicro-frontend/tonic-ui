@@ -208,14 +208,17 @@ describe('CLI tests', () => {
       const serverProcess = spawn('node', [cliPath, '--config', configPath, '--type', 'streamable-http', '--port', port.toString()]);
 
       try {
-        // Wait for server to start
+        // Wait for server to start (it may fall back to a different port if the requested one is taken)
+        let serverPort;
         await new Promise((resolve, reject) => {
           let stdout = '';
           const timeout = setTimeout(() => reject(new Error('Server start timeout')), 3000);
 
           serverProcess.stdout.on('data', (data) => {
             stdout += data.toString();
-            if (stdout.includes(`🚀 Tonic UI MCP server is running on HTTP port ${port} (streamable-http)`)) {
+            const match = stdout.match(/running on HTTP port (\d+) \(streamable-http\)/);
+            if (match) {
+              serverPort = Number(match[1]);
               clearTimeout(timeout);
               resolve();
             }
@@ -223,7 +226,7 @@ describe('CLI tests', () => {
         });
 
         // Test the endpoint
-        const response = await makeRequest(`http://127.0.0.1:${port}/`);
+        const response = await makeRequest(`http://127.0.0.1:${serverPort}/`);
         assert.strictEqual(response.status, 200);
         assert.strictEqual(response.data.name, pkg.name);
         assert.strictEqual(response.data.version, pkg.version);
@@ -247,14 +250,17 @@ describe('CLI tests', () => {
       });
 
       try {
-        // Wait for server to start
+        // Wait for server to start (it may fall back to a different port if the requested one is taken)
+        let serverPort;
         await new Promise((resolve, reject) => {
           let stdout = '';
           const timeout = setTimeout(() => reject(new Error('Server start timeout')), 3000);
 
           serverProcess.stdout.on('data', (data) => {
             stdout += data.toString();
-            if (stdout.includes(`🚀 Tonic UI MCP server is running on HTTP port ${port} (streamable-http)`)) {
+            const match = stdout.match(/running on HTTP port (\d+) \(streamable-http\)/);
+            if (match) {
+              serverPort = Number(match[1]);
               clearTimeout(timeout);
               resolve();
             }
@@ -263,7 +269,7 @@ describe('CLI tests', () => {
 
         // Create MCP client and connect to the server
         const transport = new StreamableHTTPClientTransport(
-          new URL(`http://127.0.0.1:${port}/mcp`)
+          new URL(`http://127.0.0.1:${serverPort}/mcp`)
         );
 
         await client.connect(transport);
@@ -286,14 +292,17 @@ describe('CLI tests', () => {
       const serverProcess = spawn('node', [cliPath, '--config', configPath, '--type', 'sse', '--port', port.toString()]);
 
       try {
-        // Wait for server to start
+        // Wait for server to start (it may fall back to a different port if the requested one is taken)
+        let serverPort;
         await new Promise((resolve, reject) => {
           let stdout = '';
           const timeout = setTimeout(() => reject(new Error('Server start timeout')), 3000);
 
           serverProcess.stdout.on('data', (data) => {
             stdout += data.toString();
-            if (stdout.includes(`🚀 Tonic UI MCP server is running on HTTP port ${port} (sse)`)) {
+            const match = stdout.match(/running on HTTP port (\d+) \(sse\)/);
+            if (match) {
+              serverPort = Number(match[1]);
               clearTimeout(timeout);
               resolve();
             }
@@ -301,7 +310,7 @@ describe('CLI tests', () => {
         });
 
         // Test the endpoint
-        const response = await makeRequest(`http://127.0.0.1:${port}/`);
+        const response = await makeRequest(`http://127.0.0.1:${serverPort}/`);
         assert.strictEqual(response.status, 200);
         assert.strictEqual(response.data.name, pkg.name);
         assert.strictEqual(response.data.version, pkg.version);
@@ -326,14 +335,17 @@ describe('CLI tests', () => {
       });
 
       try {
-        // Wait for server to start
+        // Wait for server to start (it may fall back to a different port if the requested one is taken)
+        let serverPort;
         await new Promise((resolve, reject) => {
           let stdout = '';
           const timeout = setTimeout(() => reject(new Error('Server start timeout')), 3000);
 
           serverProcess.stdout.on('data', (data) => {
             stdout += data.toString();
-            if (stdout.includes(`🚀 Tonic UI MCP server is running on HTTP port ${port} (sse)`)) {
+            const match = stdout.match(/running on HTTP port (\d+) \(sse\)/);
+            if (match) {
+              serverPort = Number(match[1]);
               clearTimeout(timeout);
               resolve();
             }
@@ -342,7 +354,7 @@ describe('CLI tests', () => {
 
         // Create MCP client and connect to the server
         const transport = new SSEClientTransport(
-          new URL(`http://127.0.0.1:${port}/sse`)
+          new URL(`http://127.0.0.1:${serverPort}/sse`)
         );
 
         await client.connect(transport);
