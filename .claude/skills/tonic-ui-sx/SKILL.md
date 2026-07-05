@@ -198,6 +198,24 @@ return (
 Button's look (including `_hover`/`_active`) lives in `__sx`, so an app's `sx` or style props
 override it cleanly.
 
+**Always extract to a `styles.js` / `use<Component>Style()` hook — even for a single static
+value.** `mergeSx({ display: 'flex' }, __sxProp)` inlined at the JSX call site works, but it's
+inconsistent with every other component in this codebase, including trivially simple ones
+(`divider/Divider.js`, `mark/Mark.js`). Put the value in its own `styles.js`, even if the hook is
+a one-liner with no theme/state dependency:
+
+```js
+// flex/styles.js
+const useFlexStyle = () => {
+  return { display: 'flex' };
+};
+export { useFlexStyle };
+
+// flex/Flex.js
+const styleProps = useFlexStyle();
+return <Box {...rest} __sx={mergeSx(styleProps, __sxProp)} />;
+```
+
 ## Worked example — child override (`MenuButton` over `Button`)
 
 A wrapper overrides a child by passing its own base into the child's `__sx`. The child folds
