@@ -413,8 +413,8 @@ const TokenCategory = ({ scale, tokens, defaultIsExpanded }) => {
             ) : null}
           </Flex>
         </Box>
-        <Box pl="7x" height={400} mb="2x" overflowY="auto" opacity={isFetching ? 0.5 : 1}>
-          <Table layout="table">
+        <Box pl="7x" maxHeight={400} mb="2x" overflowY="auto" opacity={isFetching ? 0.5 : 1}>
+          <Table layout="table" width="100%">
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
