@@ -62,6 +62,6 @@ yargs
     },
   })
   .scriptName('npx @tonic-ui/codemod')
-  .example('$0 react/v2.0.0/import-react-icons src')
+  .example('$0 <codemod-script-path> src')
   .help()
   .parse();
