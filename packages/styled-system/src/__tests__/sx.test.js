@@ -589,3 +589,62 @@ test('should pass', () => {
     },
   });
 });
+
+describe('array composition', () => {
+  // A later array item overrides an earlier one's individual declarations,
+  // not the whole value at that key. For a flat property this was already
+  // correct (a last-write-wins overwrite). For a NESTED rule (a
+  // pseudo-selector, a media query, ...), the array reduce used to do the
+  // same flat overwrite on the whole nested object -- silently discarding
+  // every declaration the earlier item made under that key, not just the
+  // one the later item actually redeclared. This describe block guards the
+  // fix: two array items touching the SAME nested selector must compose
+  // their own declarations, not replace one another wholesale.
+  it('overrides a flat property, later item wins', () => {
+    const style = sx([{ color: 'red' }, { color: 'blue' }])({});
+    expect(style).toEqual({ color: 'blue' });
+  });
+
+  it('composes two array items that both declare the same nested selector, per declaration', () => {
+    const style = sx([
+      { '&:hover': { backgroundColor: 'red', color: 'blue' } },
+      { '&:hover': { backgroundColor: 'green' } },
+    ])({});
+    expect(style).toEqual({
+      '&:hover': { backgroundColor: 'green', color: 'blue' },
+    });
+  });
+
+  it('composes three array items on the same nested selector, later declarations win per property', () => {
+    const style = sx([
+      { '&:hover': { a: 1, b: 1 } },
+      { '&:hover': { b: 2, c: 2 } },
+      { '&:hover': { c: 3 } },
+    ])({});
+    expect(style).toEqual({ '&:hover': { a: 1, b: 2, c: 3 } });
+  });
+
+  it('recurses through multiple levels of nesting (a media query wrapping a pseudo-selector)', () => {
+    const style = sx([
+      { '@media (min-width: 320px)': { '&:hover': { color: 'red', background: 'x' } } },
+      { '@media (min-width: 320px)': { '&:hover': { color: 'blue' } } },
+    ])({});
+    expect(style).toEqual({
+      '@media (min-width: 320px)': { '&:hover': { color: 'blue', background: 'x' } },
+    });
+  });
+
+  it('replaces outright, not merges, when a later item is not a plain object at the same key', () => {
+    const objectThenScalar = sx([
+      { '&:hover': { color: 'red' } },
+      { '&:hover': 'inherit' },
+    ])({});
+    expect(objectThenScalar).toEqual({ '&:hover': 'inherit' });
+
+    const scalarThenObject = sx([
+      { '&:hover': 'inherit' },
+      { '&:hover': { color: 'red' } },
+    ])({});
+    expect(scalarThenObject).toEqual({ '&:hover': { color: 'red' } });
+  });
+});
