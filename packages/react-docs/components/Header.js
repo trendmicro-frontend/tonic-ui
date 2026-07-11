@@ -31,7 +31,7 @@ import InstantSearchModal from './InstantSearchModal';
 
 const BASE_PATH = ensureString(process.env.TONIC_UI_REACT_DOCS_BASE_PATH);
 
-const GITHUB_REPO_URL = 'https://adc.github.trendmicro.com/trend-common-platform/tonic-ui';
+const GITHUB_REPO_URL = 'https://github.com/trendmicro-frontend/tonic-ui';
 
 const TONIC_UI_REACT_DOCS_URL = ensureString(process.env.TONIC_UI_REACT_DOCS_URL);
 
