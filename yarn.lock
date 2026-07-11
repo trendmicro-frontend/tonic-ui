@@ -6846,14 +6846,14 @@ __metadata:
     jest-axe: ^8.0.0
     jest-environment-jsdom: ^29.0.0
     jest-extended: ^4.0.0
-    react: ^16.14.0 || ^17 || ^18 || ^19
-    react-dom: ^16.14.0 || ^17 || ^18 || ^19
+    react: ^18.3.0 || ^19.0.0
+    react-dom: ^18.3.0 || ^19.0.0
     rollup: ^3
   peerDependencies:
     "@emotion/react": ^11.0.0
     "@emotion/styled": ^11.0.0
-    react: ^16.14.0 || ^17 || ^18 || ^19
-    react-dom: ^16.14.0 || ^17 || ^18 || ^19
+    react: ^18.3.0 || ^19.0.0
+    react-dom: ^18.3.0 || ^19.0.0
   languageName: unknown
   linkType: soft
 
@@ -6926,11 +6926,11 @@ __metadata:
     prism-react-renderer: ^2.4.1
     prop-types: 15.x
     raw-loader: ^4.0.2
-    react: ^16.14.0 || ^17 || ^18 || ^19
+    react: ^18.3.0 || ^19.0.0
     react-beautiful-dnd: ^13.1.1
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
-    react-dom: ^16.14.0 || ^17 || ^18 || ^19
+    react-dom: ^18.3.0 || ^19.0.0
     react-focus-lock: ^2.9.2
     react-frame-component: ^5.2.7
     react-instantsearch-core: ^7.5.0
@@ -6990,13 +6990,13 @@ __metadata:
     jest: ^29.0.0
     jest-environment-jsdom: ^29.0.0
     jest-extended: ^4.0.0
-    react: ^16.14.0 || ^17 || ^18 || ^19
-    react-dom: ^16.14.0 || ^17 || ^18 || ^19
+    react: ^18.3.0 || ^19.0.0
+    react-dom: ^18.3.0 || ^19.0.0
     rollup: ^3
     rollup-plugin-dts: ^6.1.1
     typescript: ^5.0.0
   peerDependencies:
-    react: ^16.14.0 || ^17 || ^18 || ^19
+    react: ^18.3.0 || ^19.0.0
   languageName: unknown
   linkType: soft
 
@@ -7024,14 +7024,14 @@ __metadata:
     globals: ^15.0.0
     jest: ^29.0.0
     jest-extended: ^4.0.0
-    react: ^16.14.0 || ^17 || ^18 || ^19
-    react-dom: ^16.14.0 || ^17 || ^18 || ^19
+    react: ^18.3.0 || ^19.0.0
+    react-dom: ^18.3.0 || ^19.0.0
     rollup: ^3
     rollup-plugin-dts: ^6.0.0
     typescript: ^5.0.0
   peerDependencies:
-    react: ^16.14.0 || ^17 || ^18 || ^19
-    react-dom: ^16.14.0 || ^17 || ^18 || ^19
+    react: ^18.3.0 || ^19.0.0
+    react-dom: ^18.3.0 || ^19.0.0
   languageName: unknown
   linkType: soft
 
@@ -7086,10 +7086,10 @@ __metadata:
     jest-environment-jsdom: ^29.0.0
     jest-extended: ^4.0.0
     micro-memoize: 5.x
-    react: ^16.14.0 || ^17 || ^18 || ^19
-    react-dom: ^16.14.0 || ^17 || ^18 || ^19
+    react: ^18.3.0 || ^19.0.0
+    react-dom: ^18.3.0 || ^19.0.0
     react-focus-lock: 2.x
-    react-is: ^16.14.0 || ^17 || ^18 || ^19
+    react-is: ^18.3.0 || ^19.0.0
     react-transition-group: 4.x
     rollup: ^3
     rollup-plugin-dts: ^6.1.1
@@ -7097,8 +7097,8 @@ __metadata:
   peerDependencies:
     "@emotion/react": ^11.0.0
     "@emotion/styled": ^11.0.0
-    react: ^16.14.0 || ^17 || ^18 || ^19
-    react-dom: ^16.14.0 || ^17 || ^18 || ^19
+    react: ^18.3.0 || ^19.0.0
+    react-dom: ^18.3.0 || ^19.0.0
   languageName: unknown
   linkType: soft
 
@@ -19813,14 +19813,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^16.14.0 || ^17 || ^18 || ^19":
-  version: 19.2.0
-  resolution: "react-dom@npm:19.2.0"
+"react-dom@npm:^18.3.0 || ^19.0.0":
+  version: 19.2.7
+  resolution: "react-dom@npm:19.2.7"
   dependencies:
     scheduler: ^0.27.0
   peerDependencies:
-    react: ^19.2.0
-  checksum: b6ec952f68a29dcc847143ad48974477e1d3b95cb0a6e0039dd93c7fe64d0ef51f2ca09a19c5eb892ba625ba88c4bcc6f8bc3bdd1c33ccc3f6f17acabbb4882f
+    react: ^19.2.7
+  checksum: 9543b532a070c91751dd9aae77f5ee21d2aeada28e061080162433a5418f8ba98eadb869c76d82eff9f0475e5ff2b9e1cf31916ab6509f8ebc856be77361eb1c
   languageName: node
   linkType: hard
 
@@ -19877,7 +19877,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is-19@npm:react-is@^19.2.5":
+"react-is-19@npm:react-is@^19.2.5, react-is@npm:^18.3.0 || ^19.0.0":
   version: 19.2.7
   resolution: "react-is@npm:19.2.7"
   checksum: 148ee03b481ace8370cb9b96de386598423ed44ad36090c45ce3f905aec496db6f2675da720bbe43f39d66c43c9a16757cb71e9e55217825707dae97f0cf200f
@@ -19888,13 +19888,6 @@ __metadata:
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: f7a19ac3496de32ca9ae12aa030f00f14a3d45374f1ceca0af707c831b2a6098ef0d6bdae51bd437b0a306d7f01d4677fcc8de7c0d331eb47ad0f46130e53c5f
-  languageName: node
-  linkType: hard
-
-"react-is@npm:^16.14.0 || ^17 || ^18 || ^19":
-  version: 19.2.0
-  resolution: "react-is@npm:19.2.0"
-  checksum: 9a23e1c2d0bbc13b383bc59a05f54e6eb95dd87e01aec8aa92a88618364b7b0ee8a5b057ad813cf61e2f7ae7d24503b624706acb609d07c54754e5ad2c522568
   languageName: node
   linkType: hard
 
@@ -20008,10 +20001,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^16.14.0 || ^17 || ^18 || ^19":
-  version: 19.2.0
-  resolution: "react@npm:19.2.0"
-  checksum: 33dd01bf699e1c5040eb249e0f552519adf7ee90b98c49d702a50bf23af6852ea46023a5f7f93966ab10acd7a45428fa0f193c686ecdaa7a75a03886e53ec3fe
+"react@npm:^18.3.0 || ^19.0.0":
+  version: 19.2.7
+  resolution: "react@npm:19.2.7"
+  checksum: be94ec2f1779b27cac328ddae18e52933c2977a2425b67039229ead45c62d0363b66e894076236616c8d98821a9a760fcbab8a9da8ae9c4b2849dfd12cc32a46
   languageName: node
   linkType: hard
 

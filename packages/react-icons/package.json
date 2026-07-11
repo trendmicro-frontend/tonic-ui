@@ -46,15 +46,15 @@
     "globals": "^15.0.0",
     "jest": "^29.0.0",
     "jest-extended": "^4.0.0",
-    "react": "^16.14.0 || ^17 || ^18 || ^19",
-    "react-dom": "^16.14.0 || ^17 || ^18 || ^19",
+    "react": "^18.3.0 || ^19.0.0",
+    "react-dom": "^18.3.0 || ^19.0.0",
     "rollup": "^3",
     "rollup-plugin-dts": "^6.0.0",
     "typescript": "^5.0.0"
   },
   "peerDependencies": {
-    "react": "^16.14.0 || ^17 || ^18 || ^19",
-    "react-dom": "^16.14.0 || ^17 || ^18 || ^19"
+    "react": "^18.3.0 || ^19.0.0",
+    "react-dom": "^18.3.0 || ^19.0.0"
   },
   "jest": {
     "collectCoverage": true,
