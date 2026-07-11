@@ -24,7 +24,9 @@ import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
 import { forwardRef, useCallback, useEffect } from 'react';
 import useTrack from '../hooks/useTrack';
+import CodeSandboxIcon from '../icons/CodeSandboxIcon';
 import GitHubIcon from '../icons/GitHubIcon';
+import { open as openInCodeSandbox } from '../sandbox/codesandbox';
 import persistColorMode from '../utils/persist-color-mode';
 import SearchButton from './SearchButton';
 import InstantSearchModal from './InstantSearchModal';
@@ -88,6 +90,12 @@ const Header = forwardRef((
       );
     });
   }, [portal, track]);
+
+  const handleClickOpenInCodeSandbox = () => {
+    openInCodeSandbox({
+      title: 'Tonic UI',
+    });
+  };
 
   useEffect(() => {
     persistColorMode(colorMode);
@@ -236,6 +244,30 @@ const Header = forwardRef((
               </MenuList>
             </Menu>
           </Box>
+          <ButtonBase
+            data-track="Header|click_codesandbox"
+            onClick={() => handleClickOpenInCodeSandbox()}
+            title="Open in CodeSandbox"
+            sx={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'text.secondary',
+              width: '8x',
+              height: '8x',
+              _hover: {
+                color: 'text.primary',
+                cursor: 'pointer',
+              },
+              _focusVisible: {
+                outlineColor: '_component.keyboardFocused.outerFocusRing',
+                outlineStyle: 'solid',
+                outlineWidth: '1h',
+              },
+            }}
+          >
+            <CodeSandboxIcon size="6x" />
+          </ButtonBase>
           <ButtonBase
             data-track={`Header|click_toggle_color_mode|${colorMode === 'light' ? 'dark' : 'light'}`}
             onClick={() => toggleColorMode()}

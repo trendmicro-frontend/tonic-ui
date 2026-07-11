@@ -7,7 +7,8 @@ import { themes } from 'prism-react-renderer'
 import { Fragment, useEffect, useCallback, useReducer } from 'react';
 import { LiveProvider, LiveEditor } from 'react-live';
 import useClipboard from '../hooks/useClipboard';
-import FigmaIcon from '../icons/FigmaIcon';
+import CodeSandboxIcon from '../icons/CodeSandboxIcon';
+import { open as openInCodeSandbox } from '../sandbox/codesandbox';
 import x from '../utils/json-stringify';
 import IconButton from './IconButton';
 
@@ -42,6 +43,9 @@ const Demo = ({
   }[colorMode];
   const [showSourceCode, toggleShowSourceCode] = useToggle(expanded ?? defaultExpanded);
   const { onCopy, hasCopied } = useClipboard(file?.data);
+  const handleClickEditInCodeSandbox = useCallback(() => {
+    openInCodeSandbox(sandbox);
+  }, [sandbox]);
   const reset = useCallback(() => {
     forceUpdate();
     toggleShowSourceCode(false);
@@ -101,16 +105,14 @@ const Demo = ({
             <FileCopyOIcon />
           </Tooltip>
         </IconButton>
-        {figmaLink ? (
-          <IconButton
-            onClick={() => window.open(figmaLink, '_blank')}
-            data-track={`CodeBlock|open_figma_link|${router.pathname}`}
-          >
-            <Tooltip label="View in Figma">
-              <FigmaIcon />
-            </Tooltip>
-          </IconButton>
-        ) : null}
+        <IconButton
+          data-track={`Code|edit_in_codesandbox|${router.pathname}`}
+          onClick={handleClickEditInCodeSandbox}
+        >
+          <Tooltip label="Edit in CodeSandbox">
+            <CodeSandboxIcon />
+          </Tooltip>
+        </IconButton>
         <IconButton data-track={`Code|reset|${router.pathname}`} onClick={reset}>
           <Tooltip label="Reset the demo">
             <RedoIcon />
