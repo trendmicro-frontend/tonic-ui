@@ -1,25 +1,25 @@
 {
-  "skill_name": "tonic-ui-sx",
+  "skill_name": "agentic-ui-sx",
   "evals": [
     {
       "id": 0,
       "name": "self-base-styling",
-      "prompt": "I'm adding a new `Tag` component to `@tonic-ui/react`. Its `styles.js` has a `useTagStyle()` hook that returns the base look (flat decls plus an `_hover` rule). How should I apply that to the `Box` in `Tag.js` so that a consumer can still override it? Should the base styles go in `sx` or `__sx`? Show the call site.",
-      "expected_output": "Recommends __sx (not sx) for self base styling; shows mergeSx(styleProps, __sxProp) folded after {...rest}; destructures __sx out of rest; notes sx is consumer-only and wins over base.",
+      "prompt": "I'm adding a new `Tag` component to `@agentic-ui/react`. Its `styles.js` has a `useTagStyle()` hook that returns the base look (flat decls plus an `_hover` rule). How should I apply that to the `Box` in `Tag.js` so that a consumer can still override it? Should the base styles go in `sx` or `__sx`? Show the call site.",
+      "expected_output": "Recommends __sx (not sx) for self base styling; shows composeSx(styleProps, __sxProp) folded after {...rest}; destructures __sx out of rest; notes sx is consumer-only and wins over base.",
       "files": []
     },
     {
       "id": 1,
       "name": "child-override-wrapper",
       "prompt": "My `SplitButton` component renders a `<Button>` and needs to override Button's hover background, while still letting an app developer's `sx` win over my override. Where do I put SplitButton's override styles, and why not just use `sx`? Show how it composes with Button's own base.",
-      "expected_output": "Routes the wrapper override through __sx (passed into Button's incoming __sx), folded via mergeSx; explains the child folds incoming __sx after its own base so the override wins at equal specificity while consumer sx (tier 4) still wins; explains why sx would require a fragile hand-merge.",
+      "expected_output": "Routes the wrapper override through __sx (passed into Button's incoming __sx), folded via composeSx; explains the child folds incoming __sx after its own base so the override wins at equal specificity while consumer sx (tier 4) still wins; explains why sx would require a fragile hand-merge.",
       "files": []
     },
     {
       "id": 2,
       "name": "debug-dropped-override",
       "prompt": "A consumer passes `sx={{ _hover: { color: 'red' } }}` to our `MenuItem`, but the component's own hover styling wins and red never applies. Inside MenuItem we do `sx={{ ...menuItemSx, ...props.sx }}`. What's wrong and how do I fix it?",
-      "expected_output": "Identifies two faults: (1) the component authors its own styling on sx (should be __sx, consumer-only channel), and (2) object-merge {...a, ...b} replaces the whole _hover key instead of array composition. Fix: move menuItemSx to __sx via mergeSx, let consumer sx flow natively; or at minimum compose arrays not object-merge.",
+      "expected_output": "Identifies two faults: (1) the component authors its own styling on sx (should be __sx, consumer-only channel), and (2) object-merge {...a, ...b} replaces the whole _hover key instead of array composition. Fix: move menuItemSx to __sx via composeSx, let consumer sx flow natively; or at minimum compose arrays not object-merge.",
       "files": []
     }
   ]

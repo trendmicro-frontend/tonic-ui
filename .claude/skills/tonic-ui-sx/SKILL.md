@@ -1,7 +1,7 @@
 ---
 name: tonic-ui-sx
 description: >-
-  Decide between Tonic UI's `sx` and `__sx` styling channels (and the `mergeSx` fold) when
+  Decide between Tonic UI's `sx` and `__sx` styling channels (and the `composeSx` fold) when
   writing or reviewing any component built on `@tonic-ui/react-base`'s `Box` — this covers
   `@tonic-ui/react` itself and any other package that renders `Box`-based components
   internally (e.g. `@tonic-ui/react-data-grid`; confirmed real instances of these anti-patterns
@@ -12,7 +12,7 @@ description: >-
   wrapper that overrides a child component (e.g. MenuButton over Button, or a data-grid feature
   overriding a `@tonic-ui/react` component it wraps), or debugging a consumer override that
   "doesn't apply" or a wrapper override that gets dropped. Trigger it even when the user only
-  mentions `sx`, `__sx`, `mergeSx`, styling tiers/precedence, "consumer override", or "base
+  mentions `sx`, `__sx`, `composeSx`, styling tiers/precedence, "consumer override", or "base
   styling" in an tonic-ui context, or when working in a package outside `@tonic-ui/react`
   that still renders `Box` — even if they don't name the channel explicitly.
 ---
@@ -82,7 +82,7 @@ components a future wrapper will inject `__sx` into, so apply this uniformly —
 choose:
 
 ```js
-import { mergeSx } from '@tonic-ui/utils/internal';
+import { composeSx } from '@tonic-ui/utils/internal';
 
 const MyComponent = forwardRef((inProps, ref) => {
   const {
@@ -97,7 +97,7 @@ const MyComponent = forwardRef((inProps, ref) => {
     <Box
       ref={ref}
       {...rest}
-      __sx={mergeSx(styleProps, __sxProp)}   // own base first, incoming __sx folded last
+      __sx={composeSx(styleProps, __sxProp)}   // own base first, incoming __sx folded last
     />
   );
 });
@@ -107,7 +107,7 @@ Why each part matters:
 
 - **`__sx` is destructured out of `rest`** so it is not applied twice (once via the spread,
   once via the explicit prop).
-- **`mergeSx(styleProps, __sxProp)` is placed *after* `{...rest}`** so the explicit `__sx`
+- **`composeSx(styleProps, __sxProp)` is placed *after* `{...rest}`** so the explicit `__sx`
   wins the spread, and the incoming `__sx` (already folded) lands after the component's own
   base → an injected override beats the component's base, while the consumer's `sx` (tier 4)
   still beats everything.
@@ -118,38 +118,38 @@ Why each part matters:
 **Destructure `__sx: __sxProp` (and `...rest`) directly from `useDefaultProps` — in one line.**
 Do not capture the whole bag as `const props = useDefaultProps(...)`. You need two things the
 opaque bag can't give you cleanly: the incoming `__sx` *pulled out* (so it isn't applied twice)
-and a `...rest` that no longer contains it (so the explicit `__sx={mergeSx(...)}` after the
+and a `...rest` that no longer contains it (so the explicit `__sx={composeSx(...)}` after the
 spread wins). The one-line destructure is the canonical form:
 
 ```js
 // ✅ canonical — destructure inline
 const { __sx: __sxProp, ...rest } = useDefaultProps({ props: inProps, name: 'X' });
 const styleProps = useXxxStyle(...);
-return <Child {...rest} __sx={mergeSx(styleProps, __sxProp)} />;
+return <Child {...rest} __sx={composeSx(styleProps, __sxProp)} />;
 
 // ❌ opaque bag — can't fold cleanly; `{...props}` carries an unfolded `__sx`,
 //    and adding `__sx={...}` alongside it double-applies or collides
 const props = useDefaultProps({ props: inProps, name: 'X' });
-return <Child {...props} __sx={mergeSx(styleProps, props.__sx)} />;
+return <Child {...props} __sx={composeSx(styleProps, props.__sx)} />;
 
 // ❌ two-step — works, but re-destructuring from a captured bag is noise; inline it
 const props = useDefaultProps({ props: inProps, name: 'X' });
 const { __sx: __sxProp, ...rest } = props;
 ```
 
-## `mergeSx`: array composition, never object merge
+## `composeSx`: array composition, never object merge
 
 ```js
-const mergeSx = (...values) => values.flatMap((value) => ensureArray(value));
-// import { mergeSx } from '@tonic-ui/utils/internal';   (internal — not the public barrel)
+const composeSx = (...values) => values.flatMap((value) => ensureArray(value));
+// import { composeSx } from '@tonic-ui/utils/internal';   (internal — not the public barrel)
 ```
 
-`mergeSx` is **variadic** — pass any number of sx-values (`mergeSx(base, a, b)`); arrays are
+`composeSx` is **variadic** — pass any number of sx-values (`composeSx(base, a, b)`); arrays are
 flattened and `undefined` is skipped. It returns an **array** for the `__sx`/`sx` prop.
 **Do not spread it as props.**
 
 **If you author the element through `useSlot`, you don't fold `__sx` yourself.** `useSlot`
-composes both `ref` (via `useMergeRefs`) and `__sx` (via `mergeSx`) across `props` and
+composes both `ref` (via `useMergeRefs`) and `__sx` (via `composeSx`) across `props` and
 `slotProps` internally — put the base in `props.__sx`, pass the consumer's slot props as
 `slotProps`, and the base stays below the slot's `__sx`. Do **not** strip `__sx` out of the
 slot props or hand-merge it; that's the hook's job (mirrors how it merges `ref`):
@@ -172,11 +172,11 @@ composition** (`[a, b]`), not object merge (`{...a, ...b}`):
   entirely. The base hover styling is discarded. This is the wrong behavior and a common bug.
 
 When there is **no incoming value to fold** (e.g. a sub-element whose style has no consumer
-`__sx` slot), pass the style object **directly** — `mergeSx` adds nothing:
+`__sx` slot), pass the style object **directly** — `composeSx` adds nothing:
 
 ```js
-// Folding an incoming __sx → use mergeSx:
-<Box {...rest} __sx={mergeSx(styleProps, __sxProp)} />
+// Folding an incoming __sx → use composeSx:
+<Box {...rest} __sx={composeSx(styleProps, __sxProp)} />
 
 // No incoming __sx → pass directly:
 return { ref, onMouseDown, __sx: trackStyleProps };
@@ -190,7 +190,7 @@ const styleProps = useButtonStyle({ /* color, size, variant, ... */ });
 return (
   <ButtonBase
     {...rest}
-    __sx={mergeSx(styleProps, __sxProp)}
+    __sx={composeSx(styleProps, __sxProp)}
   />
 );
 ```
@@ -199,7 +199,7 @@ Button's look (including `_hover`/`_active`) lives in `__sx`, so an app's `sx` o
 override it cleanly.
 
 **Always extract to a `styles.js` / `use<Component>Style()` hook — even for a single static
-value.** `mergeSx({ display: 'flex' }, __sxProp)` inlined at the JSX call site works, but it's
+value.** `composeSx({ display: 'flex' }, __sxProp)` inlined at the JSX call site works, but it's
 inconsistent with every other component in this codebase, including trivially simple ones
 (`divider/Divider.js`, `mark/Mark.js`). Put the value in its own `styles.js`, even if the hook is
 a one-liner with no theme/state dependency:
@@ -213,7 +213,7 @@ export { useFlexStyle };
 
 // flex/Flex.js
 const styleProps = useFlexStyle();
-return <Box {...rest} __sx={mergeSx(styleProps, __sxProp)} />;
+return <Box {...rest} __sx={composeSx(styleProps, __sxProp)} />;
 ```
 
 ## Worked example — child override (`MenuButton` over `Button`)
@@ -229,7 +229,7 @@ return (
   <Button
     variant={variant}
     {...rest}
-    __sx={mergeSx(styleProps, __sxProp)}   // MenuButton's override → Button's incoming __sx
+    __sx={composeSx(styleProps, __sxProp)}   // MenuButton's override → Button's incoming __sx
   >
     {/* ... */}
   </Button>
@@ -253,7 +253,7 @@ clarifications, settled in `docs/adr/2026-07-03-transition-style-through-sx-chan
 1. **Animation state values are base styling — not exempt.** The per-transition-state style
    derived from the bounded state enum + static config (`opacity`, `transform`, the `transition`
    shorthand from `timeout`/`easing`, `visibility`) folds into `__sx` with everything else:
-   `mergeSx(ownPersistentBase, animationStyleProps, __sxProp)` — incoming last. A consumer or
+   `composeSx(ownPersistentBase, animationStyleProps, __sxProp)` — incoming last. A consumer or
    wrapper deliberately targeting an animated property wins, animation included.
 2. **The function-child handoff mirrors the `Box` branch.** The render-prop hands the consumer
    `{ ...childProps, ref, __sx: <the identical fold>, style: callerStyle }` — `style` is only the
@@ -333,24 +333,94 @@ Channel order resolves ties **only at equal selector specificity**. Specificity 
   (`const style = { ...styleProp, ...(condition && { key: value }) };`) and the naming-collision
   caveat — rename the destructure to `styleProp` only when a colliding `styleProps` exists in the
   same scope, never rename the hook result to make room for it.
-- The helper is **`mergeSx`** — named for the `__sx`/`sx` *channel* it operates on, deliberately
-  not `mergeStyleProps` (which would read as merging the tier-1 `system` channel).
+- The helper is **`composeSx`** — named for what it does, matching the rule below: array
+  composition, never object merge.
+
+## `__sx`-regression tests — proving precedence-by-origin, not just pinning output
+
+A snapshot test only pins *current* output — it won't catch a consumer override silently losing to
+a component's own base styling (this loop has already found and fixed two such bugs: `ButtonBox`'s
+precedence bug, `MenuContent`/`SubmenuContent` dropping a wrapper's `outline: 0` through a bad
+`useSlot` composition). Every migrated component with real own-authored base styling gets a
+dedicated `<Component>.sx.test.js`, mirroring the existing `<Component>.slots.test.js` convention
+(filename names the feature, `describe('<Component> sx override', ...)` carries the specifics).
+Full rationale: `docs/adr/2026-07-05-sx-regression-test-methodology.md`.
+
+**The standard shape needs two cases, not one** — verified empirically, not assumed. A test using
+only the consumer's public `sx` prop would have **passed against the real pre-fix `ButtonBox.js`**
+(confirmed by reverting to that commit and re-running): the bug hardcoded `ButtonBox`'s own
+`cursor` as a flat prop (tier 1), and a consumer's `sx` is tier 4 — already above tier 1 by
+construction, both before and after the fix, so that case never touches the composition point the
+bug was actually in. The real gap was whether an **incoming `__sx`** (from a wrapping component —
+the same mechanism `useSlot` uses, just without `useSlot`) composes with and wins over the
+component's own base style — confirmed by reproducing the failure on both `ButtonBox.js` and
+`Divider.js` (`toHaveStyleRule` uses `@emotion/jest`, already globally registered by
+`test-utils/render.js` — no new helper needed):
+
+```jsx
+// button-box/__tests__/ButtonBox.sx.test.js
+describe('ButtonBox sx override', () => {
+  it('consumer override: sx beats its own base cursor style', () => {
+    const { container } = render(<ButtonBox sx={{ cursor: 'wait' }}>Click</ButtonBox>);
+    expect(container.firstChild).toHaveStyleRule('cursor', 'wait'); // not the base 'pointer'
+  });
+
+  it('wrapper override: an incoming __sx composes with and wins over its own base cursor style', () => {
+    // Simulates a wrapping component injecting __sx directly -- not a real
+    // consumer-facing prop, but the only way to exercise this composition
+    // point in isolation.
+    const { container } = render(<ButtonBox __sx={{ cursor: 'wait' }}>Click</ButtonBox>);
+    expect(container.firstChild).toHaveStyleRule('cursor', 'wait');
+  });
+});
+```
+
+Bespoke per file, no shared `expectSupportsSxProp()`-style helper — matches the `.slots.test.js`
+precedent, and the render context (some components need `<Menu>`, `<Drawer isOpen>`, etc.) and
+target property vary too much per component for one generic helper to earn its keep.
+
+**Components with zero own base style** (confirmed no-op, e.g. `drawer/Drawer.js`,
+`list/ListItem.js`, `tabs/TabPanels.js`) still get the file, with a single documented `it.skip` —
+a skipped test is a durable, greppable record that Phase 4 evaluated the component and found
+nothing, versus a missing file (ambiguous — forgotten, or deliberate?):
+
+```jsx
+describe('Drawer sx override', () => {
+  it.skip('no own base style to override (Drawer forwards {...rest} straight to DrawerContainer)', () => {});
+});
+```
+
+**Multi-`Box` components** (e.g. `Badge.js`): target only the `Box` reachable via `{...rest}`/`sx`.
+Internal-only `Box`es with no incoming `rest`/`ref` (`__sx={ownStyle}`, no merge) structurally
+cannot receive a consumer's `sx` — don't fake a test around a channel that doesn't exist there.
+
+**Slot-composition shape** (a distinct second case, not yet implemented as of this ADR — deferred
+to a future batch): 9 components inject their *own* `__sx` into a *default* slotted component via
+`useSlot` (traced in `slot/useSlot.js`'s `composeSx(propsSx, slotSx)` merge) — `menu/MenuContent.js`,
+`menu/SubmenuContent.js`, `date-pickers/DatePicker/DatePickerContent.js` (→ `Popper`);
+`drawer/DrawerOverlay.js`, `modal/ModalOverlay.js` (→ `Fade`), `drawer/DrawerContent.js`
+(→ `Slide`), `modal/ModalContent.js` (→ `Fade`), `accordion/AccordionContent.js` (→ `Collapse`);
+`scrollbar/Scrollbar.js` (→ `ScrollView`). These need a render-in-open-state assertion proving
+*both* the owner's contributed property and the slotted component's own base property survive
+together (array composition), not just one winning. A `useSlot` call that injects no `__sx`
+(`props: {}` closeButton slots, etc.) has no composition risk to test here — its slot *target*
+(e.g. `AlertCloseButton.js`) still gets the standard shape, for its own base styling only.
 
 ## Red flags when writing or reviewing
 
 - A component writing its **own** styling to `sx=` → should be `__sx`. (`sx` is consumer-only.)
 - `__sx={{...a, ...b}}` or `sx={{...ownSx, ...props.sx}}` (object merge of sx-objects) → use
-  `mergeSx(a, b)` (array). Object-merging discards whole nested keys like `&:hover`.
-- `mergeSx(...)` spread as props (`<Box {...mergeSx(...)} />`) → it returns an **array** for the
+  `composeSx(a, b)` (array). Object-merging discards whole nested keys like `&:hover`.
+- `composeSx(...)` spread as props (`<Box {...composeSx(...)} />`) → it returns an **array** for the
   `__sx`/`sx` prop, not a props object.
-- Incoming `__sx` not destructured out of `rest`, or `mergeSx(...)` placed **before** `{...rest}`
+- Incoming `__sx` not destructured out of `rest`, or `composeSx(...)` placed **before** `{...rest}`
   → the fold is wrong; an injected override is double-applied or silently dropped.
 - `const props = useDefaultProps(...)` capturing the whole bag, then `{...props}` onto the child
   → the incoming `__sx` rides along unfolded; destructure `const { __sx: __sxProp, ...rest } =
   useDefaultProps(...)` inline instead (don't capture `props` then re-destructure either).
 - A wrapper overriding a child via `sx={[ownSx, ...sx]}` (hand-merge) → migrate to `__sx`; the
   child folds it natively, no hand-merge.
-- `mergeSx(styleProps)` with a single arg where there's genuinely no incoming `__sx` → just pass
+- `composeSx(styleProps)` with a single arg where there's genuinely no incoming `__sx` → just pass
   `__sx={styleProps}` directly.
 - "Consumer's flat style prop should override the base hover" → check specificity; a nested base
   rule isn't beaten by a flat prop.
@@ -364,14 +434,16 @@ Channel order resolves ties **only at equal selector specificity**. Specificity 
 
 - `CONTEXT.md` — the styling-channel glossary (the table above).
 - `docs/adr/2026-06-29-sx-as-universal-base-channel.md` — `__sx` as the universal internal base
-  channel; `sx` reserved for consumers; the `mergeSx` fold.
+  channel; `sx` reserved for consumers; the `composeSx` fold.
 - `docs/adr/2026-06-24-box-internal-sx-base-channel.md` — why `__sx` was introduced and the
   specificity boundary.
 - `docs/adr/2026-07-03-transition-style-through-sx-channel.md` — the transition convention:
   animation state through `__sx` in both render modes; the function-child handoff carries `__sx`
   and requires a `Box`-based child; DOM-measured values stay on inline `style`.
+- `docs/adr/2026-07-05-sx-regression-test-methodology.md` — the `.sx.test.js` convention: standard
+  vs slot-composition test shapes, `toHaveStyleRule`, bespoke-per-file, `it.skip` for no-ops.
 - `packages/react-base/src/box/Box.js` — the four-channel compose chain.
-- `packages/utils/src/internal/mergeSx.js` — the helper.
+- `packages/utils/src/internal/composeSx.js` — the helper.
 - `docs/plans/2026-07-02-tonic-ui-sx-internals-migration.md` — the migration plan covering both
   `@tonic-ui/react` and the confirmed `@tonic-ui/react-data-grid` instances (e.g.
   `DataGridResizeHandle.js`, `DataGridScrollbar.js`, `RowReorder.js`'s `getRowProps()`
@@ -383,8 +455,8 @@ Some headless-library patterns (react-table's `mergeGetPropsFns`-style compositi
 `@tonic-ui/react-data-grid`) merge several features' contributions to one `getProps()` call via
 a shallow `{...mergedProps, ...props}` object-spread. If two features both contribute `__sx` to
 the same call, that shallow merge silently replaces one feature's `__sx` with the other's — the
-same object-merge failure `mergeSx` exists to prevent, just one layer up in the composition
-pipeline. This isn't a bug in `__sx`/`mergeSx` itself; it means the composition layer merging
-*those* contributions also needs to fold `__sx` via `mergeSx` rather than object-spread once more
+same object-merge failure `composeSx` exists to prevent, just one layer up in the composition
+pipeline. This isn't a bug in `__sx`/`composeSx` itself; it means the composition layer merging
+*those* contributions also needs to fold `__sx` via `composeSx` rather than object-spread once more
 than one contributor is in play. Check for this whenever you're adding a second feature/plugin
 that needs to style the same element another feature already styles.

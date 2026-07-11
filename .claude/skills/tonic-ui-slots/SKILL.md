@@ -33,7 +33,7 @@ Returns: `[ElementType, mergedProps]`
 
 **`ref` and `__sx` are composed, not replaced.** For every other key, `slotProps` overrides
 `props`. But the two stacking channels are merged: `ref` via `useMergeRefs` (component ref +
-caller ref both fire) and `__sx` via `mergeSx` (the component's base `__sx` in `props` stays
+caller ref both fire) and `__sx` via `composeSx` (the component's base `__sx` in `props` stays
 *below* the caller's `slotProps.__sx`). So put a component's base styling in `props.__sx` and
 let `useSlot` keep it under any consumer slot `__sx` — never strip or hand-merge `__sx` at the
 call site. `__sx` is only emitted when at least one side supplies it (non-Box slot elements
