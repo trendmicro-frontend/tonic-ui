@@ -35,7 +35,7 @@ _MFE moved into Phase 2 (2026-06-27): MFE demos crash without the engine (`theme
 - [x] FINAL FROZEN-TREE INTEGRATION GATE on 01dff8f4c3 (2026-06-27): build-public ×2 EXIT 0 (IDEMPOTENT, all public pkgs incl dts); react dist/index.d.ts now emits REAL types (6612 lines, 353 type refs — was loose/any pre-U14); lint EXIT 0 (0 errors, React warnings only); test 754/756 pass. The 2 failing suites = CONFIRMED flaky (DatePicker: failed 1/3 then passed 2/3; SubmenuToggle: passed 3/3 isolated) — pre-existing date-fns-v4/popper-timing family, NOT U14 regressions (all E diffs comment/import-only). BRANCH CERTIFIED READY for Phase 2 PR.
 
 ## In progress
-(none)
+- [ ] U20 FULL eslint parity — owner: session claimed: 2026-07-15T00:00:00Z. SCOPE NARROWED after orchestrator verification (2026-07-15): most packages already at parity (react/react-base/react-icons/styled-system/theme/utils/codemod/changelog-github/react-docs match tonic-one modulo the two approved uniform deltas: `@types` ignore + react/react-base's `global.d.ts` ignore). react-hooks parser already matches tonic-one (tsParser both sides) — U20's original "parser mismatch" premise is stale. Remaining real gaps: (1) mcp missing tonic-one's `@stylistic/no-trailing-spaces: 2` rule + no-unused-vars downgraded to warn w/ extra varsIgnorePattern vs tonic-one's error; (2) react-hooks has extra rules (varsIgnorePattern, no-unused-vars:off, prefer-for-of:off) + a test-file override block not in tonic-one. [verify: single]
 
 ## DONE — U19 eslint config alignment (Option 1, 2026-06-28; NOT pushed)
 - [x] Removed legacy packages/react/.eslintrc.js (flat config authoritative post-upgrade). Committed 1f15efbc3d.
@@ -73,8 +73,6 @@ _MFE moved into Phase 2 (2026-06-27): MFE demos crash without the engine (`theme
 - Full-suite checks must NOT run concurrently with a maker editing the tree (isolation). Per-tranche scoped `jest --ci` is run only AFTER the maker settles, so it's fine.
 
 ## Next            ← ordered by dependency; pull from the top
-
-- [ ] U20 FULL eslint parity (user 2026-06-28) — Align EVERY tonic-ui package's eslint.config.mjs to its tonic-one counterpart. Parser mismatch = react-hooks only (tonic-one tsParser; tonic-ui babel). Apply two uniform tonic-ui deltas: (a) keep @typescript-eslint/no-unused-vars ON where tsParser used; (b) ignore '@types' + delete stale post-U18 @types/ dirs. #1168 PUSHED by user; U18+U19 already on origin. (re-queued by loop-doctor 2026-07-15 — no matching commit found for this claim; prior "(prior) U18 + U19 COMPLETE. Phase 2 (U14 + PR #1168) DONE+certified. Phase 3 PARKED (Q-C: wait for #1168 merge)." note moved to Log.) [verify: single]
 
 ### U18 — ALIGN BUILD/TYPES MECHANISM WITH TONIC-ONE (ACTIVE, user 2026-06-28; Phase-2 correction, lands on #1168 branch BEFORE Phase 3)
 GOAL (user): make rollup.config.mjs / tsconfig.json / src entry (index.js|index.ts) MECHANISM in tonic-ui IDENTICAL to /home/cheton/Code/trend-common-platform/tonic-one. User flagged the dual index.js+index.ts as the visible symptom. Use a SONNET maker to sync the files (user directive 2026-06-28).
