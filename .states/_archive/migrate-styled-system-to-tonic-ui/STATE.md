@@ -195,6 +195,3 @@ PROVISIONAL UNITS (refine after Phase 3 + Q-E..Q-G):
 - Q8 deprecated groups (severity, chart.classic) — drop / emit plain / reproduce warning proxy?
 - Q9 transparent/current kept as flat primitives.
 - Q10 light `background.primary` uses `white:emphasis` (not a gray step) — intentional asymmetry?
-
-## Archived note
-Archived 2026-07-15 — Phase 2 stop condition confirmed met (checker PASS after U20 landed: mcp+react-hooks eslint aligned, commit d60e6393f5). This is the full, unedited final STATE.md (per loop-engineering v1.2: archive the whole file, not extracted sections). Phase 3 (v4 theme token integration) and Phase 4 (component semantic-token migration) above were tracked as PROVISIONAL/PARKED future phases, explicitly gated on PR #1168 merging to `main` — they never started under this loop. Their content is also duplicated standalone in `phase3-4-provisional-plan.md` in this same archive directory for convenience when bootstrapping a new loop once #1168 merges.
