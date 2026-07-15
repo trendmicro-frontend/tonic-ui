@@ -31,8 +31,8 @@ export default defineConfig([
       '@typescript-eslint': tsPlugin,
     },
     rules: {
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
-      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      // kept off: useClickOutside.js:28 has a for loop that @typescript-eslint/prefer-for-of flags
       '@typescript-eslint/prefer-for-of': 'off',
       'react/jsx-filename-extension': [
         1,
@@ -54,7 +54,7 @@ export default defineConfig([
     },
   },
   {
-    // Test files use require() and empty arrow functions that are valid in test context
+    // kept: useCopyToClipboard.test.js:52,74 use empty arrow functions, useId.test.js:7,19,30,31 use require()
     files: ['**/__tests__/**/*.js', '**/*.test.js'],
     rules: {
       '@typescript-eslint/no-require-imports': 'off',
