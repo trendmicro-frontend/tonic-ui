@@ -27,54 +27,15 @@ import {
   PortalManager,
   ToastManager,
   TonicProvider,
-  colorStyle,
   createTheme,
   useColorMode,
-  useColorStyle,
   useTheme,
 } from '@tonic-ui/react';
-import { merge } from '@tonic-ui/utils';
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './app';
 
-const customColorStyle = merge(colorStyle, {
-  dark: {
-    // Add custom colors here
-    risk: {
-      high: 'red:50',
-      medium: 'yellow:50',
-      low: 'green:40',
-      none: 'gray:50',
-    },
-    severity: {
-      critical: 'magenta:60',
-      high: 'red:50',
-      medium: 'orange:50',
-      low: 'yellow:50',
-      info: 'gray:50',
-    },
-  },
-  light: {
-    // Add custom colors here
-    risk: {
-      high: 'red:60',
-      medium: 'yellow:50',
-      low: 'green:50',
-      none: 'gray:50',
-    },
-    severity: {
-      critical: 'magenta:60',
-      high: 'red:60',
-      medium: 'orange:50',
-      low: 'yellow:50',
-      info: 'gray:50',
-    },
-  },
-});
-
 const customTheme = createTheme({
-  cssVariables: true, // Enable CSS variables replacement
   components: {
     // Set default props for specific components
     //
@@ -90,84 +51,95 @@ const customTheme = createTheme({
 });
 
 const Root = (props) => {
+  const colorMode = 'dark';
+
+  useEffect(() => {
+    // Required for CSS theme variables with color mode support
+    document.documentElement.setAttribute('data-color-scheme', colorMode);
+  }, [colorMode]);
+
   return (
     <TonicProvider
       colorMode={{
-        defaultValue: 'dark',
-      }}
-      colorStyle={{
-        defaultValue: customColorStyle,
+        defaultValue: colorMode,
       }}
       theme={customTheme}
-      useCSSBaseline={true}
+      useCSSBaseline
+      useCSSVariables
     >
-      <PortalManager>
-        <ToastManager>
-          <Layout>
-            <Box {...props} />
-          </Layout>
-        </ToastManager>
-      </PortalManager>
+      <ToastManager
+        // Ensure that \`ToastManager\` is positioned above \`PortalManager\` to allow toast notifications to be displayed within a portal.
+        slotProps={{
+          transition: {
+            sx: {
+              '[data-toast-placement^="top"] > &:first-of-type': {
+                mt: '4x', // the space to the top edge of the screen
+              },
+              '[data-toast-placement^="bottom"] > &:last-of-type': {
+                mb: '4x', // the space to the bottom edge of the screen
+              },
+              '[data-toast-placement$="left"] > &': {
+                ml: '4x', // the space to the left edge of the screen
+              },
+              '[data-toast-placement$="right"] > &': {
+                mr: '4x', // the space to the right edge of the screen
+              },
+            },
+          },
+        }}
+      >
+        <PortalManager>
+          <GlobalStyles />
+          <Box
+            backgroundColor="background.low"
+            color="text.primary"
+            height="100vh"
+            {...props}
+          />
+        </PortalManager>
+      </ToastManager>
     </TonicProvider>
   );
 };
 
-const Layout = (props) => {
+const GlobalStyles = () => {
   const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const { colors, fontSizes, lineHeights } = useTheme();
-  const backgroundColor = colorStyle.background.primary;
-  const color = colorStyle.color.primary;
-  const scrollbarThumbBackgroundColor = colorStyle.color.disabled;
-  const scrollbarThumbHoverBackgroundColor = colorStyle.color.tertiary;
-  const scrollbarThumbHoverBorderColor = colorStyle.color.secondary;
-  const scrollbarTrackBackgroundColor = {
-    light: 'gray:30',
-    dark: 'gray:70',
-  }[colorMode];
+
+  // useTheme() automatically resolves color mode tokens (_dark/_light) based on the current color mode.
+  const theme = useTheme();
 
   return (
-    <>
-      <Global
-        styles={css\`
-          :root {
-            color-scheme: \${colorMode};
-          }
-          :focus:not(:focus-visible) {
-            outline: none;
-          }
-          body {
-            font-size: \${fontSizes.sm};
-            line-height: \${lineHeights.sm};
-          }
+    <Global
+      styles={css\`
+        :root, :host {
+          color-scheme: \${colorMode};
+        }
+        :focus:not(:focus-visible) {
+          outline: none;
+        }
+        body {
+          font-size: \${theme.get('fontSizes.sm')};
+          line-height: \${theme.get('lineHeights.sm')};
+        }
 
-          ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-          }
-          ::-webkit-scrollbar-track {
-            background-color: \${colors[scrollbarTrackBackgroundColor]};
-          }
-          ::-webkit-scrollbar-thumb {
-            background-color: \${colors[scrollbarThumbBackgroundColor]};
-          }
-          ::-webkit-scrollbar-thumb:hover {
-            background-color: \${colors[scrollbarThumbHoverBackgroundColor]};
-            border: 1px solid \${colors[scrollbarThumbHoverBorderColor]};
-          }
-        \`}
-      />
-      <Box
-        backgroundColor={backgroundColor}
-        color={color}
-        fontSize="sm"
-        lineHeight="sm"
-        height="100vh"
-        px="4x"
-        py="3x"
-        {...props}
-      />
-    </>
+        ::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+          background-color: \${theme.get('colors._component.scrollbar.track.enabled')};
+        }
+        ::-webkit-scrollbar-track:hover {
+          background-color: \${theme.get('colors._component.scrollbar.track.hovered')};
+        }
+        ::-webkit-scrollbar-thumb {
+          background-color: \${theme.get('colors._component.scrollbar.thumb.enabled')};
+        }
+        ::-webkit-scrollbar-thumb:hover {
+          background-color: \${theme.get('colors._component.scrollbar.thumb.hovered')};
+        }
+      \`}
+    />
   );
 };
 

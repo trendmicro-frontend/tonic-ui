@@ -34,6 +34,7 @@
     "@emotion/cache": "^11.14.0",
     "@emotion/jest": "^11.14.0",
     "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@mdx-js/loader": "^2.1.2",
     "@mdx-js/mdx": "^2.1.2",
     "@mdx-js/react": "^2.1.2",

@@ -14,13 +14,13 @@ const resolveDependencies = (contents) => {
 
   const versionMap = {
     ...pkg.devDependencies,
-    '@tonic-ui/react': getTonicUIPackageVersion('react', '2.x'),
-    '@tonic-ui/react-base': getTonicUIPackageVersion('react-base', '2.x'),
-    '@tonic-ui/react-hooks': getTonicUIPackageVersion('react-hooks', '2.x'),
-    '@tonic-ui/react-icons': getTonicUIPackageVersion('react-icons', '2.x'),
-    '@tonic-ui/styled-system': getTonicUIPackageVersion('styled-system', '2.x'),
-    '@tonic-ui/theme': getTonicUIPackageVersion('theme', '2.x'),
-    '@tonic-ui/utils': getTonicUIPackageVersion('utils', '2.x'),
+    '@tonic-ui/react': getTonicUIPackageVersion('react', '3.x'),
+    '@tonic-ui/react-base': getTonicUIPackageVersion('react-base', '3.x'),
+    '@tonic-ui/react-hooks': getTonicUIPackageVersion('react-hooks', '3.x'),
+    '@tonic-ui/react-icons': getTonicUIPackageVersion('react-icons', '3.x'),
+    '@tonic-ui/styled-system': getTonicUIPackageVersion('styled-system', '3.x'),
+    '@tonic-ui/theme': getTonicUIPackageVersion('theme', '3.x'),
+    '@tonic-ui/utils': getTonicUIPackageVersion('utils', '3.x'),
   };
 
   const extractDependenciesFromContent = (content) => {
