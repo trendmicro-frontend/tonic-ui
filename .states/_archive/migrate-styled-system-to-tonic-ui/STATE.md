@@ -196,8 +196,5 @@ PROVISIONAL UNITS (refine after Phase 3 + Q-E..Q-G):
 - Q9 transparent/current kept as flat primitives.
 - Q10 light `background.primary` uses `white:emphasis` (not a gray step) — intentional asymmetry?
 
-## Docs
-- `docs/plans/2026-06-26-token-mapping.md` — the colorStyle→_dark/_light re-expression (v3 values) + 10 open questions; shelved for Phase 2 but relevant to the future Phase 3 (v4 semantic tokens) — moved to the repo's top-level docs/plans/ since it's the only one of this loop's docs with forward-looking value. port-plan.md, jsdoc-dts-plan.md, and version-config-plan.md were execution plans for now-fully-shipped Phase 2 units (U2-U11, U13/U14, U17 — see ## Done/## Log above for what actually happened) and were dropped rather than archived.
-
 ## Archived note
 Archived 2026-07-15 — Phase 2 stop condition confirmed met (checker PASS after U20 landed: mcp+react-hooks eslint aligned, commit d60e6393f5). This is the full, unedited final STATE.md (per loop-engineering v1.2: archive the whole file, not extracted sections). Phase 3 (v4 theme token integration) and Phase 4 (component semantic-token migration) above were tracked as PROVISIONAL/PARKED future phases, explicitly gated on PR #1168 merging to `main` — they never started under this loop. Their content is also duplicated standalone in `phase3-4-provisional-plan.md` in this same archive directory for convenience when bootstrapping a new loop once #1168 merges.
