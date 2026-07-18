@@ -13,6 +13,7 @@
     "@tonic-ui/utils": "2.3.0"
   },
   "changesets": [
+    "tonic-ui-pr-1168",
     "tonic-ui-v3-alpha"
   ]
 }
