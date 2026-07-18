@@ -6804,7 +6804,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/react-base@npm:^3.0.0-alpha.0, @tonic-ui/react-base@workspace:packages/react-base":
+"@tonic-ui/react-base@npm:^3.0.0-alpha.1, @tonic-ui/react-base@workspace:packages/react-base":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/react-base@workspace:packages/react-base"
   dependencies:
@@ -6827,7 +6827,7 @@ __metadata:
     "@testing-library/jest-dom": "npm:^6.0.0"
     "@testing-library/react": "npm:^16.0.0"
     "@testing-library/user-event": "npm:^14.0.0"
-    "@tonic-ui/styled-system": "npm:^3.0.0-alpha.0"
+    "@tonic-ui/styled-system": "npm:^3.0.0-alpha.1"
     "@trendmicro/babel-config": "npm:^1.0.2"
     cross-env: "npm:^7.0.0"
     del-cli: "npm:^5.0.0"
@@ -6951,7 +6951,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/react-hooks@npm:^3.0.0-alpha.0, @tonic-ui/react-hooks@workspace:^, @tonic-ui/react-hooks@workspace:packages/react-hooks":
+"@tonic-ui/react-hooks@npm:^3.0.0-alpha.1, @tonic-ui/react-hooks@workspace:^, @tonic-ui/react-hooks@workspace:packages/react-hooks":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/react-hooks@workspace:packages/react-hooks"
   dependencies:
@@ -6971,7 +6971,7 @@ __metadata:
     "@testing-library/jest-dom": "npm:^6.0.0"
     "@testing-library/react": "npm:^16.0.0"
     "@testing-library/user-event": "npm:^14.0.0"
-    "@tonic-ui/utils": "npm:^3.0.0-alpha.0"
+    "@tonic-ui/utils": "npm:^3.0.0-alpha.1"
     "@trendmicro/babel-config": "npm:^1.0.2"
     "@typescript-eslint/eslint-plugin": "npm:^8.58.0"
     "@typescript-eslint/parser": "npm:^8.58.0"
@@ -6998,7 +6998,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/react-icons@npm:^3.0.0-alpha.0, @tonic-ui/react-icons@workspace:^, @tonic-ui/react-icons@workspace:packages/react-icons":
+"@tonic-ui/react-icons@npm:^3.0.0-alpha.1, @tonic-ui/react-icons@workspace:^, @tonic-ui/react-icons@workspace:packages/react-icons":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/react-icons@workspace:packages/react-icons"
   dependencies:
@@ -7009,7 +7009,7 @@ __metadata:
     "@codecov/rollup-plugin": "npm:^1.5.1"
     "@emotion/babel-plugin": "npm:^11.13.0"
     "@emotion/react": "npm:^11.14.0"
-    "@tonic-ui/react-base": "npm:^3.0.0-alpha.0"
+    "@tonic-ui/react-base": "npm:^3.0.0-alpha.1"
     "@trendmicro/babel-config": "npm:^1.0.2"
     cross-env: "npm:^7.0.0"
     del-cli: "npm:^5.0.0"
@@ -7057,12 +7057,12 @@ __metadata:
     "@testing-library/jest-dom": "npm:^6.0.0"
     "@testing-library/react": "npm:^16.0.0"
     "@testing-library/user-event": "npm:^14.0.0"
-    "@tonic-ui/react-base": "npm:^3.0.0-alpha.0"
-    "@tonic-ui/react-hooks": "npm:^3.0.0-alpha.0"
-    "@tonic-ui/react-icons": "npm:^3.0.0-alpha.0"
-    "@tonic-ui/styled-system": "npm:^3.0.0-alpha.0"
-    "@tonic-ui/theme": "npm:^3.0.0-alpha.0"
-    "@tonic-ui/utils": "npm:^3.0.0-alpha.0"
+    "@tonic-ui/react-base": "npm:^3.0.0-alpha.1"
+    "@tonic-ui/react-hooks": "npm:^3.0.0-alpha.1"
+    "@tonic-ui/react-icons": "npm:^3.0.0-alpha.1"
+    "@tonic-ui/styled-system": "npm:^3.0.0-alpha.1"
+    "@tonic-ui/theme": "npm:^3.0.0-alpha.1"
+    "@tonic-ui/utils": "npm:^3.0.0-alpha.1"
     "@trendmicro/babel-config": "npm:^1.0.2"
     "@typescript-eslint/eslint-plugin": "npm:^8.58.0"
     "@typescript-eslint/parser": "npm:^8.58.0"
@@ -7100,7 +7100,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/styled-system@npm:^3.0.0-alpha.0, @tonic-ui/styled-system@workspace:packages/styled-system":
+"@tonic-ui/styled-system@npm:^3.0.0-alpha.1, @tonic-ui/styled-system@workspace:packages/styled-system":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/styled-system@workspace:packages/styled-system"
   dependencies:
@@ -7114,7 +7114,7 @@ __metadata:
     "@codecov/rollup-plugin": "npm:^1.5.1"
     "@rollup/plugin-babel": "npm:^6.0.0"
     "@rollup/plugin-node-resolve": "npm:^15.0.0"
-    "@tonic-ui/utils": "npm:^3.0.0-alpha.0"
+    "@tonic-ui/utils": "npm:^3.0.0-alpha.1"
     "@trendmicro/babel-config": "npm:^1.0.2"
     cross-env: "npm:^7.0.0"
     del-cli: "npm:^5.0.0"
@@ -7134,7 +7134,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/theme@npm:^3.0.0-alpha.0, @tonic-ui/theme@workspace:packages/theme":
+"@tonic-ui/theme@npm:^3.0.0-alpha.1, @tonic-ui/theme@workspace:packages/theme":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/theme@workspace:packages/theme"
   dependencies:
@@ -7166,7 +7166,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/utils@npm:^3.0.0-alpha.0, @tonic-ui/utils@workspace:^, @tonic-ui/utils@workspace:packages/utils":
+"@tonic-ui/utils@npm:^3.0.0-alpha.1, @tonic-ui/utils@workspace:^, @tonic-ui/utils@workspace:packages/utils":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/utils@workspace:packages/utils"
   dependencies:

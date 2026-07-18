@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/codemod",
-  "version": "3.0.0-alpha.0",
+  "version": "3.0.0-alpha.1",
   "description": "A set of codemod scripts designed to simplify the migration and updating of Tonic UI applications.",
   "bin": "./codemod-cli.js",
   "files": [
