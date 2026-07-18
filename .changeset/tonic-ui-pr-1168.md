@@ -1,5 +1,4 @@
 ---
-"@tonic-ui/changelog-github": patch
 "@tonic-ui/codemod": patch
 "@tonic-ui/mcp": patch
 "@tonic-ui/react-base": patch

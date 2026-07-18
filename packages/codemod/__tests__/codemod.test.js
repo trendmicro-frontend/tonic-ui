@@ -11,7 +11,7 @@ describe('CLI Tests', () => {
   it('should run jscodeshift with correct arguments', () => {
     const mockSpawnSync = jest.spyOn(childProcess, 'spawnSync').mockReturnValue({ error: null });
 
-    const transform = 'react/v2.0.0/import-react-icons';
+    const transform = 'react/v2/import-react-icons';
     const files = ['/path/to/file1.js', '/path/to/file2.js'];
     const flags = {
       extensions: 'js,jsx',
@@ -61,7 +61,7 @@ describe('CLI Tests', () => {
   it('should print transformed files to stdout when `--print` is true', () => {
     const mockSpawnSync = jest.spyOn(childProcess, 'spawnSync').mockReturnValue({ error: null });
 
-    const transform = 'react/v2.0.0/import-react-icons';
+    const transform = 'react/v2/import-react-icons';
     const files = ['/path/to/file1.js'];
     const flags = {
       extensions: 'js,jsx',
@@ -87,7 +87,7 @@ describe('CLI Tests', () => {
   it('should pass advanced options to jscodeshift when `--jscodeshift` is provided', () => {
     const mockSpawnSync = jest.spyOn(childProcess, 'spawnSync').mockReturnValue({ error: null });
 
-    const transform = 'react/v2.0.0/import-react-icons';
+    const transform = 'react/v2/import-react-icons';
     const files = ['/path/to/file1.js'];
     const flags = {
       extensions: 'js,jsx',
@@ -113,7 +113,7 @@ describe('CLI Tests', () => {
   it('should handle multiple ignore patterns', () => {
     const mockSpawnSync = jest.spyOn(childProcess, 'spawnSync').mockReturnValue({ error: null });
 
-    const transform = 'react/v2.0.0/import-react-icons';
+    const transform = 'react/v2/import-react-icons';
     const files = ['/path/to/file1.js'];
     const flags = {
       extensions: 'js,jsx',

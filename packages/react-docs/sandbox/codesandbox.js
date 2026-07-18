@@ -4,8 +4,10 @@ import { getHtml, getJSConfigJSON, getRootIndex, getDefaultComponent } from './c
 import pkg from '../package.json';
 
 const resolveDependencies = (contents) => {
+  const isPRBuild = process.env.CI_PULL_REQUEST_NUMBER;
+
   const getTonicUIPackageVersion = (packageName, defaultPackageVersion = 'latest') => {
-    const commitShort = process.env.CI_PULL_REQUEST_NUMBER ? ensureString(process.env.CI_COMMIT).substring(0, 8) : undefined;
+    const commitShort = isPRBuild ? ensureString(process.env.CI_COMMIT).substring(0, 8) : undefined;
     if (!commitShort) {
       return defaultPackageVersion;
     }
@@ -52,6 +54,19 @@ const resolveDependencies = (contents) => {
     return {
       ...dependencies,
       ...extractDependenciesFromContent(content),
+
+      // Enforced dependencies
+      '@emotion/react': versionMap['@emotion/react'],
+      '@emotion/styled': versionMap['@emotion/styled'],
+      ...(isPRBuild && {
+        '@tonic-ui/react': versionMap['@tonic-ui/react'],
+        '@tonic-ui/react-base': versionMap['@tonic-ui/react-base'],
+        '@tonic-ui/react-hooks': versionMap['@tonic-ui/react-hooks'],
+        '@tonic-ui/react-icons': versionMap['@tonic-ui/react-icons'],
+        '@tonic-ui/styled-system': versionMap['@tonic-ui/styled-system'],
+        '@tonic-ui/theme': versionMap['@tonic-ui/theme'],
+        '@tonic-ui/utils': versionMap['@tonic-ui/utils'],
+      }),
     };
   }, {});
 };

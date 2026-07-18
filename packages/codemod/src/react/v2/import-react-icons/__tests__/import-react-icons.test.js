@@ -1,0 +1,13 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import jscodeshift from 'jscodeshift';
+import transform from '..';
+
+describe('react/v2/import-react-icons', () => {
+  it('transforms the code to import icons from `@tonic-ui/react-icons`', () => {
+    const source = fs.readFileSync(path.resolve(__dirname, '__fixtures__/source.js'), 'utf8').toString();
+    const transformed = transform({ source }, { jscodeshift }).toString();
+    const expected = fs.readFileSync(path.resolve(__dirname, '__fixtures__/expected.js'), 'utf8').toString();
+    expect(transformed.trim()).toEqual(expected.trim(), 'The transformed version should be correct');
+  });
+});

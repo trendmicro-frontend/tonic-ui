@@ -52,9 +52,32 @@ For additional options with `jscodeshift`, refer to the complete [jscodeshift CL
 
 ## Transforms
 
-### v2.0.0
+### `style-props-to-sx`
 
-#### `import-react-icons`
+Converts flat style props and pseudo props (e.g. `width="8x"`, `_hover={{ ... }}`) on non-layout `@agentic-ui/react` / `@agentic-ui/react-icons` components into the `sx` prop. Layout primitives (`Box`, `Flex`, `Grid`, `Stack`, `StackItem`, `Space`) are left untouched, since their own flat props are their intended API — as are a small set of components with a specific prop that has real JS behavior beyond CSS (e.g. `Scrollbar`'s `width`/`height`/`overflow`, `Skeleton`'s `animation`, `Toast`'s `appearance` — see the transform's own header comment for the full list and reasoning). Elements with an existing `sx` prop that isn't a plain object literal are left untouched rather than guessed at.
+
+```diff
+-<Button variant="primary" width="8x" height="8x" borderRadius="circle">
++<Button variant="primary" sx={{ width: '8x', height: '8x', borderRadius: 'circle' }}>
+   Save
+ </Button>
+```
+
+Preview the changes first:
+
+```bash
+npx @agentic-ui/codemod@latest style-props-to-sx src --dry --print
+```
+
+Then apply them, and run `eslint --fix` on the changed files afterward to normalize formatting (JSX closing-bracket placement, re-indented multi-line pseudo-prop objects):
+
+```bash
+npx @agentic-ui/codemod@latest style-props-to-sx src
+```
+
+If the transform can't safely convert a prop (e.g. it's one of the protected component+prop pairs above), it leaves that prop untouched and logs `needs manual review: <Component>.<prop>` for that file instead of guessing.
+
+### `react/v2/import-react-icons`
 
 Updates the import locations for icon components within Tonic UI v2.
 
