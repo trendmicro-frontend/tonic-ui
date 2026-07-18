@@ -5,7 +5,7 @@
     "src": "../../../../virtual:mf-REMOTE_ENTRY_ID:__mfe_internal__widget_os__remoteEntry_js",
     "isDynamicEntry": true,
     "imports": [
-      "_preload-helper-DNi3CNVU.js"
+      "_preload-helper-B-CCBV6A.js"
     ],
     "dynamicImports": [
       "../../../../virtual:mf-localSharedImportMap:__mfe_internal__widget_os",
@@ -15,24 +15,24 @@
     ]
   },
   "../../../../virtual:mf-exposes:__mfe_internal__widget_os__remoteEntry_js": {
-    "file": "assets/virtualExposes-CCG2GMGg.js",
+    "file": "assets/virtualExposes-CcY21jTh.js",
     "name": "virtualExposes",
     "src": "../../../../virtual:mf-exposes:__mfe_internal__widget_os__remoteEntry_js",
     "isDynamicEntry": true,
     "imports": [
-      "_preload-helper-DNi3CNVU.js"
+      "_preload-helper-B-CCBV6A.js"
     ],
     "dynamicImports": [
       "main.jsx"
     ]
   },
   "../../../../virtual:mf-localSharedImportMap:__mfe_internal__widget_os": {
-    "file": "assets/_virtual_mf-localSharedImportMap___mfe_internal__widget_os-hA3YuBp9.js",
+    "file": "assets/_virtual_mf-localSharedImportMap___mfe_internal__widget_os-D3_0TAGz.js",
     "name": "_virtual_mf-localSharedImportMap___mfe_internal__widget_os",
     "src": "../../../../virtual:mf-localSharedImportMap:__mfe_internal__widget_os",
     "isDynamicEntry": true,
     "imports": [
-      "_preload-helper-DNi3CNVU.js",
+      "_preload-helper-B-CCBV6A.js",
       "../../../../virtual:mf-REMOTE_ENTRY_ID:__mfe_internal__widget_os__remoteEntry_js"
     ],
     "dynamicImports": [
@@ -42,11 +42,11 @@
     ]
   },
   "../../../../virtual:mf:__mfe_internal__widget_os__H_A_I__hostAutoInit__H_A_I__.js": {
-    "file": "assets/hostInit-B799tHuX.js",
+    "file": "assets/hostInit-Bh8YDO0f.js",
     "name": "hostInit",
     "src": "../../../../virtual:mf:__mfe_internal__widget_os__H_A_I__hostAutoInit__H_A_I__.js",
     "imports": [
-      "_preload-helper-DNi3CNVU.js"
+      "_preload-helper-B-CCBV6A.js"
     ],
     "dynamicImports": [
       "../../../../virtual:mf-REMOTE_ENTRY_ID:__mfe_internal__widget_os__remoteEntry_js"
@@ -81,23 +81,23 @@
       "___virtual_mf___mfe_internal__widget_os__loadShare__react__loadShare__.js_commonjs-proxy-CUxbQ29s.js"
     ]
   },
-  "_preload-helper-DNi3CNVU.js": {
-    "file": "assets/preload-helper-DNi3CNVU.js",
+  "_preload-helper-B-CCBV6A.js": {
+    "file": "assets/preload-helper-B-CCBV6A.js",
     "name": "preload-helper"
   },
   "index.html": {
-    "file": "assets/index-CvQ6lJK3.js",
+    "file": "assets/index-KfdgzRrJ.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
     "imports": [
       "../../../../virtual:mf-exposes:__mfe_internal__widget_os__remoteEntry_js",
       "../../../../virtual:mf-REMOTE_ENTRY_ID:__mfe_internal__widget_os__remoteEntry_js",
-      "_preload-helper-DNi3CNVU.js"
+      "_preload-helper-B-CCBV6A.js"
     ]
   },
   "main.jsx": {
-    "file": "assets/main-yl40uXBQ.js",
+    "file": "assets/main-Dx1fLWMH.js",
     "name": "main",
     "src": "main.jsx",
     "isEntry": true,
