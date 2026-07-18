@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wujie</title>
+   <!--
+      Blocking script: sets data-color-scheme before first paint to prevent a white flash when the stored color mode is dark.
+      Must be inline (not type="module") so it runs synchronously before the browser paints.
+    -->
+     <script>
+      (function() {
+        // Note: "tonic-ui-color-mode" is the localStorage key used by this demo.
+        // In your own app, replace this with whatever key or mechanism you use to persist the user's color mode preference.
+        const colorMode = localStorage.getItem('tonic-ui-color-mode');
+        if (colorMode === 'dark' || colorMode === 'light') {
+          document.documentElement.setAttribute('data-color-scheme', colorMode);
+          document.documentElement.style.setProperty('color-scheme', colorMode);
+        }
+      })();
+    </script>
+    <style>
+      html                            { background-color: #fcfcfc; }
+      html[data-color-scheme="dark"]  { background-color: #1b1b1b; }
+      html[data-color-scheme="light"] { background-color: #fcfcfc; }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+    </style>
+    <script type="module" crossorigin src="/tonic-ui/react/v3/mfe/wujie/assets/index-C4nEjtQh.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

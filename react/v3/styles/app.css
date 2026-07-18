@@ -1,0 +1,201 @@
+:root, :host {
+  --docs-header-height: 48px;
+  --docs-sidebar-width: 250px;
+  --docs-toc-width: 250px;
+}
+
+/**
+ * Headings
+ */
+h1 .anchor-link,
+h2 .anchor-link,
+h3 .anchor-link,
+h4 .anchor-link,
+h5 .anchor-link,
+h6 .anchor-link,
+h1 .anchor-link:visited,
+h2 .anchor-link:visited,
+h3 .anchor-link:visited,
+h4 .anchor-link:visited,
+h5 .anchor-link:visited,
+h6 .anchor-link:visited {
+  color: var(--tonic-colors-text-secondary);
+}
+
+.anchor-link:hover {
+  color: var(--tonic-colors-text-primary);
+}
+
+h1 .anchor-link,
+h2 .anchor-link,
+h3 .anchor-link,
+h4 .anchor-link,
+h5 .anchor-link,
+h6 .anchor-link {
+  display: none;
+}
+
+h1:hover .anchor-link,
+h2:hover .anchor-link,
+h3:hover .anchor-link,
+h4:hover .anchor-link,
+h5:hover .anchor-link,
+h6:hover .anchor-link {
+  display: inline-block;
+  margin-left: var(--tonic-space-2x);
+}
+
+h1:hover .anchor-link svg,
+h2:hover .anchor-link svg,
+h3:hover .anchor-link svg,
+h4:hover .anchor-link svg,
+h5:hover .anchor-link svg,
+h6:hover .anchor-link svg {
+  display: inline-block;
+  width: var(--tonic-sizes-4x);
+  height: var(--tonic-sizes-4x);
+  fill: currentColor;
+  pointer-events: none;
+}
+
+/**
+ * Description Elements
+ */
+dl {
+  font-size: var(--tonic-fontSizes-md);
+  line-height: var(--tonic-lineHeights-md);
+  margin-top: 0;
+  margin-bottom: var(--tonic-space-4x);
+}
+
+dd {
+  margin-left: var(--tonic-space-6x);
+  margin-bottom: var(--tonic-space-2x);
+}
+
+/**
+ * Main Content
+ */
+.main-content > :first-child {
+  margin-top: 0!important;
+}
+.main-content > :last-child {
+  margin-bottom: 0!important;
+}
+
+/**
+ * Table of Contents (TOC)
+ */
+#toc {
+  display: none;
+  width: var(--docs-toc-width);
+  position: fixed;
+  top: var(--docs-header-height);
+  right: 0;
+  height: calc(100vh - var(--docs-header-height));
+  overflow-y: auto;
+  background-color: var(--tonic-colors-background-low);
+}
+#toc ol,
+#toc ul,
+#toc li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#toc a,
+#toc a:active,
+#toc a:hover,
+#toc a:focus,
+#toc a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+#toc .toc-heading {
+  margin-top: var(--tonic-space-4x);
+  margin-bottom: var(--tonic-space-2x);
+  margin-left: var(--tonic-space-4x);
+  font-size: var(--tonic-fontSizes-xs);
+  line-height: var(--tonic-lineHeights-xs);
+  color: var(--tonic-colors-text-tertiary);
+}
+
+#toc .toc-link {
+  color: var(--tonic-colors-text-secondary);
+  font-size: var(--tonic-fontSizes-sm);
+  line-height: var(--tonic-lineHeights-sm);
+  border-left: var(--tonic-sizes-1h) solid transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: var(--tonic-sizes-1x) var(--tonic-sizes-2x);
+}
+
+#toc .toc-link:focus-visible {
+  outline-color: var(--tonic-colors-text-accent);
+  outline-offset: calc(var(--tonic-sizes-1h) * -1);
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1h);
+}
+
+#toc .toc-link:hover {
+  border-left-color: var(--tonic-colors-border-_primary-hovered);
+  color: var(--tonic-colors-text-primary);
+}
+
+#toc .toc-link.active {
+  border-left-color: var(--tonic-colors-border-_primary-selected);
+  color: var(--tonic-colors-text-accent);
+}
+
+#toc .toc-link.toc-link-h1 {
+  padding-left: var(--tonic-sizes-2x);
+}
+#toc .toc-link.toc-link-h2 {
+  padding-left: var(--tonic-sizes-4x);
+}
+#toc .toc-link.toc-link-h3 {
+  padding-left: var(--tonic-sizes-6x);
+}
+#toc .toc-link.toc-link-h4 {
+  padding-left: var(--tonic-sizes-8x);
+}
+#toc .toc-link.toc-link-h5 {
+  padding-left: var(--tonic-sizes-10x);
+}
+#toc .toc-link.toc-link-h6 {
+  padding-left: var(--tonic-sizes-12x);
+}
+
+/**
+ * Main
+ */
+@media screen and (min-width: 1440px) {
+  #main {
+    width: calc(100% - var(--docs-sidebar-width) - var(--docs-toc-width));
+  }
+  .main-content {
+    background-color: var(--tonic-colors-background-low);
+    padding: var(--tonic-space-4x) var(--tonic-space-4x);
+  }
+  /**
+   * No padding for nested main content.
+   * This applies when a `.main-content` element is nested within another `.main-content` element.
+   *
+   * Example:
+   *
+   * ```mdx
+   * import Example from '../components/example.mdx';
+   *
+   * <Example />
+   * ```
+   */
+  .main-content:has( > .main-content) {
+    padding: 0;
+  }
+  #toc {
+    display: block;
+  }
+}
+
