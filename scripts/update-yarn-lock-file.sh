@@ -1,6 +1,6 @@
 #!/bin/sh
 
-MAIN_BRANCH=master
+MAIN_BRANCH=main
 PR_BRANCH=ci/update-yarn-lock-file-$(date +"%m-%d-%Y")
 OWNER=trendmicro-frontend
 REPO=tonic-ui
