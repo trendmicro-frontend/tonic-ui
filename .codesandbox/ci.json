@@ -1,7 +1,7 @@
 {
-  "buildCommand": "build",
-  "node": "18",
+  "buildCommand": "build-public",
   "packages": [
+    "packages/codemod",
     "packages/react",
     "packages/react-base",
     "packages/react-hooks",
