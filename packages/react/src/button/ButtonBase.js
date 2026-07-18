@@ -1,11 +1,21 @@
 import { ariaAttr } from '@tonic-ui/utils';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { useButtonBaseStyle } from './styles';
 
 /**
  * `ButtonBase` does not have appearance settings including default color, padding, outline, and border
+ */
+
+/**
+ * @typedef {Object} ButtonBaseProps
+ * @property {React.ReactNode} [children] -
+ * @property {boolean} [disabled] - The button will be disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop.
+ */
+
+/**
+ * @type {ForwardRefComponent<'button', ButtonBaseProps>}
  */
 const ButtonBase = forwardRef((inProps, ref) => {
   const {

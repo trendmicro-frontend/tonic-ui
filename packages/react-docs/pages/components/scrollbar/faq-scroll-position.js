@@ -1,10 +1,10 @@
 import { Button, Divider, Scrollbar } from '@tonic-ui/react';
 import { useToggle } from '@tonic-ui/react-hooks';
-import { useState } from 'react';
+import { useRef } from 'react';
 import Lorem from '@/components/Lorem';
 
 const App = () => {
-  const [scrollTop, setScrollTop] = useState(0);
+  const scrollTopRef = useRef();
   const [on, toggle] = useToggle(true);
 
   return (
@@ -16,11 +16,11 @@ const App = () => {
       {on ? (
         <Scrollbar
           height={200}
-          onUpdate={({ scrollTop: newScrollTop }) => {
-            setScrollTop(newScrollTop);
+          onUpdate={({ scrollTop }) => {
+            scrollTopRef.current = scrollTop;
           }}
           overflow="visible"
-          scrollTop={scrollTop}
+          scrollTop={scrollTopRef.current}
         >
           <Lorem count={10} />
         </Scrollbar>

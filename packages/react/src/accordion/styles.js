@@ -1,4 +1,3 @@
-import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 
 const useAccordionStyle = () => {
@@ -9,25 +8,12 @@ const useAccordionStyle = () => {
 };
 
 const useAccordionHeaderStyle = () => {
-  const [colorMode] = useColorMode();
   const { sizes } = useTheme();
-  const backgroundColor = {
-    dark: 'gray:90',
-    light: 'white',
-  }[colorMode];
+  const backgroundColor = '_overlay.thinner';
   const borderWidth = sizes['1q'];
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-  const disabledColor = {
-    dark: 'white:disabled',
-    light: 'black:disabled',
-  }[colorMode];
-  const focusVisibleOutlineColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
+  const color = 'text.primary';
+  const disabledColor = 'text.disabled';
+  const focusVisibleOutlineColor = '_component.keyboardFocused.outerFocusRing';
   const px = sizes['4x'];
   const py = `calc(${sizes['3x']} - ${borderWidth})`;
 
@@ -70,9 +56,6 @@ const useAccordionToggleStyle = () => {
 const useAccordionToggleIconStyle = () => {
   return {
     display: 'inline-flex',
-    _disabled: {
-      opacity: '.28',
-    },
   };
 };
 

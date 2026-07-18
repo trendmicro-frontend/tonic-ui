@@ -1,10 +1,7 @@
-import { Button, Flex, Space, Stack, Text, TextLabel, useColorMode, useColorStyle, useTheme } from '@tonic-ui/react';
 import { useState } from 'react';
+import { Button, Flex, Space, Stack, Text, TextLabel, useColorMode, useTheme } from '@tonic-ui/react';
 
 const Block = (props) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-
   return (
     <Flex
       px="4x"
@@ -12,7 +9,7 @@ const Block = (props) => {
       alignItems="flex-start"
       justifyContent="center"
       flexDirection="column"
-      backgroundColor={colorStyle.background.secondary}
+      backgroundColor="background.high"
       {...props}
     />
   );
@@ -27,8 +24,8 @@ const App = () => {
   }[colorMode];
   const outlineWidths = [1, 2, 3, 4, 5];
   const [outlineWidth, setOutlineWidth] = useState(outlineWidths[0]);
-  const outlineValue = theme.outlines[outlineWidth] || outlineWidth;
-  const outlineColorValue = theme.colors[outlineColor] || outlineColor;
+  const outlineValue = theme.get('outlines.' + outlineWidth) || outlineWidth;
+  const outlineColorValue = theme.get('colors.' + outlineColor) || outlineColor;
 
   return (
     <>

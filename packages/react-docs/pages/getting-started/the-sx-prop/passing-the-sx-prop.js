@@ -4,7 +4,7 @@ const ListItem = ({ sx, ...rest }) => (
   <Box
     sx={[
       {
-        color: 'white:primary',
+        color: 'text.normal.primary',
       },
       ...(Array.isArray(sx) ? sx : [sx]),
     ]}
@@ -15,7 +15,7 @@ const ListItem = ({ sx, ...rest }) => (
 const App = () => (
   <ListItem
     sx={{
-      color: 'white:secondary',
+      color: 'text.normal.secondary',
       fontWeight: 'semibold',
     }}
   >

@@ -1,13 +1,14 @@
-/* eslint-disable-next-line react/jsx-no-bind */
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { Pagination, PaginationItem } from '@tonic-ui/react/src';
+import React from 'react';
 
 describe('Pagination', () => {
   it('should render correctly', async () => {
     const { container } = render(
       <Pagination />
     );
+    expect(container.firstChild).toMatchSnapshot();
     await testA11y(container);
   });
 
@@ -59,7 +60,7 @@ describe('Pagination', () => {
         count={5}
         page={3}
         slot={{ first: true, last: true }}
-        renderItem={(item) => (
+        renderItem={(item) => ( // eslint-disable-line react/jsx-no-bind
           <PaginationItem {...item} data-testid={item.type} />
         )}
       />
@@ -91,7 +92,7 @@ describe('Pagination', () => {
         count={11}
         defaultPage={6}
         boundaryCount={0}
-        renderItem={(item) => (
+        renderItem={(item) => ( // eslint-disable-line react/jsx-no-bind
           <PaginationItem {...item} data-testid={item.type} />
         )}
       />
@@ -119,7 +120,7 @@ describe('Pagination', () => {
         count={11}
         defaultPage={6}
         siblingCount={0}
-        renderItem={(item) => (
+        renderItem={(item) => ( // eslint-disable-line react/jsx-no-bind
           <PaginationItem {...item} data-testid={item.type} />
         )}
       />

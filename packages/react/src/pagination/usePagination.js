@@ -7,6 +7,37 @@ const defaultSlot = {
   last: false,
 };
 
+/**
+ * @typedef {Object} PaginationItem
+ * @property {'page' | 'first' | 'last' | 'previous' | 'next' | 'start-ellipsis' | 'end-ellipsis'} type - The type of the pagination item.
+ * @property {number | null} page - The page number for this item, or `null` for non-applicable items.
+ * @property {boolean} disabled - Whether the item is disabled.
+ * @property {boolean} selected - Whether the item is selected.
+ * @property {(event: React.MouseEvent) => void} onClick - Click handler for the item.
+ */
+
+/**
+ * @typedef {Object} UsePaginationProps
+ * @property {number} [boundaryCount=1] - Number of always visible pages at the beginning and end.
+ * @property {number} [count=1] - The total number of pages.
+ * @property {number} [defaultPage=1] - The page selected by default in uncontrolled mode.
+ * @property {boolean} [disabled=false] - Whether the pagination is disabled.
+ * @property {(page: number) => void} [onChange] - Callback when page changes.
+ * @property {number} [page] - The current page in controlled mode.
+ * @property {number} [siblingCount=1] - Number of always visible pages before and after the current page.
+ * @property {{ first?: boolean; previous?: boolean; next?: boolean; last?: boolean }} [slot] - Which navigation slots to show.
+ */
+
+/**
+ * @typedef {Object} UsePaginationReturn
+ * @property {PaginationItem[]} items - The list of pagination items.
+ */
+
+/**
+ * A hook that provides pagination logic.
+ * @param {UsePaginationProps} [props] - The pagination options.
+ * @returns {UsePaginationReturn} The pagination state with items array.
+ */
 const usePagination = (props) => {
   const {
     boundaryCount = 1,

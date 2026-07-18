@@ -1,6 +1,7 @@
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Divider, Stack } from '@tonic-ui/react/src';
+import React from 'react';
 
 describe('Divider', () => {
   it('should render correctly', async () => {

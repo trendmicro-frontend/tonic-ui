@@ -1,4 +1,5 @@
 import pkg from '@tonic-ui/theme/package.json';
+import ThemeTokens from '@/components/ThemeTokens';
 
 # Theme
 
@@ -6,10 +7,46 @@ import pkg from '@tonic-ui/theme/package.json';
 
 ## Installation
 
-```bash
+```sh
 // with npm
 npm install @tonic-ui/theme
 
 // with yarn
 yarn add @tonic-ui/theme
 ```
+
+## Design tokens
+
+### Primitive tokens (v3)
+
+The v3 primitive tokens are the essential design tokens that establish the foundation of the design system.
+
+<ThemeTokens type="primitive" />
+
+### Primitive tokens (v2)
+
+The v2 primitive tokens will continue to be supported for backward compatibility.
+
+<ThemeTokens type="legacy" />
+
+### Semantic tokens
+
+Semantic tokens provide contextual meaning with automatic light/dark mode support.
+
+<ThemeTokens type="semantic" />
+
+## References
+
+- **[borders](./borders)**
+- **[breakpoints](./breakpoints)**
+- **[colors](./colors)**
+- **[fontSizes](./fontSizes)**
+- **[fontWeights](./fontWeights)**
+- **[fonts](./fonts)**
+- **[lineHeights](./lineHeights)**
+- **[outlines](./outlines)**
+- **[radii](./radii)**
+- **[shadows](./shadows)**
+- **[sizes](./sizes)**
+- **[space](./space)**
+- **[zIndices](./zIndices)**

@@ -11,12 +11,10 @@ import { ensureFunction } from 'ensure-type';
  * This includes handling the `Enter` and `Space` key presses in order to process all forms of user input.
  * See the official WAI-ARIA example code: https://www.w3.org/WAI/ARIA/apg/patterns/button/examples/button/
  *
- * @param {Object} options
+ * @param {{ disabled?: boolean, onActivate?: (event: React.SyntheticEvent) => void }} options
  * @param {boolean} [options.disabled=false] - If true, all interactions are blocked.
- * @param {React.EventHandler} [options.onActivate] - Function called with the event when activated.
- * @returns {Object} An object containing:
- *   - onClick: React.MouseEventHandler
- *   - onKeyDown: React.KeyboardEventHandler
+ * @param {(event: React.SyntheticEvent) => void} [options.onActivate] - Function called with the event when activated.
+ * @returns {{ onClick: React.MouseEventHandler, onKeyDown: React.KeyboardEventHandler }} An object containing onClick and onKeyDown handlers.
  */
 function useButtonEventHandlers({
   disabled = false,

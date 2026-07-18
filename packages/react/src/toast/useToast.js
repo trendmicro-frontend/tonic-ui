@@ -1,11 +1,12 @@
 import { useContext } from 'react';
 import { ToastContext } from './context';
 
+/**
+ * A hook to access the toast context within a Toast component.
+ * @deprecated Use `useToastManager` instead.
+ * @returns {{ appearance: 'none' | 'success' | 'info' | 'warning' | 'error', icon: React.ReactNode | boolean | string, isClosable: boolean, onClose: (() => void) | undefined }} The toast context object.
+ */
 const useToast = () => {
-  if (!useContext) {
-    throw new Error('The `useContext` hook is not available with your React version.');
-  }
-
   const context = useContext(ToastContext);
   return context;
 };

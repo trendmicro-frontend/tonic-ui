@@ -15,18 +15,18 @@ To explore the available color styles to use, refer to the [color-style](../colo
 ```js
 const [colorMode] = useColorMode();
 const [colorStyle] = useColorStyle(); // Use `useColorStyle({ colorMode })` to enforce a specific color mode if needed
-const { colors } = useTheme();
+const theme = useTheme();
 
 console.log(colorMode);
 // => 'dark' / 'light'
 console.log(colorStyle.color.primary);
-// => 'white:primary' / 'black:primary'
+// => 'text.primary._dark' / 'text.primary._light'
 console.log(colorStyle.background.primary);
-// => 'gray:100' / 'white:emphasis'
-console.log(colors[colorStyle.color.primary]);
+// => 'background.low._dark' / 'background.low._light'
+console.log(theme.get('colors.' + colorStyle.color.primary));
 // => 'rgba(255, 255, 255, .92)' / 'rgba(0, 0, 0, .92)'
-console.log(colors[colorStyle.background.primary]);
-// => '#151515' / 'rgba(255, 255, 255, 1.0)'
+console.log(theme.get('colors.' + colorStyle.background.primary));
+// => '#151515' / '#ffffff'
 ```
 
 ### Parameters

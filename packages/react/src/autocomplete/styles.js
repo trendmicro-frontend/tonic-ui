@@ -1,4 +1,3 @@
-import { useColorMode } from '../color-mode';
 import { useMenuItemStyle, useMenuListStyle } from '../menu/styles';
 
 const useAutocompleteStyle = () => {
@@ -41,25 +40,16 @@ const useAutocompleteListStyle = ({ portalled, matchWidth, contentWidth, inputWi
 };
 
 const useAutocompleteItemStyle = ({ tabIndex, disabled }) => {
-  const [colorMode] = useColorMode();
   const menuItemStyle = useMenuItemStyle({ tabIndex });
-  const highlightedBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
-  const disabledColor = {
-    dark: 'white:disabled',
-    light: 'black:disabled',
-  }[colorMode];
   return {
     ...menuItemStyle,
     // The `[data-highlighted]` selector extends the hover state to support keyboard-driven highlighting (the hook applies this attribute via `getItemProps`)
     '&[data-highlighted]': {
-      backgroundColor: highlightedBackgroundColor,
+      backgroundColor: 'actions.hovered',
     },
     // The `disabled` flag enforces the disabled palette, cursor, and pointer-events lockout
     ...(disabled && {
-      color: disabledColor,
+      color: 'text.disabled',
       cursor: 'not-allowed',
       pointerEvents: 'none',
     }),

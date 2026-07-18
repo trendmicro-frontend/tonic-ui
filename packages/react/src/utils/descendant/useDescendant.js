@@ -27,7 +27,7 @@ import { DescendantContext } from './context';
  * composed descendants for keyboard navigation.
  */
 const useDescendant = (element) => {
-  const [, forceUpdate] = useReducer((x) => !x, false);
+  const [, forceUpdate] = useReducer(x => !x, false);
   const {
     descendants = [],
     depth: parentDepth = 0,
@@ -67,7 +67,7 @@ const useDescendant = (element) => {
       };
     }
 
-    forceUpdate({});
+    forceUpdate();
 
     return undefined;
   }, [element, registerDescendant, unregisterDescendant, index, someDescendantsHaveChanged]);

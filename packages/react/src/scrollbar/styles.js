@@ -1,5 +1,30 @@
 import { createTransitionStyle } from '@tonic-ui/utils';
-import { useColorMode } from '../color-mode';
+
+const trackStyle = {
+  position: 'absolute',
+  visibility: 'hidden',
+  right: 0,
+  bottom: 0,
+  _hover: {
+    backgroundColor: '_component.scrollbar.track.hovered',
+  },
+  _active: {
+    backgroundColor: '_component.scrollbar.track.active',
+  },
+};
+
+const thumbStyle = {
+  position: 'relative',
+  height: '100%',
+  cursor: 'pointer',
+  backgroundColor: '_component.scrollbar.thumb.enabled',
+  _hover: {
+    backgroundColor: '_component.scrollbar.thumb.hovered',
+  },
+  _active: {
+    backgroundColor: '_component.scrollbar.thumb.active',
+  },
+};
 
 const useContainerStyle = ({
   width,
@@ -62,12 +87,8 @@ const useHorizontalTrackStyle = ({
   overflowX,
 }) => {
   return {
-    position: 'absolute',
     height: '2x',
-    right: 0,
-    bottom: 0,
     left: 0,
-    visibility: 'hidden',
     ...(overflowX === 'auto' && {
       opacity: 0,
       transition: createTransitionStyle('opacity', { duration: 200 }),
@@ -75,6 +96,7 @@ const useHorizontalTrackStyle = ({
     ...(overflowX === 'hidden' && {
       display: 'none',
     }),
+    ...trackStyle,
   };
 };
 
@@ -82,12 +104,8 @@ const useVerticalTrackStyle = ({
   overflowY,
 }) => {
   return {
-    position: 'absolute',
     width: '2x',
-    right: 0,
-    bottom: 0,
     top: 0,
-    visibility: 'hidden',
     ...(overflowY === 'auto' && {
       opacity: 0,
       transition: createTransitionStyle('opacity', { duration: 200 }),
@@ -95,67 +113,20 @@ const useVerticalTrackStyle = ({
     ...(overflowY === 'hidden' && {
       display: 'none',
     }),
+    ...trackStyle,
   };
 };
 
 const useHorizontalThumbStyle = props => {
-  const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'white:disabled',
-    light: 'black:disabled',
-  }[colorMode];
-  const hoverBackgroundColor = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
-  const hoverBorderColor = {
-    dark: 'white:secondary',
-    light: 'black:secondary',
-  }[colorMode];
-
   return {
-    position: 'relative',
-    height: '100%',
-    cursor: 'pointer',
-    backgroundColor,
-    borderRadius: 'inherit',
-    border: 1,
-    borderColor: 'transparent',
-    _hover: {
-      backgroundColor: hoverBackgroundColor,
-      borderColor: hoverBorderColor,
-    },
+    ...thumbStyle,
   };
 };
 
 const useVerticalThumbStyle = props => {
-  const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'white:disabled',
-    light: 'black:disabled',
-  }[colorMode];
-  const hoverBackgroundColor = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
-  const hoverBorderColor = {
-    dark: 'white:secondary',
-    light: 'black:secondary',
-  }[colorMode];
-
   return {
-    position: 'relative',
     display: 'block',
-    width: '100%',
-    cursor: 'pointer',
-    backgroundColor,
-    borderRadius: 'inherit',
-    border: 1,
-    borderColor: 'transparent',
-    _hover: {
-      backgroundColor: hoverBackgroundColor,
-      borderColor: hoverBorderColor,
-    },
+    ...thumbStyle,
   };
 };
 

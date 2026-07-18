@@ -11,7 +11,7 @@ import {
   TableScrollbar,
   Truncate,
 } from '@tonic-ui/react/src';
-import { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 
 describe('Table', () => {
   const columns = [

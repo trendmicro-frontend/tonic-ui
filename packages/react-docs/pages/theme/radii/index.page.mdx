@@ -1,26 +1,18 @@
 import { Box, Stack } from "@tonic-ui/react";
-import ThemeParser from "@/components/ThemeParser";
+import ThemeTokens from "@/components/ThemeTokens";
 
-# Radii
+# radii
 
 ## Design tokens
 
-<ThemeParser theme="radii" />
+### Primitive tokens (v3)
+
+<ThemeTokens type="primitive" scales={[{ name: 'radii', defaultIsExpanded: true }]} />
+
+### Primitive tokens (v2)
+
+<ThemeTokens type="legacy" scales={[{ name: 'radii', defaultIsExpanded: true }]} />
 
 ## Examples
 
-### `borderRadius="circle"`
-
-{render('./border-radius-circle')}
-
-### `borderRadius="sm"`
-
-{render('./border-radius-sm')}
-
-### `borderRadius="md"`
-
-{render('./border-radius-md')}
-
-### `borderRadius="lg"`
-
-{render('./border-radius-lg')}
+{render('./radii')}

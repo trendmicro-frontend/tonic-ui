@@ -10,8 +10,8 @@ import {
 const CustomOverflowTooltip = ({ children }) => {
   return (
     <OverflowTooltip
-      label={children}
       portalled
+      label={children}
     >
       {children}
     </OverflowTooltip>

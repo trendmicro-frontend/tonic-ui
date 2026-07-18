@@ -1,4 +1,3 @@
-import { useColorStyle } from '../color-style';
 import useFormControl from './useFormControl';
 
 const useFormLabelStyle = () => {
@@ -17,20 +16,18 @@ const useFormLabelStyle = () => {
 };
 
 const useFormLabelRequiredStyle = () => {
-  const [colorStyle] = useColorStyle();
   return {
-    color: colorStyle.color.error,
+    color: 'error.text',
     display: 'inline',
     ml: '1x',
   };
 };
 
 const useFormHelperTextStyle = () => {
-  const [colorStyle] = useColorStyle();
   const { orientation } = useFormControl() || {};
 
   const styles = {
-    color: colorStyle.color.secondary,
+    color: 'text.secondary',
     fontSize: 'sm',
   };
 
@@ -42,11 +39,10 @@ const useFormHelperTextStyle = () => {
 };
 
 const useFormErrorMessageStyle = () => {
-  const [colorStyle] = useColorStyle();
   const { orientation } = useFormControl() || {};
 
   const styles = {
-    color: colorStyle.color.error,
+    color: 'error.text',
     fontSize: 'sm',
   };
 
@@ -66,13 +62,9 @@ const useFormErrorMessageListStyle = () => {
 };
 
 const useFormCharacterCountColors = ({ isOverLimit = false } = {}) => {
-  const [colorStyle] = useColorStyle();
-
   return {
-    lengthColor: isOverLimit
-      ? colorStyle.color.error
-      : colorStyle.color.secondary,
-    maxColor: colorStyle.color.secondary,
+    lengthColor: isOverLimit ? 'error.text' : 'text.secondary',
+    maxColor: 'text.secondary',
   };
 };
 
@@ -82,7 +74,7 @@ const useFormCharacterCountColors = ({ isOverLimit = false } = {}) => {
  * - If the form control orientation is 'horizontal', sets `gridColumn` to '2'
  *   to maintain layout consistency when there is no FormHelperText / FormErrorMessage.
  *
- * @returns {Object} Style properties for the character count element.
+ * @returns {{ fontSize: string, marginLeft: string, gridColumn?: string }} Style properties for the character count element.
  */
 const useFormCharacterCountStyle = () => {
   const { orientation } = useFormControl() || {};

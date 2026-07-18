@@ -3,12 +3,12 @@ name: Algolia Search Indexing
 on:
   push:
     branches:
-      - v2
+      - main
   workflow_dispatch:
 
 env:
   ALGOLIA_APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID }}
-  ALGOLIA_INDEX: tonic-ui-v2
+  ALGOLIA_INDEX: tonic-ui-v3
   
 jobs:
   build:

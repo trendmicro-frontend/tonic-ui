@@ -4,19 +4,21 @@ import { fileURLToPath } from 'node:url';
 import { codecovRollupPlugin } from '@codecov/rollup-plugin';
 import { babel } from '@rollup/plugin-babel';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
+import dts from 'rollup-plugin-dts';
 
 const pkg = createRequire(import.meta.url)('./package.json');
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const input = path.resolve(__dirname, 'src', 'index.js');
+const internalInput = path.resolve(__dirname, 'src', 'internal', 'index.js');
 const cjsOutputDirectory = path.resolve(__dirname, 'dist', 'cjs');
 const esmOutputDirectory = path.resolve(__dirname, 'dist', 'esm');
 const isExternal = id => !id.startsWith('.') && !id.startsWith('/');
 
 export default [
   {
-    input,
+    input: [input, internalInput],
     output: {
       dir: cjsOutputDirectory,
       format: 'cjs',
@@ -39,7 +41,7 @@ export default [
     ],
   },
   {
-    input,
+    input: [input, internalInput],
     output: {
       dir: esmOutputDirectory,
       format: 'esm',
@@ -56,5 +58,19 @@ export default [
         uploadToken: process.env.CODECOV_TOKEN,
       }),
     ],
-  }
+  },
+  {
+    input: input,
+    output: [{ file: 'dist/index.d.ts', format: 'es' }],
+    plugins: [
+      dts(),
+    ],
+  },
+  {
+    input: internalInput,
+    output: [{ file: 'dist/internal/index.d.ts', format: 'es' }],
+    plugins: [
+      dts(),
+    ],
+  },
 ];

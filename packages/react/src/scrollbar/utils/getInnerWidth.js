@@ -10,7 +10,7 @@ const getInnerWidth = (el) => {
     const paddingLeft = parseFloat(computedStyle?.paddingLeft);
     const paddingRight = parseFloat(computedStyle?.paddingRight);
     innerWidth = ensureFiniteNumber(clientWidth - paddingLeft - paddingRight);
-  } catch (_e) {
+  } catch {
     // do nothing
   }
 

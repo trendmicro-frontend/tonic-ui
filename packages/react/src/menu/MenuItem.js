@@ -1,12 +1,22 @@
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
 import { ensureFunction } from 'ensure-type';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
 import useButtonEventHandlers from '../utils/useButtonEventHandlers';
 import { useMenuItemStyle } from './styles';
 import useMenu from './useMenu';
 
+/**
+ * @typedef {Object} MenuItemProps
+ * @property {boolean} [disabled] - Whether the menu item is disabled.
+ * @property {React.MouseEventHandler<HTMLButtonElement>} [onClick] - Callback when the menu item is clicked.
+ * @property {React.KeyboardEventHandler<HTMLButtonElement>} [onKeyDown] - Callback when the user presses a key.
+ */
+
+/**
+ * @type {ForwardRefComponent<'button', MenuItemProps>}
+ */
 const MenuItem = forwardRef((inProps, ref) => {
   const {
     disabled,

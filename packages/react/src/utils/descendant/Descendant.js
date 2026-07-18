@@ -1,7 +1,7 @@
 /**
  * Credit: https://github.com/reach/reach-ui/tree/dev/packages/descendants
  */
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { DescendantContext } from './context';
 import useShallowMemo from '../useShallowMemo';
 
@@ -92,7 +92,6 @@ const Descendant = ({
   }, []);
 
   const shallowMemo = useShallowMemo();
-
   const context = shallowMemo({
     descendants,
     depth,

@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import {
@@ -6,6 +6,14 @@ import {
 } from './styles';
 import useDrawer from './useDrawer';
 
+/**
+ * @typedef {Object} DrawerHeaderProps
+ * @property {React.ReactNode} [children] - The content of the drawer header.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', DrawerHeaderProps>}
+ */
 const DrawerHeader = forwardRef((inProps, ref) => {
   const props = useDefaultProps({ props: inProps, name: 'DrawerHeader' });
   const drawerContext = useDrawer(); // context might be an undefined value

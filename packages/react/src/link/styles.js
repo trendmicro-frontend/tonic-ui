@@ -1,39 +1,16 @@
-import { useColorMode } from '../color-mode';
 import { VARIANT_INLINE, VARIANT_SUBTLE } from './constants';
 
 const useLinkStyle = ({
   disabled,
   variant,
 }) => {
-  const [colorMode] = useColorMode();
-  const color = {
-    dark: 'blue:40',
-    light: 'blue:60',
-  }[colorMode];
-  const secondaryColor = {
-    dark: 'white:secondary',
-    light: 'black:secondary',
-  }[colorMode];
-  const visitedColor = {
-    dark: 'purple:50',
-    light: 'purple:60',
-  }[colorMode];
-  const disabledColor = {
-    dark: 'white:disabled',
-    light: 'black:disabled',
-  }[colorMode];
-  const hoverColor = {
-    dark: 'blue:40',
-    light: 'blue:60',
-  }[colorMode];
-  const activeColor = {
-    dark: 'blue:60',
-    light: 'blue:70',
-  }[colorMode];
-  const focusVisibleOutlineColor = {
-    dark: 'blue:60',
-    light: 'blue:70',
-  }[colorMode];
+  const color = '_link.enabled';
+  const secondaryColor = 'text.secondary';
+  const hoverColor = '_link.hovered';
+  const activeColor = '_link.active';
+  const visitedColor = '_link.visited';
+  const disabledColor = '_link.disabled';
+  const focusVisibleOutlineColor = '_component.keyboardFocused.outerFocusRing';
 
   const baseStyle = {
     display: 'inline-flex',

@@ -1,9 +1,18 @@
 import { ariaAttr } from '@tonic-ui/utils';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { useAutocompleteItemStyle } from './styles';
 
+/**
+ * @typedef {Object} AutocompleteItemProps
+ * @property {React.ReactNode} [children] - The content of the item.
+ * @property {boolean} [disabled] - Whether the item is disabled.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', AutocompleteItemProps>}
+ */
 const AutocompleteItem = forwardRef((inProps, ref) => {
   const {
     disabled,

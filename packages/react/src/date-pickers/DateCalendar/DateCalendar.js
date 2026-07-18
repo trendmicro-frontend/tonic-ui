@@ -10,7 +10,7 @@ import {
   warnDeprecatedProps,
 } from '@tonic-ui/utils';
 import { addMonths, differenceInCalendarDays, endOfDay, format, isDate, isSameMonth, isSameYear, isValid, startOfDay, startOfMonth, startOfWeek, subMonths } from 'date-fns';
-import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../../box';
 import { useDefaultProps } from '../../default-props';
 import { useEnvironment } from '../../environment';
@@ -39,6 +39,22 @@ const mapValueToEndOfDay = (value) => {
   return (isDate(date) && isValid(date)) ? endOfDay(date) : null;
 };
 
+/**
+ * @typedef {Object} DateCalendarProps
+ * @property {Date} [defaultValue] - The default selected date.
+ * @property {number} [firstDayOfWeek=0] - The first day of the week. 0 = Sunday, 1 = Monday, 2 = Tuesday, 3 = Wednesday, 4 = Thursday, 5 = Friday, 6 = Saturday.
+ * @property {(date: Date, formatStr: string, options: { locale?: Locale }) => void} [formatDate] - A callback called to return the formatted date string in the given format.
+ * @property {Date} [minDate] - The minimum date that can be selected.
+ * @property {Date} [maxDate] - The maximum date that can be selected.
+ * @property {(date: Date) => void} [onChange] - A callback called when the value (the selected date) changes.
+ * @property {(error: string, date: Date) => void} [onError] - An error-first callback called when the date validation returns an error (or the date is valid after error).
+ * @property {(date: Date) => boolean} [shouldDisableDate] - Disable specific date. Return `true` if the date will be disabled.
+ * @property {Date} [value] - The selected date.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', DateCalendarProps>}
+ */
 const DateCalendar = forwardRef((inProps, ref) => {
   let {
     date: dateProp, // deprecated

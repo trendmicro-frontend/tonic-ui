@@ -1,7 +1,6 @@
 /* @jest-environment jsdom */
-import { useState, useCallback } from 'react';
-import { screen } from '@testing-library/react';
-import { render } from '@tonic-ui/react/test-utils/render';
+import React, { useCallback, useState } from 'react';
+import { render, screen } from '../../../test-utils/render';
 import userEvent from '@testing-library/user-event';
 import {
   FormControl,
@@ -10,7 +9,7 @@ import {
   FormErrorMessage,
   FormCharacterCount,
   FormInput,
-} from '@tonic-ui/react/src';
+} from '../index';
 
 describe('Form Control ', () => {
   it('renders basic form control', () => {
@@ -164,9 +163,7 @@ describe('Form Control ', () => {
 
       const TestComponent = () => {
         const [value, setValue] = useState('');
-        const handleChange = useCallback((e) => {
-          setValue(e.target.value);
-        }, []);
+        const handleChange = useCallback((e) => setValue(e.target.value), []);
         return (
           <FormControl>
             <FormLabel>Bio</FormLabel>

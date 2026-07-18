@@ -1,5 +1,3 @@
-import { useColorMode } from '../color-mode';
-
 const useTreeItemStyle = () => {
   return {
     // No default visual styles
@@ -11,28 +9,12 @@ const useTreeItemContentStyle = ({
   isSelected,
   tabIndex,
 }) => {
-  const [colorMode] = useColorMode();
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-  const hoverBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
-  const focusVisibleOutlineColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-  const disabledColor = {
-    dark: 'white:disabled',
-    light: 'black:disabled',
-  }[colorMode];
-  const defaultBackgroundColor = undefined;
-  const selectedBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.08)',
-    light: 'rgba(0, 0, 0, 0.08)',
-  }[colorMode];
+  const color = 'text.primary';
+  const hoverBackgroundColor = 'actions.hovered';
+  const focusVisibleOutlineColor = '_component.keyboardFocused.outerFocusRing';
+  const disabledColor = 'actions.disabled';
+  const defaultBackgroundColor = 'actions.enabled';
+  const selectedBackgroundColor = 'actions.selected';
 
   return {
     backgroundColor: isSelected ? selectedBackgroundColor : defaultBackgroundColor,
@@ -68,19 +50,9 @@ const useTreeItemToggleStyle = () => {
 const useTreeItemToggleIconStyle = ({
   disabled,
 }) => {
-  const [colorMode] = useColorMode();
-  const color = {
-    dark: 'white:secondary',
-    light: 'black:secondary',
-  }[colorMode];
-  const disabledColor = {
-    dark: 'white:disabled',
-    light: 'black:disabled',
-  }[colorMode];
-  const hoverColor = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
+  const color = 'text.secondary';
+  const disabledColor = 'text.disabled';
+  const hoverColor = 'text.primary';
 
   return {
     display: 'inline-flex',

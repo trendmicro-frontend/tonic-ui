@@ -1,8 +1,16 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { useDefaultProps } from '../default-props';
 import { Scrollbar } from '../scrollbar';
 import { useTableScrollbarTrackStyle } from './styles';
 
+/**
+ * @typedef {Object} TableScrollbarProps
+ * @property {React.ReactNode} [children] - The content of the table scrollbar.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', TableScrollbarProps>}
+ */
 const TableScrollbar = forwardRef((inProps, ref) => {
   const {
     children,

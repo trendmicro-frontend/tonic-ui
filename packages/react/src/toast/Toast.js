@@ -1,5 +1,5 @@
 import { runIfFn } from '@tonic-ui/utils';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { useSlot } from '../slot';
@@ -8,6 +8,7 @@ import ToastCloseButton from './ToastCloseButton';
 import ToastIcon from './ToastIcon';
 import ToastMessage from './ToastMessage';
 import { ToastContext } from './context';
+import { LightMode } from '../color-mode';
 import {
   defaultAppearance,
 } from './defaults';
@@ -15,6 +16,18 @@ import {
   useToastStyle,
 } from './styles';
 
+/**
+ * @typedef {Object} ToastProps
+ * @property {React.ReactNode} [children] -
+ * @property {boolean} [isClosable] - A close button will appear on the right side.
+ * @property {() => void} [onClose] - A callback called when the close button is clicked.
+ * @property {'none' | 'success' | 'info' | 'warning' | 'error'} [appearance='none'] -
+ * @property {React.ReactNode | boolean | string} [icon] - Override the icon displayed before the children. Unless provided, the icon is mapped to the value of the `appearance` prop.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', ToastProps>}
+ */
 const Toast = forwardRef((inProps, ref) => {
   const {
     appearance = defaultAppearance,
@@ -46,19 +59,21 @@ const Toast = forwardRef((inProps, ref) => {
 
   return (
     <ToastContext.Provider value={context}>
-      <Box
-        ref={ref}
-        {...styleProps}
-        {...rest}
-      >
-        <ToastIcon />
-        <ToastMessage>
-          {runIfFn(children, context)}
-        </ToastMessage>
-        {!!isClosable && (
-          <CloseButtonSlot {...closeButtonSlotProps} />
-        )}
-      </Box>
+      <LightMode>
+        <Box
+          ref={ref}
+          {...styleProps}
+          {...rest}
+        >
+          <ToastIcon />
+          <ToastMessage>
+            {runIfFn(children, context)}
+          </ToastMessage>
+          {!!isClosable && (
+            <CloseButtonSlot {...closeButtonSlotProps} />
+          )}
+        </Box>
+      </LightMode>
     </ToastContext.Provider>
   );
 });

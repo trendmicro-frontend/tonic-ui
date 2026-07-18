@@ -1,13 +1,39 @@
 import { useId, useOnceWhen, usePrevious } from '@tonic-ui/react-hooks';
 import { runIfFn } from '@tonic-ui/utils';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDefaultProps } from '../default-props';
-import useShallowMemo from '../utils/useShallowMemo';
 import config from '../shared/config';
+import useShallowMemo from '../utils/useShallowMemo';
 import { PopoverContext } from './context';
 
 const defaultPlacement = 'bottom';
 
+/**
+ * @typedef {Object} PopoverProps
+ * @property {boolean} [arrow=true] - Adds an arrow to the popover.
+ * @property {React.ReactNode | ((context: { isOpen: boolean; onClose: (callback?: () => void) => void; onOpen: (callback?: () => void) => void; onToggle: () => void; placement: string }) => React.ReactNode)} [children] -
+ * @property {boolean} [closeOnBlur=true] - The popover will close when the user clicks outside of the popover.
+ * @property {boolean} [closeOnEsc=true] - The popover will close when you press the `Esc` key.
+ * @property {boolean} [defaultIsOpen=false] - Whether the popover will be open by default.
+ * @property {boolean} [disabled] - The popover will not display.
+ * @property {number} [enterDelay=100] - The number of milliseconds to wait before showing the popover if `trigger` is hover.
+ * @property {boolean} [followCursor] - The popover will follow the cursor.
+ * @property {React.RefObject<HTMLElement>} [initialFocusRef] - The `ref` of the element that will be focused when the popover opens.
+ * @property {boolean} [isOpen] - The popover will be open.
+ * @property {number} [leaveDelay=0] - The number of milliseconds to wait before hiding the popover if `trigger` is hover.
+ * @property {boolean} [nextToCursor] - The popover will be positioned next to the cursor.
+ * @property {[number, number]} [offset=[0, 12]] - The skidding and distance of the popover.
+ * @property {() => void} [onClose] - Callback when the popover is closed.
+ * @property {() => void} [onOpen] - Callback when the popover is opened.
+ * @property {'top' | 'bottom' | 'right' | 'left' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'right-start' | 'right-end' | 'left-start' | 'left-end'} [placement='bottom'] - The placement of the popover.
+ * @property {boolean} [portalled=false] - If `true`, renders the popover in a portal.
+ * @property {boolean} [returnFocusOnClose=true] - The popover will return the focus to the trigger element when closing. Otherwise, it will leave focus unchanged.
+ * @property {'click' | 'hover'} [trigger='click'] - The type of trigger.
+ */
+
+/**
+ * @type {StyledFC<PopoverProps>}
+ */
 const Popover = (inProps) => {
   const {
     arrow = true,
@@ -167,7 +193,6 @@ const Popover = (inProps) => {
   const defaultId = useId();
   const popoverId = `${config.name}:Popover-${defaultId}`;
   const popoverTriggerId = `${config.name}:PopoverTrigger-${defaultId}`;
-
   const context = shallowMemo({
     closeOnBlur,
     closeOnEsc,

@@ -26,7 +26,15 @@ export default defineConfig([
     },
   },
   {
+    // Disable rules that are not applicable to the generated icon components
+    files: ['src/icons/**/*.js'],
+    rules: {
+      'react/jsx-max-props-per-line': 'off',
+    },
+  },
+  {
     ignores: [
+      '@types',
       'build',
       'dist',
       'node_modules',

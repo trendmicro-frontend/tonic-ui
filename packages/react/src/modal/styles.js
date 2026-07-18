@@ -1,5 +1,3 @@
-import { useColorMode } from '../color-mode';
-import { useColorStyle } from '../color-style';
 import { useIconButtonStyle } from '../shared/styles';
 import { useTheme } from '../theme';
 import pixelize from '../utils/pixelize';
@@ -20,11 +18,7 @@ const useModalContainerStyle = () => {
 };
 
 const useModalOverlayStyle = () => {
-  const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'rgba(0, 0, 0, .7)',
-    light: 'rgba(0, 0, 0, .7)',
-  }[colorMode];
+  const backgroundColor = '_overlay._fixed.light.thicker';
 
   return {
     position: 'absolute',
@@ -42,8 +36,6 @@ const useModalContentStyle = ({
   size = defaultSize,
   tabIndex,
 }) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
   const baseStyle = {
     display: 'flex',
     flexDirection: 'column',
@@ -51,30 +43,23 @@ const useModalContentStyle = ({
     overflow: 'clip', // Set overflow to clip to prevent any scrolling in the modal content
     position: 'relative',
   };
+
   const colorModeStyle = {
-    light: {
-      color: 'black:primary',
-      bg: 'white',
-      borderWidth: '1q',
-      borderStyle: 'solid',
-      borderColor: 'gray:30',
-      boxShadow: colorStyle?.shadow?.thick,
-    },
-    dark: {
-      color: 'white:primary',
-      bg: 'gray:90',
-      borderWidth: '1q',
-      borderStyle: 'solid',
-      borderColor: 'gray:80',
-      boxShadow: colorStyle?.shadow?.thick,
-    },
-  }[colorMode];
+    bg: 'background.high',
+    color: 'text.primary',
+    borderWidth: '1q',
+    borderStyle: 'solid',
+    borderColor: 'border.tertiary',
+    boxShadow: 'medium',
+  };
+
   const placementStyle = {
     'center': {
       // https://stackoverflow.com/questions/33454533/cant-scroll-to-top-of-flex-item-that-is-overflowing-container
       margin: 'auto', // Use the `margin: auto` technique to center the content
     },
   }[placement];
+
   const sizeStyle = {
     xs: {
       width: 352,
@@ -135,18 +120,12 @@ const useModalContentStyle = ({
 };
 
 const useModalCloseButtonStyle = () => {
-  const [colorMode] = useColorMode();
   const { sizes } = useTheme();
-  const color = {
-    dark: 'white:tertiary',
-    light: 'black:tertiary',
-  }[colorMode];
+  const color = 'text.secondary';
   const size = '8x';
-  const focusVisibleOutlineColor = 'blue:60';
-  const hoverColor = {
-    dark: 'white:emphasis',
-    light: 'black:primary',
-  }[colorMode];
+  const focusVisibleOutlineColor = '_component.keyboardFocused.outerFocusRing';
+  const hoverColor = 'text.accent';
+  const hoverBackgroundColor = '_foreground.subtle.hovered';
   const iconButtonStyle = useIconButtonStyle({ color, size });
   const parentBorderWidth = sizes['1q'];
   const top = `calc(${sizes['2x']} - ${parentBorderWidth})`;
@@ -163,6 +142,8 @@ const useModalCloseButtonStyle = () => {
       outlineWidth: '1h',
     },
     _hover: {
+      // The close button applies a background color when hovered
+      backgroundColor: hoverBackgroundColor,
       color: hoverColor,
     },
     position: 'absolute',
@@ -175,6 +156,7 @@ const useModalHeaderStyle = ({
   isClosable,
 }) => {
   return {
+    color: 'text.accent',
     pt: '4x',
     pb: '6x',
     pl: '6x',
@@ -205,12 +187,8 @@ const useModalBodyStyle = ({
 };
 
 const useModalFooterStyle = () => {
-  const [colorMode] = useColorMode();
   const { sizes, lineHeights } = useTheme();
-  const borderColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
+  const borderColor = 'border.subtle';
 
   return {
     display: 'flex',

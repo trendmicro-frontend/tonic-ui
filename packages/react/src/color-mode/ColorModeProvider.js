@@ -1,9 +1,9 @@
 import { canUseDOM, noop } from '@tonic-ui/utils';
-import { useCallback, useEffect, useReducer } from 'react';
+import { ColorModeContext } from '@tonic-ui/react-base/internal';
+import React, { useCallback, useEffect, useReducer } from 'react';
 import { useDefaultProps } from '../default-props';
 import { useEnvironment } from '../environment';
 import useShallowMemo from '../utils/useShallowMemo';
-import { ColorModeContext } from './context';
 import { getColorScheme, colorSchemeQuery } from './utils';
 
 const ensureColorMode = (colorMode) => {
@@ -18,6 +18,18 @@ const colorModeReducer = (state, nextValue) => {
   return ensureColorMode(nextValue);
 };
 
+/**
+ * @typedef {Object} ColorModeProviderProps
+ * @property {React.ReactNode} [children] - The content of the provider.
+ * @property {'dark' | 'light'} [defaultValue] - The default color mode.
+ * @property {'dark' | 'light'} [value] - The controlled color mode.
+ * @property {(mode: 'dark' | 'light') => void} [onChange] - Callback fired when the color mode changes.
+ * @property {boolean} [useSystemColorMode] - Whether to use the system color mode.
+ */
+
+/**
+ * @type {React.FC<ColorModeProviderProps>}
+ */
 const ColorModeProvider = (inProps) => {
   const {
     children,

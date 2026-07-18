@@ -4,6 +4,18 @@ import React, { forwardRef } from 'react';
 
 const defaultViewBox = '0 0 16 16';
 
+/**
+ * @typedef {Object} SVGIconProps
+ * @property {React.ElementType} [as='svg'] - The element type to render as.
+ * @property {React.ReactNode} [children] - The icon content, typically SVG path elements.
+ * @property {boolean} [focusable=false] - Whether the icon is focusable.
+ * @property {string | number} [size='4x'] - The size of the icon.
+ * @property {string} [viewBox='0 0 16 16'] - The SVG viewBox attribute.
+ */
+
+/**
+ * @type {React.ForwardRefExoticComponent<StyleProps & React.SVGProps<SVGSVGElement> & SVGIconProps & React.RefAttributes<SVGSVGElement>>}
+ */
 const SVGIcon = forwardRef((
   {
     as: asProp = 'svg',

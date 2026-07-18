@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -13,11 +14,8 @@ import {
   Space,
   Text,
   TextLabel,
-  useColorMode,
-  useColorStyle,
 } from '@tonic-ui/react';
 import { AngleRightIcon, CalendarIcon, ChevronLeftIcon, ClockIcon } from '@tonic-ui/react-icons';
-import { useEffect, useReducer, useState } from 'react';
 
 const CustomDateInput = ({
   inputFormat = 'yyyy-MM-dd',
@@ -25,8 +23,6 @@ const CustomDateInput = ({
   onChange,
   ...rest
 }) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
   const [value, setValue] = useState(defaultValue);
   const handleChange = (value) => {
     setValue(value);
@@ -52,7 +48,7 @@ const CustomDateInput = ({
             borderBottomRightRadius={0}
             width={130}
             startAdornment={(
-              <InputAdornment color={colorStyle.color.secondary}>
+              <InputAdornment color="text.secondary">
                 <CalendarIcon />
               </InputAdornment>
             )}
@@ -68,8 +64,6 @@ const CustomTimeInput = ({
   onChange,
   ...rest
 }) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
   const handleTimeInputChange = (event) => {
     const value = event.target.value;
     onChange(value);
@@ -82,7 +76,7 @@ const CustomTimeInput = ({
       borderTopLeftRadius={0}
       borderBottomLeftRadius={0}
       startAdornment={(
-        <InputAdornment color={colorStyle.color.secondary}>
+        <InputAdornment color="text.secondary">
           <ClockIcon />
         </InputAdornment>
       )}
@@ -100,8 +94,6 @@ const DateTimePicker = ({
   onClose,
 }) => {
   const inputFormat = 'yyyy-MM-dd';
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
   const [startDate, setStartDate] = useState(startDateProp);
   const [startTime, setStartTime] = useState(startTimeProp);
   const [endDate, setEndDate] = useState(endDateProp);
@@ -163,21 +155,21 @@ const DateTimePicker = ({
 
   return (
     <Box
-      backgroundColor={colorStyle.background.tertiary}
+      backgroundColor="background.highest"
       position="absolute"
       left="100%"
       top={0}
       px="3x"
       py="3x"
       borderLeft={1}
-      borderColor={colorStyle.divider}
+      borderColor="border.subtle"
     >
       <Flex
         alignItems="center"
         columnGap="3x"
         mb="6x"
       >
-        <ChevronLeftIcon color={colorStyle.color.secondary} />
+        <ChevronLeftIcon color="text.secondary" />
         <Text fontSize="md" lineHeight="md">
           Custom Period
         </Text>
@@ -277,7 +269,7 @@ const formatTime = (date) => {
 const App = () => {
   const inputFormat = 'yyyy-MM-dd';
   const today = new Date();
-  const [state, setState] = useReducer(stateReducer, {
+  const [state, setState] = React.useReducer(stateReducer, {
     value: '1d',
     isDateTimePickerVisible: false,
     startDate: today,

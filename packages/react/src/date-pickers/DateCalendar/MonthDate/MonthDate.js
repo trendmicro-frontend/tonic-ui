@@ -1,9 +1,16 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../../../box';
 import { useMonthDateStyle } from '../styles';
 import DaysOfWeek from './DaysOfWeek';
 import Weeks from './Weeks';
 
+/**
+ * @typedef {Object} MonthDateProps
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', MonthDateProps>}
+ */
 const MonthDate = forwardRef((
   props,
   ref

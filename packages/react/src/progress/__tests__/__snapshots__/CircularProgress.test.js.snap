@@ -113,11 +113,11 @@ exports[`CircularProgress renders correctly 1`] = `
 }
 
 .emotion-4 {
-  color: rgba(255, 255, 255, 0.12);
+  color: var(--tonic-colors-_overlay-thin);
 }
 
 .emotion-6 {
-  color: var(--tonic-colors-blue-60);
+  color: var(--tonic-colors-_foreground-primary-active);
   -webkit-animation: animation-1 1.5s ease-in-out infinite;
   animation: animation-1 1.5s ease-in-out infinite;
 }
@@ -131,7 +131,7 @@ exports[`CircularProgress renders correctly 1`] = `
 }
 
 .emotion-14 {
-  color: var(--tonic-colors-blue-60);
+  color: var(--tonic-colors-_foreground-primary-active);
   -webkit-animation: animation-2 1.5s ease-in-out infinite;
   animation: animation-2 1.5s ease-in-out infinite;
 }
@@ -145,7 +145,7 @@ exports[`CircularProgress renders correctly 1`] = `
 }
 
 .emotion-22 {
-  color: var(--tonic-colors-blue-60);
+  color: var(--tonic-colors-_foreground-primary-active);
   -webkit-animation: animation-3 1.5s ease-in-out infinite;
   animation: animation-3 1.5s ease-in-out infinite;
 }

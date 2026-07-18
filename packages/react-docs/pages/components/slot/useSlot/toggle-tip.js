@@ -5,20 +5,18 @@ import {
   PopoverContent,
   PopoverTrigger,
   Stack,
-  useColorStyle,
   useSlot,
 } from '@tonic-ui/react';
 import { CheckCircleOIcon, InfoOIcon } from '@tonic-ui/react-icons';
 
 const ToggleTip = ({ content, slots = {}, slotProps = {} }) => {
-  const [colorStyle] = useColorStyle();
   const [ButtonSlot, buttonSlotProps] = useSlot({
     name: 'button',
-    ownerDisplayName: 'ToggleTip',
+    ownerName: 'ToggleTip',
     props: {
-      color: colorStyle.color.secondary,
+      color: 'text.secondary',
       _hover: {
-        color: colorStyle.color.primary,
+        color: 'text.accent',
       },
     },
     slot: slots.button ?? ButtonBase,
@@ -27,7 +25,7 @@ const ToggleTip = ({ content, slots = {}, slotProps = {} }) => {
 
   const [IconSlot, iconSlotProps] = useSlot({
     name: 'icon',
-    ownerDisplayName: 'ToggleTip',
+    ownerName: 'ToggleTip',
     props: { size: '4x' },
     slot: slots.icon ?? InfoOIcon,
     slotProps: { ...slotProps.icon },
@@ -48,8 +46,6 @@ const ToggleTip = ({ content, slots = {}, slotProps = {} }) => {
 };
 
 const App = () => {
-  const [colorStyle] = useColorStyle();
-
   return (
     <Stack display="inline-flex" spacing="4x">
       <Flex columnGap="2x" alignItems="center">
@@ -69,7 +65,7 @@ const App = () => {
           slotProps={{
             button: {
               sx: {
-                color: colorStyle.color.tertiary,
+                color: 'text.tertiary',
               },
             },
           }}

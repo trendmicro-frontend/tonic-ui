@@ -1,0 +1,252 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pagination should render correctly 1`] = `
+.emotion-0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-2 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: var(--tonic-colors-_foreground-subtle-enabled);
+  border: var(--tonic-borders-1);
+  color: var(--tonic-colors-text-secondary);
+  cursor: not-allowed;
+  outline: 0;
+  padding: 0;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  border-radius: var(--tonic-radii-sm);
+  padding-left: var(--tonic-space-2x);
+  padding-right: var(--tonic-space-2x);
+  -webkit-transition: none;
+  transition: none;
+  min-height: var(--tonic-sizes-8x);
+  font-size: var(--tonic-fontSizes-sm);
+  line-height: var(--tonic-lineHeights-sm);
+  border-color: var(--tonic-colors-transparent);
+  width: var(--tonic-sizes-8x);
+}
+
+.emotion-2:focus-visible {
+  border-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
+  box-shadow: inset 0 0 0 .0625rem #ffffff;
+  z-index: 1;
+}
+
+.emotion-2[aria-selected=true],
+.emotion-2[data-selected] {
+  background-color: var(--tonic-colors-_foreground-subtle-selected);
+}
+
+.emotion-2:hover,
+.emotion-2[data-hover] {
+  color: var(--tonic-colors-text-accent);
+  background-color: var(--tonic-colors-_foreground-subtle-hovered);
+  z-index: 2;
+}
+
+.emotion-2:hover:not(:focus-visible),
+.emotion-2[data-hover]:not(:focus-visible) {
+  border-color: var(--tonic-colors-transparent);
+}
+
+.emotion-2:active,
+.emotion-2[data-active] {
+  border-color: var(--tonic-colors-transparent);
+  background-color: var(--tonic-colors-_foreground-subtle-active);
+  color: var(--tonic-colors-text-accent);
+}
+
+.emotion-2:disabled,
+.emotion-2:disabled:focus,
+.emotion-2:disabled:hover,
+.emotion-2[aria-disabled=true],
+.emotion-2[aria-disabled=true]:focus,
+.emotion-2[aria-disabled=true]:hover,
+.emotion-2[data-disabled] {
+  border-color: var(--tonic-colors-transparent);
+  background-color: var(--tonic-colors-_foreground-subtle-disabled);
+  color: var(--tonic-colors-text-disabled);
+  cursor: not-allowed;
+}
+
+.emotion-4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: var(--tonic-sizes-4x);
+  height: var(--tonic-sizes-4x);
+  vertical-align: middle;
+}
+
+.emotion-6 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: var(--tonic-colors-_foreground-subtle-enabled);
+  border: var(--tonic-borders-1);
+  color: var(--tonic-colors-text-secondary);
+  cursor: pointer;
+  outline: 0;
+  padding: 0;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  border-radius: var(--tonic-radii-sm);
+  padding-left: var(--tonic-space-2x);
+  padding-right: var(--tonic-space-2x);
+  -webkit-transition: none;
+  transition: none;
+  min-height: var(--tonic-sizes-8x);
+  font-size: var(--tonic-fontSizes-sm);
+  line-height: var(--tonic-lineHeights-sm);
+  border-color: var(--tonic-colors-transparent);
+  min-width: var(--tonic-sizes-8x);
+}
+
+.emotion-6:focus-visible {
+  border-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
+  box-shadow: inset 0 0 0 .0625rem #ffffff;
+  z-index: 1;
+}
+
+.emotion-6[aria-selected=true],
+.emotion-6[data-selected] {
+  background-color: var(--tonic-colors-_foreground-subtle-selected);
+}
+
+.emotion-6:hover,
+.emotion-6[data-hover] {
+  color: var(--tonic-colors-text-accent);
+  background-color: var(--tonic-colors-_foreground-subtle-hovered);
+  z-index: 2;
+}
+
+.emotion-6:hover:not(:focus-visible),
+.emotion-6[data-hover]:not(:focus-visible) {
+  border-color: var(--tonic-colors-transparent);
+}
+
+.emotion-6:active,
+.emotion-6[data-active] {
+  border-color: var(--tonic-colors-transparent);
+  background-color: var(--tonic-colors-_foreground-subtle-active);
+  color: var(--tonic-colors-text-accent);
+}
+
+.emotion-6:disabled,
+.emotion-6:disabled:focus,
+.emotion-6:disabled:hover,
+.emotion-6[aria-disabled=true],
+.emotion-6[aria-disabled=true]:focus,
+.emotion-6[aria-disabled=true]:hover,
+.emotion-6[data-disabled] {
+  border-color: var(--tonic-colors-transparent);
+  background-color: var(--tonic-colors-_foreground-subtle-disabled);
+  color: var(--tonic-colors-text-disabled);
+  cursor: not-allowed;
+}
+
+<div
+  class="emotion-0 emotion-1"
+  data-tonic="Pagination"
+>
+  <button
+    aria-disabled="true"
+    aria-label="Go to previous page"
+    class="emotion-2 emotion-1"
+    data-tonic="PaginationItem"
+    disabled=""
+    type="button"
+  >
+    <svg
+      aria-hidden="true"
+      class="emotion-4 emotion-1"
+      data-icon="AngleLeftIcon"
+      fill="currentColor"
+      focusable="false"
+      viewBox="0 0 16 16"
+    >
+      <path
+        d="M9.501 12.506l-4.499-4.506 4.488-4.494 1 1-3.49 3.494 3.501 3.506z"
+      />
+    </svg>
+  </button>
+  <button
+    aria-current="true"
+    aria-label="Page 1"
+    class="emotion-6 emotion-1"
+    data-selected=""
+    data-tonic="PaginationItem"
+    tabindex="-1"
+    type="button"
+  >
+    1
+  </button>
+  <button
+    aria-disabled="true"
+    aria-label="Go to next page"
+    class="emotion-2 emotion-1"
+    data-tonic="PaginationItem"
+    disabled=""
+    type="button"
+  >
+    <svg
+      aria-hidden="true"
+      class="emotion-4 emotion-1"
+      data-icon="AngleRightIcon"
+      fill="currentColor"
+      focusable="false"
+      viewBox="0 0 16 16"
+    >
+      <path
+        d="M6.501 12.5l-1-1 3.501-3.506-3.49-3.494 1-1 4.488 4.494z"
+      />
+    </svg>
+  </button>
+</div>
+`;

@@ -1,5 +1,5 @@
 import { ariaAttr, callEventHandlers } from '@tonic-ui/utils';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import useButtonBoxEventHandlers from '../utils/useButtonBoxEventHandlers';
@@ -9,6 +9,17 @@ import { useButtonBoxStyle } from './styles';
  * `ButtonBox` looks and behaves like a button but renders a non-button element
  * (`<div role="button">`). Use it in contexts where a native `<button>` is not
  * permitted, such as a button nested inside another button.
+ */
+
+/**
+ * @typedef {Object} ButtonBoxProps
+ * @property {React.ReactNode} [children] - The content of the button box.
+ * @property {boolean} [disabled] - If true, the control is disabled. This sets `aria-disabled=true` and you can style this state by passing the `_disabled` prop.
+ * @property {React.MouseEventHandler} [onClick] - Callback fired when the control is activated by a mouse click, the Enter key, or the Space key.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', ButtonBoxProps>}
  */
 const ButtonBox = forwardRef((inProps, ref) => {
   const {

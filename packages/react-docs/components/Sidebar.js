@@ -59,10 +59,6 @@ const Sidebar = forwardRef((
   const combinedRef = useMergeRefs(nodeRef, ref);
   const router = useRouter();
   const currentPath = ensureString(router.pathname).slice(1);
-  const borderColor = {
-    light: 'gray:20',
-    dark: 'gray:70',
-  }[colorMode];
   const logo = {
     light: 'tonic-logo-light.svg',
     dark: 'tonic-logo-dark.svg',
@@ -86,7 +82,7 @@ const Sidebar = forwardRef((
       ref={combinedRef}
       backgroundColor={colorStyle.background.primary}
       borderRight={1}
-      borderRightColor={borderColor}
+      borderRightColor="border.subtle"
       pt={{
         sm: 0,
         lg: '4x',
@@ -106,6 +102,7 @@ const Sidebar = forwardRef((
           mb="4x"
         >
           <NextLink href="/" legacyBehavior passHref>
+            { }
             <Link
               background="transparent"
               color={colorStyle.color.primary}
@@ -256,7 +253,7 @@ const Sidebar = forwardRef((
                             >
                               <OverflowTooltip
                                 label={title}
-                                portalled
+                                PopperProps={{ usePortal: true }}
                               >
                                 {({ ref, style }) => (
                                   <Text

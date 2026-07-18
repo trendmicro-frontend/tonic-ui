@@ -1,15 +1,8 @@
-import { Box, Divider, Text, Tooltip, useColorMode } from '@tonic-ui/react';
+import { Box, Divider, Text, Tooltip } from '@tonic-ui/react';
 
 const App = () => {
-  const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-  const color = {
-    dark: 'white:emphasis',
-    light: 'white:emphasis',
-  }[colorMode];
+  const backgroundColor = 'blue.600';
+  const color = 'text._fixed.dark.accent';
 
   return (
     <>
@@ -20,7 +13,7 @@ const App = () => {
       >
         <Text display="inline-block">Hover Me</Text>
       </Tooltip>
-      <Divider my="4x" />
+      <Divider my="4x" borderTopColor={color} />
       <Tooltip
         arrow={false}
         label={(

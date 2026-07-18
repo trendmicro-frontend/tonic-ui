@@ -1,5 +1,4 @@
 import { useColorMode } from '../color-mode';
-import { useColorStyle } from '../color-style';
 import { useTheme } from '../theme';
 import pixelize from '../utils/pixelize';
 
@@ -7,8 +6,8 @@ const usePopoverArrowStyle = ({
   arrowHeight: arrowHeightProp,
   arrowWidth: arrowWidthProp,
 }) => {
-  const [colorMode] = useColorMode();
   const { sizes } = useTheme();
+  const [colorMode] = useColorMode();
   const arrowHeight = sizes[arrowHeightProp] ?? pixelize(arrowHeightProp);
   const arrowWidth = sizes[arrowWidthProp] ?? pixelize(arrowWidthProp);
   const dropShadowColor = {
@@ -86,21 +85,10 @@ const usePopoverTriggerStyle = () => {
 const usePopoverContentStyle = ({
   tabIndex,
 }) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const backgroundColor = {
-    dark: 'gray:80',
-    light: 'white',
-  }[colorMode];
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-
   return {
-    backgroundColor,
-    color,
-    boxShadow: colorStyle?.shadow?.thin,
+    backgroundColor: 'background.highest',
+    color: 'text.primary',
+    boxShadow: 'high',
     borderWidth: 1,
     fontSize: 'sm',
     lineHeight: 'sm',
@@ -115,19 +103,14 @@ const usePopoverContentStyle = ({
 };
 
 const usePopoverHeaderStyle = () => {
-  const [colorMode] = useColorMode();
-  const borderColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
-
   return {
+    color: 'text.accent',
     fontWeight: 'semibold',
     __after: {
       content: '""',
       display: 'block',
       borderTop: 1,
-      borderColor,
+      borderColor: 'border.subtle',
       my: '2x',
     },
   };

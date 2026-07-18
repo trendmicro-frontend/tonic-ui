@@ -1,32 +1,35 @@
-import ThemeParser from "@/components/ThemeParser";
+import ThemeTokens from "@/components/ThemeTokens";
 
-# Breakpoints
-
-## Design tokens
-
-<ThemeParser theme="breakpoints" />
+# breakpoints
 
 The default breakpoints is an array of the following values:
 
 ```js
 [
-  '320px', // sm
-  '640px', // md
-  '1024px', // lg
-  '1280px', // xl
-  '1680px', // 2xl
+  '320px',  // sm
+  '744px',  // md
+  '1440px', // lg
+  '1680px', // xl
+  '1920px', // 2xl
 ]
 ```
 
-The first value in the array is the smallest breakpoint, and the last value is the largest. You can also use `sm`, `md`, `lg`, `xl`, and `xxl` as breakpoint names to reference the breakpoints in the array.
+The first value in the array is the smallest breakpoint, and the last value is the largest. You can also use `sm`, `md`, `lg`, `xl`, and `2xl` as breakpoint names to reference the breakpoints in the array.
 
 | Breakpoint | Media Query |
 | :--------- | :---------- |
 | `sm` | `@media screen and (min-width: 320px)` |
-| `md` | `@media screen and (min-width: 640px)` |
-| `lg` | `@media screen and (min-width: 1024px)` |
-| `xl` | `@media screen and (min-width: 1280px)` |
-| `2xl` | `@media screen and (min-width: 1680px)` |
+| `md` | `@media screen and (min-width: 744px)` |
+| `lg` | `@media screen and (min-width: 1440px)` |
+| `xl` | `@media screen and (min-width: 1680px)` |
+| `2xl` | `@media screen and (min-width: 1920px)` |
+
+## Design tokens
+
+### Primitive tokens (v3)
+
+<ThemeTokens type="primitive" scales={[{ name: 'breakpoints', defaultIsExpanded: true }]} />
+
 
 ## Examples
 
@@ -44,16 +47,16 @@ To do this, add a `breakpoints` array with additional aliases (e.g. `sm`, `md`, 
 // 1. Import the theme
 import {
   TonicProvider, // Provides theme and context for Tonic UI components
-  createTheme,   // For theme customization (introduced in v2.5.0)
+  createTheme,   // For theme customization
 } from '@tonic-ui/react';
 
 // 2. Update the breakpoints
 const breakpoints = [
   '320px',
-  '768px',
-  '960px',
-  '1200px',
+  '744px',
   '1440px',
+  '1680px',
+  '1920px',
 ];
 breakpoints.sm = breakpoints[0];
 breakpoints.md = breakpoints[1];

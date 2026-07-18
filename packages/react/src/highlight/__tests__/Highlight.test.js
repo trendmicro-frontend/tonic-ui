@@ -1,8 +1,8 @@
-import { createRef } from 'react';
 import { screen } from '@testing-library/react';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { Highlight } from '@tonic-ui/react/src';
+import React from 'react';
 
 function removeAccents(str) {
   return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -458,7 +458,7 @@ describe('Highlight', () => {
     });
 
     it('should forward ref', () => {
-      const ref = createRef();
+      const ref = React.createRef();
       render(
         <Highlight query="hello" ref={ref}>
           hello world

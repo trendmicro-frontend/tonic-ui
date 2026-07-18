@@ -1,6 +1,7 @@
-import * as moduleExport from '@tonic-ui/utils/src';
+import * as moduleExport from '../src';
 
 test('should match expected exports', () => {
+  const receivedExports = Object.keys(moduleExport);
   const expectedExports = [
     // assertion
     'isBlankString',
@@ -46,13 +47,12 @@ test('should match expected exports', () => {
     'warnRemovedProps',
 
     // transition
-    'transitionDuration',
-    'transitionEasing',
+    'createTransitionStyle',
     'getEnterTransitionProps',
     'getExitTransitionProps',
-    'createTransitionStyle',
+    'transitionDuration',
+    'transitionEasing',
   ];
-  const receivedExports = Object.keys(moduleExport);
 
   expect(receivedExports.sort()).toEqual(expectedExports.sort());
 });

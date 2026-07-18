@@ -2,7 +2,6 @@ import { keyframes } from '@emotion/react';
 import { createTransitionStyle } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import { useMemo } from 'react';
-import { useColorMode } from '../color-mode';
 import { useTheme } from '../theme';
 
 const baseAnimationDuration = 2; // in seconds
@@ -33,11 +32,7 @@ const circularProgressRootKeyframe = keyframes`
 `;
 
 const useLinearProgressRootStyle = () => {
-  const [colorMode] = useColorMode();
-  const backgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
+  const backgroundColor = '_overlay.thin';
 
   return {
     position: 'relative',
@@ -53,13 +48,7 @@ const useLinearProgressBarStyle = ({
 }) => {
   const theme = useTheme();
   const colors = ensureArray(color)
-    .map(c => {
-      // "blue"          => "blue"
-      // "blue:60"       => "#1e5ede"
-      // "black"         => "black"
-      // "black:primary" => "rgba(0, 0, 0, .92)"
-      return theme?.colors?.[c] ?? c;
-    });
+    .map(c => theme.get(`colors.${c}`) ?? c);
 
   if (variant === 'determinate') {
     return {
@@ -134,11 +123,7 @@ const useCircularProgressTrackStyle = ({
   thickness,
   trackColor: deprecatedTrackColor, // deprecated
 }) => {
-  const [colorMode] = useColorMode();
-  const color = deprecatedTrackColor ?? {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
+  const color = deprecatedTrackColor ?? '_overlay.thin';
   const radius = (size - thickness) / 2;
   const baseStyle = {
     color,
@@ -180,6 +165,7 @@ const useCircularProgressIndicatorStyle = ({
       }
     `;
   }, [circumference, thickness]);
+
   const baseStyle = {
     color,
 

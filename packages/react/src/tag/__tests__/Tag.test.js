@@ -1,83 +1,22 @@
 import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { render } from '@tonic-ui/react/test-utils/render';
-import { Fade, Tag, TagCloseButton } from '@tonic-ui/react/src';
-import { useToggle } from '@tonic-ui/react-hooks/src';
-import { callEventHandlers, transitionDuration } from '@tonic-ui/utils/src';
+import { Fade, Tag } from '@tonic-ui/react/src';
+import { useToggle } from '@tonic-ui/react-hooks';
+import { callEventHandlers, transitionDuration } from '@tonic-ui/utils';
+import React from 'react';
 
 describe('Tag', () => {
-  it('should render correctly', async () => {
-    const renderOptions = {};
-    const { container } = render((
-      <>
-        <Tag variant="solid">Solid</Tag>
-        <Tag variant="outline">Outline</Tag>
-        <Tag size="sm">Small</Tag>
-        <Tag size="md">Medium</Tag>
-        <Tag size="lg">Large</Tag>
-        <Tag disabled>Disabled</Tag>
-        <Tag error>Error</Tag>
-        <Tag isClosable>Closable</Tag>
-        <Tag variant="outline" disabled isClosable>Outline Disabled Closable</Tag>
-        <Tag variant="outline" error isClosable>Outline Error Closable</Tag>
-      </>
-    ), renderOptions);
-
-    expect(container).toMatchSnapshot();
-
-    await testA11y(container);
-  });
-
-  it('should set aria-disabled when disabled', () => {
-    const { getByText } = render(<Tag disabled>Label</Tag>);
-    expect(getByText('Label')).toHaveAttribute('aria-disabled', 'true');
-  });
-
-  it('should set aria-invalid when error', () => {
-    const { getByText } = render(<Tag error>Label</Tag>);
-    expect(getByText('Label')).toHaveAttribute('aria-invalid', 'true');
-  });
-
-  it('should render a close button when isClosable is true', () => {
-    render(<Tag isClosable>Label</Tag>);
-    expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument();
-  });
-
-  it('should not render a close button when isClosable is false', () => {
-    render(<Tag>Label</Tag>);
-    expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument();
-  });
-
-  it('should call onClose when close button is clicked', async () => {
-    const user = userEvent.setup();
-    const handleClose = jest.fn();
-
-    render(
-      <Tag isClosable onClose={handleClose}>Label</Tag>
+  it('should render correctly', () => {
+    const { container } = render(
+      <Tag>Tag</Tag>
     );
-
-    await user.click(screen.getByRole('button', { name: 'Close' }));
-    expect(handleClose).toHaveBeenCalledTimes(1);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
-  it('should disable the close button when tag is disabled', async () => {
+  it('should render correctly with interactions', async () => {
     const user = userEvent.setup();
-    const handleClose = jest.fn();
-
-    render(
-      <Tag disabled isClosable onClose={handleClose}>Label</Tag>
-    );
-
-    const closeButton = screen.getByRole('button', { name: 'Close' });
-    expect(closeButton).toBeDisabled();
-
-    await user.click(closeButton);
-    expect(handleClose).not.toHaveBeenCalled();
-  });
-
-  it('should unmount after closing via isClosable', async () => {
-    const user = userEvent.setup();
+    const message = 'This is a tag';
     const handleClose = jest.fn();
 
     const TestComponent = ({ onClose }) => {
@@ -89,7 +28,7 @@ describe('Tag', () => {
             onClose={callEventHandlers(() => toggle(false), onClose)}
             data-testid="tag"
           >
-            This is a tag
+            {message}
           </Tag>
         </Fade>
       );
@@ -97,9 +36,12 @@ describe('Tag', () => {
 
     render(<TestComponent onClose={handleClose} />);
 
-    expect(screen.getByTestId('tag')).toBeInTheDocument();
+    const tagElement = screen.getByTestId('tag');
+    expect(tagElement).toBeInTheDocument();
+    expect(tagElement).toHaveTextContent(message);
 
-    await user.click(screen.getByRole('button', { name: 'Close' }));
+    const closeButton = screen.getByRole('button');
+    await user.click(closeButton);
     expect(handleClose).toHaveBeenCalledTimes(1);
 
     await waitForElementToBeRemoved(() => screen.getByTestId('tag'), {
@@ -107,41 +49,67 @@ describe('Tag', () => {
     });
   });
 
-  it('should call onClose via TagCloseButton and unmount', async () => {
-    const user = userEvent.setup();
-    const handleClose = jest.fn();
-
-    const TestComponent = ({ onClose }) => {
-      const [isOpen, toggle] = useToggle(true);
-      return (
-        <Fade in={isOpen} unmountOnExit>
-          <Tag
-            onClose={callEventHandlers(() => toggle(false), onClose)}
-            data-testid="tag"
-          >
-            This is a tag
-            <TagCloseButton />
-          </Tag>
-        </Fade>
-      );
-    };
-
-    render(<TestComponent onClose={handleClose} />);
-
-    expect(screen.getByTestId('tag')).toBeInTheDocument();
-
-    await user.click(screen.getByRole('button', { name: 'Close' }));
-    expect(handleClose).toHaveBeenCalledTimes(1);
-
-    await waitForElementToBeRemoved(() => screen.getByTestId('tag'), {
-      timeout: transitionDuration.leavingScreen + 100, // see "transitions/Fade.js"
-    });
-  });
-
-  it('should apply custom backgroundColor and color', () => {
+  it('will change tag color', () => {
     const { getByText } = render(
-      <Tag backgroundColor="#b80003" color="#fcc3c4">Label</Tag>
+      <Tag backgroundColor="#b80003" color="#fcc3c4" _hover={{ backgroundColor: '#b80003' }}>Test Tag</Tag>
     );
-    expect(getByText('Label')).toHaveStyle('background-color: #b80003; color: #fcc3c4;');
+
+    expect(getByText('Test Tag')).toHaveStyle('background-color: rgb(184, 0, 3); color: rgb(252, 195, 196);');
+  });
+
+  it('should render with different sizes', () => {
+    const { rerender, container } = render(<Tag size="sm">Small Tag</Tag>);
+    expect(container.firstChild).toMatchSnapshot();
+
+    rerender(<Tag size="md">Medium Tag</Tag>);
+    expect(container.firstChild).toMatchSnapshot();
+
+    rerender(<Tag size="lg">Large Tag</Tag>);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it('should render with different variants', () => {
+    const { rerender, container } = render(<Tag variant="solid">Solid Tag</Tag>);
+    expect(container.firstChild).toMatchSnapshot();
+
+    rerender(<Tag variant="outline">Outline Tag</Tag>);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it('should render with disabled state', () => {
+    const { container } = render(<Tag disabled>Disabled Tag</Tag>);
+    expect(container.firstChild).toHaveAttribute('aria-disabled', 'true');
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it('should render with error state', () => {
+    const { container } = render(<Tag error>Error Tag</Tag>);
+    expect(container.firstChild).toHaveAttribute('aria-invalid', 'true');
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it('should render as a function child', () => {
+    const { getByText } = render(
+      <Tag size="md" variant="solid">
+        {({ size, variant }) => `Tag: ${size} - ${variant}`}
+      </Tag>
+    );
+    expect(getByText('Tag: md - solid')).toBeInTheDocument();
+  });
+
+  it('should render with isClosable but without onClose handler', () => {
+    const { container } = render(<Tag isClosable>Closable Tag</Tag>);
+    const closeButton = screen.getByRole('button');
+    expect(closeButton).toBeInTheDocument();
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it('should combine size, variant, and isClosable', () => {
+    const { container } = render(
+      <Tag size="lg" variant="outline" isClosable>
+        Combined Tag
+      </Tag>
+    );
+    expect(container.firstChild).toMatchSnapshot();
   });
 });

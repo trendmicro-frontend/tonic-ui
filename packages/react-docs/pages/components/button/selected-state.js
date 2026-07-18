@@ -1,17 +1,10 @@
 import {
   Button,
-  useColorMode,
-  useColorStyle,
 } from '@tonic-ui/react';
 
 const App = () => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const selectedBackgroundColor = {
-    dark: 'gray:70',
-    light: 'gray:30',
-  }[colorMode];
-  const selectedColor = colorStyle.color.emphasis;
+  const selectedBackgroundColor = '_foreground.tertiary.selected';
+  const selectedColor = 'text._inverse.accent';
 
   return (
     <Button

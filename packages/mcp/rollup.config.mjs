@@ -1,16 +1,18 @@
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { createRequire } from 'node:module';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { codecovRollupPlugin } from '@codecov/rollup-plugin';
 import { babel } from '@rollup/plugin-babel';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import dts from 'rollup-plugin-dts';
 
+const pkg = createRequire(import.meta.url)('./package.json');
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const isExternal = id => !id.startsWith('.') && !id.startsWith('/');
-
 const extensions = ['.js', '.ts', '.mjs'];
+const isExternal = id => !id.startsWith('.') && !id.startsWith('/');
 
 const babelPlugin = babel({
   configFile: './babel.config.js',
@@ -37,6 +39,12 @@ export default [
       }),
       babelPlugin,
       nodeResolve({ extensions }),
+      // Put the Codecov rollup plugin after all other plugins
+      codecovRollupPlugin({
+        enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
+        bundleName: pkg.name,
+        uploadToken: process.env.CODECOV_TOKEN,
+      }),
     ],
   },
   {
@@ -55,6 +63,12 @@ export default [
       }),
       babelPlugin,
       nodeResolve({ extensions }),
+      // Put the Codecov rollup plugin after all other plugins
+      codecovRollupPlugin({
+        enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
+        bundleName: pkg.name,
+        uploadToken: process.env.CODECOV_TOKEN,
+      }),
     ],
   },
   {

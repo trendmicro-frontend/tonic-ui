@@ -1,9 +1,15 @@
-const useSwitchStyle = ({ disabled }) => {
+const useSwitchStyle = ({ disabled, readOnly }) => {
+  let cursor = 'pointer';
+  if (disabled) {
+    cursor = 'not-allowed';
+  } else if (readOnly) {
+    cursor = 'default';
+  }
   return {
     display: 'inline-flex',
     verticalAlign: 'top',
     alignItems: 'center',
-    cursor: disabled ? 'not-allowed' : 'pointer',
+    cursor,
   };
 };
 

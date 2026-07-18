@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Box, Zoom } from '@tonic-ui/react/src';
+import React from 'react';
 
 describe('Zoom', () => {
   it('applies correct styles when entering', () => {

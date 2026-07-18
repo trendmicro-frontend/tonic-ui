@@ -1,9 +1,9 @@
-import { createRef } from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { Link } from '@tonic-ui/react/src';
+import React from 'react';
 
 describe('Link', () => {
   it('should render correctly', async () => {
@@ -105,7 +105,7 @@ describe('Link', () => {
   });
 
   it('should forward ref correctly', () => {
-    const ref = createRef();
+    const ref = React.createRef();
     render(
       <Link href="/test" ref={ref}>
         Test Link
@@ -129,11 +129,11 @@ describe('Link', () => {
     expect(link).toHaveStyleRule('text-decoration', 'none');
 
     // :hover
-    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-blue-40)', { target: ':hover' });
+    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-_link-hovered)', { target: ':hover' });
     expect(link).toHaveStyleRule('text-decoration', 'underline', { target: ':hover' });
 
     // :active
-    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-blue-60)', { target: ':active' });
+    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-_link-active)', { target: ':active' });
     expect(link).toHaveStyleRule('text-decoration', 'underline', { target: ':active' });
   });
 
@@ -150,11 +150,11 @@ describe('Link', () => {
     expect(link).toHaveStyleRule('text-decoration', 'underline');
 
     // :hover
-    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-blue-40)', { target: ':hover' });
+    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-_link-hovered)', { target: ':hover' });
     expect(link).toHaveStyleRule('text-decoration', 'none', { target: ':hover' });
 
     // :active
-    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-blue-60)', { target: ':active' });
+    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-_link-active)', { target: ':active' });
     expect(link).toHaveStyleRule('text-decoration', 'none', { target: ':active' });
   });
 
@@ -171,11 +171,11 @@ describe('Link', () => {
     expect(link).toHaveStyleRule('text-decoration', 'underline');
 
     // :hover
-    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-blue-40)', { target: ':hover' });
+    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-_link-hovered)', { target: ':hover' });
     expect(link).toHaveStyleRule('text-decoration', 'underline', { target: ':hover' });
 
     // :active
-    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-blue-60)', { target: ':active' });
+    expect(link).toHaveStyleRule('color', 'var(--tonic-colors-_link-active)', { target: ':active' });
     expect(link).toHaveStyleRule('text-decoration', 'underline', { target: ':active' });
   });
 
@@ -193,7 +193,7 @@ describe('Link', () => {
 
     // Should show deprecation warning
     expect(consoleSpy).toHaveBeenCalledWith(
-      'Link: \'textDecoration\' is deprecated. Use \'variant="inline"\' instead.'
+      `Link: 'textDecoration' is deprecated. Use 'variant="inline"' instead.`
     );
 
     consoleSpy.mockRestore();

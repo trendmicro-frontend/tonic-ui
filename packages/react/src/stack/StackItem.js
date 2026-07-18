@@ -1,7 +1,15 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useStackItemStyle } from './styles';
 
+/**
+ * @typedef {Object} StackItemProps
+ * @property {React.ReactNode} [children] -
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', StackItemProps>}
+ */
 const StackItem = forwardRef((props, ref) => {
   const styleProps = useStackItemStyle();
 

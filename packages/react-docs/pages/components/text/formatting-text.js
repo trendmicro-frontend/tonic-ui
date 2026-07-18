@@ -1,8 +1,7 @@
-import { Stack, Text, useColorMode } from '@tonic-ui/react';
+import { Stack, Text } from '@tonic-ui/react';
 
 const App = () => {
-  const [colorMode] = useColorMode();
-  const bg = colorMode === 'dark' ? 'gray:80' : 'gray:20';
+  const bg = 'background.highest';
 
   return (
     <Stack direction="column" spacing="4x">

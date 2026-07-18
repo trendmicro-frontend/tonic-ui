@@ -3,6 +3,12 @@ import { useOnce } from '@tonic-ui/react-hooks';
 import { forwardRef } from 'react';
 import URLIcon from '../URLIcon';
 
+/** @import { ForwardRefExoticComponent, SVGProps, RefAttributes } from 'react' */
+
+/**
+ * @deprecated Use `URLIcon` instead.
+ * @type {ForwardRefExoticComponent<StyleProps & SVGProps<SVGSVGElement> & import('../../SVGIcon').SVGIconProps & RefAttributes<SVGSVGElement>>}
+ */
 const UrlIcon = forwardRef((props, ref) => {
   useOnce(() => {
     console.error('Warning: The `UrlIcon` component is deprecated and will be removed in the next major release. Use the `URLIcon` component instead.');

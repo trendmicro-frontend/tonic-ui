@@ -6,10 +6,6 @@ import { AnimatePresenceContext } from './context';
 const useAnimatePresence = () => {
   const id = useId();
 
-  if (!useContext) {
-    throw new Error('The `useContext` hook is not available with your React version.');
-  }
-
   const context = useContext(AnimatePresenceContext);
   const { in: inProp, onExitComplete, register } = { ...context };
   const safeToRemove = () => ensureFunction(onExitComplete)(id);

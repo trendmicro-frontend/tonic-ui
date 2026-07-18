@@ -217,7 +217,7 @@ const App = () => {
             <TableRow
               key={row.id}
               _hover={{
-                backgroundColor: colorStyle.background.highlighted,
+                backgroundColor: 'actions.hovered',
               }}
             >
               {row.getVisibleCells().map(cell => {

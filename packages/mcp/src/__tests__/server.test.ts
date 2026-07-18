@@ -223,7 +223,7 @@ Pass an array of **absolute URLs** in the "urls" argument.`);
 
       const result = await tools.fetchPages.handler({
         urls: [
-          'file:///path/to/tonic-one/packages/react-docs/pages/components/button/index.page.mdx',
+          'file:///path/to/tonic-ui/packages/react-docs/pages/components/button/index.page.mdx',
         ],
       });
 

@@ -1,31 +1,4 @@
 import { Alert, Button, Flex, LinkButton, Stack, Text } from '@tonic-ui/react';
-import { forwardRef } from 'react';
-
-const ActionButton = forwardRef((props, ref) => (
-  <Button
-    ref={ref}
-    variant="secondary"
-    borderColor="black:primary"
-    color="black:primary"
-    sx={{
-      ':active': {
-        color: 'black:primary',
-      },
-      ':focus': {
-        color: 'black:primary',
-      },
-      ':hover': {
-        background: 'rgba(0, 0, 0, 0.12)',
-        color: 'black:primary',
-      },
-      ':hover:not(:focus)': {
-        boxShadow: 'none',
-      },
-    }}
-    {...props}
-  />
-));
-ActionButton.displayName = 'ActionButton';
 
 const App = () => (
   <Stack direction="column" spacing="4x">
@@ -38,12 +11,9 @@ const App = () => (
     <Alert variant="solid" severity="error">
       <Flex justifyContent="space-between" mt={-1} mb={-2}>
         <Text>This is an error alert.</Text>
-        <ActionButton
-          // See above for the ActionButton component
-          size="sm"
-        >
+        <Button size="sm" variant="secondary">
           Action Button
-        </ActionButton>
+        </Button>
       </Flex>
     </Alert>
     <Alert variant="outline" severity="warning">

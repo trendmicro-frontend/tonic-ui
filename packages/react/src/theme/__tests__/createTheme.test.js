@@ -1,3 +1,7 @@
+import React from 'react';
+import { Box } from '@tonic-ui/react/src';
+import { render } from '@tonic-ui/react/test-utils/render';
+import { TONIC_THEME } from '../constants';
 import createTheme from '../createTheme';
 
 describe('createTheme', () => {
@@ -8,7 +12,6 @@ describe('createTheme', () => {
     'fonts',
     'fontSizes',
     'fontWeights',
-    'letterSpacings',
     'lineHeights',
     'outlines',
     'radii',
@@ -21,6 +24,11 @@ describe('createTheme', () => {
   it('should create a default theme', () => {
     const theme = createTheme();
     defaultThemeScales.forEach(scale => expect(theme).toHaveProperty(scale));
+  });
+
+  it('should stamp the TONIC_THEME symbol on the returned theme', () => {
+    const theme = createTheme();
+    expect(theme[TONIC_THEME]).toBe(true);
   });
 
   it('should merge custom theme options', () => {
@@ -43,18 +51,37 @@ describe('createTheme', () => {
     expect(theme.components.Button.defaultProps.size).toBe('large');
   });
 
-  it('should not generate CSS variables with default configuration', () => {
+  it('should generate CSS variables by default', () => {
     const theme = createTheme();
-    expect(theme.cssVariables).not.toBeDefined();
-  });
-
-  it('should generate CSS variables', () => {
-    const theme = createTheme({ cssVariables: true });
     expect(theme.cssVariables).toBeDefined();
     expect(theme.cssVariablePrefix).toBe('tonic');
     const cssVariableKeys = Object.keys(theme.cssVariables).filter(x => x.startsWith('--'));
     expect(cssVariableKeys.length).toBeGreaterThan(0);
     expect(cssVariableKeys[0]).toMatch(/^--tonic-/);
+  });
+
+  it('should freeze the generated CSS variables to prevent mutation', () => {
+    const theme = createTheme();
+    expect(Object.isFrozen(theme.cssVariables)).toBe(true);
+  });
+
+  it('should generate CSS variables for primitive color variants (main + lightness/darkness)', () => {
+    const theme = createTheme();
+    const vars = theme.cssVariables;
+    // Base alias points to main
+    expect(vars['--tonic-colors-red-600']).toBe('var(--tonic-colors-red-600-main)');
+    // Main value is defined
+    expect(vars['--tonic-colors-red-600-main']).toBe('#dd1128');
+    // Lighten variants are generated
+    expect(vars['--tonic-colors-red-600-lighten-80']).toBe('#e02439');
+    expect(vars['--tonic-colors-red-600-lighten-160']).toBe('#e2374a');
+    // Darken variants are generated
+    expect(vars['--tonic-colors-red-600-darken-80']).toBe('#cf1025');
+    expect(vars['--tonic-colors-red-600-darken-160']).toBe('#c20f22');
+    // Same for blue
+    expect(vars['--tonic-colors-blue-600']).toBe('var(--tonic-colors-blue-600-main)');
+    expect(vars['--tonic-colors-blue-600-main']).toBe('#1362fc');
+    expect(vars['--tonic-colors-blue-600-lighten-80']).toBe('#266ffc');
   });
 
   it('should apply custom prefix to CSS variables', () => {
@@ -76,5 +103,25 @@ describe('createTheme', () => {
       const isValid = defaultThemeScales.some(scale => key.startsWith(`--${scale}`));
       expect(isValid).toBe(true);
     });
+  });
+
+  it('should apply custom `rootSelector` for CSS variables', () => {
+    const customRootSelector = ':root[data-color-scheme]';
+    const themeOptions = {
+      cssVariables: {
+        rootSelector: customRootSelector,
+      },
+    };
+
+    const theme = createTheme(themeOptions);
+    expect(theme.rootSelector).toBe(customRootSelector);
+
+    const TestComponent = (props) => (
+      <Box backgroundColor="background.low" {...props} />
+    );
+    render(<TestComponent />, { theme: themeOptions });
+
+    const styleElement = document.querySelector('style[data-emotion="css-global"]');
+    expect(styleElement).toMatchSnapshot();
   });
 });

@@ -1,4 +1,4 @@
-import { isNullish } from '@tonic-ui/utils';
+import { isNullish, isPlainObject } from '@tonic-ui/utils';
 import getter from './getter';
 
 const hasOwnSafe = (obj, key) => {
@@ -24,7 +24,7 @@ const toNegativeValue = (scale, absoluteValue, options) => {
   const n = getter(scale, absoluteValue, options);
 
   // Handle CSS variables for negative values
-  if (!!theme?.cssVariables && isSimpleCSSVariable(n)) {
+  if (theme?.useCSSVariables && isPlainObject(theme?.cssVariables) && isSimpleCSSVariable(n)) {
     // https://stackoverflow.com/questions/49469344/using-negative-css-custom-properties
     return `calc(0px - ${n})`;
   }

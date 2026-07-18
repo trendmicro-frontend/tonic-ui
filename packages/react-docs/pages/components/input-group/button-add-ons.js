@@ -8,16 +8,11 @@ import {
   InputGroupPrepend,
   Space,
   Stack,
-  useColorMode,
 } from '@tonic-ui/react';
 import { AngleDownIcon, SettingsIcon } from '@tonic-ui/react-icons';
 
 const App = () => {
-  const [colorMode] = useColorMode();
-  const dividerColor = {
-    dark: 'gray:70',
-    light: 'gray:30',
-  }[colorMode];
+  const dividerColor = 'border.subtle';
 
   return (
     <Stack direction="column" spacing="4x">
@@ -58,7 +53,7 @@ const App = () => {
           <Button borderRadius={0}>
             Action
           </Button>
-          <Divider orientation="vertical" color={dividerColor} />
+          <Divider orientation="vertical" borderLeftColor={dividerColor} />
           <Button>
             <SettingsIcon />
           </Button>

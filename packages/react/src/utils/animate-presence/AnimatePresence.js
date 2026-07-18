@@ -1,8 +1,18 @@
 import { useConst } from '@tonic-ui/react-hooks';
 import { ensureFunction } from 'ensure-type';
-import { forwardRef, useEffect, useMemo } from 'react';
+import React, { forwardRef, useEffect, useMemo } from 'react';
 import { AnimatePresenceContext } from './context';
 
+/**
+ * @typedef {Object} AnimatePresenceProps
+ * @property {React.ReactNode} [children] -
+ * @property {boolean} in - Controls the visibility state of the children.
+ * @property {() => void} [onExitComplete] - Callback when all exit animations are complete.
+ */
+
+/**
+ * @type {React.ForwardRefExoticComponent<AnimatePresenceProps>}
+ */
 const AnimatePresence = forwardRef(({
   children,
   in: inProp,

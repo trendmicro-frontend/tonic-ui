@@ -33,5 +33,8 @@ module.exports = {
       'runtime': 'automatic',
       'importSource': '@emotion/react',
     }],
+    ['@babel/preset-typescript', {
+      'rewriteImportExtensions': true // https://babeljs.io/docs/babel-preset-typescript#rewriteimportextensions
+    }],
   ],
 };

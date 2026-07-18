@@ -1,282 +1,149 @@
-import { useColorMode } from '../color-mode';
 import { useIconButtonStyle } from '../shared/styles';
 import { useTheme } from '../theme';
 
-const getSolidSuccessStyle = ({
-  colorMode,
-}) => {
-  const backgroundColor = {
-    dark: 'green:40',
-    light: 'green:30',
-  }[colorMode];
-  const color = 'black:primary';
-
+const getSolidSuccessStyle = () => {
   return {
-    backgroundColor,
-    color,
+    backgroundColor: 'success._overlay',
+    color: 'success._onOverlay.text',
   };
 };
 
-const getSolidInfoStyle = ({
-  colorMode,
-}) => {
-  const backgroundColor = {
-    dark: 'blue:40',
-    light: 'blue:30',
-  }[colorMode];
-  const color = 'black:primary';
-
+const getSolidInfoStyle = () => {
   return {
-    backgroundColor,
-    color,
+    backgroundColor: 'info._overlay',
+    color: 'info._onOverlay.text'
   };
 };
 
-const getSolidWarningStyle = ({
-  colorMode,
-}) => {
-  const backgroundColor = {
-    dark: 'yellow:50',
-    light: 'yellow:50',
-  }[colorMode];
-  const color = 'black:primary';
-
+const getSolidWarningStyle = () => {
   return {
-    backgroundColor,
-    color,
+    backgroundColor: 'minorWarning._overlay',
+    color: 'minorWarning._onOverlay.text',
   };
 };
 
-const getSolidErrorStyle = ({
-  colorMode,
-}) => {
-  const backgroundColor = {
-    dark: 'red:40',
-    light: 'red:30',
-  }[colorMode];
-  const color = 'black:primary';
-
+const getSolidErrorStyle = () => {
   return {
-    backgroundColor,
-    color,
+    backgroundColor: 'error._overlay',
+    color: 'error._onOverlay.text',
   };
 };
 
-const getOutlineSuccessStyle = ({
-  colorMode,
-}) => {
-  const borderColor = {
-    dark: 'green:40',
-    light: 'green:50',
-  }[colorMode];
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-
+const getOutlineSuccessStyle = () => {
   return {
-    borderColor,
-    color,
+    borderColor: 'success.icon',
+    color: 'text.primary',
   };
 };
 
-const getOutlineInfoStyle = ({
-  colorMode,
-}) => {
-  const borderColor = {
-    dark: 'blue:40',
-    light: 'blue:50',
-  }[colorMode];
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-
+const getOutlineInfoStyle = () => {
   return {
-    borderColor,
-    color,
+    borderColor: 'info.icon',
+    color: 'text.primary',
   };
 };
 
-const getOutlineWarningStyle = ({
-  colorMode,
-}) => {
-  const borderColor = {
-    dark: 'yellow:50',
-    light: 'yellow:50',
-  }[colorMode];
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-
+const getOutlineWarningStyle = () => {
   return {
-    borderColor,
-    color,
+    borderColor: 'minorWarning.icon',
+    color: 'text.primary',
   };
 };
 
-const getOutlineErrorStyle = ({
-  colorMode,
-}) => {
-  const borderColor = {
-    dark: 'red:40',
-    light: 'red:40',
-  }[colorMode];
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-
+const getOutlineErrorStyle = () => {
   return {
-    borderColor,
-    color,
+    borderColor: 'error.icon',
+    color: 'text.primary',
   };
 };
 
-const getSolidSuccessIconStyle = ({
-  colorMode,
-}) => {
-  const color = {
-    dark: 'black:primary',
-    light: 'black:primary',
-  }[colorMode];
-
+const getSolidSuccessIconStyle = () => {
   return {
-    color,
+    color: 'success.icon',
   };
 };
 
-const getSolidInfoIconStyle = ({
-  colorMode,
-}) => {
-  const color = {
-    dark: 'black:primary',
-    light: 'black:primary',
-  }[colorMode];
-
+const getSolidInfoIconStyle = () => {
   return {
-    color,
+    color: 'info.icon',
   };
 };
 
-const getSolidWarningIconStyle = ({
-  colorMode,
-}) => {
-  const color = {
-    dark: 'black:primary',
-    light: 'black:primary',
-  }[colorMode];
-
+const getSolidWarningIconStyle = () => {
   return {
-    color,
+    color: 'minorWarning.icon',
   };
 };
 
-const getSolidErrorIconStyle = ({
-  colorMode,
-}) => {
-  const color = {
-    dark: 'black:primary',
-    light: 'black:primary',
-  }[colorMode];
-
+const getSolidErrorIconStyle = () => {
   return {
-    color,
+    color: 'error.icon',
   };
 };
 
-const getOutlineSuccessIconStyle = ({
-  colorMode,
-}) => {
-  const color = {
-    dark: 'green:50',
-    light: 'green:60',
-  }[colorMode];
-
+const getOutlineSuccessIconStyle = () => {
   return {
-    color,
+    color: 'success.icon',
   };
 };
 
-const getOutlineInfoIconStyle = ({
-  colorMode,
-}) => {
-  const color = {
-    dark: 'blue:50',
-    light: 'blue:60',
-  }[colorMode];
-
+const getOutlineInfoIconStyle = () => {
   return {
-    color,
+    color: 'info.icon',
   };
 };
 
-const getOutlineWarningIconStyle = ({
-  colorMode,
-}) => {
-  const color = {
-    dark: 'yellow:50',
-    light: 'yellow:50',
-  }[colorMode];
-
+const getOutlineWarningIconStyle = () => {
   return {
-    color,
+    color: 'minorWarning.icon',
   };
 };
 
-const getOutlineErrorIconStyle = ({
-  colorMode,
-}) => {
-  const color = {
-    dark: 'red:50',
-    light: 'red:60',
-  }[colorMode];
-
+const getOutlineErrorIconStyle = () => {
   return {
-    color,
+    color: 'error.icon',
   };
 };
 
-const getSolidStyle = props => {
-  const { severity, colorMode } = props;
-
+const getSolidStyle = ({
+  severity
+}) => {
   if (severity === 'success') {
-    return getSolidSuccessStyle({ colorMode });
+    return getSolidSuccessStyle();
   }
 
   if (severity === 'info') {
-    return getSolidInfoStyle({ colorMode });
+    return getSolidInfoStyle();
   }
 
   if (severity === 'warning') {
-    return getSolidWarningStyle({ colorMode });
+    return getSolidWarningStyle();
   }
 
   if (severity === 'error') {
-    return getSolidErrorStyle({ colorMode });
+    return getSolidErrorStyle();
   }
 
   return {};
 };
 
-const getOutlineStyle = props => {
-  const { severity, colorMode } = props;
-
+const getOutlineStyle = ({
+  severity
+}) => {
   if (severity === 'success') {
-    return getOutlineSuccessStyle({ colorMode });
+    return getOutlineSuccessStyle();
   }
 
   if (severity === 'info') {
-    return getOutlineInfoStyle({ colorMode });
+    return getOutlineInfoStyle();
   }
 
   if (severity === 'warning') {
-    return getOutlineWarningStyle({ colorMode });
+    return getOutlineWarningStyle();
   }
 
   if (severity === 'error') {
-    return getOutlineErrorStyle({ colorMode });
+    return getOutlineErrorStyle();
   }
 
   return {};
@@ -286,7 +153,6 @@ const useAlertStyle = ({
   variant,
   severity,
 }) => {
-  const [colorMode] = useColorMode();
   const { sizes } = useTheme();
   const px = '4x';
   const py = '10q';
@@ -300,7 +166,7 @@ const useAlertStyle = ({
   };
 
   if (variant === 'solid') {
-    const severityStyle = getSolidStyle({ colorMode, severity });
+    const severityStyle = getSolidStyle({ severity });
     return {
       ...baseStyle,
       ...severityStyle,
@@ -309,12 +175,13 @@ const useAlertStyle = ({
 
   if (variant === 'outline') {
     const borderWidth = '1q';
-    const severityStyle = getOutlineStyle({ colorMode, severity });
+    const severityStyle = getOutlineStyle({ severity });
     return {
       ...baseStyle,
       borderColor: 'transparent',
       borderStyle: 'solid',
       borderWidth,
+      borderRadius: 'sm',
       px: `calc(${sizes[px]} - ${sizes[borderWidth]})`,
       py: `calc(${sizes[py]} - ${sizes[borderWidth]})`, // (40px - 20px) / 2 = 10px
       ...severityStyle,
@@ -326,45 +193,45 @@ const useAlertStyle = ({
   };
 };
 
-const getSolidIconStyle = props => {
-  const { severity, colorMode } = props;
-
+const getSolidIconStyle = ({
+  severity
+}) => {
   if (severity === 'success') {
-    return getSolidSuccessIconStyle({ colorMode });
+    return getSolidSuccessIconStyle();
   }
 
   if (severity === 'info') {
-    return getSolidInfoIconStyle({ colorMode });
+    return getSolidInfoIconStyle();
   }
 
   if (severity === 'warning') {
-    return getSolidWarningIconStyle({ colorMode });
+    return getSolidWarningIconStyle();
   }
 
   if (severity === 'error') {
-    return getSolidErrorIconStyle({ colorMode });
+    return getSolidErrorIconStyle();
   }
 
   return {};
 };
 
-const getOutlineIconStyle = props => {
-  const { severity, colorMode } = props;
-
+const getOutlineIconStyle = ({
+  severity
+}) => {
   if (severity === 'success') {
-    return getOutlineSuccessIconStyle({ colorMode });
+    return getOutlineSuccessIconStyle();
   }
 
   if (severity === 'info') {
-    return getOutlineInfoIconStyle({ colorMode });
+    return getOutlineInfoIconStyle();
   }
 
   if (severity === 'warning') {
-    return getOutlineWarningIconStyle({ colorMode });
+    return getOutlineWarningIconStyle();
   }
 
   if (severity === 'error') {
-    return getOutlineErrorIconStyle({ colorMode });
+    return getOutlineErrorIconStyle();
   }
 
   return {};
@@ -374,24 +241,24 @@ const useAlertIconStyle = ({
   variant,
   severity,
 }) => {
-  const [colorMode] = useColorMode();
   const iconStyle = {
     display: 'inline-flex',
     mr: '2x',
     mt: '1h',
+    backgroundColor: 'transparent',
   };
 
   if (variant === 'solid') {
     return {
       ...iconStyle,
-      ...getSolidIconStyle({ colorMode, severity }),
+      ...getSolidIconStyle({ severity }),
     };
   }
 
   if (variant === 'outline') {
     return {
       ...iconStyle,
-      ...getOutlineIconStyle({ colorMode, severity }),
+      ...getOutlineIconStyle({ severity }),
     };
   }
 
@@ -429,30 +296,11 @@ const useAlertCloseButtonStyle = ({
   isClosable,
   variant,
 }) => {
-  const [colorMode] = useColorMode();
   const { sizes } = useTheme();
-  const color = {
-    dark: {
-      solid: 'black:tertiary',
-      outline: 'white:tertiary',
-    }[variant],
-    light: {
-      solid: 'black:tertiary',
-      outline: 'black:tertiary',
-    }[variant],
-  }[colorMode];
+  const color = 'text.secondary';
   const size = '8x';
-  const focusVisibleOutlineColor = 'blue:60';
-  const hoverColor = {
-    dark: {
-      solid: 'black:primary',
-      outline: 'white:emphasis',
-    }[variant],
-    light: {
-      solid: 'black:primary',
-      outline: 'black:primary',
-    }[variant],
-  }[colorMode];
+  const focusVisibleOutlineColor = '_component.keyboardFocused.outerFocusRing';
+  const hoverColor = 'text.accent';
   const iconButtonStyle = useIconButtonStyle({ color, size });
 
   const baseStyle = {

@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { useId } from '@tonic-ui/react-hooks';
 import { Text } from '../text';
 import { Flex } from '../flex';
@@ -8,6 +8,15 @@ import {
   useFormCharacterCountStyle,
 } from './styles';
 
+/**
+ * @typedef {Object} FormCharacterCountProps
+ * @property {number} [count=0] - The current character count.
+ * @property {number} [maxCount=0] - The maximum allowed character count.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', FormCharacterCountProps>}
+ */
 const FormCharacterCount = forwardRef(
   ({ count = 0, maxCount = 0, ...rest }, ref) => {
     const defaultId = useId();
@@ -19,12 +28,7 @@ const FormCharacterCount = forwardRef(
     const styleProps = useFormCharacterCountStyle();
 
     return (
-      <Flex
-        ref={ref}
-        id={id}
-        {...styleProps}
-        {...rest}
-      >
+      <Flex ref={ref} id={id} {...styleProps} {...rest}>
         <Text color={lengthColor}>{count}</Text>
         <Text color={maxColor}>/{maxCount}</Text>
       </Flex>

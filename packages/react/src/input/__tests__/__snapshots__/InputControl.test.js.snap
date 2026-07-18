@@ -17,47 +17,47 @@ exports[`InputControl should render correctly 1`] = `
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
   height: var(--tonic-sizes-6x);
-  background-color: var(--tonic-colors-transparent);
+  background-color: var(--tonic-colors-_foreground-subtle-enabled);
   border: var(--tonic-borders-1);
-  border-color: var(--tonic-colors-gray-60);
+  border-color: var(--tonic-colors-border-_primary-enabled);
   border-radius: var(--tonic-radii-sm);
-  color: var(--tonic-colors-white-primary);
+  color: var(--tonic-colors-text-primary);
 }
 
 .emotion-0:invalid,
 .emotion-0[aria-invalid=true] {
-  border-color: var(--tonic-colors-red-50);
+  border-color: var(--tonic-colors-border-_negative-enabled);
 }
 
 .emotion-0::-webkit-input-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-0::-moz-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-0:-ms-input-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-0::placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-0:focus,
 .emotion-0[data-focus] {
-  border-color: var(--tonic-colors-blue-60);
+  border-color: var(--tonic-colors-border-_primary-focused);
   z-index: 1;
 }
 
 .emotion-0:hover,
 .emotion-0[data-hover] {
-  border-color: var(--tonic-colors-blue-50);
+  border-color: var(--tonic-colors-border-_primary-hovered);
   z-index: 2;
 }
 
@@ -68,24 +68,119 @@ exports[`InputControl should render correctly 1`] = `
 .emotion-0[aria-disabled=true]:focus,
 .emotion-0[aria-disabled=true]:hover,
 .emotion-0[data-disabled] {
-  border-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-text-disabled);
+  background-color: var(--tonic-colors-_foreground-subtle-disabled);
+  border-color: var(--tonic-colors-border-_primary-disabled);
   cursor: not-allowed;
-  opacity: .28;
+}
+
+.emotion-0:disabled::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-0:disabled::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-0:disabled:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-0:disabled:focus::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-0:disabled:focus::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-0:disabled:focus:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-0:disabled:hover::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-0:disabled:hover::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-0:disabled:hover:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-0[aria-disabled=true]::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-0[aria-disabled=true]::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-0[aria-disabled=true]:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-0[aria-disabled=true]:focus::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-0[aria-disabled=true]:focus::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-0[aria-disabled=true]:focus:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-0[aria-disabled=true]:hover::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-0[aria-disabled=true]:hover::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-0[aria-disabled=true]:hover:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-0[data-disabled]::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-0[data-disabled]::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-0[data-disabled]:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-0:disabled::placeholder,
+.emotion-0:disabled:focus::placeholder,
+.emotion-0:disabled:hover::placeholder,
+.emotion-0[aria-disabled=true]::placeholder,
+.emotion-0[aria-disabled=true]:focus::placeholder,
+.emotion-0[aria-disabled=true]:hover::placeholder,
+.emotion-0[data-disabled]::placeholder {
+  color: var(--tonic-colors-text-disabled);
 }
 
 .emotion-0:has(> input:focus:invalid),
 .emotion-0:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-blue-60);
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-0:hover:has(> input:invalid),
 .emotion-0:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-red-50);
+  border-color: var(--tonic-colors-border-_negative-enabled);
 }
 
 .emotion-0:hover:has(> input:focus:invalid),
 .emotion-0:hover:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-blue-60);
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-2 {
@@ -121,48 +216,49 @@ exports[`InputControl should render correctly 1`] = `
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
   height: var(--tonic-sizes-6x);
-  background-color: var(--tonic-colors-gray-80);
+  background-color: var(--tonic-colors-_foreground-secondary-enabled);
   border: var(--tonic-borders-1);
-  border-color: var(--tonic-colors-gray-60);
+  border-color: var(--tonic-colors-border-_primary-enabled);
   border-radius: var(--tonic-radii-sm);
-  color: var(--tonic-colors-white-primary);
+  color: var(--tonic-colors-text-primary);
 }
 
 .emotion-4:invalid,
 .emotion-4[aria-invalid=true] {
-  border-color: var(--tonic-colors-red-50);
+  border-color: var(--tonic-colors-border-_negative-enabled);
 }
 
 .emotion-4::-webkit-input-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-4::-moz-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-4:-ms-input-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-4::placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-4:focus,
 .emotion-4[data-focus] {
-  border-color: var(--tonic-colors-blue-60);
+  border-color: var(--tonic-colors-border-_primary-focused);
   z-index: 1;
 }
 
 .emotion-4:hover,
 .emotion-4[data-hover] {
-  border-color: var(--tonic-colors-blue-50);
+  border-color: var(--tonic-colors-border-_primary-hovered);
   z-index: 2;
+  background-color: var(--tonic-colors-_foreground-secondary-enabled);
 }
 
 .emotion-4:disabled,
@@ -172,24 +268,119 @@ exports[`InputControl should render correctly 1`] = `
 .emotion-4[aria-disabled=true]:focus,
 .emotion-4[aria-disabled=true]:hover,
 .emotion-4[data-disabled] {
-  border-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-text-disabled);
+  background-color: var(--tonic-colors-_foreground-subtle-disabled);
+  border-color: var(--tonic-colors-border-_primary-disabled);
   cursor: not-allowed;
-  opacity: .28;
+}
+
+.emotion-4:disabled::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-4:disabled::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-4:disabled:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-4:disabled:focus::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-4:disabled:focus::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-4:disabled:focus:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-4:disabled:hover::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-4:disabled:hover::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-4:disabled:hover:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-4[aria-disabled=true]::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-4[aria-disabled=true]::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-4[aria-disabled=true]:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-4[aria-disabled=true]:focus::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-4[aria-disabled=true]:focus::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-4[aria-disabled=true]:focus:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-4[aria-disabled=true]:hover::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-4[aria-disabled=true]:hover::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-4[aria-disabled=true]:hover:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-4[data-disabled]::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-4[data-disabled]::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-4[data-disabled]:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-4:disabled::placeholder,
+.emotion-4:disabled:focus::placeholder,
+.emotion-4:disabled:hover::placeholder,
+.emotion-4[aria-disabled=true]::placeholder,
+.emotion-4[aria-disabled=true]:focus::placeholder,
+.emotion-4[aria-disabled=true]:hover::placeholder,
+.emotion-4[data-disabled]::placeholder {
+  color: var(--tonic-colors-text-disabled);
 }
 
 .emotion-4:has(> input:focus:invalid),
 .emotion-4:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-blue-60);
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-4:hover:has(> input:invalid),
 .emotion-4:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-red-50);
+  border-color: var(--tonic-colors-border-_negative-enabled);
 }
 
 .emotion-4:hover:has(> input:focus:invalid),
 .emotion-4:hover:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-blue-60);
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-8 {
@@ -208,46 +399,46 @@ exports[`InputControl should render correctly 1`] = `
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
   height: var(--tonic-sizes-6x);
-  background-color: var(--tonic-colors-transparent);
+  background-color: var(--tonic-colors-_foreground-subtle-enabled);
   border-bottom: var(--tonic-borders-1);
-  border-bottom-color: var(--tonic-colors-gray-60);
-  color: var(--tonic-colors-white-primary);
+  border-bottom-color: var(--tonic-colors-border-_primary-enabled);
+  color: var(--tonic-colors-text-primary);
 }
 
 .emotion-8:invalid,
 .emotion-8[aria-invalid=true] {
-  border-bottom-color: var(--tonic-colors-red-50);
+  border-bottom-color: var(--tonic-colors-border-_negative-enabled);
 }
 
 .emotion-8::-webkit-input-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-8::-moz-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-8:-ms-input-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-8::placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-8:focus,
 .emotion-8[data-focus] {
-  border-bottom-color: var(--tonic-colors-blue-60);
+  border-bottom-color: var(--tonic-colors-border-_primary-focused);
   z-index: 1;
 }
 
 .emotion-8:hover,
 .emotion-8[data-hover] {
-  border-bottom-color: var(--tonic-colors-blue-50);
+  border-bottom-color: var(--tonic-colors-border-_primary-hovered);
   z-index: 2;
 }
 
@@ -258,24 +449,119 @@ exports[`InputControl should render correctly 1`] = `
 .emotion-8[aria-disabled=true]:focus,
 .emotion-8[aria-disabled=true]:hover,
 .emotion-8[data-disabled] {
-  border-bottom-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-text-disabled);
+  background-color: var(--tonic-colors-_foreground-subtle-disabled);
+  border-bottom-color: var(--tonic-colors-border-_primary-disabled);
   cursor: not-allowed;
-  opacity: .28;
+}
+
+.emotion-8:disabled::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-8:disabled::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-8:disabled:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-8:disabled:focus::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-8:disabled:focus::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-8:disabled:focus:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-8:disabled:hover::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-8:disabled:hover::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-8:disabled:hover:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-8[aria-disabled=true]::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-8[aria-disabled=true]::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-8[aria-disabled=true]:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-8[aria-disabled=true]:focus::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-8[aria-disabled=true]:focus::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-8[aria-disabled=true]:focus:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-8[aria-disabled=true]:hover::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-8[aria-disabled=true]:hover::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-8[aria-disabled=true]:hover:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-8[data-disabled]::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-8[data-disabled]::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-8[data-disabled]:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-8:disabled::placeholder,
+.emotion-8:disabled:focus::placeholder,
+.emotion-8:disabled:hover::placeholder,
+.emotion-8[aria-disabled=true]::placeholder,
+.emotion-8[aria-disabled=true]:focus::placeholder,
+.emotion-8[aria-disabled=true]:hover::placeholder,
+.emotion-8[data-disabled]::placeholder {
+  color: var(--tonic-colors-text-disabled);
 }
 
 .emotion-8:has(> input:focus:invalid),
 .emotion-8:has(> input:focus[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-blue-60);
+  border-bottom-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-8:hover:has(> input:invalid),
 .emotion-8:hover:has(> input[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-red-50);
+  border-bottom-color: var(--tonic-colors-border-_negative-enabled);
 }
 
 .emotion-8:hover:has(> input:focus:invalid),
 .emotion-8:hover:has(> input:focus[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-blue-60);
+  border-bottom-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-10 {
@@ -308,9 +594,9 @@ exports[`InputControl should render correctly 1`] = `
   transition: border-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
-  background-color: var(--tonic-colors-transparent);
+  background-color: var(--tonic-colors-_foreground-subtle-enabled);
   border: 0;
-  color: var(--tonic-colors-white-primary);
+  color: var(--tonic-colors-text-primary);
 }
 
 .emotion-16 {
@@ -329,47 +615,47 @@ exports[`InputControl should render correctly 1`] = `
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
   height: var(--tonic-sizes-8x);
-  background-color: var(--tonic-colors-transparent);
+  background-color: var(--tonic-colors-_foreground-subtle-enabled);
   border: var(--tonic-borders-1);
-  border-color: var(--tonic-colors-gray-60);
+  border-color: var(--tonic-colors-border-_primary-enabled);
   border-radius: var(--tonic-radii-sm);
-  color: var(--tonic-colors-white-primary);
+  color: var(--tonic-colors-text-primary);
 }
 
 .emotion-16:invalid,
 .emotion-16[aria-invalid=true] {
-  border-color: var(--tonic-colors-red-50);
+  border-color: var(--tonic-colors-border-_negative-enabled);
 }
 
 .emotion-16::-webkit-input-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-16::-moz-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-16:-ms-input-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-16::placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-16:focus,
 .emotion-16[data-focus] {
-  border-color: var(--tonic-colors-blue-60);
+  border-color: var(--tonic-colors-border-_primary-focused);
   z-index: 1;
 }
 
 .emotion-16:hover,
 .emotion-16[data-hover] {
-  border-color: var(--tonic-colors-blue-50);
+  border-color: var(--tonic-colors-border-_primary-hovered);
   z-index: 2;
 }
 
@@ -380,24 +666,119 @@ exports[`InputControl should render correctly 1`] = `
 .emotion-16[aria-disabled=true]:focus,
 .emotion-16[aria-disabled=true]:hover,
 .emotion-16[data-disabled] {
-  border-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-text-disabled);
+  background-color: var(--tonic-colors-_foreground-subtle-disabled);
+  border-color: var(--tonic-colors-border-_primary-disabled);
   cursor: not-allowed;
-  opacity: .28;
+}
+
+.emotion-16:disabled::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-16:disabled::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-16:disabled:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-16:disabled:focus::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-16:disabled:focus::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-16:disabled:focus:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-16:disabled:hover::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-16:disabled:hover::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-16:disabled:hover:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-16[aria-disabled=true]::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-16[aria-disabled=true]::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-16[aria-disabled=true]:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-16[aria-disabled=true]:focus::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-16[aria-disabled=true]:focus::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-16[aria-disabled=true]:focus:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-16[aria-disabled=true]:hover::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-16[aria-disabled=true]:hover::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-16[aria-disabled=true]:hover:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-16[data-disabled]::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-16[data-disabled]::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-16[data-disabled]:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-16:disabled::placeholder,
+.emotion-16:disabled:focus::placeholder,
+.emotion-16:disabled:hover::placeholder,
+.emotion-16[aria-disabled=true]::placeholder,
+.emotion-16[aria-disabled=true]:focus::placeholder,
+.emotion-16[aria-disabled=true]:hover::placeholder,
+.emotion-16[data-disabled]::placeholder {
+  color: var(--tonic-colors-text-disabled);
 }
 
 .emotion-16:has(> input:focus:invalid),
 .emotion-16:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-blue-60);
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-16:hover:has(> input:invalid),
 .emotion-16:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-red-50);
+  border-color: var(--tonic-colors-border-_negative-enabled);
 }
 
 .emotion-16:hover:has(> input:focus:invalid),
 .emotion-16:hover:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-blue-60);
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-20 {
@@ -416,48 +797,49 @@ exports[`InputControl should render correctly 1`] = `
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
   height: var(--tonic-sizes-8x);
-  background-color: var(--tonic-colors-gray-80);
+  background-color: var(--tonic-colors-_foreground-secondary-enabled);
   border: var(--tonic-borders-1);
-  border-color: var(--tonic-colors-gray-60);
+  border-color: var(--tonic-colors-border-_primary-enabled);
   border-radius: var(--tonic-radii-sm);
-  color: var(--tonic-colors-white-primary);
+  color: var(--tonic-colors-text-primary);
 }
 
 .emotion-20:invalid,
 .emotion-20[aria-invalid=true] {
-  border-color: var(--tonic-colors-red-50);
+  border-color: var(--tonic-colors-border-_negative-enabled);
 }
 
 .emotion-20::-webkit-input-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-20::-moz-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-20:-ms-input-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-20::placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-20:focus,
 .emotion-20[data-focus] {
-  border-color: var(--tonic-colors-blue-60);
+  border-color: var(--tonic-colors-border-_primary-focused);
   z-index: 1;
 }
 
 .emotion-20:hover,
 .emotion-20[data-hover] {
-  border-color: var(--tonic-colors-blue-50);
+  border-color: var(--tonic-colors-border-_primary-hovered);
   z-index: 2;
+  background-color: var(--tonic-colors-_foreground-secondary-enabled);
 }
 
 .emotion-20:disabled,
@@ -467,24 +849,119 @@ exports[`InputControl should render correctly 1`] = `
 .emotion-20[aria-disabled=true]:focus,
 .emotion-20[aria-disabled=true]:hover,
 .emotion-20[data-disabled] {
-  border-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-text-disabled);
+  background-color: var(--tonic-colors-_foreground-subtle-disabled);
+  border-color: var(--tonic-colors-border-_primary-disabled);
   cursor: not-allowed;
-  opacity: .28;
+}
+
+.emotion-20:disabled::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-20:disabled::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-20:disabled:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-20:disabled:focus::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-20:disabled:focus::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-20:disabled:focus:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-20:disabled:hover::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-20:disabled:hover::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-20:disabled:hover:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-20[aria-disabled=true]::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-20[aria-disabled=true]::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-20[aria-disabled=true]:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-20[aria-disabled=true]:focus::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-20[aria-disabled=true]:focus::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-20[aria-disabled=true]:focus:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-20[aria-disabled=true]:hover::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-20[aria-disabled=true]:hover::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-20[aria-disabled=true]:hover:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-20[data-disabled]::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-20[data-disabled]::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-20[data-disabled]:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-20:disabled::placeholder,
+.emotion-20:disabled:focus::placeholder,
+.emotion-20:disabled:hover::placeholder,
+.emotion-20[aria-disabled=true]::placeholder,
+.emotion-20[aria-disabled=true]:focus::placeholder,
+.emotion-20[aria-disabled=true]:hover::placeholder,
+.emotion-20[data-disabled]::placeholder {
+  color: var(--tonic-colors-text-disabled);
 }
 
 .emotion-20:has(> input:focus:invalid),
 .emotion-20:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-blue-60);
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-20:hover:has(> input:invalid),
 .emotion-20:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-red-50);
+  border-color: var(--tonic-colors-border-_negative-enabled);
 }
 
 .emotion-20:hover:has(> input:focus:invalid),
 .emotion-20:hover:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-blue-60);
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-24 {
@@ -503,46 +980,46 @@ exports[`InputControl should render correctly 1`] = `
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
   height: var(--tonic-sizes-8x);
-  background-color: var(--tonic-colors-transparent);
+  background-color: var(--tonic-colors-_foreground-subtle-enabled);
   border-bottom: var(--tonic-borders-1);
-  border-bottom-color: var(--tonic-colors-gray-60);
-  color: var(--tonic-colors-white-primary);
+  border-bottom-color: var(--tonic-colors-border-_primary-enabled);
+  color: var(--tonic-colors-text-primary);
 }
 
 .emotion-24:invalid,
 .emotion-24[aria-invalid=true] {
-  border-bottom-color: var(--tonic-colors-red-50);
+  border-bottom-color: var(--tonic-colors-border-_negative-enabled);
 }
 
 .emotion-24::-webkit-input-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-24::-moz-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-24:-ms-input-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-24::placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-24:focus,
 .emotion-24[data-focus] {
-  border-bottom-color: var(--tonic-colors-blue-60);
+  border-bottom-color: var(--tonic-colors-border-_primary-focused);
   z-index: 1;
 }
 
 .emotion-24:hover,
 .emotion-24[data-hover] {
-  border-bottom-color: var(--tonic-colors-blue-50);
+  border-bottom-color: var(--tonic-colors-border-_primary-hovered);
   z-index: 2;
 }
 
@@ -553,24 +1030,119 @@ exports[`InputControl should render correctly 1`] = `
 .emotion-24[aria-disabled=true]:focus,
 .emotion-24[aria-disabled=true]:hover,
 .emotion-24[data-disabled] {
-  border-bottom-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-text-disabled);
+  background-color: var(--tonic-colors-_foreground-subtle-disabled);
+  border-bottom-color: var(--tonic-colors-border-_primary-disabled);
   cursor: not-allowed;
-  opacity: .28;
+}
+
+.emotion-24:disabled::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-24:disabled::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-24:disabled:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-24:disabled:focus::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-24:disabled:focus::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-24:disabled:focus:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-24:disabled:hover::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-24:disabled:hover::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-24:disabled:hover:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-24[aria-disabled=true]::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-24[aria-disabled=true]::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-24[aria-disabled=true]:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-24[aria-disabled=true]:focus::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-24[aria-disabled=true]:focus::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-24[aria-disabled=true]:focus:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-24[aria-disabled=true]:hover::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-24[aria-disabled=true]:hover::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-24[aria-disabled=true]:hover:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-24[data-disabled]::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-24[data-disabled]::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-24[data-disabled]:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-24:disabled::placeholder,
+.emotion-24:disabled:focus::placeholder,
+.emotion-24:disabled:hover::placeholder,
+.emotion-24[aria-disabled=true]::placeholder,
+.emotion-24[aria-disabled=true]:focus::placeholder,
+.emotion-24[aria-disabled=true]:hover::placeholder,
+.emotion-24[data-disabled]::placeholder {
+  color: var(--tonic-colors-text-disabled);
 }
 
 .emotion-24:has(> input:focus:invalid),
 .emotion-24:has(> input:focus[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-blue-60);
+  border-bottom-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-24:hover:has(> input:invalid),
 .emotion-24:hover:has(> input[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-red-50);
+  border-bottom-color: var(--tonic-colors-border-_negative-enabled);
 }
 
 .emotion-24:hover:has(> input:focus:invalid),
 .emotion-24:hover:has(> input:focus[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-blue-60);
+  border-bottom-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-32 {
@@ -589,47 +1161,47 @@ exports[`InputControl should render correctly 1`] = `
   font-size: var(--tonic-fontSizes-md);
   line-height: var(--tonic-lineHeights-md);
   height: var(--tonic-sizes-10x);
-  background-color: var(--tonic-colors-transparent);
+  background-color: var(--tonic-colors-_foreground-subtle-enabled);
   border: var(--tonic-borders-1);
-  border-color: var(--tonic-colors-gray-60);
+  border-color: var(--tonic-colors-border-_primary-enabled);
   border-radius: var(--tonic-radii-sm);
-  color: var(--tonic-colors-white-primary);
+  color: var(--tonic-colors-text-primary);
 }
 
 .emotion-32:invalid,
 .emotion-32[aria-invalid=true] {
-  border-color: var(--tonic-colors-red-50);
+  border-color: var(--tonic-colors-border-_negative-enabled);
 }
 
 .emotion-32::-webkit-input-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-32::-moz-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-32:-ms-input-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-32::placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-32:focus,
 .emotion-32[data-focus] {
-  border-color: var(--tonic-colors-blue-60);
+  border-color: var(--tonic-colors-border-_primary-focused);
   z-index: 1;
 }
 
 .emotion-32:hover,
 .emotion-32[data-hover] {
-  border-color: var(--tonic-colors-blue-50);
+  border-color: var(--tonic-colors-border-_primary-hovered);
   z-index: 2;
 }
 
@@ -640,24 +1212,119 @@ exports[`InputControl should render correctly 1`] = `
 .emotion-32[aria-disabled=true]:focus,
 .emotion-32[aria-disabled=true]:hover,
 .emotion-32[data-disabled] {
-  border-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-text-disabled);
+  background-color: var(--tonic-colors-_foreground-subtle-disabled);
+  border-color: var(--tonic-colors-border-_primary-disabled);
   cursor: not-allowed;
-  opacity: .28;
+}
+
+.emotion-32:disabled::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-32:disabled::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-32:disabled:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-32:disabled:focus::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-32:disabled:focus::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-32:disabled:focus:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-32:disabled:hover::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-32:disabled:hover::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-32:disabled:hover:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-32[aria-disabled=true]::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-32[aria-disabled=true]::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-32[aria-disabled=true]:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-32[aria-disabled=true]:focus::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-32[aria-disabled=true]:focus::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-32[aria-disabled=true]:focus:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-32[aria-disabled=true]:hover::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-32[aria-disabled=true]:hover::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-32[aria-disabled=true]:hover:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-32[data-disabled]::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-32[data-disabled]::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-32[data-disabled]:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-32:disabled::placeholder,
+.emotion-32:disabled:focus::placeholder,
+.emotion-32:disabled:hover::placeholder,
+.emotion-32[aria-disabled=true]::placeholder,
+.emotion-32[aria-disabled=true]:focus::placeholder,
+.emotion-32[aria-disabled=true]:hover::placeholder,
+.emotion-32[data-disabled]::placeholder {
+  color: var(--tonic-colors-text-disabled);
 }
 
 .emotion-32:has(> input:focus:invalid),
 .emotion-32:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-blue-60);
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-32:hover:has(> input:invalid),
 .emotion-32:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-red-50);
+  border-color: var(--tonic-colors-border-_negative-enabled);
 }
 
 .emotion-32:hover:has(> input:focus:invalid),
 .emotion-32:hover:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-blue-60);
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-34 {
@@ -693,48 +1360,49 @@ exports[`InputControl should render correctly 1`] = `
   font-size: var(--tonic-fontSizes-md);
   line-height: var(--tonic-lineHeights-md);
   height: var(--tonic-sizes-10x);
-  background-color: var(--tonic-colors-gray-80);
+  background-color: var(--tonic-colors-_foreground-secondary-enabled);
   border: var(--tonic-borders-1);
-  border-color: var(--tonic-colors-gray-60);
+  border-color: var(--tonic-colors-border-_primary-enabled);
   border-radius: var(--tonic-radii-sm);
-  color: var(--tonic-colors-white-primary);
+  color: var(--tonic-colors-text-primary);
 }
 
 .emotion-36:invalid,
 .emotion-36[aria-invalid=true] {
-  border-color: var(--tonic-colors-red-50);
+  border-color: var(--tonic-colors-border-_negative-enabled);
 }
 
 .emotion-36::-webkit-input-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-36::-moz-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-36:-ms-input-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-36::placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-36:focus,
 .emotion-36[data-focus] {
-  border-color: var(--tonic-colors-blue-60);
+  border-color: var(--tonic-colors-border-_primary-focused);
   z-index: 1;
 }
 
 .emotion-36:hover,
 .emotion-36[data-hover] {
-  border-color: var(--tonic-colors-blue-50);
+  border-color: var(--tonic-colors-border-_primary-hovered);
   z-index: 2;
+  background-color: var(--tonic-colors-_foreground-secondary-enabled);
 }
 
 .emotion-36:disabled,
@@ -744,24 +1412,119 @@ exports[`InputControl should render correctly 1`] = `
 .emotion-36[aria-disabled=true]:focus,
 .emotion-36[aria-disabled=true]:hover,
 .emotion-36[data-disabled] {
-  border-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-text-disabled);
+  background-color: var(--tonic-colors-_foreground-subtle-disabled);
+  border-color: var(--tonic-colors-border-_primary-disabled);
   cursor: not-allowed;
-  opacity: .28;
+}
+
+.emotion-36:disabled::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-36:disabled::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-36:disabled:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-36:disabled:focus::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-36:disabled:focus::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-36:disabled:focus:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-36:disabled:hover::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-36:disabled:hover::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-36:disabled:hover:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-36[aria-disabled=true]::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-36[aria-disabled=true]::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-36[aria-disabled=true]:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-36[aria-disabled=true]:focus::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-36[aria-disabled=true]:focus::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-36[aria-disabled=true]:focus:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-36[aria-disabled=true]:hover::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-36[aria-disabled=true]:hover::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-36[aria-disabled=true]:hover:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-36[data-disabled]::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-36[data-disabled]::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-36[data-disabled]:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-36:disabled::placeholder,
+.emotion-36:disabled:focus::placeholder,
+.emotion-36:disabled:hover::placeholder,
+.emotion-36[aria-disabled=true]::placeholder,
+.emotion-36[aria-disabled=true]:focus::placeholder,
+.emotion-36[aria-disabled=true]:hover::placeholder,
+.emotion-36[data-disabled]::placeholder {
+  color: var(--tonic-colors-text-disabled);
 }
 
 .emotion-36:has(> input:focus:invalid),
 .emotion-36:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-blue-60);
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-36:hover:has(> input:invalid),
 .emotion-36:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-red-50);
+  border-color: var(--tonic-colors-border-_negative-enabled);
 }
 
 .emotion-36:hover:has(> input:focus:invalid),
 .emotion-36:hover:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-blue-60);
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-40 {
@@ -780,46 +1543,46 @@ exports[`InputControl should render correctly 1`] = `
   font-size: var(--tonic-fontSizes-md);
   line-height: var(--tonic-lineHeights-md);
   height: var(--tonic-sizes-10x);
-  background-color: var(--tonic-colors-transparent);
+  background-color: var(--tonic-colors-_foreground-subtle-enabled);
   border-bottom: var(--tonic-borders-1);
-  border-bottom-color: var(--tonic-colors-gray-60);
-  color: var(--tonic-colors-white-primary);
+  border-bottom-color: var(--tonic-colors-border-_primary-enabled);
+  color: var(--tonic-colors-text-primary);
 }
 
 .emotion-40:invalid,
 .emotion-40[aria-invalid=true] {
-  border-bottom-color: var(--tonic-colors-red-50);
+  border-bottom-color: var(--tonic-colors-border-_negative-enabled);
 }
 
 .emotion-40::-webkit-input-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-40::-moz-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-40:-ms-input-placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-40::placeholder {
-  color: var(--tonic-colors-white-tertiary);
+  color: var(--tonic-colors-text-tertiary);
   opacity: 1;
 }
 
 .emotion-40:focus,
 .emotion-40[data-focus] {
-  border-bottom-color: var(--tonic-colors-blue-60);
+  border-bottom-color: var(--tonic-colors-border-_primary-focused);
   z-index: 1;
 }
 
 .emotion-40:hover,
 .emotion-40[data-hover] {
-  border-bottom-color: var(--tonic-colors-blue-50);
+  border-bottom-color: var(--tonic-colors-border-_primary-hovered);
   z-index: 2;
 }
 
@@ -830,24 +1593,119 @@ exports[`InputControl should render correctly 1`] = `
 .emotion-40[aria-disabled=true]:focus,
 .emotion-40[aria-disabled=true]:hover,
 .emotion-40[data-disabled] {
-  border-bottom-color: var(--tonic-colors-gray-60);
+  color: var(--tonic-colors-text-disabled);
+  background-color: var(--tonic-colors-_foreground-subtle-disabled);
+  border-bottom-color: var(--tonic-colors-border-_primary-disabled);
   cursor: not-allowed;
-  opacity: .28;
+}
+
+.emotion-40:disabled::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-40:disabled::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-40:disabled:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-40:disabled:focus::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-40:disabled:focus::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-40:disabled:focus:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-40:disabled:hover::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-40:disabled:hover::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-40:disabled:hover:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-40[aria-disabled=true]::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-40[aria-disabled=true]::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-40[aria-disabled=true]:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-40[aria-disabled=true]:focus::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-40[aria-disabled=true]:focus::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-40[aria-disabled=true]:focus:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-40[aria-disabled=true]:hover::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-40[aria-disabled=true]:hover::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-40[aria-disabled=true]:hover:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-40[data-disabled]::-webkit-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-40[data-disabled]::-moz-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-40[data-disabled]:-ms-input-placeholder {
+  color: var(--tonic-colors-text-disabled);
+}
+
+.emotion-40:disabled::placeholder,
+.emotion-40:disabled:focus::placeholder,
+.emotion-40:disabled:hover::placeholder,
+.emotion-40[aria-disabled=true]::placeholder,
+.emotion-40[aria-disabled=true]:focus::placeholder,
+.emotion-40[aria-disabled=true]:hover::placeholder,
+.emotion-40[data-disabled]::placeholder {
+  color: var(--tonic-colors-text-disabled);
 }
 
 .emotion-40:has(> input:focus:invalid),
 .emotion-40:has(> input:focus[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-blue-60);
+  border-bottom-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-40:hover:has(> input:invalid),
 .emotion-40:hover:has(> input[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-red-50);
+  border-bottom-color: var(--tonic-colors-border-_negative-enabled);
 }
 
 .emotion-40:hover:has(> input:focus:invalid),
 .emotion-40:hover:has(> input:focus[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-blue-60);
+  border-bottom-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-42 {
@@ -880,9 +1738,9 @@ exports[`InputControl should render correctly 1`] = `
   transition: border-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
   font-size: var(--tonic-fontSizes-md);
   line-height: var(--tonic-lineHeights-md);
-  background-color: var(--tonic-colors-transparent);
+  background-color: var(--tonic-colors-_foreground-subtle-enabled);
   border: 0;
-  color: var(--tonic-colors-white-primary);
+  color: var(--tonic-colors-text-primary);
 }
 
 <div>

@@ -1,24 +1,7 @@
-import {
-  Box,
-  Button,
-  Collapse,
-  Fade,
-  Flex,
-  Tooltip,
-  useColorMode,
-  useTheme,
-} from '@tonic-ui/react';
-import {
-  useToggle,
-} from '@tonic-ui/react-hooks';
-import {
-  CodeIcon,
-  FileCopyOIcon,
-  RedoIcon,
-} from '@tonic-ui/react-icons';
-import {
-  merge,
-} from '@tonic-ui/utils';
+import { Box, Button, Collapse, Fade, Flex, Tooltip, useColorMode, useTheme } from '@tonic-ui/react';
+import { useToggle } from '@tonic-ui/react-hooks';
+import { merge } from '@tonic-ui/utils';
+import { CodeIcon, FileCopyOIcon, RedoIcon } from '@tonic-ui/react-icons';
 import { useRouter } from 'next/router';
 import { themes } from 'prism-react-renderer'
 import { Fragment, useEffect, useCallback, useReducer } from 'react';
@@ -35,6 +18,7 @@ const Demo = ({
   expanded,
   file,
   sandbox,
+  figmaLink,
   ...rest
 }) => {
   const router = useRouter();
@@ -68,7 +52,7 @@ const Demo = ({
   }, [forceUpdate, toggleShowSourceCode]);
 
   useEffect(() => {
-    const isControlled = (expanded !== undefined);
+    const isControlled = expanded !== undefined;
     if (isControlled && expanded !== showSourceCode) {
       toggleShowSourceCode(expanded);
     }
@@ -76,12 +60,7 @@ const Demo = ({
 
   if (!Component) {
     return (
-      <LiveProvider
-        code={file?.data}
-        disabled={true}
-        language="jsx"
-        theme={liveProviderTheme}
-      >
+      <LiveProvider code={file?.data} disabled={true} language="jsx" theme={liveProviderTheme}>
         <Box
           as={LiveEditor}
           sx={{
@@ -97,35 +76,21 @@ const Demo = ({
   }
 
   return (
-    <LiveProvider
-      code={file?.data}
-      disabled={true}
-      language="jsx"
-      theme={liveProviderTheme}
-    >
-      <Box
-        border={1}
-        borderColor={borderColor}
-        p="4x"
-      >
-        <Box
-          fontSize="sm"
-          lineHeight="sm"
-        >
+    <LiveProvider code={file?.data} disabled={true} language="jsx" theme={liveProviderTheme}>
+      <Box border={1} borderColor={borderColor} p="4x">
+        <Box fontSize="sm" lineHeight="sm">
           <Fragment key={updateKey}>
             <Component />
           </Fragment>
         </Box>
       </Box>
-      <Flex
-        columnGap="2x"
-        justifyContent="flex-end"
-        mb="4x"
-      >
+      <Flex columnGap="2x" justifyContent="flex-end" mb="4x">
         <IconButton
-          data-track={showSourceCode
-            ? `Code|hide_source|${x({ path: router.pathname })}`
-            : `Code|show_source|${x({ path: router.pathname })}`}
+          data-track={
+            showSourceCode
+              ? `Code|hide_source|${x({ path: router.pathname })}`
+              : `Code|show_source|${x({ path: router.pathname })}`
+          }
           onClick={toggleShowSourceCode}
         >
           <Tooltip label={showSourceCode ? 'Hide the source' : 'Show the source'}>
@@ -148,10 +113,7 @@ const Demo = ({
             <CodeSandboxIcon />
           </Tooltip>
         </IconButton>
-        <IconButton
-          data-track={`Code|reset|${router.pathname}`}
-          onClick={reset}
-        >
+        <IconButton data-track={`Code|reset|${router.pathname}`} onClick={reset}>
           <Tooltip label="Reset the demo">
             <RedoIcon />
           </Tooltip>

@@ -1,6 +1,7 @@
 import { useEventListener, useMergeRefs } from '@tonic-ui/react-hooks';
 import { callEventHandlers } from '@tonic-ui/utils';
-import { Children, cloneElement, forwardRef, useState } from 'react';
+import { ensureString } from 'ensure-type';
+import React, { cloneElement, forwardRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { useEnvironment } from '../environment';
@@ -8,6 +9,16 @@ import { mergeRefs } from '../utils/refs';
 import { useTooltipTriggerStyle } from './styles';
 import useTooltip from './useTooltip';
 
+const REACT_MAJOR_VERSION = parseInt(ensureString(React.version).split('.')[0], 10);
+
+/**
+ * @typedef {Object} TooltipTriggerProps
+ * @property {React.ReactNode} [children] - The trigger element for the tooltip.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', TooltipTriggerProps>}
+ */
 const TooltipTrigger = forwardRef((inProps, ref) => {
   const {
     children,
@@ -133,20 +144,18 @@ const TooltipTrigger = forwardRef((inProps, ref) => {
   }
 
   // Ensure tooltip has only one child node
-  const child = Children.only(children);
+  const child = React.Children.only(children);
 
   // Access the child's props for later use
   const childProps = child?.props;
 
-  // In React 19, `ref` on function components is passed as a normal prop.
-  // This fallback maintains compatibility with both React 18 and 19.
+  // Retrieve the child's ref for merging with the tooltip trigger ref.
   //
-  // React 19 will not throw an error if `ref` is `null` or `undefined`:
-  // ```
-  // Accessing `element.ref` was removed in React 19. `ref` is now a regular prop.
-  // It will be removed from the JSX Element type in a future release.
-  // ```
-  const childRef = child?.props?.ref ?? child?.ref;
+  // In React 17/18, `ref` is stored on `element.ref` and accessing `element.props.ref` triggers a warning: "ref is not a prop".
+  // In React 19, `ref` is a regular prop on `element.props.ref`, and `element.ref` is deprecated.
+  //
+  // Use version detection to access the correct property without triggering warnings on either version.
+  const childRef = (REACT_MAJOR_VERSION >= 19) ? child?.props?.ref : child?.ref;
 
   const tooltipTriggerProps = getTooltipTriggerProps(childProps, childRef);
 

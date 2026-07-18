@@ -1,6 +1,7 @@
 import { sx } from '@tonic-ui/styled-system';
+import { get } from '@tonic-ui/utils';
 import { useColorMode } from '../color-mode';
-import { useColorStyle } from '../color-style';
+import { useTheme } from '../theme';
 
 const useMenuStyle = () => {
   return {
@@ -11,10 +12,10 @@ const useMenuStyle = () => {
 
 const useMenuButtonCSS = ({ variant }) => {
   const [colorMode] = useColorMode();
-  const primaryColor = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
+  const theme = useTheme();
+  const textPrimaryToken = get(theme.colors, 'text.primary');
+  const primaryColor = textPrimaryToken?.[`_${colorMode}`];
+
   // Override the color in hover and active states
   const variantCSS = {
     'ghost': {
@@ -35,9 +36,7 @@ const useMenuButtonCSS = ({ variant }) => {
     },
   }[variant];
 
-  return sx({
-    ...variantCSS,
-  });
+  return sx({ ...variantCSS });
 };
 
 const useMenuButtonStyle = () => {
@@ -58,21 +57,9 @@ const useMenuContentStyle = ({
 };
 
 const useMenuListStyle = () => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const colorModeStyle = {
-    dark: {
-      backgroundColor: 'gray:80',
-      boxShadow: colorStyle?.shadow?.medium,
-    },
-    light: {
-      backgroundColor: 'white',
-      boxShadow: colorStyle?.shadow?.medium,
-    },
-  }[colorMode];
-
   return {
-    ...colorModeStyle,
+    backgroundColor: 'background.highest',
+    boxShadow: 'high',
     color: 'inherit',
     m: '0',
     p: '0',
@@ -81,41 +68,20 @@ const useMenuListStyle = () => {
 };
 
 const useMenuGroupStyle = () => {
-  const [colorMode] = useColorMode();
-  const color = {
-    dark: 'white:secondary',
-    light: 'black:secondary',
-  }[colorMode];
-
   return {
     px: '3x',
     py: '2x',
-    color,
+    color: 'text.secondary',
   };
 };
 
 const useMenuItemStyle = ({ tabIndex }) => {
-  const [colorMode] = useColorMode();
-  const color = {
-    dark: 'white:primary',
-    light: 'black:primary',
-  }[colorMode];
-  const hoverBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
-  const focusVisibleOutlineColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-  const disabledColor = {
-    dark: 'white:disabled',
-    light: 'black:disabled',
-  }[colorMode];
-  const selectedBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.08)',
-    light: 'rgba(0, 0, 0, 0.08)',
-  }[colorMode];
+  const color = 'text.primary';
+  const hoverBackgroundColor = 'actions.hovered';
+  const focusVisibleOutlineColor = '_component.keyboardFocused.outerFocusRing';
+  const disabledColor = 'text.disabled';
+  const selectedColor = 'text.accent';
+  const selectedBackgroundColor = 'actions.selected';
 
   return {
     fontSize: 'sm',
@@ -141,6 +107,7 @@ const useMenuItemStyle = ({ tabIndex }) => {
       backgroundColor: hoverBackgroundColor,
     },
     _selected: {
+      color: selectedColor,
       backgroundColor: selectedBackgroundColor,
     },
     _disabled: {
@@ -166,9 +133,6 @@ const useMenuToggleStyle = () => {
 const useMenuToggleIconStyle = () => {
   return {
     display: 'inline-flex',
-    _disabled: {
-      opacity: '.28',
-    },
   };
 };
 
@@ -190,18 +154,6 @@ const useSubmenuListStyle = ({
   isOpen,
   placement,
 }) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const colorModeStyle = {
-    light: {
-      backgroundColor: 'white',
-      boxShadow: colorStyle?.shadow?.medium,
-    },
-    dark: {
-      backgroundColor: 'gray:80',
-      boxShadow: colorStyle?.shadow?.medium,
-    },
-  }[colorMode];
   const mapPlacementToStyle = (placement) => {
     return {
       'right-start': {
@@ -229,8 +181,9 @@ const useSubmenuListStyle = ({
   const placementStyle = mapPlacementToStyle(placement) ?? mapPlacementToStyle('right-start');
 
   return {
-    ...colorModeStyle,
     ...placementStyle,
+    backgroundColor: 'background.highest',
+    boxShadow: 'high',
     color: 'inherit',
     display: isOpen ? 'block' : 'none',
     m: '0',

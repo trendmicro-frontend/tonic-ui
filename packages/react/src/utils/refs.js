@@ -16,8 +16,8 @@ const assignRef = (ref, value) => {
 
   try {
     ref.current = value;
-  } catch (_error) {
-    throw new Error(`Cannot assign value '${value}' to ref '${ref}'`, { cause: _error });
+  } catch (error) {
+    throw new Error(`Cannot assign value '${value}' to ref '${ref}'`, { cause: error });
   }
 };
 

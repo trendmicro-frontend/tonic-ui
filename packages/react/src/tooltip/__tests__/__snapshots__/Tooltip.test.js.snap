@@ -6,9 +6,9 @@ exports[`Tooltip should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: var(--tonic-colors-gray-60);
+  background-color: var(--tonic-colors-_foreground-secondary-enabled);
   border: var(--tonic-borders-1);
-  color: var(--tonic-colors-white-emphasis);
+  color: var(--tonic-colors-text-accent);
   cursor: pointer;
   outline: 0;
   padding: 0;
@@ -41,27 +41,21 @@ exports[`Tooltip should render correctly 1`] = `
 }
 
 .emotion-0:focus-visible {
-  border-color: var(--tonic-colors-blue-60);
-  box-shadow: inset 0 0 0 .0625rem #1e5ede,inset 0 0 0 .125rem rgba(0, 0, 0, 1.0);
+  border-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
+  box-shadow: inset 0 0 0 .0625rem #ffffff,inset 0 0 0 .125rem #000000;
   z-index: 1;
-}
-
-.emotion-0[aria-selected=true],
-.emotion-0[data-selected] {
-  background-color: var(--tonic-colors-gray-70);
-  color: var(--tonic-colors-white-emphasis);
-  pointer-events: none;
 }
 
 .emotion-0:hover,
 .emotion-0[data-hover] {
-  background-color: var(--tonic-colors-gray-50);
+  background-color: var(--tonic-colors-_foreground-secondary-hovered);
+  color: var(--tonic-colors-text-accent);
   z-index: 2;
 }
 
 .emotion-0:active,
 .emotion-0[data-active] {
-  background-color: var(--tonic-colors-gray-70);
+  background-color: var(--tonic-colors-_foreground-secondary-active);
 }
 
 .emotion-0:disabled,
@@ -71,10 +65,9 @@ exports[`Tooltip should render correctly 1`] = `
 .emotion-0[aria-disabled=true]:focus,
 .emotion-0[aria-disabled=true]:hover,
 .emotion-0[data-disabled] {
-  background-color: var(--tonic-colors-gray-60);
-  color: var(--tonic-colors-white-emphasis);
+  background-color: var(--tonic-colors-_foreground-secondary-disabled);
+  color: var(--tonic-colors-text-disabled);
   cursor: not-allowed;
-  opacity: 0.28;
 }
 
 .emotion-2 {
@@ -84,10 +77,10 @@ exports[`Tooltip should render correctly 1`] = `
 }
 
 .emotion-4 {
-  background-color: var(--tonic-colors-gray-80);
+  background-color: var(--tonic-colors-background-highest);
   border-radius: var(--tonic-radii-sm);
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.48),0 1px 2px 0 rgba(0, 0, 0, 0.16);
-  color: var(--tonic-colors-white-primary);
+  box-shadow: var(--tonic-shadows-high);
+  color: var(--tonic-colors-text-primary);
   font-weight: var(--tonic-fontWeights-normal);
   font-size: var(--tonic-fontSizes-sm);
   line-height: var(--tonic-lineHeights-sm);
@@ -115,8 +108,7 @@ exports[`Tooltip should render correctly 1`] = `
   border-top: 4px solid;
   border-left: calc(8px/2) solid transparent;
   border-right: calc(8px/2) solid transparent;
-  -webkit-filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.16));
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.16));
+  box-shadow: var(--tonic-shadows-high);
   position: absolute;
   bottom: -4px;
   -webkit-transform: translateX(-50%);
@@ -135,8 +127,7 @@ exports[`Tooltip should render correctly 1`] = `
   border-bottom: 4px solid;
   border-left: calc(8px/2) solid transparent;
   border-right: calc(8px/2) solid transparent;
-  -webkit-filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.16));
-  filter: drop-shadow(0 -1px 1px rgba(0, 0, 0, 0.16));
+  box-shadow: var(--tonic-shadows-high);
   position: absolute;
   top: -4px;
   -webkit-transform: translateX(-50%);
@@ -155,8 +146,7 @@ exports[`Tooltip should render correctly 1`] = `
   border-left: 4px solid;
   border-top: calc(8px/2) solid transparent;
   border-bottom: calc(8px/2) solid transparent;
-  -webkit-filter: drop-shadow(1px 0px 1px rgba(0, 0, 0, 0.16));
-  filter: drop-shadow(1px 0px 1px rgba(0, 0, 0, 0.16));
+  box-shadow: var(--tonic-shadows-high);
   position: absolute;
   right: -4px;
   -webkit-transform: translateY(-50%);
@@ -175,8 +165,7 @@ exports[`Tooltip should render correctly 1`] = `
   border-right: 4px solid;
   border-top: calc(8px/2) solid transparent;
   border-bottom: calc(8px/2) solid transparent;
-  -webkit-filter: drop-shadow(-1px 0px 1px rgba(0, 0, 0, 0.16));
-  filter: drop-shadow(-1px 0px 1px rgba(0, 0, 0, 0.16));
+  box-shadow: var(--tonic-shadows-high);
   position: absolute;
   left: -4px;
   -webkit-transform: translateY(-50%);

@@ -22,7 +22,7 @@ import { MutedText } from '../experiments/muted-text';
 
 export const routes = [
   {
-    title: 'Getting started',
+    title: 'Getting Started',
     icon: (props) => (
       <RocketIcon size="4x" {...props} />
     ),
@@ -58,6 +58,7 @@ export const routes = [
         ),
       },
       { title: 'AI assistant with MCP', path: 'getting-started/mcp' },
+      { title: 'Micro frontend', path: 'getting-started/micro-frontend' },
       { title: 'The sx prop', path: 'getting-started/the-sx-prop' },
       { title: 'Versions', path: 'getting-started/versions' },
     ],
@@ -150,7 +151,7 @@ export const routes = [
     ],
   },
   {
-    title: 'Components',
+    title: 'React Components',
     icon: (props) => (
       <WidgetsIcon {...props} />
     ),
@@ -479,7 +480,7 @@ export const routes = [
     ],
   },
   {
-    title: 'Hooks',
+    title: 'React Hooks',
     icon: (props) => (
       <HookIcon size="$x" {...props} />
     ),
@@ -512,7 +513,7 @@ export const routes = [
     ],
   },
   {
-    title: 'Icons',
+    title: 'React Icons',
     icon: (props) => (
       <FileImageOIcon size="4x" {...props} />
     ),
@@ -522,7 +523,7 @@ export const routes = [
     ],
   },
   {
-    title: 'Styled system',
+    title: 'Styled System',
     icon: (props) => (
       <WorkspaceIcon size="4x" {...props} />
     ),
@@ -540,20 +541,19 @@ export const routes = [
     ),
     routes: [
       { title: 'Getting started', path: 'theme' },
-      { title: 'Borders', path: 'theme/borders' },
-      { title: 'Breakpoints', path: 'theme/breakpoints' },
-      { title: 'Colors', path: 'theme/colors' },
-      { title: 'Fonts', path: 'theme/fonts' },
-      { title: 'Font sizes', path: 'theme/font-sizes' },
-      { title: 'Font weights', path: 'theme/font-weights' },
-      { title: 'Letter spacings', path: 'theme/letter-spacings' },
-      { title: 'Line heights', path: 'theme/line-heights' },
-      { title: 'Outlines', path: 'theme/outlines' },
-      { title: 'Radii', path: 'theme/radii' },
-      { title: 'Shadows', path: 'theme/shadows' },
-      { title: 'Sizes', path: 'theme/sizes' },
-      { title: 'Space', path: 'theme/space' },
-      { title: 'zIndices', path: 'theme/z-indices' },
+      { title: 'borders', path: 'theme/borders' },
+      { title: 'breakpoints', path: 'theme/breakpoints' },
+      { title: 'colors', path: 'theme/colors' },
+      { title: 'fonts', path: 'theme/fonts' },
+      { title: 'fontSizes', path: 'theme/fontSizes' },
+      { title: 'fontWeights', path: 'theme/fontWeights' },
+      { title: 'lineHeights', path: 'theme/lineHeights' },
+      { title: 'outlines', path: 'theme/outlines' },
+      { title: 'radii', path: 'theme/radii' },
+      { title: 'shadows', path: 'theme/shadows' },
+      { title: 'sizes', path: 'theme/sizes' },
+      { title: 'space', path: 'theme/space' },
+      { title: 'zIndices', path: 'theme/zIndices' },
     ],
   },
   {

@@ -1,11 +1,22 @@
 import { callEventHandlers } from '@tonic-ui/utils';
-import { forwardRef, useCallback, useState } from 'react';
+import React, { forwardRef, useCallback, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { useEnvironment } from '../environment';
 import { useResizeHandleStyle } from './styles';
 import { getIsPassiveListenerSupported } from './utils';
 
+/**
+ * @typedef {Object} ResizeHandleProps
+ * @property {React.ReactNode} [children] - The content of the `ResizeHandle`.
+ * @property {(event: { clientX: number; clientY: number }) => void} [onResize] - A callback function that is called when the resize handle is dragged. It receives an object with properties `clientX` and `clientY`.
+ * @property {(event: { clientX: number; clientY: number }) => void} [onResizeEnd] - A callback function that is called when the resize handle is released. It receives an object with properties `clientX` and `clientY`.
+ * @property {(event: { clientX: number; clientY: number }) => void} [onResizeStart] - A callback function that is called when the resize handle is pressed down. It receives an object with properties `clientX` and `clientY`.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', ResizeHandleProps>}
+ */
 const ResizeHandle = forwardRef((inProps, ref) => {
   const {
     onMouseDown: onMouseDownProp,

@@ -1,0 +1,368 @@
+# Micro frontend
+
+Tonic UI components work correctly in micro frontend (MFE) architectures. The key requirement is that portal-based components — `Modal`, `Drawer`, `Tooltip`, `Popover` — render into the correct DOM realm for the isolation mechanism your setup uses.
+
+Two mechanisms are covered here: **Module Federation** and **Wujie**
+
+| Aspect | Module Federation | Wujie |
+| :----- | :---------------- | :---- |
+| JS isolation | shared JS, same document | own sandbox iframe realm |
+| DOM / CSS isolation | none (global; relies on Emotion scoping) | shadow root (automatic) |
+| Loading | remotes via mf-manifest.json (modules) | whole sub-app by URL |
+| Dependency sharing | singleton-negotiated react / react-dom | none (each its own bundle) |
+| Portal / Popper realm | resolves into the shell document | resolves into the projected shadow root |
+| EnvironmentProvider | not needed (defaults to shell document) | not needed (sandbox iframe is its own realm) |
+
+## Live demos
+
+Switch between the two demos and open either in a new window to inspect how portals and popper-based components resolve to the correct realm.
+
+{render('./usage-in-mfe')}
+
+## Module Federation
+
+Module Federation loads remote modules into the shell's own JavaScript realm — same document, no shadow root. All components share the same realm, so portals resolve into the shell's document by default. `EnvironmentProvider` is not needed.
+
+### Shell setup
+
+The shell lazy-loads remotes and forwards `colorMode` as a prop. No `EnvironmentProvider` configuration is needed.
+
+
+```jsx
+// shell/main.jsx
+const RemoteMyWidget = lazy(() => import('mfe_my_remote/MyWidget'));
+
+function App() {
+  const colorMode = 'light'; // resolve from URL param or state
+
+  return (
+    <TonicProvider colorMode={{ value: colorMode }}>
+      <Suspense fallback={<Spinner />}>
+        <RemoteMyWidget colorMode={colorMode} />
+      </Suspense>
+    </TonicProvider>
+  );
+}
+```
+
+### Remote setup
+
+Each remote must be **self-contained**: wrap the exposed component in its own `TonicProvider` and bundle `@tonic-ui/react` locally. Do **not** add `@tonic-ui/react` to the `shared` config — sharing it as a singleton causes a module-eval crash when the remote is loaded.
+
+```jsx
+// remote/MyWidget.jsx
+import { TonicProvider } from '@tonic-ui/react';
+
+export default function MyWidget({ colorMode = 'light' }) {
+  return (
+    <TonicProvider colorMode={{ value: colorMode }}>
+      <MyWidgetContent />
+    </TonicProvider>
+  );
+}
+```
+
+```js
+// vite.config.mjs
+federation({
+  name: 'mfe_my_remote',
+  exposes: { './MyWidget': './MyWidget.jsx' },
+  shared: {
+    // Only share react / react-dom as singletons.
+    // Never add @tonic-ui/* here.
+    react: { singleton: true },
+    'react-dom': { singleton: true },
+  },
+})
+```
+
+## Wujie
+
+Wujie runs each sub-app's JavaScript inside a sandbox iframe while projecting its rendered DOM into a shadow root on the host page. Sub-apps are completely unaware of this — they write normal React code and have no knowledge of the iframe or shadow root.
+
+Because the sandbox iframe is the sub-app's own realm, its global `document` / `window` already point at the right place — so `useEnvironment()` resolves correctly by default and **no `environment` prop is needed** (unlike a raw shadow-root mount, where you do configure it — see [EnvironmentProvider](../environment)). Portal-based components resolve into the projected shadow root automatically via the native `getRootNode()`.
+
+### Host setup
+
+The host uses `WujieReact` to load each sub-app by URL and forwards props (e.g. `colorMode`) into the sub-app via `window.$wujie.props`.
+
+```jsx
+import WujieReact, { destroyApp } from 'wujie-react';
+import { useEffect } from 'react';
+
+/**
+ * Manages the lifecycle of a Wujie micro-app.
+ *
+ * Wujie keeps the sub-app sandbox and shadow DOM cached after the WujieReact wrapper unmounts.
+ * Without destroying the app, stale state may persist when switching apps (e.g. styles injected during an interrupted interaction).
+ *
+ * @param {string} name - The name of the Wujie micro-app.
+ * @param {Object} options - Lifecycle options.
+ * @param {boolean} [options.destroyOnUnmount=false] - Whether to destroy the cached app when the wrapper unmounts. Set to `false` to keep Wujie's default keep-alive behavior.
+ * @returns {void}
+ */
+const useMicroAppLifecycle = (name, { destroyOnUnmount = false } = {}) => {
+  useEffect(() => {
+    if (!destroyOnUnmount) {
+      return undefined;
+    }
+    return () => {
+      destroyApp(name);
+    };
+  }, [name, destroyOnUnmount]);
+};
+
+function Host() {
+  const colorMode = 'light'; // resolve from URL param or state
+
+  useMicroAppLifecycle('my-sub-app', { destroyOnUnmount: false });
+
+  return (
+    <TonicProvider colorMode={{ value: colorMode }}>
+      <WujieReact
+        name="my-sub-app"
+        url="/my-sub-app/index.html"
+        width="100%"
+        height="100%"
+
+        // Enables route synchronization between the sub-app and the host app.
+        // true  - Syncs the sub-app route with the host URL.
+        // false - Keeps the sub-app route isolated from the host URL.
+        sync={false}
+
+        // Enables iframe fallback mode for browsers that do not support Wujie's sandboxing features.
+        // true  - Uses iframe mode instead of sandbox + shadow DOM isolation.
+        // false - Keeps Wujie's sandbox + shadow DOM isolation.
+        degrade={false}
+
+        // Pass data to the sub-app via `window.$wujie.props`.
+        // Changes are not reactive; the sub-app reads the value on (re)mount.
+        props={{ colorMode }}
+      />
+    </TonicProvider>
+  );
+}
+```
+
+### Sub-app setup
+
+The sub-app's entry point uses a dual-boot pattern (`__WUJIE_MOUNT` / `__WUJIE_UNMOUNT`) so it runs correctly both standalone and inside Wujie.
+
+`index.html`
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Sub-app</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      #app-root {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app-root"></div>
+    <script type="module" src="./main.jsx"></script>
+  </body>
+</html>
+```
+
+`main.jsx`
+```jsx
+import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/react';
+import { createRoot } from 'react-dom/client';
+import { TonicProvider } from '@tonic-ui/react';
+
+let root = null;
+
+const mount = () => {
+  const appRoot = document.getElementById('app-root');
+  // The `root` guard makes mount idempotent: we call __WUJIE_MOUNT() explicitly
+  // below, and Wujie ALSO calls it from its lifecycle. Without it the second call
+  // would createRoot() again and rebuild the tree, which shows up as a flash.
+  if (!appRoot || root) return;
+
+  const rootNode = appRoot.getRootNode();
+  const isShadow = rootNode?.host?.nodeType === Node.ELEMENT_NODE;
+  const cache = createCache({
+    key: 'my-app',
+    container: isShadow ? rootNode : document.head,
+    prepend: true,
+  });
+
+  const colorMode = window.$wujie?.props?.colorMode ?? 'light';
+
+  root = createRoot(appRoot);
+  root.render(
+    <CacheProvider value={cache}>
+      <TonicProvider
+        colorMode={{ value: colorMode }}
+        useCSSVariables={false}
+      >
+        <App />
+      </TonicProvider>
+    </CacheProvider>
+  );
+};
+
+const unmount = () => {
+  root?.unmount();
+  root = null;
+};
+
+window.__WUJIE_MOUNT = mount;
+window.__WUJIE_UNMOUNT = unmount;
+
+// Vite loads asynchronously, so Wujie cannot guarantee __WUJIE_MOUNT
+// is called at the right time. Call it explicitly when inside Wujie.
+if (window.__POWERED_BY_WUJIE__) {
+  window.__WUJIE_MOUNT();
+} else {
+  mount();
+}
+```
+
+### `createMicroApp` helper
+
+Copy this helper into your project to encapsulate the Wujie lifecycle boilerplate:
+
+```js
+// micro-app.js
+import { createRoot } from 'react-dom/client';
+
+function getColorMode() {
+  return window.$wujie?.props?.colorMode ?? 'light';
+}
+
+/**
+ * Encapsulates the Wujie sub-app mount/unmount lifecycle boilerplate.
+ *
+ * Wujie caches the JS sandbox across navigations but recreates the shadow DOM container, so the mount
+ * element must be resolved fresh on each mount. The returned `render` wires up `__WUJIE_MOUNT` / `__WUJIE_UNMOUNT`
+ * so the sub-app runs correctly both standalone and inside Wujie.
+ *
+ * @param {() => (HTMLElement | null)} getMountEl - Resolves the current live mount element on each mount.
+ * @returns {{ render: (renderFn: (ctx: { colorMode: string }) => React.ReactNode) => void }} The micro-app instance.
+ */
+export function createMicroApp(getMountEl) {
+  return {
+    render(renderFn) {
+      let rootInstance = null;
+      let mountedEl = null;
+
+      const mount = () => {
+        // Wujie caches the JS sandbox across navigations but recreates the
+        // shadow DOM container, so a captured element would be detached.
+        // Call getMountEl() each mount to resolve the current live element.
+        const el = getMountEl();
+        if (!el) {
+          return;
+        }
+        // Idempotent mount. We call __WUJIE_MOUNT() explicitly below (Vite's
+        // async ESM load means Wujie's own lifecycle call lands ~1s+ late), and
+        // Wujie ALSO calls __WUJIE_MOUNT() from its lifecycle. Without this guard
+        // the second call would createRoot() again on the already-mounted element,
+        // tearing down and rebuilding the whole tree — visible as a flash (the
+        // sub-app renders, then blanks and reloads). Skip the duplicate when the
+        // same element is already mounted.
+        if (rootInstance && mountedEl === el) {
+          return;
+        }
+        // Element was recreated without an intervening unmount: discard the stale root.
+        rootInstance?.unmount();
+        // Call renderFn fresh each mount so the whole tree (providers, Emotion
+        // cache, current colorMode) is rebuilt against the new root.
+        rootInstance = createRoot(el);
+        mountedEl = el;
+        rootInstance.render(renderFn({ colorMode: getColorMode() }));
+      };
+
+      const unmount = () => {
+        // Wujie calls this on navigate-away. Unmount so component cleanup runs
+        // (e.g. ECharts dispose, resize listeners); the next mount() rebuilds.
+        rootInstance?.unmount();
+        rootInstance = null;
+        mountedEl = null;
+      };
+
+      window.__WUJIE_MOUNT = mount;
+      window.__WUJIE_UNMOUNT = unmount;
+
+      // Vite loads asynchronously, so Wujie cannot guarantee __WUJIE_MOUNT
+      // is called at the right time. Call it explicitly when inside Wujie.
+      if (window.__POWERED_BY_WUJIE__) {
+        window.__WUJIE_MOUNT();
+      } else {
+        mount();
+      }
+    },
+  };
+}
+```
+
+Each sub-app entry point then reduces to:
+
+```jsx
+// main.jsx
+import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/react';
+import { TonicProvider } from '@tonic-ui/react';
+import { createMicroApp } from './micro-app';
+
+const microApp = createMicroApp(() => document.getElementById('app-root'));
+
+microApp.render(({ colorMode }) => {
+  const cache = createCache({ key: 'my-app', prepend: true });
+  return (
+    <CacheProvider value={cache}>
+      <TonicProvider
+        colorMode={{ value: colorMode }}
+        useCSSVariables={false}
+      >
+        <App />
+      </TonicProvider>
+    </CacheProvider>
+  );
+});
+```
+
+## Commonly asked questions
+
+### Preventing color mode flash
+
+The host's `index.html` should include a blocking inline script that reads the stored color mode and sets `data-color-scheme` on `<html>` before the first paint. Without it, the page flashes white when the stored preference is dark.
+
+```html
+<!-- index.html -->
+<script>
+  // Blocking script: sets "data-color-scheme" before first paint to prevent a white flash when the stored color mode is dark.
+  // Must be inline (not type="module") so it runs synchronously before the browser paints.
+
+  (function() {
+    // Note: "tonic-ui-color-mode" is the localStorage key used by this demo.
+    // In your own app, replace this with whatever key or mechanism you use to persist the user's color mode preference.
+    const colorMode = localStorage.getItem('tonic-ui-color-mode');
+    if (colorMode === 'dark' || colorMode === 'light') {
+      document.documentElement.setAttribute('data-color-scheme', colorMode);
+      document.documentElement.style.setProperty('color-scheme', colorMode);
+    }
+  })();
+</script>
+<style>
+  html                            { background-color: #fcfcfc; }
+  html[data-color-scheme="dark"]  { background-color: #1b1b1b; }
+  html[data-color-scheme="light"] { background-color: #fcfcfc; }
+</style>
+```
+
+## See also
+
+- [EnvironmentProvider](../environment) — API reference and usage with iframes and Shadow DOM

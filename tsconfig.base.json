@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "ES2020",
+    "module": "ES2022",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "resolveJsonModule": true,
+    "noEmit": false, // emitDeclarationOnly will generate .d.ts files
+    "allowJs": true,
+    "checkJs": false, // Enable this if you want to type-check JS files as well
+    "strict": false, // turn on once you have time to fix all the errors
+    "declaration": true, // Optional, but recommended to catch more errors
+    "emitDeclarationOnly": true, // https://www.typescriptlang.org/tsconfig/#emitDeclarationOnly
+    "allowImportingTsExtensions": false,
+    "allowSyntheticDefaultImports": true,
+    "noEmitOnError": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}

@@ -9,17 +9,15 @@ import {
   TabList,
   Tabs,
   Text,
-  useColorStyle,
 } from '@tonic-ui/react';
 
 const SuperscriptText = ({ sx, ...rest }) => {
-  const [colorStyle] = useColorStyle();
   return (
     <Text
       as="sup"
       sx={[
         {
-          color: colorStyle.color.secondary,
+          color: 'text.secondary',
           display: 'inline-block',
           fontSize: '75%',
           fontStyle: 'italic',
@@ -60,10 +58,9 @@ const Example1 = () => (
 );
 
 const Example2 = () => {
-  const [colorStyle] = useColorStyle();
   return (
     <Flex
-      backgroundColor={colorStyle.background.secondary}
+      backgroundColor="background.highest"
       height="12x"
       alignItems="center"
       px="4x"

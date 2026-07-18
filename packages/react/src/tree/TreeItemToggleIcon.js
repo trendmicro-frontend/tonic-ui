@@ -2,7 +2,7 @@ import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { AngleRightIcon } from '@tonic-ui/react-icons';
 import { ariaAttr, createTransitionStyle, getEnterTransitionProps, getExitTransitionProps, reflow, transitionEasing } from '@tonic-ui/utils';
 import { ensureBoolean } from 'ensure-type';
-import { forwardRef, useEffect, useRef } from 'react';
+import React, { forwardRef, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
@@ -10,6 +10,15 @@ import {
   useTreeItemToggleIconStyle,
 } from './styles';
 import useTreeItem from './useTreeItem';
+
+/**
+ * @typedef {Object} TreeItemToggleIconProps
+ * @property {boolean} [appear=false] - By default the child component does not perform the enter transition when it first mounts.
+ * @property {React.ReactNode | ((state: string, props: React.HTMLAttributes<HTMLDivElement> & { ref: React.RefCallback<HTMLElement>; style: React.CSSProperties }) => React.ReactNode)} [children] - A function child can be used instead of a React element. This function is called with the current transition state.
+ * @property {boolean} [disabled] - Whether the icon is disabled.
+ * @property {string | { enter?: string; exit?: string }} [easing] - The timing function that describes how intermediate values are calculated during a transition.
+ * @property {number | { appear?: number; enter?: number; exit?: number }} [timeout] - The duration for the transition, in milliseconds.
+ */
 
 const mapStateToVariantStyle = (state, props) => {
   const variantStyle = {
@@ -40,6 +49,9 @@ const defaultTimeout = {
   exit: Math.floor(133 * 0.7),
 };
 
+/**
+ * @type {ForwardRefComponent<'div', TreeItemToggleIconProps>}
+ */
 const TreeItemToggleIcon = forwardRef((inProps, ref) => {
   const {
     appear = false, // do not perform the enter transition when it first mounts

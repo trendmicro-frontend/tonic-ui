@@ -1,6 +1,6 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import {
@@ -19,13 +19,27 @@ const CircularProgressSVG = (props) => <Box as="svg" {...props} />;
 const CircularProgressTrack = (props) => <Box as="circle" {...props} />;
 const CircularProgressIndicator = (props) => <Box as="circle" {...props} />;
 
+/**
+ * @typedef {Object} CircularProgressProps
+ * @property {string} [color='blue:60'] - The color of the circular progress. It supports both default and custom theme colors.
+ * @property {number} [min=0] - The minimum value of the progress indicator.
+ * @property {number} [max=100] - The maximum value of the progress indicator.
+ * @property {number} [size=48] - The diameter of the circular progress, in pixels.
+ * @property {number} [thickness=4] - The thickness of the circular progress, in pixels.
+ * @property {number} [value=0] - The value of the progress indicator for the determinate variant. Value between `min` and `max`.
+ * @property {'indeterminate' | 'determinate'} [variant='indeterminate'] - The variant to use.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', CircularProgressProps>}
+ */
 const CircularProgress = forwardRef((inProps, ref) => {
   const {
     trackColor: trackColorProp, // deprecated
 
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledBy,
-    color = 'blue:60',
+    color = '_foreground.primary.active',
     min = 0,
     max = 100,
     size = defaultSize,

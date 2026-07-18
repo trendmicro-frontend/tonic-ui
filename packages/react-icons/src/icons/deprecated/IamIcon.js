@@ -3,6 +3,12 @@ import { useOnce } from '@tonic-ui/react-hooks';
 import { forwardRef } from 'react';
 import IAMIcon from '../IAMIcon';
 
+/** @import { ForwardRefExoticComponent, SVGProps, RefAttributes } from 'react' */
+
+/**
+ * @deprecated Use `IAMIcon` instead.
+ * @type {ForwardRefExoticComponent<StyleProps & SVGProps<SVGSVGElement> & import('../../SVGIcon').SVGIconProps & RefAttributes<SVGSVGElement>>}
+ */
 const IamIcon = forwardRef((props, ref) => {
   useOnce(() => {
     console.error('Warning: The `IamIcon` component is deprecated and will be removed in the next major release. Use the `IAMIcon` component instead.');

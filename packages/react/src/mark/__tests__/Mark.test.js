@@ -1,6 +1,7 @@
 import { Mark } from '@tonic-ui/react/src';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { render } from '@tonic-ui/react/test-utils/render';
+import React from 'react';
 
 describe('Mark', () => {
   it('should render correctly', async () => {
@@ -22,8 +23,8 @@ describe('Mark', () => {
       <Mark variant="highlight">Hello World</Mark>
     );
 
-    expect(container.firstChild).toHaveStyleRule('background-color', '#fce79e');
-    expect(container.firstChild).toHaveStyleRule('color', 'var(--tonic-colors-black-primary)');
+    expect(container.firstChild).toHaveStyleRule('background-color', 'var(--tonic-colors-_highlight)');
+    expect(container.firstChild).toHaveStyleRule('color', 'var(--tonic-colors-text-_fixed-light-accent)');
   });
 
   it('should render with "emphasis" variant', () => {
@@ -32,22 +33,21 @@ describe('Mark', () => {
     );
 
     expect(container.firstChild).toHaveStyleRule('font-weight', 'var(--tonic-fontWeights-semibold)');
-    expect(container.firstChild).toHaveStyleRule('background-color', 'inherit');
   });
 
   it('should render Mark with custom background and text colors', () => {
     const { container } = render(
       <Mark
         sx={{
-          backgroundColor: 'blue:60',
-          color: 'white:primary',
+          backgroundColor: 'background.medium',
+          color: 'text.accent',
         }}
       >
         Hello World
       </Mark>
     );
 
-    expect(container.firstChild).toHaveStyleRule('background-color', 'var(--tonic-colors-blue-60)');
-    expect(container.firstChild).toHaveStyleRule('color', 'var(--tonic-colors-white-primary)');
+    expect(container.firstChild).toHaveStyleRule('background-color', 'var(--tonic-colors-background-medium)');
+    expect(container.firstChild).toHaveStyleRule('color', 'var(--tonic-colors-text-accent)');
   });
 });

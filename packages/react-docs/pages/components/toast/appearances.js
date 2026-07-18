@@ -3,8 +3,6 @@ import {
   Button,
   Stack,
   Toast,
-  useColorMode,
-  useColorStyle,
   useToastManager,
 } from '@tonic-ui/react';
 
@@ -49,9 +47,7 @@ const ToastError = ({ onClose }) => (
 );
 
 const ToastLayout = (props) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const boxShadow = colorStyle.shadow.thin;
+  const boxShadow = 'down.high';
 
   return (
     <Box

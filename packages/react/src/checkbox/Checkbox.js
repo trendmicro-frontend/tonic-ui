@@ -1,7 +1,7 @@
 import { useEffectOnceWhen, useMergeRefs } from '@tonic-ui/react-hooks';
 import { dataAttr, isNullish } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
-import { forwardRef, useRef } from 'react';
+import React, { forwardRef, useRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { VisuallyHidden } from '../visually-hidden';
@@ -10,6 +10,30 @@ import { defaultSize, defaultVariantColor } from './constants';
 import useCheckboxGroup from './useCheckboxGroup';
 import { useCheckboxStyle } from './styles';
 
+/**
+ * @template [T=string]
+ * @typedef {Object} CheckboxProps
+ * @property {boolean} [checked] - The checkbox will be selected. Use the `onChange` prop to update the state for a controlled component.
+ * @property {React.ReactNode} [children] - The content within the checkbox component.
+ * @property {boolean} [defaultChecked] - The checkbox will be selected initially.
+ * @property {boolean} [disabled] - Disables the checkbox and prevents user interaction.
+ * @property {string} [id] - The `id` attribute of the input field.
+ * @property {boolean} [indeterminate] - The checkbox will be displayed in an indeterminate state. This only affects the icon shown inside the checkbox.
+ * @property {React.InputHTMLAttributes<HTMLInputElement>} [inputProps] - Additional props to be applied to the input element.
+ * @property {React.RefObject<HTMLInputElement>} [inputRef] - A `ref` to access the input element.
+ * @property {string} [name] - The name of the input field in the checkbox. The name is useful for form submissions.
+ * @property {React.FocusEventHandler<HTMLInputElement>} [onBlur] - A callback function invoked when the checkbox loses focus.
+ * @property {React.ChangeEventHandler<HTMLInputElement>} [onChange] - A callback function invoked when the state of the checkbox changes.
+ * @property {React.MouseEventHandler<HTMLInputElement>} [onClick] - A callback function invoked when the checkbox is clicked.
+ * @property {React.FocusEventHandler<HTMLInputElement>} [onFocus] - A callback function invoked when the checkbox receives focus.
+ * @property {'sm' | 'md' | 'lg'} [size='md'] - The size of the checkbox.
+ * @property {T} [value] - The value of the checkbox.
+ * @property {string} [variantColor='blue'] - The color of the checkbox when it is selected. The color should be one of the color keys in the theme (for example, 'green', 'red')
+ */
+
+/**
+ * @type {{ <T = string>(props: StyleProps & CheckboxProps<T> & React.RefAttributes<HTMLElement>): React.ReactElement | null; displayName?: string }}
+ */
 const Checkbox = forwardRef((inProps, ref) => {
   const {
     checked: checkedProp,
@@ -88,6 +112,10 @@ const Checkbox = forwardRef((inProps, ref) => {
 
   const styleProps = useCheckboxStyle({ disabled });
 
+  const sx = {
+    color: disabled ? 'text.disabled' : 'text.primary',
+  };
+
   return (
     <Box
       as="label"
@@ -121,7 +149,7 @@ const Checkbox = forwardRef((inProps, ref) => {
         <Box
           ml="2x"
           userSelect="none"
-          opacity={disabled ? 0.28 : 1}
+          sx={sx}
         >
           {children}
         </Box>

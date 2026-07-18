@@ -6,3 +6,6 @@
 # dotenv-flow
 /.env.local
 /.env.*.local
+
+# Generated MFE build output
+/public/mfe

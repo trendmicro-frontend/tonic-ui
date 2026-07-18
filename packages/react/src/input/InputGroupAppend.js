@@ -1,8 +1,16 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { getInputGroupAppendCSS, useInputGroupAppendStyle } from './styles';
 
+/**
+ * @typedef {Object} InputGroupAppendProps
+ * @property {React.ReactNode} [children] - The content to append to the input group.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', InputGroupAppendProps>}
+ */
 const InputGroupAppend = forwardRef((inProps, ref) => {
   const {
     css: cssProp,

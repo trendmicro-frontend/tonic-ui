@@ -9,7 +9,6 @@ import {
   TreeItemToggle,
   TreeItemToggleIcon,
   Tree,
-  useColorStyle,
 } from '@tonic-ui/react';
 import {
   useConst,
@@ -30,7 +29,6 @@ const TreeItemRender = ({
   node,
   nodeDepth = 0,
 }) => {
-  const [colorStyle] = useColorStyle();
   const nodeId = node.id;
   const nodeLabel = node.label;
 
@@ -41,7 +39,7 @@ const TreeItemRender = ({
       }
       return ServerIcon;
     })();
-    const iconColor = colorStyle.color.primary;
+    const iconColor = 'text.primary';
 
     return (
       <TreeItemContent
@@ -50,7 +48,7 @@ const TreeItemRender = ({
           ':hover + [role="group"]': {
             position: 'relative',
             '::before': {
-              backgroundColor: colorStyle.background.highlighted,
+              backgroundColor: 'background.high',
               content: '""',
               position: 'absolute',
               top: 0,
@@ -86,7 +84,7 @@ const TreeItemRender = ({
         </OverflowTooltip>
       </TreeItemContent>
     );
-  }, [colorStyle, nodeDepth, nodeLabel]);
+  }, [nodeDepth, nodeLabel]);
 
   return (
     <TreeItem
@@ -105,7 +103,6 @@ const TreeItemRender = ({
 };
 
 const App = () => {
-  const [colorStyle] = useColorStyle();
   const treeNodes = useConst(() => buildTreeNodes());
   const expandableNodeIds = useMemo(() => findExpandableNodeIds(treeNodes), [treeNodes]);
 
@@ -114,7 +111,7 @@ const App = () => {
       sx={{
         // minWidth: 160,
         // maxWidth: '40%',
-        boxShadow: colorStyle.shadow.thick,
+        boxShadow: 'down.medium',
       }}
     >
       <Scrollbar

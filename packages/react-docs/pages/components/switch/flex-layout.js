@@ -13,8 +13,8 @@ const App = () => {
           userSelect: 'none',
         }}
       >
-        <Text>Label</Text>
-        <Text fontSize="xs" lineHeight="xs">Helper text</Text>
+        <Text color="text.accent">Label</Text>
+        <Text mt="1x" color="text.secondary" fontSize="xs" lineHeight="xs">Helper text</Text>
       </Box>
     </Flex>
   );

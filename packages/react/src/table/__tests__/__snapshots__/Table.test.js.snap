@@ -29,8 +29,8 @@ exports[`Table should render correctly with \`flexbox\` layout 1`] = `
 
 .emotion-6 {
   border-bottom: var(--tonic-borders-2);
-  border-bottom-color: var(--tonic-colors-gray-70);
-  color: var(--tonic-colors-white-secondary);
+  border-bottom-color: var(--tonic-colors-border-tertiary);
+  color: var(--tonic-colors-text-secondary);
   font-weight: var(--tonic-fontWeights-semibold);
   padding-left: var(--tonic-space-3x);
   padding-right: var(--tonic-space-3x);
@@ -41,8 +41,8 @@ exports[`Table should render correctly with \`flexbox\` layout 1`] = `
 
 .emotion-14 {
   border-bottom: var(--tonic-borders-1);
-  border-bottom-color: var(--tonic-colors-gray-70);
-  color: var(--tonic-colors-white-primary);
+  border-bottom-color: var(--tonic-colors-border-tertiary);
+  color: var(--tonic-colors-text-primary);
   padding-left: var(--tonic-space-3x);
   padding-right: var(--tonic-space-3x);
   padding-top: var(--tonic-space-2x);
@@ -151,8 +151,8 @@ exports[`Table should render correctly with \`table\` layout 1`] = `
   display: table-cell;
   text-align: start;
   border-bottom: var(--tonic-borders-2);
-  border-bottom-color: var(--tonic-colors-gray-70);
-  color: var(--tonic-colors-white-secondary);
+  border-bottom-color: var(--tonic-colors-border-tertiary);
+  color: var(--tonic-colors-text-secondary);
   font-weight: var(--tonic-fontWeights-semibold);
   padding-left: var(--tonic-space-3x);
   padding-right: var(--tonic-space-3x);
@@ -168,8 +168,8 @@ exports[`Table should render correctly with \`table\` layout 1`] = `
 .emotion-14 {
   display: table-cell;
   border-bottom: var(--tonic-borders-1);
-  border-bottom-color: var(--tonic-colors-gray-70);
-  color: var(--tonic-colors-white-primary);
+  border-bottom-color: var(--tonic-colors-border-tertiary);
+  color: var(--tonic-colors-text-primary);
   padding-left: var(--tonic-space-3x);
   padding-right: var(--tonic-space-3x);
   padding-top: var(--tonic-space-2x);

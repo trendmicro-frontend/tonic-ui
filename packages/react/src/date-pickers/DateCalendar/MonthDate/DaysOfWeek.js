@@ -1,10 +1,17 @@
 import { addDays, startOfWeek } from 'date-fns';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../../../box';
 import { Grid } from '../../../grid';
 import useDateCalendar from '../useDateCalendar';
 import { useDaysOfWeekStyle } from '../styles';
 
+/**
+ * @typedef {Object} DaysOfWeekProps
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', DaysOfWeekProps>}
+ */
 const DaysOfWeek = forwardRef((props, ref) => {
   const dateCalendarContext = useDateCalendar();
   const {

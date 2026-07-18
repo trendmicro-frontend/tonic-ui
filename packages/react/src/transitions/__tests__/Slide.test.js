@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Box, Slide } from '@tonic-ui/react/src';
+import React from 'react';
 
 describe('Slide', () => {
   const directions = ['left', 'right', 'up', 'down'];

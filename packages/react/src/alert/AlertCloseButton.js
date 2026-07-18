@@ -1,6 +1,6 @@
 import { CloseSIcon } from '@tonic-ui/react-icons';
 import { callEventHandlers } from '@tonic-ui/utils';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { ButtonBase } from '../button';
 import { useDefaultProps } from '../default-props';
 import {
@@ -8,6 +8,14 @@ import {
 } from './styles';
 import useAlert from './useAlert';
 
+/**
+ * @typedef {Object} AlertCloseButtonProps
+ * @property {React.ReactNode} [children] - The content of the close button.
+ */
+
+/**
+ * @type {ForwardRefComponent<'button', AlertCloseButtonProps>}
+ */
 const AlertCloseButton = forwardRef((inProps, ref) => {
   const {
     children,

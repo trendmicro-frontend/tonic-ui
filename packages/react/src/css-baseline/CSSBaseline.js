@@ -1,4 +1,5 @@
 import { css, Global } from '@emotion/react';
+import React from 'react';
 import baseCSS from './base-css';
 import normalizeCSS from './normalize-css';
 

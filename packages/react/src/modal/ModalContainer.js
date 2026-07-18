@@ -1,5 +1,5 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import {
@@ -7,6 +7,14 @@ import {
 } from './styles';
 import useModal from './useModal';
 
+/**
+ * @typedef {Object} ModalContainerProps
+ * @property {React.ReactNode} [children] - The content of the modal container.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', ModalContainerProps>}
+ */
 const ModalContainer = forwardRef((inProps, ref) => {
   const props = useDefaultProps({ props: inProps, name: 'ModalContainer' });
   const modalContext = useModal(); // context might be an undefined value

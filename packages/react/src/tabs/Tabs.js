@@ -1,6 +1,6 @@
 import { useConst } from '@tonic-ui/react-hooks';
 import { isNullOrUndefined, runIfFn } from '@tonic-ui/utils';
-import { forwardRef, useEffect, useReducer } from 'react';
+import React, { forwardRef, useEffect, useReducer } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
@@ -13,6 +13,21 @@ const stateReducer = (prevState, nextState) => ({
   ...(typeof nextState === 'function' ? nextState(prevState) : nextState),
 });
 
+/**
+ * @template {string | number} [T=string | number]
+ * @typedef {Object} TabsProps
+ * @property {React.ReactNode | ((context: { disabled?: boolean; index: number | string; onChange: (index: string | number) => void; orientation: 'horizontal' | 'vertical'; variant: 'default' | 'filled' | 'unstyled' }) => React.ReactNode)} [children] - A function child can be used instead of a React element. This function is called with the context object.
+ * @property {T} [defaultIndex=0] - The default index of the tab to be selected in uncontrolled mode.
+ * @property {boolean} [disabled] - Whether the tabs should be disabled.
+ * @property {T} [index] - The index of the tab to be selected in controlled mode.
+ * @property {(index: T) => void} [onChange] - A callback function that is called when the index changes.
+ * @property {('horizontal'|'vertical')} [orientation='horizontal'] - The orientation of the tabs.
+ * @property {('default'|'filled'|'unstyled')} [variant='default'] - The variant of the tabs.
+ */
+
+/**
+ * @type {{ <T extends string | number = string | number>(props: StyleProps & Omit<React.ComponentPropsWithoutRef<'div'>, keyof TabsProps<T>> & TabsProps<T> & React.RefAttributes<HTMLElement>): React.ReactElement | null; displayName?: string }}
+ */
 const Tabs = forwardRef((inProps, ref) => {
   const {
     children,

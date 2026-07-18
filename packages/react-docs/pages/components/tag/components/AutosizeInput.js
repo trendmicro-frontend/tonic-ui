@@ -2,50 +2,54 @@ import {
   Box,
   InputBase,
 } from '@tonic-ui/react';
-import { callEventHandlers } from '@tonic-ui/utils';
-import { useCallback, useEffect, useRef } from 'react';
+import { ensureFunction } from 'ensure-type';
+import { useEffect, useRef } from 'react';
+
+const wrapEvent = (theirHandler, ourHandler) => event => {
+  ensureFunction(theirHandler)(event);
+  if (!event.defaultPrevented) {
+    return ensureFunction(ourHandler)(event);
+  }
+  return '';
+};
 
 const AutosizeInput = ({
-  onChange: onChangeProp,
+  onInput: onInputProp,
   ...props
 }) => {
-  const inputRef = useRef();
-  const sizerRef = useRef();
+  const tagInputRef = useRef();
+  const tagHiddenSpanRef = useRef();
 
-  const resize = useCallback(() => {
-    const input = inputRef.current;
-    const sizer = sizerRef.current;
-    if (!input || !sizer) {
+  const handleInputResize = () => {
+    if (!tagInputRef.current) {
       return;
     }
-    sizer.textContent = input.value;
-    input.style.width = `${sizer.offsetWidth}px`;
-    input.focus();
-  }, []);
-
-  const handleChange = useCallback((event) => {
-    callEventHandlers(onChangeProp, resize)(event);
-  }, [onChangeProp, resize]);
+    const tagInput = tagInputRef.current;
+    const tagHiddenSpan = tagHiddenSpanRef.current;
+    tagHiddenSpan.textContent = tagInput.value;
+    tagInput.style.width = `${tagHiddenSpan.offsetWidth}px`;
+    tagInput.focus();
+  };
 
   useEffect(() => {
-    resize();
-  }, [resize]);
+    handleInputResize();
+  }, []);
 
   return (
     <>
       <Box
         as="span"
-        ref={sizerRef}
+        ref={tagHiddenSpanRef}
         position="absolute"
         height="0"
         overflow="hidden"
         whiteSpace="pre"
       />
       <InputBase
-        ref={inputRef}
+        ref={tagInputRef}
         maxWidth="100%"
         minHeight="6x"
-        onChange={handleChange}
+        onInput={wrapEvent(onInputProp, handleInputResize)}
         {...props}
       />
     </>

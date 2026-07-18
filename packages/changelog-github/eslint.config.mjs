@@ -22,6 +22,7 @@ export default defineConfig([
   },
   {
     ignores: [
+      '@types',
       'build',
       'dist',
       'node_modules',

@@ -58,14 +58,8 @@ const Component = ({
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const theme = useTheme();
-  const hoverBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.12)',
-    light: 'rgba(0, 0, 0, 0.12)',
-  }[colorMode];
-  const selectedBackgroundColor = {
-    dark: 'rgba(255, 255, 255, 0.08)',
-    light: 'rgba(0, 0, 0, 0.08)',
-  }[colorMode];
+  const hoverBackgroundColor = 'actions.hovered';
+  const selectedBackgroundColor = 'actions.selected';
 
   const nodeLabel = node.label;
 

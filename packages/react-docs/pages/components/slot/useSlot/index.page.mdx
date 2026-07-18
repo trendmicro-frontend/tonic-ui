@@ -13,7 +13,7 @@ import { useSlot } from '@tonic-ui/react';
 ```js
 const [RootSlot, rootSlotProps] = useSlot({
   name: 'root',
-  ownerDisplayName: 'MyComponent',
+  ownerName: 'MyComponent',
   props: {
     // Internal props
   },
@@ -30,7 +30,7 @@ const [RootSlot, rootSlotProps] = useSlot({
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | name | string | | Slot name used in dev-mode warnings (e.g. `'root'`). |
-| ownerDisplayName | string | | Component displayName used in dev-mode warnings. |
+| ownerName | string | | Component displayName used in dev-mode warnings. |
 | props | object | | Internal props set by the component. `slotProps` wins on conflict. Pass `ref` here. |
 | slot | ElementType | | Resolved element type for this slot. |
 | slotProps | object | | User-supplied props; wins over `props` on conflict. |

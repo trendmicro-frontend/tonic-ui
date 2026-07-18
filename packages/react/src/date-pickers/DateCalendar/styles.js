@@ -1,14 +1,4 @@
-import { useColorMode } from '../../color-mode';
-import { useColorStyle } from '../../color-style';
-
 const useDateCalendarStyle = ({ tabIndex }) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const borderColor = {
-    dark: 'gray:70',
-    light: 'gray:30',
-  }[colorMode];
-
   return {
     display: 'inline-flex',
     flexDirection: 'column',
@@ -16,11 +6,11 @@ const useDateCalendarStyle = ({ tabIndex }) => {
     justifyContent: 'stretch',
     minWidth: '328px',
     minHeight: '308px',
-    backgroundColor: colorStyle.background.secondary,
+    backgroundColor: 'background.highest',
     border: 1,
-    borderColor: borderColor,
+    borderColor: 'border.subtle',
     borderRadius: 'sm',
-    boxShadow: colorStyle.shadow.medium,
+    boxShadow: 'high',
     outline: (tabIndex < 0) ? 0 : undefined, // Remove the default outline for tabindex="-1"
     px: '6x',
     py: '3x',
@@ -43,11 +33,6 @@ const useYearMonthPickerMonthButtonStyle = () => {
 };
 
 const useYearMonthPickerYearStyle = () => {
-  const [colorMode] = useColorMode();
-  const focusVisibleOutlineColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
   return {
     display: 'flex',
     flexGrow: 1,
@@ -67,7 +52,7 @@ const useYearMonthPickerYearStyle = () => {
         opacity: 1,
         visibility: 'visible',
       },
-      outlineColor: focusVisibleOutlineColor,
+      outlineColor: 'border._primary.active',
       outlineOffset: '-1h',
       outlineStyle: 'solid',
       outlineWidth: '1h',
@@ -84,12 +69,6 @@ const useYearMonthPickerYearButtonGroupStyle = () => {
 };
 
 const useYearMonthPickerYearButtonStyle = () => {
-  const [colorMode] = useColorMode();
-  const hoverColor = {
-    dark: 'blue:40',
-    light: 'blue:60',
-  }[colorMode];
-  const activeColor = hoverColor;
   return {
     minHeight: 'auto',
     px: 0,
@@ -98,12 +77,13 @@ const useYearMonthPickerYearButtonStyle = () => {
     opacity: 0,
     visibility: 'hidden',
     _hover: {
+      color: 'text.primary',
       borderColor: 'transparent',
-      color: hoverColor,
+      backgroundColor: '_foreground.subtle.hovered',
     },
     _active: {
+      color: 'text.accent',
       borderColor: 'transparent',
-      color: activeColor,
     },
   };
 };
@@ -119,50 +99,33 @@ const useDayStyle = ({
   isSelectable,
   isToday,
 }) => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
   const color = (() => {
     if (isToday) {
-      const todayColor = {
-        dark: 'blue:40',
-        light: 'blue:40',
-      }[colorMode];
-      return todayColor;
+      return 'text.accent';
     }
     if (!isSelectable) {
-      return colorStyle?.color?.disabled;
+      return 'text.disabled';
     }
     if (!isSameMonth) {
-      return colorStyle?.color?.tertiary;
+      return 'text.tertiary';
     }
-    return colorStyle?.color?.primary;
+    return 'text.primary';
   })();
-  const hoverBackgroundColor = {
-    dark: 'gray:80',
-    light: 'gray:50',
-  }[colorMode];
-  const focusVisibleOutlineColor = {
-    dark: 'blue:60',
-    light: 'blue:60',
-  }[colorMode];
-  const selectedColor = {
-    dark: 'white:primary',
-    light: 'white:primary'
-  }[colorMode];
-  const selectedBackgroundColor = {
-    dark: 'blue:60',
-    light: 'blue:60'
-  }[colorMode];
-  const selectedHoverBackgroundColor = {
-    dark: 'blue:50',
-    light: 'blue:50',
-  }[colorMode];
+  const borderColor = isToday ? 'border.secondary' : 'transparent';
+  const hoverBackgroundColor = isToday ? undefined : '_foreground.subtle.hovered';
+  const focusVisibleOutlineColor = '_foreground.primaryVariant.enabled';
+  const selectedColor = 'text._fixed.dark.accent';
+  const selectedBackgroundColor = '_foreground.primaryVariant.selected';
+  const selectedHoverBackgroundColor = '_foreground.primaryVariant.selectedHovered';
   const baseStyle = {
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
     height: '10x',
     color,
+    border: '1.5',
+    borderRadius: 'sm',
+    borderColor,
     cursor: isSelectable ? 'pointer' : 'default',
     _hover: {
       backgroundColor: isSelectable ? hoverBackgroundColor : undefined,
@@ -188,19 +151,13 @@ const useDayStyle = ({
 };
 
 const useDaysOfWeekStyle = () => {
-  const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle({ colorMode });
-  const baseStyle = {
+  return {
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
     height: '10x',
-    color: colorStyle?.color?.primary,
+    color: 'text.secondary',
     cursor: 'default',
-  };
-
-  return {
-    ...baseStyle,
   };
 };
 

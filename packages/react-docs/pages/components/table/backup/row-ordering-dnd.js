@@ -11,7 +11,6 @@ import {
   TableRow,
   TableCell,
   Truncate,
-  useColorStyle,
 } from '@tonic-ui/react';
 import { ArrowsIcon } from '@tonic-ui/react-icons';
 import {
@@ -115,7 +114,6 @@ const DraggableItem = ({
 };
 
 const App = () => {
-  const [colorStyle] = useColorStyle();
   const initialData = useMemo(() => [
     { id: 1, order: 1, policy: 'Team Managers', modifiedTime: 1625875200000, modifiedBy: 'admin' },
     { id: 2, order: 2, policy: 'Marketing Team', modifiedTime: 1625875200000, modifiedBy: 'admin' },
@@ -302,10 +300,10 @@ const App = () => {
                     data-selected={dataAttr(isOver)}
                     sx={{
                       _hover: {
-                        backgroundColor: isDragging ? 'gray:70' : colorStyle.background.highlighted,
+                        backgroundColor: isDragging ? 'actions.dragged' : 'actions.hovered',
                       },
                       _selected: {
-                        backgroundColor: isDragging ? 'gray:70' : colorStyle.background.selected,
+                        backgroundColor: isDragging ? 'actions.dragged' : 'actions.selected',
                       },
                     }}
                   >

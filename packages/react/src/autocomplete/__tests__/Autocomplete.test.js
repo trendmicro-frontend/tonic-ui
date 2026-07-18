@@ -108,7 +108,7 @@ describe('Autocomplete', () => {
       render(<Autocomplete items={items} />);
 
       const input = getInput();
-      input.focus();
+      act(() => { input.focus(); });
       await user.keyboard('[ArrowDown]');
 
       const itemElements = await screen.findAllByRole('option');
@@ -120,7 +120,7 @@ describe('Autocomplete', () => {
       render(<Autocomplete items={items} />);
 
       const input = getInput();
-      input.focus();
+      act(() => { input.focus(); });
       await user.keyboard('[ArrowUp]');
 
       const itemElements = await screen.findAllByRole('option');

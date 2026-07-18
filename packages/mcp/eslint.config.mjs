@@ -27,6 +27,7 @@ export default defineConfig([
     },
     rules: {
       'no-return-await': 0,
+      '@stylistic/no-trailing-spaces': 2,
       '@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }],
     },
     settings: {
@@ -43,6 +44,7 @@ export default defineConfig([
   },
   {
     ignores: [
+      '@types',
       'build',
       'dist',
       'node_modules',

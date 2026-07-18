@@ -1,9 +1,9 @@
-import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
+import { act, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { Box, Button, Toast, ToastCloseButton, ToastManager, useToastManager } from '@tonic-ui/react/src';
-import { transitionDuration } from '@tonic-ui/utils/src';
-import { act, useCallback, useRef } from 'react';
+import { transitionDuration } from '@tonic-ui/utils';
+import React, { useCallback, useRef } from 'react';
 
 describe('ToastManager', () => {
   it('should render correctly', async () => {

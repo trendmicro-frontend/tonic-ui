@@ -1,10 +1,19 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../../box';
 import { useDefaultProps } from '../../default-props';
 import { GROUP_VARIANT_HEADER, LAYOUT_TABLE } from '../constants';
 import { useTableCellStyle } from '../styles';
 import useTable from '../useTable';
 
+/**
+ * @typedef {Object} TableHeaderCellProps
+ * @property {React.ReactNode} [children] -
+ * @property {string} [role] - The ARIA role attribute.
+ */
+
+/**
+ * @type {ForwardRefComponent<'th', TableHeaderCellProps>}
+ */
 const TableHeaderCell = forwardRef((inProps, ref) => {
   const {
     role: roleProp,

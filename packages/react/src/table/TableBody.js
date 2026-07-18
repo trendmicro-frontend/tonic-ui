@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
@@ -7,17 +7,24 @@ import { TableGroupContext } from './context';
 import { useTableBodyStyle } from './styles';
 import useTable from './useTable';
 
+/**
+ * @typedef {Object} TableBodyProps
+ * @property {React.ReactNode} [children] - The content of the table body.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', TableBodyProps>}
+ */
 const TableBody = forwardRef((inProps, ref) => {
   const {
     role: roleProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'TableBody' });
-  const shallowMemo = useShallowMemo();
   const { layout } = useTable();
   const as = layout === LAYOUT_TABLE ? 'tbody' : undefined;
   const role = roleProp ?? 'rowgroup';
   const groupVariant = GROUP_VARIANT_BODY;
-
+  const shallowMemo = useShallowMemo();
   const context = shallowMemo({
     groupVariant,
   });

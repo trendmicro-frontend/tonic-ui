@@ -15,7 +15,6 @@ import {
   TableRow,
   TableCell,
   Truncate,
-  useColorStyle,
 } from '@tonic-ui/react';
 import { dataAttr } from '@tonic-ui/utils';
 import { Fragment, useMemo, useState } from 'react';
@@ -30,7 +29,6 @@ const data = [
 ];
 
 const App = () => {
-  const [colorStyle] = useColorStyle();
   const [columnVisibility, setColumnVisibility] = useState({});
 
   const columns = useMemo(() => [
@@ -139,10 +137,10 @@ const App = () => {
               key={row.id}
               data-selected={dataAttr(row.getIsSelected())}
               _hover={{
-                backgroundColor: colorStyle.background.highlighted,
+                backgroundColor: 'actions.hovered',
               }}
               _selected={{
-                backgroundColor: colorStyle.background.selected,
+                backgroundColor: 'actions.selected',
               }}
             >
               {row.getVisibleCells().map(cell => {

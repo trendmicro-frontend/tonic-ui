@@ -15,7 +15,6 @@ import {
   SearchInput,
   Text,
   useColorMode,
-  useColorStyle,
   usePortalManager,
 } from '@tonic-ui/react';
 import * as icons from '@tonic-ui/react-icons';
@@ -25,7 +24,6 @@ const Semibold = (props) => <Text display="inline-block" fontWeight="semibold" {
 
 const IconView = ({ component: IconComponent, name, ...rest }) => {
   const [colorMode] = useColorMode();
-  const [colorStyle] = useColorStyle();
   const portal = usePortalManager();
   const isDeprecated = IconComponent._isDeprecated;
   const deprecatedTextColor = {
@@ -66,7 +64,7 @@ const IconView = ({ component: IconComponent, name, ...rest }) => {
               </Flex>
             ) : null}
             <Box
-              backgroundColor={colorStyle.background.tertiary}
+              backgroundColor="background.highest"
               px="5x"
               py="3x"
               mb="6x"
@@ -132,10 +130,10 @@ const IconView = ({ component: IconComponent, name, ...rest }) => {
           border={1}
           borderColor="transparent"
           borderRadius="sm"
-          color={colorStyle.color.secondary}
+          color="text.secondary"
           _hover={{
             borderColor: 'blue:60',
-            color: colorStyle.color.primary,
+            color: 'text.primary',
           }}
           onClick={handleClick}
         >
@@ -153,7 +151,7 @@ const IconView = ({ component: IconComponent, name, ...rest }) => {
               ref={ref}
               fontFamily="mono"
               width="100%"
-              color={isDeprecated ? deprecatedTextColor : colorStyle.color.secondary}
+              color={isDeprecated ? deprecatedTextColor : 'text.secondary'}
               textAlign="center"
               {...style}
             >

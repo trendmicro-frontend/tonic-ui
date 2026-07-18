@@ -1,18 +1,14 @@
 import { Badge, Grid, Skeleton } from '@tonic-ui/react';
 
 const App = () => {
-  const colors = [
-    'red:60',
-    'orange:50',
-    'yellow:50',
-    'green:60',
-    'blue:60',
-    'gray:60',
-    'magenta:60',
-    'purple:60',
-    'teal:60',
-    'cyan:60',
-  ];
+  const colors = {
+    'error.icon': 'text._fixed.dark.accent',
+    'warning.icon': 'text._fixed.light.accent',
+    'minorWarning.icon': 'text._fixed.light.accent',
+    'success.icon': 'text._fixed.light.accent',
+    'info.icon': 'text.accent',
+    'neutral.icon': 'text._fixed.light.accent',
+  }
 
   return (
     <Grid
@@ -21,8 +17,8 @@ const App = () => {
       rowGap="8x"
       templateColumns="repeat(auto-fill, minmax(40px, 1fr))"
     >
-      {colors.map(color => (
-        <Badge key={color} backgroundColor={color} badgeContent={5}>
+      {Object.entries(colors).map(([backgroundColor, color]) => (
+        <Badge key={backgroundColor} color={color} backgroundColor={backgroundColor} badgeContent={5}>
           <Skeleton variant="rectangle" borderRadius="sm" width="8x" height="8x" />
         </Badge>
       ))}

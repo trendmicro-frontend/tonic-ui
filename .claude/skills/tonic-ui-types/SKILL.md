@@ -9,42 +9,51 @@ This skill provides guidelines for adding JSDoc type definitions to React compon
 
 ## Overview
 
-Tonic UI uses JSDoc annotations (`@typedef` and `@type`) to provide type information for React components. This enables better IDE support, documentation generation, and type checking.
+Tonic UI uses JSDoc annotations (`@typedef` and `@type`) with global utility types to provide type information for React components. This enables better IDE support, documentation generation, and type checking.
 
 ## Prerequisites
 
 Before adding type definitions:
 
-1. **Read the component documentation** (required) - Check `packages/react-docs/pages/components/[component-name]/index.page.mdx`
+1. **Read the component file** to understand its implementation — props, defaults, rendering logic.
+2. **Identify the component pattern** — `forwardRef((inProps, ref) => ...)` or plain `(inProps) => ...`.
+3. **Check if rest props are spread onto a native element** (e.g. `<Box as="button" {...rest} />`) — if so, identify which HTML element type it renders (e.g. `'div'`, `'button'`). This determines the first type parameter of `ForwardRefComponent`.
+4. **Read the component documentation** — Check `packages/react-docs/pages/components/[component-name]/index.page.mdx`
    - Locate the Props table in the `## Props` section
    - Document all prop names, types, defaults, and descriptions
    - Use exact descriptions from the documentation
    - If no documentation exists, analyze the component implementation
-2. **Read the component file** to understand its implementation
-3. **Verify the component pattern** (forwardRef vs functional component)
-4. **Identify the HTML element type** that the component renders
+   - If docs contradict the implementation, trust the implementation.
 
-## Required Workflow
+## Utility Types
 
-### Step 1: Identify the Component Pattern
+Two global utility types are defined in `packages/react/global.d.ts`. Always use these instead of writing verbose inline types.
 
-Determine which pattern the component uses:
+| Utility Type | Use When | Example |
+|---|---|---|
+| `ForwardRefComponent<E, P, R?>` | `forwardRef` component | `ForwardRefComponent<'button', ButtonProps>` |
+| `StyledFC<P>` | Functional component (no ref forwarding) with `StyleProps` | `StyledFC<TooltipProps>` |
 
-**ForwardRef Component (most common):**
-```javascript
-const Component = forwardRef((inProps, ref) => { ... });
+- `E` — Intrinsic element type string (e.g. `'div'`, `'button'`, `'svg'`).
+- `P` — Custom component props typedef.
+- `R` — Ref element type. Defaults to `HTMLElement`. Only specify when different (e.g. `SVGSVGElement`).
+
+### Decision Tree
+
+```
+Is it a forwardRef component?
+├─ Yes → ForwardRefComponent<'element', Props>
+└─ No  → Does it accept StyleProps?
+         ├─ Yes → StyledFC<Props>
+         └─ No  → React.FC<Props>  (plain React type, no utility needed)
 ```
 
-**Functional Component (no ref):**
-```javascript
-const Component = (inProps) => { ... };
-```
+## Workflow
 
-### Step 2: Add the @typedef Block
+### Step 1: Add the `@typedef` Block
 
 Add a JSDoc `@typedef` block before the component declaration. Include all custom props with their types and descriptions.
 
-**Format:**
 ```javascript
 /**
  * @typedef {Object} ComponentNameProps
@@ -53,77 +62,73 @@ Add a JSDoc `@typedef` block before the component declaration. Include all custo
  */
 ```
 
-**Property Type Examples:**
+**Property type reference:**
+
 - `{React.ReactNode}` - React children or renderable content
 - `{boolean}` - Boolean flags
 - `{string}` - String values
 - `{number}` - Numeric values
-- `{function}` - Callback functions
+- `{(event: React.MouseEvent<HTMLButtonElement>) => void}` - Callback with typed signature
 - `{'option1' | 'option2'}` - String enums
 - `{'sm' | 'md' | 'lg'}` - Size variants
 - `{React.ReactNode | React.ReactNode[]}` - Single or array
 - `{React.RefObject<HTMLElement>}` - Ref objects
 
-### Step 3: Add the @type Annotation
+**Forbidden types** — never use these; always spell out the full shape:
 
-Add a `@type` annotation immediately before the component declaration.
+- `{any}`, `{unknown}`, `{function}`, `{Object}`, `{object}`
+- `{Record<string, unknown>}`, `{{ [key: string]: unknown }}`
 
-**For ForwardRef Components (simple — no prop conflicts):**
-```javascript
-/**
- * @type {React.ForwardRefExoticComponent<StyleProps & React.ComponentPropsWithoutRef<'element'> & ComponentNameProps & React.RefAttributes<HTMLElement>>}
- */
-const Component = forwardRef((inProps, ref) => {
-```
+### Step 2: Add the `@type` Annotation
 
-**For ForwardRef Components (with prop conflicts — use `Omit`):**
+Add a `@type` annotation immediately before the component declaration using the appropriate utility type.
 
-When the component defines custom props that conflict with native HTML element props (e.g., `onChange`, `onBlur`, `children`, `size`), use `Omit<>` to exclude the conflicting native props:
+**`ForwardRefComponent`** — `forwardRef` + rest props spread onto a native element. The element type (`'button'` below) determines which native HTML props the user can pass:
 
 ```javascript
 /**
- * @type {React.ForwardRefExoticComponent<StyleProps & Omit<React.ComponentPropsWithoutRef<'element'>, 'conflictingProp1' | 'conflictingProp2'> & ComponentNameProps & React.RefAttributes<HTMLElement>>}
+ * @type {ForwardRefComponent<'button', ButtonProps>}
  */
-const Component = forwardRef((inProps, ref) => {
+const Button = forwardRef((inProps, ref) => {
+  const { disabled, selected, size, variant, ...rest } = useDefaultProps({ props: inProps, name: 'Button' });
+  // ...
+  return (
+    <ButtonBase
+      ref={ref}
+      as="button"        // ← renders a <button> → element type is 'button'
+      {...rest}           // ← rest props spread onto native element → ForwardRefComponent
+    />
+  );
+});
 ```
 
-Common conflicts to `Omit`:
-| Custom prop | Conflicts with native | Example components |
-|-------------|----------------------|-------------------|
-| `children` (render prop) | `React.ReactNode` children | Accordion, Modal |
-| `onChange` (custom signature) | `HTMLElement.onChange` | Checkbox, Switch, Tabs |
-| `onBlur`, `onFocus`, `onClick` | Native event handlers | Checkbox, Switch |
-| `size` (string enum) | `HTMLInputElement.size` (number) | Input |
+**`StyledFC`** — no `forwardRef`, no ref parameter:
 
-**For Functional Components:**
 ```javascript
 /**
- * @type {React.FC<StyleProps & ComponentNameProps>}
+ * @type {StyledFC<TooltipProps>}
  */
-const Component = (inProps) => {
+const Tooltip = (inProps) => {  // ← plain function, no ref → StyledFC
+  const { children, label, placement, ...rest } = useDefaultProps({ props: inProps, name: 'Tooltip' });
+  // ...
+  return (
+    <TooltipContext.Provider value={context}>
+      <TooltipTrigger>{children}</TooltipTrigger>
+      <TooltipContent {...rest}>{label}</TooltipContent>
+    </TooltipContext.Provider>
+  );
+};
 ```
 
-### Step 4: Choose the Correct HTML Element
+If neither utility type fits (e.g. generic type parameters), define the type inline. See `src/tabs/Tabs.js` for an example.
 
-Match the element type to what the component renders:
+### Step 3: Add Type Test File
 
-| Component renders | Use element | Ref type |
-|-------------------|-------------|----------|
-| `<button>` | `'button'` | `HTMLButtonElement` |
-| `<input>` | `'input'` | `HTMLInputElement` |
-| `<a>` | `'a'` | `HTMLAnchorElement` |
-| `<label>` | `'label'` | `HTMLLabelElement` |
-| `<div>` (default) | `'div'` | `HTMLDivElement` |
-| `<span>` | `'span'` | `HTMLSpanElement` |
+Create `packages/react/__type-tests__/components/{component-name}.test-d.tsx`:
 
-### Step 4.5: Add Type Test File
-
-Create a type test file at `packages/react/__type-tests__/components/{component-name}.test-d.tsx` to verify the type definitions compile correctly.
-
-**Format:**
 ```tsx
-import React, { createRef } from 'react';
-import { ComponentName } from '@tonic-ui/react';
+import React, { createRef } from "react";
+import { ComponentName } from "@tonic-ui/react";
 
 // Basic usage
 <ComponentName>content</ComponentName>;
@@ -132,7 +137,7 @@ import { ComponentName } from '@tonic-ui/react';
 <ComponentName propName="value" />;
 
 // With ref
-const ref = createRef<HTMLDivElement>();
+const ref = createRef<HTMLElement>();
 <ComponentName ref={ref} />;
 
 // With style props
@@ -141,112 +146,36 @@ const ref = createRef<HTMLDivElement>();
 
 The type tests are compiled with `tsconfig.json` in the `__type-tests__/` directory using `strict: true` and `noEmit: true` — they only need to compile without errors.
 
+**Type test rules:**
+
+1. **Never manually specify types** — all types must be inferred from JSDoc. This verifies JSDoc correctness.
+2. **Exception: `createRef<T>()`** — ref type parameters are needed to test ref assignability.
+3. **Use `@ts-expect-error` for negative tests** — verify invalid values produce type errors.
+
 ## Implementation Rules
 
-1. **Copy descriptions exactly** - Use the exact wording from the Props table in the documentation
-2. **Always include `StyleProps`** - All Tonic UI components support style props
-3. **Use brackets for optional props** - `[propName]` indicates optional
-4. **Document defaults** - Use `[propName=default]` syntax
-5. **Match documentation exactly** - Props, types, defaults, and descriptions must match the docs table
-6. **Use proper React types** - `React.ReactNode`, `React.RefObject`, etc.
-7. **Check for prop conflicts** - If a custom prop name collides with a native HTML prop, use `Omit<>` in the `@type` annotation
-8. **Align with `useDefaultProps`** - Verify that default values in `@typedef` match the defaults provided by `useDefaultProps`
+1. **Implementation is the source of truth** — trust the code over docs when they disagree.
+2. **Use brackets for optional props** — `[propName]` indicates optional.
+3. **Document defaults** — `[propName=default]` syntax.
+4. **Align with `useDefaultProps`** — verify defaults match.
+5. **Callback signatures must be typed** — e.g. `{React.ChangeEventHandler<HTMLInputElement>}`, never `{function}`.
+6. **Hook return types must be typed** — define a `@typedef` for the return shape.
 
-## Examples
+## Validation
 
-### Example 1: Simple Component with Few Props
+After modifying JSDoc type definitions:
 
-```javascript
-/**
- * @typedef {Object} LinkProps
- * @property {React.ReactNode} [children] -
- * @property {boolean} [disabled] - The link will be disabled.
- * @property {function} [onClick] - A callback called when the link is clicked.
- * @property {string} [variant='default'] - The visual style of the link.
- */
-
-/**
- * @type {React.ForwardRefExoticComponent<StyleProps & React.ComponentPropsWithoutRef<'a'> & LinkProps & React.RefAttributes<HTMLAnchorElement>>}
- */
-const Link = forwardRef((inProps, ref) => {
-```
-
-### Example 2: Component with Enum Props
-
-```javascript
-/**
- * @typedef {Object} ButtonProps
- * @property {React.ReactNode} [children] -
- * @property {boolean} [disabled] - Disables the button.
- * @property {'sm' | 'md' | 'lg'} [size='md'] - The size of the button.
- * @property {'emphasis' | 'primary' | 'default' | 'secondary' | 'ghost'} [variant='default'] - The variant style.
- */
-
-/**
- * @type {React.ForwardRefExoticComponent<StyleProps & React.ComponentPropsWithoutRef<'button'> & ButtonProps & React.RefAttributes<HTMLButtonElement>>}
- */
-const Button = forwardRef((inProps, ref) => {
-```
-
-### Example 3: Component with Prop Conflicts (Omit pattern)
-
-```javascript
-/**
- * @typedef {Object} CheckboxProps
- * @property {React.ReactNode} [children] -
- * @property {boolean} [checked] - If `true`, the checkbox is checked.
- * @property {boolean} [disabled] - If `true`, the checkbox is disabled.
- * @property {function} [onChange] - A callback called when the state is changed.
- */
-
-/**
- * @type {React.ForwardRefExoticComponent<StyleProps & Omit<React.ComponentPropsWithoutRef<'label'>, 'onBlur' | 'onChange' | 'onClick' | 'onFocus'> & CheckboxProps & React.RefAttributes<HTMLLabelElement>>}
- */
-const Checkbox = forwardRef((inProps, ref) => {
-```
-
-### Example 4: Component with Complex Props
-
-```javascript
-/**
- * @typedef {Object} ModalProps
- * @property {React.ReactNode | ((context: object) => React.ReactNode)} [children] -
- * @property {boolean} [isOpen=false] - Controls the visibility of the modal.
- * @property {function} [onClose] - Callback when the modal closes.
- * @property {React.RefObject<HTMLElement>} [initialFocusRef] - Element to focus on open.
- * @property {'auto' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full'} [size='auto'] - The size of the modal.
- */
-
-/**
- * @type {React.ForwardRefExoticComponent<StyleProps & React.ComponentPropsWithoutRef<'div'> & ModalProps & React.RefAttributes<HTMLDivElement>>}
- */
-const Modal = forwardRef((inProps, ref) => {
-```
+1. **Build**: `yarn build` (generates `.d.ts` from JSDoc)
+2. **Type-check**: `yarn test:types` (validates against `.test-d.tsx` files)
 
 ## Reference Files
 
-Well-documented components to use as reference:
-- `packages/react/src/link/Link.js` - Simple component, no `Omit` needed
-- `packages/react/src/button/Button.js` - Basic component with size/variant
-- `packages/react/src/input/Input.js` - Uses `Omit<..., 'size'>` for prop conflict
-- `packages/react/src/checkbox/Checkbox.js` - Uses `Omit<..., 'onBlur' | 'onChange' | 'onClick' | 'onFocus'>`
-- `packages/react/src/accordion/Accordion.js` - Uses `Omit<..., 'children'>` for render prop
-- `packages/react/src/tabs/Tabs.js` - Uses `Omit<..., 'onChange'>` for custom handler
+Well-typed components to use as reference:
 
-## Best Practices
-
-1. **Follow existing patterns** - Match the style of nearby components
-2. **Test in IDE** - Verify that autocomplete works after adding types
-3. **Keep in sync** - Update types when props change
-4. **Document all public props** - Even if the description is just `-`
-
-## Common Issues and Solutions
-
-**Issue:** IDE doesn't recognize custom props
-**Solution:** Ensure the `@typedef` is directly above the `@type` annotation
-
-**Issue:** Native HTML props not showing
-**Solution:** Add `React.ComponentPropsWithoutRef<'element'>` to the type union
-
-**Issue:** Ref type mismatch
-**Solution:** Match `React.RefAttributes<HTMLElement>` to the actual DOM element type
+- `src/link/Link.js` — `ForwardRefComponent<'a', LinkProps>`
+- `src/button/Button.js` — `ForwardRefComponent<'button', ButtonProps>`
+- `src/checkbox/Checkbox.js` — `ForwardRefComponent<'label', CheckboxProps>` (has prop conflicts, handled automatically)
+- `src/accordion/AccordionBody.js` — `ForwardRefComponent<'div', AccordionBodyProps>` (wrapper component)
+- `src/tooltip/Tooltip.js` — `StyledFC<TooltipProps>` (no ref forwarding)
+- `src/icon/Icon.js` — `ForwardRefComponent<'svg', IconProps, SVGSVGElement>` (custom ref type)
+- `src/tabs/Tabs.js` — Generic component (inline type, not using utility)

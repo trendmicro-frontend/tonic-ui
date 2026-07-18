@@ -1,9 +1,9 @@
-import { screen, waitFor } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { testA11y } from '@tonic-ui/react/test-utils/accessibility';
 import { Button, Popover, PopoverTrigger, PopoverContent } from '@tonic-ui/react/src';
-import { act } from 'react';
+import React from 'react';
 
 describe('Popover', () => {
   it('should render correctly', async () => {

@@ -1,10 +1,20 @@
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { callEventHandlers } from '@tonic-ui/utils';
-import { forwardRef, useCallback, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import useTimeout from '../utils/useTimeout';
 
+/**
+ * @typedef {Object} ToastControllerProps
+ * @property {React.ReactNode} [children] - A function child can be used intead of a React element. This function is invoked with an object that includes the `onClose` prop.
+ * @property {number} [duration=null] - The duration in milliseconds after which the toast will be automatically closed. Set to `null` to disable auto-closing.
+ * @property {() => void} [onClose] - A callback called when the toast is being closed.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', ToastControllerProps>}
+ */
 const ToastController = forwardRef((inProps, ref) => {
   const {
     duration: durationProp = null,

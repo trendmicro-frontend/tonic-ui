@@ -4,11 +4,11 @@ const App = () => (
   <Box
     sx={[
       {
-        color: 'white:primary',
+        color: 'text.normal.primary',
       },
       (theme) => ({
         '&:hover': {
-          color: theme.colors['white:secondary'],
+          color: 'text.normal.secondary',
         },
       }),
     ]}

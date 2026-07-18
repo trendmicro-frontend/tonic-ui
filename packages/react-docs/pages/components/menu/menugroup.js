@@ -34,13 +34,13 @@ const App = () => (
       )}
     >
       <MenuItem>
-        <Avatar color="white" bg="blue:50" mr="3x">
+        <Avatar color="white" bg="info.icon" mr="3x">
           JD
         </Avatar>
         <Text>John Doe</Text>
       </MenuItem>
       <MenuItem>
-        <Avatar color="white" bg="gray:50" mr="3x">
+        <Avatar color="white" bg="neutral.icon" mr="3x">
           <UserIcon size="3x" />
         </Avatar>
         <Text>Guest</Text>

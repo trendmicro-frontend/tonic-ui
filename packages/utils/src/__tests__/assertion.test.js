@@ -9,8 +9,10 @@ import {
   isObject,
   isPlainObject,
   isWhitespace,
+} from '../assertion';
+import {
   noop,
-} from '@tonic-ui/utils/src';
+} from '../shared';
 
 describe('Check whether the value is a blank string', () => {
   it('should return true', () => {

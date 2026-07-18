@@ -141,7 +141,7 @@ const ShadowDOMContainer = ({ children, colorMode }) => {
 
     if (!cacheRef.current) {
       cacheRef.current = createCache({
-        key: 'tonic-ui-css',
+        key: 'tonic-css',
         nonce: NONCE,
         prepend: true,
         container: shadowDOMRef.current.shadowRoot,
@@ -157,7 +157,7 @@ const ShadowDOMContainer = ({ children, colorMode }) => {
     if (!themeRef.current) {
       themeRef.current = createTheme({
         cssVariables: {
-          prefix: 'tonic-ui',
+          prefix: 'tonic',
           rootSelector: ':host',
         },
       });

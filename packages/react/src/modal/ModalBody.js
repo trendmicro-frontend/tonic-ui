@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import {
@@ -6,6 +6,14 @@ import {
 } from './styles';
 import useModal from './useModal';
 
+/**
+ * @typedef {Object} ModalBodyProps
+ * @property {React.ReactNode} [children] - The content of the modal body.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', ModalBodyProps>}
+ */
 const ModalBody = forwardRef((inProps, ref) => {
   const props = useDefaultProps({ props: inProps, name: 'ModalBody' });
   const modalContext = useModal(); // context might be an undefined value
