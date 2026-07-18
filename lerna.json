@@ -8,7 +8,7 @@
   "command": {
     "version": {
       "allowBranch": [
-        "v2"
+        "main"
       ],
       "changelog": true,
       "conventionalCommits": false,

@@ -1,4 +1,4 @@
-# @tonic-ui/react v2
+# @tonic-ui/react v3
 
 ## Getting started
 

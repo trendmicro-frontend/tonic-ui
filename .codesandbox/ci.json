@@ -10,5 +10,5 @@
     "packages/theme",
     "packages/utils"
   ],
-  "sandboxes": ["/examples/create-react-app"]
+  "sandboxes": []
 }
