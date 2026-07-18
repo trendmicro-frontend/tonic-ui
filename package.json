@@ -32,7 +32,7 @@
     "url": "https://github.com/trendmicro-frontend/tonic-ui/issues"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.27.7",
+    "@changesets/cli": "^2.30.0",
     "@commitlint/cli": "17.x",
     "@commitlint/config-conventional": "17.x",
     "@tonic-ui/changelog-github": "workspace:*",
