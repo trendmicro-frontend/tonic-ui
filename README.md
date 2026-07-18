@@ -16,7 +16,6 @@ Version | Link
 v3 (current) | https://trendmicro-frontend.github.io/tonic-ui/react/v3/
 v2 | https://trendmicro-frontend.github.io/tonic-ui/react/v2/
 v1 | https://trendmicro-frontend.github.io/tonic-ui/react/v1/
-v0 | https://trendmicro-frontend.github.io/tonic-ui/react/v0/
 
 ## Features
 
