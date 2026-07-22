@@ -2966,9 +2966,18 @@ var propTypes = {exports: {}};
  * LICENSE file in the root directory of this source tree.
  */
 
-var ReactPropTypesSecret$1 = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+var ReactPropTypesSecret_1;
+var hasRequiredReactPropTypesSecret;
 
-var ReactPropTypesSecret_1 = ReactPropTypesSecret$1;
+function requireReactPropTypesSecret () {
+	if (hasRequiredReactPropTypesSecret) return ReactPropTypesSecret_1;
+	hasRequiredReactPropTypesSecret = 1;
+
+	var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+
+	ReactPropTypesSecret_1 = ReactPropTypesSecret;
+	return ReactPropTypesSecret_1;
+}
 
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -2977,66 +2986,80 @@ var ReactPropTypesSecret_1 = ReactPropTypesSecret$1;
  * LICENSE file in the root directory of this source tree.
  */
 
-var ReactPropTypesSecret = ReactPropTypesSecret_1;
+var factoryWithThrowingShims;
+var hasRequiredFactoryWithThrowingShims;
 
-function emptyFunction() {}
-function emptyFunctionWithReset() {}
-emptyFunctionWithReset.resetWarningCache = emptyFunction;
+function requireFactoryWithThrowingShims () {
+	if (hasRequiredFactoryWithThrowingShims) return factoryWithThrowingShims;
+	hasRequiredFactoryWithThrowingShims = 1;
 
-var factoryWithThrowingShims = function() {
-  function shim(props, propName, componentName, location, propFullName, secret) {
-    if (secret === ReactPropTypesSecret) {
-      // It is still safe when called from React.
-      return;
-    }
-    var err = new Error(
-      'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
-      'Use PropTypes.checkPropTypes() to call them. ' +
-      'Read more at http://fb.me/use-check-prop-types'
-    );
-    err.name = 'Invariant Violation';
-    throw err;
-  }  shim.isRequired = shim;
-  function getShim() {
-    return shim;
-  }  // Important!
-  // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
-  var ReactPropTypes = {
-    array: shim,
-    bigint: shim,
-    bool: shim,
-    func: shim,
-    number: shim,
-    object: shim,
-    string: shim,
-    symbol: shim,
+	var ReactPropTypesSecret = /*@__PURE__*/ requireReactPropTypesSecret();
 
-    any: shim,
-    arrayOf: getShim,
-    element: shim,
-    elementType: shim,
-    instanceOf: getShim,
-    node: shim,
-    objectOf: getShim,
-    oneOf: getShim,
-    oneOfType: getShim,
-    shape: getShim,
-    exact: getShim,
+	function emptyFunction() {}
+	function emptyFunctionWithReset() {}
+	emptyFunctionWithReset.resetWarningCache = emptyFunction;
 
-    checkPropTypes: emptyFunctionWithReset,
-    resetWarningCache: emptyFunction
-  };
+	factoryWithThrowingShims = function() {
+	  function shim(props, propName, componentName, location, propFullName, secret) {
+	    if (secret === ReactPropTypesSecret) {
+	      // It is still safe when called from React.
+	      return;
+	    }
+	    var err = new Error(
+	      'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
+	      'Use PropTypes.checkPropTypes() to call them. ' +
+	      'Read more at http://fb.me/use-check-prop-types'
+	    );
+	    err.name = 'Invariant Violation';
+	    throw err;
+	  }	  shim.isRequired = shim;
+	  function getShim() {
+	    return shim;
+	  }	  // Important!
+	  // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
+	  var ReactPropTypes = {
+	    array: shim,
+	    bigint: shim,
+	    bool: shim,
+	    func: shim,
+	    number: shim,
+	    object: shim,
+	    string: shim,
+	    symbol: shim,
 
-  ReactPropTypes.PropTypes = ReactPropTypes;
+	    any: shim,
+	    arrayOf: getShim,
+	    element: shim,
+	    elementType: shim,
+	    instanceOf: getShim,
+	    node: shim,
+	    objectOf: getShim,
+	    oneOf: getShim,
+	    oneOfType: getShim,
+	    shape: getShim,
+	    exact: getShim,
 
-  return ReactPropTypes;
-};
+	    checkPropTypes: emptyFunctionWithReset,
+	    resetWarningCache: emptyFunction
+	  };
 
-{
-  propTypes.exports = factoryWithThrowingShims();
+	  ReactPropTypes.PropTypes = ReactPropTypes;
+
+	  return ReactPropTypes;
+	};
+	return factoryWithThrowingShims;
 }
 
-var propTypesExports = propTypes.exports;
+var hasRequiredPropTypes;
+
+function requirePropTypes () {
+	if (hasRequiredPropTypes) return propTypes.exports;
+	hasRequiredPropTypes = 1;
+	{
+	  propTypes.exports = /*@__PURE__*/ requireFactoryWithThrowingShims()();
+	}
+	return propTypes.exports;
+}
 
 const config$p = {
   disabled: false
@@ -9035,7 +9058,7 @@ function requireFocusGuard () {
 		});
 		exports.hiddenGuard = exports["default"] = void 0;
 		var React = _interopRequireWildcard(__mfDefaultExport$2);
-		_interopRequireDefault(propTypesExports);
+		_interopRequireDefault(/*@__PURE__*/ requirePropTypes());
 		function _getRequireWildcardCache(e) {
 		  if ("function" != typeof WeakMap) return null;
 		  var r = /* @__PURE__ */ new WeakMap(), t = /* @__PURE__ */ new WeakMap();
@@ -10707,7 +10730,7 @@ function requireTrap () {
 		exports["default"] = void 0;
 		var _toConsumableArray2 = _interopRequireDefault(requireToConsumableArray());
 		_interopRequireWildcard(__mfDefaultExport$2);
-		_interopRequireDefault(propTypesExports);
+		_interopRequireDefault(/*@__PURE__*/ requirePropTypes());
 		var _reactClientsideEffect = _interopRequireDefault(require$$5);
 		var _focusLock = require$$6;
 		var _util = /*@__PURE__*/ requireUtil();
@@ -10998,7 +11021,7 @@ function requireAutoFocusInside () {
 		exports["default"] = void 0;
 		var _extends2 = _interopRequireDefault(require_extends());
 		var React = _interopRequireWildcard(__mfDefaultExport$2);
-		_interopRequireDefault(propTypesExports);
+		_interopRequireDefault(/*@__PURE__*/ requirePropTypes());
 		var constants = _interopRequireWildcard(require$$5$1);
 		var _util = /*@__PURE__*/ requireUtil();
 		function _getRequireWildcardCache(e) {
@@ -11048,7 +11071,7 @@ function requireMoveFocusInside () {
 		exports.useFocusInside = exports["default"] = void 0;
 		var _extends2 = _interopRequireDefault(require_extends());
 		var React = _interopRequireWildcard(__mfDefaultExport$2);
-		_interopRequireDefault(propTypesExports);
+		_interopRequireDefault(/*@__PURE__*/ requirePropTypes());
 		var constants = _interopRequireWildcard(require$$5$1);
 		var _util = /*@__PURE__*/ requireUtil();
 		var _medium = /*@__PURE__*/ requireMedium();
@@ -11118,7 +11141,7 @@ function requireFreeFocusInside () {
 		exports["default"] = void 0;
 		var _extends2 = _interopRequireDefault(require_extends());
 		var React = _interopRequireWildcard(__mfDefaultExport$2);
-		_interopRequireDefault(propTypesExports);
+		_interopRequireDefault(/*@__PURE__*/ requirePropTypes());
 		var constants = _interopRequireWildcard(require$$5$1);
 		var _util = /*@__PURE__*/ requireUtil();
 		function _getRequireWildcardCache(e) {
