@@ -13,9 +13,8 @@ Tonic UI is a UI component library for React, built with Emotion and Styled Syst
 
 Version | Link
 :-- | :--
-v2 (current) | https://trendmicro-frontend.github.io/tonic-ui/react/v2/
+v2 (current) | https://trendmicro-frontend.github.io/tonic-ui-docs/v2/
 v1 | https://trendmicro-frontend.github.io/tonic-ui/react/v1/
-v0 | https://trendmicro-frontend.github.io/tonic-ui/react/v0/
 
 ## Features
 
@@ -25,7 +24,7 @@ v0 | https://trendmicro-frontend.github.io/tonic-ui/react/v0/
 
 ## Contributing
 
-If you're interested in contributing to Tonic UI, check out the [contribution guide](https://trendmicro-frontend.github.io/tonic-ui/react/v2/contributing).
+If you're interested in contributing to Tonic UI, check out the [contribution guide](https://trendmicro-frontend.github.io/tonic-ui-docs/v2/contributing).
 
 ## License
 

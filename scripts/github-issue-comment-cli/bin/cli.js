@@ -42,8 +42,8 @@ const ghissue = client.issue(`${argv.owner}/${argv.repo}`, argv.issueNumber);
 
 ghissue.comments((err, result) => {
   if (err) {
-    console.log(err);
-    return;
+    console.error(err);
+    process.exit(1);
   }
 
   const comments = result;
@@ -57,7 +57,7 @@ ghissue.comments((err, result) => {
     ghissue.createComment({ body: commentWithLineBreaks }, (err, result) => {
       if (err) {
         console.error(err);
-        return;
+        process.exit(1);
       }
       console.log(result);
     });
@@ -65,7 +65,7 @@ ghissue.comments((err, result) => {
     ghissue.updateComment(comment.id, { body: commentWithLineBreaks }, (err, result) => {
       if (err) {
         console.error(err);
-        return;
+        process.exit(1);
       }
       console.log(result);
     });
