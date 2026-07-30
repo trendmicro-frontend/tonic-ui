@@ -1,0 +1,25 @@
+import InstallCommand from './InstallCommand';
+
+# Installation for PR builds
+
+Every pull request built by CI publishes its packages to the [tonic-ui-previews](https://github.com/trendmicro-frontend/tonic-ui-previews) repository, on a branch named `pr-<number>` matching the PR. This lets you try out a PR's changes in a real project before it merges.
+
+## Install with the tonic-ui-pr-install.sh script
+
+Run the installer once in your project directory to set things up:
+
+<InstallCommand />
+
+This will, in your current project directory:
+1. Upgrade Yarn to the latest stable (Berry) release.
+2. Add a `scripts/update-tonic-ui-pr.js` file and a `"tonic-ui:pr"` entry to `package.json`.
+
+Then install a PR build with:
+
+```bash
+yarn tonic-ui:pr <pr-number>
+```
+
+This regenerates the `dependencies` and `resolutions` entries for every `@tonic-ui/*` package published from that PR, including internal cross-references between them, and runs `yarn install`. Run it again anytime — to switch to a different PR, or to re-pull the same PR after it gets new commits.
+
+Peer dependencies (`react`, `react-dom`, `@emotion/react`, `@emotion/styled`, and others depending on which packages you install) are not installed automatically — add them separately if your project doesn't already have them.
