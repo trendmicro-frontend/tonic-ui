@@ -50,7 +50,7 @@ const versionMap = Object.fromEntries(
     versionLabel,
     {
       label: versionLabel,
-      url: `${TONIC_UI_REACT_DOCS_URL}/react/${versionLabel}`,
+      url: `${TONIC_UI_REACT_DOCS_URL}/${versionLabel}`,
     },
   ])
 );
