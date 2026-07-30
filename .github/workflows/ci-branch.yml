@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build:
@@ -61,7 +61,7 @@ jobs:
           echo "CI_COMMIT=${{ github.sha }}" >> $GITHUB_ENV
           echo "MATOMO_URL=//matomo.xdr.trendmicro.com" >> $GITHUB_ENV
           echo "MATOMO_CONTAINER_ID=N8rpl9LU" >> $GITHUB_ENV
-          echo "TONIC_UI_REACT_DOCS_BASE_PATH=/tonic-ui/react/${TONIC_UI_REACT_VERSION}" >> $GITHUB_ENV
+          echo "TONIC_UI_REACT_DOCS_BASE_PATH=/tonic-ui-docs/${TONIC_UI_REACT_VERSION}" >> $GITHUB_ENV
           echo "TONIC_UI_REACT_DOCS_VERSION=${TONIC_UI_REACT_VERSION}" >> $GITHUB_ENV
 
           # $GITHUB_OUTPUT is shared between all steps in a job
@@ -114,24 +114,18 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-tonic-ui-docs
+      cancel-in-progress: false
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Mint GitHub App installation token
+        id: app-token
+        uses: actions/create-github-app-token@v2
         with:
-          repository: ${{ github.repository }}
-          ref: gh-pages
-
-      - name: git config
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Configure environment variables
-        env:
-          TONIC_UI_REACT_DOCS_VERSION: ${{ needs.build.outputs.TONIC_UI_REACT_DOCS_VERSION }}
-        run: |
-          echo "CI_COMMIT=${{ github.sha }}" >> $GITHUB_ENV
-          echo "TONIC_UI_REACT_DOCS_VERSION=${TONIC_UI_REACT_DOCS_VERSION}" >> $GITHUB_ENV
+          app-id: ${{ vars.DEPLOY_APP_ID || secrets.DEPLOY_APP_ID }}
+          private-key: ${{ secrets.DEPLOY_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: tonic-ui-docs
 
       - name: Download artifact
         uses: actions/download-artifact@v4
@@ -144,11 +138,54 @@ jobs:
           mkdir -p artifact/react-docs
           tar -zxvf artifact/react-docs.tar.gz --directory artifact/react-docs
 
-      - name: Deploy to gh-pages
+      - name: Deploy to tonic-ui-docs
+        env:
+          DEPLOY_TOKEN: ${{ steps.app-token.outputs.token }}
+          TONIC_UI_REACT_DOCS_VERSION: ${{ needs.build.outputs.TONIC_UI_REACT_DOCS_VERSION }}
+          OWNER: ${{ github.repository_owner }}
+          SOURCE_SHA: ${{ github.sha }}
         run: |
-          rm -rf "react/${TONIC_UI_REACT_DOCS_VERSION}"
-          mkdir -p "react/${TONIC_UI_REACT_DOCS_VERSION}"
-          cp -af artifact/react-docs/** "react/${TONIC_UI_REACT_DOCS_VERSION}/"
-          git add "react/${TONIC_UI_REACT_DOCS_VERSION}"
-          git commit -m "Deploy ${CI_COMMIT:0:8} to gh-pages [skip ci]"
-          git push origin gh-pages
+          set -euo pipefail
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          REMOTE="https://x-access-token:${DEPLOY_TOKEN}@github.com/${OWNER}/tonic-ui-docs.git"
+          TARGET_DIR="${RUNNER_TEMP}/tonic-ui-docs"
+
+          for attempt in 1 2 3 4 5; do
+            rm -rf "${TARGET_DIR}"
+            # Publish to gh-pages; create it as an orphan branch on first deploy.
+            if git clone --depth 1 --branch gh-pages "${REMOTE}" "${TARGET_DIR}" 2>/dev/null; then
+              :
+            else
+              git clone --depth 1 "${REMOTE}" "${TARGET_DIR}"
+              git -C "${TARGET_DIR}" checkout --orphan gh-pages
+              git -C "${TARGET_DIR}" rm -rf . >/dev/null 2>&1 || true
+            fi
+
+            rm -rf "${TARGET_DIR:?}/${TONIC_UI_REACT_DOCS_VERSION}"
+            mkdir -p "${TARGET_DIR}/${TONIC_UI_REACT_DOCS_VERSION}"
+            cp -af artifact/react-docs/** "${TARGET_DIR}/${TONIC_UI_REACT_DOCS_VERSION}/"
+
+            # Disable Jekyll so Next.js _next/ assets are served
+            touch "${TARGET_DIR}/.nojekyll"
+
+            cd "${TARGET_DIR}"
+            git add -A
+            if git diff --cached --quiet; then
+              echo "No changes to publish."
+              break
+            fi
+            git commit -m "Deploy ${TONIC_UI_REACT_DOCS_VERSION} (${SOURCE_SHA:0:8}) [skip ci]"
+            if git push origin gh-pages; then
+              echo "Pushed on attempt ${attempt}."
+              break
+            fi
+            echo "Push rejected (attempt ${attempt}); re-cloning and retrying..."
+            cd - >/dev/null
+            sleep $((attempt * 3))
+            if [ "${attempt}" -eq 5 ]; then
+              echo "::error::Failed to push to tonic-ui-docs after 5 attempts"
+              exit 1
+            fi
+          done

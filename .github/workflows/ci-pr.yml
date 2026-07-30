@@ -47,7 +47,7 @@ jobs:
           echo "CI_PULL_REQUEST_NUMBER=${{ github.event.number }}" >> $GITHUB_ENV
           echo "MATOMO_URL=//matomo.xdr.trendmicro.com" >> $GITHUB_ENV
           echo "MATOMO_CONTAINER_ID=N8rpl9LU" >> $GITHUB_ENV
-          echo "TONIC_UI_REACT_DOCS_BASE_PATH=/tonic-ui-demo/react/${TONIC_UI_REACT_VERSION}" >> $GITHUB_ENV
+          echo "TONIC_UI_REACT_DOCS_BASE_PATH=/tonic-ui-previews/${TONIC_UI_REACT_VERSION}" >> $GITHUB_ENV
           echo "TONIC_UI_REACT_DOCS_VERSION=${TONIC_UI_REACT_VERSION}" >> $GITHUB_ENV
 
           # $GITHUB_OUTPUT is shared between all steps in a job
@@ -103,18 +103,18 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: github.actor != 'dependabot[bot]'
+    concurrency:
+      group: deploy-tonic-ui-previews
+      cancel-in-progress: false
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Mint GitHub App installation token
+        id: app-token
+        uses: actions/create-github-app-token@v2
         with:
-          repository: trendmicro-frontend/tonic-ui-demo
-          ref: gh-pages
-          ssh-key: ${{ secrets.TONIC_UI_DEMO_SSH_PRIVATE_KEY }}
-
-      - name: git config
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          app-id: ${{ vars.DEPLOY_APP_ID || secrets.DEPLOY_APP_ID }}
+          private-key: ${{ secrets.DEPLOY_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: tonic-ui-previews
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -128,7 +128,7 @@ jobs:
         run: |
           echo "CI_COMMIT=${{ github.event.pull_request.head.sha }}" >> $GITHUB_ENV
           echo "CI_PULL_REQUEST_NUMBER=${{ github.event.number }}" >> $GITHUB_ENV
-          echo "TONIC_UI_DEMO_PAGES_URL=https://trendmicro-frontend.github.io/tonic-ui-demo" >> $GITHUB_ENV
+          echo "TONIC_UI_PREVIEWS_PAGES_URL=https://trendmicro-frontend.github.io/tonic-ui-previews" >> $GITHUB_ENV
           echo "TONIC_UI_REACT_DOCS_VERSION=${TONIC_UI_REACT_DOCS_VERSION}" >> $GITHUB_ENV
 
       - name: Download artifact
@@ -142,20 +142,67 @@ jobs:
           mkdir -p artifact/react-docs
           tar -zxvf artifact/react-docs.tar.gz --directory artifact/react-docs
 
-      - name: Deploy to gh-pages
+      - name: Deploy to tonic-ui-previews
+        env:
+          DEPLOY_TOKEN: ${{ steps.app-token.outputs.token }}
+          OWNER: ${{ github.repository_owner }}
         run: |
-          rm -rf "react/${TONIC_UI_REACT_DOCS_VERSION}"
-          mkdir -p "react/${TONIC_UI_REACT_DOCS_VERSION}"
-          cp -af artifact/react-docs/** "react/${TONIC_UI_REACT_DOCS_VERSION}/"
-          git add "react/${TONIC_UI_REACT_DOCS_VERSION}"
-          git commit -m "Deploy ${TONIC_UI_REACT_DOCS_VERSION} to gh-pages [skip ci]"
-          git push origin gh-pages
-          GIT_LOG_LAST_COMMIT_DATE=`git log --pretty=%ci -n 1`
-          yarn add file:./artifact/github-issue-comment-cli
+          set -euo pipefail
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          REMOTE="https://x-access-token:${DEPLOY_TOKEN}@github.com/${OWNER}/tonic-ui-previews.git"
+          TARGET_DIR="${RUNNER_TEMP}/tonic-ui-previews-docs"
+
+          for attempt in 1 2 3 4 5; do
+            rm -rf "${TARGET_DIR}"
+            # Publish to gh-pages; create it as an orphan branch on first deploy.
+            if git clone --depth 1 --branch gh-pages "${REMOTE}" "${TARGET_DIR}" 2>/dev/null; then
+              :
+            else
+              git clone --depth 1 "${REMOTE}" "${TARGET_DIR}"
+              git -C "${TARGET_DIR}" checkout --orphan gh-pages
+              git -C "${TARGET_DIR}" rm -rf . >/dev/null 2>&1 || true
+            fi
+
+            rm -rf "${TARGET_DIR:?}/${TONIC_UI_REACT_DOCS_VERSION}"
+            mkdir -p "${TARGET_DIR}/${TONIC_UI_REACT_DOCS_VERSION}"
+            cp -af artifact/react-docs/** "${TARGET_DIR}/${TONIC_UI_REACT_DOCS_VERSION}/"
+
+            # Disable Jekyll so Next.js _next/ assets are served
+            touch "${TARGET_DIR}/.nojekyll"
+
+            cd "${TARGET_DIR}"
+            git add -A
+            if git diff --cached --quiet; then
+              echo "No changes to publish."
+              break
+            fi
+            git commit -m "Deploy ${TONIC_UI_REACT_DOCS_VERSION} to gh-pages [skip ci]"
+            if git push origin gh-pages; then
+              echo "Pushed on attempt ${attempt}."
+              break
+            fi
+            echo "Push rejected (attempt ${attempt}); re-cloning and retrying..."
+            cd - >/dev/null
+            sleep $((attempt * 3))
+            if [ "${attempt}" -eq 5 ]; then
+              echo "::error::Failed to push to tonic-ui-previews after 5 attempts"
+              exit 1
+            fi
+          done
+
+          GIT_LOG_LAST_COMMIT_DATE=$(date -u '+%Y-%m-%d %H:%M:%S +0000')
+          echo "GIT_LOG_LAST_COMMIT_DATE=${GIT_LOG_LAST_COMMIT_DATE}" >> $GITHUB_ENV
+
+      - name: Comment preview URL on PR
+        run: |
+          echo '{ "name": "ci-comment", "private": true }' > package.json
+          yarn add github-issue-comment-cli@file:./artifact/github-issue-comment-cli
           npx github-issue-comment-cli \
             --token ${{ secrets.TONIC_UI_PR_ACCESS_TOKEN }} \
-            --pattern "## Tonic UI Demo" \
+            --pattern "## Tonic UI Preview" \
             --owner trendmicro-frontend \
             --repo tonic-ui \
             --issue-number ${CI_PULL_REQUEST_NUMBER} \
-            --comment "## Tonic UI Demo\nOn ${GIT_LOG_LAST_COMMIT_DATE}, PR #${CI_PULL_REQUEST_NUMBER} (${CI_COMMIT}) was successfully deployed. You can view it at the following link:\n${TONIC_UI_DEMO_PAGES_URL}/react/${TONIC_UI_REACT_DOCS_VERSION}/\n"
+            --comment "## Tonic UI Preview\nOn ${GIT_LOG_LAST_COMMIT_DATE}, PR #${CI_PULL_REQUEST_NUMBER} (${CI_COMMIT}) was successfully deployed. You can view it at the following link:\n${TONIC_UI_PREVIEWS_PAGES_URL}/${TONIC_UI_REACT_DOCS_VERSION}/\n"
