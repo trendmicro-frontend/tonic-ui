@@ -1,0 +1,65 @@
+name: ci-pr-preview-cleanup
+
+on:
+  # Deliberately manual only -- previews are sometimes kept around after a
+  # PR closes, so this never runs automatically. Trigger it explicitly once
+  # a given PR's preview branch is no longer needed.
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'Pull request number whose preview branch should be deleted'
+        required: true
+        type: number
+
+permissions:
+  contents: read
+
+env:
+  TONIC_UI_PREVIEWS_REPO: trendmicro-frontend/tonic-ui-previews
+  TONIC_UI_PREVIEWS_HOST: github.com
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: pr-preview-${{ github.event.inputs.pr_number }}
+      cancel-in-progress: false
+    steps:
+      - name: Validate pr_number input
+        run: |
+          PR_NUMBER="${{ github.event.inputs.pr_number }}"
+          if ! [[ "$PR_NUMBER" =~ ^[0-9]+$ ]]; then
+            echo "::error::pr_number must be a positive integer, got: $PR_NUMBER"
+            exit 1
+          fi
+
+      - name: Mint GitHub App installation token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.DEPLOY_APP_ID || secrets.DEPLOY_APP_ID }}
+          private-key: ${{ secrets.DEPLOY_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: tonic-ui-previews
+
+      - name: Delete preview branch
+        env:
+          APP_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          git init --quiet
+          REMOTE_URL="https://x-access-token:${APP_TOKEN}@${TONIC_UI_PREVIEWS_HOST}/${TONIC_UI_PREVIEWS_REPO}.git"
+          BRANCH="pr-${{ github.event.inputs.pr_number }}"
+
+          # --exit-code: 0 = ref found, 2 = connected fine but no such ref
+          # (legitimate no-op), anything else = a real failure (auth, network,
+          # wrong remote, ...) that must not be swallowed.
+          set +e
+          git ls-remote --exit-code --heads "$REMOTE_URL" "$BRANCH" >/dev/null
+          status=$?
+          set -e
+
+          case "$status" in
+            0) git push "$REMOTE_URL" --delete "$BRANCH" ;;
+            2) echo "Branch $BRANCH does not exist on remote, nothing to delete." ;;
+            *) echo "::error::git ls-remote failed with exit code $status"; exit "$status" ;;
+          esac

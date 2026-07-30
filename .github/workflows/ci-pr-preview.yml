@@ -1,0 +1,119 @@
+name: ci-pr-preview
+
+on:
+  # Automatic build on every PR push is disabled for now -- previews are
+  # triggered manually via workflow_dispatch below. Uncomment this block to
+  # go back to building a preview on every push to an open PR.
+  # pull_request:
+  #   types:
+  #     - opened
+  #     - reopened
+  #     - synchronize
+  #   branches:
+  #     - main
+  #     - 'v[1-9]'        # single-digit exact: v3, v4
+  #     - 'v[1-9]-*'      # single-digit + suffix: v3-stg, v3-alpha
+  #     - 'v[1-9][0-9]'   # double-digit exact: v10, v11
+  #     - 'v[1-9][0-9]-*' # double-digit + suffix: v10-stg
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'Pull request number to build a preview for'
+        required: true
+        type: number
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  TONIC_UI_PREVIEWS_REPO: trendmicro-frontend/tonic-ui-previews
+  TONIC_UI_PREVIEWS_HOST: github.com
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: pr-preview-${{ github.event.inputs.pr_number }}
+      cancel-in-progress: false
+    steps:
+      - name: Validate pr_number input
+        run: |
+          PR_NUMBER="${{ github.event.inputs.pr_number }}"
+          if ! [[ "$PR_NUMBER" =~ ^[0-9]+$ ]]; then
+            echo "::error::pr_number must be a positive integer, got: $PR_NUMBER"
+            exit 1
+          fi
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: refs/pull/${{ github.event.inputs.pr_number }}/head
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Configure environment variables
+        run: |
+          # `github.event.number` only populates on pull_request-triggered events,
+          # which are disabled above (see the commented-out `on: pull_request` block).
+          # Kept as a fallback for when that trigger is re-enabled.
+          PR_NUMBER="${{ github.event.inputs.pr_number || github.event.number }}"
+          echo "CI_PULL_REQUEST_NUMBER=${PR_NUMBER}" >> $GITHUB_ENV
+          echo "CI_COMMIT=$(git rev-parse HEAD)" >> $GITHUB_ENV
+          echo "PREVIEW_BRANCH=pr-${PR_NUMBER}" >> $GITHUB_ENV
+          echo "PREVIEW_STAGING_DIR=${{ runner.temp }}/tonic-ui-preview" >> $GITHUB_ENV
+
+      - name: Install packages
+        run: |
+          yarn install --immutable
+
+      - name: Build public packages
+        run: |
+          yarn build-public
+
+      - name: Assemble preview workspace
+        run: |
+          bash scripts/pr-preview/assemble-packages.sh "$PREVIEW_STAGING_DIR"
+
+      - name: Mint GitHub App installation token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.DEPLOY_APP_ID || secrets.DEPLOY_APP_ID }}
+          private-key: ${{ secrets.DEPLOY_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: tonic-ui-previews
+
+      - name: Publish preview branch
+        env:
+          APP_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          bash scripts/pr-preview/publish-to-branch.sh \
+            "$PREVIEW_STAGING_DIR" \
+            "https://x-access-token:${APP_TOKEN}@${TONIC_UI_PREVIEWS_HOST}/${TONIC_UI_PREVIEWS_REPO}.git" \
+            "$PREVIEW_BRANCH" \
+            "chore: preview for PR #${CI_PULL_REQUEST_NUMBER} (${CI_COMMIT})"
+
+      - name: Comment preview install instructions
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          comment=$(
+            bash scripts/pr-preview/list-packages.sh \
+              | node scripts/pr-preview/post-comment.js \
+                  "$TONIC_UI_PREVIEWS_HOST" \
+                  "$TONIC_UI_PREVIEWS_REPO" \
+                  "$PREVIEW_BRANCH" \
+                  "$CI_COMMIT"
+          )
+          yarn add github-issue-comment-cli@file:./scripts/github-issue-comment-cli
+          npx github-issue-comment-cli \
+            --token "$GH_TOKEN" \
+            --pattern "## 📦 Preview packages" \
+            --owner trendmicro-frontend \
+            --repo tonic-ui \
+            --issue-number "${CI_PULL_REQUEST_NUMBER}" \
+            --comment "$comment"

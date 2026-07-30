@@ -28,6 +28,7 @@ export const routes = [
     ),
     routes: [
       { title: 'Installation', path: 'getting-started/installation' },
+      { title: 'Installation for PR builds', path: 'getting-started/installation-for-pr-builds' },
       { title: 'Usage', path: 'getting-started/usage' },
       {
         title: 'Color mode',
