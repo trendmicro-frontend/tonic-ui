@@ -29,6 +29,7 @@ permissions:
 env:
   TONIC_UI_PREVIEWS_REPO: trendmicro-frontend/tonic-ui-previews
   TONIC_UI_PREVIEWS_HOST: github.com
+  PREVIEW_TOOLING_DIR: ci-trusted-tooling
 
 jobs:
   preview:
@@ -74,9 +75,24 @@ jobs:
         run: |
           yarn build-public
 
+      # Preview tooling (scripts/pr-preview, scripts/github-issue-comment-cli)
+      # must come from a trusted ref, not the PR's own checkout above -- and
+      # must be fetched only after all PR-controlled build steps (Install
+      # packages, Build public packages) have finished, since those steps
+      # run arbitrary PR-controlled code that could otherwise tamper with
+      # this checkout before it's used.
+      - name: Checkout trusted preview tooling
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: ${{ env.PREVIEW_TOOLING_DIR }}
+          sparse-checkout: |
+            scripts/pr-preview
+            scripts/github-issue-comment-cli
+
       - name: Assemble preview workspace
         run: |
-          bash scripts/pr-preview/assemble-packages.sh "$PREVIEW_STAGING_DIR"
+          bash "$PREVIEW_TOOLING_DIR/scripts/pr-preview/assemble-packages.sh" "$PREVIEW_STAGING_DIR" "$GITHUB_WORKSPACE"
 
       - name: Mint GitHub App installation token
         id: app-token
@@ -91,26 +107,27 @@ jobs:
         env:
           APP_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          bash scripts/pr-preview/publish-to-branch.sh \
+          bash "$PREVIEW_TOOLING_DIR/scripts/pr-preview/publish-to-branch.sh" \
             "$PREVIEW_STAGING_DIR" \
             "https://x-access-token:${APP_TOKEN}@${TONIC_UI_PREVIEWS_HOST}/${TONIC_UI_PREVIEWS_REPO}.git" \
             "$PREVIEW_BRANCH" \
             "chore: preview for PR #${CI_PULL_REQUEST_NUMBER} (${CI_COMMIT})"
 
       - name: Comment preview install instructions
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
           comment=$(
-            bash scripts/pr-preview/list-packages.sh \
-              | node scripts/pr-preview/post-comment.js \
+            bash "$PREVIEW_TOOLING_DIR/scripts/pr-preview/list-packages.sh" "$GITHUB_WORKSPACE" \
+              | node "$PREVIEW_TOOLING_DIR/scripts/pr-preview/post-comment.js" \
                   "$TONIC_UI_PREVIEWS_HOST" \
                   "$TONIC_UI_PREVIEWS_REPO" \
                   "$PREVIEW_BRANCH" \
                   "$CI_COMMIT"
           )
-          yarn add github-issue-comment-cli@file:./scripts/github-issue-comment-cli
-          npx github-issue-comment-cli \
+          # No GH_TOKEN in scope for this install -- it targets the PR's own
+          # (untrusted) root package.json/yarn.lock and could run lifecycle
+          # scripts that would otherwise be able to read the token.
+          YARN_ENABLE_SCRIPTS=false yarn add "github-issue-comment-cli@file:./${PREVIEW_TOOLING_DIR}/scripts/github-issue-comment-cli"
+          GH_TOKEN="${{ github.token }}" npx github-issue-comment-cli \
             --token "$GH_TOKEN" \
             --pattern "## 📦 Preview packages" \
             --owner trendmicro-frontend \
