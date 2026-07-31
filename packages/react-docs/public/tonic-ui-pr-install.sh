@@ -46,9 +46,15 @@ yarn set version stable
 YARNRC=".yarnrc.yml"
 touch "$YARNRC"
 grep -q '^nodeLinker:' "$YARNRC" || echo 'nodeLinker: node-modules' >> "$YARNRC"
-if ! grep -q "$REPO_URL" "$YARNRC"; then
+if ! grep -qF -- "$REPO_URL" "$YARNRC"; then
   if grep -q '^approvedGitRepositories:' "$YARNRC"; then
-    printf '  - "%s"\n' "$REPO_URL" >> "$YARNRC"
+    # Insert right after the key line so the new item stays nested under
+    # approvedGitRepositories even if other top-level keys follow it later
+    # in the file -- appending to EOF would land under whichever key is last.
+    awk -v line="  - \"$REPO_URL\"" '
+      { print }
+      /^approvedGitRepositories:/ && !done { print line; done=1 }
+    ' "$YARNRC" > "$YARNRC.tmp" && mv "$YARNRC.tmp" "$YARNRC"
   else
     {
       echo 'approvedGitRepositories:'
