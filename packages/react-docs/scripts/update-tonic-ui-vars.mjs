@@ -29,7 +29,7 @@ const generateReleasedVersions = () => {
       return `    <TableRow>
       <TableCell>
         <Flex alignItems="center" columnGap="2x">
-          <Text><Link href="__${TONIC_UI_VERSION_PREFIX}_SOURCE_URL__" target="_blank">__${TONIC_UI_VERSION_PREFIX}_LABEL__</Link></Text>${prerelease ? '\n          <Tag variant="outline" size="sm" borderColor="warning.border" color="warning.icon">Prerelease</Tag>' : ''}
+          <Text><Link href="__${TONIC_UI_VERSION_PREFIX}_SOURCE_URL__" target="_blank">__${TONIC_UI_VERSION_PREFIX}_LABEL__</Link></Text>${prerelease ? '\n          <Tag variant="outline" size="sm" borderColor="minorWarning.border" color="minorWarning.icon">Prerelease</Tag>' : ''}
         </Flex>
       </TableCell>
       <TableCell>
