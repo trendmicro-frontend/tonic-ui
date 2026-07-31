@@ -46,12 +46,6 @@ exports[`Tag should combine size, variant, and isClosable 1`] = `
   border-color: var(--tonic-colors-_foreground-negative-enabled);
 }
 
-.emotion-0:hover,
-.emotion-0[data-hover] {
-  color: var(--tonic-colors-_component-tags-onBackground-gray);
-  border-color: var(--tonic-colors-_component-tags-border-gray);
-}
-
 .emotion-0:disabled,
 .emotion-0:disabled:focus,
 .emotion-0:disabled:hover,
@@ -204,12 +198,6 @@ exports[`Tag should render correctly 1`] = `
   background-color: var(--tonic-colors-_foreground-negative-enabled);
 }
 
-.emotion-0:hover,
-.emotion-0[data-hover] {
-  color: var(--tonic-colors-text-primary);
-  background-color: var(--tonic-colors-_component-tags-foreground-gray);
-}
-
 .emotion-0:disabled,
 .emotion-0:disabled:focus,
 .emotion-0:disabled:hover,
@@ -273,12 +261,6 @@ exports[`Tag should render with different sizes 1`] = `
 .emotion-0[aria-invalid=true][data-hover] {
   color: var(--tonic-colors-text-_fixed-dark-accent);
   background-color: var(--tonic-colors-_foreground-negative-enabled);
-}
-
-.emotion-0:hover,
-.emotion-0[data-hover] {
-  color: var(--tonic-colors-text-primary);
-  background-color: var(--tonic-colors-_component-tags-foreground-gray);
 }
 
 .emotion-0:disabled,
@@ -348,12 +330,6 @@ exports[`Tag should render with different sizes 2`] = `
   background-color: var(--tonic-colors-_foreground-negative-enabled);
 }
 
-.emotion-0:hover,
-.emotion-0[data-hover] {
-  color: var(--tonic-colors-text-primary);
-  background-color: var(--tonic-colors-_component-tags-foreground-gray);
-}
-
 .emotion-0:disabled,
 .emotion-0:disabled:focus,
 .emotion-0:disabled:hover,
@@ -419,12 +395,6 @@ exports[`Tag should render with different sizes 3`] = `
 .emotion-0[aria-invalid=true][data-hover] {
   color: var(--tonic-colors-text-_fixed-dark-accent);
   background-color: var(--tonic-colors-_foreground-negative-enabled);
-}
-
-.emotion-0:hover,
-.emotion-0[data-hover] {
-  color: var(--tonic-colors-text-primary);
-  background-color: var(--tonic-colors-_component-tags-foreground-gray);
 }
 
 .emotion-0:disabled,
@@ -494,12 +464,6 @@ exports[`Tag should render with different variants 1`] = `
   background-color: var(--tonic-colors-_foreground-negative-enabled);
 }
 
-.emotion-0:hover,
-.emotion-0[data-hover] {
-  color: var(--tonic-colors-text-primary);
-  background-color: var(--tonic-colors-_component-tags-foreground-gray);
-}
-
 .emotion-0:disabled,
 .emotion-0:disabled:focus,
 .emotion-0:disabled:hover,
@@ -564,12 +528,6 @@ exports[`Tag should render with different variants 2`] = `
 .emotion-0[aria-invalid=true][data-hover] {
   color: var(--tonic-colors-text-_fixed-dark-primary);
   border-color: var(--tonic-colors-_foreground-negative-enabled);
-}
-
-.emotion-0:hover,
-.emotion-0[data-hover] {
-  color: var(--tonic-colors-_component-tags-onBackground-gray);
-  border-color: var(--tonic-colors-_component-tags-border-gray);
 }
 
 .emotion-0:disabled,
@@ -637,12 +595,6 @@ exports[`Tag should render with disabled state 1`] = `
 .emotion-0[aria-invalid=true][data-hover] {
   color: var(--tonic-colors-text-_fixed-dark-accent);
   background-color: var(--tonic-colors-_foreground-negative-enabled);
-}
-
-.emotion-0:hover,
-.emotion-0[data-hover] {
-  color: var(--tonic-colors-text-primary);
-  background-color: var(--tonic-colors-_component-tags-foreground-gray);
 }
 
 .emotion-0:disabled,
@@ -713,12 +665,6 @@ exports[`Tag should render with error state 1`] = `
   background-color: var(--tonic-colors-_foreground-negative-enabled);
 }
 
-.emotion-0:hover,
-.emotion-0[data-hover] {
-  color: var(--tonic-colors-text-primary);
-  background-color: var(--tonic-colors-_component-tags-foreground-gray);
-}
-
 .emotion-0:disabled,
 .emotion-0:disabled:focus,
 .emotion-0:disabled:hover,
@@ -785,12 +731,6 @@ exports[`Tag should render with isClosable but without onClose handler 1`] = `
 .emotion-0[aria-invalid=true][data-hover] {
   color: var(--tonic-colors-text-_fixed-dark-accent);
   background-color: var(--tonic-colors-_foreground-negative-enabled);
-}
-
-.emotion-0:hover,
-.emotion-0[data-hover] {
-  color: var(--tonic-colors-text-primary);
-  background-color: var(--tonic-colors-_component-tags-foreground-gray);
 }
 
 .emotion-0:disabled,

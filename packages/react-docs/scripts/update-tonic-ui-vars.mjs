@@ -28,7 +28,9 @@ const generateReleasedVersions = () => {
       const TONIC_UI_VERSION_PREFIX = `TONIC_UI_${label.toUpperCase()}`;
       return `    <TableRow>
       <TableCell>
-        <Text><Link href="__${TONIC_UI_VERSION_PREFIX}_SOURCE_URL__" target="_blank">__${TONIC_UI_VERSION_PREFIX}_LABEL__</Link>${prerelease ? ' <sup>Preview</sup>' : ''}</Text>
+        <Flex alignItems="center" columnGap="2x">
+          <Text><Link href="__${TONIC_UI_VERSION_PREFIX}_SOURCE_URL__" target="_blank">__${TONIC_UI_VERSION_PREFIX}_LABEL__</Link></Text>${prerelease ? '\n          <Tag variant="outline" size="sm" borderColor="minorWarning.border" color="minorWarning.icon">Prerelease</Tag>' : ''}
+        </Flex>
       </TableCell>
       <TableCell>
         <Link href="__${TONIC_UI_VERSION_PREFIX}_DOCUMENTATION__" target="_blank">Documentation</Link>
