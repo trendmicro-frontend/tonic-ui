@@ -333,7 +333,7 @@ const initialNextConfig = {
     TONIC_UI_REACT_PACKAGE_VERSION: process.env.TONIC_UI_REACT_PACKAGE_VERSION,
     TONIC_UI_REPO_ROOT: process.env.TONIC_UI_REPO_ROOT,
     TONIC_UI_VERSION_LABELS: process.env.TONIC_UI_VERSION_LABELS,
-    // Space-separated prerelease labels baked from version config (e.g. "v3").
+    // Space-separated prerelease labels baked from version config.
     // A single literal key that Next.js can inline — avoids dynamic process.env[computedKey] access.
     TONIC_UI_PRERELEASE_LABELS: versionConfig.versions.filter(v => v.prerelease).map(v => v.label).join(' '),
     // Per-version variables (dynamically generated from tonic-ui-version.config.js)
