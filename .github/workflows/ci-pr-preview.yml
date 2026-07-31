@@ -51,19 +51,6 @@ jobs:
         with:
           ref: refs/pull/${{ github.event.inputs.pr_number }}/head
 
-      # Preview tooling (scripts/pr-preview, scripts/github-issue-comment-cli)
-      # must come from a trusted ref, not the PR's own checkout above --
-      # otherwise a PR could modify these scripts to exfiltrate the App
-      # token minted below.
-      - name: Checkout trusted preview tooling
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.sha }}
-          path: ${{ env.PREVIEW_TOOLING_DIR }}
-          sparse-checkout: |
-            scripts/pr-preview
-            scripts/github-issue-comment-cli
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -87,6 +74,21 @@ jobs:
       - name: Build public packages
         run: |
           yarn build-public
+
+      # Preview tooling (scripts/pr-preview, scripts/github-issue-comment-cli)
+      # must come from a trusted ref, not the PR's own checkout above -- and
+      # must be fetched only after all PR-controlled build steps (Install
+      # packages, Build public packages) have finished, since those steps
+      # run arbitrary PR-controlled code that could otherwise tamper with
+      # this checkout before it's used.
+      - name: Checkout trusted preview tooling
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: ${{ env.PREVIEW_TOOLING_DIR }}
+          sparse-checkout: |
+            scripts/pr-preview
+            scripts/github-issue-comment-cli
 
       - name: Assemble preview workspace
         run: |
@@ -112,8 +114,6 @@ jobs:
             "chore: preview for PR #${CI_PULL_REQUEST_NUMBER} (${CI_COMMIT})"
 
       - name: Comment preview install instructions
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
           comment=$(
             bash "$PREVIEW_TOOLING_DIR/scripts/pr-preview/list-packages.sh" "$GITHUB_WORKSPACE" \
@@ -123,8 +123,11 @@ jobs:
                   "$PREVIEW_BRANCH" \
                   "$CI_COMMIT"
           )
-          yarn add "github-issue-comment-cli@file:./${PREVIEW_TOOLING_DIR}/scripts/github-issue-comment-cli"
-          npx github-issue-comment-cli \
+          # No GH_TOKEN in scope for this install -- it targets the PR's own
+          # (untrusted) root package.json/yarn.lock and could run lifecycle
+          # scripts that would otherwise be able to read the token.
+          YARN_ENABLE_SCRIPTS=false yarn add "github-issue-comment-cli@file:./${PREVIEW_TOOLING_DIR}/scripts/github-issue-comment-cli"
+          GH_TOKEN="${{ github.token }}" npx github-issue-comment-cli \
             --token "$GH_TOKEN" \
             --pattern "## 📦 Preview packages" \
             --owner trendmicro-frontend \
