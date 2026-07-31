@@ -11,6 +11,7 @@ import {
   MenuItem,
   MenuDivider,
   Space,
+  Tag,
   Text,
   useColorMode,
   usePortalManager,
@@ -42,6 +43,9 @@ const TONIC_UI_REACT_DOCS_VERSION = ensureString(process.env.TONIC_UI_REACT_DOCS
 
 // Available version labels from environment (e.g., "v3 v4")
 const TONIC_UI_VERSION_LABELS = ensureString(process.env.TONIC_UI_VERSION_LABELS);
+
+// Space-separated version labels flagged as prerelease in tonic-ui-version.config.js (e.g., "v3")
+const TONIC_UI_PRERELEASE_LABELS = ensureString(process.env.TONIC_UI_PRERELEASE_LABELS).split(/\s+/).filter(Boolean);
 
 // Build version map from labels
 const versionMap = Object.fromEntries(
@@ -75,6 +79,8 @@ const Header = forwardRef((
     }
     return '';
   })();
+
+  const isPrerelease = TONIC_UI_PRERELEASE_LABELS.includes(version);
 
   const openInstantSearchModal = useCallback(() => {
     portal((close) => {
@@ -180,7 +186,18 @@ const Header = forwardRef((
                     height="8x"
                   />
                   <Text>Tonic UI</Text>
-                  <sup>{TONIC_UI_REACT_DOCS_VERSION}</sup>
+                  {isPrerelease ? (
+                    <Tag
+                      variant="outline"
+                      size="sm"
+                      borderColor="yellow:50"
+                      color="yellow:50"
+                    >
+                      Prerelease
+                    </Tag>
+                  ) : (
+                    <sup>{TONIC_UI_REACT_DOCS_VERSION}</sup>
+                  )}
                 </Flex>
               </Link>
             </NextLink>
@@ -227,9 +244,24 @@ const Header = forwardRef((
                     href={value?.url}
                     whiteSpace="nowrap"
                   >
-                    {(key === version)
-                      ? <>{value?.label}<Space width="2x" />✓</>
-                      : value?.label}
+                    <Flex alignItems="center" columnGap="2x">
+                      <Text>{value?.label}</Text>
+                      {TONIC_UI_PRERELEASE_LABELS.includes(key) && (
+                        <Tag
+                          variant="outline"
+                          size="sm"
+                          borderColor="yellow:50"
+                          color="yellow:50"
+                        >
+                          Prerelease
+                        </Tag>
+                      )}
+                      {(key === version) && (
+                        <>
+                          <Space width="2x" />✓
+                        </>
+                      )}
+                    </Flex>
                   </MenuItem>
                 ))}
                 <MenuDivider />
