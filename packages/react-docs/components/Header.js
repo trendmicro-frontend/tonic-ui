@@ -190,8 +190,8 @@ const Header = forwardRef((
                     <Tag
                       variant="outline"
                       size="sm"
-                      borderColor="warning.border"
-                      color="warning.icon"
+                      borderColor="minorWarning.border"
+                      color="minorWarning.icon"
                     >
                       Prerelease
                     </Tag>
@@ -250,8 +250,8 @@ const Header = forwardRef((
                         <Tag
                           variant="outline"
                           size="sm"
-                          borderColor="warning.border"
-                          color="warning.icon"
+                          borderColor="minorWarning.border"
+                          color="minorWarning.icon"
                         >
                           Prerelease
                         </Tag>
