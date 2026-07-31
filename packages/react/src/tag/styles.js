@@ -9,10 +9,6 @@ const getSolidTagStyle = ({
   const color = 'text.primary';
   const focusVisibleOutlineColor = 'border._primary.focused';
 
-  // Hover
-  const hoverBackgroundColor = backgroundColor;
-  const hoverColor = color;
-
   // Disable
   const disabledBackgroundColor = '_foreground.tertiary.disabled';
   const disabledColor = 'text.disabled';
@@ -24,10 +20,6 @@ const getSolidTagStyle = ({
   return {
     backgroundColor,
     color,
-    _hover: {
-      color: hoverColor,
-      backgroundColor: hoverBackgroundColor,
-    },
     _focusVisible: {
       outlineColor: focusVisibleOutlineColor,
       outlineOffset: '-1h',
@@ -58,9 +50,6 @@ const getOutlineTagStyle = ({
   const color = '_component.tags.onBackground.gray';
   const focusVisibleOutlineColor = 'border._primary.focused';
 
-  // Hover
-  const hoverBorderColor = borderColor;
-  const hoverColor = color;
   // Disable
   const disabledColor = 'text.disabled';
   const disabledBorderColor = '_foreground.tertiary.disabled';
@@ -71,10 +60,6 @@ const getOutlineTagStyle = ({
   return {
     borderColor,
     color,
-    _hover: {
-      color: hoverColor,
-      borderColor: hoverBorderColor,
-    },
     _focusVisible: {
       outlineColor: focusVisibleOutlineColor,
       outlineOffset: '-1h',
