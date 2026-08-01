@@ -30,9 +30,6 @@ import TableOfContents from '../components/TableOfContents';
 
 const NONCE = ensureString(process.env.NONCE);
 
-// Algolia search client
-const searchClient = algoliasearch(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_SEARCH_API_KEY);
-
 const EmotionCacheProvider = ({
   children,
   nonce,
@@ -50,6 +47,7 @@ const EmotionCacheProvider = ({
 };
 
 const App = (props) => {
+  const searchClient = useConst(() => algoliasearch(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_SEARCH_API_KEY));
   const customTheme = useConst(() => createTheme({
     cssVariables: {
       rootSelector: ':root',
