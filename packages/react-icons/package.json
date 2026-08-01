@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/react-icons",
-  "version": "3.0.0-alpha.0",
+  "version": "3.0.0-alpha.1",
   "description": "A set of SVG icons available as React components for use in Tonic UI.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -24,7 +24,7 @@
     "test": "cross-env NODE_ENV=test jest --maxWorkers=2"
   },
   "dependencies": {
-    "@tonic-ui/react-base": "^3.0.0-alpha.0"
+    "@tonic-ui/react-base": "^3.0.0-alpha.1"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.24.0",

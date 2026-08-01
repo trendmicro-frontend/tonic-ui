@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/react-base",
-  "version": "3.0.0-alpha.0",
+  "version": "3.0.0-alpha.1",
   "description": "Headless React components intended for creating custom UI elements.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@emotion/is-prop-valid": "1.x",
-    "@tonic-ui/styled-system": "^3.0.0-alpha.0",
+    "@tonic-ui/styled-system": "^3.0.0-alpha.1",
     "ensure-type": "^1.5.1"
   },
   "devDependencies": {

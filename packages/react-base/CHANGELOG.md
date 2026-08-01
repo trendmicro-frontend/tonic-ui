@@ -1,5 +1,13 @@
 # @tonic-ui/react-base
 
+## 3.0.0-alpha.1
+
+### Patch Changes
+
+- feat: prepare v3 prerelease by [@cheton](https://github.com/cheton) in [#1168](https://github.com/trendmicro-frontend/tonic-ui/pull/1168)
+- Updated dependencies [[`1c1c109`](https://github.com/trendmicro-frontend/tonic-ui/commit/1c1c1092d4d60db97f5b25ec80ca80eadc856ac7)]
+  - @tonic-ui/styled-system@3.0.0-alpha.1
+
 ## 3.0.0-alpha.0
 
 ### Major Changes
