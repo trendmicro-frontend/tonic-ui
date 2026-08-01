@@ -1,6 +1,6 @@
 {
   "name": "@tonic-ui/react-hooks",
-  "version": "3.0.0-alpha.0",
+  "version": "3.0.0-alpha.1",
   "description": "A set of React Hooks specifically for use with Tonic UI components.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -23,7 +23,7 @@
     "types:clear": "del build coverage @types/"
   },
   "dependencies": {
-    "@tonic-ui/utils": "^3.0.0-alpha.0"
+    "@tonic-ui/utils": "^3.0.0-alpha.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",

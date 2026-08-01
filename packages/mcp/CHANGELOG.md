@@ -1,5 +1,11 @@
 # @tonic-ui/mcp
 
+## 3.0.0-alpha.1
+
+### Patch Changes
+
+- feat: prepare v3 prerelease by [@cheton](https://github.com/cheton) in [#1168](https://github.com/trendmicro-frontend/tonic-ui/pull/1168)
+
 ## 2.0.0
 
 ### Patch Changes
