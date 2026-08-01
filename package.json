@@ -39,5 +39,8 @@
     "husky": "8.x",
     "lerna": "9.x"
   },
-  "packageManager": "yarn@4.17.1"
+  "packageManager": "yarn@4.17.1",
+  "resolutions": {
+    "tar": "7.5.19"
+  }
 }
