@@ -1,14 +1,11 @@
 # Contributing to icons
 
-The `@tonic-ui/react-icons` package generates icon components from SVG files
-committed directly in the repository. It no longer depends on an external icon
-package such as `@trendmicro/tmicon`.
+The `@tonic-ui/react-icons` package generates icon components from SVG files committed directly in the repository. It no longer depends on an external icon package such as `@trendmicro/tmicon`.
 
 ## Adding icons
 
 1. Obtain the SVG(s) from the design team (e.g. via Figma).
-2. Copy the SVG file(s) into `packages/react-icons/svg/`. The file name becomes
-   the icon name (kebab-case), e.g. `column-add.svg` → `ColumnAddIcon`.
+2. Copy the SVG file(s) into `packages/react-icons/svg/`. The file name becomes the icon name (kebab-case), e.g. `column-add.svg` → `ColumnAddIcon`.
 
 ## Generating icons
 
@@ -22,8 +19,7 @@ yarn
 cd packages/react-icons && yarn build-icons
 ```
 
-This regenerates the components in `src/icons/` and rewrites
-`src/icons/index.js` based on the SVG files in `svg/`.
+This regenerates the components in `src/icons/` and rewrites `src/icons/index.js` based on the SVG files in `svg/`.
 
 ## Verifying your changes
 
@@ -32,14 +28,11 @@ This regenerates the components in `src/icons/` and rewrites
 yarn dev
 ```
 
-2. Open your browser and navigate to the documentation site (usually
-   `http://localhost:3000`). Browse through the [React icons](../../icons) page
-   to ensure the new icons are displaying correctly.
+2. Open your browser and navigate to the documentation site (usually `http://localhost:3000`). Browse through the [React icons](../../icons) page to ensure the new icons are displaying correctly.
 
 ## Submitting your contribution
 
-If everything looks good and your changes are working as expected, you can
-proceed to submit your contribution.
+If everything looks good and your changes are working as expected, you can proceed to submit your contribution.
 
 1. Commit your changes:
 ```bash
