@@ -1,7 +1,7 @@
 import { useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 import { ariaAttr, isNullish, runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureFiniteNumber } from 'ensure-type';
-import { Children, forwardRef, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { Children, forwardRef, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import useShallowMemo from '../utils/useShallowMemo';
@@ -11,6 +11,28 @@ import { Descendant, useDescendant } from '../utils/descendant';
 import { TreeItemContext } from './context';
 import { useTreeItemStyle } from './styles';
 import useTree from './useTree';
+
+/**
+ * The context object passed to the `render` prop function.
+ * @typedef {import('./useTreeItem').TreeItemContextValue} TreeItemRenderContext
+ */
+
+/**
+ * @typedef {Object} TreeItemProps
+ * @property {React.ReactNode} [children] - The content of the tree item, typically nested `TreeItem` elements rendered inside the internal transition slot when the item is expandable.
+ * @property {boolean} [disabled] - If `true`, the tree item is disabled.
+ * @property {string} [id] - The `id` attribute of the tree item. If not provided, it is derived from the parent `Tree` id and the `nodeId` prop.
+ * @property {string} nodeId - The unique id of the tree item node within the `Tree`.
+ * @property {(context: TreeItemRenderContext) => React.ReactNode} render - Renders the content of the tree item. It receives the tree item context (the `useTreeItem` value) as argument.
+ * @property {{ transition?: object }} [slotProps] - Props forwarded to the internal transition slot.
+ * @property {{ transition?: React.ElementType }} [slots] - Slot components. `slots.transition` replaces the default `Collapse`.
+ * @property {React.ElementType} [TransitionComponent=Collapse] - **Deprecated.** Use `slots.transition` instead. The component used for the transition.
+ * @property {{ appear?: boolean; timeout?: number | { appear?: number; enter?: number; exit?: number } }} [TransitionProps] - **Deprecated.** Use `slotProps.transition` instead. Props applied to the transition element.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', TreeItemProps>}
+ */
 
 const TreeItem = forwardRef((inProps, ref) => {
   const {

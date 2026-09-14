@@ -1,6 +1,6 @@
 import { useClickOutside, useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 import { ariaAttr, callAll, callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { useSlot } from '../slot';
 import { useDefaultProps } from '../default-props';
 import { Slide } from '../transitions';
@@ -11,6 +11,18 @@ import {
 } from './styles';
 import useDrawer from './useDrawer';
 
+/**
+ * @typedef {Object} DrawerContentProps
+ * @property {React.ReactNode} [children] - The content of the drawer.
+ * @property {{ closeButton?: object; transition?: object }} [slotProps] - Props forwarded to the internal slots.
+ * @property {{ closeButton?: React.ElementType; transition?: React.ElementType }} [slots] - Slot components. `slots.closeButton` replaces the default `DrawerCloseButton`. `slots.transition` replaces the default `Slide`.
+ * @property {React.ElementType} [TransitionComponent=Slide] - **Deprecated.** Use `slots.transition` instead. The component used for the transition.
+ * @property {{ appear?: boolean; timeout?: number | { appear?: number; enter?: number; exit?: number } }} [TransitionProps] - **Deprecated.** Use `slotProps.transition` instead. Props applied to the transition element.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', DrawerContentProps>}
+ */
 const DrawerContent = forwardRef((inProps, ref) => {
   const {
     TransitionComponent, // deprecated

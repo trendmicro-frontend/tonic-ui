@@ -1,6 +1,6 @@
 import { useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 import { callAll, warnDeprecatedProps } from '@tonic-ui/utils';
-import { forwardRef, useRef } from 'react';
+import React, { forwardRef, useRef } from 'react';
 import { useSlot } from '../slot';
 import { useDefaultProps } from '../default-props';
 import { useAnimatePresence } from '../utils/animate-presence';
@@ -10,6 +10,17 @@ import {
 } from './styles';
 import useDrawer from './useDrawer';
 
+/**
+ * @typedef {Object} DrawerOverlayProps
+ * @property {{ transition?: object }} [slotProps] - Props forwarded to the internal transition slot.
+ * @property {{ transition?: React.ElementType }} [slots] - Slot components. `slots.transition` replaces the default `Fade`.
+ * @property {React.ElementType} [TransitionComponent=Fade] - **Deprecated.** Use `slots.transition` instead. The component used for the transition.
+ * @property {{ appear?: boolean; timeout?: number | { appear?: number; enter?: number; exit?: number } }} [TransitionProps] - **Deprecated.** Use `slotProps.transition` instead. Props applied to the transition element.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', DrawerOverlayProps>}
+ */
 const DrawerOverlay = forwardRef((inProps, ref) => {
   const {
     TransitionComponent, // deprecated

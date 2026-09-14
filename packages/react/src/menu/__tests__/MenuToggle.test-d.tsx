@@ -11,6 +11,25 @@ import { MenuToggle } from '@tonic-ui/react';
   )}
 </MenuToggle>;
 
+// Render-prop getter accepts user props (merged + disabled-gated)
+<MenuToggle>
+  {({ getMenuToggleProps }) => (
+    <button
+      type="button"
+      {...getMenuToggleProps({ disabled: true, 'data-test': 'x' })}
+    >
+      Custom Toggle
+    </button>
+  )}
+</MenuToggle>;
+
+// getToggleProps alias
+<MenuToggle>
+  {({ getToggleProps }) => (
+    <button type="button" {...getToggleProps()}>Custom Toggle</button>
+  )}
+</MenuToggle>;
+
 // Ref
 const toggleRef = createRef<HTMLButtonElement>();
 <MenuToggle ref={toggleRef}>Toggle</MenuToggle>;

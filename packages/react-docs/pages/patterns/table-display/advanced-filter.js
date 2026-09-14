@@ -5,6 +5,8 @@ import FilterButton from './components/FilterButton';
 import DropdownFilterTag from './components/DropdownFilterTag';
 import SearchDropdownFilterTag from './components/SearchDropdownFilterTag';
 import InputFilterTag from './components/InputFilterTag';
+import { FlexItem } from '@/experiments/flex-item';
+import { MutedText } from '@/experiments/muted-text';
 
 const App = () => {
   const [searchInputValue, setSearchInputValue] = useState('');
@@ -15,11 +17,20 @@ const App = () => {
       render: (props) => (
         <DropdownFilterTag
           {...props}
-          label="Device type:"
           items={[
             { value: 'desktop', label: 'Desktop' },
             { value: 'server', label: 'Server' },
           ]}
+          renderLabel={({ item }) => (
+            <Flex alignItems="center" columnGap="1x">
+              <FlexItem as={MutedText} fixed>
+                Device type:
+              </FlexItem>
+              <FlexItem tooltip>
+                {item?.label}
+              </FlexItem>
+            </Flex>
+          )}
         />
       ),
     },
@@ -29,11 +40,18 @@ const App = () => {
       render: (props) => (
         <InputFilterTag
           {...props}
-          label="Display name:"
           inputProps={{
             placeholder: 'Specify display name',
             maxLength: 256,
           }}
+          renderLabel={({ value }) => (
+            <Flex alignItems="center"columnGap="1x">
+              <Text color="text.secondary">
+                Display name:
+              </Text>
+              <Text>{value}</Text>
+            </Flex>
+          )}
         />
       ),
     },
@@ -43,12 +61,33 @@ const App = () => {
       render: (props) => (
         <SearchDropdownFilterTag
           {...props}
-          label="OS type:"
           items={[
             { value: 'windows', label: 'Windows' },
             { value: 'macos', label: 'macOS' },
             { value: 'linux', label: 'Linux' },
           ]}
+          renderLabel={({ selectedItems, isNoneSelected, isAllSelected }) => {
+            const selectionText = selectedItems.map(item => item.label).join(', ');
+            const valueText = isNoneSelected
+              ? 'Select'
+              : (isAllSelected ? 'All' : selectionText);
+            const tooltip = `OS type: ${valueText}`;
+            return (
+              <Flex alignItems="center" columnGap="1x">
+                <FlexItem as={MutedText} fixed tooltip={tooltip}>
+                  OS type:
+                </FlexItem>
+                <FlexItem tooltip={tooltip}>
+                  {valueText}
+                </FlexItem>
+                {!isNoneSelected && !isAllSelected && (
+                  <FlexItem fixed>
+                    {`(${selectedItems.length})`}
+                  </FlexItem>
+                )}
+              </Flex>
+            );
+          }}
         />
       ),
     },

@@ -109,9 +109,6 @@ export const routes = [
       { title: 'Getting started', path: 'experiments' },
 
       { title: 'FORM CONTROLS', heading: true },
-      { title: 'Dropdown', path: 'experiments/dropdown' },
-      { title: 'DropdownBase', path: 'experiments/dropdown-base' },
-      { title: 'SearchDropdown', path: 'experiments/search-dropdown' },
 
       { title: 'TYPOGRAPHY', heading: true },
       { title: 'MutedText', path: 'experiments/muted-text' },
@@ -209,6 +206,7 @@ export const routes = [
 
       { title: 'FORM CONTROLS', heading: true },
       { title: 'Autocomplete', path: 'components/autocomplete' },
+      { title: 'Dropdown', path: 'components/dropdown' },
       {
         title: 'Button',
         path: 'components/button',

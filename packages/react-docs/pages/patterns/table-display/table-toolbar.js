@@ -1,9 +1,11 @@
 import {
   Button,
   Divider,
+  Dropdown,
   Flex,
-  SearchInput,
+  MenuButton,
   Scrollbar,
+  SearchInput,
   Text,
   TextLabel,
   Tooltip,
@@ -13,7 +15,6 @@ import { CloseSIcon, ExportIcon, RefreshIcon } from '@tonic-ui/react-icons';
 import { useCallback, useState } from 'react';
 import Toolbar from '@/components/Toolbar';
 import ToolbarItem from '@/components/ToolbarItem';
-import { Dropdown } from '@/experiments/dropdown';
 import { FlexItem } from '@/experiments/flex-item';
 import { MutedText } from '@/experiments/muted-text';
 
@@ -76,17 +77,18 @@ const App = () => {
             setSelectedItem(item);
           }}
           items={defaultDropdownItems}
-          renderContent={({ items, renderItems }) => {
-            return (
-              <Scrollbar maxHeight={200} overflowY="visible">
-                {renderItems(items)}
-              </Scrollbar>
-            );
-          }}
-          width={200}
-        >
-          {renderSelectedItem(selectedItem)}
-        </Dropdown>
+          value={selectedItem}
+          renderContent={({ items, renderItems }) => (
+            <Scrollbar maxHeight={200} overflowY="visible">
+              {renderItems(items)}
+            </Scrollbar>
+          )}
+          renderToggle={({ value }) => (
+            <MenuButton width={200}>
+              {value ? renderSelectedItem(value) : null}
+            </MenuButton>
+          )}
+        />
         <SearchInput
           placeholder="Search"
           onChange={(event) => {

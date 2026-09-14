@@ -93,6 +93,12 @@ test('should match expected exports', () => {
     'DrawerOverlay',
     'useDrawer',
 
+    // dropdown
+    'Dropdown',
+    'DropdownButton',
+    'DropdownChip',
+    'DropdownToggle',
+
     // environment
     'EnvironmentProvider',
     'useEnvironment',
