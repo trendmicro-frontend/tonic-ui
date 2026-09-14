@@ -1,10 +1,10 @@
 import {
+  Dropdown,
   Flex,
 } from '@tonic-ui/react';
 import { useEffectOnce, useToggle } from '@tonic-ui/react-hooks';
 import { ensureFunction } from 'ensure-type';
 import { forwardRef, useMemo, useRef } from 'react';
-import { Dropdown } from '@/experiments/dropdown';
 import { FlexItem } from '@/experiments/flex-item';
 import { MutedText } from '@/experiments/muted-text';
 import FilterTag from './FilterTag';
@@ -15,6 +15,7 @@ const DropdownFilterTag = forwardRef((
     onClose,
     onChange,
     items = [],
+    renderLabel,
     value,
     ...rest
   },
@@ -26,6 +27,7 @@ const DropdownFilterTag = forwardRef((
       return acc;
     }, {});
   }, [items]);
+  const item = itemMap[value];
   const isSelectedRef = useRef();
   const [isOpen, toggleIsOpen] = useToggle(false);
 
@@ -62,6 +64,27 @@ const DropdownFilterTag = forwardRef((
     return Component;
   }, [onClose]);
 
+  const defaultRenderLabel = ({ label, item }) => (
+    <Flex alignItems="center" columnGap="1x">
+      <FlexItem as={MutedText} fixed>
+        {label}
+      </FlexItem>
+      <FlexItem tooltip>
+        {item?.label}
+      </FlexItem>
+    </Flex>
+  );
+  const resolveRenderLabel = (typeof renderLabel === 'function') ? renderLabel : defaultRenderLabel;
+
+  const renderToggle = ({ getToggleProps }) => {
+    const toggleProps = getToggleProps({});
+    return (
+      <FilterTagToggle {...toggleProps}>
+        {resolveRenderLabel({ label, item })}
+      </FilterTagToggle>
+    );
+  };
+
   return (
     <Dropdown
       isOpen={isOpen}
@@ -70,20 +93,9 @@ const DropdownFilterTag = forwardRef((
       onOpen={handleOpen}
       onChange={handleChange}
       items={items}
-      slots={{
-        toggle: FilterTagToggle,
-      }}
+      renderToggle={renderToggle}
       {...rest}
-    >
-      <Flex alignItems="center" columnGap="1x">
-        <FlexItem as={MutedText} fixed>
-          {label}
-        </FlexItem>
-        <FlexItem tooltip>
-          {itemMap[value]?.label}
-        </FlexItem>
-      </Flex>
-    </Dropdown>
+    />
   );
 });
 

@@ -261,7 +261,8 @@ With `autoHighlight=true`:
 | renderInput | `(params) => ReactNode` | `(params) => <AutocompleteInput {...params} />` | Render the input. Defaults to `<AutocompleteInput />`; override to add visual props (e.g. `placeholder`, `error`, `disabled`) or to render a custom-built input that forwards `ref` and `inputProps`. `params` contains `{ ref, inputProps, isClearable, onClearInput, isLoading }`. |
 | renderItem | `(item, { inputValue }) => ReactNode` | | Customize a single item's content. Default mirrors `getItemLabel`. |
 | selectOnFocus | boolean | `false` | If `true`, select the existing input text on focus, letting the user immediately type to replace the previous value. |
-| slotProps | object | | `slotProps.content` is spread on `<AutocompleteList>`. |
+| slotProps | object | | `slotProps.content` is spread on `<AutocompleteList>`; other keys (e.g. `slotProps.popper`) pass through to the internal list. |
+| slots | object | | Slot components forwarded to the internal list (e.g. `slots.popper` overrides the Popper). |
 | value | any | | Controlled selected item (or `null` for no selection). Pair with `onChange` to manage the value externally. When set, the input automatically syncs to `getItemLabel(value)` on every value change. Pass a referentially stable item (memoize if needed) to avoid spurious sync updates. |
 
 ### AutocompleteInput

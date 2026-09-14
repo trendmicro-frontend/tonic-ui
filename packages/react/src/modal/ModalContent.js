@@ -1,6 +1,6 @@
 import { useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 import { ariaAttr, callAll, callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { useSlot } from '../slot';
 import { useDefaultProps } from '../default-props';
 import { Fade } from '../transitions';
@@ -11,6 +11,18 @@ import {
 } from './styles';
 import useModal from './useModal';
 
+/**
+ * @typedef {Object} ModalContentProps
+ * @property {React.ReactNode} [children] - The content of the modal.
+ * @property {{ closeButton?: object; transition?: object }} [slotProps] - Props forwarded to internal slots. `slotProps.closeButton` / `slotProps.transition` are applied to the close button / transition elements.
+ * @property {{ closeButton?: React.ElementType; transition?: React.ElementType }} [slots] - Slot components. `slots.closeButton` replaces the default `ModalCloseButton`; `slots.transition` replaces the default `Fade`.
+ * @property {React.ElementType} [TransitionComponent=Fade] - **Deprecated.** Use `slots.transition` instead. The component used for the transition.
+ * @property {{ appear?: boolean; timeout?: number | { appear?: number; enter?: number; exit?: number } }} [TransitionProps] - **Deprecated.** Use `slotProps.transition` instead. Props applied to the transition element.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', ModalContentProps>}
+ */
 const ModalContent = forwardRef((inProps, ref) => {
   const {
     TransitionComponent, // deprecated

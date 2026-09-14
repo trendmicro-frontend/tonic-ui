@@ -1,0 +1,435 @@
+import SourceCode from '@/components/SourceCode';
+import _DropdownShim_ from '!!raw-loader!./DropdownShim';
+import _SearchDropdown_ from '!!raw-loader!./SearchDropdown';
+import _SearchDropdownShim_ from '!!raw-loader!./SearchDropdownShim';
+
+# Dropdown
+
+`Dropdown` manages selection state and renders a list of items. By default, it uses the unstyled `DropdownToggle`. To use `DropdownButton` or `DropdownChip` as the toggle, provide a [`renderToggle`](#rendertoggle) callback.
+
+## Import
+
+```js
+import {
+  Dropdown,
+  DropdownButton,
+  DropdownChip,
+  DropdownToggle,
+} from '@tonic-ui/react';
+```
+
+## Usage
+
+`Dropdown` manages the selected item and the item list:
+* `defaultValue` / `value`: Use `defaultValue` for uncontrolled mode, or `value` paired with `onChange` for controlled mode.
+* `items`: An array of selectable items. Each item typically includes a `label` and can include an identifier such as `id` of any type. See [Dropdown items](#dropdown-items) for details about the item structure.
+* `onChange`: Called with the selected item whenever the selection changes.
+
+```jsx
+const items = [
+  { id: 'all', label: 'All' },
+  { id: 1, label: 'Item 1' },
+  { id: 2, label: 'Item 2' },
+];
+
+const [value, setValue] = useState(items[0]);
+
+<Dropdown
+  sx={{ width: 200 }}
+  items={items}
+  value={value}
+  onChange={setValue}
+/>
+```
+
+ Without `renderToggle`, `Dropdown` renders the selected item inside the unstyled `DropdownToggle`. If you want to use the styled `DropdownButton` or `DropdownChip` toggles, you must provide an explicit `renderToggle`.
+
+```jsx
+// DropdownButton
+renderToggle={({ renderItem, value }) => (
+  <DropdownButton>{renderItem(value)}</DropdownButton>
+)}
+
+// DropdownChip
+renderToggle={({ renderItem, value }) => (
+  <DropdownChip>{renderItem(value)}</DropdownChip>
+)}
+
+// DropdownToggle (unstyled)
+renderToggle={({ renderItem, value }) => (
+  <DropdownToggle>{renderItem(value)}</DropdownToggle>
+)}
+```
+
+## Playground
+
+Explore the available behaviors interactively:
+
+{render('./playground')}
+
+## Dropdown items
+
+Each dropdown item is an object that can include these fields:
+
+```tsx
+type DropdownItem = {
+  /** The content to display for the item. */
+  label?: ReactNode;
+  /** One of 'group' | 'divider' | 'submenu' | 'custom'; omit for a regular menu item. */
+  type?: 'group' | 'divider' | 'submenu' | 'custom';
+  /** Child items for 'group' and 'submenu' types. */
+  children?: DropdownItem[];
+  /** Props forwarded to the underlying components. */
+  props?: Record<string, any>;
+  /** Additional fields, such as `id` or `value`, are preserved and included in the item passed to `onChange`. */
+  [key: string]: any;
+};
+```
+
+* `label` (optional): The content to display for the item.
+* `type` (optional): Selects the item structure:
+  * Omit `type` for a regular `MenuItem`.
+    ```js
+    {
+      value: 'settings',
+      label: 'Settings',
+    }
+    ```
+  * Use `'custom'` to render the item's `renderItem` result inside a `Fragment`.
+    ```js
+    {
+      type: 'custom',
+    }
+    ```
+  * Use `'divider'` to render a `MenuDivider`. It accepts `props`.
+    ```js
+    {
+      type: 'divider',
+    }
+    ```
+  * Use `'group'` to render a `MenuGroup` with `title={item.label}`. Its `children` are nested items. It accepts `props`.
+    ```js
+    {
+      type: 'group',
+      label: 'Fruits',
+      children: [
+        { value: 'apple', label: 'Apple' },
+        { value: 'banana', label: 'Banana' },
+      ],
+    }
+    ```
+  * Use `'submenu'` to render a `Submenu` and `SubmenuTrigger`. Its `children` are submenu items. It accepts `props`.
+    ```jsx
+    {
+      type: 'submenu',
+      label: (
+        <Flex
+          alignItems="center"
+          columnGap="2x"
+          justifyContent="space-between"
+          width="100%"
+        >
+          File
+          <AngleRightIcon />
+        </Flex>
+      ),
+      children: [
+        { value: 'new', label: 'New File' },
+        { value: 'open', label: 'Open File' },
+        { value: 'save', label: 'Save File' },
+      ],
+    }
+    ```
+* `props` (optional): Props forwarded to the underlying components.
+* Additional fields, such as `id` or `value`, are preserved and included in the item passed to `onChange`.
+
+{render('./advanced-configuration')}
+
+## `renderToggle`
+
+Use `renderToggle` to select or customize the toggle. The callback receives `renderItem` and `value`. `DropdownButton`, `DropdownChip`, and `DropdownToggle` own their dropdown wiring.
+
+### `DropdownButton`
+
+Use `DropdownButton` when you want a styled button toggle. It is not the default, so return it from `renderToggle` explicitly.
+
+```jsx
+renderToggle={({ renderItem, value }) => {
+  const label = renderItem(value);
+  return (
+    <DropdownButton>
+      <OverflowTooltip label={label}>
+        {label}
+      </OverflowTooltip>
+    </DropdownButton>
+  );
+}}
+```
+
+{render('./dropdown-button')}
+
+### `DropdownChip`
+
+Use `DropdownChip` when you want a chip-style toggle. Return it from `renderToggle` explicitly.
+
+```jsx
+renderToggle={({ renderItem, value }) => {
+  const label = value ? renderItem(value) : 'Select…';
+  return (
+    <DropdownChip
+      isClosable
+      onClose={() => setValue(null)}
+    >
+      <OverflowTooltip label={label}>
+        {label}
+      </OverflowTooltip>
+    </DropdownChip>
+  );
+}}
+```
+
+{render('./dropdown-chip')}
+
+### `DropdownToggle`
+
+`DropdownToggle` is the unstyled default. Use it in `renderToggle` when you need to render and style the interactive element yourself.
+
+```jsx
+renderToggle={({ renderItem, value }) => (
+  <DropdownToggle>
+    {({ getToggleProps }) => {
+      const toggleProps = getToggleProps();
+      const label = renderItem(value);
+      return (
+        <Button
+          variant="secondary"
+          sx={{
+            justifyContent: 'flex-start',
+            maxWidth: '100%',
+            width: '100%',
+            minWidth: 0,
+          }}
+          {...toggleProps}
+        >
+          <OverflowTooltip label={label}>
+            {label}
+          </OverflowTooltip>
+        </Button>
+      );
+    }}
+  </DropdownToggle>
+)}
+```
+
+{render('./dropdown-toggle')}
+
+## `renderContent`
+
+Use `renderContent` to customize the content rendered inside the dropdown. It is useful for adding a header, search input, loading state, or footer while keeping the dropdown's behavior.
+
+The callback receives:
+
+* `items`: The current dropdown items.
+* `renderItem`: Renders an individual item using the current `renderItem` configuration.
+* `renderItems`: Renders a list of items with the default item rendering and selection behavior.
+
+Use `renderItems(items)` when you only need to add content around the item list. Pass a filtered or modified array to `renderItems` when you need to customize which items are displayed.
+
+### Add content around the item list
+
+```jsx
+renderContent={({ items, renderItems }) => (
+  <>
+    <div style={{ padding: '2x' }}>
+      Select an item...
+    </div>
+    {renderItems(items)}
+  </>
+)}
+```
+
+Prefer `renderItems` for rendering the item list so that the default item rendering and selection behavior remain intact.
+
+### `SearchDropdown`
+
+This `SearchDropdown` recipe uses `renderContent` to add a `SearchInput` above the item list and render only the items that match the search keyword.
+
+* <SourceCode name="SearchDropdown.js" code={_SearchDropdown_} />
+
+{render('./search')}
+
+## Content sizing behavior
+
+* `{toggleWidth}` is the toggle's `offsetWidth`.
+* `{contentWidth}` is [`slotProps.content.width`](#slots-and-slot-props).
+
+| Behavior | minWidth | width | maxWidth | maxHeight | zIndex |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `matchWidth` | — | `{toggleWidth}` (inline through Popper) | — | 40vh | — |
+| `matchWidth` + `portalled` | — | `{toggleWidth}` (inline through Popper) | — | 40vh | popover |
+| Default | `{toggleWidth}` | `{contentWidth} ?? 'max-content'` | 640px | 40vh | — |
+| Default + `portalled` | `{toggleWidth}` | `{contentWidth} ?? 'max-content'` | 640px | 40vh | popover |
+
+> `maxHeight: '40vh'` scales with the viewport. It prevents overflow on small screens and uses available space on larger screens.
+
+## Slots and slot props
+
+Use `slots` to replace an element and `slotProps` to configure it:
+
+| Slot | Default element | Description |
+| :--- | :--- | :--- |
+| `slots.root` | `Menu` | The internal menu engine for open state, positioning, and context. |
+
+| Slot props | Applied to | Description |
+| :--- | :--- | :--- |
+| `slotProps.root` | `Menu` | Merged onto the internal menu. `slotProps.root` takes precedence over the component props. |
+| `slotProps.content` | `MenuList` | Spread onto the menu list. `width` controls [content sizing](#content-sizing-behavior). Nested `slots` and `slotProps` configure the internal menu content. |
+
+### Pass props to the content slot
+
+```jsx
+slotProps={{
+  content: {
+    sx: {
+      boxShadow: 'down.medium',
+    },
+  },
+}}
+```
+
+{render('./slot-props-content')}
+
+### Render a portalled dropdown into a specific element
+
+```jsx
+slotProps={{
+  content: {
+    portalProps: {
+      containerRef,
+    },
+  },
+}}
+```
+
+{render('./slot-props-portal-container')}
+
+## Shims
+
+These copy-paste shims support legacy dropdown APIs. They wrap `Dropdown` and are not package exports.
+
+* <SourceCode name="DropdownShim.js" code={_DropdownShim_} />
+* <SourceCode name="SearchDropdownShim.js" code={_SearchDropdownShim_} />
+
+### DropdownShim
+
+{render('./dropdown-shim')}
+
+### SearchDropdownShim
+
+{render('./search-dropdown-shim')}
+
+## Props
+
+The `DropdownProps` interface defines the core `Dropdown` API:
+
+```ts
+import React, { ReactNode, Ref } from 'react';
+
+type DropdownItem = {
+  /** The content to display for the item. */
+  label?: ReactNode;
+  /** One of 'group' | 'divider' | 'submenu' | 'custom'; omit for a regular menu item. */
+  type?: 'group' | 'divider' | 'submenu' | 'custom';
+  /** Child items for 'group' and 'submenu' types. */
+  children?: DropdownItem[];
+  /** Props forwarded to the underlying components. */
+  props?: Record<string, any>;
+  /** Additional fields, such as `id` or `value`, are preserved and included in the item passed to `onChange`. */
+  [key: string]: any;
+};
+
+export interface DropdownProps {
+  /** The initial selected item for uncontrolled mode. */
+  defaultValue?: DropdownItem | null;
+  /** The items to render in the dropdown. */
+  items?: DropdownItem[];
+  /** If true, sizes the content to match the toggle's width. */
+  matchWidth?: boolean;
+  /** Called with the selected item whenever the selection changes. */
+  onChange?: (item: DropdownItem) => void;
+  /** If true, renders the dropdown in a portal. */
+  portalled?: boolean;
+  /** Customizes the content rendered inside the dropdown, such as headers, search inputs, or footers. */
+  renderContent?: (args: {
+    items: DropdownItem[];
+    renderItem: (item: DropdownItem | null) => ReactNode;
+    renderItems: (items: DropdownItem[]) => ReactNode;
+  }) => ReactNode;
+  /** Customizes each item's content. */
+  renderItem?: (item: DropdownItem | null) => ReactNode;
+  /** Renders the toggle. Defaults to an unstyled DropdownToggle. */
+  renderToggle?: (args: {
+    renderItem: (item: DropdownItem | null) => ReactNode;
+    value: DropdownItem | null;
+  }) => ReactNode;
+  /** Props for the root and content slots. */
+  slotProps?: {
+    root?: Record<string, any>;
+    content?: Record<string, any>;
+  };
+  /** Slot components. root replaces the internal Menu engine. */
+  slots?: {
+    root?: React.ComponentType<any>;
+  };
+  /** The selected item for controlled mode. Pair with onChange. */
+  value?: DropdownItem | null;
+}
+
+declare const Dropdown: React.ForwardRefExoticComponent<
+  DropdownProps & { ref?: Ref<any> }
+>;
+```
+
+### Dropdown
+
+| Name | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| defaultValue | `DropdownItem \| null` | | The initial selected item for uncontrolled mode. |
+| items | `DropdownItem[]` | `[]` | The items to render in the dropdown. See [Advanced configuration](#advanced-configuration) for the item model. |
+| matchWidth | `boolean` | `false` | If `true`, sizes the content to match the toggle's width. See [Content sizing behavior](#content-sizing-behavior). |
+| onChange | `(item: DropdownItem) => void` | | Called with the selected item whenever the selection changes. |
+| portalled | `boolean` | `false` | If `true`, renders the dropdown in a portal. |
+| renderContent | `(args: { items: DropdownItem[], renderItem: (item: DropdownItem \| null) => ReactNode, renderItems: (items: DropdownItem[]) => ReactNode }) => ReactNode` | | Customizes the content rendered inside the dropdown, such as headers, search inputs, or footers. |
+| renderItem | `(item: DropdownItem \| null) => ReactNode` | `defaultRenderItem` | Customizes each item's content. The default returns `item.label` for plain objects and otherwise returns `item`. Custom implementations must accept `null` because the default toggle calls them before selection. |
+| renderToggle | `(args: { renderItem: (item: DropdownItem \| null) => ReactNode, value: DropdownItem \| null }) => ReactNode` | `DropdownToggle` | Renders the toggle. |
+| slotProps | `{ root?: object, content?: object }` | `{}` | Props for the root and content slots. See [Slots and slot props](#slots-and-slot-props). |
+| slots | `{ root?: React.ElementType }` | `{}` | Replaces the internal `Menu` engine through `slots.root`. |
+| value | `DropdownItem \| null` | | The selected item for controlled mode. Pair with `onChange`. |
+
+### DropdownButton
+
+| Name | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| children | `ReactNode` | | The content of the dropdown button. |
+| disabled | `boolean` | | Whether the dropdown button is disabled. |
+| onClick | `React.MouseEventHandler<HTMLButtonElement>` | | Callback when the dropdown button is clicked. |
+| onKeyDown | `React.KeyboardEventHandler<HTMLButtonElement>` | | Callback when the user presses a key. |
+| variant | `'emphasis' \| 'primary' \| 'default' \| 'secondary' \| 'ghost'` | `'secondary'` | The variant of the dropdown button. |
+
+### DropdownChip
+
+| Name | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| children | `ReactNode` | | The content of the dropdown chip. |
+| disabled | `boolean` | | Whether the dropdown chip is disabled. Sets the disabled state on the pill and prevents dropdown activation. |
+| isClosable | `boolean` | | Shows a close button on the right side of the chip. |
+| onClose | `() => void` | | Called when the close button is clicked. |
+
+### DropdownToggle
+
+| Name | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| children | `ReactNode` | | The content of the dropdown toggle. |
+| disabled | `boolean` | | Whether the dropdown toggle is disabled. |
+| onClick | `React.MouseEventHandler<HTMLButtonElement>` | | Callback when the dropdown toggle is clicked. |
+| onKeyDown | `React.KeyboardEventHandler<HTMLButtonElement>` | | Callback when the user presses a key. |

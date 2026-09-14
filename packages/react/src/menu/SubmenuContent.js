@@ -1,7 +1,7 @@
 import { useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 import { callAll, callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
-import { forwardRef, useEffect, useMemo, useRef } from 'react';
+import React, { forwardRef, useEffect, useMemo, useRef } from 'react';
 import { useSlot } from '../slot';
 import { useDefaultProps } from '../default-props';
 import { Popper } from '../popper';
@@ -10,6 +10,20 @@ import { useSubmenuContentStyle } from './styles';
 import useMenu from './useMenu';
 import useSubmenu from './useSubmenu';
 
+/**
+ * @typedef {Object} SubmenuContentProps
+ * @property {React.ReactNode} [children] - The content of the submenu.
+ * @property {React.ElementType} [PopperComponent=Popper] - **Deprecated.** Use `slots.popper` instead. The component used for the popover.
+ * @property {object} [PopperProps] - **Deprecated.** Use `slotProps.popper` instead. Props applied to the Popper component.
+ * @property {{ popper?: object; transition?: object }} [slotProps] - Props forwarded to internal slots. `slotProps.popper` / `slotProps.transition` are applied to the Popper / transition elements.
+ * @property {{ popper?: React.ElementType; transition?: React.ElementType }} [slots] - Slot components. `slots.popper` replaces the default `Popper`; `slots.transition` replaces the default `Collapse`.
+ * @property {React.ElementType} [TransitionComponent=Collapse] - **Deprecated.** Use `slots.transition` instead. The component used for the transition.
+ * @property {{ appear?: boolean; timeout?: number | { appear?: number; enter?: number; exit?: number } }} [TransitionProps] - **Deprecated.** Use `slotProps.transition` instead. Props applied to the transition element.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', SubmenuContentProps>}
+ */
 const SubmenuContent = forwardRef((inProps, ref) => {
   const {
     PopperComponent, // deprecated

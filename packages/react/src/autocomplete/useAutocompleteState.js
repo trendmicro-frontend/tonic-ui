@@ -445,7 +445,7 @@ const useAutocompleteState = ({
 
   const getItemProps = useCallback(({ index, item }) => {
     const selected = (index === clampedHighlight);
-    // Per-item props (DropdownBase parity): when an item is a plain object
+    // Per-item props (Dropdown parity): when an item is a plain object
     // with a `props` field, those props are spread onto the row element so
     // consumers can declaratively set `disabled`, `className`, `data-*`, etc.
     // per row. Consumer-supplied event handlers (onClick / onMouseEnter /

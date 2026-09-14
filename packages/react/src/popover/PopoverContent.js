@@ -11,7 +11,7 @@ import {
   warnDeprecatedProps,
 } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
-import { forwardRef, useMemo, useRef } from 'react';
+import React, { forwardRef, useMemo, useRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { useEnvironment } from '../environment';
@@ -37,6 +37,23 @@ const mapPlacementToTransformOrigin = placement => ({
   'right-end': 'left bottom',
 }[placement]);
 
+/**
+ * @typedef {Object} PopoverContentProps
+ * @property {React.ReactNode} [children] - The content of the popover.
+ * @property {React.ElementType} [PopoverArrowComponent] - **Deprecated.** Use `slots.arrow`. The component used for the arrow.
+ * @property {object} [PopoverArrowProps] - **Deprecated.** Use `slotProps.arrow`. Props applied to the arrow component.
+ * @property {React.ElementType} [PopperComponent] - **Deprecated.** Use `slots.popper`. The component used for the popover.
+ * @property {object} [PopperProps] - **Deprecated.** Use `slotProps.popper`. Props applied to the Popper component.
+ * @property {{ popper?: object; transition?: object; arrow?: object }} [slotProps] - Props forwarded to internal slots. `slotProps.popper` / `slotProps.transition` / `slotProps.arrow` are applied to the Popper / transition / arrow elements.
+ * @property {{ popper?: React.ElementType; transition?: React.ElementType; arrow?: React.ElementType }} [slots] - Slot components. `slots.popper` replaces the default `Popper`; `slots.transition` replaces the default `Grow`; `slots.arrow` replaces the default `PopoverArrow`.
+ * @property {React.ElementType} [TransitionComponent] - **Deprecated.** Use `slots.transition`. The component used for the transition.
+ * @property {object} [TransitionProps] - **Deprecated.** Use `slotProps.transition`. Props applied to the Transition element.
+ * @property {boolean} [TransitionProps.appear=true] - Whether to perform the enter transition when it first mounts.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', PopoverContentProps>}
+ */
 const PopoverContent = forwardRef((inProps, ref) => {
   const {
     PopperComponent, // deprecated

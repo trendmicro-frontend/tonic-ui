@@ -26,7 +26,7 @@ exports[`Tag should combine size, variant, and isClosable 1`] = `
 }
 
 .emotion-0:focus-visible {
-  outline-color: var(--tonic-colors-border-_primary-focused);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: calc(0px - var(--tonic-space-1h));
   outline-style: solid;
   outline-width: var(--tonic-sizes-1h);
@@ -178,7 +178,7 @@ exports[`Tag should render correctly 1`] = `
 }
 
 .emotion-0:focus-visible {
-  outline-color: var(--tonic-colors-border-_primary-focused);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: calc(0px - var(--tonic-space-1h));
   outline-style: solid;
   outline-width: var(--tonic-sizes-1h);
@@ -243,7 +243,7 @@ exports[`Tag should render with different sizes 1`] = `
 }
 
 .emotion-0:focus-visible {
-  outline-color: var(--tonic-colors-border-_primary-focused);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: calc(0px - var(--tonic-space-1h));
   outline-style: solid;
   outline-width: var(--tonic-sizes-1h);
@@ -310,7 +310,7 @@ exports[`Tag should render with different sizes 2`] = `
 }
 
 .emotion-0:focus-visible {
-  outline-color: var(--tonic-colors-border-_primary-focused);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: calc(0px - var(--tonic-space-1h));
   outline-style: solid;
   outline-width: var(--tonic-sizes-1h);
@@ -377,7 +377,7 @@ exports[`Tag should render with different sizes 3`] = `
 }
 
 .emotion-0:focus-visible {
-  outline-color: var(--tonic-colors-border-_primary-focused);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: calc(0px - var(--tonic-space-1h));
   outline-style: solid;
   outline-width: var(--tonic-sizes-1h);
@@ -444,7 +444,7 @@ exports[`Tag should render with different variants 1`] = `
 }
 
 .emotion-0:focus-visible {
-  outline-color: var(--tonic-colors-border-_primary-focused);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: calc(0px - var(--tonic-space-1h));
   outline-style: solid;
   outline-width: var(--tonic-sizes-1h);
@@ -510,7 +510,7 @@ exports[`Tag should render with different variants 2`] = `
 }
 
 .emotion-0:focus-visible {
-  outline-color: var(--tonic-colors-border-_primary-focused);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: calc(0px - var(--tonic-space-1h));
   outline-style: solid;
   outline-width: var(--tonic-sizes-1h);
@@ -577,7 +577,7 @@ exports[`Tag should render with disabled state 1`] = `
 }
 
 .emotion-0:focus-visible {
-  outline-color: var(--tonic-colors-border-_primary-focused);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: calc(0px - var(--tonic-space-1h));
   outline-style: solid;
   outline-width: var(--tonic-sizes-1h);
@@ -645,7 +645,7 @@ exports[`Tag should render with error state 1`] = `
 }
 
 .emotion-0:focus-visible {
-  outline-color: var(--tonic-colors-border-_primary-focused);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: calc(0px - var(--tonic-space-1h));
   outline-style: solid;
   outline-width: var(--tonic-sizes-1h);
@@ -713,7 +713,7 @@ exports[`Tag should render with isClosable but without onClose handler 1`] = `
 }
 
 .emotion-0:focus-visible {
-  outline-color: var(--tonic-colors-border-_primary-focused);
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
   outline-offset: calc(0px - var(--tonic-space-1h));
   outline-style: solid;
   outline-width: var(--tonic-sizes-1h);

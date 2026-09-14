@@ -1,7 +1,7 @@
 import { useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 import { callAll, getComputedStyle, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensurePositiveNumber } from 'ensure-type';
-import { forwardRef, useEffect, useRef } from 'react';
+import React, { forwardRef, useEffect, useRef } from 'react';
 import { useEnvironment } from '../environment';
 import { useSlot } from '../slot';
 import { useDefaultProps } from '../default-props';
@@ -12,6 +12,17 @@ import {
 } from './styles';
 import useModal from './useModal';
 
+/**
+ * @typedef {Object} ModalOverlayProps
+ * @property {{ transition?: object }} [slotProps] - Props forwarded to the internal transition slot.
+ * @property {{ transition?: React.ElementType }} [slots] - Slot components. `slots.transition` replaces the default `Fade`.
+ * @property {React.ElementType} [TransitionComponent=Fade] - **Deprecated.** Use `slots.transition` instead. The component used for the transition.
+ * @property {{ appear?: boolean; timeout?: number | { appear?: number; enter?: number; exit?: number } }} [TransitionProps] - **Deprecated.** Use `slotProps.transition` instead. Props applied to the transition element.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', ModalOverlayProps>}
+ */
 const ModalOverlay = forwardRef((inProps, ref) => {
   const {
     TransitionComponent, // deprecated

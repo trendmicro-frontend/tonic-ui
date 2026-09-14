@@ -20,6 +20,7 @@ import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 const InputFilterTag = forwardRef((
   {
     label,
+    renderLabel,
     value: valueProp = '',
     onChange: onChangeProp,
     onClose: onCloseProp,
@@ -60,6 +61,18 @@ const InputFilterTag = forwardRef((
     };
   }, []);
 
+  const defaultRenderLabel = ({ label, value }) => (
+    <Flex columnGap="1x">
+      <Text color={colorStyle.color.secondary}>
+        {label}
+      </Text>
+      <OverflowTooltip label={value}>
+        {value}
+      </OverflowTooltip>
+    </Flex>
+  );
+  const resolveRenderLabel = (typeof renderLabel === 'function') ? renderLabel : defaultRenderLabel;
+
   return (
     <Popover
       arrow={false}
@@ -91,14 +104,7 @@ const InputFilterTag = forwardRef((
             ensureFunction(onCloseProp)();
           }}
         >
-          <Flex columnGap="1x">
-            <Text color={colorStyle.color.secondary}>
-              {label}
-            </Text>
-            <OverflowTooltip label={valueProp}>
-              {valueProp}
-            </OverflowTooltip>
-          </Flex>
+          {resolveRenderLabel({ label, value: valueProp })}
         </FilterTag>
       </PopoverTrigger>
       <PopoverContent
