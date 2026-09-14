@@ -102,6 +102,8 @@ export { default as CollapseLeftIcon } from './CollapseLeftIcon';
 export { default as CollapseRightIcon } from './CollapseRightIcon';
 export { default as ColorIcon } from './ColorIcon';
 export { default as ColortextIcon } from './ColortextIcon';
+export { default as ColumnAddIcon } from './ColumnAddIcon';
+export { default as ColumnDeleteIcon } from './ColumnDeleteIcon';
 export { default as ColumnsIcon } from './ColumnsIcon';
 export { default as CommentIcon } from './CommentIcon';
 export { default as CompanionIcon } from './CompanionIcon';
