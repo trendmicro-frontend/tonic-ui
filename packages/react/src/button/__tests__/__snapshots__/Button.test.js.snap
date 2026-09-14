@@ -1210,12 +1210,12 @@ exports[`Button variants should render secondary variant with lg size 1`] = `
 
 .emotion-0:hover:not(:focus-visible),
 .emotion-0[data-hover]:not(:focus-visible) {
-  border-color: var(--tonic-colors-border-_primary-hovered);
+  border-color: var(--tonic-colors-border-_primary-enabled);
 }
 
 .emotion-0:active,
 .emotion-0[data-active] {
-  border-color: var(--tonic-colors-border-_primary-active);
+  border-color: var(--tonic-colors-border-_primary-enabled);
   background-color: var(--tonic-colors-_foreground-subtle-active);
   color: var(--tonic-colors-text-accent);
 }
@@ -1299,12 +1299,12 @@ exports[`Button variants should render secondary variant with md size 1`] = `
 
 .emotion-0:hover:not(:focus-visible),
 .emotion-0[data-hover]:not(:focus-visible) {
-  border-color: var(--tonic-colors-border-_primary-hovered);
+  border-color: var(--tonic-colors-border-_primary-enabled);
 }
 
 .emotion-0:active,
 .emotion-0[data-active] {
-  border-color: var(--tonic-colors-border-_primary-active);
+  border-color: var(--tonic-colors-border-_primary-enabled);
   background-color: var(--tonic-colors-_foreground-subtle-active);
   color: var(--tonic-colors-text-accent);
 }
@@ -1388,12 +1388,12 @@ exports[`Button variants should render secondary variant with sm size 1`] = `
 
 .emotion-0:hover:not(:focus-visible),
 .emotion-0[data-hover]:not(:focus-visible) {
-  border-color: var(--tonic-colors-border-_primary-hovered);
+  border-color: var(--tonic-colors-border-_primary-enabled);
 }
 
 .emotion-0:active,
 .emotion-0[data-active] {
-  border-color: var(--tonic-colors-border-_primary-active);
+  border-color: var(--tonic-colors-border-_primary-enabled);
   background-color: var(--tonic-colors-_foreground-subtle-active);
   color: var(--tonic-colors-text-accent);
 }

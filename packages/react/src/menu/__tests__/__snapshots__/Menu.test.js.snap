@@ -64,12 +64,12 @@ exports[`Menu should render correctly 1`] = `
 
 .emotion-2:hover:not(:focus-visible),
 .emotion-2[data-hover]:not(:focus-visible) {
-  border-color: var(--tonic-colors-border-_primary-hovered);
+  border-color: var(--tonic-colors-border-_primary-enabled);
 }
 
 .emotion-2:active,
 .emotion-2[data-active] {
-  border-color: var(--tonic-colors-border-_primary-active);
+  border-color: var(--tonic-colors-border-_primary-enabled);
   background-color: var(--tonic-colors-_foreground-subtle-active);
   color: var(--tonic-colors-text-accent);
 }
