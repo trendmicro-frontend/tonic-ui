@@ -89,12 +89,12 @@ const secondaryVariantStyle = ({
   const color = isInButtonGroup ? 'text.secondary' : 'text.accent';
 
   // hover
-  const hoverBorderColor = 'border._primary.hovered';
+  const hoverBorderColor = 'border._primary.enabled';
   const hoverBackgroundColor = '_foreground.subtle.hovered';
   const hoverColor = 'text.accent';
 
   // active
-  const activeBorderColor = 'border._primary.active';
+  const activeBorderColor = 'border._primary.enabled';
   const activeBackgroundColor = '_foreground.subtle.active';
   const activeColor = 'text.accent';
 
