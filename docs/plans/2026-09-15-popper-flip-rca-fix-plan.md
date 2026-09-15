@@ -12,7 +12,7 @@
 
 **Date:** 2026-09-15
 
-**Status:** P1–P3 **implemented** on branch `fix/react-popper-flip-on-content-resize` and unit-verified. The browser reproduction (Task 1) was **waived by the user** after the headless attempt failed for environmental reasons, and the browser geometry check (Task 3 Step 4 / Task 6 Step 2) remains **unverified**. Treat the end-to-end symptom fix as unconfirmed until a browser check runs.
+**Status:** P1–P3 **implemented** on branch `fix/react-popper-flip-on-content-resize` (draft PR #1207), with `.changeset/tonic-ui-pr-1207.md` added, and unit-verified. The browser reproduction (Task 1) was **waived by the user** after the headless attempt failed for environmental reasons, and the browser geometry check (Task 3 Step 4 / Task 6 Step 2) remains **unverified**. Treat the end-to-end symptom fix as unconfirmed until a browser check runs.
 
 ### Execution log
 
