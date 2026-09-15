@@ -2,12 +2,13 @@
 
 > Date: 2026-09-15
 > Branch: `fix/react-popper-flip-on-content-resize`
-> Status: implementation and package verification complete. One release artifact and one browser check remain.
+> Draft PR: https://github.com/trendmicro-frontend/tonic-ui/pull/1207
+> Status: implementation, package verification, changeset and draft PR complete. The browser check is the only unverified claim.
 
 ## Read these first
 
 - `docs/plans/2026-09-15-popper-flip-rca-fix-plan.md` — the RCA, the design decisions, the consumer-impact table, the execution log, and the verification table. It is the source of truth; this handoff does not repeat it.
-- The draft PR on `trendmicro-frontend/tonic-ui` for this branch — its description should carry the same summary.
+- Draft PR #1207 — its description carries the same summary.
 
 ## What the branch does
 
@@ -20,9 +21,11 @@
 
 ## Outstanding work
 
-1. **Changeset** — required by `AGENTS.md` and `CONTRIBUTING.md`: `.changeset/tonic-ui-pr-<PR_NUMBER>.md`, `"@tonic-ui/react": patch`. The text to use is in the plan's Task 6 Step 6. It must be added *after* the PR number exists.
-2. **Browser verification — the only unverified claim.** Task 1's RCA gate was waived by the user, so the end-to-end symptom fix is **not confirmed**. The headless attempt failed for environmental reasons, not because of the fixture: against `next dev`, every docs page (including the untouched `/components/button/`) rendered `#__next` with 0 element children, all local chunks returned 200, and there were no page errors — only the HMR `isrManifest` warning. Before retrying, find a harness where a known-good docs page actually hydrates (production static export, or a minimal standalone page), then re-create the Task 1 fixture and check: first open lands above the trigger without scrolling, reopening with room below returns to the bottom placement, at most one placement change during entry, and no `ResizeObserver loop` warning with `matchWidth` on and off.
-3. **Review the release note wording.** `computedPlacement` is a new render-prop field, and the instance lifecycle changed (no recreation on a reported placement change; destroy on detach while mounted). Both are consumer-visible and belong in the release note.
+1. **Browser verification — the only unverified claim.** Task 1's RCA gate was waived by the user, so the end-to-end symptom fix is **not confirmed**. The headless attempt failed for environmental reasons, not because of the fixture: against `next dev`, every docs page (including the untouched `/components/button/`) rendered `#__next` with 0 element children, all local chunks returned 200, and there were no page errors — only the HMR `isrManifest` warning. Before retrying, find a harness where a known-good docs page actually hydrates (production static export, or a minimal standalone page), then re-create the Task 1 fixture and check: first open lands above the trigger without scrolling, reopening with room below returns to the bottom placement, at most one placement change during entry, and no `ResizeObserver loop` warning with `matchWidth` on and off.
+2. **Review the release note wording.** `computedPlacement` is a new render-prop field, and the instance lifecycle changed (no recreation on a reported placement change; destroy on detach while mounted). Both are consumer-visible and belong in the release note.
+3. **Take the PR out of draft** once the browser check passes.
+
+The changeset is already added: `.changeset/tonic-ui-pr-1207.md` (`"@tonic-ui/react": patch`).
 
 ## Decisions already made — do not relitigate
 
