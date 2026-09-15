@@ -1,0 +1,265 @@
+import ColorPreview from '@/components/ColorPreview';
+
+# Migrating color tokens from v2 to v3
+
+> The v2 tokens remain fully backward compatible in v3. You can upgrade without changing any token references and migrate at your own pace. V3 and v3 tokens can coexist, enabling incremental adoption.
+
+## Overview
+
+Tonic UI v3 introduces a new token system based on dot notation and semantic tokens that automatically adapt to light and dark modes.
+
+Key benefits:
+
+* **Automatic color mode handling** — no need for manual colorMode switching
+* **Semantic meaning** — tokens express intent, not raw color values
+* **Improved consistency** — better alignment with the design system
+
+For app setup and breaking API changes, see the [Migrating from Tonic UI v2 to v3](../migrating-from-tonic-one-v2-to-v3) guide first.
+
+## Primitive color tokens
+
+Primitive color tokens have changed from a flat colon-based format (v2) to a nested dot notation format (v3). The numeric scale is also multiplied by 10.
+
+| Primitive token (v3) | Primitive token (v2) |
+|:--|:--|
+| <ColorPreview value="red.100" /> `red.100`<br/><ColorPreview value="red.200" /> `red.200`<br/><ColorPreview value="red.300" /> `red.300`<br/><ColorPreview value="red.400" /> `red.400`<br/><ColorPreview value="red.500" /> `red.500`<br/><ColorPreview value="red.550" /> `red.550`<br/><ColorPreview value="red.600" /> `red.600`<br/><ColorPreview value="red.600.darken.80" /> `red.600.darken.80`<br/><ColorPreview value="red.600.darken.160" /> `red.600.darken.160`<br/><ColorPreview value="red.600.darken.240" /> `red.600.darken.240`<br/><ColorPreview value="red.600.darken.320" /> `red.600.darken.320`<br/><ColorPreview value="red.600.darken.400" /> `red.600.darken.400`<br/><ColorPreview value="red.600.lighten.400" /> `red.600.lighten.400`<br/><ColorPreview value="red.600.lighten.320" /> `red.600.lighten.320`<br/><ColorPreview value="red.600.lighten.240" /> `red.600.lighten.240`<br/><ColorPreview value="red.600.lighten.160" /> `red.600.lighten.160`<br/><ColorPreview value="red.600.lighten.80" /> `red.600.lighten.80`<br/><ColorPreview value="red.650" /> `red.650`<br/><ColorPreview value="red.650.darken.80" /> `red.650.darken.80`<br/><ColorPreview value="red.650.darken.160" /> `red.650.darken.160`<br/><ColorPreview value="red.650.darken.240" /> `red.650.darken.240`<br/><ColorPreview value="red.650.darken.320" /> `red.650.darken.320`<br/><ColorPreview value="red.650.darken.400" /> `red.650.darken.400`<br/><ColorPreview value="red.650.lighten.400" /> `red.650.lighten.400`<br/><ColorPreview value="red.650.lighten.320" /> `red.650.lighten.320`<br/><ColorPreview value="red.650.lighten.240" /> `red.650.lighten.240`<br/><ColorPreview value="red.650.lighten.160" /> `red.650.lighten.160`<br/><ColorPreview value="red.650.lighten.80" /> `red.650.lighten.80`<br/><ColorPreview value="red.700" /> `red.700`<br/><ColorPreview value="red.700.darken.80" /> `red.700.darken.80`<br/><ColorPreview value="red.700.darken.160" /> `red.700.darken.160`<br/><ColorPreview value="red.700.darken.240" /> `red.700.darken.240`<br/><ColorPreview value="red.700.darken.320" /> `red.700.darken.320`<br/><ColorPreview value="red.700.darken.400" /> `red.700.darken.400`<br/><ColorPreview value="red.700.lighten.400" /> `red.700.lighten.400`<br/><ColorPreview value="red.700.lighten.320" /> `red.700.lighten.320`<br/><ColorPreview value="red.700.lighten.240" /> `red.700.lighten.240`<br/><ColorPreview value="red.700.lighten.160" /> `red.700.lighten.160`<br/><ColorPreview value="red.700.lighten.80" /> `red.700.lighten.80`<br/><ColorPreview value="red.800" /> `red.800`<br/><ColorPreview value="red.900" /> `red.900`<br/><ColorPreview value="red.1000" /> `red.1000` | <ColorPreview value="red:10" /> `red:10`<br/><ColorPreview value="red:20" /> `red:20`<br/><ColorPreview value="red:30" /> `red:30`<br/><ColorPreview value="red:40" /> `red:40`<br/><ColorPreview value="red:50" /> `red:50`<br/><ColorPreview value="red:60" /> `red:60`<br/><ColorPreview value="red:70" /> `red:70`<br/><ColorPreview value="red:80" /> `red:80`<br/><ColorPreview value="red:90" /> `red:90`<br/><ColorPreview value="red:100" /> `red:100` |
+| <ColorPreview value="magenta.100" /> `magenta.100`<br/><ColorPreview value="magenta.200" /> `magenta.200`<br/><ColorPreview value="magenta.300" /> `magenta.300`<br/><ColorPreview value="magenta.400" /> `magenta.400`<br/><ColorPreview value="magenta.500" /> `magenta.500`<br/><ColorPreview value="magenta.550" /> `magenta.550`<br/><ColorPreview value="magenta.600" /> `magenta.600`<br/><ColorPreview value="magenta.650" /> `magenta.650`<br/><ColorPreview value="magenta.700" /> `magenta.700`<br/><ColorPreview value="magenta.800" /> `magenta.800`<br/><ColorPreview value="magenta.900" /> `magenta.900`<br/><ColorPreview value="magenta.1000" /> `magenta.1000` | <ColorPreview value="magenta:10" /> `magenta:10`<br/><ColorPreview value="magenta:20" /> `magenta:20`<br/><ColorPreview value="magenta:30" /> `magenta:30`<br/><ColorPreview value="magenta:40" /> `magenta:40`<br/><ColorPreview value="magenta:50" /> `magenta:50`<br/><ColorPreview value="magenta:60" /> `magenta:60`<br/><ColorPreview value="magenta:70" /> `magenta:70`<br/><ColorPreview value="magenta:80" /> `magenta:80`<br/><ColorPreview value="magenta:90" /> `magenta:90`<br/><ColorPreview value="magenta:100" /> `magenta:100` |
+| <ColorPreview value="orange.100" /> `orange.100`<br/><ColorPreview value="orange.150" /> `orange.150`<br/><ColorPreview value="orange.200" /> `orange.200`<br/><ColorPreview value="orange.250" /> `orange.250`<br/><ColorPreview value="orange.300" /> `orange.300`<br/><ColorPreview value="orange.350" /> `orange.350`<br/><ColorPreview value="orange.400" /> `orange.400`<br/><ColorPreview value="orange.450" /> `orange.450`<br/><ColorPreview value="orange.500" /> `orange.500`<br/><ColorPreview value="orange.550" /> `orange.550`<br/><ColorPreview value="orange.600" /> `orange.600`<br/><ColorPreview value="orange.650" /> `orange.650`<br/><ColorPreview value="orange.700" /> `orange.700`<br/><ColorPreview value="orange.800" /> `orange.800`<br/><ColorPreview value="orange.900" /> `orange.900`<br/><ColorPreview value="orange.1000" /> `orange.1000` | <ColorPreview value="orange:50" /> `orange:50` |
+| <ColorPreview value="yellow.100" /> `yellow.100`<br/><ColorPreview value="yellow.150" /> `yellow.150`<br/><ColorPreview value="yellow.200" /> `yellow.200`<br/><ColorPreview value="yellow.250" /> `yellow.250`<br/><ColorPreview value="yellow.300" /> `yellow.300`<br/><ColorPreview value="yellow.350" /> `yellow.350`<br/><ColorPreview value="yellow.400" /> `yellow.400`<br/><ColorPreview value="yellow.500" /> `yellow.500`<br/><ColorPreview value="yellow.550" /> `yellow.550`<br/><ColorPreview value="yellow.600" /> `yellow.600`<br/><ColorPreview value="yellow.700" /> `yellow.700`<br/><ColorPreview value="yellow.800" /> `yellow.800`<br/><ColorPreview value="yellow.900" /> `yellow.900`<br/><ColorPreview value="yellow.1000" /> `yellow.1000` | <ColorPreview value="yellow:50" /> `yellow:50` |
+| <ColorPreview value="green.100" /> `green.100`<br/><ColorPreview value="green.200" /> `green.200`<br/><ColorPreview value="green.300" /> `green.300`<br/><ColorPreview value="green.400" /> `green.400`<br/><ColorPreview value="green.500" /> `green.500`<br/><ColorPreview value="green.550" /> `green.550`<br/><ColorPreview value="green.600" /> `green.600`<br/><ColorPreview value="green.650" /> `green.650`<br/><ColorPreview value="green.700" /> `green.700`<br/><ColorPreview value="green.800" /> `green.800`<br/><ColorPreview value="green.900" /> `green.900`<br/><ColorPreview value="green.1000" /> `green.1000` | <ColorPreview value="green:10" /> `green:10`<br/><ColorPreview value="green:20" /> `green:20`<br/><ColorPreview value="green:30" /> `green:30`<br/><ColorPreview value="green:40" /> `green:40`<br/><ColorPreview value="green:50" /> `green:50`<br/><ColorPreview value="green:60" /> `green:60`<br/><ColorPreview value="green:70" /> `green:70`<br/><ColorPreview value="green:80" /> `green:80`<br/><ColorPreview value="green:90" /> `green:90`<br/><ColorPreview value="green:100" /> `green:100` |
+| <ColorPreview value="blue.100" /> `blue.100`<br/><ColorPreview value="blue.200" /> `blue.200`<br/><ColorPreview value="blue.300" /> `blue.300`<br/><ColorPreview value="blue.400" /> `blue.400`<br/><ColorPreview value="blue.500" /> `blue.500`<br/><ColorPreview value="blue.550" /> `blue.550`<br/><ColorPreview value="blue.600" /> `blue.600`<br/><ColorPreview value="blue.600.darken.80" /> `blue.600.darken.80`<br/><ColorPreview value="blue.600.darken.160" /> `blue.600.darken.160`<br/><ColorPreview value="blue.600.darken.240" /> `blue.600.darken.240`<br/><ColorPreview value="blue.600.darken.320" /> `blue.600.darken.320`<br/><ColorPreview value="blue.600.darken.400" /> `blue.600.darken.400`<br/><ColorPreview value="blue.600.lighten.400" /> `blue.600.lighten.400`<br/><ColorPreview value="blue.600.lighten.320" /> `blue.600.lighten.320`<br/><ColorPreview value="blue.600.lighten.240" /> `blue.600.lighten.240`<br/><ColorPreview value="blue.600.lighten.160" /> `blue.600.lighten.160`<br/><ColorPreview value="blue.600.lighten.80" /> `blue.600.lighten.80`<br/><ColorPreview value="blue.650" /> `blue.650`<br/><ColorPreview value="blue.650.darken.80" /> `blue.650.darken.80`<br/><ColorPreview value="blue.650.darken.160" /> `blue.650.darken.160`<br/><ColorPreview value="blue.650.darken.240" /> `blue.650.darken.240`<br/><ColorPreview value="blue.650.darken.320" /> `blue.650.darken.320`<br/><ColorPreview value="blue.650.darken.400" /> `blue.650.darken.400`<br/><ColorPreview value="blue.650.lighten.400" /> `blue.650.lighten.400`<br/><ColorPreview value="blue.650.lighten.320" /> `blue.650.lighten.320`<br/><ColorPreview value="blue.650.lighten.240" /> `blue.650.lighten.240`<br/><ColorPreview value="blue.650.lighten.160" /> `blue.650.lighten.160`<br/><ColorPreview value="blue.650.lighten.80" /> `blue.650.lighten.80`<br/><ColorPreview value="blue.700" /> `blue.700`<br/><ColorPreview value="blue.800" /> `blue.800`<br/><ColorPreview value="blue.900" /> `blue.900`<br/><ColorPreview value="blue.1000" /> `blue.1000` | <ColorPreview value="blue:10" /> `blue:10`<br/><ColorPreview value="blue:20" /> `blue:20`<br/><ColorPreview value="blue:30" /> `blue:30`<br/><ColorPreview value="blue:40" /> `blue:40`<br/><ColorPreview value="blue:50" /> `blue:50`<br/><ColorPreview value="blue:60" /> `blue:60`<br/><ColorPreview value="blue:70" /> `blue:70`<br/><ColorPreview value="blue:80" /> `blue:80`<br/><ColorPreview value="blue:90" /> `blue:90`<br/><ColorPreview value="blue:100" /> `blue:100` |
+| <ColorPreview value="teal.100" /> `teal.100`<br/><ColorPreview value="teal.200" /> `teal.200`<br/><ColorPreview value="teal.300" /> `teal.300`<br/><ColorPreview value="teal.400" /> `teal.400`<br/><ColorPreview value="teal.500" /> `teal.500`<br/><ColorPreview value="teal.550" /> `teal.550`<br/><ColorPreview value="teal.600" /> `teal.600`<br/><ColorPreview value="teal.700" /> `teal.700`<br/><ColorPreview value="teal.800" /> `teal.800`<br/><ColorPreview value="teal.900" /> `teal.900`<br/><ColorPreview value="teal.1000" /> `teal.1000` | <ColorPreview value="teal:10" /> `teal:10`<br/><ColorPreview value="teal:20" /> `teal:20`<br/><ColorPreview value="teal:30" /> `teal:30`<br/><ColorPreview value="teal:40" /> `teal:40`<br/><ColorPreview value="teal:50" /> `teal:50`<br/><ColorPreview value="teal:60" /> `teal:60`<br/><ColorPreview value="teal:70" /> `teal:70`<br/><ColorPreview value="teal:80" /> `teal:80`<br/><ColorPreview value="teal:90" /> `teal:90`<br/><ColorPreview value="teal:100" /> `teal:100` |
+| <ColorPreview value="cyan.100" /> `cyan.100`<br/><ColorPreview value="cyan.200" /> `cyan.200`<br/><ColorPreview value="cyan.300" /> `cyan.300`<br/><ColorPreview value="cyan.400" /> `cyan.400`<br/><ColorPreview value="cyan.500" /> `cyan.500`<br/><ColorPreview value="cyan.550" /> `cyan.550`<br/><ColorPreview value="cyan.600" /> `cyan.600`<br/><ColorPreview value="cyan.650" /> `cyan.650`<br/><ColorPreview value="cyan.700" /> `cyan.700`<br/><ColorPreview value="cyan.800" /> `cyan.800`<br/><ColorPreview value="cyan.900" /> `cyan.900`<br/><ColorPreview value="cyan.1000" /> `cyan.1000` | <ColorPreview value="cyan:10" /> `cyan:10`<br/><ColorPreview value="cyan:20" /> `cyan:20`<br/><ColorPreview value="cyan:30" /> `cyan:30`<br/><ColorPreview value="cyan:40" /> `cyan:40`<br/><ColorPreview value="cyan:50" /> `cyan:50`<br/><ColorPreview value="cyan:60" /> `cyan:60`<br/><ColorPreview value="cyan:70" /> `cyan:70`<br/><ColorPreview value="cyan:80" /> `cyan:80`<br/><ColorPreview value="cyan:90" /> `cyan:90`<br/><ColorPreview value="cyan:100" /> `cyan:100` |
+| <ColorPreview value="purple.100" /> `purple.100`<br/><ColorPreview value="purple.200" /> `purple.200`<br/><ColorPreview value="purple.300" /> `purple.300`<br/><ColorPreview value="purple.300.darken.80" /> `purple.300.darken.80`<br/><ColorPreview value="purple.300.darken.160" /> `purple.300.darken.160`<br/><ColorPreview value="purple.300.darken.240" /> `purple.300.darken.240`<br/><ColorPreview value="purple.300.darken.320" /> `purple.300.darken.320`<br/><ColorPreview value="purple.300.darken.400" /> `purple.300.darken.400`<br/><ColorPreview value="purple.300.lighten.400" /> `purple.300.lighten.400`<br/><ColorPreview value="purple.300.lighten.320" /> `purple.300.lighten.320`<br/><ColorPreview value="purple.300.lighten.240" /> `purple.300.lighten.240`<br/><ColorPreview value="purple.300.lighten.160" /> `purple.300.lighten.160`<br/><ColorPreview value="purple.300.lighten.80" /> `purple.300.lighten.80`<br/><ColorPreview value="purple.400" /> `purple.400`<br/><ColorPreview value="purple.500" /> `purple.500`<br/><ColorPreview value="purple.550" /> `purple.550`<br/><ColorPreview value="purple.600" /> `purple.600`<br/><ColorPreview value="purple.600.darken.80" /> `purple.600.darken.80`<br/><ColorPreview value="purple.600.darken.160" /> `purple.600.darken.160`<br/><ColorPreview value="purple.600.darken.240" /> `purple.600.darken.240`<br/><ColorPreview value="purple.600.darken.320" /> `purple.600.darken.320`<br/><ColorPreview value="purple.600.darken.400" /> `purple.600.darken.400`<br/><ColorPreview value="purple.600.lighten.400" /> `purple.600.lighten.400`<br/><ColorPreview value="purple.600.lighten.320" /> `purple.600.lighten.320`<br/><ColorPreview value="purple.600.lighten.240" /> `purple.600.lighten.240`<br/><ColorPreview value="purple.600.lighten.160" /> `purple.600.lighten.160`<br/><ColorPreview value="purple.600.lighten.80" /> `purple.600.lighten.80`<br/><ColorPreview value="purple.650" /> `purple.650`<br/><ColorPreview value="purple.650.darken.80" /> `purple.650.darken.80`<br/><ColorPreview value="purple.650.darken.160" /> `purple.650.darken.160`<br/><ColorPreview value="purple.650.darken.240" /> `purple.650.darken.240`<br/><ColorPreview value="purple.650.darken.320" /> `purple.650.darken.320`<br/><ColorPreview value="purple.650.darken.400" /> `purple.650.darken.400`<br/><ColorPreview value="purple.650.lighten.400" /> `purple.650.lighten.400`<br/><ColorPreview value="purple.650.lighten.320" /> `purple.650.lighten.320`<br/><ColorPreview value="purple.650.lighten.240" /> `purple.650.lighten.240`<br/><ColorPreview value="purple.650.lighten.160" /> `purple.650.lighten.160`<br/><ColorPreview value="purple.650.lighten.80" /> `purple.650.lighten.80`<br/><ColorPreview value="purple.700" /> `purple.700`<br/><ColorPreview value="purple.800" /> `purple.800`<br/><ColorPreview value="purple.900" /> `purple.900`<br/><ColorPreview value="purple.1000" /> `purple.1000` | <ColorPreview value="purple:10" /> `purple:10`<br/><ColorPreview value="purple:20" /> `purple:20`<br/><ColorPreview value="purple:30" /> `purple:30`<br/><ColorPreview value="purple:40" /> `purple:40`<br/><ColorPreview value="purple:50" /> `purple:50`<br/><ColorPreview value="purple:60" /> `purple:60`<br/><ColorPreview value="purple:70" /> `purple:70`<br/><ColorPreview value="purple:80" /> `purple:80`<br/><ColorPreview value="purple:90" /> `purple:90`<br/><ColorPreview value="purple:100" /> `purple:100` |
+| <ColorPreview value="gray.100" /> `gray.100`<br/><ColorPreview value="gray.200" /> `gray.200`<br/><ColorPreview value="gray.250" /> `gray.250`<br/><ColorPreview value="gray.250.darken.80" /> `gray.250.darken.80`<br/><ColorPreview value="gray.250.darken.160" /> `gray.250.darken.160`<br/><ColorPreview value="gray.250.darken.240" /> `gray.250.darken.240`<br/><ColorPreview value="gray.250.darken.320" /> `gray.250.darken.320`<br/><ColorPreview value="gray.250.darken.400" /> `gray.250.darken.400`<br/><ColorPreview value="gray.250.lighten.400" /> `gray.250.lighten.400`<br/><ColorPreview value="gray.250.lighten.320" /> `gray.250.lighten.320`<br/><ColorPreview value="gray.250.lighten.240" /> `gray.250.lighten.240`<br/><ColorPreview value="gray.250.lighten.160" /> `gray.250.lighten.160`<br/><ColorPreview value="gray.250.lighten.80" /> `gray.250.lighten.80`<br/><ColorPreview value="gray.300" /> `gray.300`<br/><ColorPreview value="gray.350" /> `gray.350`<br/><ColorPreview value="gray.400" /> `gray.400`<br/><ColorPreview value="gray.500" /> `gray.500`<br/><ColorPreview value="gray.550" /> `gray.550`<br/><ColorPreview value="gray.600" /> `gray.600`<br/><ColorPreview value="gray.650" /> `gray.650`<br/><ColorPreview value="gray.700" /> `gray.700`<br/><ColorPreview value="gray.700.darken.80" /> `gray.700.darken.80`<br/><ColorPreview value="gray.700.darken.160" /> `gray.700.darken.160`<br/><ColorPreview value="gray.700.darken.240" /> `gray.700.darken.240`<br/><ColorPreview value="gray.700.darken.320" /> `gray.700.darken.320`<br/><ColorPreview value="gray.700.darken.400" /> `gray.700.darken.400`<br/><ColorPreview value="gray.700.lighten.400" /> `gray.700.lighten.400`<br/><ColorPreview value="gray.700.lighten.320" /> `gray.700.lighten.320`<br/><ColorPreview value="gray.700.lighten.240" /> `gray.700.lighten.240`<br/><ColorPreview value="gray.700.lighten.160" /> `gray.700.lighten.160`<br/><ColorPreview value="gray.700.lighten.80" /> `gray.700.lighten.80`<br/><ColorPreview value="gray.800" /> `gray.800`<br/><ColorPreview value="gray.800.darken.80" /> `gray.800.darken.80`<br/><ColorPreview value="gray.800.darken.160" /> `gray.800.darken.160`<br/><ColorPreview value="gray.800.darken.240" /> `gray.800.darken.240`<br/><ColorPreview value="gray.800.darken.320" /> `gray.800.darken.320`<br/><ColorPreview value="gray.800.darken.400" /> `gray.800.darken.400`<br/><ColorPreview value="gray.800.lighten.400" /> `gray.800.lighten.400`<br/><ColorPreview value="gray.800.lighten.320" /> `gray.800.lighten.320`<br/><ColorPreview value="gray.800.lighten.240" /> `gray.800.lighten.240`<br/><ColorPreview value="gray.800.lighten.160" /> `gray.800.lighten.160`<br/><ColorPreview value="gray.800.lighten.80" /> `gray.800.lighten.80`<br/><ColorPreview value="gray.900" /> `gray.900`<br/><ColorPreview value="gray.1000" /> `gray.1000` | <ColorPreview value="gray:10" /> `gray:10`<br/><ColorPreview value="gray:20" /> `gray:20`<br/><ColorPreview value="gray:30" /> `gray:30`<br/><ColorPreview value="gray:40" /> `gray:40`<br/><ColorPreview value="gray:50" /> `gray:50`<br/><ColorPreview value="gray:60" /> `gray:60`<br/><ColorPreview value="gray:70" /> `gray:70`<br/><ColorPreview value="gray:80" /> `gray:80`<br/><ColorPreview value="gray:90" /> `gray:90`<br/><ColorPreview value="gray:100" /> `gray:100` |
+| <ColorPreview value="white.100" /> `white.100`<br/><ColorPreview value="white.150" /> `white.150`<br/><ColorPreview value="white.200" /> `white.200`<br/><ColorPreview value="white.250" /> `white.250`<br/><ColorPreview value="white.300" /> `white.300`<br/><ColorPreview value="white.350" /> `white.350`<br/><ColorPreview value="white.400" /> `white.400`<br/><ColorPreview value="white.450" /> `white.450`<br/><ColorPreview value="white.500" /> `white.500`<br/><ColorPreview value="white.550" /> `white.550`<br/><ColorPreview value="white.600" /> `white.600` | |
+| <ColorPreview value="black.100" /> `black.100`<br/><ColorPreview value="black.150" /> `black.150`<br/><ColorPreview value="black.200" /> `black.200`<br/><ColorPreview value="black.250" /> `black.250`<br/><ColorPreview value="black.300" /> `black.300`<br/><ColorPreview value="black.350" /> `black.350`<br/><ColorPreview value="black.400" /> `black.400`<br/><ColorPreview value="black.450" /> `black.450`<br/><ColorPreview value="black.500" /> `black.500`<br/><ColorPreview value="black.550" /> `black.550`<br/><ColorPreview value="black.600" /> `black.600` | |
+
+> **Note:** Primitive color values in v2 and v3 are not equivalent. For example, `gray:10` = `#f2f2f2`, while `gray.100` = `#ffffff`. During migration, prefer semantic tokens over direct color values. See [Theme › colors](../../theme/colors) for the full token list.
+
+v2:
+```jsx
+<Box backgroundColor="gray:10" color="white:primary">
+  Content
+</Box>
+```
+
+v3:
+```jsx
+// Using primitive tokens
+<Box backgroundColor="gray.100" color="text.primary">
+  Content
+</Box>
+
+// Using semantic tokens (recommended)
+<Box backgroundColor="background.low" color="text.primary">
+  Content
+</Box>
+```
+
+## Semantic color tokens
+
+> For the full list of v3 semantic color tokens, see the [v3 Semantic Color Token Definitions](https://trendmicro.atlassian.net/wiki/spaces/VO/database/1939407344) for reference.
+
+v2:
+```jsx
+const [colorStyle] = useColorStyle();
+
+<Box
+  backgroundColor={colorStyle.background.primary}
+  color={colorStyle.color.primary}
+>
+  <Text color={colorStyle.color.secondary}>
+    Secondary content
+  </Text>
+</Box>
+```
+
+v3:
+```jsx
+<Box
+  backgroundColor="background.low"
+  color="text.primary"
+>
+  <Text color="text.secondary">
+    Secondary content
+  </Text>
+</Box>
+```
+
+### Text
+
+| Semantic token | Definition |
+|:--|:--|
+| <ColorPreview value="text.accent" /> `text.accent` | The most prominent neutral text color, used for headings, high-emphasis CTA text, and text in hovered, active, or selected states. |
+| <ColorPreview value="text.primary" /> `text.primary` | Standard color for general table text and paragraph text. |
+| <ColorPreview value="text.secondary" /> `text.secondary` | Color for extra and supporting descriptive text. |
+| <ColorPreview value="text.tertiary" /> `text.tertiary` | Color for default placeholder text in input fields. |
+| <ColorPreview value="text.disabled" /> `text.disabled` | Color for text in a disabled state. |
+| <ColorPreview value="error.text" /> `error.text` | Text color for error or negative states. |
+
+In v2, text colors use `white:*` (dark mode) and `black:*` (light mode) primitive tokens. In v3, these map to semantic color tokens that automatically adapt to the current color mode.
+
+| Semantic token | Primitive token (v2) |
+|:--|:--|
+| <ColorPreview value="text.accent" /> `text.accent` | <ColorPreview value="white:emphasis" /> `white:emphasis` (dark)<br/><ColorPreview value="black:emphasis" /> `black:emphasis` (light) |
+| <ColorPreview value="text.primary" /> `text.primary` | <ColorPreview value="white:primary" /> `white:primary` (dark)<br/><ColorPreview value="black:primary" /> `black:primary` (light) |
+| <ColorPreview value="text.secondary" /> `text.secondary` | <ColorPreview value="white:secondary" /> `white:secondary` (dark)<br/><ColorPreview value="black:secondary" /> `black:secondary` (light) |
+| <ColorPreview value="text.tertiary" /> `text.tertiary` | <ColorPreview value="white:tertiary" /> `white:tertiary` (dark)<br/><ColorPreview value="black:tertiary" /> `black:tertiary` (light) |
+| <ColorPreview value="text.disabled" /> `text.disabled` | <ColorPreview value="white:disabled" /> `white:disabled` (dark)<br/><ColorPreview value="black:disabled" /> `black:disabled` (light) |
+
+`_fixed.dark` — Specifies dark mode usage regardless of the current color mode:
+
+| Semantic token | Primitive token (v2) |
+|:--|:--|
+| <ColorPreview value="text._fixed.dark.accent" /> `text._fixed.dark.accent` | <ColorPreview value="white:emphasis" /> `white:emphasis` |
+| <ColorPreview value="text._fixed.dark.primary" /> `text._fixed.dark.primary` | <ColorPreview value="white:primary" /> `white:primary` |
+| <ColorPreview value="text._fixed.dark.secondary" /> `text._fixed.dark.secondary` | <ColorPreview value="white:secondary" /> `white:secondary` |
+| <ColorPreview value="text._fixed.dark.tertiary" /> `text._fixed.dark.tertiary` | <ColorPreview value="white:tertiary" /> `white:tertiary` |
+| <ColorPreview value="text._fixed.dark.disabled" /> `text._fixed.dark.disabled` | <ColorPreview value="white:disabled" /> `white:disabled` |
+
+`_fixed.light` — Specifies light mode usage regardless of the current color mode:
+
+| Semantic token | Primitive token (v2) |
+|:--|:--|
+| <ColorPreview value="text._fixed.light.accent" /> `text._fixed.light.accent` | <ColorPreview value="black:emphasis" /> `black:emphasis` |
+| <ColorPreview value="text._fixed.light.primary" /> `text._fixed.light.primary` | <ColorPreview value="black:primary" /> `black:primary` |
+| <ColorPreview value="text._fixed.light.secondary" /> `text._fixed.light.secondary` | <ColorPreview value="black:secondary" /> `black:secondary` |
+| <ColorPreview value="text._fixed.light.tertiary" /> `text._fixed.light.tertiary` | <ColorPreview value="black:tertiary" /> `black:tertiary` |
+| <ColorPreview value="text._fixed.light.disabled" /> `text._fixed.light.disabled` | <ColorPreview value="black:disabled" /> `black:disabled` |
+
+`_inverse` — Inverts the current color mode. In dark mode, objects using this token will use the inverted "light" mode colors:
+
+| Semantic token |
+|:--|
+| <ColorPreview value="text._inverse.accent" /> `text._inverse.accent` |
+| <ColorPreview value="text._inverse.primary" /> `text._inverse.primary` |
+| <ColorPreview value="text._inverse.secondary" /> `text._inverse.secondary` |
+| <ColorPreview value="text._inverse.tertiary" /> `text._inverse.tertiary` |
+| <ColorPreview value="text._inverse.disabled" /> `text._inverse.disabled` |
+
+### Background
+
+| Semantic token | Definition |
+|:--|:--|
+| <ColorPreview value="background.highest" /> `background.highest` | Used for backgrounds at the highest elevation level, such as menus, tooltips, and toasts. |
+| <ColorPreview value="background.high" /> `background.high` | Used for backgrounds at a high elevation level, such as drawers, modals, headers, and docks. |
+| <ColorPreview value="background.medium" /> `background.medium` | Used for backgrounds at a medium elevation level, such as widgets or section containers. |
+| <ColorPreview value="background.low" /> `background.low` | Used for backgrounds at the lowest elevation level, typically the default page background. |
+
+### Border
+
+For border colors indicating different "status," for example, the border in a toast notification.
+
+| Semantic token | Definition |
+|:--|:--|
+| <ColorPreview value="success.border" /> `success.border` | Border color for success status. |
+| <ColorPreview value="error.border" /> `error.border` | Border color for error or negative status. |
+| <ColorPreview value="warning.border" /> `warning.border` | Border color for major warning status. |
+| <ColorPreview value="minorWarning.border" /> `minorWarning.border` | Border color for minor warning status. |
+| <ColorPreview value="info.border" /> `info.border` | Border color for informational status. |
+| <ColorPreview value="neutral.border" /> `neutral.border` | Border color for neutral status. |
+| <ColorPreview value="promotion.border" /> `promotion.border` | Border color for promotional status. |
+
+### Icon
+
+For icon colors indicating different "status," for example, the icon in a toast notification.
+
+| Semantic token | Definition |
+|:--|:--|
+| <ColorPreview value="success.icon" /> `success.icon` | Icon color for success status. |
+| <ColorPreview value="error.icon" /> `error.icon` | Icon color for error or negative status. |
+| <ColorPreview value="warning.icon" /> `warning.icon` | Icon color for major warning status. |
+| <ColorPreview value="minorWarning.icon" /> `minorWarning.icon` | Icon color for minor warning status. |
+| <ColorPreview value="info.icon" /> `info.icon` | Icon color for informational status. |
+| <ColorPreview value="neutral.icon" /> `neutral.icon` | Icon color for neutral status. |
+| <ColorPreview value="promotion.icon" /> `promotion.icon` | Icon color for promotional status. |
+
+### Risk level
+
+For text elements:
+| Semantic token |
+|:--|
+| <ColorPreview value="riskLevel.high.text" /> `riskLevel.high.text` |
+| <ColorPreview value="riskLevel.medium.text" /> `riskLevel.medium.text` |
+| <ColorPreview value="riskLevel.low.text" /> `riskLevel.low.text` |
+| <ColorPreview value="riskLevel.uta.text" /> `riskLevel.uta.text` |
+
+For chart elements:
+| Semantic token |
+|:--|
+| <ColorPreview value="riskLevel.high.chart" /> `riskLevel.high.chart` |
+| <ColorPreview value="riskLevel.medium.chart" /> `riskLevel.medium.chart` |
+| <ColorPreview value="riskLevel.low.chart" /> `riskLevel.low.chart` |
+| <ColorPreview value="riskLevel.uta.chart" /> `riskLevel.uta.chart` |
+
+### Severity
+
+For text elements:
+| Semantic token |
+|:--|
+| <ColorPreview value="severity.critical.text" /> `severity.critical.text` |
+| <ColorPreview value="severity.high.text" /> `severity.high.text` |
+| <ColorPreview value="severity.medium.text" /> `severity.medium.text` |
+| <ColorPreview value="severity.low.text" /> `severity.low.text` |
+| <ColorPreview value="severity.informational.text" /> `severity.informational.text` |
+
+For chart elements:
+| Semantic token |
+|:--|
+| <ColorPreview value="severity.critical.chart" /> `severity.critical.chart` |
+| <ColorPreview value="severity.high.chart" /> `severity.high.chart` |
+| <ColorPreview value="severity.medium.chart" /> `severity.medium.chart` |
+| <ColorPreview value="severity.low.chart" /> `severity.low.chart` |
+| <ColorPreview value="severity.informational.chart" /> `severity.informational.chart` |
+
+### Actions
+
+| Semantic token | Definition |
+|:--|:--|
+| <ColorPreview value="actions.enabled" /> `actions.enabled` | Use as a background overlay for elements in different interaction states when their background color cannot change, such as table row, menu item, tree-view item, dashboard chart, etc. |
+| <ColorPreview value="actions.hovered" /> `actions.hovered` | Same as above. |
+| <ColorPreview value="actions.active" /> `actions.active` | Same as above. |
+| <ColorPreview value="actions.disabled" /> `actions.disabled` | Same as above. |
+| <ColorPreview value="actions.dragged" /> `actions.dragged` | Use as a background overlay for elements in "dragged" states when their background color cannot change, such as table row. |
+| <ColorPreview value="actions.current" /> `actions.current` | Current indicates the user's current location or context within the interface. This state reflects structure or navigation, not an explicit action. Use cases: expanded table rows, active tree nodes, current item in side menu. |
+| <ColorPreview value="actions.selected" /> `actions.selected` | Used to indicate "selection" directly on the background. The color blue is used to highlight the selected state, such as when a table row is selected via a radio button or checkbox. |
+| <ColorPreview value="actions.selectedHovered" /> `actions.selectedHovered` | Same as above. |
+
+See the [theme documentation](../../theme/colors) for a complete list of available semantic tokens.
+
+## Migrating color style
+
+Starting in Tonic UI v3, the color style system is backed by [semantic tokens](../../theme/colors/#semantic-tokens). The API remains unchanged — color style values now map to their semantic token equivalents:
+
+| Semantic token | Color style |
+| :--- | :--- |
+| <ColorPreview value="background.low" /> `background.low` | `colorStyle.background.primary` |
+| <ColorPreview value="background.high" /> `background.high` | `colorStyle.background.secondary` |
+| <ColorPreview value="background.highest" /> `background.highest` | `colorStyle.background.tertiary` |
+| <ColorPreview value="background._inverse.low" /> `background._inverse.low` | `colorStyle.background.inverted` |
+| <ColorPreview value="actions.hovered" /> `actions.hovered` | `colorStyle.background.highlighted` |
+| <ColorPreview value="actions.selected" /> `actions.selected` | `colorStyle.background.selected` |
+| <ColorPreview value="text.accent" /> `text.accent` | `colorStyle.color.emphasis` |
+| <ColorPreview value="text.primary" /> `text.primary` | `colorStyle.color.primary` |
+| <ColorPreview value="text.secondary" /> `text.secondary` | `colorStyle.color.secondary` |
+| <ColorPreview value="text.tertiary" /> `text.tertiary` | `colorStyle.color.tertiary` |
+| <ColorPreview value="text.disabled" /> `text.disabled` | `colorStyle.color.disabled` |
+| <ColorPreview value="success.icon" /> `success.icon` | `colorStyle.color.success` |
+| <ColorPreview value="info.icon" /> `info.icon` | `colorStyle.color.info` |
+| <ColorPreview value="warning.icon" /> `warning.icon` | `colorStyle.color.warning` |
+| <ColorPreview value="error.icon" /> `error.icon` | `colorStyle.color.error` |
+| <ColorPreview value="border.tertiary" /> `border.tertiary` | `colorStyle.divider` |
+| <ColorPreview value="_foreground.primary.enabled" /> `_foreground.primary.enabled` | `colorStyle.text.selection` |
+| <ColorPreview value="_highlight" /> `_highlight` | `colorStyle.text.highlight` |
+| <ColorPreview value="background.high" boxShadow="high" /> `high` | `colorStyle.shadow.thin` |
+| <ColorPreview value="background.high" boxShadow="medium" /> `medium` | `colorStyle.shadow.medium` |
+| <ColorPreview value="background.high" boxShadow="low" /> `low` | `colorStyle.shadow.thick` |
+
+## Getting help
+
+If you encounter any issues during token migration:
+
+* Check the [theme documentation](../../theme) for the complete list of semantic tokens.
+* Refer to the [Migrating from Tonic UI v2 to v3](../migrating-from-tonic-one-v2-to-v3) guide for app setup and breaking API changes.
+* Open a GitHub issue for additional support.
