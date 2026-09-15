@@ -28,7 +28,8 @@ const matchWidthModifier = {
 
 /**
  * @typedef {Object} PopperChildProps
- * @property {string} placement - The current placement of the popper, as computed by Popper.js.
+ * @property {string} placement - The preferred placement, as passed through the `placement` prop.
+ * @property {string} computedPlacement - The placement computed by Popper.js. It differs from `placement` when a modifier such as `flip` or `preventOverflow` changes it.
  * @property {{ in: boolean; onEnter: () => void; onExited: () => void }} [transition] - Transition props when `willUseTransition` is true.
  */
 
@@ -42,11 +43,11 @@ const matchWidthModifier = {
 /**
  * @typedef {Object} PopperProps
  * @property {HTMLElement | (() => HTMLElement) | null} [anchorEl] - Deprecated: Use `referenceRef` instead. The element or a function returning an element to which the popper is attached.
- * @property {React.ReactNode | ((context: PopperChildProps) => React.ReactNode)} [children] - The content of the popper. Can be a ReactNode or a render function that receives `{ placement }`.
+ * @property {React.ReactNode | ((context: PopperChildProps) => React.ReactNode)} [children] - The content of the popper. Can be a ReactNode or a render function that receives `{ placement, computedPlacement }`.
  * @property {boolean} [isOpen] - Whether the popper is open.
  * @property {boolean} [matchWidth=false] - If `true`, sizes the popper to match the reference element's width on every update. Useful for autocomplete, date-picker, and select patterns.
  * @property {Array<import('@popperjs/core').Modifier<string, object>>} [modifiers] - Popper.js modifiers to customize positioning behavior.
- * @property {'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end'} [placement='bottom-start'] - The preferred placement of the popper. It is passed to Popper.js as the preferred placement; the placement computed by Popper.js is what the render function receives.
+ * @property {'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end'} [placement='bottom-start'] - The preferred placement of the popper. It is passed to Popper.js as the preferred placement; the placement computed by Popper.js is reported to the render function as `computedPlacement`.
  * @property {React.MutableRefObject<PopperInstance | null>} [popperRef] - Reference to receive the popper instance.
  * @property {boolean} [portalled] - If `true`, renders the popper in a portal. Takes precedence over `usePortal` when provided.
  * @property {import('../portal/Portal').PortalProps} [portalProps] - Props to pass to the Portal component when `portalled` is true.
@@ -111,10 +112,10 @@ const Popper = forwardRef((inProps, ref) => {
     computedPlacement: preferredPlacement,
   }));
 
-  // The placement reported to children is the one computed by popper.js, or the
-  // preferred placement when it changed since the last update cycle (popper.js
-  // already re-runs every cycle with `state.options.placement`).
-  const placement = (placementState.preferredPlacement === preferredPlacement)
+  // The placement computed by popper.js, falling back to the preferred placement
+  // when it changed since the last update cycle (popper.js re-runs every cycle
+  // with `state.options.placement`).
+  const computedPlacement = (placementState.preferredPlacement === preferredPlacement)
     ? placementState.computedPlacement
     : preferredPlacement;
 
@@ -253,7 +254,7 @@ const Popper = forwardRef((inProps, ref) => {
     return null;
   }
 
-  const childProps = { placement };
+  const childProps = { placement: preferredPlacement, computedPlacement };
 
   if (willUseTransition) {
     childProps.transition = {

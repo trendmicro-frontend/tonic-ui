@@ -2,6 +2,7 @@
 import { act, render, screen } from '@testing-library/react';
 import { createPopper } from '@popperjs/core';
 import React from 'react';
+import { Box } from '../../box';
 import { EnvironmentProvider } from '../../environment';
 import Popper from '../Popper';
 
@@ -27,7 +28,7 @@ const reportPopperPlacement = (placement, callIndex = 0) => {
 };
 
 describe('Popper', () => {
-  const PopperContent = () => <div data-testid="popper-content">Popper Content</div>;
+  const PopperContent = () => <Box data-testid="popper-content">Popper Content</Box>;
 
   beforeEach(() => {
     // Clear mock calls between tests
@@ -445,17 +446,24 @@ describe('Popper', () => {
 
     render(
       <Popper modifiers={modifiers} referenceRef={referenceRef}>
-        {({ placement }) => <div data-testid="popper-placement">{placement}</div>}
+        {({ placement, computedPlacement }) => (
+          <>
+            <Box data-testid="popper-placement">{placement}</Box>
+            <Box data-testid="popper-computed-placement">{computedPlacement}</Box>
+          </>
+        )}
       </Popper>
     );
 
     expect(screen.getByTestId('popper-placement')).toHaveTextContent('bottom-start');
+    expect(screen.getByTestId('popper-computed-placement')).toHaveTextContent('bottom-start');
 
     act(() => {
       reportPopperPlacement('top-start');
     });
 
-    expect(screen.getByTestId('popper-placement')).toHaveTextContent('top-start');
+    expect(screen.getByTestId('popper-placement')).toHaveTextContent('bottom-start');
+    expect(screen.getByTestId('popper-computed-placement')).toHaveTextContent('top-start');
     expect(createPopper).toHaveBeenCalledTimes(1);
     expect(createPopper.mock.calls[0][2].placement).toBe('bottom-start');
   });
@@ -466,7 +474,12 @@ describe('Popper', () => {
 
     render(
       <Popper placement="bottom-start" modifiers={modifiers} referenceRef={referenceRef}>
-        {({ placement }) => <div data-testid="popper-placement">{placement}</div>}
+        {({ placement, computedPlacement }) => (
+          <>
+            <Box data-testid="popper-placement">{placement}</Box>
+            <Box data-testid="popper-computed-placement">{computedPlacement}</Box>
+          </>
+        )}
       </Popper>
     );
 
@@ -474,7 +487,8 @@ describe('Popper', () => {
       reportPopperPlacement('top-start');
     });
 
-    expect(screen.getByTestId('popper-placement')).toHaveTextContent('top-start');
+    expect(screen.getByTestId('popper-placement')).toHaveTextContent('bottom-start');
+    expect(screen.getByTestId('popper-computed-placement')).toHaveTextContent('top-start');
     expect(createPopper).toHaveBeenCalledTimes(1);
     expect(createPopper.mock.calls[0][2].placement).toBe('bottom-start');
   });
@@ -484,7 +498,12 @@ describe('Popper', () => {
     const modifiers = [];
     const renderPopper = (placement) => (
       <Popper placement={placement} modifiers={modifiers} referenceRef={referenceRef}>
-        {({ placement: computedPlacement }) => <div data-testid="popper-placement">{computedPlacement}</div>}
+        {({ placement: nextPlacement, computedPlacement }) => (
+          <>
+            <Box data-testid="popper-placement">{nextPlacement}</Box>
+            <Box data-testid="popper-computed-placement">{computedPlacement}</Box>
+          </>
+        )}
       </Popper>
     );
 
@@ -495,12 +514,14 @@ describe('Popper', () => {
     expect(createPopper).toHaveBeenCalledTimes(2);
     expect(createPopper.mock.calls[1][2].placement).toBe('left-start');
     expect(screen.getByTestId('popper-placement')).toHaveTextContent('left-start');
+    expect(screen.getByTestId('popper-computed-placement')).toHaveTextContent('left-start');
 
     act(() => {
       reportPopperPlacement('right-start', 1);
     });
 
-    expect(screen.getByTestId('popper-placement')).toHaveTextContent('right-start');
+    expect(screen.getByTestId('popper-placement')).toHaveTextContent('left-start');
+    expect(screen.getByTestId('popper-computed-placement')).toHaveTextContent('right-start');
     expect(createPopper).toHaveBeenCalledTimes(2);
   });
 

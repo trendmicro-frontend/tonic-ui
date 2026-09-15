@@ -291,7 +291,7 @@ const PopoverContent = forwardRef((inProps, ref) => {
         ...ensureArray(popperSlotProps?.modifiers),
       ]}
     >
-      {({ placement, transition }) => {
+      {({ computedPlacement, transition }) => {
         const { in: inProp, onEnter, onExited } = { ...transition };
         return (
           <TransitionSlot
@@ -325,7 +325,7 @@ const PopoverContent = forwardRef((inProps, ref) => {
                   tabIndex={tabIndex}
                   {...styleProps}
                   {...transitionStyle}
-                  transformOrigin={mapPlacementToTransformOrigin(placement)}
+                  transformOrigin={mapPlacementToTransformOrigin(computedPlacement)}
                   {...rest}
                 >
                   {!!arrow && (
