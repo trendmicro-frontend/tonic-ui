@@ -21,22 +21,53 @@
 - `packages/react/src/popper/Popper.js`
   - internal `observePopperResize` modifier observing `state.elements.popper`, resolved through `useEnvironment().getWindow()`, with the constructor read through `useLatestRef` so `EnvironmentProvider` value churn cannot recreate the instance;
   - `refUpdater` calls `cleanupPopper()` on detachment;
-  - `preferredPlacement` feeds `createPopper()`; `placementState` (keyed by the preferred placement) is what the render function receives; the `placementProp !== undefined` short-circuit is gone;
+  - `preferredPlacement` is the only `createPopper()` input. The render function receives `{ placement: preferredPlacement, computedPlacement }`; `computedPlacement` comes from the keyed `placementState`. This keeps the pre-existing meaning of the render-prop `placement` and exposes the computed value additively;
+  - the `placementProp !== undefined` short-circuit is gone, so a computed placement is never fed back as the preferred input;
   - `modifiers = defaultModifiers` (module-level array) replaces the per-render `[]` default;
-  - JSDoc for `placement`, `PopperChildProps.placement`, and `PopperInstance.update` updated.
-- `packages/react/src/popper/__tests__/Popper.test.js` — mock now exposes `update`; 8 tests added (19 total).
+  - JSDoc for `placement`, `PopperChildProps`, and `PopperInstance.update` updated.
+- `packages/react/src/popover/PopoverContent.js` and `packages/react/src/tooltip/TooltipContent.js` — the render function now reads `computedPlacement` for `transformOrigin`, so the scale origin follows the side the popper actually sits on.
+- `packages/react/src/popper/__tests__/Popper.test.js` — mock now exposes `update`; 8 tests added (19 total); JSX uses `Box` rather than a raw `div`, matching the component library convention.
+- `packages/react/src/popover/__tests__/PopoverContent.placement.test.js` and `packages/react/src/tooltip/__tests__/TooltipContent.placement.test.js` — new files that mock `@popperjs/core`, report a flipped placement through `handlePopperUpdate`, and assert the grow origin follows it. They are separate files because a file-scoped popper mock would disturb the existing snapshot suites.
+- `packages/react-docs/pages/components/{popover,tooltip,autocomplete,menu,date-pickers/date-picker}/index.page.mdx` — the `placement` prop tables now state that it is the preferred placement and that Popper.js may choose a different one when `flip` is enabled. `Popper` itself has no docs page, so its JSDoc is the contract.
+
+**Consumer impact (verified)**
+
+Only `Popover`/`Tooltip` read a placement-dependent style, and only for `transformOrigin` (`transformOrigin` appears nowhere else in `packages/react/src`). `Grow` animates `opacity` and `transform` only and never changes layout size, so the popper's box is final on the first measurement and `flip` decides before the enter transition starts; reading `computedPlacement` therefore makes the grow direction correct from the first frame, whereas the preferred value is wrong exactly when a flip fires.
+
+| Consumer | Passes to Popper | Placement-dependent use | Effect of this change |
+| :--- | :--- | :--- | :--- |
+| `popover/PopoverContent.js:277,311` | context placement (preferred) | `transformOrigin` | reads `computedPlacement`; grow origin follows a flip |
+| `tooltip/TooltipContent.js:248,263` | context placement (preferred) | `transformOrigin` | same as Popover |
+| `menu/MenuContent.js:183,225` | context placement (preferred) | none in the popper (render-prop `placement` destructured, unused) | none |
+| `menu/Menu.js:206,211` | context placement (preferred) | `mapPlacementToDirection` → `direction` → `MenuToggleIcon` | none; still the preferred placement |
+| `menu/SubmenuContent.js:133,207,249` | context placement (preferred) | keyboard close key | none; still the preferred placement |
+| `menu/SubmenuList.js:22` → `menu/styles.js:157-181` | — | inline absolute positioning of the non-portalled submenu | none; still the preferred placement |
+| `date-pickers/DatePicker/DatePickerContent.js:144` | context placement (preferred) | none (no `placement` in its styles) | none |
+| `autocomplete/AutocompleteList.js:98` | context placement (preferred); `flip` disabled (`:46-49`) | none | none |
+
+No consumer writes the reported value back into a `placement` prop or context, so there is no feedback loop. `data-popper-placement` continues to be written imperatively by popper.js on the popper element and by `handlePopperUpdate` on the arrow; React re-renders do not overwrite it because the consumer's rendered value is unchanged, so arrow styling is unaffected.
+
+**Known gaps left in place (pre-existing, only reachable when a consumer enables `flip`)**
+
+`Menu` and `Submenu` disable `flip` by default (`MenuContent.js:160-163`, `SubmenuContent.js:174-179`), so these only surface if a consumer opts in through `slotProps.popper.modifiers`:
+
+- `MenuToggleIcon` direction is derived from the preferred placement in `Menu.js:206`, and the icon lives in the toggle, outside the popper. Fixing it would require lifting `computedPlacement` back into the menu context, re-rendering the whole menu subtree on every flip.
+- `SubmenuContent`'s keyboard close key (`:133`) and `useSubmenuListStyle`'s inline positioning (`menu/styles.js:157-181`) also read the preferred placement.
 
 **Verified**
 
 | Check | Result |
 | :--- | :--- |
 | `yarn test --testPathPattern="__tests__/Popper.test.js"` | 19/19 pass |
-| Same 19 tests against pre-fix `Popper.js` | 7 of the 8 new tests fail (RED confirmed) |
+| Same 19 tests against `main`'s `Popper.js` | 7 of the 8 new tests fail (RED confirmed against `cd71567145`) |
 | `observePopperResize` dep changed from `[getWindowRef]` to `[getWindow]` | identity test fails (`3` instances instead of `1`) — the `useLatestRef` design is load-bearing |
-| `yarn test` (whole `packages/react`) | 118 suites, 829 tests, 90 snapshots — all pass, no snapshot updates needed |
+| `yarn test` (whole `packages/react`) | 120 suites, 831 tests, 90 snapshots — all pass, no snapshot updates needed |
+| `PopoverContent`/`TooltipContent` origin tests reverted to read `placement` | both fail (`Expected` vs. the centred origin) — the consumer wiring is covered |
 | `yarn lint` | 0 errors; no new warnings |
 | `yarn test:types` | 208 errors both before and after the change — pre-existing, unchanged; `Popper.test-d.tsx` reports none |
 | `yarn build` | `dist/cjs`, `dist/esm`, `dist/index.d.ts` built |
+| Independent review: placement state machine (races, batching, close/reopen, loops, dep array) | no defect found; the keyed-state invariant, the destroyed-instance `forceUpdate` early return, and the reference-equality bail-out all hold |
+| Independent review: consumer impact across all six Popper-based components | only `Popover`/`Tooltip` read the argument; no feedback loop; no snapshot pins the old behavior |
 
 The one new test that passes pre-fix is the `EnvironmentProvider` identity test: it guards the new design rather than reproducing the original bug.
 
@@ -71,15 +102,15 @@ Material corrections:
 8. P1 covers changes to the popper box. It does not cover reference-only resize or layout shift.
 9. P3 stabilizes only Popper's omitted default. Overlay callers still construct merged modifier arrays inline and may recreate the instance on their own renders.
 10. `SubmenuContent` keyboard close direction uses the requested context placement, not Popper's render-prop placement. This plan must not claim to fix flipped submenu keyboard direction.
-11. P2 changes observable behavior for controlled consumers: today their render-prop `placement` is always the requested value, so `Popover`/`Tooltip` are not affected today; after P2 they receive the computed value. That is the intended fix, and it belongs in the release note.
+11. Render-prop naming, as decided: `placement` keeps its meaning (the preferred placement) and the computed placement is exposed additively as `computedPlacement`. P2's remaining behavior change is for an uncontrolled `<Popper>`, which no longer feeds the computed placement back as the preferred input and therefore no longer recreates the instance on a flip. `Popover`/`Tooltip` now read `computedPlacement` for `transformOrigin`, which is the one placement-dependent visual in the library.
 
 ## Global constraints
 
-- Target production files: `packages/react/src/popper/Popper.js` and `packages/react/src/popper/__tests__/Popper.test.js` only.
+- Production files: `packages/react/src/popper/Popper.js`, `packages/react/src/popover/PopoverContent.js`, `packages/react/src/tooltip/TooltipContent.js`, plus their tests. Nothing else.
 - Keep `@popperjs/core@2.11.8`; do not migrate dependencies.
 - Keep the explicit synchronous `popperInstance.forceUpdate()`.
 - Never pass a computed placement to `createPopper()` or `setOptions()`.
-- `placement` prop means the requested/preferred placement. Render-prop `placement` means Popper core's current computed placement.
+- `placement` prop means the preferred placement and is the only `createPopper()` input. Render-prop `placement` means the same preferred placement; the placement computed by Popper.js is exposed additively as `computedPlacement`.
 - `ResizeObserver` remains optional: resolve it from `useEnvironment().getWindow()`, add no global polyfill, and do not fail when the environment window does not provide it.
 - Browser reproduction and post-fix geometry checks are release gates. Mock-only tests are insufficient.
 - Remove the temporary docs fixture before committing production changes.
@@ -146,9 +177,9 @@ Also make callback-ref detachment call `cleanupPopper()`.
 Separate:
 
 - `preferredPlacement`: the consumer input passed to `createPopper()`;
-- `computedPlacement`: the current core result reported to render-prop children.
+- `computedPlacement`: the current core result, exposed to render-prop children.
 
-Remove the `placementProp !== undefined` early return. Key computed state by the preferred placement so an actual prop change is visible immediately and a stale effect cannot overwrite a new computed result.
+The render function receives `{ placement: preferredPlacement, computedPlacement }`. Keeping `placement` on the preferred value preserves the pre-existing contract for every consumer, and `computedPlacement` carries the value that a `flip` or `preventOverflow` produced. Remove the `placementProp !== undefined` early return. Key computed state by the preferred placement so an actual prop change is visible immediately and a stale report cannot overwrite a new computed result.
 
 ### P3 — Small stability correction
 
@@ -170,14 +201,14 @@ Use one module-level `defaultModifiers` array when the prop is omitted. This rem
 3. Popper-element size changes call debounced `instance.update()`.
 4. Ref detachment destroys the current instance and clears internal/external instance refs.
 5. The observer disconnects through the modifier cleanup returned to Popper core.
-6. Explicit `placement="bottom-start"` remains the `createPopper()` input even when the computed/rendered placement is `top-start`.
-7. Omitted `placement` has the same requested-versus-computed behavior.
+6. Explicit `placement="bottom-start"` remains the `createPopper()` input, and the render function still receives it as `placement`.
+7. The render function receives the placement computed by Popper.js as `computedPlacement`.
 8. Changing the placement prop creates one replacement instance with the new preferred input; the previous computed placement is not fed back.
 9. Rerendering a raw `Popper` with no `modifiers` prop does not recreate the instance solely because of the default value.
 10. No `ResizeObserver loop` warning appears in the browser smoke with `matchWidth` both disabled and enabled.
 11. The observer constructor comes from `useEnvironment().getWindow()`, so iframe and shadow-DOM environments do not silently fall back to the global realm.
 12. Entry produces at most one `bottom-*` → `top-*` placement change, with no oscillation or blank frame.
-13. A controlled consumer that reads the render-prop `placement` receives the computed value; `Popover` and `Tooltip` transform origins follow a flipped placement.
+13. `Popover` and `Tooltip` grow from the edge that faces the trigger, including when a flip moves the popper to the other side.
 
 ---
 
@@ -445,17 +476,17 @@ rtk git commit -m "fix(react/popper): update position after content resize"
 
 **Interfaces:**
 - Consumes: Popper core `state.placement`.
-- Produces: preferred placement for core input; computed placement for render-prop output.
+- Produces: `preferredPlacement` for the core input; render-prop children receive `{ placement: preferredPlacement, computedPlacement }`.
 
 - [ ] **Step 1: Add failing behavior tests**
 
 Add distinct tests for:
 
-1. omitted `placement`: invoke `handlePopperUpdate.fn()` with `top-start`; child output becomes `top-start`, `createPopper()` input stays `bottom-start`, and the instance count stays one;
-2. explicit `placement="bottom-start"`: the same computed `top-start` reaches the child despite the explicit prop;
-3. prop change after a computed flip: rerender with `placement="left-start"`; exactly one replacement is created with `left-start`; invoke its modifier with `right-start`; child output becomes `right-start` without another replacement.
+1. omitted `placement`: invoke `handlePopperUpdate.fn()` with `top-start`; `placement` stays `bottom-start`, `computedPlacement` becomes `top-start`, the `createPopper()` input stays `bottom-start`, and the instance count stays one;
+2. explicit `placement="bottom-start"`: same assertions with the prop set;
+3. prop change after a computed flip: rerender with `placement="left-start"`; exactly one replacement is created with `left-start`, and both `placement` and `computedPlacement` are `left-start`; invoke the new instance's modifier with `right-start`; `placement` stays `left-start` and `computedPlacement` becomes `right-start`, with no further replacement.
 
-Pass the same module- or test-scoped `const stableModifiers = []` to every render in these three tests. This isolates P2 from the separate unstable-default defect handled in Task 5. Use `act()` when invoking modifier functions that update React state.
+Render the two values into separate test nodes (`popper-placement`, `popper-computed-placement`) using `Box`, and pass the same module- or test-scoped `const stableModifiers = []` to every render in these three tests. This isolates P2 from the separate unstable-default defect handled in Task 5. Use `act()` when invoking modifier functions that update React state.
 
 - [ ] **Step 2: Run and confirm RED**
 
@@ -463,7 +494,7 @@ Pass the same module- or test-scoped `const stableModifiers = []` to every rende
 rtk yarn test --testPathPattern="__tests__/Popper.test.js"
 ```
 
-Expected: the explicit-placement test remains at `bottom-start`; the omitted-placement test recreates with the computed placement.
+Expected: `computedPlacement` is `undefined`, and the omitted-placement case recreates the instance with the computed placement.
 
 - [ ] **Step 3: Replace the placement state model**
 
@@ -475,12 +506,18 @@ const [placementState, setPlacementState] = useState(() => ({
   preferredPlacement,
   computedPlacement: preferredPlacement,
 }));
-const placement = (placementState.preferredPlacement === preferredPlacement)
+const computedPlacement = (placementState.preferredPlacement === preferredPlacement)
   ? placementState.computedPlacement
   : preferredPlacement;
 ```
 
-Pass only `preferredPlacement` to `createPopper()` and include it, not reported `placement`, in `setupPopper` dependencies.
+Report both values to the render function:
+
+```js
+const childProps = { placement: preferredPlacement, computedPlacement };
+```
+
+Pass only `preferredPlacement` to `createPopper()` and include it, not `computedPlacement`, in `setupPopper` dependencies.
 
 Inside `handlePopperUpdate`:
 
@@ -561,7 +598,7 @@ rtk git commit -m "fix(react/popper): stabilize default modifiers"
 
 - [ ] **Step 1: Run full package verification**
 
-P2 changes the placement reported to render-prop children for every controlled consumer (`MenuContent`, `SubmenuContent`, `PopoverContent`, `TooltipContent`, `AutocompleteList`, `DatePickerContent`). Run the whole package, not only the Popper suite. From `packages/react`:
+`Popover`/`Tooltip` read `computedPlacement`, and `Popper`'s render prop gained a field, so run the whole package rather than the Popper suite alone. From `packages/react`:
 
 ```bash
 rtk yarn test
@@ -570,7 +607,7 @@ rtk yarn test:types
 rtk yarn build
 ```
 
-Expected: the full suite passes. The Popper suite must show the P1/P2/P3 regression tests plus the 11 pre-existing tests. If any `Popover`/`Tooltip`/`Menu` snapshot changes, inspect it: a changed `transformOrigin` or `data-popper-placement` is the intended correction only when a modifier actually reported a different placement. Do not re-pin a snapshot without explaining the change.
+Expected: the full suite passes — 120 suites, 831 tests, 90 snapshots. The Popper suite must show the 8 regression tests plus the 11 pre-existing tests (19 total). If any `Popover`/`Tooltip`/`Menu` snapshot changes, inspect it; under jsdom no overflow exists, so the requested and computed placements coincide and no snapshot should move.
 
 - [ ] **Step 2: Run the final browser smoke with the fixture still present**
 
@@ -588,7 +625,7 @@ Delete `packages/react-docs/pages/components/menu/popper-flip-regression.js` and
 
 - [ ] **Step 4: Review final scope**
 
-The production diff must contain only Popper implementation/tests. No Floating UI migration, reference observation, overlay modifier memoization, or submenu keyboard change.
+The production diff must contain only `popper/Popper.js`, `popover/PopoverContent.js`, `tooltip/TooltipContent.js` and their tests. No Floating UI migration, reference observation, overlay modifier memoization, submenu keyboard change, or `MenuToggleIcon` change.
 
 - [ ] **Step 5: Push code and open the PR before creating the changeset**
 
@@ -603,13 +640,14 @@ Create `.changeset/tonic-ui-pr-<PR_NUMBER>.md`:
 "@tonic-ui/react": patch
 ---
 
-fix(react/popper): update flipped placement after popper content resizes
+fix(react/popper): update the position after the popper content resizes
 
-- `Popper` now re-runs its update cycle when the popper element changes size, so a `flip`-enabled overlay flips on the first open instead of waiting for a scroll.
-- The render-prop `placement` now reports the current computed placement. `Popover` and `Tooltip` transform origins follow the actual placement when a flip occurs. Types are unchanged.
+- `Popper` re-runs its update cycle when the popper element changes size, so a `flip`-enabled overlay flips on the first open instead of waiting for a scroll.
+- `Popper`'s render function also receives `computedPlacement`, the placement Popper.js actually used. The `placement` prop and the render-prop `placement` keep meaning the preferred placement. `Popover` and `Tooltip` use `computedPlacement` so they grow from the edge facing the trigger.
+- `Popper` no longer recreates its instance when Popper.js reports a different placement, and it now destroys the instance when the popper element is detached while the component stays mounted.
 ```
 
-The second bullet is a behavior change for consumers that read `placement` from `Popper`'s render prop; keep it in the release note rather than treating it as an internal detail.
+The `computedPlacement` addition and the changed instance lifecycle are what external consumers need to know; keep both in the release note rather than treating them as internal details.
 
 Commit and push it after the PR exists.
 
@@ -631,7 +669,7 @@ Commit and push it after the PR exists.
 **修法**
 
 - **P1（根因）**：用一個 internal modifier 的 `effect` 觀察 `state.elements.popper`，尺寸變動時呼叫 `instance.update()`；cleanup 回傳 `disconnect()`，讓 Popper core 在 `destroy()` / `setOptions()` 時自動清理。`ResizeObserver` 由 `useEnvironment().getWindow()` 取得（不是 global），以支援 iframe / shadow DOM 情境。另外補上 ref detach → `cleanupPopper()`，避免節點卸載後 instance 與 observer 仍存活。
-- **P2（語意）**：把「要求的 placement」與「算出來的 placement」分離。`createPopper()` 只吃 requested；render prop 回報 computed。移除 `placementProp !== undefined` 的 early return，並用「以 preferred 為 key 的 state」避免 prop 變更時被舊的 computed 值蓋掉。
+- **P2（語意）**：把「要求的 placement」與「算出來的 placement」分離。`createPopper()` 只吃 requested；render prop 同時給 `placement`（= 要求值，維持原語意）與 `computedPlacement`（= popper 實際算出來的值）。移除 `placementProp !== undefined` 的 early return，並用「以 preferred 為 key 的 state」避免 prop 變更時被舊的 computed 值蓋掉。Popover/Tooltip 的 `transformOrigin` 改讀 `computedPlacement`：那是全庫唯一「跟實際方位有關的視覺樣式」，而 Grow 不改 layout 尺寸 → 動畫開始前 flip 就已決定，讀 computed 才會在第一幀就從正確的那一邊長出來（讀要求值時，貼近視窗邊緣的彈窗會從錯的邊長出來）。Menu 的 `MenuToggleIcon` 方向、submenu 的關閉鍵與 inline 定位仍讀要求值，但那些元件預設停用 flip，屬既有議題、另案處理。
 - **P3（穩定性）**：`modifiers` 的預設值改用 module 級 `defaultModifiers`，消除預設參數每次 render 換 identity 造成的重建。注意：這只修 Popper 自己的預設值；`MenuContent` 等內部元件仍然每次 render 傳新的陣列。
 
 **驗收重點**：第一次開啟就要在上方（不需捲動）、第二次開啟在有空間時回到下方、entry 過程最多只切換一次且不閃爍、`matchWidth` 開與關都不得出現 `ResizeObserver loop` 警告、ref 卸載要完整清理。**單元測試（jsdom 無 `ResizeObserver`、mock 掉 popper core）只能證明 wiring，不能證明幾何修正**；瀏覽器驗證是出貨門檻。
@@ -647,6 +685,8 @@ Commit and push it after the PR exists.
 - Without `ResizeObserver` on the configured environment window, behavior remains unchanged. The browser support decision is intentional; this plan adds no polyfill.
 - A popper-size-writing consumer modifier can produce repeated observer deliveries. `instance.update()` is microtask-debounced, but this does not prove a loop is impossible; the browser console gate covers the supported built-in configuration.
 - The observer can change placement partway through the 133 ms `Collapse` animation. ResizeObserver delivery occurs before paint, which limits stale frames but does not prove the motion is visually acceptable; the Task 3 browser gate permits at most one placement transition and rejects oscillation or a blank frame.
+- `Popover`/`Tooltip` `transformOrigin` now follows `computedPlacement`. The origin is not animated, so content that resizes *during* the enter transition can still re-anchor the scale origin once; in the normal case the box size is final before the transition starts, so there is no change mid-flight.
+- `MenuToggleIcon` direction, `SubmenuContent`'s keyboard close key, and `useSubmenuListStyle`'s inline submenu positioning still read the preferred placement. They only mislead when a consumer enables `flip` on those components, which the defaults disable.
 - A queued observer callback after teardown is safe because Popper core's destroyed instance makes `forceUpdate()` return early.
 - Reference-only resize can still leave position or `matchWidth` stale until an ancestor event causes an update. `matchWidth` refreshes on any later Popper update, but P1 does not create that update for a reference-only change.
 - Overlay callers can still recreate Popper by passing a new modifier array identity on rerender. P2 removes recreation caused by computed placement feedback only.
