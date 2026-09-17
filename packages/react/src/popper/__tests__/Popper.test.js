@@ -363,6 +363,40 @@ describe('Popper', () => {
     expect(disconnect).toHaveBeenCalledTimes(1);
   });
 
+  it('should pass modifiers that popper.js keeps in its ordered modifiers', () => {
+    // popper.js discards any modifier that declares no `phase` when it orders
+    // them, so a phaseless modifier is never run and its effect never installs.
+    // This runs the real popper.js instead of the module mock to catch that.
+    const { createPopper: createPopperActual } = jest.requireActual('@popperjs/core');
+    const reference = document.createElement('div');
+    const popper = document.createElement('div');
+    document.body.appendChild(reference);
+    document.body.appendChild(popper);
+
+    render(
+      <Popper
+        data-testid="popper-box"
+        modifiers={[]}
+        referenceRef={{ current: reference }}
+      >
+        <PopperContent />
+      </Popper>
+    );
+
+    const instance = createPopperActual(reference, popper, {
+      placement: 'bottom-start',
+      modifiers: getPopperModifiers(),
+    });
+    const modifierNames = instance.state.orderedModifiers.map((modifier) => modifier.name);
+
+    expect(modifierNames).toContain('observePopperResize');
+    expect(modifierNames).toContain('flip');
+
+    instance.destroy();
+    document.body.removeChild(reference);
+    document.body.removeChild(popper);
+  });
+
   it('should not observe the popper element when the environment has no ResizeObserver', () => {
     const envDocument = {
       nodeType: Node.DOCUMENT_NODE,

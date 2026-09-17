@@ -14,19 +14,32 @@
 
 **Status:** P1–P3 **implemented** on branch `fix/react-popper-flip-on-content-resize` (draft PR #1207), with `.changeset/tonic-ui-pr-1207.md` added, and unit-verified. The browser reproduction (Task 1) was **waived by the user** after the headless attempt failed for environmental reasons, and the browser geometry check (Task 3 Step 4 / Task 6 Step 2) remains **unverified**. Treat the end-to-end symptom fix as unconfirmed until a browser check runs.
 
+> ## ⚠️ Correction (2026-09-18) — P1 as first written was dead code
+>
+> The `observePopperResize` modifier originally declared **no `phase`**. popper.js's `orderModifiers` (`@popperjs/core@2.11.8`, `lib/utils/orderModifiers.js`) keeps only modifiers whose `phase` is one of its nine known phases, so the modifier was **dropped from `state.orderedModifiers` before `runModifierEffects()` could call its `effect`**. The `ResizeObserver` was never constructed, no popper element was observed, and no re-measure happened — the P1 mechanism did not exist at runtime.
+>
+> **Fix:** declare `phase: 'read'`. The modifier has no `fn`, so it adds no per-cycle work beyond effect registration.
+>
+> **Proof (tonic-ui, this branch):** the new `should pass modifiers that popper.js keeps in its ordered modifiers` test runs the **real** popper.js and asserts `observePopperResize` is in `instance.state.orderedModifiers`. Red-green verified by deleting and restoring the `phase` line — without it the ordered list is
+> `["popperOffsets", "offset", "flip", "preventOverflow", "arrow", "hide", "computeStyles", "eventListeners", "applyStyles", "handlePopperUpdate"]` (no `observePopperResize`) and the test fails; with it the full Popper suite is 20/20.
+>
+> **Why the other resize test did not catch it:** `should re-run the update cycle when the popper element changes size` invokes `modifier.effect` by hand, so it verifies the effect body, not that popper.js runs it. It passed while the modifier was being discarded.
+>
+> **Also corrected:** the §1.2 "measure-once / zero-height" analysis below is a real characteristic of the code, but it was not what broke first-open flipping first; the dropped modifier was. This correction was found downstream in Tonic One (PR #550) and back-ported here together with the `ownerWindow` naming.
+
 ### Execution log
 
 **Implemented**
 
 - `packages/react/src/popper/Popper.js`
-  - internal `observePopperResize` modifier observing `state.elements.popper`, resolved through `useEnvironment().getWindow()`, with the constructor read through `useLatestRef` so `EnvironmentProvider` value churn cannot recreate the instance;
+  - internal `observePopperResize` modifier observing `state.elements.popper`, declared with `phase: 'read'` (see the correction notice above), resolving the constructor through `useEnvironment().getWindow()` read via `useLatestRef` so `EnvironmentProvider` value churn cannot recreate the instance;
   - `refUpdater` calls `cleanupPopper()` on detachment;
   - `preferredPlacement` is the only `createPopper()` input. The render function receives `{ placement: preferredPlacement, computedPlacement }`; `computedPlacement` comes from the keyed `placementState`. This keeps the pre-existing meaning of the render-prop `placement` and exposes the computed value additively;
   - the `placementProp !== undefined` short-circuit is gone, so a computed placement is never fed back as the preferred input;
   - `modifiers = defaultModifiers` (module-level array) replaces the per-render `[]` default;
   - JSDoc for `placement`, `PopperChildProps`, and `PopperInstance.update` updated.
 - `packages/react/src/popover/PopoverContent.js` and `packages/react/src/tooltip/TooltipContent.js` — the render function now reads `computedPlacement` for `transformOrigin`, so the scale origin follows the side the popper actually sits on.
-- `packages/react/src/popper/__tests__/Popper.test.js` — mock now exposes `update`; 8 tests added (19 total); JSX uses `Box` rather than a raw `div`, matching the component library convention.
+- `packages/react/src/popper/__tests__/Popper.test.js` — mock now exposes `update`; 9 tests added (20 total), including one that runs the real popper.js to assert `observePopperResize` survives `orderModifiers`; JSX uses `Box` rather than a raw `div`, matching the component library convention.
 - `packages/react/src/popover/__tests__/PopoverContent.placement.test.js` and `packages/react/src/tooltip/__tests__/TooltipContent.placement.test.js` — new files that mock `@popperjs/core`, report a flipped placement through `handlePopperUpdate`, and assert the grow origin follows it. They are separate files because a file-scoped popper mock would disturb the existing snapshot suites.
 - `packages/react-docs/pages/components/{popover,tooltip,autocomplete,menu,date-pickers/date-picker}/index.page.mdx` — the `placement` prop tables now state that it is the preferred placement and that Popper.js may choose a different one when `flip` is enabled. `Popper` itself has no docs page, so its JSDoc is the contract.
 
@@ -58,10 +71,11 @@ No consumer writes the reported value back into a `placement` prop or context, s
 
 | Check | Result |
 | :--- | :--- |
-| `yarn test --testPathPattern="__tests__/Popper.test.js"` | 19/19 pass |
-| Same 19 tests against `main`'s `Popper.js` | 7 of the 8 new tests fail (RED confirmed against `cd71567145`) |
+| `yarn test --testPathPattern="__tests__/Popper.test.js"` | 20/20 pass |
+| `should pass modifiers that popper.js keeps in its ordered modifiers` with `phase: 'read'` deleted | fails — `observePopperResize` absent from `instance.state.orderedModifiers` (RED proven) |
+| Same tests against `main`'s `Popper.js` | 7 of the 8 added tests fail (RED confirmed against `cd71567145`) |
 | `observePopperResize` dep changed from `[getWindowRef]` to `[getWindow]` | identity test fails (`3` instances instead of `1`) — the `useLatestRef` design is load-bearing |
-| `yarn test` (whole `packages/react`) | 120 suites, 831 tests, 90 snapshots — all pass, no snapshot updates needed |
+| `yarn test` (whole `packages/react`) | 120 suites, 832 tests, 90 snapshots — all pass, no snapshot updates needed |
 | `PopoverContent`/`TooltipContent` origin tests reverted to read `placement` | both fail (`Expected` vs. the centred origin) — the consumer wiring is covered |
 | `yarn lint` | 0 errors; no new warnings |
 | `yarn test:types` | 208 errors both before and after the change — pre-existing, unchanged; `Popper.test-d.tsx` reports none |

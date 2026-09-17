@@ -123,11 +123,17 @@ const Popper = forwardRef((inProps, ref) => {
   // `flip` modifier reacts to content that grows after the initial measurement
   // (for example a `Collapse` enter transition). The cleanup returned from the
   // modifier effect is invoked by `instance.destroy()`.
+  //
+  // `phase` is required: popper.js orders modifiers with `orderModifiers`, which
+  // keeps only the modifiers whose `phase` is one of its known phases, so a
+  // modifier without a `phase` is dropped before its effect can install.
   const observePopperResizeModifier = useMemo(() => ({
     name: 'observePopperResize',
     enabled: true,
+    phase: 'read',
     effect: ({ state, instance }) => {
-      const ResizeObserver = getWindowRef.current().ResizeObserver;
+      const ownerWindow = getWindowRef.current();
+      const ResizeObserver = ownerWindow.ResizeObserver;
       if (typeof ResizeObserver !== 'function') {
         return undefined;
       }

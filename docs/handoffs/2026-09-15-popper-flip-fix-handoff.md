@@ -27,6 +27,16 @@
 
 The changeset is already added: `.changeset/tonic-ui-pr-1207.md` (`"@tonic-ui/react": patch`).
 
+## Downstream round-trip (2026-09-18)
+
+This fix was ported **to** Tonic One (PR #550) and a correction was found there and back-ported here:
+
+- **`phase: 'read'` was missing.** popper.js's `orderModifiers` drops any modifier whose `phase` is not one of its nine known phases, so `observePopperResize` never installed its effect — P1 was dead code in both repos. Fixed here with a regression test that runs the **real** popper.js and asserts the modifier survives ordering. Red-green proven.
+- **`ownerWindow` naming** applied per review comment `r4022758473` on PR #1207: `const ownerWindow = getWindowRef.current(); const ResizeObserver = ownerWindow.ResizeObserver;`, matching `scrollbar/Scrollbar.js:526-528`.
+- `useLatestRef` is still required around `getWindow`; a direct `getWindow()` dependency makes the modifier identity change whenever `EnvironmentProvider`'s `value` is an inline arrow, which recreates the instance. The `should not recreate the popper instance when the environment value changes identity` test pins this.
+
+Both repos now hold byte-identical `Popper.js` apart from the `@tonic-ui/*` vs `@tonic-one/*` package names, verified by normalizing and diffing the two files.
+
 ## Decisions already made — do not relitigate
 
 - The `placement` prop and the render-prop `placement` keep meaning the **preferred** placement; the computed value is additive as `computedPlacement`. Renaming the public prop was rejected (`defaultPlacement` collides with the existing private-constant convention in `drawer`, `popover`, `tooltip`, `toast`; `preferredPlacement` would diverge from `@popperjs/core` for no behavioural gain).
