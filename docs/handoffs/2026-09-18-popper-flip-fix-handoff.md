@@ -14,6 +14,8 @@
 
 ## Next — the modifier-array instability (NOT started)
 
+> **Scope decision (2026-09-18): do NOT fix `TooltipContent`.** Its `[getWindow, ...]` dependency is not where the defect lives. The reproduction below shows the same three-instance behaviour from `PopoverContent`, which has no `getWindow` dependency at all — so patching `TooltipContent` would leave the bug intact everywhere else and add churn. Fix the shared cause in `Popper`, or leave it alone. The consumer sweep is context, not a work list.
+
 **Symptom.** Every `Popper`-based overlay destroys and recreates its popper instance on every render of its parent. A raw `<Popover>` re-rendering three times calls `createPopper` three times.
 
 **Cause — isolated, not guessed.** `setupPopper`'s dependency array (`Popper.js:231`) includes `modifiers`, and every consumer builds that array inline in JSX:
@@ -33,13 +35,13 @@ Controlled experiment against the raw `Popper`, three renders each:
 | `modifiers={[{ name: 'flip', enabled: true }]}` inline | **3** |
 | the same array hoisted to a stable const | **1** |
 
-So the array identity alone is the trigger. `getWindow` in a dependency is a *separate, narrower* instance of the same class of problem, not the main one.
+So the array identity alone is the trigger. `getWindow` in a dependency is a separate, narrower instance of the same class of problem, and **not** the one that reproduces.
 
-**Scope — six consumers, all the same shape.** `TooltipContent.js:241`, `PopoverContent.js:204`, `MenuContent.js:159`, `SubmenuContent.js:175`, `DatePickerContent.js:85`, `AutocompleteList.js:56`. Only `TooltipContent` additionally has `getWindow` in a memo dependency (`:182`); removing that would not fix it, because the inline array remains.
+**Consumers with the same shape (context only, not a fix list).** `TooltipContent`, `PopoverContent`, `MenuContent`, `SubmenuContent`, `DatePickerContent`, `AutocompleteList` all build `modifiers` inline. Only `TooltipContent` also has `getWindow` in a memo dependency; `PopoverContent` reproduces the recreation without it.
 
 **Pre-existing, not a regression.** `Popover` on `main` calls `createPopper` three times for three renders too. Do not attribute it to the flip fix.
 
-**Recommended fix — repair `Popper`, not the six consumers.** Stabilize the array at the one place that consumes it:
+**Recommended fix, if taken — repair `Popper`, not the consumers.** Stabilize the array at the one place that consumes it:
 
 ```js
 import useShallowMemo from '../utils/useShallowMemo';
@@ -49,7 +51,7 @@ const stableModifiers = shallowMemo(ensureArray(modifiers));
 // use stableModifiers in setupPopper and in its dependency array
 ```
 
-`packages/react/src/utils/useShallowMemo.js` already exists (`micro-memoize` with `isKeyItemEqual: 'shallow'`) and is the established pattern here — 30 files use it, including `Popover`, `Menu`, `Modal`, `Table`, `Tabs` and `Accordion`. Rationale: a consumer passing `modifiers={[...]}` inline is normal API use, so fixing only the six in-repo call sites leaves the public footgun armed. One fix covers all six plus every downstream consumer.
+`packages/react/src/utils/useShallowMemo.js` already exists (`micro-memoize` with `isKeyItemEqual: 'shallow'`) and is the established pattern here — 30 files use it, including `Popover`, `Menu`, `Modal`, `Table`, `Tabs` and `Accordion`.
 
 Verify: a test that rerenders a raw `Popover` three times and asserts `createPopper` was called **once** (it currently fails with 3 — that is the red state to start from). Then rerun the browser fixture, because stabilising the array changes when the instance is rebuilt.
 
@@ -58,6 +60,7 @@ Verify: a test that rerenders a raw `Popover` three times and asserts `createPop
 - `micro-memoize`'s cache is unbounded; confirm it is safe for an array that changes on every render (the existing users pass small, bounded objects).
 - Consumer-created object literals (`{ name: 'flip', enabled: true }`) are new references each render, so shallow comparison still misses them. Decide whether to memoize by modifier `name` instead, and whether that is too clever.
 - Apply to both repos in the same change; keep `Popper.js` byte-identical modulo the package scope, as the rest of this branch does.
+- Is per-render instance recreation actually worth fixing? It costs modifier-effect re-registration on each parent render, but nothing has been reported as broken by it. Confirm the cost is real before spending the change.
 
 ## What shipped (do not re-litigate)
 
