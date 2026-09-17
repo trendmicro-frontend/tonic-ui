@@ -16,8 +16,8 @@
 
 1. `packages/react/src/popper/Popper.js` — internal `observePopperResize` modifier (`useEnvironment().getWindow()` + `useLatestRef`), `cleanupPopper()` on ref detachment, `preferredPlacement` as the only `createPopper()` input, render prop now yields `{ placement, computedPlacement }`, `modifiers = defaultModifiers`.
 2. `packages/react/src/popover/PopoverContent.js`, `packages/react/src/tooltip/TooltipContent.js` — `transformOrigin` reads `computedPlacement`.
-3. Tests: 8 added to `popper/__tests__/Popper.test.js` (19 total) plus two new consumer files, `popover/__tests__/PopoverContent.placement.test.js` and `tooltip/__tests__/TooltipContent.placement.test.js`.
-4. `packages/react-docs` prop tables for `popover`, `tooltip`, `autocomplete`, `menu`, `submenu`, `date-picker` now describe `placement` as the preferred placement.
+3. Tests: 9 added to `popper/__tests__/Popper.test.js` (20 total), plus `popper/__tests__/Popper.ssr.test.js` (server rendering) and `popper/__tests__/Popper.realPopper.test.js` (the real popper.js through the component's commit), plus two new consumer files, `popover/__tests__/PopoverContent.placement.test.js` and `tooltip/__tests__/TooltipContent.placement.test.js`.
+4. `packages/react-docs` prop tables for `popover`, `tooltip` and `autocomplete` now describe `placement` as the preferred placement. Those are the only three pages with a `placement` row; `Menu` and `DatePicker` document it in prose only.
 
 ## Outstanding work
 

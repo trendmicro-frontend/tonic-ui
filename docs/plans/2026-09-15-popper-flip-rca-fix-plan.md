@@ -41,7 +41,7 @@
 - `packages/react/src/popover/PopoverContent.js` and `packages/react/src/tooltip/TooltipContent.js` — the render function now reads `computedPlacement` for `transformOrigin`, so the scale origin follows the side the popper actually sits on.
 - `packages/react/src/popper/__tests__/Popper.test.js` — mock now exposes `update`; 9 tests added (20 total), including one that runs the real popper.js to assert `observePopperResize` survives `orderModifiers`; JSX uses `Box` rather than a raw `div`, matching the component library convention.
 - `packages/react/src/popover/__tests__/PopoverContent.placement.test.js` and `packages/react/src/tooltip/__tests__/TooltipContent.placement.test.js` — new files that mock `@popperjs/core`, report a flipped placement through `handlePopperUpdate`, and assert the grow origin follows it. They are separate files because a file-scoped popper mock would disturb the existing snapshot suites.
-- `packages/react-docs/pages/components/{popover,tooltip,autocomplete,menu,date-pickers/date-picker}/index.page.mdx` — the `placement` prop tables now state that it is the preferred placement and that Popper.js may choose a different one when `flip` is enabled. `Popper` itself has no docs page, so its JSDoc is the contract.
+- `packages/react-docs/pages/components/{popover,tooltip,autocomplete}/index.page.mdx` — the `placement` prop tables now state that it is the preferred placement and that Popper.js may choose a different one when `flip` is enabled. Those are the three pages with a `placement` row in their prop table; `Menu` and `DatePicker` document `placement` in prose only, and `Popper` itself has no docs page, so its JSDoc is the contract.
 
 **Consumer impact (verified)**
 
