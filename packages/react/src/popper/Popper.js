@@ -102,6 +102,14 @@ const Popper = forwardRef((inProps, ref) => {
   }
 
   const { getWindow } = useEnvironment();
+  // `getWindow` changes identity whenever `EnvironmentProvider`'s `value` is not
+  // referentially stable, which is easy to hit with an inline arrow. Reading it
+  // through a ref keeps this callback's identity stable, so `setupPopper` does
+  // not change and the popper instance is not destroyed and recreated on every
+  // render. The alternative of listing `getWindow` in the dependencies below
+  // makes that recreation happen; `useEventCallback` is not usable here because
+  // popper.js invokes the modifier effect during the commit phase, and
+  // `useEventCallback` throws while rendering.
   const getWindowRef = useLatestRef(getWindow);
   const nodeRef = useRef();
   const popperRef = useRef(null); // popper instance
