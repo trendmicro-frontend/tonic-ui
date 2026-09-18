@@ -313,6 +313,21 @@ slotProps={{
 
 {render('./slot-props-portal-container')}
 
+## Migrating from a legacy dropdown API
+
+These copy-paste shims support legacy dropdown APIs. They wrap `Dropdown` and are not package exports.
+
+* <SourceCode name="DropdownShim.js" code={_DropdownShim_} />
+* <SourceCode name="SearchDropdownShim.js" code={_SearchDropdownShim_} />
+
+### DropdownShim
+
+{render('./dropdown-shim')}
+
+### SearchDropdownShim
+
+{render('./search-dropdown-shim')}
+
 ## Commonly asked questions
 
 ### Automatically adjusting dropdown placement with the `flip` modifier
@@ -342,21 +357,6 @@ The modifier is passed through the nested slot props path: `slotProps.content` c
 ```
 
 {render('./faq-flip-modifier')}
-
-## Shims
-
-These copy-paste shims support legacy dropdown APIs. They wrap `Dropdown` and are not package exports.
-
-* <SourceCode name="DropdownShim.js" code={_DropdownShim_} />
-* <SourceCode name="SearchDropdownShim.js" code={_SearchDropdownShim_} />
-
-### DropdownShim
-
-{render('./dropdown-shim')}
-
-### SearchDropdownShim
-
-{render('./search-dropdown-shim')}
 
 ## Props
 
