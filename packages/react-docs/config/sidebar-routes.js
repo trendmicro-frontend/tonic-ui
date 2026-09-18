@@ -100,11 +100,6 @@ export const routes = [
   {
     title: 'Experiments',
     icon: (props) => <SearchOIcon size="4x" {...props} />,
-    render: () => (
-      <Tag variant="outline" borderColor="yellow:50" color="yellow:50" size="sm">
-        NEW
-      </Tag>
-    ),
     routes: [
       { title: 'Getting started', path: 'experiments' },
 
@@ -124,7 +119,30 @@ export const routes = [
     icon: (props) => (
       <MigrateSuccessIcon size="4x" {...props} />
     ),
+    render: () => (
+      <Tag variant="outline" borderColor="yellow:50" color="yellow:50" size="sm">
+        NEW
+      </Tag>
+    ),
     routes: [
+      {
+        title: 'Migrating color tokens from v2 to v3',
+        path: 'migrations/migrating-color-tokens-from-v2-to-v3',
+        render: () => (
+          <Tag variant="outline" borderColor="yellow:50" color="yellow:50" size="sm">
+            NEW
+          </Tag>
+        ),
+      },
+      {
+        title: 'Migrating from v2 to v3',
+        path: 'migrations/migrating-from-v2-to-v3',
+        render: () => (
+          <Tag variant="outline" borderColor="yellow:50" color="yellow:50" size="sm">
+            NEW
+          </Tag>
+        ),
+      },
       { title: 'Migrating from v1 to v2', path: 'migrations/migrating-from-v1-to-v2' },
       { title: 'Migrating from v0 to v1', path: 'migrations/migrating-from-v0-to-v1' },
     ],
@@ -538,8 +556,15 @@ export const routes = [
     icon: (props) => (
       <ColorIcon size="4x" {...props} />
     ),
+    render: () => (
+      <Tag variant="outline" borderColor="yellow:50" color="yellow:50" size="sm">
+        NEW
+      </Tag>
+    ),
     routes: [
       { title: 'Getting started', path: 'theme' },
+
+      { title: 'DESIGN TOKENS', heading: true },
       { title: 'borders', path: 'theme/borders' },
       { title: 'breakpoints', path: 'theme/breakpoints' },
       { title: 'colors', path: 'theme/colors' },
