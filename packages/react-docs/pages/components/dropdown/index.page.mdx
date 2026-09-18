@@ -313,6 +313,36 @@ slotProps={{
 
 {render('./slot-props-portal-container')}
 
+## Commonly asked questions
+
+### Automatically adjusting dropdown placement with the `flip` modifier
+
+The `flip` modifier is a useful feature that allows for automatic adjustment of dropdown placement when it is at risk of overflowing the specified boundary. To learn more about utilizing the `flip` modifier, please refer to [Popper.js documentation](https://popper.js.org/docs/v2/modifiers/flip/).
+
+In the following example, the dropdown's placement is initially set to `top`. However, if the placement is not suitable due to space constraints, the opposite `bottom` placement will be used instead.
+
+The modifier is passed through the nested slot props path: `slotProps.content` configures the menu list, whose own `slotProps.popper` configures the internal `Popper`.
+
+```jsx
+<Dropdown
+  placement="top"
+  items={items}
+  slotProps={{
+    content: {
+      slotProps: {
+        popper: {
+          modifiers: [
+            { name: 'flip', enabled: true },
+          ],
+        },
+      },
+    },
+  }}
+/>
+```
+
+{render('./faq-flip-modifier')}
+
 ## Shims
 
 These copy-paste shims support legacy dropdown APIs. They wrap `Dropdown` and are not package exports.
