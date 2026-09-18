@@ -68,6 +68,10 @@
 
 ## Migrations
 
+[Migrating color tokens from v2 to v3]({{PAGE_BASE}}/migrations/migrating-color-tokens-from-v2-to-v3/): <classification>LLM should read this page when upgrading the color token system from Tonic UI v2 to v3, mapping flat colon-based primitive tokens to nested dot notation, adopting semantic tokens that adapt to light and dark modes, or migrating color style usage.</classification>
+
+[Migrating from v2 to v3]({{PAGE_BASE}}/migrations/migrating-from-v2-to-v3/): <classification>LLM should read this page when upgrading from Tonic UI v2 to v3, understanding the new peer dependency requirements, changed token values, the sx array merge semantics, the Popper computedPlacement render prop, or the slots migration for AutocompleteList.</classification>
+
 [Migrating from v1 to v2]({{PAGE_BASE}}/migrations/migrating-from-v1-to-v2/): <classification>LLM should read this page when upgrading from Tonic UI v1 to v2, understanding breaking changes, migration steps, and code transformation requirements for the major version upgrade.</classification>
 
 [Migrating from v0 to v1]({{PAGE_BASE}}/migrations/migrating-from-v0-to-v1/): <classification>LLM should read this page when upgrading from Tonic UI v0 to v1, understanding the migration path, breaking changes, and necessary code updates for the version transition.</classification>
