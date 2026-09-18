@@ -4,15 +4,17 @@
 
 [Installation]({{PAGE_BASE}}/getting-started/installation/): <classification>LLM should read this page when installing or setting up Tonic UI in a project, understanding package dependencies, or configuring the initial setup for a new application.</classification>
 
+[Installation for PR builds]({{PAGE_BASE}}/getting-started/installation-for-pr-builds/): <classification>LLM should read this page when installing a Tonic UI prerelease or pull-request build for testing, understanding the PR preview deployment URL scheme, or validating unpublished changes before release.</classification>
+
 [Usage]({{PAGE_BASE}}/getting-started/usage/): <classification>LLM should read this page when starting to use Tonic UI components, setting up the theme provider, or implementing basic component usage patterns in your application.</classification>
 
 [Color mode]({{PAGE_BASE}}/components/color-mode/): <classification>LLM should read this page when implementing dark/light mode switching, understanding color mode context, or configuring theme-aware components that respond to color mode changes.</classification>
 
 [Color style]({{PAGE_BASE}}/components/color-style/): <classification>LLM should read this page when working with color styling approaches, implementing custom color schemes, or using color tokens and semantic color naming conventions.</classification>
 
-[Environment]({{PAGE_BASE}}/components/environment/): <classification>LLM should read this page when rendering Tonic One components inside non-standard DOM environments such as iframes or shadow DOM, configuring the EnvironmentProvider and the TonicProvider environment prop, or resolving the correct document/window for portals, focus tracking, and event listeners across realms.</classification>
+[Environment]({{PAGE_BASE}}/components/environment/): <classification>LLM should read this page when rendering Tonic UI components inside non-standard DOM environments such as iframes or shadow DOM, configuring the EnvironmentProvider and the TonicProvider environment prop, or resolving the correct document/window for portals, focus tracking, and event listeners across realms.</classification>
 
-[Icons]({{PAGE_BASE}}/icons/): <classification>LLM should read this page when using icons in Tonic One, implementing custom icon components, or working with the Icon and SVGIcon components for displaying iconography.</classification>
+[Icons]({{PAGE_BASE}}/icons/): <classification>LLM should read this page when using icons in Tonic UI, implementing custom icon components, or working with the Icon and SVGIcon components for displaying iconography.</classification>
 
 [AI assistant with MCP]({{PAGE_BASE}}/getting-started/mcp/): <classification>LLM should read this page when accessing the Model Context Protocol (MCP) server for Tonic UI documentation and resources.</classification>
 

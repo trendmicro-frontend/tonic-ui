@@ -80,7 +80,7 @@ federation({
 
 Wujie runs each sub-app's JavaScript inside a sandbox iframe while projecting its rendered DOM into a shadow root on the host page. Sub-apps are completely unaware of this — they write normal React code and have no knowledge of the iframe or shadow root.
 
-Because the sandbox iframe is the sub-app's own realm, its global `document` / `window` already point at the right place — so `useEnvironment()` resolves correctly by default and **no `environment` prop is needed** (unlike a raw shadow-root mount, where you do configure it — see [EnvironmentProvider](../environment)). Portal-based components resolve into the projected shadow root automatically via the native `getRootNode()`.
+Because the sandbox iframe is the sub-app's own realm, its global `document` / `window` already point at the right place — so `useEnvironment()` resolves correctly by default and **no `environment` prop is needed** (unlike a raw shadow-root mount, where you do configure it — see [EnvironmentProvider](../../components/environment)). Portal-based components resolve into the projected shadow root automatically via the native `getRootNode()`.
 
 ### Host setup
 
@@ -365,4 +365,4 @@ The host's `index.html` should include a blocking inline script that reads the s
 
 ## See also
 
-- [EnvironmentProvider](../environment) — API reference and usage with iframes and Shadow DOM
+- [EnvironmentProvider](../../components/environment) — API reference and usage with iframes and Shadow DOM

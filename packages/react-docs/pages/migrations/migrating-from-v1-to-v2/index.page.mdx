@@ -19,12 +19,12 @@ This section highlights the major updates and breaking changes in Tonic UI v2.
 ### Color style
 
 > <TextLabel><Flex alignItems="center" columnGap="2x" mb="2x"><AlertIcon /> DEPRECATION NOTICE</Flex></TextLabel>
-> The following keys in the color style are deprecated and will be removed in the next major release. Please update your code with the [recommended configuration](#recommended-configuration) to avoid encountering breaking changes in the future.
+> The following keys in the color style are deprecated and will be removed in the next major release. Please update your code with the [recommended configuration](#color-style) to avoid encountering breaking changes in the future.
 
 Type | Key | Configuration
 :-- | :-- | :--
-[Severity (deprecated)](../../components/color-style#severity-deprecated) | `colorStyle.severity.*` | [View](../../components/color-style#severity-deprecated)
-[Chart (deprecated)](../../components/color-style#chart-deprecated) | `colorStyle.chart.classic.colors[]` | [View](../../components/color-style#chart-deprecated)
+[Severity (deprecated)](../../components/color-style) | `colorStyle.severity.*` | [View](../../components/color-style)
+[Chart (deprecated)](../../components/color-style) | `colorStyle.chart.classic.colors[]` | [View](../../components/color-style)
 
 Let's see an example here:
 ```jsx
@@ -163,7 +163,7 @@ const customColorStyle = merge(colorStyle, {
 
 ### Date pickers
 
-The [Calendar](../../components/date-pickers/calendar) and [DatePicker](../../components/date-pickers/date-picker) components have been moved from `@tonic-ui/react-lab` to `@tonic-ui/react`. You can import them as follows:
+The [Calendar](../../components/date-pickers/date-calendar) and [DatePicker](../../components/date-pickers/date-picker) components have been moved from `@tonic-ui/react-lab` to `@tonic-ui/react`. You can import them as follows:
 
 ```js
 import {
