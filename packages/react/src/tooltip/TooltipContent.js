@@ -262,7 +262,7 @@ const TooltipContent = forwardRef((inProps, ref) => {
         ...ensureArray(popperSlotProps?.modifiers),
       ]}
     >
-      {({ placement, transition }) => {
+      {({ computedPlacement, transition }) => {
         const { in: inProp, onEnter, onExited } = { ...transition };
         return (
           <TransitionSlot
@@ -277,7 +277,7 @@ const TooltipContent = forwardRef((inProps, ref) => {
                   ref={ref}
                   {...styleProps}
                   {...transitionStyle}
-                  transformOrigin={mapPlacementToTransformOrigin(placement)}
+                  transformOrigin={mapPlacementToTransformOrigin(computedPlacement)}
                   {...rest}
                 >
                   {children}

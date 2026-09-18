@@ -259,7 +259,7 @@ The `Popover` component includes several accessibility features to ensure that i
 | offset | [skidding, distance] | [0, 12] | The skidding and distance of the popover. |
 | onClose | () => void | | Callback when the popover is closed. |
 | onOpen | () => void | | Callback when the popover is opened. |
-| placement | string | 'bottom' | The placement of the popover. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
+| placement | string | 'bottom' | The preferred placement of the popover; Popper.js may choose a different placement when the `flip` modifier is enabled. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
 | portalled | boolean | false | If `true`, renders the popover in a portal. |
 | returnFocusOnClose | boolean | true | If `true`, the popover will return the focus to the trigger element when closing. Otherwise, it will leave focus unchanged. |
 | trigger | string | 'click' | The type of trigger. One of: 'click', 'hover' |

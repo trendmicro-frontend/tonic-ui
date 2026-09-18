@@ -2,13 +2,15 @@ import { createPopper } from '@popperjs/core';
 import { useEffectOnce, useOnceWhen } from '@tonic-ui/react-hooks';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
-import React, { forwardRef, useEffect, useRef, useState, useCallback } from 'react';
+import React, { forwardRef, useCallback, useMemo, useRef, useState } from 'react';
 import { useDefaultProps } from '../default-props';
+import { useEnvironment } from '../environment';
 import { Portal } from '../portal';
 import { Box } from '../box';
 import { assignRef } from '../utils/refs';
 
 const defaultPlacement = 'bottom-start';
+const defaultModifiers = [];
 
 // Sets the popper's width to match the reference element on every Popper.js update.
 const matchWidthModifier = {
@@ -26,7 +28,8 @@ const matchWidthModifier = {
 
 /**
  * @typedef {Object} PopperChildProps
- * @property {string} placement - The current placement of the popper.
+ * @property {string} placement - The preferred placement, as passed through the `placement` prop.
+ * @property {string} computedPlacement - The placement computed by Popper.js. It differs from `placement` when a modifier such as `flip` or `preventOverflow` changes it.
  * @property {{ in: boolean; onEnter: () => void; onExited: () => void }} [transition] - Transition props when `willUseTransition` is true.
  */
 
@@ -34,16 +37,17 @@ const matchWidthModifier = {
  * @typedef {Object} PopperInstance
  * @property {() => void} destroy - Destroy the popper instance.
  * @property {() => void} forceUpdate - Force update the popper position.
+ * @property {() => Promise<Object>} update - Update the popper position in a microtask.
  */
 
 /**
  * @typedef {Object} PopperProps
  * @property {HTMLElement | (() => HTMLElement) | null} [anchorEl] - Deprecated: Use `referenceRef` instead. The element or a function returning an element to which the popper is attached.
- * @property {React.ReactNode | ((context: PopperChildProps) => React.ReactNode)} [children] - The content of the popper. Can be a ReactNode or a render function that receives `{ placement }`.
+ * @property {React.ReactNode | ((context: PopperChildProps) => React.ReactNode)} [children] - The content of the popper. Can be a ReactNode or a render function that receives `{ placement, computedPlacement }`.
  * @property {boolean} [isOpen] - Whether the popper is open.
  * @property {boolean} [matchWidth=false] - If `true`, sizes the popper to match the reference element's width on every update. Useful for autocomplete, date-picker, and select patterns.
  * @property {Array<import('@popperjs/core').Modifier<string, object>>} [modifiers] - Popper.js modifiers to customize positioning behavior.
- * @property {'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end'} [placement='bottom-start'] - The placement of the popper.
+ * @property {'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end'} [placement='bottom-start'] - The preferred placement of the popper. It is passed to Popper.js as the preferred placement; the placement computed by Popper.js is reported to the render function as `computedPlacement`.
  * @property {React.MutableRefObject<PopperInstance | null>} [popperRef] - Reference to receive the popper instance.
  * @property {boolean} [portalled] - If `true`, renders the popper in a portal. Takes precedence over `usePortal` when provided.
  * @property {import('../portal/Portal').PortalProps} [portalProps] - Props to pass to the Portal component when `portalled` is true.
@@ -63,7 +67,7 @@ const Popper = forwardRef((inProps, ref) => {
     children,
     isOpen,
     matchWidth = false,
-    modifiers = [],
+    modifiers = defaultModifiers,
     placement: placementProp,
     popperRef: popperRefProp, // reference to receive the popper instance
     portalProps,
@@ -97,17 +101,52 @@ const Popper = forwardRef((inProps, ref) => {
     */
   }
 
+  const { getWindow } = useEnvironment();
   const nodeRef = useRef();
   const popperRef = useRef(null); // popper instance
   const [exited, setExited] = useState(true);
-  const [placement, setPlacement] = useState(placementProp ?? defaultPlacement);
+  const preferredPlacement = placementProp ?? defaultPlacement;
+  const [placementState, setPlacementState] = useState(() => ({
+    preferredPlacement,
+    computedPlacement: preferredPlacement,
+  }));
 
-  useEffect(() => {
-    const isControlled = (placementProp !== undefined);
-    if (isControlled) {
-      setPlacement(placementProp);
-    }
-  }, [placementProp]);
+  // The placement computed by popper.js, falling back to the preferred placement
+  // when it changed since the last update cycle (popper.js re-runs every cycle
+  // with `state.options.placement`).
+  const computedPlacement = (placementState.preferredPlacement === preferredPlacement)
+    ? placementState.computedPlacement
+    : preferredPlacement;
+
+  // Re-run the update cycle when the popper element changes size, so an enabled
+  // `flip` modifier reacts to content that grows after the initial measurement
+  // (for example a `Collapse` enter transition). The cleanup returned from the
+  // modifier effect is invoked by `instance.destroy()`.
+  //
+  // `phase` is required: popper.js orders modifiers with `orderModifiers`, which
+  // keeps only the modifiers whose `phase` is one of its known phases, so a
+  // modifier without a `phase` is dropped before its effect can install.
+  const observePopperResizeModifier = useMemo(() => ({
+    name: 'observePopperResize',
+    enabled: true,
+    phase: 'read',
+    effect: ({ state, instance }) => {
+      const ownerWindow = getWindow();
+      const ResizeObserver = ownerWindow.ResizeObserver;
+      if (typeof ResizeObserver !== 'function') {
+        return undefined;
+      }
+
+      const resizeObserver = new ResizeObserver(() => {
+        instance.update();
+      });
+      resizeObserver.observe(state.elements.popper);
+
+      return () => {
+        resizeObserver.disconnect();
+      };
+    },
+  }), [getWindow]);
 
   const setupPopper = useCallback(() => {
     const anchor = (typeof anchorEl === 'function') ? anchorEl() : anchorEl; // deprecated
@@ -122,7 +161,7 @@ const Popper = forwardRef((inProps, ref) => {
     popperRef.current?.destroy?.();
 
     const popperInstance = createPopper(reference, popper, {
-      placement: placement,
+      placement: preferredPlacement,
       modifiers: [
         { // https://popper.js.org/docs/v2/modifiers/arrow/
           name: 'arrow',
@@ -145,16 +184,24 @@ const Popper = forwardRef((inProps, ref) => {
               arrowEl.setAttribute('data-popper-placement', nextPlacement);
             }
 
-            const isControlled = (placementProp !== undefined);
-            if (isControlled) {
-              return;
-            }
+            if (nextPlacement) {
+              setPlacementState((previous) => {
+                if (
+                  previous.preferredPlacement === preferredPlacement &&
+                  previous.computedPlacement === nextPlacement
+                ) {
+                  return previous;
+                }
 
-            if (nextPlacement && (nextPlacement !== placement)) {
-              setPlacement(nextPlacement);
+                return {
+                  preferredPlacement,
+                  computedPlacement: nextPlacement,
+                };
+              });
             }
           },
         },
+        observePopperResizeModifier,
         ...(matchWidth ? [matchWidthModifier] : []),
         ...ensureArray(modifiers),
       ],
@@ -172,7 +219,7 @@ const Popper = forwardRef((inProps, ref) => {
         `${Popper.displayName}: An unexpected error occurred. The popper instance is not assigned to the "popperRef" as expected.`,
       );
     }
-  }, [anchorEl, matchWidth, modifiers, placement, placementProp, popperRefProp, referenceRef]);
+  }, [anchorEl, matchWidth, modifiers, observePopperResizeModifier, popperRefProp, preferredPlacement, referenceRef]);
 
   const cleanupPopper = useCallback(() => {
     // Destroy popper instance
@@ -197,14 +244,22 @@ const Popper = forwardRef((inProps, ref) => {
   const refUpdater = useCallback((node) => {
     assignRef(nodeRef, node);
     assignRef(ref, node);
-    setupPopper();
-  }, [setupPopper, ref]);
+
+    if (node) {
+      setupPopper();
+    } else {
+      // The popper element was detached without unmounting the component (for
+      // example `unmountOnExit` without a transition, or a ref callback replay
+      // in StrictMode), so destroy the instance and its modifier effects.
+      cleanupPopper();
+    }
+  }, [cleanupPopper, ref, setupPopper]);
 
   if (unmountOnExit && !isOpen && (!willUseTransition || exited)) {
     return null;
   }
 
-  const childProps = { placement };
+  const childProps = { placement: preferredPlacement, computedPlacement };
 
   if (willUseTransition) {
     childProps.transition = {
