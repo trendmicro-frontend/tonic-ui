@@ -4,7 +4,7 @@ import {
   Divider,
   Dropdown,
   DropdownButton,
-  Scrollbar,
+  Flex,
   Space,
   Text,
   TextLabel,
@@ -37,47 +37,43 @@ const App = () => {
         </TextLabel>
       </FormGroup>
       <Divider my="4x" />
-      <Scrollbar
-        height={180}
-        width={240}
-        overflowY="visible"
+      <Flex
+        alignItems="flex-end"
         border={1}
         borderColor="border.primary"
+        height={200}
+        justifyContent="center"
+        overflow="hidden"
+        pb="8x"
       >
-        {/* The toggle sits at the top of the scroll viewport, so a `top`
-            placement has nowhere to go and `flip` sends it below. */}
-        <Box
-          display="flex"
-          alignItems="flex-start"
-          justifyContent="center"
-          height={300}
-        >
-          <Dropdown
-            isOpen
-            items={items}
-            placement="top"
-            renderToggle={({ renderItem, value }) => (
-              <DropdownButton>
-                {value ? renderItem(value) : 'Click Me'}
-              </DropdownButton>
-            )}
-            slotProps={{
-              content: {
-                slotProps: {
-                  popper: {
-                    modifiers: [
-                      { // https://popper.js.org/docs/v2/modifiers/flip/
-                        name: 'flip',
-                        enabled: isFlipModifierEnabled,
-                      },
-                    ],
-                  },
+        {/* The toggle sits near the bottom edge of a clipping container, so a
+            `bottom` placement overflows and `flip` sends the content upward.
+            Without `flip`, the content opens downward and is cut off. */}
+        <Dropdown
+          isOpen
+          items={items}
+          placement="bottom"
+          renderToggle={({ renderItem, value }) => (
+            <DropdownButton>
+              {value ? renderItem(value) : 'Click Me'}
+            </DropdownButton>
+          )}
+          slotProps={{
+            content: {
+              slotProps: {
+                popper: {
+                  modifiers: [
+                    { // https://popper.js.org/docs/v2/modifiers/flip/
+                      name: 'flip',
+                      enabled: isFlipModifierEnabled,
+                    },
+                  ],
                 },
               },
-            }}
-          />
-        </Box>
-      </Scrollbar>
+            },
+          }}
+        />
+      </Flex>
     </>
   );
 };
