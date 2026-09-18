@@ -41,7 +41,7 @@ const createTheme = (options = {}, ...args) => {
 
   if (typeof cssVariableConfig === 'boolean') {
     console.warn(
-      '[Tonic One] The "cssVariables" option in createTheme() no longer accepts a boolean value.\n' +
+      '[Tonic UI] The "cssVariables" option in createTheme() no longer accepts a boolean value.\n' +
       '\n' +
       'To enable CSS variables, you should pass "useCSSVariables" to TonicProvider:\n' +
       '  <TonicProvider theme={theme} useCSSVariables>\n' +

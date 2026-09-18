@@ -4,15 +4,17 @@
 
 [Installation]({{PAGE_BASE}}/getting-started/installation/): <classification>LLM should read this page when installing or setting up Tonic UI in a project, understanding package dependencies, or configuring the initial setup for a new application.</classification>
 
+[Installation for PR builds]({{PAGE_BASE}}/getting-started/installation-for-pr-builds/): <classification>LLM should read this page when installing a Tonic UI prerelease or pull-request build for testing, understanding the PR preview deployment URL scheme, or validating unpublished changes before release.</classification>
+
 [Usage]({{PAGE_BASE}}/getting-started/usage/): <classification>LLM should read this page when starting to use Tonic UI components, setting up the theme provider, or implementing basic component usage patterns in your application.</classification>
 
 [Color mode]({{PAGE_BASE}}/components/color-mode/): <classification>LLM should read this page when implementing dark/light mode switching, understanding color mode context, or configuring theme-aware components that respond to color mode changes.</classification>
 
 [Color style]({{PAGE_BASE}}/components/color-style/): <classification>LLM should read this page when working with color styling approaches, implementing custom color schemes, or using color tokens and semantic color naming conventions.</classification>
 
-[Environment]({{PAGE_BASE}}/components/environment/): <classification>LLM should read this page when rendering Tonic One components inside non-standard DOM environments such as iframes or shadow DOM, configuring the EnvironmentProvider and the TonicProvider environment prop, or resolving the correct document/window for portals, focus tracking, and event listeners across realms.</classification>
+[Environment]({{PAGE_BASE}}/components/environment/): <classification>LLM should read this page when rendering Tonic UI components inside non-standard DOM environments such as iframes or shadow DOM, configuring the EnvironmentProvider and the TonicProvider environment prop, or resolving the correct document/window for portals, focus tracking, and event listeners across realms.</classification>
 
-[Icons]({{PAGE_BASE}}/icons/): <classification>LLM should read this page when using icons in Tonic One, implementing custom icon components, or working with the Icon and SVGIcon components for displaying iconography.</classification>
+[Icons]({{PAGE_BASE}}/icons/): <classification>LLM should read this page when using icons in Tonic UI, implementing custom icon components, or working with the Icon and SVGIcon components for displaying iconography.</classification>
 
 [AI assistant with MCP]({{PAGE_BASE}}/getting-started/mcp/): <classification>LLM should read this page when accessing the Model Context Protocol (MCP) server for Tonic UI documentation and resources.</classification>
 
@@ -67,6 +69,10 @@
 [Render]({{PAGE_BASE}}/experiments/render/): <classification>LLM should read this page when using the experimental Render component for conditional rendering patterns, implementing dynamic component rendering, or exploring advanced rendering control mechanisms.</classification>
 
 ## Migrations
+
+[Migrating color tokens from v2 to v3]({{PAGE_BASE}}/migrations/migrating-color-tokens-from-v2-to-v3/): <classification>LLM should read this page when upgrading the color token system from Tonic UI v2 to v3, mapping flat colon-based primitive tokens to nested dot notation, adopting semantic tokens that adapt to light and dark modes, or migrating color style usage.</classification>
+
+[Migrating from v2 to v3]({{PAGE_BASE}}/migrations/migrating-from-v2-to-v3/): <classification>LLM should read this page when upgrading from Tonic UI v2 to v3, understanding the new peer dependency requirements, changed token values, the sx array merge semantics, the Popper computedPlacement render prop, or the slots migration for AutocompleteList.</classification>
 
 [Migrating from v1 to v2]({{PAGE_BASE}}/migrations/migrating-from-v1-to-v2/): <classification>LLM should read this page when upgrading from Tonic UI v1 to v2, understanding breaking changes, migration steps, and code transformation requirements for the major version upgrade.</classification>
 
@@ -167,6 +173,7 @@
 ### Form controls
 
 [Autocomplete]({{PAGE_BASE}}/components/autocomplete/): <classification>LLM should read this page when using the Autocomplete component for searchable input with suggestions, implementing single or multi-select with filtering, creating creatable options, handling async data loading, or building keyboard-navigable dropdown lists from an input field.</classification>
+
 [Dropdown]({{PAGE_BASE}}/components/dropdown/): <classification>LLM should read this page when using the Dropdown component for dropdown menus with selectable items, using the unstyled DropdownToggle by default, choosing a styled DropdownButton or chip-style DropdownChip through renderToggle, or building search dropdowns with advanced item types such as groups, dividers, and submenus.</classification>
 
 [Button]({{PAGE_BASE}}/components/button/): <classification>LLM should read this page when using the Button component for clickable actions, implementing various button variants and sizes, or creating interactive elements. Related to ButtonGroup, ButtonBase, ButtonLink, and LinkButton components.</classification>
@@ -339,30 +346,28 @@
 
 [Getting started]({{PAGE_BASE}}/theme/): <classification>LLM should read this page when needing an overview of theming in Tonic UI, understanding theme structure and customization, or learning how to work with theme tokens and design system principles.</classification>
 
-[Borders]({{PAGE_BASE}}/theme/borders/): <classification>LLM should read this page when understanding and customizing border theme values, defining border styles and widths, or implementing consistent border styling throughout the component system.</classification>
+[borders]({{PAGE_BASE}}/theme/borders/): <classification>LLM should read this page when understanding and customizing border theme values, defining border styles and widths, or implementing consistent border styling throughout the component system.</classification>
 
-[Breakpoints]({{PAGE_BASE}}/theme/breakpoints/): <classification>LLM should read this page when understanding and customizing breakpoint theme values, implementing responsive design, or working with media queries and viewport-based styling.</classification>
+[breakpoints]({{PAGE_BASE}}/theme/breakpoints/): <classification>LLM should read this page when understanding and customizing breakpoint theme values, implementing responsive design, or working with media queries and viewport-based styling.</classification>
 
-[Colors]({{PAGE_BASE}}/theme/colors/): <classification>LLM should read this page when understanding and customizing color theme values, working with color palettes, or implementing consistent color schemes across the application.</classification>
+[colors]({{PAGE_BASE}}/theme/colors/): <classification>LLM should read this page when understanding and customizing color theme values, working with color palettes, or implementing consistent color schemes across the application.</classification>
 
-[Fonts]({{PAGE_BASE}}/theme/fonts/): <classification>LLM should read this page when understanding and customizing font family theme values, working with typography design tokens, or implementing consistent font family styling across components using theme-based font definitions.</classification>
+[fonts]({{PAGE_BASE}}/theme/fonts/): <classification>LLM should read this page when understanding and customizing font family theme values, working with typography design tokens, or implementing consistent font family styling across components using theme-based font definitions.</classification>
 
-[Font sizes]({{PAGE_BASE}}/theme/font-sizes/): <classification>LLM should read this page when understanding and customizing font size theme values, defining consistent typography scales, or implementing text sizing across all text-based components.</classification>
+[fontSizes]({{PAGE_BASE}}/theme/fontSizes/): <classification>LLM should read this page when understanding and customizing font size theme values, defining consistent typography scales, or implementing text sizing across all text-based components.</classification>
 
-[Font weights]({{PAGE_BASE}}/theme/font-weights/): <classification>LLM should read this page when understanding and customizing font weight theme values, defining typography hierarchy, or implementing text emphasis through consistent font weight scales.</classification>
+[fontWeights]({{PAGE_BASE}}/theme/fontWeights/): <classification>LLM should read this page when understanding and customizing font weight theme values, defining typography hierarchy, or implementing text emphasis through consistent font weight scales.</classification>
 
-[Letter spacings]({{PAGE_BASE}}/theme/letter-spacings/): <classification>LLM should read this page when working with letter spacing theme values, understanding that no design tokens are currently defined for letter spacings, or implementing custom letter spacing configurations in the theme system.</classification>
+[lineHeights]({{PAGE_BASE}}/theme/lineHeights/): <classification>LLM should read this page when understanding and customizing line height theme values, working with typography spacing and vertical rhythm, or implementing consistent line height scales from xs (18px) to 4xl (40px) across text-based components.</classification>
 
-[Line heights]({{PAGE_BASE}}/theme/line-heights/): <classification>LLM should read this page when understanding and customizing line height theme values, working with typography spacing and vertical rhythm, or implementing consistent line height scales from xs (18px) to 4xl (40px) across text-based components.</classification>
+[outlines]({{PAGE_BASE}}/theme/outlines/): <classification>LLM should read this page when understanding and customizing outline theme values, implementing focus indicators and accessibility outlines, working with outline styles, colors, and widths, or understanding the differences between borders and outlines in component styling.</classification>
 
-[Outlines]({{PAGE_BASE}}/theme/outlines/): <classification>LLM should read this page when understanding and customizing outline theme values, implementing focus indicators and accessibility outlines, working with outline styles, colors, and widths, or understanding the differences between borders and outlines in component styling.</classification>
+[radii]({{PAGE_BASE}}/theme/radii/): <classification>LLM should read this page when understanding and customizing border radius theme values, defining consistent corner rounding, or implementing border radius values throughout the component system.</classification>
 
-[Radii]({{PAGE_BASE}}/theme/radii/): <classification>LLM should read this page when understanding and customizing border radius theme values, defining consistent corner rounding, or implementing border radius values throughout the component system.</classification>
+[shadows]({{PAGE_BASE}}/theme/shadows/): <classification>LLM should read this page when understanding and customizing shadow theme values, defining box shadows and elevation effects, or implementing depth and layering in components like modals, cards, and overlays.</classification>
 
-[Shadows]({{PAGE_BASE}}/theme/shadows/): <classification>LLM should read this page when understanding and customizing shadow theme values, defining box shadows and elevation effects, or implementing depth and layering in components like modals, cards, and overlays.</classification>
+[sizes]({{PAGE_BASE}}/theme/sizes/): <classification>LLM should read this page when understanding and customizing size theme values, defining consistent sizing scales, or implementing width, height, and other dimensional properties across components.</classification>
 
-[Sizes]({{PAGE_BASE}}/theme/sizes/): <classification>LLM should read this page when understanding and customizing size theme values, defining consistent sizing scales, or implementing width, height, and other dimensional properties across components.</classification>
+[space]({{PAGE_BASE}}/theme/space/): <classification>LLM should read this page when understanding and customizing spacing theme values, implementing consistent spacing scales, or working with margin, padding, and gap properties across components.</classification>
 
-[Space]({{PAGE_BASE}}/theme/space/): <classification>LLM should read this page when understanding and customizing spacing theme values, implementing consistent spacing scales, or working with margin, padding, and gap properties across components.</classification>
-
-[zIndices]({{PAGE_BASE}}/theme/z-indices/): <classification>LLM should read this page when understanding and customizing z-index theme values, implementing proper layering and stacking context for overlays, modals, tooltips, and other positioned elements, or working with component depth and visual hierarchy.</classification>
+[zIndices]({{PAGE_BASE}}/theme/zIndices/): <classification>LLM should read this page when understanding and customizing z-index theme values, implementing proper layering and stacking context for overlays, modals, tooltips, and other positioned elements, or working with component depth and visual hierarchy.</classification>

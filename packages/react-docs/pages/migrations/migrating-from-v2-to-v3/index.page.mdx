@@ -1,0 +1,371 @@
+import {
+  Code,
+  Flex,
+  Text,
+  TextLabel,
+} from '@tonic-ui/react';
+import {
+  AlertIcon,
+} from '@tonic-ui/react-icons';
+
+# Migrating from v2 to v3
+
+⚠️ This guide covers the steps to upgrade from Tonic UI v2 to v3. Review the changes below and assess compatibility with your setup before proceeding.
+
+> **Prerelease.** Tonic UI v3 is currently a prerelease (`3.0.0-alpha.0`). APIs may still change before the stable release.
+
+For the color token changes, see the [Migrating color tokens from v2 to v3](../migrating-color-tokens-from-v2-to-v3) guide.
+
+## Package updates
+
+Update the core package to v3:
+
+```bash
+# with npm
+npm install @tonic-ui/react@3.0.0-alpha.0
+
+# with yarn
+yarn add @tonic-ui/react@3.0.0-alpha.0
+```
+
+If your project uses any of the following packages, update them to the same release line:
+
+- `@tonic-ui/react-base`
+- `@tonic-ui/react-hooks`
+- `@tonic-ui/react-icons`
+- `@tonic-ui/styled-system`
+- `@tonic-ui/theme`
+- `@tonic-ui/utils`
+
+### React version
+
+v3 requires **React 18.3 or later**. v2 supported React 16.14, 17, and 18.
+
+```diff
+  "peerDependencies": {
+-   "react": "^16.14.0 || ^17 || ^18 || ^19",
+-   "react-dom": "^16.14.0 || ^17 || ^18 || ^19"
++   "react": "^18.3.0 || ^19.0.0",
++   "react-dom": "^18.3.0 || ^19.0.0"
+  }
+```
+
+If you are on React 16, 17, or React 18.0–18.2, upgrade React before adopting v3.
+
+### Emotion packages
+
+In v2, `@tonic-ui/react` depended on `@emotion/react` and `@emotion/styled` directly. In v3 they are **peer dependencies**, so you must install them yourself:
+
+```bash
+# with npm
+npm install @emotion/react@^11.0.0 @emotion/styled@^11.0.0
+
+# with yarn
+yarn add @emotion/react@^11.0.0 @emotion/styled@^11.0.0
+```
+
+If your project has a different major or an incompatible version, multiple Emotion instances may be created at runtime, causing Emotion's context to fail — components will not receive the correct styles and theme values.
+
+**Check for version conflicts:**
+
+```bash
+npm ls @emotion/react
+```
+
+## App setup
+
+### `TonicProvider`
+
+The `TonicProvider` setup is largely unchanged. The notable additions are `useCSSVariables`, and dev-only warnings for the previously misspelled prop names.
+
+```jsx
+import {
+  Box,
+  TonicProvider,
+  createTheme,
+} from '@tonic-ui/react';
+
+const customTheme = createTheme();
+
+function App(props) {
+  return (
+    <TonicProvider
+      colorMode={{
+        defaultValue: 'dark', // One of: 'dark', 'light'
+      }}
+      theme={customTheme}
+      // Enable these only for standalone applications
+      useCSSBaseline // [optional] Applies CSS reset and base styles
+      useCSSVariables // [optional] Enables CSS variables
+    >
+      <Box
+        backgroundColor="background.low" // semantic token
+        color="text.primary" // semantic token
+        height="100vh"
+        {...props}
+      />
+    </TonicProvider>
+  );
+}
+
+export default App;
+```
+
+> 📢 **Important:** `useCSSBaseline` and `useCSSVariables` are intended for standalone applications only. If your app is integrated as a widget within another application (i.e., sharing the same document), disable them to avoid conflicts with global styles and CSS variables.
+
+#### Prop names are case-sensitive
+
+Two prop names were misspelled in earlier documentation. v3 warns when the wrong casing is used:
+
+| Wrong | Correct |
+| :-- | :-- |
+| `useCssBaseline` | `useCSSBaseline` |
+| `useCssVariables` | `useCSSVariables` |
+
+```js
+// TonicProvider: "useCssBaseline" is not a valid prop. Did you mean "useCSSBaseline"?
+// TonicProvider: "useCssVariables" is not a valid prop. Did you mean "useCSSVariables"?
+```
+
+#### Pass a stable theme
+
+`theme` should be created with `createTheme()` and kept as a stable reference. v3 warns otherwise:
+
+```js
+// TonicProvider: "theme" prop should be created using createTheme() for optimal performance.
+// Pass a stable reference to avoid re-running createTheme() on every render.
+```
+
+```jsx
+// Good — created once, outside the component
+const customTheme = createTheme();
+
+const App = () => (
+  <TonicProvider theme={customTheme}>{/* ... */}</TonicProvider>
+);
+```
+
+### CSS theme variables
+
+In v2, CSS variables were configured through `createTheme()`:
+
+```jsx
+// v2
+const theme = createTheme({
+  cssVariables: false, // or `true`, or a config object
+});
+```
+
+In v3, `createTheme()` **always** generates the CSS variable map. Enabling them at runtime is now the provider's job. A boolean passed to `createTheme()` no longer enables or disables anything — it emits a warning:
+
+```js
+// [Tonic UI] The "cssVariables" option in createTheme() no longer accepts a boolean value.
+//
+// To enable CSS variables, you should pass "useCSSVariables" to TonicProvider:
+//   <TonicProvider theme={theme} useCSSVariables>
+//
+// To customize CSS variable configuration, pass a configuration object:
+//   createTheme({ cssVariables: { prefix: "tonic", rootSelector: ":root" } })
+```
+
+v3:
+
+```jsx
+// Customize the prefix and root selector (optional)
+const theme = createTheme({
+  cssVariables: { prefix: 'tonic', rootSelector: ':root' },
+});
+
+// Enable CSS variables at runtime
+<TonicProvider theme={theme} useCSSVariables>
+  <App />
+</TonicProvider>
+```
+
+See [CSS theme variables](../../customization/css-theme-variables) for details.
+
+### `useTheme`
+
+`useTheme()` no longer re-exports Emotion's hook. It returns the theme with color mode tokens resolved, plus a `get()` helper:
+
+```jsx
+const theme = useTheme();
+
+theme.get('colors.text.primary'); // resolved for the current color mode
+```
+
+You can also resolve against a specific color mode:
+
+```jsx
+const theme = useTheme({ colorMode: 'dark' });
+theme.get('colors.text.primary'); // always uses the `_dark` value
+```
+
+## Breaking changes
+
+### `sx` array merging
+
+When `sx` receives an **array**, v2 merged the items with a shallow spread, so a nested selector (such as `&:hover`) in a later item replaced the earlier item's nested object wholesale. v3 merges **per declaration**, recursing into nested selectors, so both items' declarations are kept:
+
+```jsx
+// v2: the second item's `&:hover` discarded the first item's `&:hover` entirely
+// v3: the two `&:hover` declarations compose
+<Box
+  sx={[
+    { '&:hover': { color: 'red.500' } },
+    { '&:hover': { backgroundColor: 'gray.100' } },
+  ]}
+/>
+```
+
+A flat property is still a plain last-write-wins overwrite. If existing code relied on a later array item resetting a nested selector, review that usage.
+
+### `Popper` render prop
+
+The `Popper` render prop now receives `computedPlacement` in addition to `placement`:
+
+- `placement` — the **preferred** placement you asked for.
+- `computedPlacement` — the placement Popper.js actually used, which can differ when `flip` is enabled.
+
+```jsx
+<Popper
+  placement="bottom-start"
+  modifiers={[{ name: 'flip', enabled: true }]}
+>
+  {({ placement, computedPlacement, ref, style }) => (
+    <Box ref={ref} style={style}>
+      preferred: {placement}, computed: {computedPlacement}
+    </Box>
+  )}
+</Popper>
+```
+
+`Popover` and `Tooltip` now use `computedPlacement` for their transform origin, so they grow from the edge that faces the trigger. `placement` keeps its v2 meaning.
+
+`Popper` also:
+
+- Re-runs its update cycle when the popper element resizes, so a `flip`-enabled overlay flips on the first open instead of waiting for a scroll.
+- No longer recreates its instance when Popper.js reports a different placement.
+- Destroys the instance when the popper element is detached while the component stays mounted.
+
+### `Box` base styles
+
+`Box` gains an internal `__sx` channel that carries component base styles at the **lowest** priority. This is not a public prop, but it decides override precedence: with `__sx` present, consumer style props and `sx` now win over component base styles. This is the mechanism behind the theme's component overrides — no consumer code change is required.
+
+## Component changes
+
+### `AutocompleteList`
+
+`AutocompleteList` now follows the library-wide slots convention:
+
+| Deprecated prop | Replacement |
+| :-- | :-- |
+| `PopperComponent` | `slots.popper` |
+| `PopperProps` | `slotProps.popper` |
+| `TransitionComponent` | `slots.transition` |
+| `TransitionProps` | `slotProps.transition` |
+
+The deprecated props still work and emit a dev-only warning:
+
+```js
+// AutocompleteList: 'PopperComponent' is deprecated and will be removed in the next major release.
+// Use 'slots.popper' instead.
+```
+
+```diff
+  <AutocompleteList
+-   PopperComponent={CustomPopper}
+-   TransitionComponent={CustomTransition}
++   slots={{ popper: CustomPopper, transition: CustomTransition }}
+  />
+```
+
+`<Autocomplete>` forwards non-`content` `slotProps` keys and `slots` down to the list. Nested `slots` / `slotProps` keys inside `slotProps.content` are dropped with a dev-only warning.
+
+See [Overriding component structure](../../customization/overriding-component-structure) for the slots API.
+
+### New components
+
+v3 adds `Dropdown`, `DropdownButton`, `DropdownChip`, and `DropdownToggle`. See [Dropdown](../../components/dropdown).
+
+### New export
+
+`CSSVariables` is now part of the public `@tonic-ui/react` surface. It is rendered by `TonicProvider` when `useCSSVariables` is enabled; you normally do not render it yourself.
+
+## Theme changes
+
+The v3 theme is **layered**: the v2 token set is kept as a deprecated base layer, v3 primitive tokens override name collisions, and semantic tokens layer on top. The v2 colon-notation keys (`red:100`, `gray:10`, `white:primary`) still resolve, so you can upgrade without changing token references.
+
+> <TextLabel><Flex alignItems="center" columnGap="2x" mb="2x"><AlertIcon /> IMPORTANT NOTICE</Flex></TextLabel>
+> Where a v3 token collides with a v2 token name, the **value** changes silently. The keys below resolve as before, but render differently.
+
+| Scale | v2 value | v3 value |
+| :-- | :-- | :-- |
+| `radii.sm` | `0.1875rem` | `0.25rem` |
+| `radii.md` | `0.375rem` | `0.375rem` (unchanged) |
+| `radii.lg` | `0.75rem` | `0.5rem` |
+| `fonts.base` | `"Segoe UI", …` | `Inter, …` |
+| `fonts.mono` | `"Segoe UI Mono", …` | `"DM Mono", …` |
+
+`radii.circle` and `radii.none` are v2-only keys; they are preserved.
+
+### Breakpoints
+
+The breakpoint values changed while the `sm` / `md` / `lg` / `xl` / `2xl` aliases kept their names, so responsive props now switch at different widths:
+
+| Alias | v2 | v3 |
+| :-- | :-- | :-- |
+| `sm` | `320px` | `320px` |
+| `md` | `640px` | `744px` |
+| `lg` | `1024px` | `1440px` |
+| `xl` | `1280px` | `1680px` |
+| `2xl` | `1680px` | `1920px` |
+
+Verify layouts that rely on responsive props.
+
+### Other scales
+
+- `borders` — v3 adds `0.5`, `1.5`, and `6`–`10`; keys `1`–`5` are unchanged in meaning.
+- `radii` — v3 adds `xs` alongside `sm` / `md` / `lg`.
+- `shadows` — v3 adds semantic `low` / `medium` / `high` shadows (each with `main` / `down` / `up` / `left` / `right` and dark/light variants). `shadows.none` is preserved.
+- `fontSizes`, `lineHeights`, `outlines`, `sizes`, `space`, `zIndices` — unchanged.
+
+See [Theme](../../theme) for the full token list.
+
+## Migration checklist
+
+### Package updates
+
+- [ ] Upgrade `@tonic-ui/*` packages to `3.0.0-alpha.0`.
+- [ ] Upgrade React and React DOM to `^18.3.0 || ^19.0.0`.
+- [ ] Install `@emotion/react` and `@emotion/styled` at `^11.0.0`; check for duplicate versions.
+
+### App setup
+
+- [ ] Rename `useCssBaseline` → `useCSSBaseline` and `useCssVariables` → `useCSSVariables` if used.
+- [ ] Move the `cssVariables` flag out of `createTheme()` and enable `useCSSVariables` on `TonicProvider` where needed.
+- [ ] Keep the `theme` object stable (create it once with `createTheme()`).
+- [ ] Replace `transformOrigin` / placement logic that relied on the preferred placement with `computedPlacement` where applicable.
+
+### Component upgrades
+
+- [ ] Migrate `AutocompleteList` from `PopperComponent` / `PopperProps` / `TransitionComponent` / `TransitionProps` to `slots` / `slotProps`.
+
+### Styling
+
+- [ ] Review array-form `sx` usages that relied on a later item replacing a nested selector.
+- [ ] Re-check `borderRadius` usages on `sm` / `lg` — the values changed.
+- [ ] Re-check responsive layouts — the `md` / `lg` / `xl` / `2xl` breakpoint values changed.
+- [ ] Load the `Inter` and `DM Mono` fonts if you rely on the default `fonts.base` / `fonts.mono`.
+
+### Color tokens
+
+- [ ] Follow the [Migrating color tokens from v2 to v3](../migrating-color-tokens-from-v2-to-v3) guide.
+
+## Getting help
+
+If you encounter any issues during the migration:
+
+- Check the [theme documentation](../../theme) for the complete list of tokens.
+- Refer to the [Migrating color tokens from v2 to v3](../migrating-color-tokens-from-v2-to-v3) guide for token-level details.
+- Open a GitHub issue for additional support.
