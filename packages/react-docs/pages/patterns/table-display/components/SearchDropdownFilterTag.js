@@ -2,15 +2,16 @@ import {
   Box,
   Checkbox,
   CheckboxGroup,
+  Dropdown,
   Flex,
   Highlight,
   LinkButton,
   Scrollbar,
+  SearchInput,
 } from '@tonic-ui/react';
 import { useEffectOnce, useToggle } from '@tonic-ui/react-hooks';
-import { ensureFunction } from 'ensure-type';
+import { ensureArray, ensureFunction, ensureString } from 'ensure-type';
 import { forwardRef, useMemo, useState } from 'react';
-import { SearchDropdown } from '@/experiments/search-dropdown';
 import { FlexItem } from '@/experiments/flex-item';
 import { MutedText } from '@/experiments/muted-text';
 import FilterTag from './FilterTag';
@@ -21,33 +22,34 @@ const SearchDropdownFilterTag = forwardRef((
     onClose,
     onChange,
     items = [],
+    renderLabel,
     value = [],
     ...rest
   },
   ref,
 ) => {
-  const itemValueToLabelMap = useMemo(() => {
-    return Object.fromEntries(items.map(item => [item.value, item.label]));
-  }, [items]);
   const [isOpen, toggleIsOpen] = useToggle(false);
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   useEffectOnce(() => {
     // Automatically open the menu on initial render
     toggleIsOpen(true);
   });
 
-  const [selectedValues, setSelectedValues] = useState(items.map(item => item.value));
+  const [selectedValues, setSelectedValues] = useState([]);
   const selectionCount = selectedValues.length;
   const isNoneSelected = selectionCount === 0;
   const isAllSelected = selectionCount === items.length;
+  const selectedItems = useMemo(() => {
+    return items.filter(item => selectedValues.includes(item.value));
+  }, [items, selectedValues]);
 
   const handleClose = () => {
     toggleIsOpen(false);
+    setSearchKeyword('');
 
     if (isNoneSelected) {
-      const allValues = items.map(item => item.value);
-      setSelectedValues(allValues);
-      ensureFunction(onChange)(allValues);
+      ensureFunction(onClose)();
     } else {
       ensureFunction(onChange)(selectedValues);
     }
@@ -55,53 +57,6 @@ const SearchDropdownFilterTag = forwardRef((
 
   const handleOpen = () => {
     toggleIsOpen(true);
-  };
-
-  const renderValue = () => {
-    if (isNoneSelected) {
-      const tooltip = 'Company: Select';
-      return (
-        <Flex alignItems="center" columnGap="1x" width="100%">
-          <FlexItem as={MutedText} fixed tooltip={tooltip}>
-            Company:
-          </FlexItem>
-          <FlexItem maxWidth={120} tooltip>
-            Select
-          </FlexItem>
-        </Flex>
-      );
-    }
-
-    if (isAllSelected) {
-      const tooltip = 'Company: All';
-      return (
-        <Flex alignItems="center" columnGap="1x" width="100%">
-          <FlexItem as={MutedText} fixed tooltip={tooltip}>
-            Company:
-          </FlexItem>
-          <FlexItem maxWidth={120} tooltip>
-            All
-          </FlexItem>
-        </Flex>
-      );
-    }
-
-    const selectionText = selectedValues.map(value => itemValueToLabelMap[value]).join(', ');
-    const tooltip = `Company: ${selectionText} (${selectionCount})`;
-
-    return (
-      <Flex alignItems="center" columnGap="1x" width="100%">
-        <FlexItem as={MutedText} fixed tooltip={tooltip}>
-          Company:
-        </FlexItem>
-        <FlexItem maxWidth={120} tooltip>
-          {selectionText}
-        </FlexItem>
-        <FlexItem fixed>
-          {`(${selectionCount})`}
-        </FlexItem>
-      </Flex>
-    );
   };
 
   const FilterTagToggle = useMemo(() => {
@@ -113,24 +68,103 @@ const SearchDropdownFilterTag = forwardRef((
     return Component;
   }, [onClose]);
 
+  const normalizedSearchKeyword = ensureString(searchKeyword).trim().toLowerCase();
+  const filteredItems = items.filter(item => {
+    if (!normalizedSearchKeyword) {
+      return true;
+    }
+    return ensureString(item?.label).trim().toLowerCase().includes(normalizedSearchKeyword);
+  });
+
+  const renderSearchInput = () => (
+    <SearchInput
+      inputProps={{
+        role: 'menuitem',
+        onKeyDown: (event) => {
+          const input = event.target;
+          const { selectionStart, selectionEnd, value } = input;
+          const isAtStart = (selectionStart === 0 && selectionEnd === 0);
+          const isAtEnd = (selectionStart === value.length && selectionEnd === value.length);
+
+          if (isAtStart && ['ArrowUp', 'Home'].includes(event.key)) {
+            return;
+          }
+          if (isAtEnd && ['ArrowDown', 'End'].includes(event.key)) {
+            return;
+          }
+
+          event.stopPropagation();
+        },
+      }}
+      value={searchKeyword}
+      onClearInput={() => setSearchKeyword('')}
+      onChange={(event) => setSearchKeyword(event.target.value)}
+    />
+  );
+
+  const defaultRenderLabel = ({ label, items, selectedItems, isNoneSelected, isAllSelected }) => {
+    if (isNoneSelected) {
+      const tooltip = `${label} Select`;
+      return (
+        <Flex alignItems="center" columnGap="1x" width="100%">
+          <FlexItem as={MutedText} fixed tooltip={tooltip}>
+            {label}
+          </FlexItem>
+          <FlexItem maxWidth={120} tooltip>
+            Select
+          </FlexItem>
+        </Flex>
+      );
+    }
+
+    if (isAllSelected) {
+      const tooltip = `${label} All`;
+      return (
+        <Flex alignItems="center" columnGap="1x" width="100%">
+          <FlexItem as={MutedText} fixed tooltip={tooltip}>
+            {label}
+          </FlexItem>
+          <FlexItem maxWidth={120} tooltip>
+            All
+          </FlexItem>
+        </Flex>
+      );
+    }
+
+    const selectionText = selectedItems.map(item => item.label).join(', ');
+    const tooltip = `${label} ${selectionText} (${selectedItems.length})`;
+
+    return (
+      <Flex alignItems="center" columnGap="1x" width="100%">
+        <FlexItem as={MutedText} fixed tooltip={tooltip}>
+          {label}
+        </FlexItem>
+        <FlexItem maxWidth={120} tooltip>
+          {selectionText}
+        </FlexItem>
+        <FlexItem fixed>
+          {`(${selectedItems.length})`}
+        </FlexItem>
+      </Flex>
+    );
+  };
+  const resolveRenderLabel = (typeof renderLabel === 'function') ? renderLabel : defaultRenderLabel;
+
   return (
-    <SearchDropdown
+    <Dropdown
       closeOnSelect={false}
       isOpen={isOpen}
       offset={[0, 4]}
       onClose={handleClose}
       onOpen={handleOpen}
-      items={items}
-      renderContent={({ items, renderItems, renderSearchInput, searchKeyword }) => (
+      items={filteredItems}
+      renderContent={({ renderItems }) => (
         <>
           <Box px="3x" mb="2x">
             {renderSearchInput()}
           </Box>
           {!searchKeyword && (
-            <Box
-              px="3x"
-              mb="2x"
-            >
+            <Box px="3x" mb="2x">
               <LinkButton
                 onClick={() => {
                   if (isAllSelected) {
@@ -141,7 +175,7 @@ const SearchDropdownFilterTag = forwardRef((
                   }
                 }}
               >
-                {isAllSelected ? ('Clear all') : ('Select all')}
+                {isAllSelected ? 'Clear all' : 'Select all'}
               </LinkButton>
             </Box>
           )}
@@ -152,32 +186,33 @@ const SearchDropdownFilterTag = forwardRef((
               setSelectedValues(value);
             }}
           >
-            <Scrollbar
-              maxHeight={36 * 5}
-              overflowY="visible"
-            >
-              {renderItems(items)}
+            <Scrollbar maxHeight={36 * 5} overflowY="visible">
+              {renderItems(filteredItems)}
             </Scrollbar>
           </CheckboxGroup>
         </>
       )}
-      renderItem={(item, { searchKeyword }) => (
-        <Checkbox
-          value={item.value}
-          width="100%"
-        >
-          <Highlight query={searchKeyword}>
-            {item.label}
-          </Highlight>
-        </Checkbox>
-      )}
-      slots={{
-        toggle: FilterTagToggle,
+      renderItem={(item) => {
+        const searchWords = ensureArray(searchKeyword);
+
+        return (
+          <Checkbox value={item.value} width="100%">
+            <Highlight query={searchWords}>
+              {item.label}
+            </Highlight>
+          </Checkbox>
+        );
+      }}
+      renderToggle={({ getToggleProps }) => {
+        const toggleProps = getToggleProps({});
+        return (
+          <FilterTagToggle {...toggleProps}>
+            {resolveRenderLabel({ label, items, selectedItems, isNoneSelected, isAllSelected })}
+          </FilterTagToggle>
+        );
       }}
       {...rest}
-    >
-      {renderValue()}
-    </SearchDropdown>
+    />
   );
 });
 

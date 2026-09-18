@@ -1,7 +1,9 @@
+import { composeSx } from '@tonic-ui/utils/internal';
 import { isPlainObject } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
+import { useSlot } from '../slot';
 import useShallowMemo from '../utils/useShallowMemo';
 import AutocompleteInput from './AutocompleteInput';
 import AutocompleteItem from './AutocompleteItem';
@@ -27,7 +29,7 @@ const defaultRenderItem = (item) => {
 
 /**
  * @typedef {Object} AutocompleteRenderInputParams
- * @property {object} inputProps - Hook-managed props for the underlying `<input>`: ref, value, ARIA, and event handlers.
+ * @property {React.InputHTMLAttributes<HTMLInputElement> & { ref?: React.Ref<HTMLInputElement>; [key: string]: unknown }} inputProps - Hook-managed props for the underlying `<input>`: ref, value, ARIA, and event handlers. Open to extra consumer attributes (e.g. `data-*`).
  * @property {boolean} isClearable - Whether the consumer enabled the clear-button capability.
  * @property {boolean} isLoading - Whether to render the loading indicator.
  * @property {(event?: React.SyntheticEvent) => void} onClearInput - Reset the input and selection (fires `onChange(null)`). Wired into the clear-button slot of `AutocompleteInput` (or invoke directly from a custom input).
@@ -57,7 +59,8 @@ const defaultRenderItem = (item) => {
  * @property {(params: AutocompleteRenderInputParams) => React.ReactNode} [renderInput] - Render the input. Defaults to `(params) => <AutocompleteInput {...params} />`. Override to add visual props (e.g. `placeholder`, `error`) or to render a custom-built input that forwards `ref` and `inputProps`.
  * @property {(item: any, state: { inputValue: string }) => React.ReactNode} [renderItem] - Customize each item's content. Default mirrors `getItemLabel`: `''` for `null`/`undefined`, the string itself for strings, `item.label ?? item.value ?? ''` for plain objects, otherwise `String(item)`.
  * @property {boolean} [selectOnFocus=false] - If `true`, select the existing input text on focus, letting the user immediately type to replace the previous value.
- * @property {{ content?: { width?: string | number; [key: string]: any } }} [slotProps] - Props forwarded to internal slots. `slotProps.content` is spread on `<AutocompleteList>`.
+ * @property {{ content?: React.ElementType, root?: React.ElementType }} [slots] - Slot components. `slots.root` replaces the root container (defaults to `Box`); `slots.content` replaces the internal `<AutocompleteList>`.
+ * @property {{ content?: { width?: string | number; [key: string]: any }, root?: object }} [slotProps] - Slot props resolved via `useSlot`. `slotProps.root` is applied to the root container (merged over the component's own props; `__sx` composes); `slotProps.content` is spread on the internal `<AutocompleteList>` (including its own `slots`/`slotProps` API for popper/transition). Other keys are dropped.
  * @property {any} [value] - Controlled selected item (or `null` for no selection). Pair with `onChange` to manage the value externally. When set, the input automatically syncs to `getItemLabel(value)` on every value change. Pass a referentially stable item (memoize if needed) to avoid spurious sync updates.
  */
 
@@ -66,6 +69,7 @@ const defaultRenderItem = (item) => {
  */
 const Autocomplete = forwardRef((inProps, ref) => {
   const {
+    __sx: __sxProp,
     autoHighlight = false,
     closeBehavior = 'restore',
     defaultValue,
@@ -87,12 +91,16 @@ const Autocomplete = forwardRef((inProps, ref) => {
     renderInput = defaultRenderInput,
     renderItem = defaultRenderItem,
     selectOnFocus = false,
+    slots = {},
     slotProps = {},
     value: valueProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Autocomplete' });
-  const shallowMemo = useShallowMemo();
+
   const styleProps = useAutocompleteStyle();
+  const mergedRootSx = composeSx(styleProps, __sxProp);
+
+  const shallowMemo = useShallowMemo();
 
   const {
     // Refs
@@ -130,7 +138,7 @@ const Autocomplete = forwardRef((inProps, ref) => {
 
   const renderItemWithContext = (item) => renderItem(item, { inputValue });
 
-  // `getItemProps` already merges `item.props` (DropdownBase parity), chains
+  // `getItemProps` already merges `item.props` (Dropdown parity), chains
   // consumer-supplied handlers via `callEventHandlers`, and sets both
   // `aria-selected` (semantic) and `data-highlighted` (visual hook used by
   // the style hook), so the component just spreads its result.
@@ -174,18 +182,38 @@ const Autocomplete = forwardRef((inProps, ref) => {
     portalled,
   });
 
+  // The root slot (the outer container). Always Autocomplete-owned, so it applies in
+  // both the default and render-prop forms. New slot — no deprecated prop to merge.
+  // The base style goes in `props.__sx`; useSlot composes it below any consumer
+  // `__sx` from the slot props.
+  const [RootSlot, rootSlotProps] = useSlot({
+    name: 'root',
+    ownerName: Autocomplete.displayName,
+    props: {
+      ref,
+      __sx: mergedRootSx,
+      ...rest,
+    },
+    slot: slots.root ?? Box,
+    slotProps: slotProps?.root,
+  });
+
+  const [ContentSlot, contentSlotProps] = useSlot({
+    name: 'content',
+    ownerName: Autocomplete.displayName,
+    props: {},
+    slot: slots.content ?? AutocompleteList,
+    slotProps: slotProps?.content,
+  });
+
   return (
     <AutocompleteContext.Provider value={context}>
-      <Box
-        ref={ref}
-        {...styleProps}
-        {...rest}
-      >
+      <RootSlot {...rootSlotProps}>
         {renderInput({ inputProps, isClearable, isLoading, onClearInput: clearValue, ref: anchorRef })}
-        <AutocompleteList {...slotProps?.content}>
+        <ContentSlot {...contentSlotProps}>
           {content}
-        </AutocompleteList>
-      </Box>
+        </ContentSlot>
+      </RootSlot>
     </AutocompleteContext.Provider>
   );
 });

@@ -1,13 +1,12 @@
 import {
   Box,
   Highlight,
+  MenuButton,
   OverflowTooltip,
-  Scrollbar,
 } from '@tonic-ui/react';
 import { useConst } from '@tonic-ui/react-hooks';
 import { useMemo, useState } from 'react';
-import { MenuButtonToggle } from '@/experiments/dropdown';
-import { SearchDropdown } from '@/experiments/search-dropdown';
+import SearchDropdown from '../dropdown/SearchDropdown';
 
 const App = () => {
   const items = useConst(() => [
@@ -58,36 +57,33 @@ const App = () => {
       <SearchDropdown
         items={items}
         onChange={handleChange}
-        renderContent={({ items, renderItems, renderSearchInput }) => (
-          <>
-            <Box px="3x" mb="2x">
-              {renderSearchInput()}
-            </Box>
-            {items.length === 0 ? (
-              <Box px="3x" py="2x">No options</Box>
-            ) : (
-              <Scrollbar
-                maxHeight={36 * 5}
-                overflowY="visible"
-              >
-                {renderItems(items)}
-              </Scrollbar>
-            )}
-          </>
-        )}
         renderItem={(item, { searchKeyword }) => (
           <Highlight variant="highlight" query={searchKeyword}>
             {item.label}
           </Highlight>
         )}
-        slots={{
-          toggle: MenuButtonToggle,
+        renderToggle={({ getToggleProps }) => {
+          const toggleProps = getToggleProps({});
+          return (
+            <MenuButton
+              variant="secondary"
+              {...toggleProps}
+              sx={{
+                maxWidth: '100%',
+                width: '100%',
+                '> :first-of-type': {
+                  textAlign: 'left',
+                  minWidth: 0,
+                },
+              }}
+            >
+              <OverflowTooltip label={dropdownLabel}>
+                {dropdownLabel}
+              </OverflowTooltip>
+            </MenuButton>
+          );
         }}
-      >
-        <OverflowTooltip label={dropdownLabel}>
-          {dropdownLabel}
-        </OverflowTooltip>
-      </SearchDropdown>
+      />
     </Box>
   );
 };

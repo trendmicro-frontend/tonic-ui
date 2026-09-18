@@ -1,0 +1,193 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dropdown renders the default (unstyled) toggle and matches the snapshot, with no a11y violations 1`] = `
+.emotion-0 {
+  position: relative;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+.emotion-2 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: inherit;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  outline: 0;
+  padding: 0;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+.emotion-4 {
+  position: absolute;
+  z-index: var(--tonic-zIndices-dropdown);
+  outline: 0;
+  background-color: var(--tonic-colors-background-highest);
+  box-shadow: var(--tonic-shadows-high);
+  color: inherit;
+  margin: 0;
+  padding: 0;
+  padding-top: var(--tonic-space-2x);
+  padding-bottom: var(--tonic-space-2x);
+  max-height: 40vh;
+  overflow-y: auto;
+  min-width: 0;
+  max-width: 640px;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+.emotion-6 {
+  height: auto;
+  opacity: 1;
+  -webkit-transition: height 133ms linear,opacity 133ms linear;
+  transition: height 133ms linear,opacity 133ms linear;
+}
+
+.emotion-10 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: inherit;
+  border: none;
+  color: var(--tonic-colors-text-primary);
+  cursor: pointer;
+  outline: 0;
+  padding: 0;
+  font-size: var(--tonic-fontSizes-sm);
+  line-height: var(--tonic-lineHeights-sm);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: left;
+  padding-left: var(--tonic-space-3x);
+  padding-right: var(--tonic-space-3x);
+  padding-top: var(--tonic-space-2x);
+  padding-bottom: var(--tonic-space-2x);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 100%;
+}
+
+.emotion-10:focus-visible {
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
+  outline-offset: calc(0px - var(--tonic-space-1h));
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1h);
+}
+
+.emotion-10[aria-selected=true],
+.emotion-10[data-selected] {
+  color: var(--tonic-colors-text-accent);
+  background-color: var(--tonic-colors-actions-selected);
+}
+
+.emotion-10:hover,
+.emotion-10[data-hover] {
+  background-color: var(--tonic-colors-actions-hovered);
+}
+
+.emotion-10:disabled,
+.emotion-10:disabled:focus,
+.emotion-10:disabled:hover,
+.emotion-10[aria-disabled=true],
+.emotion-10[aria-disabled=true]:focus,
+.emotion-10[aria-disabled=true]:hover,
+.emotion-10[data-disabled] {
+  background-color: inherit;
+  color: var(--tonic-colors-text-disabled);
+  cursor: not-allowed;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+    data-tonic="Dropdown"
+  >
+    <button
+      aria-controls="@tonic-ui/react:Menu-_r_0_"
+      aria-expanded="true"
+      aria-haspopup="menu"
+      class="emotion-2 emotion-1"
+      data-tonic="DropdownToggle"
+      id="@tonic-ui/react:MenuToggle-_r_0_"
+      role="button"
+      tabindex="0"
+      type="button"
+    >
+      Apple
+    </button>
+    <div
+      aria-labelledby="@tonic-ui/react:MenuToggle-_r_0_"
+      class="emotion-4 emotion-1"
+      data-menu-id="@tonic-ui/react:Menu-_r_0_"
+      data-popper-escaped=""
+      data-popper-placement="bottom-start"
+      data-popper-reference-hidden=""
+      data-tonic="MenuList"
+      id="@tonic-ui/react:Menu-_r_0_"
+      role="menu"
+      style="position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(0px, 0px);"
+      tabindex="-1"
+    >
+      <div
+        class="emotion-6 emotion-1"
+        data-tonic="Collapse"
+      >
+        <div
+          class="emotion-8 emotion-1"
+        >
+          <button
+            class="emotion-10 emotion-1"
+            data-tonic="MenuItem"
+            role="menuitem"
+            tabindex="0"
+            type="button"
+          >
+            Apple
+          </button>
+          <button
+            class="emotion-10 emotion-1"
+            data-tonic="MenuItem"
+            role="menuitem"
+            tabindex="-1"
+            type="button"
+          >
+            Banana
+          </button>
+          <button
+            aria-disabled="true"
+            class="emotion-10 emotion-1"
+            data-tonic="MenuItem"
+            disabled=""
+            role="menuitem"
+            tabindex="-1"
+            type="button"
+          >
+            Cherry
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

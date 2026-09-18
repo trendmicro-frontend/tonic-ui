@@ -1,5 +1,5 @@
 import { AngleDownIcon, CloseSIcon } from '@tonic-ui/react-icons';
-import { forwardRef, useCallback } from 'react';
+import React, { forwardRef, useCallback } from 'react';
 import { Box } from '../box';
 import { ButtonBase } from '../button';
 import { useColorMode } from '../color-mode';
@@ -9,6 +9,23 @@ import { Spinner } from '../spinner';
 
 const preventDefault = (event) => event.preventDefault();
 
+/**
+ * @typedef {Object} AutocompleteInputProps
+ * @property {boolean} [autoFocus] - Focuses the underlying `<input>` element on mount.
+ * @property {boolean} [disabled] - Disables the input and prevents user interactions.
+ * @property {boolean} [error] - If `true`, the input is displayed in error state.
+ * @property {React.InputHTMLAttributes<HTMLInputElement> & { [key: string]: unknown }} [inputProps] - Props applied to the underlying `<input>` element. Hook-managed ARIA/ref/value props flow in via `renderInput` params; consumers may merge additional attributes (e.g. `data-*`).
+ * @property {boolean} [isClearable=false] - If `true`, enables the clear-button capability. The actual button visibility depends on the input having a value and not being disabled.
+ * @property {boolean} [isLoading=false] - If `true`, the clear button is replaced by a loading spinner.
+ * @property {string} [name] - `name` attribute forwarded to the underlying `<input>` element.
+ * @property {(event?: React.SyntheticEvent) => void} [onClearInput] - Callback fired when the clear button is clicked.
+ * @property {string} [placeholder] - Placeholder text forwarded to the underlying `<input>` element.
+ * @property {boolean} [required] - Marks the underlying `<input>` element as required.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', AutocompleteInputProps>}
+ */
 const AutocompleteInput = forwardRef((inProps, ref) => {
   const {
     autoFocus,

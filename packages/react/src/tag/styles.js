@@ -7,7 +7,7 @@ const getSolidTagStyle = ({
   // Normal
   const backgroundColor = '_component.tags.foreground.gray';
   const color = 'text.primary';
-  const focusVisibleOutlineColor = 'border._primary.focused';
+  const focusVisibleOutlineColor = '_component.keyboardFocused.outerFocusRing';
 
   // Disable
   const disabledBackgroundColor = '_foreground.tertiary.disabled';
@@ -48,7 +48,7 @@ const getOutlineTagStyle = ({
   // Normal
   const borderColor = '_component.tags.border.gray';
   const color = '_component.tags.onBackground.gray';
-  const focusVisibleOutlineColor = 'border._primary.focused';
+  const focusVisibleOutlineColor = '_component.keyboardFocused.outerFocusRing';
 
   // Disable
   const disabledColor = 'text.disabled';
