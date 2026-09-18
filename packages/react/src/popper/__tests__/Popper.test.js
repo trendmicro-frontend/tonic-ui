@@ -4,6 +4,8 @@ import { createPopper } from '@popperjs/core';
 import React from 'react';
 import { Box } from '../../box';
 import { EnvironmentProvider } from '../../environment';
+import { TonicProvider } from '../../provider';
+import { createTheme } from '../../theme';
 import Popper from '../Popper';
 
 // Mock @popperjs/core
@@ -427,26 +429,30 @@ describe('Popper', () => {
     expect(cleanup).toBeUndefined();
   });
 
-  it('should not recreate the popper instance when the environment value changes identity', () => {
-    const envDocument = {
-      nodeType: Node.DOCUMENT_NODE,
-      defaultView: {},
-    };
+  it.each([
+    ['default', undefined],
+    ['Document', document],
+    ['getter', () => document],
+  ])('should preserve the popper instance during TonicProvider updates with the same %s environment', (name, value) => {
     const referenceRef = { current: document.createElement('div') };
     const modifiers = [];
-    const renderPopper = () => (
-      <EnvironmentProvider value={() => envDocument}>
+    const initialTheme = createTheme();
+    const nextTheme = createTheme();
+    const renderPopper = (theme, colorMode) => (
+      <TonicProvider theme={theme} colorMode={{ value: colorMode }} environment={{ value }}>
         <Popper modifiers={modifiers} referenceRef={referenceRef}>
           <PopperContent />
         </Popper>
-      </EnvironmentProvider>
+      </TonicProvider>
     );
 
-    const { rerender } = render(renderPopper());
-    rerender(renderPopper());
-    rerender(renderPopper());
+    const { rerender } = render(renderPopper(initialTheme, 'light'));
+    const popperInstance = getPopperInstance();
+    rerender(renderPopper(nextTheme, 'light'));
+    rerender(renderPopper(nextTheme, 'dark'));
 
     expect(createPopper).toHaveBeenCalledTimes(1);
+    expect(popperInstance.destroy).not.toHaveBeenCalled();
   });
 
   it('should destroy the popper instance and clear the popperRef when the popper element is detached', () => {

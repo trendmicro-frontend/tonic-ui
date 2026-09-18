@@ -1,5 +1,5 @@
 import { createPopper } from '@popperjs/core';
-import { useEffectOnce, useLatestRef, useOnceWhen } from '@tonic-ui/react-hooks';
+import { useEffectOnce, useOnceWhen } from '@tonic-ui/react-hooks';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureArray } from 'ensure-type';
 import React, { forwardRef, useCallback, useMemo, useRef, useState } from 'react';
@@ -102,15 +102,6 @@ const Popper = forwardRef((inProps, ref) => {
   }
 
   const { getWindow } = useEnvironment();
-  // `getWindow` changes identity whenever `EnvironmentProvider`'s `value` is not
-  // referentially stable, which is easy to hit with an inline arrow. Reading it
-  // through a ref keeps this callback's identity stable, so `setupPopper` does
-  // not change and the popper instance is not destroyed and recreated on every
-  // render. The alternative of listing `getWindow` in the dependencies below
-  // makes that recreation happen; `useEventCallback` is not usable here because
-  // popper.js invokes the modifier effect during the commit phase, and
-  // `useEventCallback` throws while rendering.
-  const getWindowRef = useLatestRef(getWindow);
   const nodeRef = useRef();
   const popperRef = useRef(null); // popper instance
   const [exited, setExited] = useState(true);
@@ -140,7 +131,7 @@ const Popper = forwardRef((inProps, ref) => {
     enabled: true,
     phase: 'read',
     effect: ({ state, instance }) => {
-      const ownerWindow = getWindowRef.current();
+      const ownerWindow = getWindow();
       const ResizeObserver = ownerWindow.ResizeObserver;
       if (typeof ResizeObserver !== 'function') {
         return undefined;
@@ -155,7 +146,7 @@ const Popper = forwardRef((inProps, ref) => {
         resizeObserver.disconnect();
       };
     },
-  }), [getWindowRef]);
+  }), [getWindow]);
 
   const setupPopper = useCallback(() => {
     const anchor = (typeof anchorEl === 'function') ? anchorEl() : anchorEl; // deprecated

@@ -96,64 +96,52 @@ describe('EnvironmentProvider', () => {
     document.body.removeChild(hostElement);
   });
 
-  it('should memoize the environment object', () => {
-    const mockElement = document.createElement('div');
-    let renderCount = 0;
-
-    const TestComponent = () => {
-      const environment = useEnvironment();
-      renderCount++;
-      return <div data-testid="test">{JSON.stringify(!!environment)}</div>;
-    };
-
-    const { rerender } = render(
-      <EnvironmentProvider value={mockElement}>
-        <TestComponent />
+  it.each([
+    ['default', undefined],
+    ['Document', document],
+    ['getter', () => document],
+  ])('should preserve the environment and getter references for the same %s value', (name, value) => {
+    const WrapperComponent = ({ children }) => (
+      <EnvironmentProvider value={value}>
+        {children}
       </EnvironmentProvider>
     );
+    const { result, rerender } = renderHook(() => useEnvironment(), { wrapper: WrapperComponent });
+    const environment = result.current;
 
-    const initialRenderCount = renderCount;
+    rerender();
 
-    // Rerender with the same value
-    rerender(
-      <EnvironmentProvider value={mockElement}>
-        <TestComponent />
-      </EnvironmentProvider>
-    );
-
-    // Should have rendered again, but the environment object should be memoized
-    expect(renderCount).toBeGreaterThan(initialRenderCount);
+    expect(result.current).toBe(environment);
+    expect(result.current.getRootNode).toBe(environment.getRootNode);
+    expect(result.current.getDocument).toBe(environment.getDocument);
+    expect(result.current.getWindow).toBe(environment.getWindow);
   });
 
   it('should update environment when value changes', () => {
     const mockElement1 = document.createElement('div');
     const mockElement2 = document.createElement('span');
 
-    // Test with first element
-    const WrapperComponent1 = ({ children }) => (
-      <EnvironmentProvider value={mockElement1}>
+    let currentNode = mockElement1;
+    const WrapperComponent = ({ children }) => (
+      <EnvironmentProvider value={currentNode}>
         {children}
       </EnvironmentProvider>
     );
 
-    const { result: result1 } = renderHook(() => useEnvironment(), {
-      wrapper: WrapperComponent1,
-    });
+    const { result, rerender } = renderHook(() => useEnvironment(), { wrapper: WrapperComponent });
+    const environment = result.current;
+    expect(environment.getRootNode()).toBe(mockElement1);
 
-    expect(result1.current.getRootNode()).toBe(mockElement1);
+    currentNode = mockElement2;
+    rerender();
 
-    // Test with second element
-    const WrapperComponent2 = ({ children }) => (
-      <EnvironmentProvider value={mockElement2}>
-        {children}
-      </EnvironmentProvider>
-    );
-
-    const { result: result2 } = renderHook(() => useEnvironment(), {
-      wrapper: WrapperComponent2,
-    });
-
-    expect(result2.current.getRootNode()).toBe(mockElement2);
+    expect(result.current).not.toBe(environment);
+    expect(result.current.getRootNode).not.toBe(environment.getRootNode);
+    expect(result.current.getDocument).not.toBe(environment.getDocument);
+    expect(result.current.getWindow).not.toBe(environment.getWindow);
+    expect(result.current.getRootNode()).toBe(mockElement2);
+    expect(result.current.getDocument()).toBe(document);
+    expect(result.current.getWindow()).toBe(window);
   });
 
   it('should handle function value that returns different nodes', () => {
@@ -166,6 +154,7 @@ describe('EnvironmentProvider', () => {
       </EnvironmentProvider>
     );
     const { result, rerender } = renderHook(() => useEnvironment(), { wrapper: WrapperComponent });
+    const environment = result.current;
 
     expect(result.current.getRootNode()).toBe(currentNode);
 
@@ -174,7 +163,10 @@ describe('EnvironmentProvider', () => {
     rerender();
 
     // The getRootNode should now return the new node
+    expect(result.current).toBe(environment);
     expect(result.current.getRootNode()).toBe(currentNode);
+    expect(result.current.getDocument()).toBe(document);
+    expect(result.current.getWindow()).toBe(window);
   });
 
   it('should render children correctly', () => {

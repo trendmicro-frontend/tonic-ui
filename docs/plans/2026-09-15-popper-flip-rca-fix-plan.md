@@ -12,7 +12,7 @@
 
 **Date:** 2026-09-15
 
-**Status:** P1–P3 **implemented** on branch `fix/react-popper-flip-on-content-resize` (draft PR #1207), with `.changeset/tonic-ui-pr-1207.md` added, and unit-verified. The browser reproduction (Task 1) was **waived by the user** after the headless attempt failed for environmental reasons, and the browser geometry check (Task 3 Step 4 / Task 6 Step 2) remains **unverified**. Treat the end-to-end symptom fix as unconfirmed until a browser check runs.
+**Status:** P1–P3 **implemented** on branch `fix/react-popper-flip-on-content-resize` (draft PR #1207), with `.changeset/tonic-ui-pr-1207.md` added. On 2026-09-18, the environment dependency was simplified to `[getWindow]` and the local branch was rebased onto the updated remote PR branch. The full React package suite passes: 130 suites, 924 tests, 93 snapshots. The current code passes Chromium checks for first-open flipping, DOM-only content resize, close/reopen with more available space, and `matchWidth` both disabled and enabled, with no observer loop. The original pre-fix browser reproduction (Task 1) was waived by the user; these current-code checks do not retroactively establish that reproduction. See `docs/handoffs/2026-09-18-popper-flip-fix-handoff.md` for the current design and verification.
 
 > ## ⚠️ Correction (2026-09-18) — P1 as first written was dead code
 >
@@ -32,7 +32,7 @@
 **Implemented**
 
 - `packages/react/src/popper/Popper.js`
-  - internal `observePopperResize` modifier observing `state.elements.popper`, declared with `phase: 'read'` (see the correction notice above), resolving the constructor through `useEnvironment().getWindow()` read via `useLatestRef` so `EnvironmentProvider` value churn cannot recreate the instance;
+  - internal `observePopperResize` modifier observing `state.elements.popper`, declared with `phase: 'read'` (see the correction notice above), resolving the constructor directly through `useEnvironment().getWindow()` with `[getWindow]` dependencies. The 2026-09-18 simplification removes `useLatestRef`: unchanged provider values keep getters stable, while a changed value re-installs the observer;
   - `refUpdater` calls `cleanupPopper()` on detachment;
   - `preferredPlacement` is the only `createPopper()` input. The render function receives `{ placement: preferredPlacement, computedPlacement }`; `computedPlacement` comes from the keyed `placementState`. This keeps the pre-existing meaning of the render-prop `placement` and exposes the computed value additively;
   - the `placementProp !== undefined` short-circuit is gone, so a computed placement is never fed back as the preferred input;
@@ -67,14 +67,14 @@ No consumer writes the reported value back into a `placement` prop or context, s
 - `MenuToggleIcon` direction is derived from the preferred placement in `Menu.js:206`, and the icon lives in the toggle, outside the popper. Fixing it would require lifting `computedPlacement` back into the menu context, re-rendering the whole menu subtree on every flip.
 - `SubmenuContent`'s keyboard close key (`:133`) and `useSubmenuListStyle`'s inline positioning (`menu/styles.js:157-181`) also read the preferred placement.
 
-**Verified**
+**Historical verification of the original fix**
 
 | Check | Result |
 | :--- | :--- |
 | `yarn test --testPathPattern="__tests__/Popper.test.js"` | 20/20 pass |
 | `should pass modifiers that popper.js keeps in its ordered modifiers` with `phase: 'read'` deleted | fails — `observePopperResize` absent from `instance.state.orderedModifiers` (RED proven) |
 | Same tests against `main`'s `Popper.js` | 7 of the 8 added tests fail (RED confirmed against `cd71567145`) |
-| `observePopperResize` dep changed from `[getWindowRef]` to `[getWindow]` | identity test fails (`3` instances instead of `1`) — the `useLatestRef` design is load-bearing |
+| Original inline-provider identity test | Superseded on 2026-09-18: a changed getter may recreate the instance. Tests now require stability during TonicProvider updates with unchanged environment values, and observer cleanup/re-installation when the value changes. |
 | `yarn test` (whole `packages/react`) | 120 suites, 832 tests, 90 snapshots — all pass, no snapshot updates needed |
 | `PopoverContent`/`TooltipContent` origin tests reverted to read `placement` | both fail (`Expected` vs. the centred origin) — the consumer wiring is covered |
 | `yarn lint` | 0 errors; no new warnings |
@@ -375,9 +375,9 @@ Find the `observePopperResize` modifier in `createPopper.mock.calls[0][2].modifi
 
 Follow `packages/react/src/modal/__tests__/ModalOverlay.environment.test.js:12-41`; do not mutate or leak a global observer between tests.
 
-- [ ] **Step 4: Test that environment identity churn does not recreate the instance**
+- [ ] **Step 4: Test stable environment updates and observer replacement**
 
-Render Popper under an `EnvironmentProvider` whose `value` prop is a new inline function on every render, then rerender twice with unchanged Popper props. Assert `createPopper()` was still called once. This guards the `useLatestRef`-based modifier identity; a direct `[getWindow]` dependency fails this test.
+Render Popper under `TonicProvider` with stable `referenceRef` and modifiers. Test unchanged environment values separately: default `undefined`, a Document, and a stable getter. Change theme and color mode while keeping the environment value unchanged; assert `createPopper()` is called once and the instance is not destroyed. In the real-Popper suite, change the environment value on the same mounted provider; assert the old observer disconnects, the new environment observer observes the same popper element, and final unmount disconnects it exactly once. Also test switching to an environment without ResizeObserver.
 
 - [ ] **Step 5: Test ref-detach cleanup**
 
@@ -408,16 +408,17 @@ Expected: the new observer modifier, provider-stability, and ref-detach assertio
 
 - [ ] **Step 1: Add the environment-aware internal modifier**
 
-Import `{ useEnvironment }` from `../environment` and `useLatestRef` from `@tonic-ui/react-hooks`. Inside `Popper`, create a modifier whose identity never changes:
+Import `{ useEnvironment }` from `../environment`. Inside `Popper`, memoize the modifier on `getWindow`:
 
 ```js
 const { getWindow } = useEnvironment();
-const getWindowRef = useLatestRef(getWindow);
 const observePopperResizeModifier = useMemo(() => ({
   name: 'observePopperResize',
   enabled: true,
+  phase: 'read',
   effect: ({ state, instance }) => {
-    const ResizeObserver = getWindowRef.current().ResizeObserver;
+    const ownerWindow = getWindow();
+    const ResizeObserver = ownerWindow.ResizeObserver;
     if (typeof ResizeObserver !== 'function') {
       return undefined;
     }
@@ -431,12 +432,12 @@ const observePopperResizeModifier = useMemo(() => ({
       resizeObserver.disconnect();
     };
   },
-}), [getWindowRef]);
+}), [getWindow]);
 ```
 
-Read `getWindow` through `useLatestRef` rather than depending on it directly. `EnvironmentProvider` memoizes its environment object on the identity of the `value` function it receives, so a consumer passing an inline `value={() => node}` gets a new `getWindow` on every render. Depending on it would produce a new modifier object, a new `setupPopper`, and a recreated popper instance on every render. `useLatestRef` returns a stable ref object, so the modifier identity is stable for the component's lifetime.
+Read `getWindow` directly and include it in the modifier dependencies. `EnvironmentProvider` already memoizes its environment on the inner `value`, so unchanged values keep the getters stable during TonicProvider updates. Changing the value rebuilds the popper instance and installs the observer from the new environment. An inline `value={() => node}` also changes getter identity; callers can pass a node or a stable getter to avoid that replacement. Do not add shallow memo to the provider or evaluate the getter during rendering. A stable getter returning another node does not itself notify context consumers or re-install the observer.
 
-No `fn` and no `phase` are needed: `createPopper` guards both modifier callbacks with `typeof ... === 'function'` (`../floating-ui/src/createPopper.js:155-161` for `fn`, `:196-201` for `effect`). An `effect`-only modifier is valid and its cleanup is registered.
+No `fn` is needed, but `phase: 'read'` is required so `orderModifiers` keeps the effect-only modifier in the ordered list. Popper registers its returned cleanup.
 
 Insert it in Tonic's default modifier list before consumer modifiers, and include `observePopperResizeModifier` in `setupPopper` dependencies. Do not create a separate observer ref; Popper core already runs modifier-effect cleanup on `destroy()` and `setOptions()`.
 
@@ -463,7 +464,7 @@ Keep the defensive destroy at the start of `setupPopper()`.
 rtk yarn test --testPathPattern="__tests__/Popper.test.js"
 ```
 
-All Task 2 tests must now pass: observer contract, provider identity stability, ref-detach cleanup, and the updated placement-prop rerender test.
+All Task 2 tests must now pass: observer contract, stable environment updates, observer replacement on environment changes, ref-detach cleanup, and the updated placement-prop rerender test.
 
 - [ ] **Step 4: Repeat Task 1's browser check before P2/P3** — **pending**
 

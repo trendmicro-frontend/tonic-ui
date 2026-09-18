@@ -6,6 +6,24 @@
 > tonic-one: PR #550 (open, approved, HEAD `f26fd631c`)
 > Status: the `flip` fix is complete and browser-verified. **One follow-up is untouched and is tomorrow's job: the modifier-array instability (§Next).**
 
+## Environment dependency update (2026-09-18)
+
+`Popper` now calls `getWindow()` directly in `observePopperResize.effect` and memoizes that modifier with `[getWindow]`. The newly added `useLatestRef` indirection has been removed. `EnvironmentProvider` keeps its existing `useMemo` implementation; no shallow memo is added.
+
+`TonicProvider` spreads `environment` into `EnvironmentProvider`, whose dependency is the inner `value`, not the config object. With an unchanged `value` (including the default `undefined`, a Document, or a stable getter), theme and color-mode updates keep the environment getters and the popper instance stable, provided the other Popper inputs are also stable. Existing inline consumer modifier arrays remain a separate issue.
+
+Changing `value` changes `getWindow`, so Popper destroys the old instance, disconnects its observer, and installs an observer from the new environment window if supported. A newly created inline getter also causes this replacement even if it returns the same window; use a DOM node or a stable getter when this matters. A stable getter whose return value changes does not itself notify context consumers or re-install an existing observer; this change does not add detection for that case.
+
+Tests now check environment/getter reference equality, updates on the same mounted provider, and latest-node reads through a stable getter. Popper tests cover TonicProvider theme/color-mode updates with stable environment values. Real Popper tests cover observer cleanup and re-installation on a value change, including a new environment without ResizeObserver and final unmount cleanup.
+
+## Verification of the environment dependency update (2026-09-18)
+
+- tonic-ui, after rebasing onto the remote PR branch at `eef64610ad`: **130 suites / 924 tests / 93 snapshots** pass (`yarn test --coverage=false --silent`). `yarn build` passes. `yarn lint` reports 0 errors and 6 pre-existing warnings outside changed files; explicit ESLint on the four changed JS files is clean.
+- tonic-one: **126 suites / 921 tests / 93 snapshots** pass. Targeted tests: **4 suites / 38 tests** pass. Package lint, explicit changed-JS ESLint, and build pass.
+- The real-Popper environment-change test failed before removing the ref: the old observer did not disconnect. After the change, both supported and unsupported replacement windows pass, including final unmount cleanup.
+- Both repos pass Chromium checks at 1280 × 768 using a portalled Popover with preferred `bottom-start` and `flip` enabled. First open resolves `top-start` with popper bounds 540–684. A DOM-only height change from 144 to 240 px updates the bounds to 444–684 without a React rerender. Moving the trigger to top 200 px and reopening resolves `bottom-start` with bounds 244–388. The checks pass with `matchWidth` disabled and enabled, without scrolling, placement oscillation, observer loop warnings, or new page exceptions. Temporary fixtures were removed.
+- Independent read-only review found no material issue. The four changed JS files match across repos after package-name and portal-class normalization. `git diff --check` passes.
+
 ## Read these first
 
 - `docs/plans/2026-09-15-popper-flip-rca-fix-plan.md` — the RCA, the design decisions, the consumer-impact table, the execution log, and the verification table, including the ⚠️ correction notice for the missing `phase`. Source of truth for the shipped fix; this handoff does not repeat it.
@@ -57,8 +75,8 @@ Verify: a test that rerenders a raw `Popover` three times and asserts `createPop
 
 **Open questions to settle before implementing**
 
-- `micro-memoize`'s cache is unbounded; confirm it is safe for an array that changes on every render (the existing users pass small, bounded objects).
-- Consumer-created object literals (`{ name: 'flip', enabled: true }`) are new references each render, so shallow comparison still misses them. Decide whether to memoize by modifier `name` instead, and whether that is too clever.
+- `micro-memoize@5.1.1` defaults to `maxSize: 1`; the existing hook does not have an unbounded cache.
+- Shallow comparison only stabilizes a new outer array containing the same modifier references. It does not stabilize newly created modifier objects such as `{ name: 'flip', enabled: true }`. Do not compare by `name` alone: changes to `enabled`, `options`, `fn`, `effect`, or modifier order must remain effective.
 - Apply to both repos in the same change; keep `Popper.js` byte-identical modulo the package scope, as the rest of this branch does.
 - Is per-render instance recreation actually worth fixing? It costs modifier-effect re-registration on each parent render, but nothing has been reported as broken by it. Confirm the cost is real before spending the change.
 
@@ -69,9 +87,9 @@ Verify: a test that rerenders a raw `Popover` three times and asserts `createPop
 3. Tests — 9 added to `popper/__tests__/Popper.test.js` (20 total), plus `popper/__tests__/Popper.ssr.test.js`, `popper/__tests__/Popper.realPopper.test.js`, and the two consumer placement files.
 4. Docs — `popover`, `tooltip` and `autocomplete` prop tables describe `placement` as the preferred placement. Those are the only three pages with a `placement` row; `Menu` and `DatePicker` cover it in prose only.
 
-`useLatestRef` around `getWindow` stays. The comment at `Popper.js:105-112` records why: `useEventCallback` is the only other candidate in `@tonic-ui/react-hooks` and it throws `Cannot call an event handler while rendering` because popper.js runs the modifier effect during the commit phase, before its layout effect has stored the function.
+The original `useLatestRef` design and inline-provider identity test have been superseded by §Environment dependency update. `useEventCallback` remains unsuitable because Popper.js installs modifier effects during the ref commit, before that hook initializes its callback in a layout effect. Direct `getWindow()` use does not need that hook.
 
-## Verification already run (do not re-run blindly)
+## Historical verification of the original fix (do not re-run blindly)
 
 - tonic-ui: **122 suites / 834 tests / 90 snapshots** green, `yarn lint` 0 errors, `yarn build` OK.
 - tonic-one: **126 suites / 915 tests / 93 snapshots** green, lint clean.

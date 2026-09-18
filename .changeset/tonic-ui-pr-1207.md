@@ -8,3 +8,4 @@ fix(react/popper): update the popper position after its content resizes
 - `Popper`'s render function also receives `computedPlacement`, the placement Popper.js actually used. The `placement` prop and the render-prop `placement` keep meaning the preferred placement.
 - `Popover` and `Tooltip` use `computedPlacement`, so they grow from the edge that faces the trigger.
 - `Popper` no longer recreates its instance when Popper.js reports a different placement, and it now destroys the instance when the popper element is detached while the component stays mounted.
+- Changing the environment provider's `value` re-installs the resize observer. Theme and color-mode updates preserve the popper instance when the environment `value` and other Popper inputs stay unchanged.
