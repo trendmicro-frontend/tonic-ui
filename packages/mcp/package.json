@@ -38,6 +38,11 @@
   ],
   "author": "Tonic UI Team",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/trendmicro-frontend/tonic-ui.git",
+    "directory": "packages/mcp"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.26.0",
     "commander": "^14.0.0",
