@@ -1,5 +1,43 @@
 # @tonic-ui/react
 
+## 3.0.0-alpha.1
+
+### Minor Changes
+
+- feat(autocomplete): migrate `AutocompleteList` to `slots` / `slotProps` by [@cheton](https://github.com/cheton) in [#1206](https://github.com/trendmicro-frontend/tonic-ui/pull/1206)
+  `AutocompleteList` now follows the library-wide slots convention: `slots.popper` /
+  `slots.transition` swap the Popper / transition components, and `slotProps.popper` /
+  `slotProps.transition` forward props to them. The legacy `PopperComponent`, `PopperProps`,
+  `TransitionComponent`, and `TransitionProps` props are deprecated (still work; dev-only
+  deprecation warning). `<Autocomplete>` forwards non-`content` `slotProps` keys and `slots`
+  down to the list; nested `slots` / `slotProps` keys inside `slotProps.content` are dropped
+  (dev-only warning).
+
+- feat(react): add `Dropdown`, `DropdownButton`, `DropdownChip`, and `DropdownToggle` components by [@cheton](https://github.com/cheton) in [#1206](https://github.com/trendmicro-frontend/tonic-ui/pull/1206)
+
+### Patch Changes
+
+- feat: prepare v3 prerelease by [@cheton](https://github.com/cheton) in [#1168](https://github.com/trendmicro-frontend/tonic-ui/pull/1168)
+
+- fix(react/tag): fix regression for custom tag colors on hover by [@cheton](https://github.com/cheton) in [`f23b592`](https://github.com/trendmicro-frontend/tonic-ui/commit/f23b5922625e1fb4862a387b196001f9bf141bb2)
+
+- fix(react/button): align `secondary` variant hover/active border color with Figma spec by [@cheton](https://github.com/cheton) in [#1204](https://github.com/trendmicro-frontend/tonic-ui/pull/1204)
+  `Button`'s `secondary` variant no longer switches `border-color` to `border._primary.hovered`/`border._primary.active` (blue) on hover/active — per the Figma spec, the border stays `border._primary.enabled` across normal, hover, and active states, with only the background color changing.
+
+- fix(react/popper): update the popper position after its content resizes by [@cheton](https://github.com/cheton) in [#1207](https://github.com/trendmicro-frontend/tonic-ui/pull/1207)
+  - `Popper` re-runs its update cycle when the popper element changes size, so a `flip`-enabled overlay flips on the first open instead of waiting for a scroll. The `observePopperResize` modifier declares `phase: 'read'`; without a `phase`, popper.js's `orderModifiers` discarded it before its effect could install, so the observer never ran.
+  - `Popper`'s render function also receives `computedPlacement`, the placement Popper.js actually used. The `placement` prop and the render-prop `placement` keep meaning the preferred placement.
+  - `Popover` and `Tooltip` use `computedPlacement`, so they grow from the edge that faces the trigger.
+  - `Popper` no longer recreates its instance when Popper.js reports a different placement, and it now destroys the instance when the popper element is detached while the component stays mounted.
+  - Changing the environment provider's `value` re-installs the resize observer. Theme and color-mode updates preserve the popper instance when the environment `value` and other Popper inputs stay unchanged.
+- Updated dependencies [[`1c1c109`](https://github.com/trendmicro-frontend/tonic-ui/commit/1c1c1092d4d60db97f5b25ec80ca80eadc856ac7), [`cd71567`](https://github.com/trendmicro-frontend/tonic-ui/commit/cd715671457be4325e34649f02c84bd47d90d9f8)]
+  - @tonic-ui/react-base@3.0.0-alpha.1
+  - @tonic-ui/react-hooks@3.0.0-alpha.1
+  - @tonic-ui/react-icons@3.0.0-alpha.1
+  - @tonic-ui/styled-system@3.0.0-alpha.1
+  - @tonic-ui/theme@3.0.0-alpha.1
+  - @tonic-ui/utils@3.0.0-alpha.1
+
 ## 3.0.0-alpha.0
 
 ### Major Changes
