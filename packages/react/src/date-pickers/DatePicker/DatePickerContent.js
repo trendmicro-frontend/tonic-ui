@@ -114,6 +114,11 @@ const DatePickerContent = forwardRef((
     slotProps: { ...PopperProps, ...slotProps.popper },
   });
 
+  const mergedPopperModifiers = useMemo(() => [
+    ...popperModifiers,
+    ...ensureArray(popperSlotProps?.modifiers),
+  ], [popperModifiers, popperSlotProps?.modifiers]);
+
   const [TransitionSlot, transitionSlotProps] = useSlot({
     name: 'transition',
     ownerName: DatePickerContent.displayName,
@@ -133,10 +138,7 @@ const DatePickerContent = forwardRef((
   return (
     <PopperSlot
       {...popperSlotProps}
-      modifiers={[
-        ...popperModifiers,
-        ...ensureArray(popperSlotProps?.modifiers),
-      ]}
+      modifiers={mergedPopperModifiers}
       onKeyDown={callEventHandlers(onKeyDownProp, onKeyDown)}
       {...styleProps}
       {...rest}

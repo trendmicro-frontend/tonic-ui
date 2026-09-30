@@ -716,3 +716,43 @@ Commit and push it after the PR exists.
 | Manual observer ref in `Popper.js` | Duplicates modifier effect lifecycle and made teardown paths easy to miss. |
 | Feed computed placement through `setOptions()` | `setOptions()` makes it the next preferred placement and re-runs modifier effects; it does not preserve requested priority. |
 | Floating UI `autoUpdate()` | Not present in `@popperjs/core@2.11.8`; migration is a separate dependency/API change. |
+
+---
+
+## 5. Overlay-family modifier stability addendum (2026-09-24)
+
+The PR scope now includes a consistent modifier-stability contract for the
+complete Popper-based overlay family, rather than treating identity churn as a
+single-component regression.
+
+- `AutocompleteList`, `DatePickerContent`, `MenuContent`, `SubmenuContent`,
+  `PopoverContent`, and `TooltipContent` memoize the final merged modifier
+  array. Internal defaults remain first and consumer modifiers remain last.
+- `Popper` keeps the central structural fallback for direct consumers and
+  inline fresh-but-equal modifier arrays.
+- The Popper-specific comparison lives in `popper/utils.js`; it is not a
+  generic deep-equality utility and is not part of the public package API.
+- Public indirect consumers covered by this contract are Dropdown, Menu,
+  Submenu, Autocomplete, DatePicker, Popover, Tooltip, and OverflowTooltip.
+- Placement, portal, transition, slot precedence, and default `flip` policies
+  remain unchanged.
+
+Invariant: content components preserve modifier identity when their inputs are
+referentially stable; the Popper boundary defensively preserves equivalent
+modifier values when callers rebuild them.
+
+The focused verification covers merged-array identity across an unrelated
+parent render and the existing Popper structural-stability cases. Package lint
+and the affected overlay suites are the final validation gate.
+
+### 元件族群 modifiers 穩定性補充
+
+本 PR 的範圍擴大為完整 Popper overlay 元件族群的一致性完善，而非單一元件的
+identity churn 修補。
+
+- 六個實際 Popper content boundaries 會 memoize 最終合併後的 modifiers。
+- `Popper` 保留中央 structural fallback，防守直接使用與 inline modifiers。
+- 比較邏輯只放在 `popper/utils.js`，不成為 generic deep-equality 或公開 API。
+- Dropdown、Menu、Submenu、Autocomplete、DatePicker、Popover、Tooltip 與
+  OverflowTooltip 都受同一個 stability contract 保護。
+- placement、portal、transition、slot precedence 與預設 `flip` policy 不變。

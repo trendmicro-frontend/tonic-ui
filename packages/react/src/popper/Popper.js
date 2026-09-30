@@ -8,6 +8,7 @@ import { useEnvironment } from '../environment';
 import { Portal } from '../portal';
 import { Box } from '../box';
 import { assignRef } from '../utils/refs';
+import { isModifierArrayEqual } from './utils';
 
 const defaultPlacement = 'bottom-start';
 const defaultModifiers = [];
@@ -148,6 +149,16 @@ const Popper = forwardRef((inProps, ref) => {
     },
   }), [getWindow]);
 
+  // Keep the previous array while the modifiers are structurally unchanged, so a
+  // consumer that rebuilds the array (and its modifier objects) on every render
+  // does not re-run `setupPopper`.
+  const stableModifiersRef = useRef(undefined);
+  const stableModifiersSource = ensureArray(modifiers);
+  if (!isModifierArrayEqual(stableModifiersRef.current, stableModifiersSource)) {
+    stableModifiersRef.current = stableModifiersSource;
+  }
+  const stableModifiers = stableModifiersRef.current;
+
   const setupPopper = useCallback(() => {
     const anchor = (typeof anchorEl === 'function') ? anchorEl() : anchorEl; // deprecated
     const reference = anchor ?? referenceRef?.current;
@@ -203,7 +214,7 @@ const Popper = forwardRef((inProps, ref) => {
         },
         observePopperResizeModifier,
         ...(matchWidth ? [matchWidthModifier] : []),
-        ...ensureArray(modifiers),
+        ...stableModifiers,
       ],
       strategy: 'absolute',
     });
@@ -219,7 +230,7 @@ const Popper = forwardRef((inProps, ref) => {
         `${Popper.displayName}: An unexpected error occurred. The popper instance is not assigned to the "popperRef" as expected.`,
       );
     }
-  }, [anchorEl, matchWidth, modifiers, observePopperResizeModifier, popperRefProp, preferredPlacement, referenceRef]);
+  }, [anchorEl, matchWidth, observePopperResizeModifier, popperRefProp, preferredPlacement, referenceRef, stableModifiers]);
 
   const cleanupPopper = useCallback(() => {
     // Destroy popper instance

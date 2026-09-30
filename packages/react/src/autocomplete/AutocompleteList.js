@@ -129,6 +129,11 @@ const AutocompleteList = forwardRef((inProps, ref) => {
     slotProps: { ...PopperProps, ...slotProps.popper },
   });
 
+  const mergedPopperModifiers = useMemo(() => [
+    ...popperModifiers,
+    ...ensureArray(popperSlotProps?.modifiers),
+  ], [popperModifiers, popperSlotProps?.modifiers]);
+
   const [TransitionSlot, transitionSlotProps] = useSlot({
     name: 'transition',
     ownerName: AutocompleteList.displayName,
@@ -148,12 +153,7 @@ const AutocompleteList = forwardRef((inProps, ref) => {
   return (
     <PopperSlot
       {...popperSlotProps}
-      modifiers={[
-        // Default modifiers
-        ...popperModifiers,
-        // User-defined modifiers
-        ...ensureArray(popperSlotProps?.modifiers),
-      ]}
+      modifiers={mergedPopperModifiers}
       {...styleProps}
       {...rest}
       {...listProps}

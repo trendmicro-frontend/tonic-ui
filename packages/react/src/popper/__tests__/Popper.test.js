@@ -578,4 +578,62 @@ describe('Popper', () => {
 
     expect(createPopper).toHaveBeenCalledTimes(1);
   });
+
+  it('should not recreate the popper instance when a re-render rebuilds the modifiers array inline', () => {
+    const referenceRef = { current: document.createElement('div') };
+    // The consumer shape that caused the loop: a fresh array holding a fresh
+    // modifier object on every render. Neither is referentially stable, so only
+    // a value comparison can keep `setupPopper` from re-running.
+    const renderPopper = () => (
+      <Popper
+        referenceRef={referenceRef}
+        modifiers={[
+          { name: 'flip', enabled: true },
+          { name: 'offset', options: { offset: [0, 8] } },
+        ]}
+      >
+        <PopperContent />
+      </Popper>
+    );
+
+    const { rerender } = render(renderPopper());
+    rerender(renderPopper());
+    rerender(renderPopper());
+
+    expect(createPopper).toHaveBeenCalledTimes(1);
+  });
+
+  it('should recreate the popper instance when a modifier value actually changes', () => {
+    const referenceRef = { current: document.createElement('div') };
+    const renderPopper = (enabled) => (
+      <Popper
+        referenceRef={referenceRef}
+        modifiers={[{ name: 'flip', enabled }]}
+      >
+        <PopperContent />
+      </Popper>
+    );
+
+    const { rerender } = render(renderPopper(true));
+    expect(createPopper).toHaveBeenCalledTimes(1);
+
+    // A stable rebuild must not recreate.
+    rerender(renderPopper(true));
+    expect(createPopper).toHaveBeenCalledTimes(1);
+
+    // A real change must recreate, or the memoization would swallow it.
+    rerender(renderPopper(false));
+    expect(createPopper).toHaveBeenCalledTimes(2);
+
+    // Reordering is a real change too.
+    const renderOrdered = (modifiers) => (
+      <Popper referenceRef={referenceRef} modifiers={modifiers}>
+        <PopperContent />
+      </Popper>
+    );
+    rerender(renderOrdered([{ name: 'flip', enabled: false }, { name: 'offset', options: { offset: [0, 8] } }]));
+    expect(createPopper).toHaveBeenCalledTimes(3);
+    rerender(renderOrdered([{ name: 'offset', options: { offset: [0, 8] } }, { name: 'flip', enabled: false }]));
+    expect(createPopper).toHaveBeenCalledTimes(4);
+  });
 });
