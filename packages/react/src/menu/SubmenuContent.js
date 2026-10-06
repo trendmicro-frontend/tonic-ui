@@ -231,6 +231,11 @@ const SubmenuContent = forwardRef((inProps, ref) => {
     slotProps: { ...PopperProps, ...slotProps.popper },
   });
 
+  const mergedPopperModifiers = useMemo(() => [
+    ...popperModifiers,
+    ...ensureArray(popperSlotProps?.modifiers),
+  ], [popperModifiers, popperSlotProps?.modifiers]);
+
   const [TransitionSlot, transitionSlotProps] = useSlot({
     name: 'transition',
     ownerName: SubmenuContent.displayName,
@@ -250,10 +255,7 @@ const SubmenuContent = forwardRef((inProps, ref) => {
   return (
     <PopperSlot
       {...popperSlotProps}
-      modifiers={[
-        ...popperModifiers,
-        ...ensureArray(popperSlotProps?.modifiers),
-      ]}
+      modifiers={mergedPopperModifiers}
       onKeyDown={callEventHandlers(onKeyDownProp, eventHandler.onKeyDown)}
       onMouseEnter={callEventHandlers(onMouseEnterProp, eventHandler.onMouseEnter)}
       onMouseLeave={callEventHandlers(onMouseLeaveProp, eventHandler.onMouseLeave)}
