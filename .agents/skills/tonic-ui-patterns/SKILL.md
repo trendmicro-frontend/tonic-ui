@@ -1,12 +1,18 @@
 ---
 name: tonic-ui-patterns
-description: Coding patterns extracted from tonic-ui repository
-version: 1.0.0
-source: local-git-analysis
-analyzed_commits: 200
+description: Apply Tonic UI repository conventions when creating or reviewing components, hooks, exports, and commit messages. Use for component structure, style hooks, documentation, and changeset workflows.
+metadata:
+  version: "1.0.0"
+  source: "local-git-analysis"
+  analyzed_commits: "200"
 ---
 
 # Tonic UI Patterns
+
+All `packages/` and `.changeset/` paths below are relative to the repository root.
+Read the root `AGENTS.md` policy before PR or changeset work. Use the styling skill
+when authoring Box-based styles; examples here describe component structure, not
+an alternative to the `sx` / `__sx` precedence rules.
 
 ## Commit Conventions
 
@@ -172,7 +178,10 @@ Add route to `packages/react-docs/config/sidebar-routes.js`.
 
 ### 6. Create changeset
 
-Add `.changeset/<changeset-name>.md`:
+After the PR exists and its number is known, create `.changeset/tonic-ui-pr-<PR_NUMBER>.md`
+only when the user requests it. Before then, provide a content draft without creating a
+file or opening a PR to obtain a number. Use one file per PR and include all affected
+publishable packages with their appropriate bump types.
 ```markdown
 ---
 "@tonic-ui/react": minor
@@ -200,10 +209,10 @@ These files typically change together:
 ## Changesets & Releases
 
 - Uses `@changesets/cli` for versioning
-- Base branch: `v2`
+- PR base branch: `main`
 - Changelog: Custom `@tonic-ui/changelog-github` generator
 - Access: `public` (npm)
-- Changeset files go in `.changeset/` with descriptive names (e.g., `tonic-ui-pr-1085.md`)
+- Changeset files use `.changeset/tonic-ui-pr-<PR_NUMBER>.md`, without suffixes, and are created only after the PR exists.
 
 ## Key Conventions
 

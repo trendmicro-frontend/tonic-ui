@@ -48,19 +48,15 @@ This will reload the site with the new changes.
 ### Creating a pull request
 
 1. Fork the Tonic UI repository and clone your fork.
-2. Create a new branch out of the default branch. We suggest using the one of the following conventions for the new branch:
-    * `tonic-ui-#`: `#` is the issue number that will be addressed by this PR. For example: `tonic-ui-500`.
-    * `type/scope`: `type` can be either `docs`, `fix`, `feat`, `test`, or any other conventional commit type. `scope` is a short identifier that describes the scope of work. For example: `fix/react-checkbox`, `docs/react-color-style`.
+2. Create a dedicated branch from `main`. Use `fix/<slug>`, `feat/<slug>`, or `docs/<slug>` as required by [AGENTS.md](AGENTS.md):
     ```bash
-    git checkout -b tonic-ui-500
-    // or
     git checkout -b docs/react-color-style
     ```
 3. Make and commit your changes following the [Conventional Commits](#conventional-commits). When you run `git push`, it will trigger `yarn lint` and `yarn test` to ensure everything works as expected. Note that you might need to run `yarn` first to update all dependencies if a new dependency has been added.
     ```bash
     git push --set-upstream origin <your-branch-name>
     ```
-4. Go back to the forked repository and [create a pull request](https://help.github.com/articles/creating-a-pull-request). The format of the PR title follows [Conventional Commits](#conventional-commits).
+4. Go back to the forked repository and [create a pull request](https://help.github.com/articles/creating-a-pull-request) against `main`. The format of the PR title follows [Conventional Commits](#conventional-commits). Add any required changeset only after the PR exists and its number is known.
 
 ### Adding a changeset
 
@@ -78,11 +74,11 @@ After making changes, a changeset bot will comment on your pull request (PR) ind
 
 ##### 1. Create a changeset file:
 
-The filename for the changeset can be `tonic-ui-#.md`, where `#` is the pull request number:
+After the PR exists, use exactly `tonic-ui-pr-<PR_NUMBER>.md`, where `<PR_NUMBER>` is its number. Use one file per PR without letter or descriptive suffixes. If the number is unknown, draft the content but do not create a placeholder file.
 
 ```
 .changeset/
-  tonic-ui-<pull_request_number>.md
+  tonic-ui-pr-<PR_NUMBER>.md
 ```
 
 ##### 2. Write the changeset:
@@ -105,6 +101,40 @@ The changeset file should include the packages being released in the YAML front 
 * Ensure that the package names in the YAML front matter are correct.
 * Use the correct semver bump types (`major`, `minor`, `patch`).
 * Provide a clear and concise summary of the changes.
+
+## Shared Agent Skills
+
+[AGENTS.md](AGENTS.md) contains the persistent policies and the task-to-skill index.
+Task-specific workflows follow the [Agent Skills standard](https://agentskills.io/specification).
+
+- Edit skills only in `.agents/skills/<name>/SKILL.md`. Tool-specific discovery
+  directories are adapters, not separate content sources.
+- Keep supporting files inside the same skill directory: `references/`, `scripts/`,
+  `assets/`, or existing `evals/`.
+- Use standard `name` and `description` frontmatter. Match `name` to the directory,
+  keep descriptions within 1,024 characters, and put custom string metadata under
+  `metadata`.
+- Keep `SKILL.md` below 500 lines. Move detailed examples into directly linked
+  references and state when the agent must read them.
+- Resolve resource links relative to the skill directory. Label repository paths
+  explicitly; do not rely on the session CWD or host-specific URI/import syntax.
+- Keep mandatory policies in the root `AGENTS.md`, not only in optional skills.
+  Do not add policy copies in tool-specific context files.
+
+For a new skill, create the shared directory and update the task index. Add any
+required discovery adapters as relative symlinks from the repository root:
+
+```bash
+ln -s ../../.agents/skills/<name> .claude/skills/<name>
+```
+
+Use a checkout that preserves symlinks; do not replace links with independently
+edited copies. Verify frontmatter, resource links, symlink targets, and actual skill
+loading after changes. If `skills-ref` is already installed, use
+`skills-ref validate <skill-directory>` without installing new dependencies.
+
+Tool-specific discovery rules and smoke scenarios are documented in the
+[shared agent skills migration plan](docs/plans/2026-10-06-shared-agent-skills-migration.md).
 
 ## Conventional Commits
 

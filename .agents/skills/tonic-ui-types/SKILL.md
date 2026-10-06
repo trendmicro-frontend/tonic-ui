@@ -7,6 +7,9 @@ description: Use this skill when adding JSDoc type definitions to React componen
 
 This skill provides guidelines for adding JSDoc type definitions to React components in the Tonic UI design system.
 
+Paths starting with `packages/` are relative to the repository root. Paths starting
+with `src/` below are relative to `packages/react/`, not the skill directory.
+
 ## Overview
 
 Tonic UI uses JSDoc annotations (`@typedef` and `@type`) with global utility types to provide type information for React components. This enables better IDE support, documentation generation, and type checking.
@@ -163,7 +166,7 @@ The type tests are compiled with `tsconfig.json` in the `__type-tests__/` direct
 
 ## Validation
 
-After modifying JSDoc type definitions:
+Run the following commands from `packages/react/` after modifying JSDoc type definitions:
 
 1. **Build**: `yarn build` (generates `.d.ts` from JSDoc)
 2. **Type-check**: `yarn test:types` (validates against `.test-d.tsx` files)
