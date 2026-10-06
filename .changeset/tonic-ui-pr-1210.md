@@ -1,5 +1,5 @@
 ---
-"@tonic-ui/react": minor
+"@tonic-ui/react": patch
 ---
 
 fix(react/popper): stabilize modifiers across Popper-based overlays
