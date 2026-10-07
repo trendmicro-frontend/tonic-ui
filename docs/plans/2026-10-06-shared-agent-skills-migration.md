@@ -1,58 +1,58 @@
 # Shared Agent Skills Migration Plan
 
-**狀態：** repository 遷移已實作；靜態檢查及 OMP／Codex smoke 已通過。Claude Code 執行器不可用，因此三工具完整驗收仍待完成。驗證結果見第 11 節。
+**Status:** Repository migration is implemented and fully verified. Static checks and the OMP, Codex, and Claude Code smoke all passed; the three-tool acceptance is complete. See section 11 for verification results.
 
-**目標：** 以 `.agents/skills/` 為唯一技能來源，以 OMP 為主要使用者，同時支援 Claude Code 與 Codex。保留根目錄 `AGENTS.md` 作為三者共用的常駐政策入口。
+**Goal:** Use `.agents/skills/` as the single source of skills, with OMP as the primary consumer, while also supporting Claude Code and Codex. Keep the root `AGENTS.md` as the resident policy entry shared by all three.
 
-**設計決定：** 共用知識使用 Agent Skills 標準；探索入口使用各工具原生機制。不要將 OMP 執行器功能複製到共用技能，也不要建立三份技能內容。
+**Design decisions:** Use the Agent Skills standard for shared knowledge; use each tool's native mechanism for discovery entry points. Do not copy OMP executor functionality into shared skills, and do not create three copies of skill content.
 
-## 1. 範圍與非目標
+## 1. Scope and non-goals
 
-### 本次實作範圍
+### In scope for this implementation
 
-- 遷移目前 `.claude/skills/` 的五個技能及其附屬資源。
-- 調整 frontmatter、觸發描述、文件分層與可攜路徑。
-- 修正技能中與目前根目錄 `AGENTS.md` 衝突的 PR／changeset 規則。
-- 在根目錄 `AGENTS.md` 補上技能選用指引，保留既有強制政策。
-- 建立 Claude Code 的相對 symlink 入口。
-- 以實際 OMP、Claude Code、Codex 工作階段驗證探索與技能使用。
-- 更新 `CONTRIBUTING.md`，只說明工具中立的維護方式；工具差異與 smoke 方法保留在本計畫（依實作期間的使用者指示調整）。
+- Migrate the five skills currently in `.claude/skills/` and their accompanying resources.
+- Adjust frontmatter, trigger descriptions, documentation layering, and portable paths.
+- Fix PR/changeset rules in the skills that conflict with the current root `AGENTS.md`.
+- Add skill selection guidance to the root `AGENTS.md`, keeping the existing mandatory policies.
+- Create relative symlink entry points for Claude Code.
+- Verify discovery and skill usage in real OMP, Claude Code, and Codex sessions.
+- Update `CONTRIBUTING.md` to describe only the tool-neutral maintenance approach; keep tool differences and the smoke method in this plan (adjusted per user instructions during implementation).
 
-### 不在本次範圍
+### Out of scope
 
-- 不變更應用程式、套件 API、建置或發布流程。
-- 不修改個人設定、全域技能、憑證、MCP 設定或 provider 權限。
-- 不移動 `~/.omp/agent/AGENTS.md`，也不將其中的個人規則直接納入 repository。
-- 不建立 `.omp/skills/` 或 `.codex/skills/` 的副本。
-- 不新增 plugin、hook、自訂工具或跨工具安裝器。
-- 本次沒有發布套件變更，不建立 changeset。使用者已要求建立 `docs/shared-agent-skills` 分支，並將本計畫與實作一起 commit；不因而自行 push 或開 PR。
-- 不修改既有歷史計畫中的技能名稱；它們是歷史紀錄，不是目前探索入口。
+- No changes to the application, package APIs, build, or release process.
+- No modifications to personal configuration, global skills, credentials, MCP settings, or provider permissions.
+- Do not move `~/.omp/agent/AGENTS.md`, and do not pull its personal rules directly into the repository.
+- Do not create copies under `.omp/skills/` or `.codex/skills/`.
+- Do not add plugins, hooks, custom tools, or cross-tool installers.
+- No package release in this change; do not create a changeset. The user asked for a `docs/shared-agent-skills` branch and for this plan and the implementation to be committed together; do not push or open a PR on my own account because of that.
+- Do not change skill names in existing historical plans; they are historical records, not current discovery entry points.
 
-## 2. 已確認的現況
+## 2. Confirmed current state
 
-| 技能 | 現況 | 必要處理 |
+| Skill | Current state | Required treatment |
 | --- | --- | --- |
-| `tonic-ui-patterns` | 有 `name`、`description`；自訂 metadata 在頂層；正文約 216 行 | 將自訂欄位移入 `metadata`，補清楚觸發範圍，修正過時 PR／changeset 規則 |
-| `tonic-ui-pr` | 有標準必要欄位；約 309 行 | 移除指定 Bash 呼叫方式的執行器假設；修正 changeset 時序及檔名範例 |
-| `tonic-ui-slots` | description 約 865 字元；約 481 行 | 保留技術語意；將詳細 API 與遷移範例分到 references |
-| `tonic-ui-sx` | description 約 1,249 字元，超過標準 1,024 字元上限；約 462 行 | 縮短 description；分離詳細範例；保留並修正既有 evals 的技能／套件名稱 |
-| `tonic-ui-types` | 有標準必要欄位；約 180 行 | 保留主要流程；檢查路徑及執行器假設 |
+| `tonic-ui-patterns` | has `name` and `description`; custom metadata at top level; body about 216 lines | move custom fields into `metadata`, fill in the trigger scope clearly, fix outdated PR/changeset rules |
+| `tonic-ui-pr` | has standard required fields; about 309 lines | remove executor assumptions tied to a specific Bash invocation style; fix changeset timing and filename examples |
+| `tonic-ui-slots` | description about 865 characters; about 481 lines | preserve technical semantics; split detailed API and migration examples into references |
+| `tonic-ui-sx` | description about 1,249 characters, over the 1,024-character standard limit; about 462 lines | shorten the description; separate detailed examples; keep the existing evals and fix their skill/package names |
+| `tonic-ui-types` | has standard required fields; about 180 lines | keep the main flow; check paths and executor assumptions |
 
-其他已確認事項：
+Other confirmed items:
 
-- 根目錄 `AGENTS.md` 規定：使用 dedicated branch、PR base 為 `main`、changeset 必須在 PR 存在後建立，檔名為 `.changeset/tonic-ui-pr-<PR_NUMBER>.md`。
-- patterns 目前仍寫 base branch `v2`，並示範未取得 PR number 即建立任意 changeset 檔名。
-- PR skill 目前示範多份 changeset 的字母／描述性 suffix，與根目錄規定的精確檔名不一致。
-- sx 的 `evals/evals.json` 目前使用 `agentic-ui-sx` 與 `@agentic-ui/react`，不是本 repository 的名稱。
-- `.gitignore` 未排除 `.agents/`；不需要為此擴大 ignore 規則。
+- The root `AGENTS.md` requires: a dedicated branch, PR base `main`, changesets created only after the PR exists, with the filename `.changeset/tonic-ui-pr-<PR_NUMBER>.md`.
+- patterns still says base branch `v2`, and shows creating a changeset file with an arbitrary name before obtaining a PR number.
+- The PR skill currently shows letter/descriptive suffixes for multiple changesets, inconsistent with the exact filename required by the root file.
+- sx's `evals/evals.json` currently uses `agentic-ui-sx` and `@agentic-ui/react`, not this repository's names.
+- `.gitignore` does not exclude `.agents/`; no need to widen ignore rules for that.
 
-## 3. 目標目錄
+## 3. Target directory
 
 ```text
 repo/
-├── AGENTS.md                         # 共用常駐政策與技能選用指引
+├── AGENTS.md                         # shared resident policy and skill selection guidance
 ├── .agents/
-│   └── skills/                       # 唯一可編輯的技能來源
+│   └── skills/                       # single editable source of skills
 │       ├── tonic-ui-patterns/
 │       │   └── SKILL.md
 │       ├── tonic-ui-pr/
@@ -77,195 +77,196 @@ repo/
 │       ├── tonic-ui-slots    -> ../../.agents/skills/tonic-ui-slots
 │       ├── tonic-ui-sx       -> ../../.agents/skills/tonic-ui-sx
 │       └── tonic-ui-types    -> ../../.agents/skills/tonic-ui-types
-└── CONTRIBUTING.md                   # 技能維護與驗證方法
+└── CONTRIBUTING.md                   # skill maintenance and verification method
 ```
 
-保留 `.claude/skills/` 為實體目錄，只將五個技能子目錄替換為相對 symlink。相對目標從 symlink 所在的 `.claude/skills/` 計算，不使用個人絕對路徑。
+Keep `.claude/skills/` as a real directory and replace only the five skill subdirectories with relative symlinks. Relative targets are computed from the symlink's own location in `.claude/skills/`; do not use personal absolute paths.
 
-不新增 `.agents/AGENTS.md`、`.omp/AGENTS.md`、`.claude/CLAUDE.md` 或 `CLAUDE.md` 的政策副本。它們可能在 OMP 同一層的探索優先序中遮蔽根目錄政策。若實際安裝版本需要額外入口，先記錄版本與失敗證據，再調整計畫，不能默默複製規則。
+Do not add policy copies in `.agents/AGENTS.md`, `.omp/AGENTS.md`, `.claude/CLAUDE.md`, or `CLAUDE.md`. They could shadow the root-directory policy in OMP's same-layer discovery precedence. If a real installed version needs an extra entry point, record the version and the failure evidence first, then adjust the plan; do not silently copy rules.
 
-## 4. 三個執行器的契約
+## 4. Contracts of the three executors
 
-| 執行器 | 常駐規則 | 技能來源 | 明確使用技能 |
+| Executor | Resident rules | Skill source | Explicit skill use |
 | --- | --- | --- | --- |
-| OMP（主力） | 根目錄 `AGENTS.md`；個人 native 規則保持原樣 | `agents` provider 探索 `.agents/skills/`；Claude symlink 可能同時被探索 | `read skill://tonic-ui-sx`；若啟用 skill commands，可用 `/skill:tonic-ui-sx` |
-| Claude Code | 根目錄 `AGENTS.md`，依使用者目前已支援的版本驗證 | `.claude/skills/<name>/SKILL.md`，經 symlink 讀取共用來源 | `/tonic-ui-sx` |
-| Codex | 根目錄 `AGENTS.md` | 從 CWD 向上至 repository root 的 `.agents/skills/` | `$tonic-ui-sx` 或 `/skills` 選取 |
+| OMP (primary) | root `AGENTS.md`; personal native rules stay as-is | the `agents` provider discovers `.agents/skills/`; Claude symlinks may be discovered at the same time | `read skill://tonic-ui-sx`; if skill commands are enabled, `/skill:tonic-ui-sx` |
+| Claude Code | root `AGENTS.md`, verified against Claude Code 2.1.292 in the user environment | `.claude/skills/<name>/SKILL.md`, reading the shared source through the symlink | `/tonic-ui-sx` |
+| Codex | root `AGENTS.md` | `.agents/skills/`, from the CWD up to the repository root | `$tonic-ui-sx`, or select via `/skills` |
 
-### OMP 優先的必要注意事項
+### Required notes for OMP precedence
 
-- OMP 的 `agents` provider 支援 `.agents/skills/`，且不依賴 Claude／Codex 技能來源開關。
-- OMP 也會探索 Claude project skills。相同檔案會按 realpath 去重，因此 symlink 不應產生另一份技能。
-- Claude provider 優先序高於 agents provider；正常列出的來源 provider 可能是 Claude。驗收應檢查實體檔案及唯一技能，不要求來源標籤一定是 agents。
-- 額外做一個隔離工作階段：暫時不使用 Claude project skills，仍須探索到五個 `.agents/skills/` 技能。只使用該測試工作階段的設定覆蓋，不寫入使用者或專案設定。
-- 不為了去重停用整個 Claude／Codex provider；這會連帶影響其他能力，超出範圍。
-- 不使用 `alwaysApply`、`globs`、`hide` 等 OMP 擴充來承載三工具共用的必要行為。
+- OMP's `agents` provider supports `.agents/skills/` and does not depend on the Claude/Codex skill source switches.
+- OMP also discovers Claude project skills. Identical files deduplicate by realpath, so the symlink should not produce a second copy of a skill.
+- The Claude provider ranks above the agents provider; the source provider in a normal listing may be Claude. Acceptance should check the real files and unique skills, not require the source label to be exactly `agents`.
+- Also run one isolated session: temporarily disable Claude project skills, and the five `.agents/skills/` skills must still be discovered. Use only that test session's configuration override; do not write user or project settings.
+- Do not disable the whole Claude/Codex provider for deduplication; that would also affect other capabilities and is out of scope.
+- Do not use OMP extensions such as `alwaysApply`, `globs`, or `hide` to carry required behavior shared by all three tools.
 
-## 5. 共用內容規則
+## 5. Shared content rules
 
-### AGENTS.md 與 skills 的責任
+### Responsibility split between AGENTS.md and skills
 
-`AGENTS.md` 保留所有任務必須遵守的政策。Skill 保存特定任務的方法、範例與檢查清單。不能只把禁止 commit／push、PR 時序或 changeset 命名放進按需載入的 skill。
+`AGENTS.md` keeps the policies every task must follow. A skill stores the method, examples, and checklists for a specific task. Do not put commit/push prohibitions, PR timing, or changeset naming only in a skill that loads on demand.
 
-根目錄新增簡短的技能對照表：
+Add a short skill lookup table to the root file:
 
-- 元件慣例與 repository 結構：`tonic-ui-patterns`。
-- PR 描述、commit message 草稿與 changeset：`tonic-ui-pr`。
-- `slots`、`slotProps`、`useSlot` 或 legacy prop 遷移：`tonic-ui-slots`。
-- `sx`、`__sx`、`composeSx`、樣式優先序：`tonic-ui-sx`。
-- React 元件 JSDoc／props 型別：`tonic-ui-types`。
+- Component conventions and repository structure: `tonic-ui-patterns`.
+- PR descriptions, commit message drafts, and changesets: `tonic-ui-pr`.
+- `slots`, `slotProps`, `useSlot`, or legacy prop migration: `tonic-ui-slots`.
+- `sx`, `__sx`, `composeSx`, and style precedence: `tonic-ui-sx`.
+- React component JSDoc/props types: `tonic-ui-types`.
 
-指示執行器在對應任務開始前載入相關技能；同一任務可使用多個技能。這段指引使用技能名稱及 `.agents/skills/<name>/SKILL.md` 路徑，不依賴 `skill://` 或 slash command。
+Instruct executors to load the relevant skills before the matching task starts; one task may use several skills. This guidance uses skill names and `.agents/skills/<name>/SKILL.md` paths, and does not rely on `skill://` or slash commands.
 
 ### Frontmatter
 
-- 每個 skill 都有明確的 `name` 與 `description`。
-- `name` 與父目錄一致，符合標準命名，長度不超過 64 字元。
-- `description` 為非空字串，長度不超過 1,024 字元；最重要的觸發條件放在前面。
-- patterns 的 `version`、`source`、`analyzed_commits` 放入 `metadata`，值改為字串。
-- 不新增 Claude 專用 `context`、`agent`、`model` 或 `$ARGUMENTS`。
-- 不把實驗性的 `allowed-tools` 當作跨工具權限保證。
-- 本次不需要 `agents/openai.yaml`；未來若需要 Codex 專屬 UI 或 invocation policy，再另行處理。
+- Each skill has an explicit `name` and `description`.
+- `name` matches the parent directory, follows standard naming, and is at most 64 characters.
+- `description` is a non-empty string of at most 1,024 characters; put the most important trigger conditions first.
+- Move patterns' `version`, `source`, and `analyzed_commits` into `metadata`, with string values.
+- Do not add Claude-specific `context`, `agent`, `model`, or `$ARGUMENTS`.
+- Do not treat experimental `allowed-tools` as a cross-tool permission guarantee.
+- `agents/openai.yaml` is not needed this time; if Codex needs a dedicated UI or invocation policy later, handle it separately.
 
-### 路徑、工具與內容分層
+### Paths, tools, and content layering
 
-- 共用正文中的 skill 資源使用 skill root 相對路徑，例如 `references/api.md`。
-- 明確區分 skill 內部路徑與 repository root 相對路徑，避免从不同 CWD 執行時定位錯誤。
-- 不使用 `@path` 匯入、個人絕對路徑、OMP internal URI 或 Claude 動態 shell 注入作為共用正文的必要機制。
-- 描述需要取得的證據，不指定必須有幾個 Bash tool calls。由執行器使用其支援的工具完成。
-- RTK、LSP、特殊工具及 provider 安全規則由主機指示處理。不要以通用 skill 覆蓋它們。
-- 不新增自動下載、安裝或外部寫入步驟。
-- `SKILL.md` 保留核心決策、必要不變條件、工作步驟及何時讀取 references；詳細範例按需載入。
-- 每份 `SKILL.md` 少於 500 行，正文以少於 5,000 tokens 為建議目標；行數不是 tokens 的替代指標。
-- references 直接由 `SKILL.md` 連結，不建立多層引用鏈。
+- Skill resources in shared body use paths relative to the skill root, for example `references/api.md`.
+- Clearly distinguish skill-internal paths from repository-root-relative paths, to avoid mislocation when running from different CWDs.
+- Do not use `@path` imports, personal absolute paths, OMP internal URIs, or Claude dynamic shell injection as required mechanisms of the shared body.
+- Describe the evidence to obtain, not a required number of Bash tool calls. The executor completes the task with the tools it supports.
+- RTK, LSP, special tools, and provider safety rules are handled by host instructions. Do not override them with a generic skill.
+- Do not add automatic download, install, or external write steps.
+- `SKILL.md` keeps core decisions, required invariants, working steps, and when to read references; detailed examples load on demand.
+- Each `SKILL.md` is under 500 lines; the body targets under 5,000 tokens as a recommendation. Line count is not a substitute for tokens.
+- References link directly from `SKILL.md`; do not create multi-level reference chains.
 
-## 6. 實作順序
+## 6. Implementation order
 
-### Phase A：建立遷移清單
+### Phase A: Build the migration inventory
 
-- [x] 記錄五個技能及所有附屬檔案；保留 sx 的既有 evals。
-- [x] 檢查五個技能全文的 frontmatter、路徑、工具假設與政策衝突。
-- [x] 記錄 OMP／Codex 版本及 Claude Code 不可用的前提；沒有安裝或升級軟體。
-- [x] 檢查實際探索結果及 root 政策：五個技能沒有不同內容的同名版本，OMP／Codex 均載入 root PR 政策；個人檔案未修改。
+- [x] Record the five skills and all accompanying files; keep sx's existing evals.
+- [x] Check frontmatter, paths, tool assumptions, and policy conflicts across the full text of all five skills.
+- [x] Record OMP/Codex versions; at the time the Claude Code CLI was not found on PATH (since confirmed ready in this environment); no software installed or upgraded.
+- [x] Check the real discovery results and root policies: the five skills have no same-name versions with different content; OMP and Codex both load the root PR policy; personal files untouched.
 
-**完成條件：** 來源與衝突清單完整；沒有需要由猜測補上的檔案或執行器行為。
+**Completion criteria:** source and conflict inventory complete; no files or executor behaviors left to fill in by guessing.
 
-### Phase B：遷移唯一來源
+### Phase B: Migrate the single source
 
-- [x] 將五個技能與資源移到 `.agents/skills/`，保持技能名稱。
-- [x] 縮短 sx description；保留詳細觸發情境於正文。
-- [x] 將 patterns 自訂欄位移入 `metadata`，補足具體使用情境。
-- [x] 按第 3 節拆分 slots 與 sx；保持技術規則及範例語意。
-- [x] 將 sx evals 中的 `agentic-ui-sx`／`@agentic-ui/react` 改為本專案名稱；保持原有三個案例的預期行為。
-- [x] 移除共用正文中的執行器專屬呼叫假設，改為工具中立的操作要求。
+- [x] Move the five skills and their resources to `.agents/skills/`, keeping skill names.
+- [x] Shorten sx's description; keep detailed trigger scenarios in the body.
+- [x] Move patterns' custom fields into `metadata`, and fill in concrete usage scenarios.
+- [x] Split slots and sx per section 3; preserve technical rules and example semantics.
+- [x] Change `agentic-ui-sx`/`@agentic-ui/react` in sx's evals to this project's names; keep the original three cases' expected behavior.
+- [x] Remove executor-specific invocation assumptions from shared body, replacing them with tool-neutral operation requirements.
 
-**完成條件：** 五個標準格式 skill 可直接从 `.agents/skills/` 讀取，沒有遺失內容、資源或斷裂引用。
+**Completion criteria:** the five standard-format skills read directly from `.agents/skills/`, with no lost content, resources, or broken references.
 
-### Phase C：統一政策及入口
+### Phase C: Unify policies and entry points
 
-- [x] 保留根目錄 `AGENTS.md` 的既有 PR／changeset 政策；補上技能選用指引。
-- [x] patterns 的 base branch 改為 `main`；移除任意 changeset 檔名的指示。
-- [x] PR skill 的 changeset 流程明確為：PR 已存在並取得 number 後，才可在使用者要求的範圍內建立檔案。
-- [x] 未取得 PR number 時，只能提供內容草稿並說明缺少 number；不能建立 placeholder／描述性檔名，也不能為取得 number 自行開 PR。
-- [x] 移除 suffix 檔名範例；同一 PR 的 changeset 使用 `.changeset/tonic-ui-pr-<PR_NUMBER>.md`，按 Changesets 格式列出受影響套件與 bump。
-- [x] 將 `.claude/skills/` 的五個技能子目錄改為第 3 節的相對 symlink。
-- [x] 更新 `CONTRIBUTING.md`：只編輯 `.agents/skills/`、標準格式、引用、相對 discovery adapters 與驗證原則；不指定主力工具。
+- [x] Keep the existing PR/changeset policies in the root `AGENTS.md`; add skill selection guidance.
+- [x] Change patterns' base branch to `main`; remove the arbitrary changeset filename instruction.
+- [x] Make the PR skill's changeset flow explicit: only after the PR exists and a number is obtained may a file be created, within the scope the user requested.
+- [x] Without a PR number, provide only a content draft and explain the missing number; do not create a placeholder/descriptive filename, and do not open a PR on my own account to obtain a number.
+- [x] Remove suffix filename examples; the same PR's changeset uses `.changeset/tonic-ui-pr-<PR_NUMBER>.md`, listing affected packages and bumps in Changesets format.
+- [x] Replace the five skill subdirectories in `.claude/skills/` with the relative symlinks from section 3.
+- [x] Update `CONTRIBUTING.md`: edit only `.agents/skills/`, standard format, references, relative discovery adapters, and verification principles; no primary tool specified.
 
-**完成條件：** 政策無衝突，技能只有一份實體內容，三工具入口不需要修改個人設定。
+**Completion criteria:** no policy conflicts, one physical copy of skill content, and three-tool entry points that require no personal configuration changes.
 
-### Phase D：驗證後完成切換
+### Phase D: Switch after verification
 
-- [ ] 三工具 smoke 全部完成：OMP／Codex 已通過；Claude Code 缺少執行器。
-- [x] 移除本次建立的暫存設定覆蓋；驗證腳本只在 eval kernel 執行，沒有新增 repository 腳本或輸出檔。原有 evals 保留。
-- [x] 記錄版本、成功與失敗證據、已知限制。
-- [ ] 只有在 Claude Code 的剩餘驗收也成立時，才能將三工具完整遷移標記完成。
+- [x] All three-tool smoke complete: OMP, Codex, and Claude Code all passed (see section 11.3).
+- [x] Remove the temporary configuration overrides created this time; verification scripts ran only in the eval kernel, with no new repository scripts or output files. Original evals kept.
+- [x] Record versions, success and failure evidence, and known limitations.
+- [x] The remaining Claude Code acceptance holds; the full three-tool migration is complete.
 
-## 7. 驗證方法
+## 7. Verification method
 
-### 7.1 靜態檢查
+### 7.1 Static checks
 
-使用既有可用工具或不新增依賴的 throwaway script：
+Use existing available tools, or a throwaway script that adds no dependencies:
 
-1. 解析五份 frontmatter，檢查 `name`、description 字元上限及 metadata 字串值。
-2. 檢查每份 `SKILL.md` 行數與所有 references／assets／scripts 連結目標。
-3. 驗證五個 Claude 入口均為相對 symlink，且 realpath 等於對應 `.agents/skills/<name>`。
-4. 驗證遷移前後資源集合一致，除了計畫列出的新增 references 與必要文字變更。
-5. 檢查目前技能及入口沒有舊來源路徑、個人路徑或失效引用。`.claude/skills/` 作為入口文件中的路徑仍然合法。
-6. 比對根目錄政策與兩個 workflow skills：沒有 `v2` base、任意 changeset 檔名、PR 前建立 changeset 或未授權外部操作。
-7. 如已安裝 `skills-ref`，可額外執行 `skills-ref validate`；不得為此自行安裝依賴。
+1. Parse the five frontmatters; check `name`, description character limits, and metadata string values.
+2. Check each `SKILL.md` line count and all references/assets/scripts link targets.
+3. Verify all five Claude entry points are relative symlinks whose realpath equals the corresponding `.agents/skills/<name>`.
+4. Verify the resource set before and after migration is identical, except the planned new references and required text changes.
+5. Check current skills and entry points for stale source paths, personal paths, or broken references. Paths in entry-point documents referring to `.claude/skills/` remain legal.
+6. Compare root-directory policies against the two workflow skills: no `v2` base, no arbitrary changeset filename, no changeset before the PR, no unauthorized external operations.
+7. If `skills-ref` is installed, `skills-ref validate` may run additionally; do not install dependencies on my own account for that.
 
-不新增只測試文字拷貝、連結數量或 wiring 的永久測試。不要為純文件遷移執行整個應用程式建置。
+Do not add permanent tests that only check text copying, link counts, or wiring. Do not run the full application build for a pure documentation migration.
 
-### 7.2 實際工作階段驗證
+### 7.2 Real session verification
 
-在 repository root 與 `packages/react/` 各啟動新工作階段，避免用舊技能快取判定結果。所有情境均要求只讀分析，不修改來源、不產生 changeset、不做外部寫入。
+Start a fresh session in the repository root and in `packages/react/` each, to avoid judging results by a stale skill cache. Every scenario requires read-only analysis: no source modification, no changeset creation, no external writes.
 
-| 情境 | 操作 | 必須觀察的結果 |
+| Scenario | Operation | Result that must be observed |
 | --- | --- | --- |
-| 探索 | 顯示／檢查可用技能及實際來源 | 五個技能可用；來源實體檔案皆在 `.agents/skills/`；沒有這次遷移造成的重複版本 |
-| 常駐規則 | 請 agent 說明本專案 PR base、changeset 時序及檔名 | `main`、PR number 已知後建立、精確的 PR number 檔名 |
-| 明確呼叫 | 使用各工具原生方式選取 sx skill，要求解釋 wrapper 與 consumer override 優先序 | 確實載入 skill，回答符合既有 sx 規則 |
-| 資源載入 | 明確選取 slots skill，要求讀 migration reference 後提供分析 | 成功解析引用；沒有把相對路徑錯當成 CWD 路徑 |
-| 自動選用 | 不提技能名稱，詢問 `useSlot` legacy prop 遷移 | 有載入 slots skill 的證據；不能只憑回答看起來正確判定 |
-| OMP 去重 | 同時保留 agents 與 Claude 入口 | 同一實體 skill 不產生額外 namespaced 版本 |
-| OMP 原生共享探索 | 測試工作階段暫時關閉 Claude project skills | 五個共享技能仍可用；不靠 Claude 入口才能運作 |
-| 禁止行為 | 要求「只草擬 changeset；PR 尚未建立」 | 只回傳草稿，不建立檔案、不猜 PR number、不開 PR、不 commit／push |
-| 技能行為 | 對 sx 執行既有三個 eval prompts | base 使用 `__sx`、wrapper override 合成正确、consumer `sx` 優先；不把物件展開當成完整 composition |
+| Discovery | show/check available skills and their actual sources | five skills available; all physical source files in `.agents/skills/`; no duplicate versions caused by this migration |
+| Resident rules | ask the agent to state this project's PR base, changeset timing, and filename | `main`, created after the PR number is known, exact PR-number filename |
+| Explicit invocation | use each tool's native way to select the sx skill, asking to explain wrapper vs. consumer override precedence | the skill actually loads, and the answer matches the existing sx rules |
+| Resource loading | explicitly select the slots skill, ask it to read the migration reference, then analyze | references resolve; a relative path is not mistaken for a CWD path |
+| Automatic selection | without naming the skill, ask about `useSlot` legacy prop migration | evidence the slots skill loaded; do not judge from a plausible-looking answer alone |
+| OMP dedup | keep both agents and Claude entry points at once | the same physical skill does not produce an extra namespaced version |
+| OMP native shared discovery | a test session with Claude project skills temporarily off | the five shared skills remain available; operation does not depend on the Claude entry |
+| Forbidden behavior | request "draft a changeset only; the PR does not exist yet" | draft only: no file created, no guessed PR number, no PR opened, no commit/push |
+| Skill behavior | run the existing three sx eval prompts | base uses `__sx`, wrapper override composes correctly, consumer `sx` wins; object spread is not treated as full composition |
 
-以執行器提供的 tool trace、來源路徑、extensions／skills 列表或輸出保存證據，不只採用 agent 自述「已讀取」。驗證記錄至少包含：工具與版本、啟動 CWD、輸入情境、載入來源、結果。
+Keep evidence from the executor's tool trace, source paths, extensions/skills list, or output; do not rely on the agent's self-reported "read". Verification records must include at least: tool and version, launch CWD, input scenario, load source, and result.
 
-若工具未安裝、無法啟動或缺少授權，記錄確切缺少的前提及已嘗試的方式。仍完成其他可達檢查，但不得宣稱三工具相容性已驗證。
+If a tool is not installed, cannot start, or lacks authorization, record the exact missing prerequisite and what was tried. Still complete the other reachable checks, but do not claim three-tool compatibility is verified.
 
-## 8. 最終驗收條件
+## 8. Final acceptance criteria
 
-- [x] `.agents/skills/` 是五個技能唯一的實體來源。
-- [x] OMP 在正常與無 Claude project skills 的工作階段都能使用五個技能。
-- [x] OMP 對 Claude symlink 正確去重，沒有遷移造成的同名不同內容版本。
-- [ ] Claude Code 與 Codex 在根目錄及 `packages/react/` 啟動時都能探索技能。
-- [ ] 三者都讀到根目錄 PR／changeset 政策，沒有新增入口遮蔽它。
-- [ ] 明確呼叫、按描述選用、reference 載入與既有 sx 三個行為案例有實際證據。
-- [x] 已執行的 OMP／Codex 情境中，前置條件不足時不建立 changeset，也不自行執行外部操作；Claude Code 尚待實際驗證。
-- [x] 五份 frontmatter 符合標準；sx description 不超過 1,024 字元；references 與 symlinks 均有效。
-- [x] `CONTRIBUTING.md` 說明工具中立的單一來源、格式、引用與 adapter 維護；工具差異及 smoke 方法保留在本計畫。
-- [x] 個人設定、全域技能、憑證、MCP 及應用程式程式碼未被修改。
+- [x] `.agents/skills/` is the only physical source of the five skills.
+- [x] OMP uses all five skills in both normal sessions and sessions without Claude project skills.
+- [x] OMP deduplicates the Claude symlinks correctly; no same-name/different-content version exists from the migration.
+- [x] Claude Code and Codex both discover the five skills when started from the root directory and from `packages/react/`.
+- [x] All three read the root PR/changeset policies, with no new entry point shadowing them.
+- [x] Explicit invocation, description-based selection, reference loading, and the existing three sx behavior cases have real evidence in all three tools.
+- [x] In the OMP, Codex, and Claude Code scenarios run, insufficient prerequisites did not produce a changeset file or self-executed external operations, and no session created or modified any repository file.
+- [x] All five frontmatters meet the standard; sx's description is within 1,024 characters; references and symlinks are all valid.
+- [x] `CONTRIBUTING.md` describes tool-neutral single source, format, references, and adapter maintenance; tool differences and the smoke method stay in this plan.
+- [x] Personal configuration, global skills, credentials, MCP, and application code were not modified.
 
-## 9. 風險與處理
+## 9. Risks and handling
 
-| 風險 | 處理 |
+| Risk | Handling |
 | --- | --- |
-| OMP 的 native／個人技能或 context 優先序影響結果 | 記錄來源並以隔離工作階段驗證；不修改使用者的全域內容 |
-| Claude 版本對 `AGENTS.md` 的支援與目前環境不同 | 以实际版本測試；失敗時列出前提，不自行新增政策副本 |
-| symlink checkout 不可用（例如部分 Windows 設定） | 本次採用 symlink-capable checkout；文件明示限制，不偷偷改成維護多份拷貝 |
-| 拆分長文件後 agent 沒讀必要 references | 核心規則留在 `SKILL.md`；給明確讀取條件，再用資源載入情境驗證 |
-| 自動選用不穩定 | 調整 description 的觸發範圍；保留明確選取方式；驗收必須包含實際自動選用證據 |
-| 搬遷時遺失 evals 或範例 | 搬遷前建立資源清單，搬遷後逐項比對 |
+| OMP native/personal skills or context precedence affects results | record the source and verify in an isolated session; do not modify the user's global content |
+| Claude's version of `AGENTS.md` support differs from the current environment | test with the real version; on failure, list the prerequisites; do not add a policy copy on my own account |
+| Symlink checkout unavailable (for example some Windows setups) | this change uses a symlink-capable checkout; document the limitation; do not silently switch to maintaining multiple copies |
+| After splitting long documents, the agent does not read the required references | keep core rules in `SKILL.md`; give explicit read conditions, then verify with the resource-loading scenario |
+| Automatic selection is unstable | adjust the description's trigger scope; keep explicit selection available; acceptance must include real automatic-selection evidence |
+| Evals or examples lost during the move | build a resource inventory before the move, compare item by item after |
 
-若要回復本次尚未提交的遷移，只回復本次改動的路徑：還原原有五個 Claude 實體技能、根目錄技能指引與 CONTRIBUTING 變更，移除本次建立的共享技能與 symlinks。先核對是否有使用者後續修改；不得使用全 repository reset 或批次清除未追蹤檔案。
+To roll back this uncommitted migration, revert only the paths changed this time: restore the original five physical Claude skills, the root skill guidance, and the CONTRIBUTING changes; remove the shared skills and symlinks created this time. First check for later user modifications; do not use a full-repository reset or bulk deletion of untracked files.
 
-## 10. 參考資料
+## 10. References
 
-- [Agent Skills 規格](https://agentskills.io/specification)
+- [Agent Skills specification](https://agentskills.io/specification)
 - [Claude Code skills](https://code.claude.com/docs/en/skills)
 - [Codex skills](https://developers.openai.com/codex/skills)
 - [Codex AGENTS.md](https://developers.openai.com/codex/guides/agents-md)
-- OMP 本機文件：`omp://skills.md`、`omp://context-files.md`。這些 URI 只供 OMP 維護者查閱，不作為共用 skill 的依賴。
+- OMP local docs: `omp://skills.md`, `omp://context-files.md`. These URIs are for OMP maintainers only; they are not dependencies of the shared skills.
 
-## 11. 實作與驗證紀錄
+## 11. Implementation and verification record
 
-### 11.1 交付內容與使用者調整
+### 11.1 Deliverables and user adjustments
 
-- 工作分支：`docs/shared-agent-skills`。本計畫與實作納入同一個本機 commit，供後續 PR 使用；不納入無關的 `untitled.md`。
-- 保留六個原始資源（五份 SKILL.md、一份 evals JSON），新增三份按需 references。
-- slots 的 API／migration 範例與 sx 的 worked examples／transition／regression／prop-getter 內容由原文移動，未改寫技術規則。
-- 修正 sx 的失效 repository 引用：移除不存在的 CONTEXT／ADR 指標，保留內嵌說明，將舊計畫路徑改為現存的 `docs/plans/2026-07-02-sx-internals-migration.md`。
-- 使用者確認 CONTRIBUTING 不需要工具定位：移除主力工具與逐工具流程，只保留共用維護契約和本計畫連結。
-- 使用者補充較新的 Tonic One hook 並確認 Tonic UI 尚未完成 `__sx` 整合；slots／sx 的入口及 API reference 明確區分目標契約與目前 checkout 的行為，不修改元件程式。
+- Work branch: `docs/shared-agent-skills`. This plan and the implementation went into the same local commit for the later PR; the unrelated `untitled.md` was not included.
+- Kept the six original resources (five SKILL.md files, one evals JSON); added three on-demand references.
+- The slots API/migration examples and sx's worked examples/transition/regression/prop-getter content moved from the original text without rewriting the technical rules.
+- Fixed sx's stale repository references: removed the nonexistent CONTEXT/ADR pointer, kept the inline explanation, and changed the old plan path to the existing `docs/plans/2026-07-02-sx-internals-migration.md`.
+- The user confirmed CONTRIBUTING needs no tool positioning: removed the primary tool and per-tool flows; kept only the shared maintenance contract and the link to this plan.
+- The user provided the newer Tonic One hook and confirmed Tonic UI has not finished `__sx` integration; the slots/sx entry and API reference distinguish the target contract from current checkout behavior, without changing component code.
+- On 2026-10-07 the user confirmed the Claude Code CLI is ready in this environment; the remaining section 7.2 acceptance ran that day and passed (see 11.3).
 
-### 11.2 靜態驗證
+### 11.2 Static verification
 
-使用 Bun YAML parser 與 throwaway assertions，結果全部通過：
+Used the Bun YAML parser and throwaway assertions; all results passed:
 
-| Skill | description 字元數 | SKILL.md 行數（不計結尾空行） |
+| Skill | description characters | SKILL.md lines (excluding trailing blank lines) |
 | --- | ---: | ---: |
 | tonic-ui-patterns | 195 | 225 |
 | tonic-ui-pr | 261 | 313 |
@@ -273,59 +274,64 @@ repo/
 | tonic-ui-sx | 265 | 283 |
 | tonic-ui-types | 230 | 184 |
 
-其他檢查：
+Other checks:
 
-- 五個名稱符合標準且與目錄一致；metadata 值均為字串。
-- 五個 Claude adapters 均為相對 symlink，realpath 與共用目錄一致。
-- 原始資源完整；移至 references 的範例／migration 區塊逐段比對。API 新增整合狀態並標示目標契約，程式範例保留；已列出的失效 citation 被移除。
-- 三個 sx eval 的 ID、名稱、expected_output 與案例行為保持不變，只修正技能／套件名稱。
-- Markdown fences、直接 references、AGENTS／CONTRIBUTING 本機連結與 sx 的 repository source pointers 有效。
-- 共用技能未依賴個人絕對路徑、`skill://`、Claude 參數注入或特定 Bash tool call 數量。
-- CONTRIBUTING 不含 OMP／Claude Code／Codex 的工具定位敘述。
-- `skills-ref` 不在 PATH；未安裝依賴。沒有執行應用程式 build／test，因為本次不改應用程式。
+- The five names are standard and match their directories; all metadata values are strings.
+- All five Claude adapters are relative symlinks with realpath equal to the shared directory.
+- Original resources intact; the example/migration blocks moved into references compared block by block. The API reference gained integration status marked as the target contract, with code examples preserved; the listed stale citations were removed.
+- The three sx evals' IDs, names, expected_output, and case behavior unchanged; only skill/package names fixed.
+- Markdown fences, direct references, AGENTS/CONTRIBUTING local links, and sx's repository source pointers all valid.
+- Shared skills do not depend on personal absolute paths, `skill://`, Claude argument injection, or a specific Bash tool call count.
+- CONTRIBUTING contains no OMP/Claude Code/Codex tool positioning statements.
+- `skills-ref` is not on PATH; no dependencies installed. No application build/test ran, because this change does not touch the application.
 
-### 11.3 實際執行器證據
+### 11.3 Real executor evidence
 
 **OMP 18.4.4**
 
-- 用 `omp --mode rpc --no-ui --no-session --no-extensions` 的 `get_available_commands` 實際啟動探索。
-- 根目錄與 `packages/react/` 各執行正常探索、agents-only 覆蓋，共四個新工作階段；每次均列出五個 `skill:tonic-ui-*`，沒有額外 namespaced 副本，stderr 為空。
-- agents-only 覆蓋只有 `skills.enableClaudeProject: false` 與 `skills.enableAgentsProject: true`；覆蓋檔案已移除，沒有修改持久設定。
-- 使用 `-p --mode json --no-session --no-extensions --tools read --model openai-codex/gpt-6.1-sol --thinking low` 執行只讀情境。
-- 根目錄明確選取 sx：trace 包含 `read skill://tonic-ui-sx` 與 composition reference；完成三個既有 eval、root PR 政策與無 PR number 的聊天草稿，exit 0。
-- `packages/react/` 的 implicit slots 情境沒有明確選取技能：trace 實際讀到 slots SKILL.md、`references/api.md`、`references/migration.md`，並回覆 element precedence、legacy/new props merge、handlers、forced `in` 及 ref/style 契約，exit 0。
-- 三案例答案皆使用 `__sx` 承載 base／wrapper、`composeSx` 陣列合成、consumer `sx` 保持獨立；指出 specificity 邊界，沒有將淺物件合併當成完整樣式合成。
-- 上述只讀情境可見工具呼叫均為 `read`；未建立 changeset 或執行外部寫入。
+- Launched discovery for real via `get_available_commands` with `omp --mode rpc --no-ui --no-session --no-extensions`.
+- Ran normal discovery and agents-only overrides in the root directory and `packages/react/`, four fresh sessions in total; each listed five `skill:tonic-ui-*` with no extra namespaced copies; stderr empty.
+- The agents-only override set only `skills.enableClaudeProject: false` and `skills.enableAgentsProject: true`; the override file was removed, and no persistent settings changed.
+- Ran read-only scenarios with `-p --mode json --no-session --no-extensions --tools read --model openai-codex/gpt-6.1-sol --thinking low`.
+- Explicit sx selection in the root directory: the trace included `read skill://tonic-ui-sx` and the composition reference; completed the three existing evals, the root PR policy, and a no-PR-number chat draft, exit 0.
+- The implicit slots scenario in `packages/react/` selected no skill explicitly: the trace actually read the slots SKILL.md, `references/api.md`, and `references/migration.md`, and answered element precedence, legacy/new props merge, handlers, forced `in`, and ref/style contracts, exit 0.
+- All three case answers used `__sx` for base/wrapper, `composeSx` array composition, and kept consumer `sx` independent; they noted the specificity boundary and did not treat shallow object merging as full style composition.
+- Visible tool calls in the read-only scenarios above were all `read`; no changeset was created and no external write executed.
 
 **Codex CLI 0.160.1**
 
-- 實際啟動 `codex app-server --stdio`，完成 initialize handshake 並呼叫 `skills/list`，傳入 root 與 `packages/react/` 兩個 CWD，`forceReload: true`。
-- 兩個 CWD 都回傳五個 enabled 技能，路徑直接位於 `.agents/skills/`，errors 為空。
-- 使用 `codex exec --ephemeral --json -s read-only -C <cwd>`。
-- `packages/react/` 明確指定 sx：command trace 實際讀到共享 SKILL.md、composition reference、root AGENTS 及 PR skill；三個 eval 與無 PR number 草稿均完成，exit 0，沒有 file_change event。
-- root 的 implicit slots 情境：command trace 實際讀到 slots SKILL.md、兩份 references 與其他相關 skills；完成分析及 root PR 政策，exit 0。額外 source lookup 的一個命令 exit 1，但未阻止 skill/reference 讀取或最終分析。
-- 兩者皆回覆 PR base `main`、PR 存在後才建立 `.changeset/tonic-ui-pr-<PR_NUMBER>.md`，沒有猜號碼或建立檔案。
+- Launched `codex app-server --stdio` for real, completed the initialize handshake, and called `skills/list` with the root and `packages/react/` CWDs, `forceReload: true`.
+- Both CWDs returned five enabled skills with paths directly in `.agents/skills/`; errors empty.
+- Used `codex exec --ephemeral --json -s read-only -C <cwd>`.
+- Explicit sx in `packages/react/`: the command trace actually read the shared SKILL.md, the composition reference, root AGENTS, and the PR skill; the three evals and the no-PR-number draft completed, exit 0, no file_change events.
+- Implicit slots in the root: the command trace actually read the slots SKILL.md, both references, and other relevant skills; analysis and root PR policy completed, exit 0. One command in an extra source lookup exited 1 but did not block skill/reference reads or the final analysis.
+- Both answered PR base `main` and that `.changeset/tonic-ui-pr-<PR_NUMBER>.md` is created only after the PR exists; no guessed numbers, no files created.
 
 **Claude Code**
 
-- `claude --version` 無法啟動：`Executable not found in $PATH: \"claude\"`。
-- 已檢查常見使用者／Homebrew／系統 CLI 路徑、Claude 版本目錄與 Applications；沒有找到可用執行器。
-- 五個 adapter 的 filesystem 檢查通過，但不能替代 Claude Code 的實際探索、AGENTS 載入或 invocation 驗證。
-- 剩餘前提：在已安裝且可用的 Claude Code 環境執行第 7.2 節；不得將目前結果描述為三工具完整 smoke 通過。
+- At the time, `claude --version` could not start: `Executable not found in $PATH: "claude"`.
+- Checked the common user/Homebrew/system CLI paths, the Claude version directory, and Applications; no usable executor was found.
+- The user has since confirmed the Claude Code CLI is ready in this environment: `/Users/cheton/.local/bin/claude`, version 2.1.292, default model `claude-haiku-4-5`. On 2026-10-07 the section 7.2 scenarios ran in seven fresh `claude -p` sessions (four in the root directory, three in `packages/react/`), all exit 0 (8-23 s each), with `--allowedTools "Read,Grep,Glob"` making every session structurally read-only.
+- Discovery from the root directory and `packages/react/`: the harness skill catalog (root session) listed all five project skills exactly once, alongside 22 `anthropic-skills:*` plugin skills and built-ins, with no namespaced `tonic-ui-*` copies; both sessions reported all five with physical paths in `.agents/skills/`.
+- The root `AGENTS.md` was auto-loaded as an `instructions` attachment (type `Project`) in every session; the resident-rules session quoted the `main` base, the after-PR-creation changeset step, and the exact `.changeset/tonic-ui-pr-<PR_NUMBER>.md` filename from it, with zero tool calls.
+- Explicit invocation in the root directory: the `/tonic-ui-sx` prefix was intercepted by the harness, which injected the skill body with base directory `.claude/skills/tonic-ui-sx`; all three sx evals answered per the skill (base via `__sx` with `composeSx`, wrapper override via `__sx`, object-merge fault plus array-composition fix), exit 0.
+- Automatic selection in `packages/react/` without naming the skill: the transcript shows a `Skill {skill: tonic-ui-slots}` activation, then Read calls for `references/migration.md` and `references/api.md` through the `.claude/skills/` symlink paths; the answer covered element precedence, handler chaining, ref merge, and `__sx` composition.
+- Reference loading in `packages/react/`: the transcript shows the Skill activation plus Read of `.agents/skills/tonic-ui-slots/SKILL.md` and `references/migration.md`; relative paths resolved against the skill directory, not the CWD.
+- The no-PR-number scenario replied draft-only with a `<PR_NUMBER>` placeholder and zero tool calls; `git status` and the `.changeset/` listing were unchanged afterwards.
 
-### 11.4 已觀察限制與既有問題
+### 11.4 Observed limitations and pre-existing issues
 
-- 首次 OMP 使用預設模型的三案例 headless run，在成功讀取 skill/reference 後以 `Deadline exceeded` 結束，exit 1。改用本次可用的明確模型後，focused scenario 與完整三案例都以 exit 0 完成。此紀錄不是隱藏第一次失敗。
-- 部分 OMP root runs 輸出既有 MCP warning：`MCP server \"tonic-ui\" failed to connect: MCP subprocess closed stdout before responding`。驗證只使用 read tool，不依賴該 MCP；未修改 MCP 設定或程式。
-- 使用者全域 AGENTS 引用的 `~/.omp/agent/GITHUB_GHEC_DIRECT_ACCESS.md` 不存在；未建立或修改個人 context 檔案。
-- Codex slots smoke 發現既有文件與程式差異。`packages/react/src/slot/useSlot.js:38-42` 只拆出並合成 refs，其他 props 用物件展開合併；未實作技能文件所述的 `__sx` composition。使用者提供較新的 Tonic One 實作並確認 Tonic UI 尚未完成整合，因此技能保留目標規則並加上適用性說明，而不是宣稱本地程式已達成契約。此差異不是搬遷造成的，未擴大修改應用程式。
-- `rtk` 不在 PATH，Git 操作使用原生 Git；沒有安裝 RTK。
+- The first OMP three-case headless run on the default model ended with `Deadline exceeded`, exit 1, after successfully reading the skill/references. Switching to an explicit model available this time, the focused scenario and the full three-case run both finished exit 0. This record does not hide the first failure.
+- Some OMP root runs printed an existing MCP warning: `MCP server "tonic-ui" failed to connect: MCP subprocess closed stdout before responding`. Verification used only the read tool and did not rely on that MCP; no MCP settings or code changed.
+- `~/.omp/agent/GITHUB_GHEC_DIRECT_ACCESS.md`, referenced by the user's global AGENTS, does not exist; no personal context file was created or modified.
+- The Codex slots smoke found a pre-existing documentation/code gap. `packages/react/src/slot/useSlot.js:38-42` splits and composes refs only; other props merge via object spread; the `__sx` composition described in the skill docs is not implemented. The user provided the newer Tonic One implementation and confirmed Tonic UI has not finished integration, so the skill keeps the target rules with an applicability note instead of claiming the local code meets the contract. The gap was not caused by the move; the application was not expanded for it.
+- `rtk` is not on PATH; Git operations used native Git; RTK was not installed.
+- Claude Code 2.1.292 Glob does not follow symlinked directories: a `.claude/skills/*/SKILL.md` glob returned empty, and one discovery session misreported the five symlinks as missing. The links are valid (the Read tool resolves them, and the harness catalog is unaffected); no repository change needed.
+- Claude Code 2.1.292 skill catalog rendered `tonic-ui-types` as a name-only entry without its description, although the SKILL.md frontmatter holds a clean 230-character single-line ASCII description; the other four render fully. Impact: description-based auto-routing of the types skill is degraded in this tool; explicit selection is unaffected.
 
+### 11.5 Guide verification after user clarification
 
-### 11.5 使用者澄清後的指南驗證
-
-- 重新通過 YAML／description／行數／symlink／引用檢查；API reference 的 fenced code examples 與原文一致，migration 區塊及三份 eval 預期值未改變。
-- 在 OMP root 與 Codex `packages/react/` 新工作階段詢問：本地 hook 是否已合成 `props.__sx` 與 `slotProps.__sx`，並要求區分現況與 Tonic One 目標。
-- 兩者 trace 都實際讀到 slots、sx、API reference 及本地 hook；exit 0，回答均明確表示本地只有 ref 合成，`__sx` 目前會被 slot props 取代；新版目標則為 `composeSx(base, override)`，僅在有值時輸出。
-- OMP 僅有 read 呼叫；Codex 僅有只讀 command calls、沒有 file_change event。沒有修改程式碼或執行元件測試。
-
+- Re-passed the YAML/description/line-count/symlink/reference checks; the API reference's fenced code examples match the original text, and the migration block and the three eval expectations are unchanged.
+- Asked in fresh OMP root and Codex `packages/react/` sessions: does the local hook already compose `props.__sx` and `slotProps.__sx`, and require distinguishing the current state from the Tonic One target.
+- Both traces actually read slots, sx, the API reference, and the local hook; exit 0, and both answers explicitly stated that locally only ref composition exists, `__sx` is currently overridden by slot props; the newer target is `composeSx(base, override)`, emitted only when a value is present.
+- OMP made read calls only; Codex made read-only command calls with no file_change events. No code was modified and no component tests ran.
