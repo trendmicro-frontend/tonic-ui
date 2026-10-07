@@ -31,21 +31,22 @@ The reference links below are relative to this skill directory, not the CWD.
 
 ## Current Integration Status
 
-Full `__sx` integration is not complete in this Tonic UI checkout. The current
-`packages/react/src/slot/useSlot.js` composes refs but shallowly merges other props.
-The style-composition rules below describe the target contract used by the newer
-Tonic One implementation, not behavior already provided by this checkout.
-Inspect the local hook before relying on automatic `__sx` composition. Do not
-silently expand a slot task into a styling integration change.
+Full `__sx` integration is not complete in this Tonic UI checkout, but the
+`useSlot` contract below is implemented here: `packages/react/src/slot/useSlot.js`
+composes both `ref` (via `useMergeRefs`) and `__sx` (via `composeSx`), and the
+composition is covered by `packages/react/src/slot/__tests__/useSlot.test.js`.
+The remaining gap is repo-wide component migration, not the hook. Inspect the
+affected implementation before relying on it, and do not silently expand a slot
+task into a styling integration change.
 
 ## API Invariants
 
 - `useSlot` returns `[ElementType, mergedProps]`. Import it as a named export:
   internally `import { useSlot } from '../slot'`; externally from `@tonic-ui/react`.
 - Ordinary `slotProps` override internal `props`; refs are composed.
-- **Target style contract:** put base styling in `props.__sx`, and let `useSlot`
+- **Slot style composition:** put base styling in `props.__sx`, and let `useSlot`
   compose it below the slot's incoming `__sx`, emitting `__sx` only when supplied.
-  This style-composition contract is not yet implemented in this checkout.
+  `__sx` is emitted only when at least one side supplies it.
 - Legacy and new props merge as `{ ...XProps, ...slotProps.x }`; element types
   resolve as `slots.x ?? XComponent ?? Default`. Do not replace legacy props with `??`.
 - A new slot with no legacy props accepts `slotProps.x` directly. Undefined

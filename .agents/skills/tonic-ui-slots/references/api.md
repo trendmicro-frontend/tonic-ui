@@ -19,11 +19,11 @@ Returns: `[ElementType, mergedProps]`
 
 **Merge order (later wins):** `props` → `slotProps`
 
-**Integration status:** this checkout's `useSlot` composes refs only. The newer
-Tonic One implementation also composes `__sx`; that is the target contract below.
-Check `packages/react/src/slot/useSlot.js` before relying on that behavior.
+**Integration status:** this checkout's `useSlot` composes both `ref` and `__sx`.
+Verify the local hook before relying on any other merge behavior. Check
+`packages/react/src/slot/useSlot.js` before relying on it.
 
-**Target contract: `ref` and `__sx` are composed, not replaced.** For every other key, `slotProps` overrides
+**`ref` and `__sx` are composed, not replaced.** For every other key, `slotProps` overrides
 `props`. But the two stacking channels are merged: `ref` via `useMergeRefs` (component ref +
 caller ref both fire) and `__sx` via `composeSx` (the component's base `__sx` in `props` stays
 *below* the caller's `slotProps.__sx`). So put a component's base styling in `props.__sx` and
