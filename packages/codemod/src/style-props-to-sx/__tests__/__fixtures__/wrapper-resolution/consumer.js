@@ -18,7 +18,7 @@ const App = () => (
     {/* no rest element at all -- nothing forwarded, left untouched */}
     <NoForwardWrapper label="Save" width="8x" />
 
-    {/* resolves to a Layer-1 primitive, but the WRAPPER isn't one --
+    {/* resolves to Flex, but the WRAPPER isn't exempt from anything --
         its own width should still convert */}
     <UsesLayoutPrimitive width="8x" />
   </>

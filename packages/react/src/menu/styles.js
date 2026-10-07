@@ -1,8 +1,3 @@
-import { sx } from '@tonic-ui/styled-system';
-import { get } from '@tonic-ui/utils';
-import { useColorMode } from '../color-mode';
-import { useTheme } from '../theme';
-
 const useMenuStyle = () => {
   return {
     position: 'relative',
@@ -10,41 +5,36 @@ const useMenuStyle = () => {
   };
 };
 
-const useMenuButtonCSS = ({ variant }) => {
-  const [colorMode] = useColorMode();
-  const theme = useTheme();
-  const textPrimaryToken = get(theme.colors, 'text.primary');
-  const primaryColor = textPrimaryToken?.[`_${colorMode}`];
-
-  // Override the color in hover and active states
-  const variantCSS = {
-    'ghost': {
-      '&:hover': {
-        color: primaryColor,
-      },
-      '&:active': {
-        color: primaryColor,
-      },
-    },
-    'secondary': {
-      '&:hover': {
-        color: primaryColor,
-      },
-      '&:active': {
-        color: primaryColor,
-      },
-    },
-  }[variant];
-
-  return sx({ ...variantCSS });
-};
-
-const useMenuButtonStyle = () => {
-  return {
+const useMenuButtonStyle = ({ variant } = {}) => {
+  const baseStyle = {
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     columnGap: '1x',
+  };
+
+  // Override the hover/active color from Button's `text.accent` (gray 96%) to the softer
+  // `text.primary` (gray 80%). Not redundant: a menu button intentionally keeps the primary
+  // label color on hover/active instead of emphasizing to accent like a plain Button.
+  //
+  // The token string (not a manually resolved color) is what makes this color-mode aware:
+  // it rides the `sx` transform, which resolves `text.primary` per color mode and keeps
+  // working when `useCSSVariables` is enabled (a hand-resolved `theme.colors['text.primary']`
+  // is a single CSS variable string there, so indexing a `_light`/`_dark` sub-key drops the rule).
+  const variantStyle = {
+    'ghost': {
+      '&:hover': { color: 'text.primary' },
+      '&:active': { color: 'text.primary' },
+    },
+    'secondary': {
+      '&:hover': { color: 'text.primary' },
+      '&:active': { color: 'text.primary' },
+    },
+  }[variant];
+
+  return {
+    ...baseStyle,
+    ...variantStyle,
   };
 };
 
@@ -202,7 +192,6 @@ const useSubmenuTriggerStyle = ({ tabIndex }) => {
 
 export {
   useMenuStyle,
-  useMenuButtonCSS,
   useMenuButtonStyle,
   useMenuContentStyle,
   useMenuListStyle,

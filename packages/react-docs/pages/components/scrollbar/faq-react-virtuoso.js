@@ -8,8 +8,12 @@ const CustomScrollbar = forwardRef((inProps, ref) => {
   return (
     <Scrollbar
       overflowY="scroll"
-      scrollViewProps={props}
-      scrollViewRef={ref}
+      slotProps={{
+        scrollView: {
+          ...props,
+          ref,
+        },
+      }}
     >
       {children}
     </Scrollbar>

@@ -63,9 +63,9 @@ exports[`Tag should combine size, variant, and isClosable 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: var(--tonic-colors-transparent);
+  background-color: inherit;
   border: none;
-  color: var(--tonic-colors-text-secondary);
+  color: inherit;
   cursor: pointer;
   outline: 0;
   padding: 0;
@@ -81,8 +81,10 @@ exports[`Tag should combine size, variant, and isClosable 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
+  color: var(--tonic-colors-text-secondary);
   width: var(--tonic-sizes-4x);
   height: var(--tonic-sizes-4x);
+  background-color: var(--tonic-colors-transparent);
   margin-left: var(--tonic-space-2x);
 }
 
@@ -750,9 +752,9 @@ exports[`Tag should render with isClosable but without onClose handler 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: var(--tonic-colors-transparent);
+  background-color: inherit;
   border: none;
-  color: var(--tonic-colors-text-secondary);
+  color: inherit;
   cursor: pointer;
   outline: 0;
   padding: 0;
@@ -768,8 +770,10 @@ exports[`Tag should render with isClosable but without onClose handler 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
+  color: var(--tonic-colors-text-secondary);
   width: var(--tonic-sizes-4x);
   height: var(--tonic-sizes-4x);
+  background-color: var(--tonic-colors-transparent);
   margin-left: var(--tonic-space-2x);
 }
 

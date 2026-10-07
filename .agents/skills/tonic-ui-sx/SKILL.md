@@ -21,13 +21,11 @@ Also use it to investigate dropped wrapper styles or consumer overrides that los
 
 ## Current Integration Status
 
-Full `__sx` integration is not complete in this Tonic UI checkout. The helper and
-Box channel exist, and some components use them; the examples below describe the
-target styling convention, not proof that every component already follows it.
-In particular, the local `packages/react/src/slot/useSlot.js` composes refs but not
-`__sx`. The automatic slot-style composition described below requires the newer
-hook contract. Inspect the affected implementation before relying on it, and do
-not expand a task into full styling integration without a user request.
+Full `__sx` integration is not complete in this Tonic UI checkout. The helper, Box
+channel, and `useSlot` composition exist, and some components use them; the examples
+below describe the target styling convention, not proof that every component already
+follows it. Inspect the affected implementation before relying on it, and do not expand
+a task into full styling integration without a user request.
 
 ## The one rule that governs everything: precedence-by-origin
 
@@ -158,7 +156,7 @@ const composeSx = (...values) => values.flatMap((value) => ensureArray(value));
 flattened and `undefined` is skipped. It returns an **array** for the `__sx`/`sx` prop.
 **Do not spread it as props.**
 
-**Target slot contract (not yet implemented in this checkout): if you author the element through `useSlot`, you don't fold `__sx` yourself.** `useSlot`
+**If you author the element through `useSlot`, you don't fold `__sx` yourself.** `useSlot`
 composes both `ref` (via `useMergeRefs`) and `__sx` (via `composeSx`) across `props` and
 `slotProps` internally — put the base in `props.__sx`, pass the consumer's slot props as
 `slotProps`, and the base stays below the slot's `__sx`. Do **not** strip `__sx` out of the
@@ -214,6 +212,12 @@ pseudo props. They never touch `__sx` (it's internal and off the public type):
 <Button sx={{ bg: 'blue:50', _hover: { bg: 'blue:60' } }}>Save</Button>
 <Button bg="blue:50">Save</Button>   {/* style prop, tier 1 — also beats base __sx */}
 ```
+
+Both remain fully functional, coequal tiers — this doesn't change. Going forward, `sx`
+is the **preferred** authoring convention for new/migrated consumer JSX, including on
+the layout primitives (`Box`/`Flex`/`Grid`/`Stack`/`StackItem`/`Space`). The
+`style-props-to-sx` codemod (`packages/codemod/src/style-props-to-sx`) mechanically
+migrates existing flat-prop usage to `sx`.
 
 ## The specificity boundary (read before promising "consumers can override anything")
 
@@ -272,6 +276,8 @@ Channel order resolves ties **only at equal selector specificity**. Specificity 
 
 - `docs/adr/2026-06-24-box-internal-sx-base-channel.md` — why `__sx` was introduced and the
   specificity boundary.
+- `docs/adr/2026-06-29-scrollbar-scrollview-slot-and-useslot-sx-composition.md` — `__sx`
+  composition through `useSlot` for a slotted default component (`Scrollbar`/`ScrollView`).
 - `docs/adr/2026-07-03-transition-style-through-sx-channel.md` — the transition convention:
   animation state through `__sx` in both render modes; the function-child handoff carries `__sx`
   and requires a `Box`-based child; DOM-measured values stay on inline `style`.

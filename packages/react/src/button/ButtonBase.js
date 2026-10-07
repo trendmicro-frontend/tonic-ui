@@ -1,4 +1,5 @@
 import { ariaAttr } from '@tonic-ui/utils';
+import { composeSx } from '@tonic-ui/utils/internal';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
@@ -19,6 +20,7 @@ import { useButtonBaseStyle } from './styles';
  */
 const ButtonBase = forwardRef((inProps, ref) => {
   const {
+    __sx: __sxProp,
     children,
     disabled,
     ...rest
@@ -32,8 +34,8 @@ const ButtonBase = forwardRef((inProps, ref) => {
       as="button"
       type="button"
       disabled={disabled}
-      {...styleProps}
       {...rest}
+      __sx={composeSx(styleProps, __sxProp)}
     >
       {children}
     </Box>

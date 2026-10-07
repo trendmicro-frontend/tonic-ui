@@ -1,4 +1,5 @@
 import { ariaAttr, dataAttr } from '@tonic-ui/utils';
+import { composeSx } from '@tonic-ui/utils/internal';
 import React, { forwardRef } from 'react';
 import { useDefaultProps } from '../default-props';
 import ButtonBase from './ButtonBase';
@@ -24,6 +25,7 @@ variant of the button style to use.
  */
 const Button = forwardRef((inProps, ref) => {
   const {
+    __sx: __sxProp,
     disabled: disabledProp,
     selected,
     size: sizeProp,
@@ -83,8 +85,8 @@ const Button = forwardRef((inProps, ref) => {
       ref={ref}
       as="button"
       {...attributes}
-      {...styleProps}
       {...rest}
+      __sx={composeSx(styleProps, __sxProp)}
     />
   );
 });

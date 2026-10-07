@@ -16,7 +16,7 @@ CSS property either touches.
 **Architecture:** Every component's `useXxxStyle()` hook (or, for the handful of components that
 compute styling inline rather than via a hook, the newly-centralized equivalent) returns its
 **complete** base — flat layout, pseudo rules, nested selectors — as one value. That value is
-folded via `mergeSx(ownBase, incoming__sx)` into the `__sx` prop of the `Box` (or `Box`-based
+folded via `composeSx(ownBase, incoming__sx)` into the `__sx` prop of the `Box` (or `Box`-based
 child) it renders, placed **after** `{...rest}` in JSX so the explicit `__sx` wins the spread.
 Five patterns cover every real occurrence found across two independent multi-agent coverage
 sweeps of `packages/react/src` and `packages/react-data-grid/src` (94 + 35 raw candidate findings,
@@ -30,7 +30,7 @@ changed, or dropped). This is the same tier-reorder signature documented in
 section for PR #507.
 
 **Tech Stack:** React (`forwardRef`), Emotion (`@emotion/styled`, via `Box` from
-`@tonic-ui/react-base`), `@tonic-ui/utils/internal`'s `mergeSx`, `react-transition-group`
+`@tonic-ui/react-base`), `@tonic-ui/utils/internal`'s `composeSx`, `react-transition-group`
 (`Transition`, used by the animation-driven components), jest + `@emotion/jest/serializer` for
 snapshot tests, `@testing-library/react` via `packages/react/test-utils/render.js`.
 
@@ -42,13 +42,13 @@ restated here so a maker subagent executing a backlog unit doesn't have to re-de
 
 - `__sx` is the sole channel a component uses to author its **own** base styling. `sx` is
   consumer-only — a component must never write its own look to `sx`.
-- `mergeSx(...)` performs **array composition** (`[...ensureArray(a), ...ensureArray(b)]`), never
+- `composeSx(...)` performs **array composition** (`[...ensureArray(a), ...ensureArray(b)]`), never
   object-merge (`{...a, ...b}`). Object-merging a nested key like `&:hover` silently discards the
   earlier value's `&:hover` entirely.
 - Call convention: `const { __sx: __sxProp, ...rest } = useDefaultProps(...)` (or, for components
   not using `useDefaultProps`, plain prop destructuring) — inline, in one destructure. Never
   capture the whole props bag (`const props = useDefaultProps(...)`) and re-destructure from it.
-- `__sx={mergeSx(ownBase, __sxProp)}` is placed **after** `{...rest}` in JSX, so the explicit
+- `__sx={composeSx(ownBase, __sxProp)}` is placed **after** `{...rest}` in JSX, so the explicit
   `__sx` prop wins over anything `rest` might (incorrectly) carry.
 - Every `useXxxStyle()` hook returns the component's **complete** base (flat + pseudo + nested) in
   one value. There is no separate `get*Sx` helper — if one exists today (inline in the component
@@ -56,7 +56,7 @@ restated here so a maker subagent executing a backlog unit doesn't have to re-de
   the `__sx` fold.
 - A component authored through `useSlot` does **not** hand-fold `__sx` itself — pass the base into
   the slot's `props.__sx` argument; `useSlot` already merges it with any `slotProps.<name>.__sx`
-  via `mergeSx` internally. Hand-merging outside the hook double-applies or silently drops the
+  via `composeSx` internally. Hand-merging outside the hook double-applies or silently drops the
   fold.
 - A wrapper component overriding a **child** component it renders (not its own `Box`) injects the
   override via the child's `__sx`, never the child's `sx` — mirrors the already-correct
@@ -97,7 +97,7 @@ restated here so a maker subagent executing a backlog unit doesn't have to re-de
   snapshot is regenerated)
 
 **Interfaces:**
-- Consumes: `mergeSx` from `@tonic-ui/utils/internal` (existing export, no change needed there).
+- Consumes: `composeSx` from `@tonic-ui/utils/internal` (existing export, no change needed there).
 - Produces: nothing new — `Divider`'s public props are unchanged.
 
 This is the baseline shape every Pattern-A backlog unit (~34 directories, listed in the Backlog
@@ -144,7 +144,7 @@ export default Divider;
 Replace with:
 
 ```js
-import { mergeSx } from '@tonic-ui/utils/internal';
+import { composeSx } from '@tonic-ui/utils/internal';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
@@ -163,7 +163,7 @@ const Divider = forwardRef((inProps, ref) => {
     <Box
       ref={ref}
       {...rest}
-      __sx={mergeSx(styleProps, __sxProp)}
+      __sx={composeSx(styleProps, __sxProp)}
     />
   );
 });
@@ -202,7 +202,7 @@ git commit -m "refactor(react): route Divider base style through __sx"
   snapshot regenerated)
 
 **Interfaces:**
-- Consumes: `mergeSx` from `@tonic-ui/utils/internal`.
+- Consumes: `composeSx` from `@tonic-ui/utils/internal`.
 - Produces: `useCheckboxControlBoxStyle({ indeterminate, size, variantColor })` — the hook's
   signature changes (previously took no arguments); any other caller of this hook must be updated
   to pass these three values. (Today there is exactly one caller: `CheckboxControlBox.js` itself,
@@ -526,7 +526,7 @@ Replace with:
 
 ```js
 import { ariaAttr } from '@tonic-ui/utils';
-import { mergeSx } from '@tonic-ui/utils/internal';
+import { composeSx } from '@tonic-ui/utils/internal';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useTheme } from '../theme';
@@ -558,7 +558,7 @@ const CheckboxControlBox = forwardRef((inProps, ref) => {
       aria-hidden={ariaAttr(true)}
       role="checkbox"
       {...rest}
-      __sx={mergeSx(styleProps, __sxProp)}
+      __sx={composeSx(styleProps, __sxProp)}
     >
       {!!indeterminate ? <IconIndeterminate size={iconSize} /> : <IconChecked size={iconSize} />}
     </Box>
@@ -597,7 +597,7 @@ git commit -m "refactor(react): centralize CheckboxControlBox style into styles.
   regenerated)
 
 **Interfaces:**
-- Consumes: `useSlot` from `../slot` (existing — already internally folds `__sx` via `mergeSx`
+- Consumes: `useSlot` from `../slot` (existing — already internally folds `__sx` via `composeSx`
   across its `props`/`slotProps` arguments; see `packages/react/src/slot/useSlot.js`). No change
   to `useSlot` itself.
 - Produces: nothing new — `ModalContent`'s public props are unchanged.
@@ -606,7 +606,7 @@ This is the reference shape for every Pattern-C backlog unit (`ModalOverlay.js`,
 `DrawerContent.js`, `DrawerOverlay.js`, `PopoverContent.js`, `TooltipContent.js`,
 `DatePickerContent.js`): a component whose root element is authored via `useSlot`. `useSlot`
 already merges an incoming base (`props.__sx`) with any caller-supplied override
-(`slotProps.<name>.__sx`) via `mergeSx` internally — the component must **not** hand-merge again
+(`slotProps.<name>.__sx`) via `composeSx` internally — the component must **not** hand-merge again
 outside the hook; that reintroduces exactly the double-fold/silent-drop bug the hook exists to
 prevent.
 
@@ -689,7 +689,7 @@ result already lands in `transitionSlotProps`):
       in={modalContext ? isOpen : true}
 ```
 
-No new import is needed — `ModalContent.js` does not call `mergeSx` itself; `useSlot` already
+No new import is needed — `ModalContent.js` does not call `composeSx` itself; `useSlot` already
 imports and applies it. `Fade` (the default `slot`) needs **no change** — `react-transition-group`'s
 `Transition` forwards unrecognized props (including `__sx`) through to its render-prop
 `childProps`, and `Fade` spreads `childProps` onto its own `Box` before applying its own
@@ -721,7 +721,7 @@ git commit -m "refactor(react): fold ModalContent base style through useSlot's _
   — snapshot regenerated)
 
 **Interfaces:**
-- Consumes: `mergeSx` from `@tonic-ui/utils/internal`.
+- Consumes: `composeSx` from `@tonic-ui/utils/internal`.
 - Produces: nothing new.
 
 This is the reference shape for every Pattern-D backlog unit. The original exemption for
@@ -882,7 +882,7 @@ Replace with:
 import { useMergeRefs } from '@tonic-ui/react-hooks';
 import { ChevronDownIcon } from '@tonic-ui/react-icons';
 import { ariaAttr, createTransitionStyle, getEnterTransitionProps, getExitTransitionProps, reflow, transitionEasing } from '@tonic-ui/utils';
-import { mergeSx } from '@tonic-ui/utils/internal';
+import { composeSx } from '@tonic-ui/utils/internal';
 import { ensureBoolean } from 'ensure-type';
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { Transition } from 'react-transition-group';
@@ -944,7 +944,7 @@ const AccordionToggleIcon = forwardRef((inProps, ref) => {
             'aria-disabled': ariaAttr(disabled),
             ...childProps,
             ref: combinedRef,
-            __sx: mergeSx(toggleIconStyleProps, styleProps, __sxProp),
+            __sx: composeSx(toggleIconStyleProps, styleProps, __sxProp),
             style,
           });
         }
@@ -954,7 +954,7 @@ const AccordionToggleIcon = forwardRef((inProps, ref) => {
             ref={combinedRef}
             aria-disabled={ariaAttr(disabled)}
             {...childProps}
-            __sx={mergeSx(toggleIconStyleProps, styleProps, __sxProp)}
+            __sx={composeSx(toggleIconStyleProps, styleProps, __sxProp)}
             style={style}
           >
             {children ?? <ChevronDownIcon size="4x" />}
@@ -969,7 +969,7 @@ const AccordionToggleIcon = forwardRef((inProps, ref) => {
 The original `styleProps` variable keeps its name; it now holds only the dynamic values
 (`variantStyle` + `transition`) after the persistent base moved out to the `__sx` fold and
 `'aria-disabled'` moved out to a direct prop. **Both branches compute the identical
-`mergeSx(toggleIconStyleProps, styleProps, __sxProp)` fold** — the `Box` branch passes it as its
+`composeSx(toggleIconStyleProps, styleProps, __sxProp)` fold** — the `Box` branch passes it as its
 own `__sx`; the function-child branch hands it to the consumer as `props.__sx`, with `style`
 shrinking to the caller's passthrough (the child must spread onto a `Box`-based element; update the
 JSDoc `children` typedef accordingly — see `AccordionToggleIcon.js` for the exact wording).
@@ -1012,7 +1012,7 @@ git commit -m "refactor(react): route AccordionToggleIcon base and transition st
   regenerated)
 
 **Interfaces:**
-- Consumes: `mergeSx` from `@tonic-ui/utils/internal`.
+- Consumes: `composeSx` from `@tonic-ui/utils/internal`.
 - Produces: nothing new — both components' public props are unchanged.
 
 This is the reference shape for every Pattern-E backlog unit
@@ -1365,7 +1365,7 @@ Replace with (import list, `__sx` destructure, one attrs-function call per sub-e
 ```js
 import { useOnceWhen } from '@tonic-ui/react-hooks';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
-import { mergeSx } from '@tonic-ui/utils/internal';
+import { composeSx } from '@tonic-ui/utils/internal';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
@@ -1427,7 +1427,7 @@ const CircularProgress = forwardRef((inProps, ref) => {
       ref={ref}
       {...circularProgressRootProps}
       {...rest}
-      __sx={mergeSx(circularProgressRootStyleProps, __sxProp)}
+      __sx={composeSx(circularProgressRootStyleProps, __sxProp)}
     >
       <CircularProgressSVG
         {...circularProgressSVGAttrs}
@@ -1447,10 +1447,10 @@ const CircularProgress = forwardRef((inProps, ref) => {
 });
 ```
 
-`CircularProgressSVG`/`Track`/`Indicator` receive `__sx={styleProps}` directly (no `mergeSx` call)
+`CircularProgressSVG`/`Track`/`Indicator` receive `__sx={styleProps}` directly (no `composeSx` call)
 — per the Global Constraints, when there is no incoming value to fold (these three sub-elements
 accept no external props today), pass the style object directly; wrapping a single value in
-`mergeSx` adds nothing. The three wrapper functions
+`composeSx` adds nothing. The three wrapper functions
 (`const CircularProgressSVG = (props) => <Box as="svg" {...props} />;`, etc.) are unchanged — they
 already forward `__sx` to `Box` untouched. The `get*Attrs` functions' results still spread flat
 since those are real SVG element attributes `__sx` cannot express.
@@ -1513,7 +1513,7 @@ Replace with:
 ```js
 import { useOnceWhen } from '@tonic-ui/react-hooks';
 import { warnDeprecatedProps } from '@tonic-ui/utils';
-import { mergeSx } from '@tonic-ui/utils/internal';
+import { composeSx } from '@tonic-ui/utils/internal';
 import { ensureFiniteNumber } from 'ensure-type';
 import React, { forwardRef } from 'react';
 import { CircularProgress } from '../progress';
@@ -1544,7 +1544,7 @@ const Spinner = forwardRef((inProps, ref) => {
       size={diameter}
       thickness={normalizedThickness}
       {...rest}
-      __sx={mergeSx({
+      __sx={composeSx({
         'svg circle:first-of-type': {
           color: trackColorProp,
         },
@@ -1589,7 +1589,7 @@ git commit -m "refactor(react): route CircularProgress root style and Spinner's 
   rather than tested in isolation)
 
 **Interfaces:**
-- Consumes: `mergeSx` from `@tonic-ui/utils/internal`.
+- Consumes: `composeSx` from `@tonic-ui/utils/internal`.
 - Produces: nothing new.
 
 `CoreColumnWidth.js` contributes two distinct things to the table instance via
@@ -1637,12 +1637,12 @@ header.getHeaderProps = mergeGetPropsFns(header.getHeaderProps, () => ({
 ```
 
 Apply the identical change to the corresponding `cell.getCellProps` contribution (same file, same
-shape, `cell.cssVarId` in place of `header.cssVarId`). Add `import { mergeSx } from
+shape, `cell.cssVarId` in place of `header.cssVarId`). Add `import { composeSx } from
 '@tonic-ui/utils/internal';` only if a later unit needs to fold multiple `__sx` contributions at
 this layer — not needed for this task, since `CoreColumnWidth` is currently the only feature
 contributing to these two `getProps` calls (confirmed during the coverage review; if a second
 feature is added later that also needs to inject `__sx` here, `mergeGetPropsFns`'s current shallow
-`{...mergedProps, ...props}` merge will need to fold `__sx` via `mergeSx` rather than object-spread
+`{...mergedProps, ...props}` merge will need to fold `__sx` via `composeSx` rather than object-spread
 — flagged as a follow-up note in the Backlog section below, not fixed in this task since no second
 contributor exists yet to make it a live bug).
 
@@ -1791,7 +1791,7 @@ _Branch: refactor/tonic-ui-sx-internals-migration     Posture: supervised     Bu
 ## Blocked
 - `mergeGetPropsFns` (packages/react-data-grid/src/core/mergeGetPropsFns.js) does a shallow
   `{...mergedProps, ...props}` merge across feature contributions — needs: a human decision on
-  whether to upgrade it to fold `__sx` via `mergeSx` (array composition) once a second feature
+  whether to upgrade it to fold `__sx` via `composeSx` (array composition) once a second feature
   contributes `__sx` to the same `getProps()` call as another feature (not a live bug today; only
   `CoreColumnWidth`/`RowReorder` currently contribute `__sx`/`sx` at these layers, so there's no
   current collision — flagged so it isn't silently reintroduced when a second contributor lands).

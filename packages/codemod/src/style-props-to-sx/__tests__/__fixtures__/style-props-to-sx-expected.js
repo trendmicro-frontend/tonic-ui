@@ -6,7 +6,12 @@ import React from 'react';
 const LocalHelper = ({ width }) => <div>{width}</div>;
 
 export default ({ buttonProps, dynamicSx, internalSx }) => (
-  <Flex direction="column" rowGap="4x" p="4x">
+  <Flex
+    sx={{
+      flexDirection: 'column',
+      rowGap: '4x',
+      p: '4x',
+    }}>
     {/* No existing sx, multiple flat style props -> new sx={{ ... }} */}
     <Button
       variant="primary"
@@ -47,19 +52,19 @@ export default ({ buttonProps, dynamicSx, internalSx }) => (
       Content
     </Scrollbar>
 
-    {/* Layer-1 exempt component (Flex's own flat props ARE its API) -> never touched */}
-    <Flex columnGap="2x" alignItems="center">
-      <AddIcon sx={{color: 'text.secondary'}} />
+    {/* Box/Flex/Grid/Stack/StackItem/Space are no longer exempt -- converted like any other component */}
+    <Flex sx={{ columnGap: '2x', alignItems: 'center' }}>
+      <AddIcon sx={{ color: 'text.secondary' }} />
     </Flex>
 
     {/* A spread attribute mixed with a real style prop -- must not be
         mistaken for a style prop, and must stay in place */}
-    <Button label="Info" {...buttonProps} sx={{width: '20x', px: '2x'}}>
+    <Button label="Info" {...buttonProps} sx={{ width: '20x', px: '2x' }}>
       <AddIcon />
     </Button>
 
     {/* __sx must never be touched, even though it looks like a style channel */}
-    <Button variant="primary" __sx={internalSx} sx={{width: '6x'}}>
+    <Button variant="primary" __sx={internalSx} sx={{ width: '6x' }}>
       Internal
     </Button>
 

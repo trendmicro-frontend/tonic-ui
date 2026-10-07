@@ -26,7 +26,7 @@ const thumbStyle = {
   },
 };
 
-const useContainerStyle = ({
+const useScrollbarRootStyle = ({
   width,
   height,
   minWidth,
@@ -46,7 +46,7 @@ const useContainerStyle = ({
   };
 };
 
-const useScrollViewStyle = ({
+const useScrollbarScrollViewStyle = ({
   width,
   height,
   minWidth,
@@ -56,6 +56,14 @@ const useScrollViewStyle = ({
   overflowX,
   overflowY,
 }) => {
+  const baseStyle = {
+    // Hide the browser scrollbar
+    '&::-webkit-scrollbar': { // Chrome, Safari and Opera
+      display: 'none',
+    },
+    msOverflowStyle: 'none', // IE and Edge
+    scrollbarWidth: 'none', // Firefox
+  };
   const style = {
     overflowX: (overflowX === 'hidden') ? 'hidden' : 'scroll',
     overflowY: (overflowY === 'hidden') ? 'hidden' : 'scroll',
@@ -68,12 +76,14 @@ const useScrollViewStyle = ({
 
   if (height === 'auto') {
     return {
+      ...baseStyle,
       ...style,
       position: 'relative',
     };
   }
 
   return {
+    ...baseStyle,
     ...style,
     position: 'absolute',
     top: 0,
@@ -83,7 +93,7 @@ const useScrollViewStyle = ({
   };
 };
 
-const useHorizontalTrackStyle = ({
+const useScrollbarHorizontalTrackStyle = ({
   overflowX,
 }) => {
   return {
@@ -100,7 +110,7 @@ const useHorizontalTrackStyle = ({
   };
 };
 
-const useVerticalTrackStyle = ({
+const useScrollbarVerticalTrackStyle = ({
   overflowY,
 }) => {
   return {
@@ -117,13 +127,13 @@ const useVerticalTrackStyle = ({
   };
 };
 
-const useHorizontalThumbStyle = props => {
+const useScrollbarHorizontalThumbStyle = props => {
   return {
     ...thumbStyle,
   };
 };
 
-const useVerticalThumbStyle = props => {
+const useScrollbarVerticalThumbStyle = props => {
   return {
     display: 'block',
     ...thumbStyle,
@@ -131,10 +141,10 @@ const useVerticalThumbStyle = props => {
 };
 
 export {
-  useContainerStyle,
-  useScrollViewStyle,
-  useHorizontalTrackStyle,
-  useVerticalTrackStyle,
-  useHorizontalThumbStyle,
-  useVerticalThumbStyle,
+  useScrollbarRootStyle,
+  useScrollbarScrollViewStyle,
+  useScrollbarHorizontalTrackStyle,
+  useScrollbarVerticalTrackStyle,
+  useScrollbarHorizontalThumbStyle,
+  useScrollbarVerticalThumbStyle,
 };

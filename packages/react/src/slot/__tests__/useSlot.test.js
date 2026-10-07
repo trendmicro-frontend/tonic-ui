@@ -41,4 +41,49 @@ describe('useSlot', () => {
     expect(mergedProps['data-foo']).toBe('bar'); // slotProps-only key applied
     expect(mergedProps['data-shared']).toBe('new'); // conflict: slotProps wins
   });
+
+  it('composes __sx from props and slotProps (base stays below the caller override)', () => {
+    const { result } = renderHook(() => useSlot({
+      name: 'root',
+      props: { __sx: { color: 'red' } },
+      slot: 'div',
+      slotProps: { __sx: { color: 'blue' } },
+    }));
+    const [, mergedProps] = result.current;
+    // Array composition, not object merge: both sides survive, caller last.
+    expect(mergedProps.__sx).toEqual([{ color: 'red' }, { color: 'blue' }]);
+  });
+
+  it('emits __sx when only props provides it', () => {
+    const { result } = renderHook(() => useSlot({
+      name: 'root',
+      props: { __sx: { color: 'red' } },
+      slot: 'div',
+      slotProps: {},
+    }));
+    const [, mergedProps] = result.current;
+    expect(mergedProps.__sx).toEqual([{ color: 'red' }]);
+  });
+
+  it('emits __sx when only slotProps provides it', () => {
+    const { result } = renderHook(() => useSlot({
+      name: 'root',
+      props: {},
+      slot: 'div',
+      slotProps: { __sx: { color: 'blue' } },
+    }));
+    const [, mergedProps] = result.current;
+    expect(mergedProps.__sx).toEqual([{ color: 'blue' }]);
+  });
+
+  it('does not emit a __sx key when neither side provides one', () => {
+    const { result } = renderHook(() => useSlot({
+      name: 'root',
+      props: { id: 'internal' },
+      slot: 'div',
+      slotProps: { 'data-foo': 'bar' },
+    }));
+    const [, mergedProps] = result.current;
+    expect(mergedProps).not.toHaveProperty('__sx');
+  });
 });

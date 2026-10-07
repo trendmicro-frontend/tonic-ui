@@ -312,8 +312,10 @@ import { callAll, callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils
 | ToastManager | `toast/ToastManager.js` | `transition` | ✅ done |
 | InputControl | `input/InputControl.js` | `input`, `root` | ✅ done |
 | Scrollbar | `scrollbar/Scrollbar.js` | `scrollView` | ✅ done (deprecates `scrollViewProps`/`scrollViewRef`) |
+| AutocompleteList | `autocomplete/AutocompleteList.js` | `transition`, `popper` | ✅ done (deprecates `PopperComponent`/`PopperProps`/`TransitionComponent`/`TransitionProps`) |
 
 `Tooltip.js` is also modified (parent threading for the `popper`/`transition`/`arrow` slots — see the arrow-slot section).
+`Autocomplete.js` is also modified: it splits `slotProps` — `content` flattens onto the list (historical contract) while the remaining keys and `slots` thread down; nested `slots`/`slotProps` inside `content` are dropped (dev-only warning).
 
 **Not in scope:**
 - `AccordionToggleIcon`, `MenuToggleIcon`, `TreeItemToggleIcon` — use `react-transition-group`'s `Transition` directly for icon rotation; no injectable `TransitionComponent` prop.

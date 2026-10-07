@@ -1,7 +1,8 @@
 import React, { forwardRef } from 'react';
+import { composeSx } from '@tonic-ui/utils/internal';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
-import { getInputGroupAppendCSS, useInputGroupAppendStyle } from './styles';
+import { useInputGroupAppendStyle } from './styles';
 
 /**
  * @typedef {Object} InputGroupAppendProps
@@ -12,19 +13,14 @@ import { getInputGroupAppendCSS, useInputGroupAppendStyle } from './styles';
  * @type {ForwardRefComponent<'div', InputGroupAppendProps>}
  */
 const InputGroupAppend = forwardRef((inProps, ref) => {
-  const {
-    css: cssProp,
-    ...rest
-  } = useDefaultProps({ props: inProps, name: 'InputGroupAppend' });
-  const css = [getInputGroupAppendCSS(), cssProp];
+  const { __sx: __sxProp, ...rest } = useDefaultProps({ props: inProps, name: 'InputGroupAppend' });
   const styleProps = useInputGroupAppendStyle();
 
   return (
     <Box
       ref={ref}
-      css={css}
-      {...styleProps}
       {...rest}
+      __sx={composeSx(styleProps, __sxProp)}
     />
   );
 });
