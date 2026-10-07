@@ -1,4 +1,3 @@
-import { sx } from '@tonic-ui/styled-system';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 
@@ -10,32 +9,13 @@ import { Box } from '../box';
 /**
  * @type {ForwardRefComponent<'div', ScrollViewProps>}
  */
-const ScrollView = forwardRef((
-  {
-    css,
-    ...rest
-  },
-  ref,
-) => {
-  css = [
-    sx({ // Hide the browser scrollbar
-      // Chrome, Safari and Opera
-      '::-webkit-scrollbar': {
-        display: 'none',
-      },
-      // IE and Edge
-      msOverflowStyle: 'none',
-      // Firefox
-      scrollbarWidth: 'none',
-    }),
-    css
-  ];
-
+const ScrollView = forwardRef((props, ref) => {
+  // Styling (scrollbar-hiding base + overflow/size) is provided by the parent
+  // `Scrollbar` via `getScrollViewProps()`'s `__sx`; `ScrollView` just forwards it.
   return (
     <Box
       ref={ref}
-      css={css}
-      {...rest}
+      {...props}
     />
   );
 });

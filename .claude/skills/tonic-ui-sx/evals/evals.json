@@ -1,10 +1,10 @@
 {
-  "skill_name": "agentic-ui-sx",
+  "skill_name": "tonic-ui-sx",
   "evals": [
     {
       "id": 0,
       "name": "self-base-styling",
-      "prompt": "I'm adding a new `Tag` component to `@agentic-ui/react`. Its `styles.js` has a `useTagStyle()` hook that returns the base look (flat decls plus an `_hover` rule). How should I apply that to the `Box` in `Tag.js` so that a consumer can still override it? Should the base styles go in `sx` or `__sx`? Show the call site.",
+      "prompt": "I'm adding a new `Tag` component to `@tonic-ui/react`. Its `styles.js` has a `useTagStyle()` hook that returns the base look (flat decls plus an `_hover` rule). How should I apply that to the `Box` in `Tag.js` so that a consumer can still override it? Should the base styles go in `sx` or `__sx`? Show the call site.",
       "expected_output": "Recommends __sx (not sx) for self base styling; shows composeSx(styleProps, __sxProp) folded after {...rest}; destructures __sx out of rest; notes sx is consumer-only and wins over base.",
       "files": []
     },

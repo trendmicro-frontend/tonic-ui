@@ -99,12 +99,12 @@ In Tonic UI v2, icon components must be imported separately from the `@tonic-ui/
 For JavaScript files:
 
 ```bash
-npx @tonic-ui/codemod@latest react/v2.0.0/import-react-icons src --extensions=js,jsx
+npx @tonic-ui/codemod@latest react/v2/import-react-icons src --extensions=js,jsx
 ```
 
 
 For TypeScript files:
 
 ```bash
-npx @tonic-ui/codemod@latest react/v2.0.0/import-react-icons src --parser=tsx --extensions=ts,tsx
+npx @tonic-ui/codemod@latest react/v2/import-react-icons src --parser=tsx --extensions=ts,tsx
 ```

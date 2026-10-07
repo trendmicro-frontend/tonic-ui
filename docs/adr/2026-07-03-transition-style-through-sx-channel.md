@@ -9,11 +9,11 @@ modes follow the one channel convention from
 [2026-06-29-sx-as-universal-base-channel](./2026-06-29-sx-as-universal-base-channel.md):
 
 1. **Animation state is not exempt from `__sx`.** Everything a transition component authors for a
-   `Box` it renders folds into `__sx` via `mergeSx(ownPersistentBase, animationStyleProps, __sxProp)`
+   `Box` it renders folds into `__sx` via `composeSx(ownPersistentBase, animationStyleProps, __sxProp)`
    — incoming last. Precedence-by-origin applies to every property: a consumer or wrapper that
    deliberately targets an animated property (e.g. `opacity` on a `Fade`) wins, animation included.
 2. **The function-child handoff carries `__sx`, and `style` shrinks to the caller's passthrough.**
-   The handoff props become `{ ...childProps, ref, __sx: mergeSx(...same fold...), style: callerStyle }`.
+   The handoff props become `{ ...childProps, ref, __sx: composeSx(...same fold...), style: callerStyle }`.
    The child is required (documented in the JSDoc contract) to render a `Box`-based element — every
    known consumer already does (`TooltipContent`/`PopoverContent`, both `Box`).
 3. **Dynamically calculated (DOM-measured) values stay on inline `style`.** `Collapse` and

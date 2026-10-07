@@ -24,6 +24,21 @@ exports[`SearchInput should render correctly 1`] = `
   color: var(--tonic-colors-text-primary);
 }
 
+.emotion-0:has(> input:focus:invalid),
+.emotion-0:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
+}
+
+.emotion-0:hover:has(> input:invalid),
+.emotion-0:hover:has(> input[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_negative-enabled);
+}
+
+.emotion-0:hover:has(> input:focus:invalid),
+.emotion-0:hover:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
+}
+
 .emotion-0:invalid,
 .emotion-0[aria-invalid=true] {
   border-color: var(--tonic-colors-border-_negative-enabled);
@@ -168,21 +183,6 @@ exports[`SearchInput should render correctly 1`] = `
   color: var(--tonic-colors-text-disabled);
 }
 
-.emotion-0:has(> input:focus:invalid),
-.emotion-0:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
-.emotion-0:hover:has(> input:invalid),
-.emotion-0:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_negative-enabled);
-}
-
-.emotion-0:hover:has(> input:focus:invalid),
-.emotion-0:hover:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
 .emotion-2 {
   -webkit-flex: none;
   -ms-flex: none;
@@ -252,6 +252,21 @@ exports[`SearchInput should render correctly 1`] = `
   border-color: var(--tonic-colors-border-_primary-enabled);
   border-radius: var(--tonic-radii-sm);
   color: var(--tonic-colors-text-primary);
+}
+
+.emotion-10:has(> input:focus:invalid),
+.emotion-10:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
+}
+
+.emotion-10:hover:has(> input:invalid),
+.emotion-10:hover:has(> input[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_negative-enabled);
+}
+
+.emotion-10:hover:has(> input:focus:invalid),
+.emotion-10:hover:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-10:invalid,
@@ -399,21 +414,6 @@ exports[`SearchInput should render correctly 1`] = `
   color: var(--tonic-colors-text-disabled);
 }
 
-.emotion-10:has(> input:focus:invalid),
-.emotion-10:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
-.emotion-10:hover:has(> input:invalid),
-.emotion-10:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_negative-enabled);
-}
-
-.emotion-10:hover:has(> input:focus:invalid),
-.emotion-10:hover:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
 .emotion-20 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -434,6 +434,21 @@ exports[`SearchInput should render correctly 1`] = `
   border-bottom: var(--tonic-borders-1);
   border-bottom-color: var(--tonic-colors-border-_primary-enabled);
   color: var(--tonic-colors-text-primary);
+}
+
+.emotion-20:has(> input:focus:invalid),
+.emotion-20:has(> input:focus[aria-invalid=true]) {
+  border-bottom-color: var(--tonic-colors-border-_primary-focused);
+}
+
+.emotion-20:hover:has(> input:invalid),
+.emotion-20:hover:has(> input[aria-invalid=true]) {
+  border-bottom-color: var(--tonic-colors-border-_negative-enabled);
+}
+
+.emotion-20:hover:has(> input:focus:invalid),
+.emotion-20:hover:has(> input:focus[aria-invalid=true]) {
+  border-bottom-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-20:invalid,
@@ -580,21 +595,6 @@ exports[`SearchInput should render correctly 1`] = `
   color: var(--tonic-colors-text-disabled);
 }
 
-.emotion-20:has(> input:focus:invalid),
-.emotion-20:has(> input:focus[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-border-_primary-focused);
-}
-
-.emotion-20:hover:has(> input:invalid),
-.emotion-20:hover:has(> input[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-border-_negative-enabled);
-}
-
-.emotion-20:hover:has(> input:focus:invalid),
-.emotion-20:hover:has(> input:focus[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-border-_primary-focused);
-}
-
 .emotion-24 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -664,6 +664,21 @@ exports[`SearchInput should render correctly 1`] = `
   border-color: var(--tonic-colors-border-_primary-enabled);
   border-radius: var(--tonic-radii-sm);
   color: var(--tonic-colors-text-primary);
+}
+
+.emotion-40:has(> input:focus:invalid),
+.emotion-40:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
+}
+
+.emotion-40:hover:has(> input:invalid),
+.emotion-40:hover:has(> input[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_negative-enabled);
+}
+
+.emotion-40:hover:has(> input:focus:invalid),
+.emotion-40:hover:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-40:invalid,
@@ -810,21 +825,6 @@ exports[`SearchInput should render correctly 1`] = `
   color: var(--tonic-colors-text-disabled);
 }
 
-.emotion-40:has(> input:focus:invalid),
-.emotion-40:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
-.emotion-40:hover:has(> input:invalid),
-.emotion-40:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_negative-enabled);
-}
-
-.emotion-40:hover:has(> input:focus:invalid),
-.emotion-40:hover:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
 .emotion-50 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -846,6 +846,21 @@ exports[`SearchInput should render correctly 1`] = `
   border-color: var(--tonic-colors-border-_primary-enabled);
   border-radius: var(--tonic-radii-sm);
   color: var(--tonic-colors-text-primary);
+}
+
+.emotion-50:has(> input:focus:invalid),
+.emotion-50:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
+}
+
+.emotion-50:hover:has(> input:invalid),
+.emotion-50:hover:has(> input[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_negative-enabled);
+}
+
+.emotion-50:hover:has(> input:focus:invalid),
+.emotion-50:hover:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-50:invalid,
@@ -993,21 +1008,6 @@ exports[`SearchInput should render correctly 1`] = `
   color: var(--tonic-colors-text-disabled);
 }
 
-.emotion-50:has(> input:focus:invalid),
-.emotion-50:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
-.emotion-50:hover:has(> input:invalid),
-.emotion-50:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_negative-enabled);
-}
-
-.emotion-50:hover:has(> input:focus:invalid),
-.emotion-50:hover:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
 .emotion-60 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1028,6 +1028,21 @@ exports[`SearchInput should render correctly 1`] = `
   border-bottom: var(--tonic-borders-1);
   border-bottom-color: var(--tonic-colors-border-_primary-enabled);
   color: var(--tonic-colors-text-primary);
+}
+
+.emotion-60:has(> input:focus:invalid),
+.emotion-60:has(> input:focus[aria-invalid=true]) {
+  border-bottom-color: var(--tonic-colors-border-_primary-focused);
+}
+
+.emotion-60:hover:has(> input:invalid),
+.emotion-60:hover:has(> input[aria-invalid=true]) {
+  border-bottom-color: var(--tonic-colors-border-_negative-enabled);
+}
+
+.emotion-60:hover:has(> input:focus:invalid),
+.emotion-60:hover:has(> input:focus[aria-invalid=true]) {
+  border-bottom-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-60:invalid,
@@ -1174,21 +1189,6 @@ exports[`SearchInput should render correctly 1`] = `
   color: var(--tonic-colors-text-disabled);
 }
 
-.emotion-60:has(> input:focus:invalid),
-.emotion-60:has(> input:focus[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-border-_primary-focused);
-}
-
-.emotion-60:hover:has(> input:invalid),
-.emotion-60:hover:has(> input[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-border-_negative-enabled);
-}
-
-.emotion-60:hover:has(> input:focus:invalid),
-.emotion-60:hover:has(> input:focus[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-border-_primary-focused);
-}
-
 .emotion-80 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1210,6 +1210,21 @@ exports[`SearchInput should render correctly 1`] = `
   border-color: var(--tonic-colors-border-_primary-enabled);
   border-radius: var(--tonic-radii-sm);
   color: var(--tonic-colors-text-primary);
+}
+
+.emotion-80:has(> input:focus:invalid),
+.emotion-80:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
+}
+
+.emotion-80:hover:has(> input:invalid),
+.emotion-80:hover:has(> input[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_negative-enabled);
+}
+
+.emotion-80:hover:has(> input:focus:invalid),
+.emotion-80:hover:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-80:invalid,
@@ -1356,21 +1371,6 @@ exports[`SearchInput should render correctly 1`] = `
   color: var(--tonic-colors-text-disabled);
 }
 
-.emotion-80:has(> input:focus:invalid),
-.emotion-80:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
-.emotion-80:hover:has(> input:invalid),
-.emotion-80:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_negative-enabled);
-}
-
-.emotion-80:hover:has(> input:focus:invalid),
-.emotion-80:hover:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
 .emotion-88 {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -1408,6 +1408,21 @@ exports[`SearchInput should render correctly 1`] = `
   border-color: var(--tonic-colors-border-_primary-enabled);
   border-radius: var(--tonic-radii-sm);
   color: var(--tonic-colors-text-primary);
+}
+
+.emotion-90:has(> input:focus:invalid),
+.emotion-90:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
+}
+
+.emotion-90:hover:has(> input:invalid),
+.emotion-90:hover:has(> input[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_negative-enabled);
+}
+
+.emotion-90:hover:has(> input:focus:invalid),
+.emotion-90:hover:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-90:invalid,
@@ -1555,21 +1570,6 @@ exports[`SearchInput should render correctly 1`] = `
   color: var(--tonic-colors-text-disabled);
 }
 
-.emotion-90:has(> input:focus:invalid),
-.emotion-90:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
-.emotion-90:hover:has(> input:invalid),
-.emotion-90:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_negative-enabled);
-}
-
-.emotion-90:hover:has(> input:focus:invalid),
-.emotion-90:hover:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
 .emotion-100 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1590,6 +1590,21 @@ exports[`SearchInput should render correctly 1`] = `
   border-bottom: var(--tonic-borders-1);
   border-bottom-color: var(--tonic-colors-border-_primary-enabled);
   color: var(--tonic-colors-text-primary);
+}
+
+.emotion-100:has(> input:focus:invalid),
+.emotion-100:has(> input:focus[aria-invalid=true]) {
+  border-bottom-color: var(--tonic-colors-border-_primary-focused);
+}
+
+.emotion-100:hover:has(> input:invalid),
+.emotion-100:hover:has(> input[aria-invalid=true]) {
+  border-bottom-color: var(--tonic-colors-border-_negative-enabled);
+}
+
+.emotion-100:hover:has(> input:focus:invalid),
+.emotion-100:hover:has(> input:focus[aria-invalid=true]) {
+  border-bottom-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-100:invalid,
@@ -1734,21 +1749,6 @@ exports[`SearchInput should render correctly 1`] = `
 .emotion-100[aria-disabled=true]:hover::placeholder,
 .emotion-100[data-disabled]::placeholder {
   color: var(--tonic-colors-text-disabled);
-}
-
-.emotion-100:has(> input:focus:invalid),
-.emotion-100:has(> input:focus[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-border-_primary-focused);
-}
-
-.emotion-100:hover:has(> input:invalid),
-.emotion-100:hover:has(> input[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-border-_negative-enabled);
-}
-
-.emotion-100:hover:has(> input:focus:invalid),
-.emotion-100:hover:has(> input:focus[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-108 {

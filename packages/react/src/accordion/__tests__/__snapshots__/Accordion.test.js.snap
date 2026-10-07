@@ -17,9 +17,9 @@ exports[`Accordion should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: var(--tonic-colors-_overlay-thinner);
+  background-color: inherit;
   border: none;
-  color: var(--tonic-colors-text-primary);
+  color: inherit;
   cursor: pointer;
   outline: 0;
   padding: 0;
@@ -37,9 +37,11 @@ exports[`Accordion should render correctly 1`] = `
   justify-content: space-between;
   -webkit-column-gap: var(--tonic-sizes-4x);
   column-gap: var(--tonic-sizes-4x);
+  background-color: var(--tonic-colors-_overlay-thinner);
   border-color: var(--tonic-colors-transparent);
   border-style: solid;
   border-width: .0625rem;
+  color: var(--tonic-colors-text-primary);
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: calc(.75rem - .0625rem);

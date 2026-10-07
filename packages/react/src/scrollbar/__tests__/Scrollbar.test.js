@@ -28,6 +28,29 @@ describe('Scrollbar', () => {
     await testA11y(container);
   });
 
+  it('should apply scroll overflow on the scroll view and hide the native scrollbar', () => {
+    render(
+      <Scrollbar height={200}>
+        <Box height={400}>Scrollable content</Box>
+      </Scrollbar>
+    );
+
+    // The scroll view is the parent of the scrollable content.
+    const scrollView = screen.getByText('Scrollable content').parentElement;
+
+    expect(scrollView).toHaveStyleRule('overflow-x', 'scroll');
+    expect(scrollView).toHaveStyleRule('overflow-y', 'scroll');
+
+    // Hide the native scrollbar across browsers.
+    expect(scrollView).toHaveStyleRule('display', 'none', { target: '::-webkit-scrollbar' }); // Chrome, Safari and Opera
+    expect(scrollView).toHaveStyleRule('scrollbar-width', 'none'); // Firefox
+    expect(scrollView).toHaveStyleRule('-ms-overflow-style', 'none'); // IE and Edge
+
+    // `-webkit-overflow-scrolling` used to be dropped as a non-forwarded plain prop; it now
+    // rides the `__sx` channel and is emitted for momentum scrolling on iOS.
+    expect(scrollView).toHaveStyleRule('-webkit-overflow-scrolling', 'touch');
+  });
+
   it('should scroll to the specificed position using `scrollLeft` and `scrollTop` props', () => {
     const TestComponent = () => {
       const scrollTop = 100;

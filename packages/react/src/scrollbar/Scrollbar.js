@@ -1,17 +1,19 @@
-import { useHydrated, useMergeRefs } from '@tonic-ui/react-hooks';
-import { callEventHandlers } from '@tonic-ui/utils';
+import { useHydrated, useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
+import { callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils';
+import { composeSx } from '@tonic-ui/utils/internal';
 import { ensurePositiveFiniteNumber } from 'ensure-type';
 import React, { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { useEnvironment } from '../environment';
+import { useSlot } from '../slot';
 import {
-  useContainerStyle,
-  useScrollViewStyle,
-  useHorizontalTrackStyle,
-  useVerticalTrackStyle,
-  useHorizontalThumbStyle,
-  useVerticalThumbStyle,
+  useScrollbarRootStyle,
+  useScrollbarScrollViewStyle,
+  useScrollbarHorizontalTrackStyle,
+  useScrollbarVerticalTrackStyle,
+  useScrollbarHorizontalThumbStyle,
+  useScrollbarVerticalThumbStyle,
 } from './styles';
 import getInnerHeight from './utils/getInnerHeight';
 import getInnerWidth from './utils/getInnerWidth';
@@ -39,8 +41,10 @@ import VerticalThumb from './VerticalThumb';
  * @property {string} [overflowY] - The vertical overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'.
  * @property {number} [scrollLeft=0] - The horizontal scroll position of the scrollable content.
  * @property {number} [scrollTop=0] - The vertical scroll position of the scrollable content.
- * @property {{ style?: React.CSSProperties }} [scrollViewProps] - Additional props to be applied to the `ScrollView` component.
- * @property {React.RefObject<HTMLDivElement>} [scrollViewRef] - A `ref` to the `ScrollView` component.
+ * @property {{ root?: React.ElementType; scrollView?: React.ElementType; horizontalTrack?: React.ElementType; verticalTrack?: React.ElementType; horizontalThumb?: React.ElementType; verticalThumb?: React.ElementType }} [slots] - Swappable element per slot. Swapped elements must forward `ref` and spread received props. Element swap applies in default mode only; in render-prop mode the raw part components are exposed (`slotProps` still flows via the getters).
+ * @property {{ root?: object; scrollView?: object; horizontalTrack?: object; verticalTrack?: object; horizontalThumb?: object; verticalThumb?: object }} [slotProps] - Extra props per slot (supports `__sx`, `ref`, handlers).
+ * @property {{ style?: React.CSSProperties }} [scrollViewProps] - **Deprecated.** Use `slotProps.scrollView` instead. Additional props to be applied to the `ScrollView` component.
+ * @property {React.RefObject<HTMLDivElement>} [scrollViewRef] - **Deprecated.** Use `slotProps.scrollView.ref` instead. A `ref` to the `ScrollView` component.
  */
 
 /**
@@ -64,10 +68,31 @@ const Scrollbar = forwardRef((inProps, ref) => {
     overflowY: overflowYProp,
     scrollLeft: scrollLeftProp,
     scrollTop: scrollTopProp,
-    scrollViewProps: scrollViewPropsProp,
-    scrollViewRef: scrollViewRefProp,
+    scrollViewProps: scrollViewPropsProp, // deprecated
+    scrollViewRef: scrollViewRefProp, // deprecated
+    slots = {},
+    slotProps = {},
+    __sx: __sxProp,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Scrollbar' });
+
+  { // deprecation warning
+    const prefix = `${Scrollbar.displayName}:`;
+    useOnceWhen(() => {
+      warnDeprecatedProps('scrollViewProps', {
+        prefix,
+        alternative: 'slotProps.scrollView',
+        willRemove: true,
+      });
+    }, scrollViewPropsProp !== undefined);
+    useOnceWhen(() => {
+      warnDeprecatedProps('scrollViewRef', {
+        prefix,
+        alternative: 'slotProps.scrollView.ref',
+        willRemove: true,
+      });
+    }, scrollViewRefProp !== undefined);
+  }
 
   let overflowX = overflowXProp;
   let overflowY = overflowYProp;
@@ -569,68 +594,115 @@ const Scrollbar = forwardRef((inProps, ref) => {
     };
   }, [update, el, getWindow]);
 
-  const containerStyle = useContainerStyle({ width, height, minWidth, maxWidth, minHeight, maxHeight });
-  const scrollViewStyle = useScrollViewStyle({ width, height, minWidth, maxWidth, minHeight, maxHeight, overflowX, overflowY });
-  const horizontalTrackStyle = useHorizontalTrackStyle({ overflowX });
-  const verticalTrackStyle = useVerticalTrackStyle({ overflowY });
-  const horizontalThumbStyle = useHorizontalThumbStyle();
-  const verticalThumbStyle = useVerticalThumbStyle();
+  const rootStyleProps = useScrollbarRootStyle({ width, height, minWidth, maxWidth, minHeight, maxHeight });
+  const scrollViewStyleProps = useScrollbarScrollViewStyle({ width, height, minWidth, maxWidth, minHeight, maxHeight, overflowX, overflowY });
+  const horizontalTrackStyleProps = useScrollbarHorizontalTrackStyle({ overflowX });
+  const verticalTrackStyleProps = useScrollbarVerticalTrackStyle({ overflowY });
+  const horizontalThumbStyleProps = useScrollbarHorizontalThumbStyle();
+  const verticalThumbStyleProps = useScrollbarVerticalThumbStyle();
 
+  // Resolve the `scrollView` slot. The deprecated `scrollViewProps` is merged under the new
+  // `slotProps.scrollView` (new wins). The base style goes in `props.__sx`; useSlot composes
+  // it below any consumer `__sx` (and merges the ref) from the slot props.
+  const resolvedScrollViewProps = { ...scrollViewPropsProp, ...slotProps.scrollView };
+  const [ScrollViewSlot, scrollViewSlotProps] = useSlot({
+    name: 'scrollView',
+    ownerName: Scrollbar.displayName,
+    props: {
+      children,
+      ref: combinedScrollViewRef, // internal measurement ref + deprecated `scrollViewRef`
+      __sx: scrollViewStyleProps,
+    },
+    slot: slots.scrollView ?? ScrollView,
+    slotProps: resolvedScrollViewProps, // ref + `__sx` merged by useSlot
+  });
+
+  // Resolve the `root` slot (the outer container). Always Scrollbar-owned, so it applies in
+  // both the default and render-prop forms. New slot — no deprecated prop to merge.
+  // useSlot does not merge `__sx`, so the base style is folded with the incoming component
+  // `__sx` manually here (matches InputControl's root slot).
+  const [RootSlot, rootSlotProps] = useSlot({
+    name: 'root',
+    ownerName: Scrollbar.displayName,
+    props: {
+      ref: combinedRef,
+      __sx: composeSx(rootStyleProps, __sxProp),
+      ...rest,
+    },
+    slot: slots.root ?? Box,
+    slotProps: slotProps.root,
+  });
+
+  const [HorizontalTrackSlot, horizontalTrackSlotProps] = useSlot({
+    name: 'horizontalTrack',
+    ownerName: Scrollbar.displayName,
+    props: { ref: horizontalTrackRef, __sx: horizontalTrackStyleProps },
+    slot: slots.horizontalTrack ?? HorizontalTrack,
+    slotProps: slotProps.horizontalTrack,
+  });
+
+  const [VerticalTrackSlot, verticalTrackSlotProps] = useSlot({
+    name: 'verticalTrack',
+    ownerName: Scrollbar.displayName,
+    props: { ref: verticalTrackRef, __sx: verticalTrackStyleProps },
+    slot: slots.verticalTrack ?? VerticalTrack,
+    slotProps: slotProps.verticalTrack,
+  });
+
+  const [HorizontalThumbSlot, horizontalThumbSlotProps] = useSlot({
+    name: 'horizontalThumb',
+    ownerName: Scrollbar.displayName,
+    props: { ref: horizontalThumbRef, __sx: horizontalThumbStyleProps },
+    slot: slots.horizontalThumb ?? HorizontalThumb,
+    slotProps: slotProps.horizontalThumb,
+  });
+
+  const [VerticalThumbSlot, verticalThumbSlotProps] = useSlot({
+    name: 'verticalThumb',
+    ownerName: Scrollbar.displayName,
+    props: { ref: verticalThumbRef, __sx: verticalThumbStyleProps },
+    slot: slots.verticalThumb ?? VerticalThumb,
+    slotProps: slotProps.verticalThumb,
+  });
+
+  // `getScrollViewProps` is the public contract for the render-prop form. The component-owned
+  // handlers are chained after the slot merge so the component keeps ownership of them.
   const getScrollViewProps = () => {
     return {
-      children,
-      ...scrollViewStyle,
-      ...scrollViewPropsProp,
-      ref: combinedScrollViewRef,
-      onScroll: callEventHandlers(scrollViewPropsProp?.onScroll, handleScrollViewScroll),
-      onMouseEnter: callEventHandlers(scrollViewPropsProp?.onMouseEnter, handleScrollViewMouseEnter),
-      onMouseLeave: callEventHandlers(scrollViewPropsProp?.onMouseLeave, handleScrollViewMouseLeave),
+      ...scrollViewSlotProps,
+      onScroll: callEventHandlers(scrollViewSlotProps.onScroll, handleScrollViewScroll),
+      onMouseEnter: callEventHandlers(scrollViewSlotProps.onMouseEnter, handleScrollViewMouseEnter),
+      onMouseLeave: callEventHandlers(scrollViewSlotProps.onMouseLeave, handleScrollViewMouseLeave),
     };
   };
 
-  const getHorizontalTrackProps = () => {
-    return {
-      ...horizontalTrackStyle,
-      ref: horizontalTrackRef,
-      onMouseDown: handleHorizontalTrackMouseDown,
-      onMouseEnter: handleTrackMouseEnter,
-      onMouseLeave: handleTrackMouseLeave,
-    };
-  };
+  const getHorizontalTrackProps = () => ({
+    ...horizontalTrackSlotProps,
+    onMouseDown: callEventHandlers(horizontalTrackSlotProps.onMouseDown, handleHorizontalTrackMouseDown),
+    onMouseEnter: callEventHandlers(horizontalTrackSlotProps.onMouseEnter, handleTrackMouseEnter),
+    onMouseLeave: callEventHandlers(horizontalTrackSlotProps.onMouseLeave, handleTrackMouseLeave),
+  });
 
-  const getHorizontalThumbProps = () => {
-    return {
-      ...horizontalThumbStyle,
-      ref: horizontalThumbRef,
-      onMouseDown: handleHorizontalThumbMouseDown,
-    };
-  };
+  const getHorizontalThumbProps = () => ({
+    ...horizontalThumbSlotProps,
+    onMouseDown: callEventHandlers(horizontalThumbSlotProps.onMouseDown, handleHorizontalThumbMouseDown),
+  });
 
-  const getVerticalTrackProps = () => {
-    return {
-      ...verticalTrackStyle,
-      ref: verticalTrackRef,
-      onMouseDown: handleVerticalTrackMouseDown,
-      onMouseEnter: handleTrackMouseEnter,
-      onMouseLeave: handleTrackMouseLeave,
-    };
-  };
+  const getVerticalTrackProps = () => ({
+    ...verticalTrackSlotProps,
+    onMouseDown: callEventHandlers(verticalTrackSlotProps.onMouseDown, handleVerticalTrackMouseDown),
+    onMouseEnter: callEventHandlers(verticalTrackSlotProps.onMouseEnter, handleTrackMouseEnter),
+    onMouseLeave: callEventHandlers(verticalTrackSlotProps.onMouseLeave, handleTrackMouseLeave),
+  });
 
-  const getVerticalThumbProps = () => {
-    return {
-      ...verticalThumbStyle,
-      ref: verticalThumbRef,
-      onMouseDown: handleVerticalThumbMouseDown,
-    };
-  };
+  const getVerticalThumbProps = () => ({
+    ...verticalThumbSlotProps,
+    onMouseDown: callEventHandlers(verticalThumbSlotProps.onMouseDown, handleVerticalThumbMouseDown),
+  });
 
   if (typeof children === 'function') {
     return (
-      <Box
-        ref={combinedRef}
-        {...containerStyle}
-        {...rest}
-      >
+      <RootSlot {...rootSlotProps}>
         {children({
           ScrollView,
           HorizontalTrack,
@@ -643,24 +715,20 @@ const Scrollbar = forwardRef((inProps, ref) => {
           getVerticalTrackProps,
           getVerticalThumbProps,
         })}
-      </Box>
+      </RootSlot>
     );
   }
 
   return (
-    <Box
-      ref={combinedRef}
-      {...containerStyle}
-      {...rest}
-    >
-      <ScrollView {...getScrollViewProps()} />
-      <HorizontalTrack {...getHorizontalTrackProps()}>
-        <HorizontalThumb {...getHorizontalThumbProps()} />
-      </HorizontalTrack>
-      <VerticalTrack {...getVerticalTrackProps()}>
-        <VerticalThumb {...getVerticalThumbProps()} />
-      </VerticalTrack>
-    </Box>
+    <RootSlot {...rootSlotProps}>
+      <ScrollViewSlot {...getScrollViewProps()} />
+      <HorizontalTrackSlot {...getHorizontalTrackProps()}>
+        <HorizontalThumbSlot {...getHorizontalThumbProps()} />
+      </HorizontalTrackSlot>
+      <VerticalTrackSlot {...getVerticalTrackProps()}>
+        <VerticalThumbSlot {...getVerticalThumbProps()} />
+      </VerticalTrackSlot>
+    </RootSlot>
   );
 });
 

@@ -10,10 +10,10 @@ exports[`DatePicker should render correctly 1`] = `
 }
 
 .emotion-4 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -30,6 +30,25 @@ exports[`DatePicker should render correctly 1`] = `
   border-color: var(--tonic-colors-border-_primary-enabled);
   border-radius: var(--tonic-radii-sm);
   color: var(--tonic-colors-text-primary);
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+.emotion-4:has(> input:focus:invalid),
+.emotion-4:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
+}
+
+.emotion-4:hover:has(> input:invalid),
+.emotion-4:hover:has(> input[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_negative-enabled);
+}
+
+.emotion-4:hover:has(> input:focus:invalid),
+.emotion-4:hover:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-4:invalid,
@@ -174,21 +193,6 @@ exports[`DatePicker should render correctly 1`] = `
 .emotion-4[aria-disabled=true]:hover::placeholder,
 .emotion-4[data-disabled]::placeholder {
   color: var(--tonic-colors-text-disabled);
-}
-
-.emotion-4:has(> input:focus:invalid),
-.emotion-4:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
-.emotion-4:hover:has(> input:invalid),
-.emotion-4:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_negative-enabled);
-}
-
-.emotion-4:hover:has(> input:focus:invalid),
-.emotion-4:hover:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-6 {

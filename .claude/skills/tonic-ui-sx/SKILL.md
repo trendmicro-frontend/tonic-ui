@@ -307,6 +307,11 @@ pseudo props. They never touch `__sx` (it's internal and off the public type):
 <Button bg="blue:50">Save</Button>   {/* style prop, tier 1 — also beats base __sx */}
 ```
 
+Both remain fully functional, coequal tiers — this doesn't change. Going forward, `sx` is the
+**preferred** authoring convention for new/migrated consumer JSX, including on the layout
+primitives (`Box`/`Flex`/`Grid`/`Stack`/`StackItem`/`Space`). The `style-props-to-sx` codemod
+(`packages/codemod/src/style-props-to-sx`) mechanically migrates existing flat-prop usage to `sx`.
+
 ## The specificity boundary (read before promising "consumers can override anything")
 
 Channel order resolves ties **only at equal selector specificity**. Specificity still applies:
@@ -437,6 +442,8 @@ together (array composition), not just one winning. A `useSlot` call that inject
   channel; `sx` reserved for consumers; the `composeSx` fold.
 - `docs/adr/2026-06-24-box-internal-sx-base-channel.md` — why `__sx` was introduced and the
   specificity boundary.
+- `docs/adr/2026-06-29-scrollbar-scrollview-slot-and-useslot-sx-composition.md` — `__sx`
+  composition through `useSlot` for a slotted default component (`Scrollbar`/`ScrollView`).
 - `docs/adr/2026-07-03-transition-style-through-sx-channel.md` — the transition convention:
   animation state through `__sx` in both render modes; the function-child handoff carries `__sx`
   and requires a `Box`-based child; DOM-measured values stay on inline `style`.
@@ -444,7 +451,7 @@ together (array composition), not just one winning. A `useSlot` call that inject
   vs slot-composition test shapes, `toHaveStyleRule`, bespoke-per-file, `it.skip` for no-ops.
 - `packages/react-base/src/box/Box.js` — the four-channel compose chain.
 - `packages/utils/src/internal/composeSx.js` — the helper.
-- `docs/plans/2026-07-02-tonic-ui-sx-internals-migration.md` — the migration plan covering both
+- `docs/plans/2026-07-02-sx-internals-migration.md` — the migration plan covering both
   `@tonic-ui/react` and the confirmed `@tonic-ui/react-data-grid` instances (e.g.
   `DataGridResizeHandle.js`, `DataGridScrollbar.js`, `RowReorder.js`'s `getRowProps()`
   contribution); a live worked example of every pattern above outside a component render body.

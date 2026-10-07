@@ -24,6 +24,21 @@ exports[`InputControl should render correctly 1`] = `
   color: var(--tonic-colors-text-primary);
 }
 
+.emotion-0:has(> input:focus:invalid),
+.emotion-0:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
+}
+
+.emotion-0:hover:has(> input:invalid),
+.emotion-0:hover:has(> input[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_negative-enabled);
+}
+
+.emotion-0:hover:has(> input:focus:invalid),
+.emotion-0:hover:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
+}
+
 .emotion-0:invalid,
 .emotion-0[aria-invalid=true] {
   border-color: var(--tonic-colors-border-_negative-enabled);
@@ -168,21 +183,6 @@ exports[`InputControl should render correctly 1`] = `
   color: var(--tonic-colors-text-disabled);
 }
 
-.emotion-0:has(> input:focus:invalid),
-.emotion-0:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
-.emotion-0:hover:has(> input:invalid),
-.emotion-0:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_negative-enabled);
-}
-
-.emotion-0:hover:has(> input:focus:invalid),
-.emotion-0:hover:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
 .emotion-2 {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -221,6 +221,21 @@ exports[`InputControl should render correctly 1`] = `
   border-color: var(--tonic-colors-border-_primary-enabled);
   border-radius: var(--tonic-radii-sm);
   color: var(--tonic-colors-text-primary);
+}
+
+.emotion-4:has(> input:focus:invalid),
+.emotion-4:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
+}
+
+.emotion-4:hover:has(> input:invalid),
+.emotion-4:hover:has(> input[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_negative-enabled);
+}
+
+.emotion-4:hover:has(> input:focus:invalid),
+.emotion-4:hover:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-4:invalid,
@@ -368,21 +383,6 @@ exports[`InputControl should render correctly 1`] = `
   color: var(--tonic-colors-text-disabled);
 }
 
-.emotion-4:has(> input:focus:invalid),
-.emotion-4:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
-.emotion-4:hover:has(> input:invalid),
-.emotion-4:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_negative-enabled);
-}
-
-.emotion-4:hover:has(> input:focus:invalid),
-.emotion-4:hover:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
 .emotion-8 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -403,6 +403,21 @@ exports[`InputControl should render correctly 1`] = `
   border-bottom: var(--tonic-borders-1);
   border-bottom-color: var(--tonic-colors-border-_primary-enabled);
   color: var(--tonic-colors-text-primary);
+}
+
+.emotion-8:has(> input:focus:invalid),
+.emotion-8:has(> input:focus[aria-invalid=true]) {
+  border-bottom-color: var(--tonic-colors-border-_primary-focused);
+}
+
+.emotion-8:hover:has(> input:invalid),
+.emotion-8:hover:has(> input[aria-invalid=true]) {
+  border-bottom-color: var(--tonic-colors-border-_negative-enabled);
+}
+
+.emotion-8:hover:has(> input:focus:invalid),
+.emotion-8:hover:has(> input:focus[aria-invalid=true]) {
+  border-bottom-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-8:invalid,
@@ -549,21 +564,6 @@ exports[`InputControl should render correctly 1`] = `
   color: var(--tonic-colors-text-disabled);
 }
 
-.emotion-8:has(> input:focus:invalid),
-.emotion-8:has(> input:focus[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-border-_primary-focused);
-}
-
-.emotion-8:hover:has(> input:invalid),
-.emotion-8:hover:has(> input[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-border-_negative-enabled);
-}
-
-.emotion-8:hover:has(> input:focus:invalid),
-.emotion-8:hover:has(> input:focus[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-border-_primary-focused);
-}
-
 .emotion-10 {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -620,6 +620,21 @@ exports[`InputControl should render correctly 1`] = `
   border-color: var(--tonic-colors-border-_primary-enabled);
   border-radius: var(--tonic-radii-sm);
   color: var(--tonic-colors-text-primary);
+}
+
+.emotion-16:has(> input:focus:invalid),
+.emotion-16:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
+}
+
+.emotion-16:hover:has(> input:invalid),
+.emotion-16:hover:has(> input[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_negative-enabled);
+}
+
+.emotion-16:hover:has(> input:focus:invalid),
+.emotion-16:hover:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-16:invalid,
@@ -766,21 +781,6 @@ exports[`InputControl should render correctly 1`] = `
   color: var(--tonic-colors-text-disabled);
 }
 
-.emotion-16:has(> input:focus:invalid),
-.emotion-16:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
-.emotion-16:hover:has(> input:invalid),
-.emotion-16:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_negative-enabled);
-}
-
-.emotion-16:hover:has(> input:focus:invalid),
-.emotion-16:hover:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
 .emotion-20 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -802,6 +802,21 @@ exports[`InputControl should render correctly 1`] = `
   border-color: var(--tonic-colors-border-_primary-enabled);
   border-radius: var(--tonic-radii-sm);
   color: var(--tonic-colors-text-primary);
+}
+
+.emotion-20:has(> input:focus:invalid),
+.emotion-20:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
+}
+
+.emotion-20:hover:has(> input:invalid),
+.emotion-20:hover:has(> input[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_negative-enabled);
+}
+
+.emotion-20:hover:has(> input:focus:invalid),
+.emotion-20:hover:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-20:invalid,
@@ -949,21 +964,6 @@ exports[`InputControl should render correctly 1`] = `
   color: var(--tonic-colors-text-disabled);
 }
 
-.emotion-20:has(> input:focus:invalid),
-.emotion-20:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
-.emotion-20:hover:has(> input:invalid),
-.emotion-20:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_negative-enabled);
-}
-
-.emotion-20:hover:has(> input:focus:invalid),
-.emotion-20:hover:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
 .emotion-24 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -984,6 +984,21 @@ exports[`InputControl should render correctly 1`] = `
   border-bottom: var(--tonic-borders-1);
   border-bottom-color: var(--tonic-colors-border-_primary-enabled);
   color: var(--tonic-colors-text-primary);
+}
+
+.emotion-24:has(> input:focus:invalid),
+.emotion-24:has(> input:focus[aria-invalid=true]) {
+  border-bottom-color: var(--tonic-colors-border-_primary-focused);
+}
+
+.emotion-24:hover:has(> input:invalid),
+.emotion-24:hover:has(> input[aria-invalid=true]) {
+  border-bottom-color: var(--tonic-colors-border-_negative-enabled);
+}
+
+.emotion-24:hover:has(> input:focus:invalid),
+.emotion-24:hover:has(> input:focus[aria-invalid=true]) {
+  border-bottom-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-24:invalid,
@@ -1130,21 +1145,6 @@ exports[`InputControl should render correctly 1`] = `
   color: var(--tonic-colors-text-disabled);
 }
 
-.emotion-24:has(> input:focus:invalid),
-.emotion-24:has(> input:focus[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-border-_primary-focused);
-}
-
-.emotion-24:hover:has(> input:invalid),
-.emotion-24:hover:has(> input[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-border-_negative-enabled);
-}
-
-.emotion-24:hover:has(> input:focus:invalid),
-.emotion-24:hover:has(> input:focus[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-border-_primary-focused);
-}
-
 .emotion-32 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1166,6 +1166,21 @@ exports[`InputControl should render correctly 1`] = `
   border-color: var(--tonic-colors-border-_primary-enabled);
   border-radius: var(--tonic-radii-sm);
   color: var(--tonic-colors-text-primary);
+}
+
+.emotion-32:has(> input:focus:invalid),
+.emotion-32:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
+}
+
+.emotion-32:hover:has(> input:invalid),
+.emotion-32:hover:has(> input[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_negative-enabled);
+}
+
+.emotion-32:hover:has(> input:focus:invalid),
+.emotion-32:hover:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-32:invalid,
@@ -1312,21 +1327,6 @@ exports[`InputControl should render correctly 1`] = `
   color: var(--tonic-colors-text-disabled);
 }
 
-.emotion-32:has(> input:focus:invalid),
-.emotion-32:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
-.emotion-32:hover:has(> input:invalid),
-.emotion-32:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_negative-enabled);
-}
-
-.emotion-32:hover:has(> input:focus:invalid),
-.emotion-32:hover:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
 .emotion-34 {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -1365,6 +1365,21 @@ exports[`InputControl should render correctly 1`] = `
   border-color: var(--tonic-colors-border-_primary-enabled);
   border-radius: var(--tonic-radii-sm);
   color: var(--tonic-colors-text-primary);
+}
+
+.emotion-36:has(> input:focus:invalid),
+.emotion-36:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
+}
+
+.emotion-36:hover:has(> input:invalid),
+.emotion-36:hover:has(> input[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_negative-enabled);
+}
+
+.emotion-36:hover:has(> input:focus:invalid),
+.emotion-36:hover:has(> input:focus[aria-invalid=true]) {
+  border-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-36:invalid,
@@ -1512,21 +1527,6 @@ exports[`InputControl should render correctly 1`] = `
   color: var(--tonic-colors-text-disabled);
 }
 
-.emotion-36:has(> input:focus:invalid),
-.emotion-36:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
-.emotion-36:hover:has(> input:invalid),
-.emotion-36:hover:has(> input[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_negative-enabled);
-}
-
-.emotion-36:hover:has(> input:focus:invalid),
-.emotion-36:hover:has(> input:focus[aria-invalid=true]) {
-  border-color: var(--tonic-colors-border-_primary-focused);
-}
-
 .emotion-40 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1547,6 +1547,21 @@ exports[`InputControl should render correctly 1`] = `
   border-bottom: var(--tonic-borders-1);
   border-bottom-color: var(--tonic-colors-border-_primary-enabled);
   color: var(--tonic-colors-text-primary);
+}
+
+.emotion-40:has(> input:focus:invalid),
+.emotion-40:has(> input:focus[aria-invalid=true]) {
+  border-bottom-color: var(--tonic-colors-border-_primary-focused);
+}
+
+.emotion-40:hover:has(> input:invalid),
+.emotion-40:hover:has(> input[aria-invalid=true]) {
+  border-bottom-color: var(--tonic-colors-border-_negative-enabled);
+}
+
+.emotion-40:hover:has(> input:focus:invalid),
+.emotion-40:hover:has(> input:focus[aria-invalid=true]) {
+  border-bottom-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-40:invalid,
@@ -1691,21 +1706,6 @@ exports[`InputControl should render correctly 1`] = `
 .emotion-40[aria-disabled=true]:hover::placeholder,
 .emotion-40[data-disabled]::placeholder {
   color: var(--tonic-colors-text-disabled);
-}
-
-.emotion-40:has(> input:focus:invalid),
-.emotion-40:has(> input:focus[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-border-_primary-focused);
-}
-
-.emotion-40:hover:has(> input:invalid),
-.emotion-40:hover:has(> input[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-border-_negative-enabled);
-}
-
-.emotion-40:hover:has(> input:focus:invalid),
-.emotion-40:hover:has(> input:focus[aria-invalid=true]) {
-  border-bottom-color: var(--tonic-colors-border-_primary-focused);
 }
 
 .emotion-42 {

@@ -1,4 +1,5 @@
 import { ariaAttr } from '@tonic-ui/utils';
+import { composeSx } from '@tonic-ui/utils/internal';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
@@ -20,6 +21,7 @@ import { useInputBaseStyle } from './styles';
  */
 const InputBase = forwardRef((inProps, ref) => {
   const {
+    __sx: __sxProp,
     children,
     error,
     ...rest
@@ -37,8 +39,8 @@ const InputBase = forwardRef((inProps, ref) => {
       as="input"
       ref={ref}
       {...ariaProps}
-      {...styleProps}
       {...rest}
+      __sx={composeSx(styleProps, __sxProp)}
     >
       {children}
     </Box>

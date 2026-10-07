@@ -9,15 +9,16 @@ exports[`Scrollbar should render correctly 1`] = `
 }
 
 .emotion-2 {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   overflow-x: scroll;
   overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 
 .emotion-2::-webkit-scrollbar {

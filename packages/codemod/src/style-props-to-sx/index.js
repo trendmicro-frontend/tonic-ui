@@ -20,13 +20,33 @@ import { system, pseudoClassSelector, pseudoElementSelector } from '@tonic-ui/st
  * relative imports (never into `node_modules` -- there's no source there to
  * read once a package is only shipped as `dist`) to find what a local
  * component ultimately forwards its rest props to, so those call sites are
- * still covered. See its own comment for the exact shape it recognizes.
+ * still covered. `resolveLocalWrapper` covers the sibling case: a wrapper
+ * declared in the SAME file as its usage, with no import statement to walk
+ * at all (e.g. `const ToastLayout = (props) => <Box {...props} />` and
+ * `<ToastLayout mt="4x">` further down the same file). See each function's
+ * own comment for the exact shape it recognizes.
+ *
+ * Neither resolver can do anything with a wrapper reached via a bare/alias
+ * specifier (e.g. `import SkeletonBlock from '@/components/SkeletonBlock'`)
+ * -- there's no path-alias map available here, and guessing one would risk
+ * a wrong resolution. Rather than silently skip a JSX tag that resolution
+ * couldn't verify one way or the other, this transform flags it (a
+ * `console.warn`, distinct from the manual-review list below) whenever it
+ * carries at least one attribute whose name matches a known style/pseudo
+ * prop, so a human or an AI agent can follow up with full read access to
+ * the codebase this transform can't statically resolve.
  *
  * Safety design -- this errs toward NOT converting rather than guessing:
  *
  *   1. `LAYER1_EXEMPT_COMPONENTS` -- components whose own flat props ARE
- *      their intended API (Box, Flex, Grid, Stack, StackItem, Space). Never
- *      touched.
+ *      their intended API. Empty as of the `sx`-first authoring direction:
+ *      Box/Flex/Grid/Stack/StackItem/Space's flat props are not a distinct
+ *      "intended API" tier any more than any other component's, so they're
+ *      converted like any other component. This is a convention/tooling
+ *      decision, not a runtime change -- flat style props keep working on
+ *      `Box` exactly as before. Kept as a `Set` (not deleted outright) so a
+ *      future, unrelated reason to exempt a component doesn't require
+ *      re-deriving this comment.
  *   2. `LAYER2_PROTECTED_PROPS` -- components with a specific prop that has
  *      real JS behavior beyond CSS, so moving it to `sx` would be a
  *      functional regression, not a style change (e.g. `Scrollbar`'s
@@ -38,12 +58,12 @@ import { system, pseudoClassSelector, pseudoElementSelector } from '@tonic-ui/st
  *      list was derived by statically resolving each flagged component's
  *      real source in `packages/react/src` and checking whether it (or a
  *      component it forwards `{...rest}` to) explicitly destructures the
- *      prop -- see `.claude/skills/tonic-ui-sx/scripts/docs-legacy-style-props-to-sx.js`
- *      in this monorepo for that discovery tool. This transform hardcodes the
- *      result instead of re-doing that analysis at runtime, so it stays
- *      portable for consumers who only have the published `dist` (no `src`
- *      to statically analyze). If a future `@tonic-ui/react` component
- *      introduces a similarly-named functional prop, add it here.
+ *      prop -- see `.claude/skills/tonic-ui-sx/SKILL.md` for the discovery
+ *      approach. This transform hardcodes the result instead of re-doing
+ *      that analysis at runtime, so it stays portable for consumers who only
+ *      have the published `dist` (no `src` to statically analyze). If a
+ *      future `@tonic-ui/react` component introduces a similarly-named
+ *      functional prop, add it here.
  *
  * Any component not in either list is assumed safe to convert. Elements
  * whose existing `sx` prop isn't a plain object literal (e.g. a variable, a
@@ -51,7 +71,7 @@ import { system, pseudoClassSelector, pseudoElementSelector } from '@tonic-ui/st
  * merging into anything other than `sx={{ ... }}`.
  */
 
-const LAYER1_EXEMPT_COMPONENTS = new Set(['Box', 'Flex', 'Grid', 'Stack', 'StackItem', 'Space']);
+const LAYER1_EXEMPT_COMPONENTS = new Set([]);
 
 const LAYER2_PROTECTED_PROPS = {
   Alert: new Set(['backgroundColor', 'borderColor', 'mb']),
@@ -298,8 +318,8 @@ function resolveWrapper(j, currentFilePath, currentFileImports, localName, depth
     return null;
   }
 
-  const targetFileTonicUIImports = collectImportedComponents(j, parsed.root);
-  const directTarget = targetFileTonicUIImports.get(forwardedTag);
+  const targetFileTonicImports = collectImportedComponents(j, parsed.root);
+  const directTarget = targetFileTonicImports.get(forwardedTag);
   if (directTarget) {
     return { targetComponent: directTarget, ownProtectedProps: restInfo.ownProtectedProps };
   }
@@ -313,6 +333,77 @@ function resolveWrapper(j, currentFilePath, currentFileImports, localName, depth
     targetComponent: nested.targetComponent,
     ownProtectedProps: new Set([...restInfo.ownProtectedProps, ...nested.ownProtectedProps]),
   };
+}
+
+// Resolves a wrapper declared in the SAME file as its usage -- there's no
+// import to walk at all (that's `resolveWrapper`'s job), so this looks up
+// `localName`'s own function declaration directly in the current file's
+// already-parsed root via `findLocalFunctionDeclaration`, then reuses the
+// identical forwarding-detection shape (`getRestParamInfo` +
+// `findForwardedTag`). If the forwarded-to tag isn't itself a direct
+// `@tonic-ui/react(-icons)` import, recurse one hop further -- trying
+// another same-file local wrapper first, then falling back to
+// `resolveWrapper` in case the next hop is reached via a relative import
+// instead. Returns the same `{ targetComponent, ownProtectedProps }` shape
+// as `resolveWrapper`, or null if nothing resolvable was found.
+function resolveLocalWrapper(j, currentFilePath, currentFileRoot, currentFileImports, imported, localName, depth) {
+  if (depth > MAX_WRAPPER_DEPTH) {
+    return null;
+  }
+  const functionNode = findLocalFunctionDeclaration(j, currentFileRoot, localName);
+  if (!functionNode) {
+    return null; // not declared locally in this file either
+  }
+
+  const restInfo = getRestParamInfo(functionNode);
+  const forwardedTag = restInfo && findForwardedTag(j, functionNode, restInfo.restName);
+  if (!forwardedTag) {
+    return null;
+  }
+
+  const directTarget = imported.get(forwardedTag);
+  if (directTarget) {
+    return { targetComponent: directTarget, ownProtectedProps: restInfo.ownProtectedProps };
+  }
+
+  const nested =
+    resolveLocalWrapper(j, currentFilePath, currentFileRoot, currentFileImports, imported, forwardedTag, depth + 1) ??
+    resolveWrapper(j, currentFilePath, currentFileImports, forwardedTag, depth + 1);
+  if (!nested) {
+    return null;
+  }
+  return {
+    targetComponent: nested.targetComponent,
+    ownProtectedProps: new Set([...restInfo.ownProtectedProps, ...nested.ownProtectedProps]),
+  };
+}
+
+// A JSX tag that neither `resolveWrapper` nor `resolveLocalWrapper` could
+// resolve to a real component -- reached via a bare/alias import, a
+// relative import this transform couldn't read, a same-file declaration
+// that doesn't actually forward its props anywhere, or simply depth-limited.
+// Rather than silently skip it (indistinguishable from "genuinely nothing to
+// convert here"), flag it whenever it carries at least one attribute whose
+// name matches a known style/pseudo prop -- that's the signal a human or AI
+// agent needs to go verify it by hand. Deliberately vague about *why*
+// resolution failed (there are several possible reasons, several of which
+// this function has no way to distinguish) rather than assert a specific,
+// possibly-wrong cause.
+function flagUnresolvedIfStyleLike(node, localName, allImports, styleNames, unresolvedReview) {
+  const styleAttrNames = node.attributes
+    .filter((attr) => attr.type === 'JSXAttribute' &&
+      attr.name.name !== 'sx' &&
+      attr.name.name !== '__sx' &&
+      styleNames.has(attr.name.name))
+    .map((attr) => attr.name.name);
+  if (styleAttrNames.length === 0) {
+    return;
+  }
+  const importInfo = allImports.get(localName);
+  const locationHint = importInfo
+    ? `imported from "${importInfo.source}"`
+    : 'no import found, likely declared in this file';
+  unresolvedReview.push(`${localName} (${locationHint}, could not verify where these props are forwarded): ${styleAttrNames.join(', ')}`);
 }
 
 function toObjectPropertyValue(j, attr) {
@@ -368,7 +459,7 @@ function buildSxObjectExpression(j, properties) {
     const propsSource = properties.map((p) => `${p.key.name}: ${p.value.raw}`).join(', ');
     try {
       const node = j(`const __sx__ = {${propsSource}};`).find(j.ObjectExpression).get(0).node;
-      return { node, singleLineText: `sx={{${propsSource}}}` };
+      return { node, singleLineText: `sx={{ ${propsSource} }}` };
     } catch {
       // fall through to the builder below
     }
@@ -428,8 +519,9 @@ export default function transformer(file, api) {
   const styleNames = loadStyleNames();
   const imported = collectImportedComponents(j, root);
   const allImports = collectAllImports(j, root);
-  const wrapperCache = new Map(); // local name -> resolveWrapper() result, memoized per file
+  const wrapperCache = new Map(); // local name -> resolveWrapper()/resolveLocalWrapper() result, memoized per file
   const manualReview = [];
+  const unresolvedReview = [];
 
   root.find(j.JSXOpeningElement).forEach((astPath) => {
     const node = astPath.node;
@@ -437,6 +529,12 @@ export default function transformer(file, api) {
       return;
     }
     const localName = node.name.name;
+    // Lowercase-initial tag names are DOM intrinsics (div, img, svg, ...) per
+    // JSX convention -- never a Tonic UI component, so never resolvable and
+    // never flaggable as an unresolved wrapper.
+    if (/^[a-z]/.test(localName)) {
+      return;
+    }
     const directImportedName = imported.get(localName);
 
     // Layer 1 only exempts *direct* usage of a layout primitive -- a local
@@ -453,10 +551,19 @@ export default function transformer(file, api) {
 
     if (!importedName) {
       if (!wrapperCache.has(localName)) {
-        wrapperCache.set(localName, resolveWrapper(j, file.path, allImports, localName, 0));
+        const viaImport = resolveWrapper(j, file.path, allImports, localName, 0);
+        // Only try same-file resolution when there's no import at all --
+        // an unresolvable IMPORT (bare/alias/unreadable) is a different
+        // failure mode than "declared locally", and conflating them risks
+        // resolving the wrong declaration if a name collides.
+        const resolved = viaImport ?? (allImports.has(localName)
+          ? null
+          : resolveLocalWrapper(j, file.path, root, allImports, imported, localName, 0));
+        wrapperCache.set(localName, resolved);
       }
       const resolved = wrapperCache.get(localName);
       if (!resolved) {
+        flagUnresolvedIfStyleLike(node, localName, allImports, styleNames, unresolvedReview);
         return; // not a direct import, and not resolvable to one via forwarding
       }
       importedName = resolved.targetComponent;
@@ -536,6 +643,14 @@ export default function transformer(file, api) {
     // per file regardless of verbosity level, so this is always visible when
     // running for real.
     console.warn(`${file.path}: needs manual review: ${manualReview.join(', ')}`);
+  }
+
+  if (unresolvedReview.length > 0) {
+    // Distinct from the manual-review warning above: that one names a
+    // RESOLVED component and a specific protected prop. This one means
+    // resolution itself failed -- the whole element needs a human or an AI
+    // agent to go verify whether it's really safe to convert.
+    console.warn(`${file.path}: unresolved wrapper, needs verification: ${unresolvedReview.join('; ')}`);
   }
 
   return root.toSource({
