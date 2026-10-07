@@ -74,7 +74,7 @@ The scroll indicator can visually indicate the current scroll position of the sc
 
 ### How to control the scroll position?
 
-Utilize the `onUpdate`, `scrollLeft`, `scrollTop`, and `scrollViewRef` props to fetch or programmatically control the scroll position.
+Utilize the `onUpdate`, `scrollLeft`, `scrollTop`, and `slotProps.scrollView.ref` props to fetch or programmatically control the scroll position.
 
 To see this in action, simply scroll through the content and click the toggle button to confirm the scroll position.
 
@@ -103,7 +103,7 @@ To achieve this, you'll need to create a `CustomScrollbar` component and pass it
 />
 ```
 
-In the `CustomScrollbar` component, pass `props` and `ref` to `scrollViewProps` and `scrollViewRef`, respectively. This ensures that the props coming from React Virtuoso are passed down correctly, allowing its scrolling behavior to integrate seamlessly into the `Scrollbar`.
+In the `CustomScrollbar` component, pass `props` and `ref` through `slotProps.scrollView` (spread the incoming `props` and set `ref`). This ensures that the props coming from React Virtuoso are passed down correctly, allowing its scrolling behavior to integrate seamlessly into the `Scrollbar`.
 
 ```jsx
 const CustomScrollbar = forwardRef((inProps, ref) => {
@@ -112,8 +112,12 @@ const CustomScrollbar = forwardRef((inProps, ref) => {
   return (
     <Scrollbar
       overflowY="scroll"
-      scrollViewProps={props}
-      scrollViewRef={ref}
+      slotProps={{
+        scrollView: {
+          ...props,
+          ref,
+        },
+      }}
     >
       {children}
     </Scrollbar>
@@ -143,5 +147,7 @@ const CustomScrollbar = forwardRef((inProps, ref) => {
 | overflowY | string | | The vertical overflow of the scrollable content. One of: 'auto', 'scroll', 'hidden'. |
 | scrollLeft | number | 0 | The horizontal scroll position of the scrollable content. |
 | scrollTop | number | 0 | The vertical scroll position of the scrollable content. |
-| scrollViewProps | object | | Additional props to be applied to the `ScrollView` component. |
-| scrollViewRef | RefObject | | A `ref` to the `ScrollView` component. |
+| slots | object | `{}` | The slot components. Available slots: `root`, `scrollView`, `horizontalTrack`, `verticalTrack`, `horizontalThumb`, `verticalThumb`. Element swap applies in default mode only. |
+| slotProps | object | `{}` | The props for each slot (supports `__sx`, `ref`, handlers). Available slots: `root`, `scrollView`, `horizontalTrack`, `verticalTrack`, `horizontalThumb`, `verticalThumb`. |
+| scrollViewProps | object | | **Deprecated.** Use `slotProps.scrollView` instead. |
+| scrollViewRef | RefObject | | **Deprecated.** Use `slotProps.scrollView.ref` instead. |
