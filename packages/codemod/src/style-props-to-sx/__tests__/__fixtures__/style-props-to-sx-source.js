@@ -6,7 +6,7 @@ import React from 'react';
 const LocalHelper = ({ width }) => <div>{width}</div>;
 
 export default ({ buttonProps, dynamicSx, internalSx }) => (
-  <Flex direction="column" rowGap="4x" p="4x">
+  <Flex flexDirection="column" rowGap="4x" p="4x">
     {/* No existing sx, multiple flat style props -> new sx={{ ... }} */}
     <Button variant="primary" width="8x" height="8x" borderRadius="circle">
       Save
@@ -40,7 +40,7 @@ export default ({ buttonProps, dynamicSx, internalSx }) => (
       Content
     </Scrollbar>
 
-    {/* Layer-1 exempt component (Flex's own flat props ARE its API) -> never touched */}
+    {/* Box/Flex/Grid/Stack/StackItem/Space are no longer exempt -- converted like any other component */}
     <Flex columnGap="2x" alignItems="center">
       <AddIcon color="text.secondary" />
     </Flex>

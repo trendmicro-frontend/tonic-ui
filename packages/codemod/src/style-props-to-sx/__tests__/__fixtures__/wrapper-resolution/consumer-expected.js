@@ -7,20 +7,20 @@ import UsesLayoutPrimitive from './UsesLayoutPrimitive';
 const App = () => (
   <>
     {/* one-hop resolution: MyButton -> Button */}
-    <MyButton label="Save" sx={{width: '8x'}} />
+    <MyButton label="Save" sx={{ width: '8x' }} />
 
     {/* two-hop resolution: NestedWrapper -> MyButton -> Button */}
-    <NestedWrapper label="Save" sx={{width: '8x'}} />
+    <NestedWrapper label="Save" sx={{ width: '8x' }} />
 
     {/* wrapper intercepts width itself -- must stay protected */}
-    <ProtectingWrapper width="8x" sx={{color: 'red'}} />
+    <ProtectingWrapper width="8x" sx={{ color: 'red' }} />
 
     {/* no rest element at all -- nothing forwarded, left untouched */}
     <NoForwardWrapper label="Save" width="8x" />
 
-    {/* resolves to a Layer-1 primitive, but the WRAPPER isn't one --
+    {/* resolves to Flex, but the WRAPPER isn't exempt from anything --
         its own width should still convert */}
-    <UsesLayoutPrimitive sx={{width: '8x'}} />
+    <UsesLayoutPrimitive sx={{ width: '8x' }} />
   </>
 );
 

@@ -1,8 +1,7 @@
 import { Flex } from '@tonic-ui/react';
 
-// Forwards to a Layer-1 exempt primitive -- the wrapper's OWN prop surface
-// is still convertible; only DIRECT usage of Flex is exempt, not usage
-// through a wrapper that merely implements itself with Flex.
+// Forwards to Flex (no longer a whole-component exemption) -- the wrapper's
+// own prop surface converts like any other wrapper resolution case.
 const UsesLayoutPrimitive = ({ ...rest }) => <Flex {...rest} />;
 
 export default UsesLayoutPrimitive;
