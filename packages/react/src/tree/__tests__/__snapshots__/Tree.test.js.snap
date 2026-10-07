@@ -69,7 +69,7 @@ exports[`Tree should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: var(--tonic-colors-transparent);
+  background-color: inherit;
   border: none;
   color: inherit;
   cursor: pointer;
@@ -79,6 +79,7 @@ exports[`Tree should render correctly 1`] = `
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
   display: inline-flex;
+  background-color: var(--tonic-colors-transparent);
 }
 
 .emotion-10 {

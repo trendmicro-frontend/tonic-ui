@@ -6,9 +6,9 @@ exports[`Textarea should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: var(--tonic-colors-_foreground-subtle-enabled);
-  border: var(--tonic-borders-1);
-  color: var(--tonic-colors-text-primary);
+  background-color: inherit;
+  border: none;
+  color: inherit;
   outline: 0;
   padding: 0;
   position: relative;
@@ -31,7 +31,10 @@ exports[`Textarea should render correctly 1`] = `
   padding-top: calc(.375rem - .0625rem);
   padding-bottom: calc(.625rem - .0625rem);
   width: 100%;
+  background-color: var(--tonic-colors-_foreground-subtle-enabled);
+  border: var(--tonic-borders-1);
   border-color: var(--tonic-colors-border-_primary-enabled);
+  color: var(--tonic-colors-text-primary);
 }
 
 .emotion-0:-moz-read-only {
@@ -259,9 +262,9 @@ exports[`Textarea should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: var(--tonic-colors-transparent);
-  border: 0;
-  color: var(--tonic-colors-text-primary);
+  background-color: inherit;
+  border: none;
+  color: inherit;
   outline: 0;
   padding: 0;
   position: relative;
@@ -282,6 +285,9 @@ exports[`Textarea should render correctly 1`] = `
   padding-top: calc(.375rem - .0625rem);
   padding-bottom: calc(.625rem - .0625rem);
   width: 100%;
+  background-color: var(--tonic-colors-transparent);
+  border: 0;
+  color: var(--tonic-colors-text-primary);
 }
 
 <div>

@@ -70,9 +70,9 @@ exports[`Toast should render correctly 1`] = `
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  background-color: var(--tonic-colors-transparent);
+  background-color: inherit;
   border: none;
-  color: var(--tonic-colors-text-tertiary);
+  color: inherit;
   cursor: pointer;
   outline: 0;
   padding: 0;
@@ -88,8 +88,10 @@ exports[`Toast should render correctly 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
+  color: var(--tonic-colors-text-tertiary);
   width: var(--tonic-sizes-8x);
   height: var(--tonic-sizes-8x);
+  background-color: var(--tonic-colors-transparent);
   position: absolute;
   top: var(--tonic-space-10q);
   right: var(--tonic-space-2x);

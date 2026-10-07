@@ -1,5 +1,6 @@
 import { useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 import { callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils';
+import { composeSx } from '@tonic-ui/utils/internal';
 import React, { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
@@ -7,7 +8,7 @@ import { useEnvironment } from '../environment';
 import { useSlot } from '../slot';
 import InputBase from './InputBase';
 import { defaultSize, defaultVariant } from './constants';
-import { getInputGroupCSS, useInputControlBaseCSS, useInputControlBaseStyle, useInputControlInputStyle } from './styles';
+import { useInputControlBaseStyle, useInputControlInputStyle } from './styles';
 import useInputGroup from './useInputGroup';
 
 /**
@@ -86,8 +87,8 @@ const InputControl = forwardRef((inProps, ref) => {
     value: valueProp,
 
     // InputRoot
+    __sx: __sxProp,
     children,
-    css: cssProp,
     endAdornment,
     inputComponent, // deprecated
     inputProps: inputPropsProp, // deprecated
@@ -136,12 +137,9 @@ const InputControl = forwardRef((inProps, ref) => {
     focused,
     valid: !!valid && !errorProp,
   };
-  const baseCSS = useInputControlBaseCSS({ variant });
-  const baseStyleProps = useInputControlBaseStyle({ inputState, size, variant });
+  const baseStyleProps = useInputControlBaseStyle({ inputState, size, variant, inputGroup: !!inputGroupContext });
   const inputStyleProps = useInputControlInputStyle({ inputState, size, variant, startAdornment, endAdornment });
-  const css = inputGroupContext
-    ? [baseCSS, getInputGroupCSS({ variant }), cssProp]
-    : [baseCSS, cssProp];
+  const mergedRootSx = composeSx(baseStyleProps, __sxProp);
 
   const inputProps = useMemo(() => ({
     ...inputPropsProp,
@@ -279,8 +277,7 @@ const InputControl = forwardRef((inProps, ref) => {
     ownerName: InputControl.displayName,
     props: {
       ref,
-      css,
-      ...baseStyleProps,
+      __sx: mergedRootSx,
       ...rest,
     },
     slot: slots.root ?? Box,

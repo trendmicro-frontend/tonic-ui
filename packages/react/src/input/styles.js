@@ -1,4 +1,3 @@
-import { sx } from '@tonic-ui/styled-system';
 import { createTransitionStyle } from '@tonic-ui/utils';
 import { useTheme } from '../theme';
 import {
@@ -439,6 +438,7 @@ const getInputGroupAddonVariantStyle = variant => {
 const useInputStyle = ({
   size,
   variant,
+  inputGroup,
 }) => {
   const { sizes } = useTheme();
   const baseStyle = {
@@ -483,11 +483,20 @@ const useInputStyle = ({
   })();
   const variantStyle = getInputVariantStyle(variant);
 
-  return {
+  const combinedStyle = {
     ...baseStyle,
     ...sizeStyle,
     ...variantStyle,
   };
+
+  // In a group, prepend the in-group corner/margin adjustments. They are nested-selector
+  // rules (`&:not(:first-child)` etc.) that win by specificity regardless of order; group is
+  // kept first to mirror its original lower tier (it sat on `__sx` below the variant base).
+  if (inputGroup) {
+    return [getInputGroupSx({ variant }), combinedStyle];
+  }
+
+  return combinedStyle;
 };
 
 const useInputAdornmentStyle = () => {
@@ -508,12 +517,12 @@ const useInputBaseStyle = () => {
   };
 };
 
-const getInputGroupCSS = ({
+const getInputGroupSx = ({
   variant,
 }) => {
   const useNegativeMargin = (variant === VARIANT_OUTLINE || variant === VARIANT_FILLED);
 
-  return sx({
+  return {
     '&:not(:first-child)': {
       borderTopLeftRadius: 0,
       borderBottomLeftRadius: 0,
@@ -526,7 +535,7 @@ const getInputGroupCSS = ({
     '&+&': {
       marginLeft: useNegativeMargin ? -1 : 0,
     },
-  });
+  };
 };
 
 const useInputGroupStyle = () => {
@@ -591,84 +600,93 @@ const useInputGroupAddonStyle = ({
   };
 };
 
-const getInputGroupAppendCSS = () => {
-  const notFirstChildStyle = {
-    borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0,
-  };
-  const notLastChildStyle = {
-    borderTopRightRadius: 0,
-    borderBottomRightRadius: 0,
-  };
-
-  return sx({
-    '& > *:first-of-type': notFirstChildStyle,
-    '&:not(:last-child) > *:first-of-type': notLastChildStyle,
-  });
-};
-
 const useInputGroupAppendStyle = () => {
-  return {
+  const childRadiusStyle = {
+    '& > *:first-of-type': {
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+    },
+    '&:not(:last-child) > *:first-of-type': {
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0,
+    },
+  };
+  const layoutStyle = {
     display: 'flex',
     ml: -1,
   };
-};
 
-const getInputGroupPrependCSS = () => {
-  const notFirstChildStyle = {
-    borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0,
+  return {
+    ...childRadiusStyle,
+    ...layoutStyle,
   };
-  const notLastChildStyle = {
-    borderTopRightRadius: 0,
-    borderBottomRightRadius: 0,
-  };
-
-  return sx({
-    '& > *:first-of-type': notLastChildStyle,
-    '&:not(:first-of-type) > *:first-of-type': notFirstChildStyle,
-  });
 };
 
 const useInputGroupPrependStyle = () => {
-  return {
+  const childRadiusStyle = {
+    '& > *:first-of-type': {
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0,
+    },
+    '&:not(:first-of-type) > *:first-of-type': {
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+    },
+  };
+  const layoutStyle = {
     display: 'flex',
     mr: -1,
   };
-};
 
-const useInputControlBaseCSS = ({ variant }) => {
-  const borderKey = {
-    [VARIANT_OUTLINE]: 'border',
-    [VARIANT_FILLED]: 'border',
-    [VARIANT_FLUSH]: 'borderBottom',
-  }[variant];
-
-  // No need to set the border color if the input variant is not `outline`, `filled`, or `flush`
-  if (!borderKey) {
-    return {};
-  }
-
-  const borderColorKey = `${borderKey}Color`; // e.g. "borderColor" or "borderBottomColor"
-
-  return sx({
-    '&:has(> input:focus:invalid), &:has(> input:focus[aria-invalid=true])': {
-      [borderColorKey]: focusBorderColor,
-    },
-    '&:hover:has(> input:invalid), &:hover:has(> input[aria-invalid=true])': {
-      [borderColorKey]: invalidBorderColor,
-    },
-    '&:hover:has(> input:focus:invalid), &:hover:has(> input:focus[aria-invalid=true])': {
-      [borderColorKey]: focusBorderColor,
-    },
-  });
+  return {
+    ...childRadiusStyle,
+    ...layoutStyle,
+  };
 };
 
 const useInputControlBaseStyle = ({
   inputState,
   size,
   variant,
+  inputGroup,
 }) => {
+  // Invalid/focus border-color overrides via `:has()`. `outline`/`filled` color the full
+  // border; `flush` colors only the bottom border; other variants get nothing.
+  const baseSx = {
+    [VARIANT_OUTLINE]: {
+      '&:has(> input:focus:invalid), &:has(> input:focus[aria-invalid=true])': {
+        borderColor: focusBorderColor,
+      },
+      '&:hover:has(> input:invalid), &:hover:has(> input[aria-invalid=true])': {
+        borderColor: invalidBorderColor,
+      },
+      '&:hover:has(> input:focus:invalid), &:hover:has(> input:focus[aria-invalid=true])': {
+        borderColor: focusBorderColor,
+      },
+    },
+    [VARIANT_FILLED]: {
+      '&:has(> input:focus:invalid), &:has(> input:focus[aria-invalid=true])': {
+        borderColor: focusBorderColor,
+      },
+      '&:hover:has(> input:invalid), &:hover:has(> input[aria-invalid=true])': {
+        borderColor: invalidBorderColor,
+      },
+      '&:hover:has(> input:focus:invalid), &:hover:has(> input:focus[aria-invalid=true])': {
+        borderColor: focusBorderColor,
+      },
+    },
+    [VARIANT_FLUSH]: {
+      '&:has(> input:focus:invalid), &:has(> input:focus[aria-invalid=true])': {
+        borderBottomColor: focusBorderColor,
+      },
+      '&:hover:has(> input:invalid), &:hover:has(> input[aria-invalid=true])': {
+        borderBottomColor: invalidBorderColor,
+      },
+      '&:hover:has(> input:focus:invalid), &:hover:has(> input:focus[aria-invalid=true])': {
+        borderBottomColor: focusBorderColor,
+      },
+    },
+  }[variant];
   const baseStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -704,11 +722,17 @@ const useInputControlBaseStyle = ({
   })();
   const variantStyle = getInputControlVariantStyle({ inputState, variant });
 
-  return {
+  const baseStyleProps = {
     ...baseStyle,
     ...sizeStyle,
     ...variantStyle,
   };
+
+  return [
+    baseSx,
+    ...(inputGroup ? [getInputGroupSx({ variant })] : []),
+    baseStyleProps,
+  ];
 };
 
 const useInputControlInputStyle = ({
@@ -767,13 +791,10 @@ const useInputControlInputStyle = ({
 };
 
 export {
-  getInputGroupCSS,
-  getInputGroupAppendCSS,
-  getInputGroupPrependCSS,
+  getInputGroupSx,
   useInputStyle,
   useInputAdornmentStyle,
   useInputBaseStyle,
-  useInputControlBaseCSS,
   useInputControlBaseStyle,
   useInputControlInputStyle,
   useInputGroupStyle,

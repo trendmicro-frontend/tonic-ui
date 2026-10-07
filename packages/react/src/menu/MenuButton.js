@@ -1,10 +1,11 @@
 import React, { forwardRef } from 'react';
+import { composeSx } from '@tonic-ui/utils/internal';
 import { Box } from '../box';
 import { Button } from '../button';
 import { useDefaultProps } from '../default-props';
 import MenuToggle from './MenuToggle';
 import MenuToggleIcon from './MenuToggleIcon';
-import { useMenuButtonCSS, useMenuButtonStyle } from './styles';
+import { useMenuButtonStyle } from './styles';
 
 /**
  * @typedef {Object} MenuButtonProps
@@ -19,19 +20,15 @@ import { useMenuButtonCSS, useMenuButtonStyle } from './styles';
  */
 const MenuButton = forwardRef((inProps, ref) => {
   const {
+    __sx: __sxProp,
     children,
-    css: cssProp,
     disabled,
     onClick,
     onKeyDown,
     variant,
     ...rest
   } = useDefaultProps({ props: inProps, name: 'MenuButton' });
-  const css = [
-    useMenuButtonCSS({ variant }),
-    cssProp,
-  ];
-  const styleProps = useMenuButtonStyle();
+  const styleProps = useMenuButtonStyle({ variant });
 
   return (
     <MenuToggle
@@ -43,11 +40,10 @@ const MenuButton = forwardRef((inProps, ref) => {
         return (
           <Button
             ref={ref}
-            css={css}
             variant={variant}
             {...getMenuToggleProps()}
-            {...styleProps}
             {...rest}
+            __sx={composeSx(styleProps, __sxProp)}
           >
             <Box>
               {children}
