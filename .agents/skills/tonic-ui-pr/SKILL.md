@@ -7,6 +7,10 @@ description: Generate PR descriptions and changeset entries. Use when the user m
 
 Generate well-structured PR descriptions following conventional commits and tonic-ui project conventions. Based on analysis of 885 commits and 721 PRs.
 
+All repository paths below are relative to the repository root. Follow the root
+`AGENTS.md` policy; this skill does not authorize commits, pushes, PR creation, or
+other external writes.
+
 ## Pre-Work Checklist
 
 **CRITICAL: Always complete these steps BEFORE writing PR descriptions**
@@ -15,14 +19,14 @@ Generate well-structured PR descriptions following conventional commits and toni
 - [ ] **Check commit history** — Review recent commits to match repository style
 - [ ] **Identify changed files and scope** — Determine which packages/components are affected
 
-**Run these commands in parallel:**
+**Collect current status, the relevant diff, and recent commit style using the host's supported read-only tools.** These Git commands are examples:
 ```bash
 git status              # See all changed files
 git diff HEAD           # See all changes
 git log --oneline -10   # See recent commit message style
 ```
 
-**For efficiency:** Make all three Bash tool calls in a single message since they're independent.
+Use the host's tool and command-wrapper conventions; no particular tool name or number of calls is required.
 
 ## Scope Rules
 
@@ -145,7 +149,14 @@ https://trendmicro-frontend.github.io/tonic-ui-demo/react/pr-{PR_NUMBER}/hooks/{
 
 ## Changeset Entries
 
-When the change affects a publishable package, generate a changeset file.
+For changes to publishable packages, draft the changeset content. Create the file
+only when the user requests it and the PR already exists with a known number.
+If the PR number is unknown, return the content draft and state that the number is
+missing. Do not create a placeholder file or open a PR merely to obtain its number.
+
+When PR creation is explicitly requested, follow the root policy: commit and push
+the code without a changeset, open the PR against `main`, then add the numbered
+changeset to that branch if requested. Each external action requires authorization.
 
 ### File Naming Convention
 
@@ -153,16 +164,9 @@ When the change affects a publishable package, generate a changeset file.
 .changeset/tonic-ui-pr-{PR_NUMBER}.md
 ```
 
-For multiple changesets on the same PR, use suffixes:
-```
-.changeset/tonic-ui-pr-943a.md
-.changeset/tonic-ui-pr-943b.md
-```
-Or descriptive suffixes:
-```
-.changeset/tonic-ui-pr-987-modal-regression.md
-.changeset/tonic-ui-pr-987-react-hooks.md
-```
+Use one changeset file per PR, without letter or descriptive suffixes. For a
+multi-package change, list the affected publishable packages and their bump types
+in that file's frontmatter.
 
 ### Changeset Format
 
@@ -216,16 +220,15 @@ feat(react/scrollbar): add `scrollViewProps` to enable passing custom props to t
 ### Changeset Configuration
 
 - **Config**: `.changeset/config.json`
-- **Base branch**: `v2` (not `master`)
+- **PR base branch**: `main` (root `AGENTS.md` policy)
 - **Release PR title**: `chore(release): version packages`
-- **Release workflow**: Automated via `.github/workflows/changesets-release.yml` on push to `v2`
+- **Release workflow**: Inspect the current `.github/workflows/` files when release details are needed; do not infer a trigger branch from historical PRs.
 
 ## Workflow: Diff → PR Description
 
-### Step 1: Analyze Changes (Use parallel tool calls)
+### Step 1: Analyze Changes
 
 ```bash
-# Make all three Bash tool calls in one message:
 git status
 git diff HEAD
 git log --oneline -10
@@ -244,7 +247,7 @@ Identify:
 Generate:
 1. **PR Title** — Following conventional commits format
 2. **PR Body** — Using the template above
-3. **Changeset** — With correct file name, package, bump type, and description
+3. **Changeset** — Draft content with the correct package, bump type, and description; write the exact numbered filename only after the creation prerequisites are met.
 
 ### Step 4: Verify Quality
 
@@ -254,7 +257,8 @@ Generate:
 - [ ] Body uses `## Summary` / `## Changes` sections (not `## What Changed`)
 - [ ] Demo link included if applicable
 - [ ] `## Migration` section included if breaking change
-- [ ] Changeset file named `tonic-ui-pr-{NUMBER}.md`
+- [ ] Any created changeset uses `tonic-ui-pr-{NUMBER}.md`, without suffixes, and the PR already exists
+- [ ] If no PR number is known, only a content draft is returned; no file or external operation is performed
 - [ ] Changeset bump type correct (patch/minor/major)
 - [ ] Changeset package names accurate
 - [ ] Changeset description is single-line conventional commit format
