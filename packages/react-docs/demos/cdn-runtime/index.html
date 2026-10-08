@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tonic UI CDN-first runtime demo</title>
+  <style>
+    body { margin: 0; font: 14px/1.5 system-ui, sans-serif; }
+    #bootstrap-status { padding: 16px; }
+    #bootstrap-log { white-space: pre-wrap; overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <div id="bootstrap-status">
+    <h1>Loading CDN-first runtime groups</h1>
+    <p id="startup-error" role="alert" hidden>Cannot start the demo. Check the load log and browser console.</p>
+    <pre id="bootstrap-log" aria-live="polite"></pre>
+  </div>
+  <script defer src="./bootstrap.js" data-manifest="./runtime-manifest.json"></script>
+</body>
+</html>

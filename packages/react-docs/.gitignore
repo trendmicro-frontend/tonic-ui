@@ -9,3 +9,6 @@
 
 # Generated MFE build output
 /public/mfe
+
+# Generated standalone demo output
+/public/demos
