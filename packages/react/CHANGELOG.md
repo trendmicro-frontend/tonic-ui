@@ -1,5 +1,39 @@
 # @tonic-ui/react
 
+## 3.0.0-alpha.2
+
+### Minor Changes
+
+- feat: sync the `__sx` base-styling model and `style-props-to-sx` codemod from Tonic One by [@cheton](https://github.com/cheton) in [#1213](https://github.com/trendmicro-frontend/tonic-ui/pull/1213)
+  Components now author their base styling through the internal `__sx` channel, so a
+  component's own base styling structurally loses to a consumer override regardless of
+  which CSS property either touches. `useSlot` composes an incoming `__sx` via `composeSx`
+  instead of letting `slotProps.__sx` replace the base.
+  `Scrollbar` gains a `slots`/`slotProps` API for `root`, `scrollView`, `horizontalTrack`,
+  `verticalTrack`, `horizontalThumb`, and `verticalThumb`; `scrollViewProps` and
+  `scrollViewRef` are deprecated in favor of `slotProps.scrollView` and
+  `slotProps.scrollView.ref`. `-webkit-overflow-scrolling: touch` is now emitted correctly.
+  The `style-props-to-sx` codemod resolves wrappers declared in the same file as their
+  usage, warns on wrappers it cannot resolve, skips DOM intrinsics, and no longer
+  whole-component exempts the layout primitives (a tooling change only).
+
+### Patch Changes
+
+- fix(react/popper): stabilize modifiers across Popper-based overlays by [@cheton](https://github.com/cheton) in [#1210](https://github.com/trendmicro-frontend/tonic-ui/pull/1210)
+  `AutocompleteList`, `DatePickerContent`, `MenuContent`, `SubmenuContent`,
+  `PopoverContent`, and `TooltipContent` now preserve their merged Popper
+  modifier arrays while both the component defaults and consumer-supplied
+  modifiers remain unchanged. Custom Popper slots therefore receive stable
+  modifier references during unrelated parent renders.
+  `Popper` also retains a structural fallback for direct consumers and inline
+  modifier arrays. Fresh arrays and plain objects with equal values reuse the
+  previous modifier source, while real changes to values, order, functions, DOM
+  nodes, and class instances still recreate the Popper instance as required.
+  Together, these layers provide a consistent modifier-stability contract across
+  Dropdown, Menu, Submenu, Autocomplete, DatePicker, Popover, Tooltip, and
+  OverflowTooltip without changing their placement, portal, transition, or
+  modifier policies.
+
 ## 3.0.0-alpha.1
 
 ### Minor Changes
