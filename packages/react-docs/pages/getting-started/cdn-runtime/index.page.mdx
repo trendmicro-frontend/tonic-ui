@@ -1,0 +1,48 @@
+# CDN-first runtime
+
+This standalone demo loads React, necessary Emotion peers and **one Tonic UI bundled entry from public esm.sh**. The app and its remaining dependencies are built locally. It does not use Module Federation or Wujie; the iframe only isolates the documentation site's own React runtime.
+
+## Live demo
+
+{render('./usage')}
+
+The complete loaded surface uses one `TonicProvider` with CSS baseline and CSS variables, including the **Failure scenario** `Dropdown`, source table and load log. The isolated document's `data-color-scheme` follows `useColorMode`, including portal menus. **Toggle theme** changes the complete demo, not just a label. A dependency-free startup shell can still show fatal loading errors.
+
+## Delivery and fallback
+
+| Family | Delivery | Failure behavior |
+| :----- | :------- | :--------------- |
+| React / React DOM / JSX runtime | Public esm.sh, with paired local vendor entries | Switch only this family to local. |
+| Necessary Emotion peers | Public esm.sh, with paired local vendor entries | Switch only this family to local; keep the selected React. |
+| Tonic UI | One `@tonic-ui/react` entry with `standalone`; React and Emotion stay external | Switch the whole Tonic family to the local app variant; keep selected React/Emotion. |
+
+The bundled Tonic entry includes its ordinary dependencies, such as date-fns and focus-lock. The demo does not separately import every Tonic package or internal subpath. Emotion stays separate because it is a peer dependency, not because every package must have its own CDN entry.
+
+“One bundled entry” does not mean one total HTTP request: esm.sh wrappers and necessary peers still load. The demo avoids the previous date-fns per-function waterfall. Fixed root versions do not lock every transitive version.
+
+There is one local app entry for each Tonic source choice, rather than separate app/widget entries. The local Tonic variant bundles Tonic and its ordinary dependencies into that app file; React and Emotion remain external so they use the selected families. Local vendor builds share their implementation chunks rather than duplicate React/context.
+
+## Build and run
+
+From `packages/react-docs`, with the existing installed workspace dependencies:
+
+```bash
+yarn build:cdn-runtime
+```
+
+This command is independent of `build:mfe`. Normal docs `build` and `dev` also assemble the demo. After editing its sources, rebuild and reload the iframe.
+
+Open **Integrations → CDN-first runtime**, or open `/demos/cdn-runtime/index.html` beneath the site's configured base path. The generated output can run on static hosting without an MFE server.
+
+## Verify
+
+- Open the Tonic Dropdown and select **Tonic bundled entry fails**. Only the demo reloads; Tonic becomes local while healthy React/Emotion stay on CDN.
+- Click the counter and toggle theme. Controls, background, table and log must remain usable in both color modes.
+- Select **Use local for all groups**. The new document must not request esm.sh modules.
+- Select **Retry from CDN-first** to clear forced-local markers and try the chosen scenario again.
+
+Failure presets point a real import to an intentionally missing same-origin module. They exercise rejection/fallback, not an outage at esm.sh. For actual outage checks, disable browser cache and block the relevant CDN requests.
+
+Bootstrap installs one import map before any module import, then checks React, Emotion and the single Tonic entry. A CDN failure or the per-family 8-second budget reloads with `__local=group`, discarding the old realm before mount. Cold builds can exceed that budget. Local, app asset or mount errors remain visible; they do not cause fallback loops.
+
+This example covers startup, not arbitrary later lazy imports, runtime exceptions, SSR or full production graph verification. No aggregated npm package or custom CDN origin is required for this approved public esm.sh approach.
