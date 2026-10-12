@@ -3,17 +3,42 @@
   const manifestUrl = new URL(script.dataset.manifest, location.href);
   const nonce = script.nonce;
   const groupNames = ['react', 'emotion', 'tonic'];
+  const groupLabels = { react: 'React', emotion: 'Emotion', tonic: 'Tonic UI' };
   const url = new URL(location.href);
   const forced = new Set((url.searchParams.get('__local') || '').split(',').filter(group => groupNames.includes(group)));
   const scenario = url.searchParams.get('scenario') || 'cdn-first';
+  const scenarioDescriptions = {
+    'tonic-package': 'Test scenario: Tonic UI CDN failure. A missing module is requested intentionally to verify that fallback works.',
+    'react-package': 'Test scenario: React CDN failure. A missing module is requested intentionally to verify that fallback works.',
+    'emotion-package': 'Test scenario: Emotion CDN failure. A missing module is requested intentionally to verify that fallback works.',
+    'no-tonic-cdn': 'Test scenario: No Tonic UI CDN configuration. The runtime uses the local Tonic UI package.',
+    'all-cdn-fail': 'Test scenario: All CDN runtime families fail. Missing modules are requested intentionally to verify that every fallback works.',
+    'all-local': 'Test scenario: Local-only runtime. React, Emotion, and Tonic UI load from same-origin packages.',
+  };
   const log = document.getElementById('bootstrap-log');
 
   function note(message) {
     log.textContent += `${message}\n`;
+    if (window.parent !== window) {
+      window.parent.postMessage({
+        type: 'tonic-cdn-runtime:log',
+        value: log.textContent,
+      }, location.origin);
+    }
+  }
+
+  function reportProgress(value) {
+    if (window.parent !== window) {
+      window.parent.postMessage({
+        type: 'tonic-cdn-runtime:progress',
+        value,
+      }, location.origin);
+    }
   }
   const failed = (url.searchParams.get('__failed') || '').split(',').filter(group => groupNames.includes(group));
   if (failed.length) {
-    note(`Previous document: CDN load failed for ${failed.join(', ')}. Reloaded before mounting.`);
+    const labels = failed.map(group => groupLabels[group]).join(', ');
+    note(`${labels} could not load from the CDN. Retrying with ${failed.length === 1 ? 'the local package' : 'local packages'}.`);
   }
 
   function injectFailure(runtime) {
@@ -41,8 +66,8 @@
     if (scenario === 'all-local') {
       groupNames.forEach(group => forced.add(group));
     }
-    if (scenario !== 'cdn-first') {
-      note(`Demonstration scenario: ${scenario}. Missing-module scenarios inject a real same-origin module 404, not a simulated successful import.`);
+    if (scenarioDescriptions[scenario]) {
+      note(scenarioDescriptions[scenario]);
     }
   }
 
@@ -70,7 +95,8 @@
     if (!response.ok) {
       throw new Error(`Cannot load runtime manifest: ${response.status}`);
     }
-    const runtime = await response.json();
+    const manifestText = await response.text();
+    const runtime = JSON.parse(manifestText);
     injectFailure(runtime);
     const selected = Object.fromEntries(groupNames.map(group => [group,
       !forced.has(group) && runtime.groups[group].cdn !== null ? 'cdn' : 'local',
@@ -99,11 +125,13 @@
     for (const group of groupNames) {
       const candidate = runtime.groups[group][selected[group]];
       document.body.dataset.stage = group;
-      note(`Loading ${group}: ${selected[group]}...`);
+      reportProgress({ group, source: selected[group] });
       try {
         const loading = Promise.all(candidate.probes.map(specifier => import(specifier)));
         await (selected[group] === 'cdn' ? withBudget(loading) : loading);
       } catch (error) {
+        reportProgress(null);
+        note(`${group}: ${selected[group]} failed`);
         console.error(`Cannot load ${selected[group]} ${group} runtime`, error);
         if (selected[group] === 'local') {
           throw error;
@@ -116,16 +144,16 @@
         location.replace(next);
         return;
       }
-      note(`Ready: ${group} (${selected[group]}).`);
+      reportProgress(null);
+      note(`✔ ${group}: ${selected[group]}`);
     }
     const assets = runtime.apps[selected.tonic];
     document.body.dataset.stage = 'app';
     await loadCss(assets.css);
     const app = await import(new URL(assets.entry, manifestUrl).href);
     // App/CSS/mount failures are not evidence that a runtime family is unavailable.
-    note('Local app loaded with the selected React, Emotion and Tonic runtime.');
     await app.mount(document.getElementById('root'), {
-      scenario, selected, versions: runtime.versions, manifestUrl: manifestUrl.href, log: log.textContent,
+      scenario, selected, manifestText, log: log.textContent,
     });
     document.body.dataset.stage = 'mounted';
   }

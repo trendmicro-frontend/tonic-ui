@@ -69,8 +69,8 @@ export const routes = [
       <WorkspaceIcon size="4x" {...props} />
     ),
     routes: [
-      { title: 'Micro frontend', path: 'getting-started/micro-frontend' },
-      { title: 'CDN-first runtime', path: 'getting-started/cdn-runtime' },
+      { title: 'Micro frontend', path: 'integrations/micro-frontend' },
+      { title: 'CDN-first runtime', path: 'integrations/cdn-runtime' },
     ],
   },
   {

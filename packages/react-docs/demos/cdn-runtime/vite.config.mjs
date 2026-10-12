@@ -9,17 +9,19 @@ const require = createRequire(import.meta.url);
 
 export default defineConfig(({ mode }) => {
   const vendor = localEntries[mode];
-  if (!vendor && mode !== 'tonic-cdn' && mode !== 'tonic-local') {
+  if (!vendor && mode !== 'tonic-cdn' && mode !== 'tonic-local' && mode !== 'shell') {
     throw new Error(`Unknown runtime build: ${mode}`);
   }
   const input = vendor
     ? Object.fromEntries(Object.entries(vendor).map(([name, entry]) => [name, resolve(root, entry.file)]))
-    : { app: resolve(root, 'src/app.js') };
+    : { [mode === 'shell' ? 'shell' : 'app']: resolve(root, mode === 'shell' ? 'src/shell.js' : 'src/app.js') };
   const external = mode === 'react'
     ? undefined
     : mode === 'emotion'
       ? isReact
-      : id => isReact(id) || isEmotion(id) || (mode === 'tonic-cdn' && isTonic(id));
+      : mode === 'shell'
+        ? undefined
+        : id => isReact(id) || isEmotion(id) || (mode === 'tonic-cdn' && isTonic(id));
   return {
     root,
     base: './',
@@ -39,13 +41,21 @@ export default defineConfig(({ mode }) => {
         }]
       : [],
     build: {
-      outDir: resolve(root, `../../public/demos/cdn-runtime/${mode}`),
+      outDir: resolve(root, `dist/${mode}`),
       emptyOutDir: true,
       manifest: true,
       target: 'es2022',
       modulePreload: false,
       rollupOptions: {
-        input, external, preserveEntrySignatures: 'strict', output: { inlineDynamicImports: !vendor },
+        input,
+        external,
+        preserveEntrySignatures: 'strict',
+        output: {
+          inlineDynamicImports: !vendor,
+          // The shell document is static HTML, so its bundled entry keeps a
+          // stable file name instead of a content hash.
+          entryFileNames: mode === 'shell' ? 'assets/[name].js' : 'assets/[name]-[hash].js',
+        },
       },
     },
   };
