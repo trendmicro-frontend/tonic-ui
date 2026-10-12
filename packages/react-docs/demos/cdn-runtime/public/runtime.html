@@ -4,7 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tonic UI CDN-first runtime demo</title>
+  <script>
+    (() => {
+      const colorMode = new URLSearchParams(location.search).get('colorMode') === 'dark' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-color-scheme', colorMode);
+    })();
+  </script>
   <style>
+    html { background-color: #fcfcfc; color-scheme: light; }
+    html[data-color-scheme="dark"] { background-color: #1b1b1b; color-scheme: dark; }
     body { margin: 0; font: 14px/1.5 system-ui, sans-serif; }
     #bootstrap-status { padding: 16px; }
     #bootstrap-log { white-space: pre-wrap; overflow-wrap: anywhere; }

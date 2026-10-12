@@ -12,3 +12,4 @@
 
 # Generated standalone demo output
 /public/demos
+/demos/cdn-runtime/dist

@@ -1,0 +1,21 @@
+{
+  "name": "@tonic-ui/cdn-runtime-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/build.mjs && vite preview --mode tonic-cdn --outDir dist --host 127.0.0.1"
+  },
+  "dependencies": {
+    "@emotion/cache": "11.14.0",
+    "@emotion/is-prop-valid": "1.2.2",
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.1",
+    "@tonic-ui/react": "3.0.0-alpha.1",
+    "react": "19.2.7",
+    "react-dom": "19.2.7"
+  },
+  "devDependencies": {
+    "vite": "6.4.3"
+  }
+}

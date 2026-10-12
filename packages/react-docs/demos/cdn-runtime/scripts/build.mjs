@@ -3,10 +3,10 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { copyFile, mkdir, writeFile } from 'node:fs/promises';
 import { build } from 'vite';
-import { localEntries, tonicSpecifiers, isTonic } from './entries.mjs';
+import { localEntries, tonicSpecifiers, isTonic } from '../entries.mjs';
 
-const root = dirname(fileURLToPath(import.meta.url));
-const outputRoot = resolve(root, '../../public/demos/cdn-runtime');
+const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const outputRoot = resolve(root, process.argv[2] || 'dist');
 const require = createRequire(import.meta.url);
 const packageName = specifier => specifier.startsWith('@')
   ? specifier.split('/').slice(0, 2).join('/')
@@ -40,14 +40,23 @@ const allowedImports = new Set([
 ]);
 const apps = {};
 
-for (const mode of ['react', 'emotion', 'tonic-cdn', 'tonic-local']) {
-  const result = await build({ configFile: resolve(root, 'vite.config.mjs'), mode });
+for (const mode of ['react', 'emotion', 'tonic-cdn', 'tonic-local', 'shell']) {
+  const result = await build({
+    configFile: resolve(root, 'vite.config.mjs'),
+    mode,
+    build: { outDir: resolve(outputRoot, mode) },
+  });
   const chunks = result.output.filter(item => item.type === 'chunk');
   const files = new Set(chunks.map(chunk => chunk.fileName));
   for (const chunk of chunks) {
     for (const id of [...chunk.imports, ...chunk.dynamicImports]) {
       if (mode === 'tonic-local' && isTonic(id)) {
         throw new Error(`Local Tonic build still imports ${id}`);
+      }
+      if (mode === 'shell') {
+        // The shell is one self-contained bundle: it owns React, Emotion and
+        // Tonic so the fixed controls survive every runtime reload.
+        continue;
       }
       if (!files.has(id) && !allowedImports.has(id)) {
         throw new Error(`Unmapped runtime import: ${id}`);
@@ -80,7 +89,9 @@ for (const mode of ['react', 'emotion', 'tonic-cdn', 'tonic-local']) {
     collect(entry);
     return { entry: `./${mode}/${entry.fileName}`, css: [...css] };
   };
-  if (localEntries[mode]) {
+  if (mode === 'shell') {
+    apps.shell = descriptor('shell');
+  } else if (localEntries[mode]) {
     const imports = Object.fromEntries(Object.entries(localEntries[mode]).map(([name, entry]) => [entry.specifier, descriptor(name).entry]));
     groups[mode] = { local: { imports, probes: Object.keys(imports) }, cdn: null };
   } else {
@@ -112,7 +123,7 @@ groups.tonic = {
 
 await mkdir(outputRoot, { recursive: true });
 await writeFile(resolve(outputRoot, 'runtime-manifest.json'), `${JSON.stringify({ versions, groups, apps }, null, 2)}\n`);
-for (const name of ['index.html', 'bootstrap.js']) {
-  await copyFile(resolve(root, name), resolve(outputRoot, name));
+for (const name of ['index.html', 'runtime.html', 'bootstrap.js']) {
+  await copyFile(resolve(root, 'public', name), resolve(outputRoot, name));
 }
 console.log('Built one local app per Tonic source with paired vendors and one public esm.sh Tonic bundled entry.');
