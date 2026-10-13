@@ -1,21 +1,27 @@
+// Keys are Vite build modes; each mode builds one entry file.
+//
+// The React family is two files: a module can expose one `default`, and both
+// `react` and `react-dom` have default-import consumers (Tonic's
+// react-transition-group dependency uses `ReactDOM.findDOMNode`). They must
+// therefore build as separate bundles, but share one React instance because
+// the `react-dom` build keeps `react` external.
 export const localEntries = {
-  react: {
-    react: { specifier: 'react', file: 'entries/react.js' },
-    'react-dom': { specifier: 'react-dom', file: 'entries/react-dom.js' },
-    'react-dom-client': { specifier: 'react-dom/client', file: 'entries/react-dom-client.js' },
-    'jsx-runtime': { specifier: 'react/jsx-runtime', file: 'entries/jsx-runtime.js' },
-  },
-  emotion: {
-    'emotion-react': { specifier: '@emotion/react', file: 'entries/emotion-react.js' },
-    'emotion-jsx-runtime': { specifier: '@emotion/react/jsx-runtime', file: 'entries/emotion-jsx-runtime.js' },
-    'emotion-styled': { specifier: '@emotion/styled', file: 'entries/emotion-styled.js' },
-    'emotion-styled-base': { specifier: '@emotion/styled/base', file: 'entries/emotion-styled-base.js' },
-    'emotion-cache': { specifier: '@emotion/cache', file: 'entries/emotion-cache.js' },
-    'emotion-is-prop-valid': { specifier: '@emotion/is-prop-valid', file: 'entries/emotion-is-prop-valid.js' },
-  },
+  // Serves `react`, `react-dom/client`, and `react/jsx-runtime` (-dev) from
+  // one file. React is inlined exactly once.
+  react: { react: { specifier: 'react', file: 'entries/react.js' } },
+  // Serves `react-dom` only; `react` stays external.
+  'react-dom': { 'react-dom': { specifier: 'react-dom', file: 'entries/react-dom.js' } },
+  // One file per family: the entire Tonic UI closure minus the React family.
+  tonic: { tonic: { specifier: '@tonic-ui/react', file: 'entries/tonic.js' } },
 };
 
+export const reactSpecifiers = [
+  'react',
+  'react-dom',
+  'react-dom/client',
+  'react/jsx-runtime',
+  'react/jsx-dev-runtime',
+];
 export const tonicSpecifiers = ['@tonic-ui/react'];
 export const isReact = id => /^(react|react-dom)(\/|$)/.test(id);
-export const isEmotion = id => id.startsWith('@emotion/');
 export const isTonic = id => id.startsWith('@tonic-ui/');

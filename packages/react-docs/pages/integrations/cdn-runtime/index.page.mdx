@@ -1,6 +1,6 @@
 # CDN-first runtime
 
-A runnable Vite app demonstrates how to load React, necessary Emotion peers, and one Tonic UI bundled entry from public esm.sh, with local files for each family if CDN loading fails. It does not use Module Federation or Wujie. The hidden loader frame isolates each import-map realm while the visible inspector remains mounted.
+A runnable Vite app demonstrates a two-bundle CDN runtime. The React family always loads from same-origin combined builds, and the Tonic UI family loads as one bundled entry from public esm.sh, with the same-origin Tonic bundle if CDN loading fails. It does not use Module Federation or Wujie. The hidden loader frame isolates each import-map realm while the visible inspector remains mounted.
 
 ## Open the app and its setup
 
@@ -9,9 +9,9 @@ The complete app is in [`packages/react-docs/demos/cdn-runtime/`](https://github
 | File | Purpose |
 | :--- | :------ |
 | [`package.json`](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/demos/cdn-runtime/package.json) | Run the standalone build or preview; declare its dependencies. |
-| [`scripts/build.mjs`](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/demos/cdn-runtime/scripts/build.mjs) | Build the shell and the four runtime variants; generate the runtime manifest. |
-| [`vite.config.mjs`](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/demos/cdn-runtime/vite.config.mjs) | Configure Vite's entries and external imports for each variant. |
-| [`entries.mjs`](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/demos/cdn-runtime/entries.mjs) | Map React and Emotion import specifiers to vendor entries. |
+| [`scripts/build.mjs`](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/demos/cdn-runtime/scripts/build.mjs) | Build the two runtime families, the app, and the shell; generate the runtime manifest. |
+| [`vite.config.mjs`](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/demos/cdn-runtime/vite.config.mjs) | Configure Vite's entries and external imports for each build. |
+| [`entries.mjs`](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/demos/cdn-runtime/entries.mjs) | Map the React family and Tonic UI specifiers to vendor entry files. |
 | [`public/index.html`](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/demos/cdn-runtime/public/index.html) | Serve the shell document that owns the visible inspector. |
 | [`public/runtime.html`](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/demos/cdn-runtime/public/runtime.html) | Serve the hidden, reloadable runtime document. |
 | [`public/bootstrap.js`](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/demos/cdn-runtime/public/bootstrap.js) | Choose CDN or local families and stream loading progress to the shell. |
@@ -36,151 +36,117 @@ Select a failure scenario, then compare the selected source for each family with
 
 ## How the Vite setup works
 
-### 1. Define runtime families
+The following steps apply to your application. The inspector above is a verification tool; its shell, hidden frame, and five build modes are not required in your app.
 
-[`entries.mjs`](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/demos/cdn-runtime/entries.mjs) maps each React and Emotion import specifier to a local vendor entry. These representative entries are from the complete file, which also maps the remaining subpaths:
+### 1. Externalize shared runtime imports
+
+Keep React and Tonic UI out of the application bundle. In your app's `vite.config.js`, add the external rule to your existing configuration:
 
 ```js
-export const localEntries = {
-  react: {
-    react: { specifier: 'react', file: 'entries/react.js' },
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+
+export default defineConfig({
+  plugins: [react({ jsxRuntime: 'automatic' })],
+  build: {
+    target: 'es2022',
+    rollupOptions: {
+      external: id =>
+        /^(react|react-dom)(\/|$)/.test(id) ||
+        id === '@tonic-ui/react',
+    },
   },
-  emotion: {
-    'emotion-react': { specifier: '@emotion/react', file: 'entries/emotion-react.js' },
-  },
-};
-export const tonicSpecifiers = ['@tonic-ui/react'];
+});
 ```
 
-Tonic UI uses one `@tonic-ui/react` import. React/React DOM versions must match; [`scripts/build.mjs`](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/demos/cdn-runtime/scripts/build.mjs) reads the installed package versions and uses them for both local builds and esm.sh URLs.
+Continue to use normal imports and JSX in your app:
 
-### 2. Build five variants
+```jsx
+import { createRoot } from 'react-dom/client';
+import { Button, TonicProvider } from '@tonic-ui/react';
 
-[`vite.config.mjs`](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/demos/cdn-runtime/vite.config.mjs) defines the entry and external imports for each mode. This excerpt shows why Tonic stays bundled in `tonic-local`:
-
-```js
-const external = mode === 'react'
-  ? undefined
-  : mode === 'emotion'
-    ? isReact
-    : id => isReact(id) || isEmotion(id) ||
-      (mode === 'tonic-cdn' && isTonic(id));
-```
-
-`scripts/build.mjs` runs these modes in order:
-
-| Mode | Output | External imports |
-| :--- | :----- | :--------------- |
-| `react` | Local React, React DOM, and JSX-runtime entries | None |
-| `emotion` | Local Emotion entries sharing their implementation chunks | React and React DOM |
-| `tonic-cdn` | App importing the bundled Tonic CDN entry | React, Emotion, and Tonic UI |
-| `tonic-local` | App bundling Tonic and its ordinary dependencies | React and Emotion |
-| `shell` | Self-contained bundle for the fixed controls | None |
-
-Do not externalize Tonic in `tonic-local`: a Tonic CDN failure must switch to an app that already contains the whole Tonic family. React and Emotion stay external in both app builds so the chosen runtime families share one identity. Serve all generated chunks, not only the entry files.
-
-The `shell` mode is different: it bundles React, Emotion, and Tonic into one file with a stable name, because the shell document must keep rendering while the runtime document reloads:
-
-```js
-entryFileNames: mode === 'shell' ? 'assets/[name].js' : 'assets/[name]-[hash].js',
-```
-
-### 3. Produce the runtime descriptor
-
-`scripts/build.mjs` verifies that every import is mapped, writes [`runtime-manifest.json`](../../demos/cdn-runtime/runtime-manifest.json), then copies the runtime-only files from `public/` alongside it. The descriptor contains the exact CDN/local import maps, probes, app entry paths, and versions for this build. The esm.sh Tonic URL uses `standalone` with React and Emotion as externals; ordinary Tonic dependencies such as date-fns and focus-lock stay inside that entry. One bundled Tonic entry does not mean one total HTTP request: wrappers and peers still load.
-
-The app defaults to `dist/`. The docs command `yarn workspace @tonic-ui/react-docs build:cdn-runtime` uses the same build script with an output path under `public/demos/cdn-runtime/`; it does not maintain a second implementation. Normal docs `dev` and `build` also run that command.
-
-The build script invokes Vite for each mode, then serializes the selected import maps and output paths:
-
-```js
-for (const mode of ['react', 'emotion', 'tonic-cdn', 'tonic-local', 'shell']) {
-  const result = await build({
-    configFile: resolve(root, 'vite.config.mjs'),
-    mode,
-    build: { outDir: resolve(outputRoot, mode) },
-  });
+export function mount(element) {
+  createRoot(element).render(
+    <TonicProvider>
+      <Button>Application button</Button>
+    </TonicProvider>
+  );
 }
-await writeFile(
-  resolve(outputRoot, 'runtime-manifest.json'),
-  `${JSON.stringify({ versions, groups, apps }, null, 2)}\n`,
-);
 ```
 
-### 4. Select the runtime before mounting
+If your existing JSX configuration uses Emotion, keep that configuration. Only externalize Emotion when you also provide its import-map entries. In this model, Emotion used by Tonic UI is bundled inside the Tonic entry.
 
-`public/bootstrap.js` inserts one import map before any module import, then probes React, Emotion, and Tonic in that order. If a CDN family fails or exceeds its eight-second budget, it records the failed family in `__local` and reloads the document. Native import maps cannot be safely rebound after imports start. The new document loads local files for only the failed family and keeps the healthy CDN choices. A local vendor, CSS, app, or mount failure stays visible as an error instead of starting a fallback loop.
+### 2. Publish the shared runtime files
 
-The [`public/runtime.html`](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/demos/cdn-runtime/public/runtime.html) frame sets the color mode before paint, provides the mount node, and loads `bootstrap.js` with the descriptor URL. These are the relevant HTML lines:
+Host the React runtime files with your static assets. The [reference React entry](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/demos/cdn-runtime/entries/react.js) combines React, React DOM client, and the production JSX runtime. The [React DOM root entry](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/demos/cdn-runtime/entries/react-dom.js) keeps `react` external.
 
-```html
-<div id="root"></div>
-<script defer src="./bootstrap.js" data-manifest="./runtime-manifest.json"></script>
+These are separate files because `react` and `react-dom` both have default-import consumers, but one ESM module can expose only one `default`. Both files must use the same React version. The React DOM root file imports the combined file through the import map, rather than bundling a second React copy.
+
+For Tonic UI, use a versioned esm.sh URL:
+
+```text
+https://esm.sh/@tonic-ui/react@3.0.0-alpha.1?standalone&external=react,react-dom&target=es2022
 ```
 
-The frame also runs this blocking script in `<head>` so a reload paints the correct background before any module runs:
+`standalone` bundles Emotion and ordinary Tonic dependencies into the Tonic implementation. React remains external and resolves to the same runtime used by your app. An esm.sh entry URL can load a wrapper plus its implementation; a bundled implementation does not guarantee one HTTP request.
+
+If you need a same-origin fallback, publish a local Tonic bundle too. Bundle `@tonic-ui/react` and its dependencies, but keep the React family external. The [reference Tonic entry](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/demos/cdn-runtime/entries/tonic.js) and [Vite configuration](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/demos/cdn-runtime/vite.config.mjs) show this boundary. Serve every generated asset and use its actual versioned URL in your deployment.
+
+### 3. Install the import map before loading your app
+
+Your deployment supplies the URLs for the shared runtime. This example uses readable asset names; replace them with the URLs produced by your runtime build:
 
 ```html
-<script>
-  (() => {
-    const colorMode = new URLSearchParams(location.search).get('colorMode') === 'dark'
-      ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-color-scheme', colorMode);
-  })();
-</script>
-<style>
-  html { background-color: #fcfcfc; color-scheme: light; }
-  html[data-color-scheme="dark"] {
-    background-color: #1b1b1b;
-    color-scheme: dark;
+<script type="importmap">
+{
+  "imports": {
+    "react": "/runtime/react-19.2.7.js",
+    "react-dom/client": "/runtime/react-19.2.7.js",
+    "react/jsx-runtime": "/runtime/react-19.2.7.js",
+    "react-dom": "/runtime/react-dom-19.2.7.js",
+    "@tonic-ui/react": "https://esm.sh/@tonic-ui/react@3.0.0-alpha.1?standalone&external=react,react-dom&target=es2022"
   }
-</style>
+}
+</script>
+<script type="module" src="/assets/app.js"></script>
 ```
 
-Neither HTML file has a static import map. After reading the descriptor, `bootstrap.js` appends a map to `<head>` before its first `import()`:
+Use the actual application entry generated by Vite instead of `/assets/app.js`. Install the map before any application import or module preload that uses these specifiers. Vite's normal development server can continue to resolve dependencies from `node_modules`; this map describes the deployed production build, not a development JSX runtime.
 
-```js
-const map = document.createElement('script');
-map.type = 'importmap';
-map.textContent = JSON.stringify({ imports });
-document.head.append(map);
-const loading = Promise.all(
-  candidate.probes.map(specifier => import(specifier))
-);
+### 4. Handle CDN failure before mounting
+
+If you need fallback, replace the static import map and static app script above with a bootstrap loader. The loader must:
+
+1. Choose the CDN or local Tonic URL before installing the map.
+2. Install one import map containing the React entries and the selected Tonic entry.
+3. Probe React first, then Tonic, before dynamically importing the application entry.
+4. If the Tonic CDN import rejects or exceeds your loading budget, reload into a fresh document with a local-source flag.
+5. On the next load, map Tonic to the local bundle and mount the same application entry.
+
+Do not replace an import-map target after imports have started. Native imports cannot be cancelled or safely rebound in the current realm. Do not treat a local bundle, application, CSS, or mount error as a CDN failure; report it instead of entering a reload loop.
+
+The [reference bootstrap](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/demos/cdn-runtime/public/bootstrap.js) implements this sequence with an eight-second CDN budget. Its scenario injection and parent-frame messages belong to the inspector, not your application. You can reload your application document; a hidden frame is only needed when another UI must remain mounted.
+
+The inspector retains the failed CDN result across its reload and displays the local result immediately below it:
+
+```text
+✔ react: local
+✘ tonic: cdn (failed)
+✔ tonic: local
 ```
 
-### 5. Keep the inspector mounted
+`✔` (U+2714) and `✘` (U+2718) are Unicode characters, not ASCII.
 
-A fallback or scenario change cannot rebind import maps in the same realm, so the runtime document must reload. [`public/index.html`](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/demos/cdn-runtime/public/index.html) hosts every visible section, while [`src/shell.js`](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/demos/cdn-runtime/src/shell.js) uses `runtime.html` as a hidden loader frame. Each run gets a new query token, so selecting the current scenario still creates a fresh realm. **Retry** starts another run for the selected scenario:
+### 5. Use self-hosted esm.sh when required
 
-```js
-const loadScenario = (id) => {
-  setScenario(id);
-  setLog(`Loading scenario: ${id}...\n`);
-  setFrameSrc(`./runtime.html?colorMode=${colorMode}&scenario=${id}&run=${++runRef.current}`);
-};
-```
+For an internal registry or a network without access to public CDNs, configure a self-hosted esm.sh instance to resolve the required packages. Registry access and credentials belong on that server, not in browser code.
 
-`bootstrap.js` sends the active family separately from the completed log. The shell cycles a bare ASCII spinner before the active family name. Completion replaces the spinner with the heavy check mark `✔` (U+2714); no additional bullet or generic success sentence is added:
+Point the import map at your instance and use the package name and exact version published to your registry. Keep the same `standalone`, `external=react,react-dom`, and `target=es2022` parameters. Verify registry resolution, browser access, CORS, and your application's CSP before deployment. Changing the host alone does not configure private-registry access.
 
-```js
-reportProgress({ group, source: selected[group] });
-const loading = Promise.all(candidate.probes.map(specifier => import(specifier)));
-await (selected[group] === 'cdn' ? withBudget(loading) : loading);
-reportProgress(null);
-note(`✔ ${group}: ${selected[group]}`);
-```
+The server builds and caches the ESM bundle from the published package; no separate `-all` package or UMD artifact is required for this flow. If you instead serve raw package files through jsDelivr, unpkg, or a static file host, you must publish the single-file ESM artifact yourself.
 
-After the selected React, Emotion, and Tonic families mount successfully, the runtime app sends its final result:
+Pin runtime versions and use stable URLs. Applications using the same runtime URLs can reuse browser caches; applications in the same document also share the same module instance. Separate documents have separate JavaScript instances even when they use identical URLs.
 
-```js
-window.parent.postMessage({
-  type: 'tonic-cdn-runtime:complete',
-  runtime,
-}, location.origin);
-```
-
-The shell accepts messages only from its same-origin loader frame. It replaces the log while loading, then updates the selected-source cells and versions in place. The heading, description, Dropdown, table, and document remain mounted throughout the run. When embedded in this page, a `ResizeObserver` reports the stable shell content height after mounting. The outer iframe keeps its previous height during loading, which prevents the docs scrollbar from shifting while a scenario retries.
 
 ## Limitations
 

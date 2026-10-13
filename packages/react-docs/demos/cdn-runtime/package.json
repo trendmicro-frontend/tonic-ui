@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "dev": "node scripts/build.mjs && vite preview --mode tonic-cdn --outDir dist --host 127.0.0.1"
+  "dev": "node scripts/build.mjs && vite preview --mode app --outDir dist --host 127.0.0.1"
   },
   "dependencies": {
     "@emotion/cache": "11.14.0",
