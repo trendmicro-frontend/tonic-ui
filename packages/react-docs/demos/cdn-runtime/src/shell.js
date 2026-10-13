@@ -7,19 +7,15 @@ import {
 } from '@tonic-ui/react';
 
 const scenarios = [
-  { id: 'cdn-first', label: 'CDN-first (real esm.sh modules)' },
+  { id: 'cdn-first', label: 'CDN-first (Tonic UI via esm.sh)' },
   { id: 'tonic-package', label: 'Tonic bundled entry fails' },
-  { id: 'react-package', label: 'React DOM client fails' },
-  { id: 'emotion-package', label: 'Emotion styled/base fails' },
-  { id: 'no-tonic-cdn', label: 'No paired Tonic CDN descriptor' },
-  { id: 'all-cdn-fail', label: 'All three CDN groups fail' },
+  { id: 'no-tonic-cdn', label: 'No Tonic UI CDN configuration' },
   { id: 'all-local', label: 'Use local for all groups' },
 ];
 
 const families = [
   { id: 'react', label: 'React + React DOM + JSX runtimes' },
-  { id: 'emotion', label: 'Emotion + its mapped subpaths' },
-  { id: 'tonic', label: 'Tonic UI bundled entry' },
+  { id: 'tonic', label: 'Tonic UI + Emotion + peers (one bundle)' },
 ];
 
 const spinnerFrames = ['|', '/', '-', '\\'];

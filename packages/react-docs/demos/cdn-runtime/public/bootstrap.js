@@ -2,18 +2,14 @@
   const script = document.currentScript;
   const manifestUrl = new URL(script.dataset.manifest, location.href);
   const nonce = script.nonce;
-  const groupNames = ['react', 'emotion', 'tonic'];
-  const groupLabels = { react: 'React', emotion: 'Emotion', tonic: 'Tonic UI' };
+  const groupNames = ['react', 'tonic'];
   const url = new URL(location.href);
   const forced = new Set((url.searchParams.get('__local') || '').split(',').filter(group => groupNames.includes(group)));
   const scenario = url.searchParams.get('scenario') || 'cdn-first';
   const scenarioDescriptions = {
     'tonic-package': 'Test scenario: Tonic UI CDN failure. A missing module is requested intentionally to verify that fallback works.',
-    'react-package': 'Test scenario: React CDN failure. A missing module is requested intentionally to verify that fallback works.',
-    'emotion-package': 'Test scenario: Emotion CDN failure. A missing module is requested intentionally to verify that fallback works.',
     'no-tonic-cdn': 'Test scenario: No Tonic UI CDN configuration. The runtime uses the local Tonic UI package.',
-    'all-cdn-fail': 'Test scenario: All CDN runtime families fail. Missing modules are requested intentionally to verify that every fallback works.',
-    'all-local': 'Test scenario: Local-only runtime. React, Emotion, and Tonic UI load from same-origin packages.',
+    'all-local': 'Test scenario: Local-only runtime. React and Tonic UI load from same-origin packages.',
   };
   const log = document.getElementById('bootstrap-log');
 
@@ -36,10 +32,6 @@
     }
   }
   const failed = (url.searchParams.get('__failed') || '').split(',').filter(group => groupNames.includes(group));
-  if (failed.length) {
-    const labels = failed.map(group => groupLabels[group]).join(', ');
-    note(`${labels} could not load from the CDN. Retrying with ${failed.length === 1 ? 'the local package' : 'local packages'}.`);
-  }
 
   function injectFailure(runtime) {
     const missing = new URL('./deliberately-missing-module.js', manifestUrl).href;
@@ -47,17 +39,6 @@
       runtime.groups[group].cdn.imports[specifier] = missing;
     };
     if (scenario === 'tonic-package') {
-      fail('tonic', '@tonic-ui/react');
-    }
-    if (scenario === 'react-package') {
-      fail('react', 'react-dom/client');
-    }
-    if (scenario === 'emotion-package') {
-      fail('emotion', '@emotion/styled/base');
-    }
-    if (scenario === 'all-cdn-fail') {
-      fail('react', 'react-dom/client');
-      fail('emotion', '@emotion/styled/base');
       fail('tonic', '@tonic-ui/react');
     }
     if (scenario === 'no-tonic-cdn') {
@@ -120,10 +101,13 @@
     map.textContent = JSON.stringify({ imports });
     document.head.append(map);
 
-    // Probe complete families in order. Emotion/Tonic imports use the chosen React,
-    // and Tonic imports use the chosen Emotion through this one immutable map.
+    // Probe complete families in order. The Tonic bundle imports the chosen
+    // React through this one immutable map, so both families share one instance.
     for (const group of groupNames) {
       const candidate = runtime.groups[group][selected[group]];
+      if (failed.includes(group)) {
+        note(`✘ ${group}: cdn (failed)`);
+      }
       document.body.dataset.stage = group;
       reportProgress({ group, source: selected[group] });
       try {
@@ -131,7 +115,7 @@
         await (selected[group] === 'cdn' ? withBudget(loading) : loading);
       } catch (error) {
         reportProgress(null);
-        note(`${group}: ${selected[group]} failed`);
+        note(`✘ ${group}: ${selected[group]} (failed)`);
         console.error(`Cannot load ${selected[group]} ${group} runtime`, error);
         if (selected[group] === 'local') {
           throw error;
@@ -147,7 +131,7 @@
       reportProgress(null);
       note(`✔ ${group}: ${selected[group]}`);
     }
-    const assets = runtime.apps[selected.tonic];
+    const assets = runtime.apps.app;
     document.body.dataset.stage = 'app';
     await loadCss(assets.css);
     const app = await import(new URL(assets.entry, manifestUrl).href);

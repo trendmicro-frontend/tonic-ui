@@ -1,0 +1,5 @@
+// Combined Tonic UI entry. The whole @tonic-ui/react closure (Emotion, peers,
+// sub-dependencies) is inlined into this one module; only the React family
+// stays external. This mirrors what `?standalone&external=react,react-dom`
+// produces on a (self-hosted) esm.sh instance.
+export * from '@tonic-ui/react';
