@@ -1,4 +1,5 @@
 import { createRequire } from 'node:module';
+import react from '@vitejs/plugin-react';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
@@ -22,24 +23,34 @@ export default defineConfig(({ mode }) => {
       : mode === 'shell'
         ? undefined
         : id => isReact(id) || isEmotion(id) || (mode === 'tonic-cdn' && isTonic(id));
+  const reactCommonJsNamedExports = {
+    name: 'react-commonjs-named-exports',
+    transform(code, id) {
+      const entry = Object.values(localEntries.react).find(item => resolve(root, item.file) === id);
+      if (!entry) {
+        return null;
+      }
+      // React's CJS index forwards module.exports. export * alone loses its names.
+      const names = Object.keys(require(entry.specifier)).filter(name => name !== 'default' && name !== '__esModule');
+      return `${code}\nexport { ${names.join(', ')} } from '${entry.specifier}';\n`;
+    },
+  };
   return {
     root,
     base: './',
     publicDir: false,
-    plugins: mode === 'react'
-      ? [{
-          name: 'react-commonjs-named-exports',
-          transform(code, id) {
-            const entry = Object.values(localEntries.react).find(item => resolve(root, item.file) === id);
-            if (!entry) {
-              return null;
-            }
-            // React's CJS index forwards module.exports. export * alone loses its names.
-            const names = Object.keys(require(entry.specifier)).filter(name => name !== 'default' && name !== '__esModule');
-            return `${code}\nexport { ${names.join(', ')} } from '${entry.specifier}';\n`;
-          },
-        }]
-      : [],
+    plugins: [
+      // The automatic JSX runtime compiles to `react/jsx-runtime` imports,
+      // which the import map resolves like every other React family member.
+      react({ jsxRuntime: 'automatic' }),
+      ...(mode === 'react' ? [reactCommonJsNamedExports] : []),
+    ],
+    // The demo writes JSX in `.js` files; esbuild must parse them as JSX.
+    esbuild: {
+      loader: 'jsx',
+      include: /src\/.*\.jsx?$/,
+      exclude: [],
+    },
     build: {
       outDir: resolve(root, `dist/${mode}`),
       emptyOutDir: true,

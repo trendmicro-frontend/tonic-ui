@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   Box, Button, Dropdown, DropdownButton, Text,
@@ -144,75 +144,93 @@ function Shell() {
 
   const cellProps = { p: '2x', border: 1, borderColor: colorStyle.divider, textAlign: 'left' };
 
-  return React.createElement(Box, {
-    p: '4x', backgroundColor: colorStyle.background.primary, color: colorStyle.color.primary,
-  },
-  React.createElement(Text, { as: 'h1', fontSize: '2xl', mb: '2x' }, 'CDN runtime inspector'),
-  React.createElement(Text, { mb: '4x' }, 'Choose a failure scenario to inspect which runtime families use CDN or local files before the app mounts.'),
-  React.createElement(Box, { mb: '4x' },
-    React.createElement(Text, { id: 'scenario-label', mb: '2x' }, 'Failure scenario'),
-    React.createElement(Box, { display: 'flex', gap: '2x', alignItems: 'center', flexWrap: 'wrap' },
-      React.createElement(Dropdown, {
-        items: scenarios,
-        value: scenarios.find(item => item.id === scenario) || scenarios[0],
-        onChange: item => loadScenario(item.id),
-        renderToggle: ({ renderItem, value }) => React.createElement(DropdownButton, {
-          id: 'scenario', 'aria-labelledby': 'scenario-label scenario',
-        }, renderItem(value)),
-      }),
-      React.createElement(Button, {
-        id: 'retry', variant: 'secondary', onClick: () => loadScenario(scenario),
-      }, 'Retry'))),
-  React.createElement(Box, { as: 'table', width: '100%', sx: { borderCollapse: 'collapse' }, 'aria-label': 'Selected runtime sources' },
-    React.createElement('thead', null,
-      React.createElement('tr', null,
-        React.createElement(Box, { as: 'th', ...cellProps }, 'Atomic family'),
-        React.createElement(Box, { as: 'th', ...cellProps }, 'Selected source'))),
-    React.createElement('tbody', null, families.map(family => React.createElement('tr', { key: family.id },
-      React.createElement(Box, { as: 'th', scope: 'row', ...cellProps }, family.label),
-      React.createElement(Box, { as: 'td', id: `${family.id}-source`, ...cellProps },
-        runtime?.selected[family.id] === 'cdn'
-          ? 'CDN (esm.sh)'
-          : runtime?.selected[family.id] === 'local' ? 'Local (same origin)' : 'Pending'))))),
-  React.createElement(Text, { as: 'h2', fontSize: 'xl', mt: '4x', mb: '2x' }, 'Load log'),
-  React.createElement(Box, {
-    as: 'pre',
-    id: 'runtime-log',
-    p: '3x',
-    backgroundColor: colorStyle.background.secondary,
-    'aria-live': 'polite',
-    sx: { whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' },
-  }, log, progress && React.createElement('span', {
-    'data-runtime-progress': true,
-    'aria-label': `Loading ${progress.group} from ${progress.source}`,
-  },
-  React.createElement('span', {
-    'data-runtime-spinner': true,
-    'aria-hidden': true,
-  }, spinnerFrames[spinnerFrame]),
-  ` ${progress.group}: ${progress.source}`)),
-  React.createElement(Text, { as: 'h2', fontSize: 'xl', mt: '4x', mb: '2x' }, 'Runtime manifest and exact package versions'),
-  React.createElement(Box, {
-    as: 'pre',
-    id: 'runtime-manifest',
-    sx: { height: 200, overflow: 'auto', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' },
-  },
-  runtime?.manifestText || 'Waiting for runtime...'),
-  React.createElement(Box, {
-    as: 'iframe',
-    ref: frameRef,
-    src: frameSrc,
-    title: 'Runtime loader',
-    tabIndex: -1,
-    'aria-hidden': true,
-    sx: { display: 'none' },
-  }));
+  return (
+    <Box p="4x" backgroundColor={colorStyle.background.primary} color={colorStyle.color.primary}>
+      <Text as="h1" fontSize="2xl" mb="2x">CDN runtime inspector</Text>
+      <Text mb="4x">Choose a failure scenario to inspect which runtime families use CDN or local files before the app mounts.</Text>
+      <Box mb="4x">
+        <Text id="scenario-label" mb="2x">Failure scenario</Text>
+        <Box display="flex" gap="2x" alignItems="center" flexWrap="wrap">
+          <Dropdown
+            items={scenarios}
+            value={scenarios.find(item => item.id === scenario) || scenarios[0]}
+            onChange={item => loadScenario(item.id)}
+            renderToggle={({ renderItem, value }) => (
+              <DropdownButton id="scenario" aria-labelledby="scenario-label scenario">
+                {renderItem(value)}
+              </DropdownButton>
+            )}
+          />
+          <Button id="retry" variant="secondary" onClick={() => loadScenario(scenario)}>Retry</Button>
+        </Box>
+      </Box>
+      <Box as="table" width="100%" sx={{ borderCollapse: 'collapse' }} aria-label="Selected runtime sources">
+        <thead>
+          <tr>
+            <Box as="th" {...cellProps}>Atomic family</Box>
+            <Box as="th" {...cellProps}>Selected source</Box>
+          </tr>
+        </thead>
+        <tbody>
+          {families.map(family => (
+            <tr key={family.id}>
+              <Box as="th" scope="row" {...cellProps}>{family.label}</Box>
+              <Box as="td" id={`${family.id}-source`} {...cellProps}>
+                {runtime?.selected[family.id] === 'cdn'
+                  ? 'CDN (esm.sh)'
+                  : runtime?.selected[family.id] === 'local' ? 'Local (same origin)' : 'Pending'}
+              </Box>
+            </tr>
+          ))}
+        </tbody>
+      </Box>
+      <Text as="h2" fontSize="xl" mt="4x" mb="2x">Load log</Text>
+      <Box
+        as="pre"
+        id="runtime-log"
+        p="3x"
+        backgroundColor={colorStyle.background.secondary}
+        aria-live="polite"
+        sx={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}
+      >
+        {log}
+        {progress ? (
+          <span data-runtime-progress aria-label={`Loading ${progress.group} from ${progress.source}`}>
+            <span data-runtime-spinner aria-hidden>
+              {spinnerFrames[spinnerFrame]}
+            </span>
+            {' '}
+            {`${progress.group}: ${progress.source}`}
+          </span>
+        ) : null}
+      </Box>
+      <Text as="h2" fontSize="xl" mt="4x" mb="2x">Runtime manifest and exact package versions</Text>
+      <Box
+        as="pre"
+        id="runtime-manifest"
+        sx={{ height: 200, overflow: 'auto', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}
+      >
+        {runtime?.manifestText || 'Waiting for runtime...'}
+      </Box>
+      <Box
+        as="iframe"
+        ref={frameRef}
+        src={frameSrc}
+        title="Runtime loader"
+        tabIndex={-1}
+        aria-hidden
+        sx={{ display: 'none' }}
+      />
+    </Box>
+  );
 }
 
 export function mount(element) {
   const requested = new URL(location.href).searchParams.get('colorMode');
   const defaultValue = requested === 'dark' ? 'dark' : 'light';
-  createRoot(element).render(React.createElement(TonicProvider, {
-    colorMode: { defaultValue }, useCSSBaseline: true, useCSSVariables: true,
-  }, React.createElement(Shell)));
+  createRoot(element).render(
+    <TonicProvider colorMode={{ defaultValue }} useCSSBaseline={true} useCSSVariables={true}>
+      <Shell />
+    </TonicProvider>,
+  );
 }
