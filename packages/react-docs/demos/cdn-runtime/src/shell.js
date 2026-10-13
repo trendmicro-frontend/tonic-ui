@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
-  Box, Button, Dropdown, DropdownButton, Text,
+  Box, Button, Dropdown, DropdownButton, Table, TableBody, TableCell,
+  TableHeader, TableRow, Text,
   TonicProvider, useColorMode, useColorStyle,
 } from '@tonic-ui/react';
 
@@ -142,8 +143,6 @@ function Shell() {
     setFrameSrc(`./runtime.html?colorMode=${colorMode}&scenario=${id}&run=${runRef.current}`);
   };
 
-  const cellProps = { p: '2x', border: 1, borderColor: colorStyle.divider, textAlign: 'left' };
-
   return (
     <Box p="4x" backgroundColor={colorStyle.background.primary} color={colorStyle.color.primary}>
       <Text as="h1" fontSize="2xl" mb="2x">CDN runtime inspector</Text>
@@ -164,26 +163,31 @@ function Shell() {
           <Button id="retry" variant="secondary" onClick={() => loadScenario(scenario)}>Retry</Button>
         </Box>
       </Box>
-      <Box as="table" width="100%" sx={{ borderCollapse: 'collapse' }} aria-label="Selected runtime sources">
-        <thead>
-          <tr>
-            <Box as="th" {...cellProps}>Atomic family</Box>
-            <Box as="th" {...cellProps}>Selected source</Box>
-          </tr>
-        </thead>
-        <tbody>
+      <Table
+        layout="table"
+        variant="outline"
+        width="100%"
+        aria-label="Selected runtime sources"
+      >
+        <TableHeader>
+          <TableRow>
+            <TableCell>Atomic family</TableCell>
+            <TableCell>Selected source</TableCell>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {families.map(family => (
-            <tr key={family.id}>
-              <Box as="th" scope="row" {...cellProps}>{family.label}</Box>
-              <Box as="td" id={`${family.id}-source`} {...cellProps}>
+            <TableRow key={family.id}>
+              <TableCell as="th" scope="row" textAlign="left">{family.label}</TableCell>
+              <TableCell id={`${family.id}-source`} textAlign="left">
                 {runtime?.selected[family.id] === 'cdn'
                   ? 'CDN (esm.sh)'
                   : runtime?.selected[family.id] === 'local' ? 'Local (same origin)' : 'Pending'}
-              </Box>
-            </tr>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </Box>
+        </TableBody>
+      </Table>
       <Text as="h2" fontSize="xl" mt="4x" mb="2x">Load log</Text>
       <Box
         as="pre"
