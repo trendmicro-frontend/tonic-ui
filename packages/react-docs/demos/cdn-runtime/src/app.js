@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   Box, TonicProvider, useColorMode,
@@ -39,18 +39,21 @@ function App({ runtime, onMounted }) {
     onMounted();
   }, [onMounted, runtime]);
 
-  return React.createElement(Box, {
-    id: 'runtime-probe',
-    hidden: true,
-  }, 'Runtime mounted');
+  return (
+    <Box id="runtime-probe" hidden>
+      Runtime mounted
+    </Box>
+  );
 }
 
 export function mount(element, runtime) {
   const initialColorMode = new URL(location.href).searchParams.get('colorMode');
   const defaultValue = initialColorMode === 'dark' ? 'dark' : 'light';
   return new Promise(resolve => {
-    createRoot(element).render(React.createElement(TonicProvider, {
-      colorMode: { defaultValue }, useCSSBaseline: true, useCSSVariables: true,
-    }, React.createElement(App, { runtime, onMounted: resolve })));
+    createRoot(element).render(
+      <TonicProvider colorMode={{ defaultValue }} useCSSBaseline={true} useCSSVariables={true}>
+        <App runtime={runtime} onMounted={resolve} />
+      </TonicProvider>,
+    );
   });
 }
