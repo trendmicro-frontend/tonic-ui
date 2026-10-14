@@ -12,4 +12,5 @@
 
 # Generated standalone demo output
 /public/demos
-/demos/cdn-runtime/dist
+/examples/app-cdn-demo/dist
+/integrations/cdn/runtime-inspector/dist

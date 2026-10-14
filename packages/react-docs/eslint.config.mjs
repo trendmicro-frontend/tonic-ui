@@ -36,12 +36,12 @@ export default defineConfig([
   },
   {
     ignores: [
-      '.next',
-      'build',
+      '**/.next',
+      '**/build',
       'coverage',
-      'dist',
-      'node_modules',
+      '**/dist',
       'docs',
+      'node_modules',
       'public',
     ],
   },
