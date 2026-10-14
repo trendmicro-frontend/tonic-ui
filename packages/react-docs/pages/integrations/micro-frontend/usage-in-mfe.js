@@ -4,11 +4,11 @@ import { useState } from 'react';
 // Two micro frontend mechanisms side-by-side.
 //
 // "Module Federation" tab — the shell iframe loads
-//   `/mfe/module-federation/shell/index.html`, which uses @module-federation/vite
+//   `/demos/mfe-module-federation/shell/index.html`, which uses @module-federation/vite
 //   to load remotes at runtime and render them directly in the shell document.
 //   EnvironmentProvider defaults to the iframe's own document (no shadow root).
 //
-// "Wujie" tab  — the host iframe loads `/mfe/wujie/index.html`, which runs
+// "Wujie" tab  — the host iframe loads `/demos/mfe-wujie/index.html`, which runs
 //   wujie-react to project a sub-app DOM into a shadow root.  EnvironmentProvider
 //   is configured to the shadow root so portal-based components (Modal, Popper,
 //   Tooltip) resolve to the correct realm.
@@ -23,13 +23,13 @@ const TABS = [
   {
     id: 'module-federation',
     label: 'Module Federation',
-    getSrc: () => `${basePath}/mfe/module-federation/shell/index.html`,
+    getSrc: () => `${basePath}/demos/mfe-module-federation/shell/index.html`,
     title: 'Tonic components inside a Module Federation micro frontend',
   },
   {
     id: 'wujie',
     label: 'Wujie',
-    getSrc: () => `${basePath}/mfe/wujie/index.html`,
+    getSrc: () => `${basePath}/demos/mfe-wujie/index.html`,
     title: 'Tonic components inside a Wujie micro frontend',
   },
 ];

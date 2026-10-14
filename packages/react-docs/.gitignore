@@ -7,10 +7,9 @@
 /.env.local
 /.env.*.local
 
-# Generated MFE build output
-/public/mfe
-
-# Generated standalone demo output
+# Generated demo build output
 /public/demos
-/examples/app-cdn-demo/dist
-/integrations/cdn/runtime-inspector/dist
+
+# Standalone demo builds
+/examples/app-shared-runtime/dist
+/integrations/shared-runtime/dist
