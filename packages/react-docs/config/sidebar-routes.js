@@ -70,7 +70,7 @@ export const routes = [
     ),
     routes: [
       { title: 'Micro frontend', path: 'integrations/micro-frontend' },
-      { title: 'Shared CDN runtime', path: 'integrations/shared-cdn-runtime' },
+      { title: 'Shared runtime', path: 'integrations/shared-runtime' },
     ],
   },
   {
