@@ -55,9 +55,10 @@
       }
       document.body.dataset[group] = selected[group];
     }
-    // The standalone Tonic build still imports the Emotion family as shared
-    // esm.sh modules; the manifest redirects each URL at its single-file
-    // `?standalone` build so the CDN load skips the small-file graph.
+    // The Tonic bundle imports the Emotion family; the manifest maps each one
+    // at its single-file `?standalone` build (bare specifiers for the
+    // standalone artifact, live esm.sh URLs for the CDN build) so the CDN
+    // load skips the small-file graph.
     if (selected.tonic === 'cdn' && runtime.shared?.imports) {
       for (const [specifier, target] of Object.entries(runtime.shared.imports)) {
         if (Object.hasOwn(imports, specifier)) {

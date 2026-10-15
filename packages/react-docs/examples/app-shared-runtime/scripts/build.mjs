@@ -1,7 +1,8 @@
 import { createRequire } from 'node:module';
-import { dirname, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { copyFile, mkdir, rm, writeFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
+import { copyFile, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { build } from 'vite';
 import { localEntries, reactSpecifiers, tonicSpecifiers, isTonic } from '../entries.mjs';
 
@@ -11,6 +12,13 @@ const outputRoot = resolve(root, process.argv[2] || 'dist');
 // builds are never served.
 await rm(outputRoot, { recursive: true, force: true });
 const require = createRequire(import.meta.url);
+// The installed Tonic package may or may not ship the single-file standalone
+// artifact (it does once the new release format is published). When it does,
+// the CDN source switches from the esm.sh build to the raw tarball file, and
+// its bare Emotion imports are mapped at pinned single-file builds.
+const tonicPackageJson = require.resolve('@tonic-ui/react/package.json');
+const standaloneFile = join(dirname(tonicPackageJson), 'dist', 'standalone', 'index.js');
+const hasStandalone = existsSync(standaloneFile);
 const packageName = specifier => specifier.startsWith('@')
   ? specifier.split('/').slice(0, 2).join('/')
   : specifier.split('/')[0];
@@ -145,7 +153,9 @@ for (const bundle of ['react', 'react-dom', 'tonic', 'app']) {
         probes: [...tonicSpecifiers],
       },
       cdn: {
-        imports: { '@tonic-ui/react': cdnUrl('@tonic-ui/react', ['react', 'react-dom'], true) },
+        imports: { '@tonic-ui/react': hasStandalone
+          ? `https://raw.esm.sh/@tonic-ui/react@${versions['@tonic-ui/react']}/dist/standalone/index.js`
+          : cdnUrl('@tonic-ui/react', ['react', 'react-dom'], true) },
         probes: [...tonicSpecifiers],
       },
     };
@@ -157,15 +167,31 @@ for (const [name, group] of Object.entries(groups)) {
   }
 }
 
-// esm.sh keeps the Emotion family as separate shared modules even in the
-// standalone Tonic build: the Tonic bundle carries hundreds of relative
-// `/@emotion/...` imports and each module pulls its whole dependency graph
-// as a waterfall of small files. Map every Emotion URL in that graph at its
-// single-file `?standalone` build so the CDN load stays a handful of
-// requests. The graph is walked from the live CDN wrapper, so the keys
-// always match the URLs the browser actually requests.
+// The Tonic bundle imports the Emotion family, which esm.sh otherwise serves
+// as a waterfall of small shared modules. The manifest maps the family at its
+// single-file `?standalone` builds so the CDN load stays a handful of
+// requests. For the standalone artifact the keys are the bare specifiers read
+// from the built file; for the esm.sh build the graph is walked from the live
+// CDN wrapper so the URL keys always match what the browser requests.
 const sharedImports = {};
 async function collectEmotionRedirects() {
+  if (hasStandalone) {
+    // Pin each bare Emotion specifier at its single-file `?standalone` build
+    // with `react` externalized, so the shared React above is the only React
+    // instance on the page and the Emotion cache stays single too.
+    const source = await readFile(standaloneFile, 'utf-8');
+    const specifiers = new Set();
+    for (const match of source.matchAll(/from\s*["'](@emotion[^"']+)["']/g)) {
+      specifiers.add(match[1]);
+    }
+    for (const match of source.matchAll(/import\s*["'](@emotion[^"']+)["']/g)) {
+      specifiers.add(match[1]);
+    }
+    for (const specifier of specifiers) {
+      sharedImports[specifier] = cdnUrl(specifier, ['react'], true);
+    }
+    return;
+  }
   const redirects = new Map();
   const fetched = new Set();
   async function sourceOf(url) {
