@@ -32,14 +32,16 @@ if (versions.react !== versions['react-dom']) {
 function cdnUrl(specifier, external = [], standalone = false) {
   const name = packageName(specifier);
   const subpath = specifier.slice(name.length);
-  const query = new URLSearchParams({ target: 'es2022' });
+  // `URLSearchParams` serializes a presence flag as `standalone=`, but
+  // esm.sh only honors the bare `standalone` form from its README.
+  const query = ['target=es2022'];
   if (standalone) {
-    query.set('standalone', '');
+    query.push('standalone');
   }
   if (external.length) {
-    query.set('external', external.join(','));
+    query.push(`external=${external.join(',')}`);
   }
-  return `https://esm.sh/${name}@${versions[name]}${subpath}?${query}`;
+  return `https://esm.sh/${name}@${versions[name]}${subpath}?${query.join('&')}`;
 }
 
 const groups = {
@@ -155,8 +157,76 @@ for (const [name, group] of Object.entries(groups)) {
   }
 }
 
+// esm.sh keeps the Emotion family as separate shared modules even in the
+// standalone Tonic build: the Tonic bundle carries hundreds of relative
+// `/@emotion/...` imports and each module pulls its whole dependency graph
+// as a waterfall of small files. Map every Emotion URL in that graph at its
+// single-file `?standalone` build so the CDN load stays a handful of
+// requests. The graph is walked from the live CDN wrapper, so the keys
+// always match the URLs the browser actually requests.
+const sharedImports = {};
+async function collectEmotionRedirects() {
+  const redirects = new Map();
+  const fetched = new Set();
+  async function sourceOf(url) {
+    if (fetched.has(url)) {
+      return null;
+    }
+    fetched.add(url);
+    try {
+      const response = await fetch(url);
+      return response.ok ? await response.text() : null;
+    } catch {
+      return null;
+    }
+  }
+  async function visitEmotionUrl(url) {
+    if (redirects.has(url)) {
+      return;
+    }
+    redirects.set(url, `${url}&standalone`);
+    const source = await sourceOf(`${url}&standalone`);
+    if (!source) {
+      return;
+    }
+    const specifiers = [...source.matchAll(/["']([^"']+)["']/g)].map(pair => pair[1]);
+    for (const specifier of specifiers) {
+      // `/es2022/` paths are prebuilt implementation files; `standalone`
+      // only changes package-level builds, so only range-form URLs are mapped.
+      if (specifier.startsWith('/@emotion/') && !specifier.includes('/es2022/')) {
+        await visitEmotionUrl(new URL(specifier, 'https://esm.sh/').href);
+      }
+    }
+    for (const specifier of specifiers) {
+      if (!specifier.startsWith('/') || specifier.startsWith('/@emotion/')) {
+        continue;
+      }
+      const implementation = new URL(specifier, 'https://esm.sh/').href;
+      const implSource = await sourceOf(implementation);
+      if (!implSource) {
+        continue;
+      }
+      for (const inner of [...implSource.matchAll(/["']([^"']+)["']/g)].map(pair => pair[1])) {
+        if (inner.startsWith('/@emotion/') && !inner.includes('/es2022/')) {
+          await visitEmotionUrl(new URL(inner, 'https://esm.sh/').href);
+        }
+      }
+    }
+  }
+  const wrapper = await sourceOf(groups.tonic.cdn.imports['@tonic-ui/react']);
+  if (!wrapper) {
+    console.warn('The Tonic CDN wrapper is unreachable; keeping esm.sh normal Emotion module graph.');
+    return;
+  }
+  await Promise.all([...wrapper.matchAll(/["'](\/@emotion\/[^"']+)["']/g)]
+    .map(pair => visitEmotionUrl(new URL(pair[1], 'https://esm.sh/').href)));
+  for (const [key, target] of redirects) {
+    sharedImports[key] = target;
+  }
+}
+await collectEmotionRedirects();
 await mkdir(outputRoot, { recursive: true });
-await writeFile(resolve(outputRoot, 'runtime-manifest.json'), `${JSON.stringify({ versions, groups, apps }, null, 2)}\n`);
+await writeFile(resolve(outputRoot, 'runtime-manifest.json'), `${JSON.stringify({ versions, groups, apps, shared: { imports: sharedImports } }, null, 2)}\n`);
 for (const name of ['index.html', 'bootstrap.js']) {
   await copyFile(resolve(root, 'public', name), resolve(outputRoot, name));
 }
