@@ -102,6 +102,17 @@
       }
       document.body.dataset[group] = selected[group];
     }
+    // The standalone Tonic build still imports the Emotion family as shared
+    // esm.sh modules; the manifest redirects each URL at its single-file
+    // `?standalone` build so the CDN load skips the small-file graph.
+    if (selected.tonic === 'cdn' && runtime.shared?.imports) {
+      for (const [specifier, target] of Object.entries(runtime.shared.imports)) {
+        if (Object.hasOwn(imports, specifier)) {
+          throw new Error(`Conflicting import map entry: ${specifier}`);
+        }
+        imports[specifier] = new URL(target, manifestUrl).href;
+      }
+    }
     const map = document.createElement('script');
     map.type = 'importmap';
     if (nonce) {
