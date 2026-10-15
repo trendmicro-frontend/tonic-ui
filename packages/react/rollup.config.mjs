@@ -89,7 +89,6 @@ const standaloneTarget = {
   ],
 };
 
-
 const targets = [
   {
     input,
@@ -149,8 +148,8 @@ const missing = missingSiblingDists();
 if (missing.length > 0) {
   if (standaloneOnly) {
     throw new Error(
-      `The standalone build needs these sibling packages built first: ${missing.join(', ')}. `
-        + 'Run their "yarn build" (or a full workspace build), then retry.'
+      `The standalone build needs these sibling packages built first: ${missing.join(', ')}. ` +
+      'Run their "yarn build" (or a full workspace build), then retry.'
     );
   }
   console.warn(`[standalone] Skipping the standalone build: ${missing.join(', ')} are not built yet.`);
