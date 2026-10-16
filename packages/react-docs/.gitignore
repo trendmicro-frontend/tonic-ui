@@ -10,6 +10,6 @@
 # Generated demo build output
 /public/demos
 
-# Standalone demo builds
-/examples/app-shared-runtime/dist
-/integrations/shared-runtime/dist
+# Playwright E2E output
+/e2e/test-results
+/e2e/playwright-report

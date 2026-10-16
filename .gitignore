@@ -20,3 +20,7 @@ yarn-error.log*
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Playwright E2E output
+/test-results
+/playwright-report

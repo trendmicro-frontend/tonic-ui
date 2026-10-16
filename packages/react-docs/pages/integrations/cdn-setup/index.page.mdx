@@ -1,0 +1,197 @@
+# CDN setup
+
+The built application loads React and Tonic UI from esm.sh through a fixed
+import map. There is no automatic fallback: if a CDN module cannot load,
+application startup fails.
+
+## Run the example
+
+With workspace dependencies installed and the Tonic packages built, open
+[`examples/app-cdn`](https://github.com/trendmicro-frontend/tonic-ui/tree/main/examples/app-cdn).
+Run these commands from the repository root:
+
+```bash
+cd examples/app-cdn
+npm run build
+npm run preview
+```
+
+Open the URL printed by Vite. You should see **Tonic UI from a CDN**. Click the
+button: its count should increase. In DevTools Network, React and Tonic UI load
+from `esm.sh`, while the application entry loads from your server.
+
+## Configure your application
+
+### Install dependencies
+
+In a new application directory:
+
+```bash
+npm init -y
+npm install --save-exact react@19.2.7 react-dom@19.2.7 @tonic-ui/react
+npm install -D --save-exact vite@6.4.3 @vitejs/plugin-react@4.7.0
+```
+
+Add these fields to `package.json`, keeping the installed dependencies:
+
+```json
+{
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  }
+}
+```
+
+Local packages support the development server. The production build leaves their
+imports external so the browser can resolve them through the import map.
+
+### Configure Vite
+
+Create `vite.config.mjs`:
+
+```js
+import { createRequire } from 'node:module';
+import reactPlugin from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+
+const require = createRequire(import.meta.url);
+const versionMap = new Map([
+  ['react', require('react/package.json').version],
+  ['react-dom', require('react-dom/package.json').version],
+  ['@tonic-ui/react', require('@tonic-ui/react/package.json').version],
+]);
+const imports = {
+  react: `https://esm.sh/react@${versionMap.get('react')}?target=es2022`,
+  'react-dom': `https://esm.sh/react-dom@${versionMap.get('react-dom')}?external=react&target=es2022`,
+  'react-dom/client': `https://esm.sh/react-dom@${versionMap.get('react-dom')}/client?external=react&target=es2022`,
+  'react/jsx-runtime': `https://esm.sh/react@${versionMap.get('react')}/jsx-runtime?external=react&target=es2022`,
+  '@tonic-ui/react': `https://esm.sh/@tonic-ui/react@${versionMap.get('@tonic-ui/react')}?standalone&external=react,react-dom&target=es2022`,
+};
+
+const shared = id =>
+  id === '@tonic-ui/react' || /^(react|react-dom)(\/|$)/.test(id);
+
+export default defineConfig({
+  plugins: [
+    reactPlugin({ jsxRuntime: 'automatic' }),
+    {
+      name: 'cdn-import-map',
+      transformIndexHtml() {
+        return [{
+          tag: 'script',
+          attrs: { type: 'importmap' },
+          children: JSON.stringify({ imports }, null, 2),
+          injectTo: 'head-pre',
+        }];
+      },
+    },
+  ],
+  build: {
+    target: 'es2022',
+    rollupOptions: { external: shared },
+  },
+});
+```
+
+The external rule keeps React and Tonic UI out of the application bundle. The
+plugin compiles JSX into `react/jsx-runtime` imports, which the map also covers.
+
+### Add the application document
+
+Create `index.html`. Do not add a second import map: Vite inserts the generated
+map into the head before the application module.
+
+```html
+<!doctype html>
+<html lang="en" data-color-scheme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tonic UI from a CDN</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>
+```
+
+Vite reads the actual installed package versions, not dependency ranges from
+your application's `package.json`. The hook runs in dev and build; build writes
+the map into `dist/index.html`, which preview serves without regenerating it.
+After updating dependencies, restart dev or rebuild before previewing.
+
+The generated CDN versions must be published. A local workspace build alone does
+not make its version available on esm.sh.
+
+### Write the application
+
+Create `src/main.jsx`:
+
+```jsx
+import { useState } from 'react';
+import { createRoot } from 'react-dom/client';
+import { Box, Button, Text, TonicProvider } from '@tonic-ui/react';
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <Box p="4x">
+      <Text as="h1" mb="3x">Tonic UI from a CDN</Text>
+      <Button onClick={() => setCount(value => value + 1)}>Clicked {count} times</Button>
+    </Box>
+  );
+}
+
+createRoot(document.getElementById('root')).render(
+  <TonicProvider useCSSBaseline={true} useCSSVariables={true}>
+    <App />
+  </TonicProvider>
+);
+```
+
+The Provider enables the baseline and theme variables. The document sets the
+initial color scheme before rendering.
+
+## Verify CDN loading
+
+```bash
+npm run build
+npm run preview
+```
+
+Confirm that the button is styled and increments when clicked. Check Network for
+the `esm.sh` runtime requests and the same-origin application entry. Deploy the
+complete `dist/` directory.
+
+| Mode | Runtime source | Import map |
+| :--- | :--- | :--- |
+| `npm run dev` | Installed packages resolved by Vite | Does not select the rewritten app imports |
+| Build and preview | CDN URLs | Resolves the app's external imports |
+
+A working dev server alone does not verify CDN loading. Rebuild and preview after
+updating dependencies or changing the map generator or production external rule.
+
+## Important settings
+
+- Pin dependency versions and keep React and React DOM versions equal. The Vite
+  hook automatically uses the installed versions in CDN URLs.
+- Keep `standalone` on the Tonic URL. For the example's published release, omitting
+  it produces a multi-file build whose `react-focus-lock` dependency fails during
+  loading. Keep `external=react,react-dom` so Tonic uses the mapped React family
+  rather than bundling another instance.
+- Keep `external=react` on React DOM and JSX-runtime URLs so they follow your map.
+- `target=es2022` selects ES2022 output; use browsers that support that syntax and
+  native import maps. It does not add support to older browsers.
+- esm.sh resolves this Tonic build's Emotion dependencies to CDN URLs. This
+  example does not map Emotion separately; a raw standalone artifact has
+  different mapping requirements, covered in [CDN with local fallback](../cdn-with-local-fallback/).
+- Serve modules with a JavaScript MIME type. Allow the CDN and the inline import
+  map in your CSP; cross-origin module responses must permit CORS.
+
+For automatic fallback to same-origin runtime files, use
+[CDN with local fallback](../cdn-with-local-fallback/).
