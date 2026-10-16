@@ -28,7 +28,7 @@ export const routes = [
     ),
     routes: [
       { title: 'Installation', path: 'getting-started/installation' },
-      { title: 'Installation for PR builds', path: 'getting-started/installation-for-pr-builds' },
+      { title: 'Installation for PR build', path: 'getting-started/installation-for-pr-builds' },
       { title: 'Usage', path: 'getting-started/usage' },
       {
         title: 'Color mode',
@@ -69,8 +69,11 @@ export const routes = [
       <WorkspaceIcon size="4x" {...props} />
     ),
     routes: [
-      { title: 'Micro frontend', path: 'integrations/micro-frontend' },
-      { title: 'Shared runtime', path: 'integrations/shared-runtime' },
+      { heading: true, title: 'Micro frontend' },
+      { title: 'Micro frontend architecture', path: 'integrations/micro-frontend' },
+      { heading: true, title: 'CDN integration' },
+      { title: 'CDN setup', path: 'integrations/cdn-setup' },
+      { title: 'CDN with local fallback', path: 'integrations/cdn-with-local-fallback' },
     ],
   },
   {

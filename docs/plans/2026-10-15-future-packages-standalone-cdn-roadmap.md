@@ -3,7 +3,7 @@
 **Date:** 2026-10-15
 **Status:** 📋 FUTURE PLAN for the listed add-on packages (not yet implemented). The core precedent — `@tonic-ui/react`'s standalone artifact — is implemented in `packages/react` (see §6).
 **Packages covered:** `@tonic-ui/react-data-grid`, `@tonic-ui/charts`, `@tonic-ui/react-charts`
-**Related:** the CDN-first shared runtime demos in `packages/react-docs/examples/app-shared-runtime` and `packages/react-docs/integrations/shared-runtime` (the reference apps this design serves)
+**Related:** the CDN-first shared runtime demos in `examples/app-cdn-with-local-fallback` and `packages/react-docs/integrations/cdn-with-local-fallback` (the reference apps this design serves)
 
 ---
 
@@ -18,6 +18,8 @@ The shared runtime reference apps load Tonic from a CDN at browser runtime using
 A single-file artifact is needed because esm.sh does **not** inline the Emotion family (it is a peer dependency — the README states `?standalone` excludes `peerDependencies`), so a plain esm.sh build of the multi-file `dist/esm` leaves ~30 small waterfall requests behind. Our own prebuilt file has no emotion subgraph to waterfall.
 
 **Placement rule (decided):** the artifact is a build target **inside its own package** — `dist/standalone/index.js` — not a new `*-standalone` package. `files: ["dist"]` ships it automatically, the raw URL keeps the package's own version (no version skew between the file and the API it exposes), and `main`/`module`/`exports` stay untouched (regular bundler consumers keep the multi-file `dist/esm` with peers external).
+
+**Naming evidence (2026-10-16):** See the [standalone ESM artifact naming ADR](../adr/2026-10-16-standalone-esm-artifact-naming.md). It recommends `dist/standalone/index.mjs` for new public paths, with React and Emotion explicitly documented as external. The `.js` paths in this roadmap describe the current implementation; no rename is implemented, and any migration must first establish the existing CDN path's compatibility obligations.
 
 **Emotion single-instance invariant (decided):** `@emotion/react` and `@emotion/styled` are peer dependencies of **every** Tonic package (confirmed for `@tonic-ui/react`: `^11.0.0` for both) and therefore stay **external in every standalone file**. The import map provides exactly one shared Emotion instance for the whole document. The only module that must never exist twice per document is Emotion (its style cache); theme values flow through `:root` CSS variables, which are global, so no other module in the family carries instance-splitting risk.
 
