@@ -44,8 +44,8 @@ From the repository directory:
 
 ```bash
 yarn build-public      # build the Tonic packages the examples resolve
-yarn test:e2e:install  # one-time Chromium download
+yarn playwright install chromium  # one-time Chromium download
 yarn test:e2e
 ```
 
-The suite builds both examples, starts their production preview servers on ports 4180 and 4181, and runs five tests. Docs integrations (CDN inspector, Module Federation, Wujie) belong to the separate [react-docs suite](../packages/react-docs/e2e/README.md).
+The suite builds both examples, starts their production preview servers on automatically assigned ports, and runs five tests. Use `E2E_HOST` or `E2E_PORT` to override the host or request fixed ports. Docs integrations belong to the separate [react-docs suite](../packages/react-docs/e2e/README.md).

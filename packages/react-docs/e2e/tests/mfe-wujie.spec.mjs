@@ -1,3 +1,7 @@
+// Wujie integration: load sandboxed dashboard and Inventory applications.
+// Verify navigation/remount and endpoint details, with Drawer portals kept
+// inside the projected shadow root rather than leaking into the host document.
+
 import { test, expect } from '@playwright/test';
 
 test.describe('mfe-wujie', () => {

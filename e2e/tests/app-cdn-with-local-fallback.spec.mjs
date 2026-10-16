@@ -1,8 +1,10 @@
-import { test, expect } from '@playwright/test';
-import { blockCdn } from '../helpers.mjs';
+// CDN-with-local-fallback example: verify forced-local, CDN-first, and outage
+// startup paths. Assert selected sources only after the final document mounts.
+// A local standalone artifact can be absent from its published tarball.
 
-// `examples/app-cdn-with-local-fallback`: the bootstrap selects a CDN or local
-// runtime per family and falls back when the CDN fails to load.
+import { test, expect } from '@playwright/test';
+import { blockCdn } from './helpers.mjs';
+
 test.describe('app-cdn-with-local-fallback', () => {
   // The installed Tonic version may predate the standalone artifact: the
   // published tarball then lacks `dist/standalone/index.js`, the raw.esm.sh
