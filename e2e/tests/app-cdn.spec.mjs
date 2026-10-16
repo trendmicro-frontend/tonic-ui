@@ -1,8 +1,9 @@
-import { test, expect } from '@playwright/test';
-import { blockCdn } from '../helpers.mjs';
+// CDN-only example: verify production import-map loading and counter interaction.
+// Blocking the CDN must leave the application unmounted; there is no fallback.
 
-// `examples/app-cdn`: a CDN-only reference app. React and Tonic UI resolve
-// through an esm.sh import map generated at build time.
+import { test, expect } from '@playwright/test';
+import { blockCdn } from './helpers.mjs';
+
 test.describe('app-cdn', () => {
   test('mounts and interacts with a Tonic UI loaded from a CDN', async ({ page }) => {
     await page.goto('/');

@@ -1,3 +1,7 @@
+// CDN runtime inspector: an isolated shell observes a disposable runtime frame.
+// Verify local-only loading without CDN requests, per-family failure fallback,
+// and CDN-first selection against the published artifact's actual availability.
+
 import { test, expect } from '@playwright/test';
 
 const cdnHosts = /https:\/\/(?:raw\.)?esm\.sh\//;

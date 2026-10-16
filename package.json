@@ -21,8 +21,7 @@
     "pre-push": "lerna exec -- yarn pre-push",
     "prepare": "husky install",
     "test": "lerna exec -- yarn test",
-    "test:e2e": "playwright test --config e2e/playwright.config.mjs",
-    "test:e2e:install": "playwright install chromium"
+    "test:e2e": "playwright test --config e2e/playwright.config.mjs --reporter=list"
   },
   "author": "Cheton Wu",
   "homepage": "https://github.com/trendmicro-frontend/tonic-ui",

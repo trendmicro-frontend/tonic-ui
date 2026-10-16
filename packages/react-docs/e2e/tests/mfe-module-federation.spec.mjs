@@ -1,3 +1,7 @@
+// Module Federation integration: load dashboard and Inventory remotes into the
+// shell document. Verify navigation/revisit, endpoint details, and Drawer close
+// and Escape behavior without moving the portal into another DOM realm.
+
 import { test, expect } from '@playwright/test';
 
 test.describe('mfe-module-federation', () => {

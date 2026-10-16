@@ -13,3 +13,5 @@
 # Playwright E2E output
 /e2e/test-results
 /e2e/playwright-report
+/output/e2e-test-results/
+/output/e2e-playwright-report/
