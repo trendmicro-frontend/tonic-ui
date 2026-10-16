@@ -3,7 +3,8 @@
   "description": "Tonic UI is a themeable UI component library built on top of Emotion and Styled System.",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "examples/*"
   ],
   "scripts": {
     "build": "lerna exec -- yarn build",
@@ -19,7 +20,8 @@
     "lint": "lerna exec -- yarn lint",
     "pre-push": "lerna exec -- yarn pre-push",
     "prepare": "husky install",
-    "test": "lerna exec -- yarn test"
+    "test": "lerna exec -- yarn test",
+    "test:e2e": "playwright test --config e2e/playwright.config.mjs --reporter=list"
   },
   "author": "Cheton Wu",
   "homepage": "https://github.com/trendmicro-frontend/tonic-ui",
@@ -35,6 +37,7 @@
     "@changesets/cli": "^2.30.0",
     "@commitlint/cli": "17.x",
     "@commitlint/config-conventional": "17.x",
+    "@playwright/test": "1.64.1",
     "@tonic-ui/changelog-github": "workspace:*",
     "husky": "8.x",
     "lerna": "9.x"
