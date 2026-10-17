@@ -1,6 +1,6 @@
 # Integration E2E
 
-Local Playwright (Chromium) checks for `packages/react-docs/integrations/` only. Application examples belong to the separate [root suite](../../../e2e/README.md).
+Local Playwright (Chromium) checks for the docs integrations and the CDN runtime inspector under `public/demos/`. The reference applications belong to the separate [root suite](../../../e2e/README.md).
 
 ## Run
 

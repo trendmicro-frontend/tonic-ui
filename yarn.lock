@@ -8731,36 +8731,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"app-cdn-with-local-fallback@workspace:examples/app-cdn-with-local-fallback":
-  version: 0.0.0-use.local
-  resolution: "app-cdn-with-local-fallback@workspace:examples/app-cdn-with-local-fallback"
-  dependencies:
-    "@emotion/cache": "npm:11.14.0"
-    "@emotion/is-prop-valid": "npm:1.2.2"
-    "@emotion/react": "npm:11.14.0"
-    "@emotion/styled": "npm:11.14.1"
-    "@tonic-ui/react": "npm:3.0.0-alpha.1"
-    "@vitejs/plugin-react": "npm:4.7.0"
-    react: "npm:19.2.7"
-    react-dom: "npm:19.2.7"
-    vite: "npm:6.4.3"
-  languageName: unknown
-  linkType: soft
-
-"app-cdn@workspace:examples/app-cdn":
-  version: 0.0.0-use.local
-  resolution: "app-cdn@workspace:examples/app-cdn"
-  dependencies:
-    "@emotion/react": "npm:11.14.0"
-    "@emotion/styled": "npm:11.14.1"
-    "@tonic-ui/react": "npm:3.0.0-alpha.1"
-    "@vitejs/plugin-react": "npm:4.7.0"
-    react: "npm:19.2.7"
-    react-dom: "npm:19.2.7"
-    vite: "npm:6.4.3"
-  languageName: unknown
-  linkType: soft
-
 "aproba@npm:2.0.0":
   version: 2.0.0
   resolution: "aproba@npm:2.0.0"
@@ -9647,6 +9617,36 @@ __metadata:
   checksum: 10/48193dada54c9e260e0acf57fc16171a225305548f9ad20d5471e0f7a8c026aedd8747091dccb0d900cde7df4e4ddbd235df0d8de4a64c71b12f0d3303eeafd4
   languageName: node
   linkType: hard
+
+"cdn-with-fallback@workspace:examples/cdn-with-fallback":
+  version: 0.0.0-use.local
+  resolution: "cdn-with-fallback@workspace:examples/cdn-with-fallback"
+  dependencies:
+    "@emotion/cache": "npm:11.14.0"
+    "@emotion/is-prop-valid": "npm:1.2.2"
+    "@emotion/react": "npm:11.14.0"
+    "@emotion/styled": "npm:11.14.1"
+    "@tonic-ui/react": "npm:3.0.0-alpha.1"
+    "@vitejs/plugin-react": "npm:4.7.0"
+    react: "npm:19.2.7"
+    react-dom: "npm:19.2.7"
+    vite: "npm:6.4.3"
+  languageName: unknown
+  linkType: soft
+
+"cdn-without-fallback@workspace:examples/cdn-without-fallback":
+  version: 0.0.0-use.local
+  resolution: "cdn-without-fallback@workspace:examples/cdn-without-fallback"
+  dependencies:
+    "@emotion/react": "npm:11.14.0"
+    "@emotion/styled": "npm:11.14.1"
+    "@tonic-ui/react": "npm:3.0.0-alpha.1"
+    "@vitejs/plugin-react": "npm:4.7.0"
+    react: "npm:19.2.7"
+    react-dom: "npm:19.2.7"
+    vite: "npm:6.4.3"
+  languageName: unknown
+  linkType: soft
 
 "chalk@npm:4.1.0":
   version: 4.1.0

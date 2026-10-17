@@ -1,24 +1,28 @@
 # CDN setup
 
-The built application loads React and Tonic UI from esm.sh through a fixed
-import map. There is no automatic fallback: if a CDN module cannot load,
-application startup fails.
+The built application loads React and Tonic UI from esm.sh through an import
+map that a runtime bootstrap installs before any module loads. There is no
+automatic fallback: if a CDN import fails or exceeds the eight-second startup
+budget, the application does not mount and the document shows a visible error
+state.
 
 ## Run the example
 
-With workspace dependencies installed and the Tonic packages built, open
-[`examples/app-cdn`](https://github.com/trendmicro-frontend/tonic-ui/tree/main/examples/app-cdn).
+With workspace dependencies installed and the Tonic UI packages built, open
+[`examples/cdn-without-fallback`](https://github.com/trendmicro-frontend/tonic-ui/tree/main/examples/cdn-without-fallback).
 Run these commands from the repository root:
 
 ```bash
-cd examples/app-cdn
+cd examples/cdn-without-fallback
 npm run build
 npm run preview
 ```
 
-Open the URL printed by Vite. You should see **Tonic UI from a CDN**. Click the
-button: its count should increase. In DevTools Network, React and Tonic UI load
-from `esm.sh`, while the application entry loads from your server.
+Open the URL printed by Vite. You should see **Demo app** and the generated
+runtime manifest below it. In DevTools Network, React and Tonic UI load from
+`esm.sh`, while the application entry loads from your server. Block the CDN
+hosts and reload: the application does not mount, and the document shows the
+startup error instead.
 
 ## Configure your application
 
@@ -29,169 +33,274 @@ In a new application directory:
 ```bash
 npm init -y
 npm install --save-exact react@19.2.7 react-dom@19.2.7 @tonic-ui/react
+npm install --save-exact @emotion/react @emotion/styled @emotion/cache @emotion/is-prop-valid
 npm install -D --save-exact vite@6.4.3 @vitejs/plugin-react@4.7.0
 ```
 
-Add these fields to `package.json`, keeping the installed dependencies:
+The Emotion packages are also transitive dependencies of `@tonic-ui/react`;
+install them directly so the build can read their installed versions in any
+package layout.
+
+Add these fields to `package.json`, keeping the installed dependencies. The
+build script generates `runtime-manifest.json` alongside the built app:
 
 ```json
 {
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "node scripts/build.mjs && vite",
+    "build": "node scripts/build.mjs",
     "preview": "vite preview"
   }
 }
 ```
 
-Local packages support the development server. The production build leaves their
-imports external so the browser can resolve them through the import map.
-
 ### Configure Vite
 
-Create `vite.config.mjs`:
+Create `vite.config.mjs`. The production build leaves every runtime import
+external; the development branch is covered in [CDN with local
+fallback](../cdn-with-local-fallback/):
 
 ```js
-import { createRequire } from 'node:module';
 import reactPlugin from '@vitejs/plugin-react';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
+import { isReact, isTonicUI } from './cdn-shared/manifest.mjs';
 
-const require = createRequire(import.meta.url);
-const versionMap = new Map([
-  ['react', require('react/package.json').version],
-  ['react-dom', require('react-dom/package.json').version],
-  ['@tonic-ui/react', require('@tonic-ui/react/package.json').version],
-]);
-const imports = {
-  react: `https://esm.sh/react@${versionMap.get('react')}?target=es2022`,
-  'react-dom': `https://esm.sh/react-dom@${versionMap.get('react-dom')}?external=react&target=es2022`,
-  'react-dom/client': `https://esm.sh/react-dom@${versionMap.get('react-dom')}/client?external=react&target=es2022`,
-  'react/jsx-runtime': `https://esm.sh/react@${versionMap.get('react')}/jsx-runtime?external=react&target=es2022`,
-  '@tonic-ui/react': `https://esm.sh/@tonic-ui/react@${versionMap.get('@tonic-ui/react')}?standalone&external=react,react-dom&target=es2022`,
-};
-
-const shared = id =>
-  id === '@tonic-ui/react' || /^(react|react-dom)(\/|$)/.test(id);
+const root = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  plugins: [
-    reactPlugin({ jsxRuntime: 'automatic' }),
-    {
-      name: 'cdn-import-map',
-      transformIndexHtml() {
-        return [{
-          tag: 'script',
-          attrs: { type: 'importmap' },
-          children: JSON.stringify({ imports }, null, 2),
-          injectTo: 'head-pre',
-        }];
-      },
-    },
-  ],
+  plugins: [reactPlugin({ jsxRuntime: 'automatic' })],
+  base: './',
+  publicDir: false,
   build: {
     target: 'es2022',
-    rollupOptions: { external: shared },
+    rollupOptions: {
+      // One application entry; the runtime bootstrap loads it by URL and
+      // calls its exported mount function.
+      input: { app: resolve(root, 'src/app.jsx') },
+      // The bootstrap installs the import map at startup, so every runtime
+      // import stays external. The automatic JSX runtime compiles to
+      // react/jsx-runtime imports, which the rule covers.
+      external: id => isReact(id) || isTonicUI(id),
+      // Nothing references mount at build time; keep the entry signature so
+      // the bootstrap can call it.
+      preserveEntrySignatures: 'strict',
+      output: {
+        entryFileNames: 'assets/app/[name]-[hash].js',
+        chunkFileNames: 'assets/app/[name]-[hash].js',
+        assetFileNames: 'assets/app/[name][extQuery]',
+      },
+    },
   },
 });
 ```
 
-The external rule keeps React and Tonic UI out of the application bundle. The
-plugin compiles JSX into `react/jsx-runtime` imports, which the map also covers.
+Do not add a static import map here: the bootstrap installs one at startup from
+the generated manifest, and a document can install only one import map.
 
 ### Add the application document
 
-Create `index.html`. Do not add a second import map: Vite inserts the generated
-map into the head before the application module.
+Create `index.html`. Copy the shared files in
+[`examples/cdn-shared/`](https://github.com/trendmicro-frontend/tonic-ui/tree/main/examples/cdn-shared)
+into the application as `cdn-shared/`: the build imports `manifest.mjs` and
+`emotion-redirects.mjs` from it, and the document loads `bootstrap.js` (copied
+into `dist/` by the build) at startup.
 
 ```html
 <!doctype html>
-<html lang="en" data-color-scheme="light">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tonic UI from a CDN</title>
+  <title>Tonic UI app</title>
+  <script>
+    (() => {
+      const colorMode = new URLSearchParams(location.search).get('colorMode') === 'dark' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-color-scheme', colorMode);
+    })();
+  </script>
+  <style>
+    html { background-color: #fcfcfc; color-scheme: light; }
+    html[data-color-scheme="dark"] { background-color: #1b1b1b; color-scheme: dark; }
+    body { margin: 0; }
+    #root { display: flow-root; }
+  </style>
 </head>
 <body>
   <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
+  <div id="bootstrap-status">
+    <h1>Loading the shared runtime</h1>
+    <p id="startup-error" role="alert" hidden>Cannot start the application. Check the browser console.</p>
+  </div>
+  <script>
+    window.addEventListener('error', (event) => {
+      if (!document.getElementById('root').childElementCount) {
+        document.getElementById('startup-error').hidden = false;
+      }
+    }, true);
+  </script>
+  <script defer src="./bootstrap.js" data-manifest="./runtime-manifest.json"></script>
+  <noscript>This application requires JavaScript.</noscript>
 </body>
 </html>
 ```
 
-Vite reads the actual installed package versions, not dependency ranges from
-your application's `package.json`. The hook runs in dev and build; build writes
-the map into `dist/index.html`, which preview serves without regenerating it.
-After updating dependencies, restart dev or rebuild before previewing.
-
-The generated CDN versions must be published. A local workspace build alone does
-not make its version available on esm.sh.
-
 ### Write the application
 
-Create `src/main.jsx`:
+Create `src/app.jsx`. Keep normal React and Tonic UI imports. Instead of
+mounting eagerly at module scope, export the function the bootstrap calls. The
+app also renders the generated manifest, so the loaded runtime is visible
+directly:
 
 ```jsx
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Box, Button, Text, TonicProvider } from '@tonic-ui/react';
+import {
+  Box, Text, TonicProvider, useColorMode, useColorStyle,
+} from '@tonic-ui/react';
 
-function App() {
-  const [count, setCount] = useState(0);
+function App({ onMounted }) {
+  const [colorMode] = useColorMode();
+  const [colorStyle] = useColorStyle({ colorMode });
+  const [manifest, setManifest] = useState(null);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-color-scheme', colorMode);
+    const status = document.getElementById('bootstrap-status');
+    if (status) {
+      status.hidden = true;
+    }
+  }, [colorMode]);
+
+  // The manifest lives beside the document in every output layout, so the app
+  // reads the same file the bootstrap loaded. It shows the exact runtime the
+  // application started with.
+  useEffect(() => {
+    let active = true;
+    fetch(new URL('./runtime-manifest.json', location.href).href)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Cannot load the runtime manifest: ${response.status}`);
+        }
+        return response.text();
+      })
+      .then(text => {
+        if (active) {
+          setManifest(text);
+        }
+      })
+      .catch(error => {
+        if (active) {
+          setManifest(`${error.message}\n`);
+        }
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+  useEffect(() => {
+    onMounted();
+  }, [onMounted]);
 
   return (
-    <Box p="4x">
-      <Text as="h1" mb="3x">Tonic UI from a CDN</Text>
-      <Button onClick={() => setCount(value => value + 1)}>Clicked {count} times</Button>
-    </Box>
+    <>
+      <Box p="6x" display="flex" flexDirection="column" alignItems="center" gap="2x">
+        <Text as="h1" fontSize="xl" mb="1x">Demo app</Text>
+      </Box>
+      <Box p="4x" pb="6x" display="flex" flexDirection="column" alignItems="center" gap="2x" width="100%">
+        <Box
+          as="pre"
+          id="runtime-manifest"
+          width="100%"
+          p="3x"
+          backgroundColor={colorStyle.background.secondary}
+          sx={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere', maxWidth: '60rem' }}
+        >
+          {manifest ?? 'Loading manifest...\n'}
+        </Box>
+      </Box>
+    </>
   );
 }
 
-createRoot(document.getElementById('root')).render(
-  <TonicProvider useCSSBaseline={true} useCSSVariables={true}>
-    <App />
-  </TonicProvider>
-);
+export function mount(element, runtime) {
+  const initialColorMode = new URL(location.href).searchParams.get('colorMode');
+  const defaultValue = initialColorMode === 'dark' ? 'dark' : 'light';
+  return new Promise(resolve => {
+    createRoot(element).render(
+      <TonicProvider colorMode={{ defaultValue }} useCSSBaseline={true} useCSSVariables={true}>
+        <App onMounted={resolve} />
+      </TonicProvider>,
+    );
+  });
+}
 ```
 
-The Provider enables the baseline and theme variables. The document sets the
-initial color scheme before rendering.
+The Provider follows the document's `colorMode` query parameter (default
+light). The `runtime` argument carries the selected sources and package
+versions if the application needs them.
 
-## Verify CDN loading
+### Generate the manifest
 
-```bash
-npm run build
-npm run preview
-```
+Create `scripts/build.mjs`. The [example build
+script](https://github.com/trendmicro-frontend/tonic-ui/blob/main/examples/cdn-without-fallback/scripts/build.mjs)
+writes `runtime-manifest.json` alongside the built app: it records the
+installed versions, builds one CDN candidate per group, and generates the
+Emotion mappings. The docs build runs the same script and generates
+[`runtime-manifest.json`](../../demos/cdn-without-fallback/runtime-manifest.json)
+in the demo output.
 
-Confirm that the button is styled and increments when clicked. Check Network for
-the `esm.sh` runtime requests and the same-origin application entry. Deploy the
-complete `dist/` directory.
+All groups in this example have `local: null`: the runtime is CDN-only, and a
+failed probe ends startup with a visible error instead of falling back. The
+manifest uses installed package versions, so its version numbers and CDN URLs
+update when the docs build runs.
 
-| Mode | Runtime source | Import map |
-| :--- | :--- | :--- |
-| `npm run dev` | Installed packages resolved by Vite | Does not select the rewritten app imports |
-| Build and preview | CDN URLs | Resolves the app's external imports |
+## How the runtime loads
 
-A working dev server alone does not verify CDN loading. Rebuild and preview after
-updating dependencies or changing the map generator or production external rule.
+The bootstrap fetches the manifest, selects one source per group, installs one
+import map, probes each group within eight seconds, and then loads and mounts
+the application. Every consumer resolves its family through that one immutable
+map, so all loaded modules share one React and one Emotion instance. It
+reports startup state as structured JSON events through `onStatus`; this
+example logs them to the console.
+
+| Mode | Runtime source |
+| :--- | :--- |
+| `npm run dev` | The production manifest from `dist/`, with the application loaded from source on the same selected CDN runtime |
+| Build and preview | The generated manifest, resolved from `dist/` |
+
+A working dev server verifies CDN loading the same way preview does, because
+development runs the application on the selected CDN runtime rather than on
+Vite's prebundled copies of the shared packages.
 
 ## Important settings
 
-- Pin dependency versions and keep React and React DOM versions equal. The Vite
-  hook automatically uses the installed versions in CDN URLs.
-- Keep `standalone` on the Tonic URL. For the example's published release, omitting
-  it produces a multi-file build whose `react-focus-lock` dependency fails during
-  loading. Keep `external=react,react-dom` so Tonic uses the mapped React family
-  rather than bundling another instance.
-- Keep `external=react` on React DOM and JSX-runtime URLs so they follow your map.
-- `target=es2022` selects ES2022 output; use browsers that support that syntax and
-  native import maps. It does not add support to older browsers.
-- esm.sh resolves this Tonic build's Emotion dependencies to CDN URLs. This
-  example does not map Emotion separately; a raw standalone artifact has
-  different mapping requirements, covered in [CDN with local fallback](../cdn-with-local-fallback/).
-- Serve modules with a JavaScript MIME type. Allow the CDN and the inline import
-  map in your CSP; cross-origin module responses must permit CORS.
+- Pin dependency versions and keep React and React DOM versions equal. The
+  build script automatically uses the installed versions in CDN URLs.
+- Keep `standalone` on the Tonic UI URL. For the example's published release,
+  omitting it produces a multi-file build whose `react-focus-lock` dependency
+  fails during loading. Keep `external=react,react-dom` so Tonic UI uses the
+  mapped React family rather than bundling another instance.
+- Keep `external=react` on React DOM and the JSX-runtime URLs so they follow
+  the map to the single React module.
+- `target=es2022` selects ES2022 output; use browsers that support that syntax
+  and native import maps. It does not add support to older browsers.
+- The build generates the manifest's `shared.imports` section: the Emotion
+  modules the selected Tonic UI CDN source requests, mapped to their pinned
+  single-file builds. Keep the section in the manifest; a missing key can
+  leave styles silently broken without an error. The raw standalone artifact
+  has the same requirement, covered in [CDN with local
+  fallback](../cdn-with-local-fallback/).
+- Serve modules with a JavaScript MIME type. Allow the CDN and the import map
+  in your CSP; cross-origin module responses must permit CORS.
+
+The generated CDN versions must be published. A local workspace build alone
+does not make its version available on esm.sh. The build probes the published
+standalone artifact: a locally built artifact the published package lacks is
+detected at build time and the esm.sh build is selected instead; a CDN failure
+at runtime still leaves the document in the error state.
 
 For automatic fallback to same-origin runtime files, use
 [CDN with local fallback](../cdn-with-local-fallback/).

@@ -2,7 +2,7 @@ import { Box, useColorMode } from '@tonic-ui/react';
 import { useEffect, useRef, useState } from 'react';
 
 const basePath = process.env.TONIC_UI_REACT_DOCS_BASE_PATH || '';
-const demoSrc = `${basePath}/demos/cdn-with-local-fallback/index.html`;
+const demoSrc = `${basePath}/demos/cdn-with-local-fallback/inspector.html`;
 
 const App = () => {
   const [colorMode] = useColorMode();
@@ -13,15 +13,15 @@ const App = () => {
   useEffect(() => {
     const frame = iframeRef.current;
     const sendColorMode = (value) => frame?.contentWindow?.postMessage(
-      { type: 'tonic-cdn-runtime:color-mode', value }, window.location.origin
+      { type: 'cdn-runtime:color-mode', value }, window.location.origin
     );
     const onMessage = (event) => {
       if (event.origin !== window.location.origin || event.source !== frame?.contentWindow) {
         return;
       }
-      if (event.data?.type === 'tonic-cdn-runtime:ready') {
+      if (event.data?.type === 'cdn-runtime:ready') {
         sendColorMode(colorMode);
-      } else if (event.data?.type === 'tonic-cdn-runtime:resize' &&
+      } else if (event.data?.type === 'cdn-runtime:resize' &&
         Number.isFinite(event.data.height) && event.data.height > 0) {
         setIframeHeight(Math.ceil(event.data.height));
       }

@@ -1,13 +1,13 @@
 # e2e/
 
-Local Playwright (Chromium) suite for `examples/app-cdn` and `examples/app-cdn-with-local-fallback`. Docs integrations have a separate [react-docs suite](../packages/react-docs/e2e/README.md).
+Local Playwright (Chromium) suite for `examples/cdn-without-fallback` and `examples/cdn-with-fallback`. Docs integrations have a separate [react-docs suite](../packages/react-docs/e2e/README.md).
 
 ## How to run
 
 The entry point is a single command, run from the **repository root**:
 
 ```bash
-yarn build-public      # after install or dependency changes: builds the Tonic packages
+yarn build-public      # after install or dependency changes: builds the Tonic UI packages
 yarn playwright install chromium  # one-time: downloads Chromium
 yarn test:e2e
 ```
@@ -27,12 +27,12 @@ The host defaults to `127.0.0.1`. Without `E2E_PORT` (or with `0`), each server 
 Run a single surface or scenario:
 
 ```bash
-yarn test:e2e --project app-cdn
-yarn test:e2e --project app-cdn-with-local-fallback
+yarn test:e2e --project cdn-without-fallback
+yarn test:e2e --project cdn-with-fallback
 yarn test:e2e --grep "falls back"
 ```
 
-CDN checks use real `esm.sh` / `raw.esm.sh` URLs and need network access. Local and outage cases avoid or block CDN requests in the browser; builds can still fetch CDN metadata. An installed Tonic version can lack a published standalone artifact, so CDN-first checks probe the generated manifest's candidate URL before checking the final mounted document.
+CDN checks use real `esm.sh` / `raw.esm.sh` URLs and need network access. Local and outage cases avoid or block CDN requests in the browser; builds can still fetch CDN metadata. The Tonic UI group's CDN source prefers the published standalone artifact, served raw from the published npm tarball; when the installed package lacks it, the build probes the published URL and selects the esm.sh build instead, so CDN-first checks probe the generated manifest's candidate URL before checking the final mounted document.
 
 ## Files
 

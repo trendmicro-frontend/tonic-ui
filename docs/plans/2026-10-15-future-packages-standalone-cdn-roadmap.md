@@ -3,7 +3,7 @@
 **Date:** 2026-10-15
 **Status:** 📋 FUTURE PLAN for the listed add-on packages (not yet implemented). The core precedent — `@tonic-ui/react`'s standalone artifact — is implemented in `packages/react` (see §6).
 **Packages covered:** `@tonic-ui/react-data-grid`, `@tonic-ui/charts`, `@tonic-ui/react-charts`
-**Related:** the CDN-first shared runtime demos in `examples/app-cdn-with-local-fallback` and `packages/react-docs/integrations/cdn-with-local-fallback` (the reference apps this design serves)
+**Related:** the CDN-first shared runtime demos in `examples/cdn-without-fallback` and `examples/cdn-with-fallback`, with their shared bootstrap in `examples/cdn-shared` (the reference apps this design serves)
 
 ---
 
