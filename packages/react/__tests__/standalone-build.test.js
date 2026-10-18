@@ -54,7 +54,7 @@ test('standalone minify integrated in rollup is byte-identical to the esbuild CL
   const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'tonic-standalone-'));
   const cliInput = path.join(tmpRoot, 'index.js');
   const cliArtifact = path.join(tmpRoot, 'index.min.js');
-  const env = { ...process.env, ROLLUP_ONLY_STANDALONE: '1' };
+  const env = { ...process.env, BUILD_STANDALONE_ONLY: '1' };
   delete env.NODE_ENV;
 
   try {

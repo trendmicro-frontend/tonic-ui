@@ -13,7 +13,7 @@ Provide a single-file ESM build of `@tonic-ui/react` for browser/CDN consumers u
 - Outputs: `packages/react/dist/standalone/index.js` (full ESM) and `packages/react/dist/standalone/index.min.js` (minified ESM, transpiled to ES2022).
 - Source maps: Rollup emits a hidden `index.js.map`; esbuild emits the linked `index.min.js.map`.
 - Package publication: `packages/react/package.json` includes `dist` in `files`, so the artifact is part of the package output.
-- Dedicated command: `yarn build:standalone`; builds only the standalone target and fails if sibling package distributions are missing.
+- Dedicated command: `yarn build:standaloneOnly`; sets `BUILD_STANDALONE_ONLY=1`, builds only the standalone target, and fails if sibling package distributions are missing.
 - `yarn build` emits the regular CJS, ESM, and type outputs plus both standalone artifacts. It fails if required sibling package distributions are missing.
 
 The `.js` file is the full artifact; `.min.js` identifies the minified CDN variant. No `index.mjs` artifact is produced.

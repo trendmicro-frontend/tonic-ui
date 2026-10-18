@@ -206,7 +206,7 @@ const targets = [
 ];
 // Both build commands include the standalone target. It requires sibling
 // package distributions to be built first.
-const standaloneOnly = process.env.ROLLUP_STANDALONE_ONLY === '1';
+const standaloneOnly = process.env.BUILD_STANDALONE_ONLY === '1';
 const missing = missingSiblingDists();
 if (missing.length > 0) {
   throw new Error(
