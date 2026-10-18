@@ -1,6 +1,6 @@
 # e2e/
 
-Local Playwright (Chromium) suite for `examples/cdn-without-fallback` and `examples/cdn-with-fallback`. Docs integrations have a separate [react-docs suite](../packages/react-docs/e2e/README.md).
+Local Playwright (Chromium) suite for `examples/esm-cdn-with-fallback`. Docs integrations have a separate [react-docs suite](../packages/react-docs/e2e/README.md).
 
 ## How to run
 
@@ -12,7 +12,7 @@ yarn playwright install chromium  # one-time: downloads Chromium
 yarn test:e2e
 ```
 
-`yarn test:e2e` builds both examples, starts their production preview servers, and runs all five tests. Each server automatically binds an available port. Do not start the apps manually.
+`yarn test:e2e` builds the example, starts its production preview server, and checks local-only loading, CDN-first loading, and automatic local fallback. The server automatically binds an available port. Do not start the app manually.
 
 Both suites declare targets in `tests/index.mjs` and servers directly in `playwright.config.mjs`. The shared factory creates projects and joins each server's build/preview commands with `&&`, so preview starts only after successful builds.
 
@@ -22,13 +22,12 @@ Optionally override the host or request fixed ports with `E2E_HOST` and `E2E_POR
 E2E_HOST=localhost E2E_PORT=4280 yarn test:e2e
 ```
 
-The host defaults to `127.0.0.1`. Without `E2E_PORT` (or with `0`), each server binds port `0` and the OS assigns its port. Playwright captures the actual URL from Vite's ready output and passes it to browser workers. A nonzero `E2E_PORT` is the starting port; the second server uses the next port. Servers are started fresh for each run.
+The host defaults to `127.0.0.1`. Without `E2E_PORT` (or with `0`), the server binds port `0` and the OS assigns its port. Playwright captures the actual URL from Vite's ready output and passes it to browser workers. A nonzero `E2E_PORT` requests that port. The server is started fresh for each run.
 
 Run a single surface or scenario:
 
 ```bash
-yarn test:e2e --project cdn-without-fallback
-yarn test:e2e --project cdn-with-fallback
+yarn test:e2e --project esm-cdn-with-fallback
 yarn test:e2e --grep "falls back"
 ```
 

@@ -1,9 +1,9 @@
 export const tests = [
   {
-    name: 'cdn-with-local-fallback',
-    specFile: 'cdn-with-local-fallback.spec.mjs',
-    path: '/demos/cdn-with-local-fallback/',
-    build: 'build:cdn-with-local-fallback',
+    name: 'esm-cdn-with-fallback',
+    specFile: 'esm-cdn-with-fallback.spec.mjs',
+    path: '/demos/esm-cdn-with-fallback/',
+    build: 'build:esm-cdn-with-fallback',
   },
   {
     name: 'mfe-module-federation',

@@ -72,8 +72,7 @@ export const routes = [
       { heading: true, title: 'Micro frontend' },
       { title: 'Micro frontend architecture', path: 'integrations/micro-frontend' },
       { heading: true, title: 'CDN integration' },
-      { title: 'CDN setup', path: 'integrations/cdn-setup' },
-      { title: 'CDN with local fallback', path: 'integrations/cdn-with-local-fallback' },
+      { title: 'esm.sh CDN with fallback', path: 'integrations/esm-cdn-with-fallback' },
     ],
   },
   {

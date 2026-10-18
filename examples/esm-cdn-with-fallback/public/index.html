@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tonic UI app</title>
+  <script>
+    (() => {
+      const colorMode = new URLSearchParams(location.search).get('colorMode') === 'dark' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-color-scheme', colorMode);
+    })();
+  </script>
+  <style>
+    html { background-color: #fcfcfc; color-scheme: light; }
+    html[data-color-scheme="dark"] { background-color: #1b1b1b; color-scheme: dark; }
+    body { margin: 0; }
+    #root { display: flow-root; }
+    #bootstrap-status { padding: 1.5rem; }
+    .runtime-loading-spinner {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin: 0 auto;
+      border: 2px solid currentColor;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: runtime-loading-spin 800ms linear infinite;
+    }
+    html[data-color-scheme="dark"] .runtime-loading-spinner { color: #fcfcfc; }
+    @keyframes runtime-loading-spin { to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) {
+      .runtime-loading-spinner { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <div id="bootstrap-status">
+    <div id="runtime-loading" class="runtime-loading-spinner" role="status" aria-label="Loading application"></div>
+    <p id="startup-error" role="alert" hidden>Cannot start the application. Check the browser console.</p>
+  </div>
+  <script>
+    window.addEventListener('error', (event) => {
+      if (!document.getElementById('root').childElementCount) {
+        document.getElementById('runtime-loading').hidden = true;
+        document.getElementById('startup-error').hidden = false;
+      }
+    }, true);
+  </script>
+  <script defer src="./bootstrap.js" data-manifest="./runtime-manifest.json"></script>
+  <noscript>This application requires JavaScript.</noscript>
+</body>
+</html>

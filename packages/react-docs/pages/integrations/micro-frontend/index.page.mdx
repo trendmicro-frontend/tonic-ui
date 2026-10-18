@@ -13,9 +13,11 @@ Two mechanisms are covered here: **Module Federation** and **Wujie**
 | Portal / Popper realm | resolves into the shell document | resolves into the projected shadow root |
 | EnvironmentProvider | not needed (defaults to shell document) | not needed (sandbox iframe is its own realm) |
 
-## Live demos
+## Demos
 
 Switch between the two demos and open either in a new window to inspect how portals and popper-based components resolve to the correct realm.
+
+Source: [`examples/mfe-module-federation`](https://github.com/trendmicro-frontend/tonic-ui/tree/main/examples/mfe-module-federation) and [`examples/mfe-wujie`](https://github.com/trendmicro-frontend/tonic-ui/tree/main/examples/mfe-wujie).
 
 {render('./usage-in-mfe')}
 
