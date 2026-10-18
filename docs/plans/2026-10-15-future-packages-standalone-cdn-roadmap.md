@@ -17,17 +17,17 @@ The shared runtime reference apps load Tonic from a CDN at browser runtime using
 
 A single-file artifact is needed because esm.sh does **not** inline the Emotion family (it is a peer dependency — the README states `?standalone` excludes `peerDependencies`), so a plain esm.sh build of the multi-file `dist/esm` leaves ~30 small waterfall requests behind. Our own prebuilt file has no emotion subgraph to waterfall.
 
-**Placement rule (decided):** the artifact is a build target **inside its own package** — `dist/standalone/index.js` — not a new `*-standalone` package. `files: ["dist"]` ships it automatically, the raw URL keeps the package's own version (no version skew between the file and the API it exposes), and `main`/`module`/`exports` stay untouched (regular bundler consumers keep the multi-file `dist/esm` with peers external).
+**Placement rule (decided):** standalone artifacts are build targets **inside their own package** — `dist/standalone/` — not new `*-standalone` packages. `files: ["dist"]` ships them automatically, the raw URL keeps the package's own version (no version skew between the file and the API it exposes), and `main`/`module`/`exports` stay untouched (regular bundler consumers keep the multi-file `dist/esm` with peers external).
 
-**Naming evidence (2026-10-16):** See the [standalone ESM artifact naming ADR](../adr/2026-10-16-standalone-esm-artifact-naming.md). It recommends `dist/standalone/index.mjs` for new public paths, with React and Emotion explicitly documented as external. The `.js` paths in this roadmap describe the current implementation; no rename is implemented, and any migration must first establish the existing CDN path's compatibility obligations.
+**Naming decision (2026-10-18):** See the [standalone ESM artifact naming ADR](../adr/2026-10-16-standalone-esm-artifact-naming.md). Emit `index.js` as the full ESM artifact and `index.min.js` as its minified counterpart. The `.min.js` suffix is a common convention, not a universal standard; React and Emotion remain explicitly documented externals.
 
 **Emotion single-instance invariant (decided):** `@emotion/react` and `@emotion/styled` are peer dependencies of **every** Tonic package (confirmed for `@tonic-ui/react`: `^11.0.0` for both) and therefore stay **external in every standalone file**. The import map provides exactly one shared Emotion instance for the whole document. The only module that must never exist twice per document is Emotion (its style cache); theme values flow through `:root` CSS variables, which are global, so no other module in the family carries instance-splitting risk.
 
 ## 2. The one rule for every Tonic package
 
-> A package's `dist/standalone/index.js` = its normal source, bundled to one minified ESM file.
+> A package's standalone build emits `dist/standalone/index.js` (full ESM) and `index.min.js` (minified ESM).
 > **External:** the React family (`react`, `react-dom`, `react/*`), the Emotion family (`@emotion/*`), **and `@tonic-ui/react` if — and only if — the package's source imports it**. Everything else is inlined.
-> **Build assertion (CI):** the emitted file's bare import specifiers ⊆ the external set; otherwise fail the build. This catches any future dependency drift the moment a package is added or its dependency list changes.
+> **Build assertion (CI):** the minified file's bare import specifiers ⊆ the external set; otherwise fail the build. This catches any future dependency drift the moment a package is added or its dependency list changes.
 
 Rationale for the external set:
 
@@ -91,8 +91,8 @@ Per family package the shared runtime demos add **one** import map entry:
     "@emotion/react/jsx-runtime": "…?standalone", // build scripts generate,
     "@emotion/styled/base": "…?standalone",       // one per Emotion specifier
     "@emotion/is-prop-valid": "…?standalone",     // the Tonic file imports
-    "@tonic-ui/react": "https://raw.esm.sh/@tonic-ui/react@<ver>/dist/standalone/index.js",
-    "@tonic-ui/react-data-grid": "https://raw.esm.sh/@tonic-ui/react-data-grid@<ver>/dist/standalone/index.js"
+    "@tonic-ui/react": "https://raw.esm.sh/@tonic-ui/react@<ver>/dist/standalone/index.min.js",
+    "@tonic-ui/react-data-grid": "https://raw.esm.sh/@tonic-ui/react-data-grid@<ver>/dist/standalone/index.min.js"
   }
 }
 ```
@@ -104,19 +104,19 @@ Scaling: **N family packages → 1 (core) + N (add-ons) + 7 Emotion files** (imm
 - [ ] Confirm whether `@tonic-ui/react-data-grid` (v3 line) imports `@tonic-ui/react` — decides that package's external set.
 - [ ] Settle the `@tonic-ui/charts` vs `@tonic-ui/react-charts` package split.
 - [ ] dnd-kit / tanstack CJS interop in the standalone rollup target (build + browser E2E).
-- [x] Explicit `es2022` transpile step — resolved: the `build:standalone` minify pass runs esbuild with `--target=es2022`, so the shipped file is transpiled regardless of the repo's babel output.
+- [x] Explicit `es2022` transpile step — resolved: the standalone Rollup target's final esbuild JS API transform sets `target: 'es2022'`, so the shipped minified file is transpiled regardless of the repo's Babel output.
 
 ## 6. Precedent
 
 The core precedent for this pattern (feasibility-probe results, 2026-10-15):
 
-- `packages/react` ships `dist/standalone/index.js`: the full library in one minified ESM file (512 kB raw / 141 kB gzip, versus 560 kB for the esm.sh build), importing only the React and Emotion families, which the consumer's import map provides as one shared instance each.
+- `packages/react` ships `dist/standalone/index.js` (full ESM) and `index.min.js` (minified ESM). The earlier 512 kB raw / 141 kB gzip measurement applies to the minified file (versus 560 kB for the esm.sh build); both variants import only the React and Emotion families, which the consumer's import map provides as one shared instance each.
 
 The implemented core artifact's dependency contract is recorded in the
 [standalone artifact spec](../specs/2026-10-18-react-standalone-esm-artifact.md):
 runtime code from all 13 direct non-peer dependencies is bundled (tree-shaken),
-while React and Emotion remain external. `yarn build:standalone` emits the
-minified ES2022 ESM at the existing `dist/standalone/index.js` path; no `.mjs`
-rename has been implemented.
+while React and Emotion remain external. `yarn build:standalone` emits the full
+ESM at `dist/standalone/index.js` and the minified ES2022 ESM at
+`dist/standalone/index.min.js`; `.mjs` is not used.
 
 - Browser E2E: the file + import-mapped React/Emotion rendered Tonic components identically to the esm.sh path (single shared Emotion cache, `data-color-scheme` set before mount — the one behavioral precondition the demos' bootstraps already satisfy). The demos' build scripts switch to the artifact automatically once the installed package ships it (bare-specifier import map entries, `raw.esm.sh` CDN URL).

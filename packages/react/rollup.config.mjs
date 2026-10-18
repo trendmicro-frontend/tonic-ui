@@ -7,6 +7,7 @@ import { babel } from '@rollup/plugin-babel';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import dts from 'rollup-plugin-dts';
 import commonjs from '@rollup/plugin-commonjs';
+import { transform } from 'esbuild';
 
 const require = createRequire(import.meta.url);
 const pkg = require('./package.json');
@@ -66,26 +67,89 @@ const standaloneBabelPlugin = babel({
   extensions: extensions,
 });
 
-// The single rule for standalone artifacts is enforced after minification
-// (see scripts/minify-standalone.mjs): the emitted file may only import the
-// external React and Emotion families.
+// Rollup emits the full artifact as index.js. This final generation hook
+// uses the former esbuild CLI options to emit the sibling minified file.
+// The sourcemap is emitted as an asset so Rollup writes it with the bundle.
+// __tests__/standalone-build.test.js verifies byte equality against esbuild CLI.
+function standaloneMinify() {
+  return {
+    name: 'standalone-minify',
+    async generateBundle(outputOptions, bundle) {
+      const fullFileName = path.basename(outputOptions.file);
+      const fullChunk = bundle[fullFileName];
+      if (fullChunk?.type !== 'chunk') {
+        throw new Error(`The standalone Rollup chunk "${fullFileName}" was not emitted.`);
+      }
+
+      const code = fullChunk.code.endsWith('\n')
+        ? fullChunk.code
+        : `${fullChunk.code}\n`;
+      const result = await transform(code, {
+        minify: true,
+        format: 'esm',
+        target: 'es2022',
+        sourcemap: 'external',
+        sourcefile: fullFileName,
+        define: { 'process.env.NODE_ENV': '"production"' },
+      });
+
+      // The shipped minified file may only import the external React and
+      // Emotion families. Minification removes comments before this scan.
+      const importPatterns = [
+        /\bimport\s*["']([^"'./][^"']*)["']/g,
+        /\bimport\s*(?:(?:[\w$]+|\*\s*as\s*[\w$]+|\{[^{}]*\})(?:\s*,\s*(?:[\w$]+|\*\s*as\s*[\w$]+|\{[^{}]*\}))?)\s*from\s*["']([^"'./][^"']*)["']/g,
+      ];
+      const specifiers = new Set();
+      for (const pattern of importPatterns) {
+        for (const match of result.code.matchAll(pattern)) {
+          specifiers.add(match[1]);
+        }
+      }
+      const violations = [...specifiers].filter(id => !standaloneExternal(id));
+      if (violations.length > 0) {
+        throw new Error(
+          `The standalone bundle imports outside the external set: ${violations.join(', ')}`
+        );
+      }
+
+      const minifiedFileName = fullFileName.replace(/\.js$/, '.min.js');
+      const sourceMapFileName = `${minifiedFileName}.map`;
+      const minifiedCode = `${result.code}${result.code.endsWith('\n') ? '' : '\n'}//# sourceMappingURL=${sourceMapFileName}\n`;
+      this.emitFile({
+        type: 'asset',
+        fileName: minifiedFileName,
+        source: minifiedCode,
+      });
+      this.emitFile({
+        type: 'asset',
+        fileName: sourceMapFileName,
+        source: result.map,
+      });
+    },
+  };
+}
+
 const standaloneTarget = {
   input,
   output: {
     file: path.resolve(__dirname, 'dist', 'standalone', 'index.js'),
     format: 'esm',
+    sourcemap: 'hidden',
   },
   external: standaloneExternal,
   plugins: [
     nodeResolve({ extensions }),
     commonjs({ include: /node_modules/ }),
     standaloneBabelPlugin,
-    // Put the Codecov rollup plugin after all other plugins
+    // Codecov runs after the chunk-transforming plugins; the minifier emits
+    // its sibling asset after Codecov's render hooks.
     codecovRollupPlugin({
       enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
       bundleName: `${pkg.name}-standalone`,
       uploadToken: process.env.CODECOV_TOKEN,
     }),
+    // Emit the minified sibling from the completed full chunk.
+    standaloneMinify(),
   ],
 };
 
@@ -140,22 +204,16 @@ const targets = [
     ],
   },
 ];
-// "build:standalone" builds only the artifact (and fails fast when the
-// sibling dists are missing); the regular build adds it when possible,
-// skipping it with a warning during partial workspace builds.
-const standaloneOnly = process.env.ROLLUP_ONLY_STANDALONE === '1';
+// Both build commands include the standalone target. It requires sibling
+// package distributions to be built first.
+const standaloneOnly = process.env.ROLLUP_STANDALONE_ONLY === '1';
 const missing = missingSiblingDists();
 if (missing.length > 0) {
-  if (standaloneOnly) {
-    throw new Error(
-      `The standalone build needs these sibling packages built first: ${missing.join(', ')}. ` +
-      'Run their "yarn build" (or a full workspace build), then retry.'
-    );
-  }
-  console.warn(`[standalone] Skipping the standalone build: ${missing.join(', ')} are not built yet.`);
+  throw new Error(
+    `The standalone build needs these sibling packages built first: ${missing.join(', ')}. ` +
+    'Run their "yarn build" (or a full workspace build), then retry.'
+  );
 }
 export default standaloneOnly
   ? [standaloneTarget]
-  : missing.length > 0
-    ? targets
-    : [...targets, standaloneTarget];
+  : [...targets, standaloneTarget];

@@ -47,7 +47,7 @@ const groupCdnConfig = {
   '@tonic-ui/react': {
     external: ['react', 'react-dom'],
     standalone: true,
-    rawFile: 'dist/standalone/index.js',
+    rawFile: 'dist/standalone/index.min.js',
   },
 };
 

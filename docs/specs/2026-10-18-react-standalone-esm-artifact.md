@@ -10,13 +10,13 @@ Provide a single-file ESM build of `@tonic-ui/react` for browser/CDN consumers u
 
 ## Artifact and build
 
-- Output: `packages/react/dist/standalone/index.js`.
-- Format: minified ESM, transpiled to ES2022.
+- Outputs: `packages/react/dist/standalone/index.js` (full ESM) and `packages/react/dist/standalone/index.min.js` (minified ESM, transpiled to ES2022).
+- Source maps: Rollup emits a hidden `index.js.map`; esbuild emits the linked `index.min.js.map`.
 - Package publication: `packages/react/package.json` includes `dist` in `files`, so the artifact is part of the package output.
-- Dedicated command: `yarn build:standalone`; it runs the standalone Rollup target and the minification step.
-- `yarn build` also emits the standalone artifact when sibling workspace package distributions are available.
+- Dedicated command: `yarn build:standalone`; builds only the standalone target and fails if sibling package distributions are missing.
+- `yarn build` emits the regular CJS, ESM, and type outputs plus both standalone artifacts. It fails if required sibling package distributions are missing.
 
-The current `.js` filename is intentional implementation state. The ADR's recommendation to use `.mjs` for a new public path has not been implemented; do not assume an `index.mjs` artifact exists.
+The `.js` file is the full artifact; `.min.js` identifies the minified CDN variant. No `index.mjs` artifact is produced.
 
 ## Dependency contract
 
@@ -49,7 +49,9 @@ CDN consumers must provide the artifact's React and Emotion imports through an i
 
 ## Build assertion and known limit
 
-After minification, `scripts/minify-standalone.mjs` rejects bare static imports outside the React/React DOM and Emotion package families. This preserves the external dependency contract as direct dependencies change.
+After minification, the standalone Rollup target rejects bare static imports outside the React/React DOM and Emotion package families. This preserves the external dependency contract as direct dependencies change.
+
+Minification runs inside the Rollup target via the esbuild JS API. A byte-equality build test (`packages/react/__tests__/standalone-build.test.js`) asserts that `index.min.js` and `index.min.js.map` match the esbuild CLI output generated from the exact `index.js` bytes.
 
 The assertion currently scans static imports only; it does not detect dynamic `import()` expressions. This validation gap is recorded in the ADR's related build-review evidence and is not proof that dynamic imports are safe.
 

@@ -46,7 +46,7 @@ repository; no sibling helper directory or import-path changes are required.
 The build copies `public/bootstrap.js` into `dist/`. There is one loader
 implementation for both products.
 
-The React family uses one combined local module serving `react`, `react-dom/client`, and the JSX runtimes, plus a second module serving `react-dom`. All consumers resolve React through one import map. The build prefers `dist/standalone/index.js` only when the file exists in the installed `@tonic-ui/react` package and its published URL is reachable; otherwise it selects an esm.sh `@tonic-ui/react` build. A locally built artifact does not guarantee that the selected published version contains it. The generated manifest maps the selected CDN source's external Emotion imports. The same-origin `@tonic-ui/react` fallback includes Emotion and ordinary dependencies, with only React external.
+The React family uses one combined local module serving `react`, `react-dom/client`, and the JSX runtimes, plus a second module serving `react-dom`. All consumers resolve React through one import map. The build prefers `dist/standalone/index.min.js` only when the file exists in the installed `@tonic-ui/react` package and its published URL is reachable; otherwise it selects an esm.sh `@tonic-ui/react` build. A locally built artifact does not guarantee that the selected published version contains it. The generated manifest maps the selected CDN source's external Emotion imports. The same-origin `@tonic-ui/react` fallback includes Emotion and ordinary dependencies, with only React external.
 
 Each family falls back independently. All-local must not request esm.sh modules. Local/app/mount errors remain visible rather than trigger retry loops.
 

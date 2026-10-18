@@ -13,8 +13,8 @@
   },
   "sideEffects": false,
   "scripts": {
-    "build": "cross-env rollup --config rollup.config.mjs && node scripts/minify-standalone.mjs",
-    "build:standalone": "cross-env ROLLUP_ONLY_STANDALONE=1 rollup --config rollup.config.mjs && node scripts/minify-standalone.mjs",
+    "build": "cross-env rollup --config rollup.config.mjs",
+    "build:standaloneOnly": "cross-env ROLLUP_STANDALONE_ONLY=1 rollup --config rollup.config.mjs",
     "clean": "del build coverage dist",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx,.mjs .",
     "pre-push": "bash -c 'echo -e \"=> \\e[1;33m$npm_package_name\\e[0m\"' && yarn run build && yarn run lint && yarn run test",
@@ -65,6 +65,7 @@
     "@typescript-eslint/parser": "^8.58.0",
     "cross-env": "^7.0.0",
     "del-cli": "^5.0.0",
+    "esbuild": "^0.25.0",
     "eslint": "^9.26.0",
     "eslint-config-trendmicro": "^4.4.1",
     "eslint-import-resolver-typescript": "^3.6.3",

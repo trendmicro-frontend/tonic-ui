@@ -1,12 +1,14 @@
 # Standalone ESM artifact naming
 
 **Date:** 2026-10-16
-**Status:** Recommendation recorded; the current `index.js` path remains; no `.mjs` rename implemented.
+**Revised:** 2026-10-18
+**Status:** Ship full `index.js` and minified `index.min.js`; this supersedes the original `.mjs` recommendation.
 
 ## Context
 
-`@tonic-ui/react` currently builds `dist/standalone/index.js` for browser/CDN
-consumers using import maps. Rollup bundles non-peer dependencies, while React
+`@tonic-ui/react` builds two standalone ESM artifacts for browser/CDN consumers
+using import maps: a full `dist/standalone/index.js` and minified
+`dist/standalone/index.min.js`. Rollup bundles non-peer dependencies, while React
 and Emotion remain external. The package also builds separate `dist/cjs` and
 `dist/esm` distributions for ordinary package consumers.
 
@@ -31,19 +33,23 @@ mandate a particular directory, basename, or minification suffix.
 
 ## Recommendation
 
-For a new public standalone path, use **`dist/standalone/index.mjs`**, with
-`index.mjs.map` as the sibling source map.
+Use `dist/standalone/index.js` for the full ESM bundle and
+`dist/standalone/index.min.js` for the minified ES2022 bundle. Emit a sibling
+source map for each artifact.
 
+- Use the minified file for CDN delivery; keep the full file available for
+  debugging and environments that prefer readable output.
 - Keep the standalone target ESM-only. Its consumers use browser import maps;
   a separate standalone CJS artifact has no identified requirement.
 - Use `standalone`, not `all`, as the distribution label. `all` does not explain
-  whether it refers to exports, dependencies, or formats. This is a project
-  naming choice, not an industry requirement.
-- Keep `index` as the basename because the directory identifies the variant.
-- Omit `.min` while there is only one production artifact. Minification remains
-  part of the build contract, not a separate distribution choice.
-- Prefer `.mjs` to make ESM explicit without changing the package-wide module
-  type or its existing CJS distribution.
+  whether it refers to exports, dependencies, or formats.
+- Keep `index` as the basename; `.min` distinguishes the optimized variant.
+- `.min.js` is a common naming convention, not a universal standard. Keep `.js`
+  to preserve the existing browser/CDN path; `.mjs` would identify ESM more
+  explicitly to Node without package metadata.
+
+This revises the 2026-10-16 recommendation, which omitted `.min` while only one
+production artifact existed.
 
 Neither `standalone` nor `all` guarantees that every dependency is included.
 Document the core artifact as: **“Single-file ESM bundle with React and Emotion
@@ -54,9 +60,10 @@ packages must also document any other permitted externals, such as the core
 
 ## Implemented dependency contract
 
-The current implementation keeps `dist/standalone/index.js` and bundles the
-runtime code used from all 13 direct dependencies declared by
-`packages/react/package.json`. Rollup tree-shakes the artifact; it does not copy
+The implementation keeps `dist/standalone/index.js` as the full bundle and adds
+`dist/standalone/index.min.js` as its minified counterpart. Both bundle runtime
+code used from all 13 direct dependencies declared by
+`packages/react/package.json`. Rollup tree-shakes the artifacts; they do not copy
 each dependency's full package. React, React DOM, and Emotion remain external
 peer dependency families supplied by the consumer.
 
@@ -66,21 +73,19 @@ and [`packages/react/README.md`](../../packages/react/README.md).
 
 ## Compatibility and implementation boundary
 
-The existing `dist/standalone/index.js` path remains unchanged by this record.
-Its publication and compatibility status was not established by this review.
+The existing `dist/standalone/index.js` path remains, but now contains the full
+bundle instead of the minified one. The CDN example switches to
+`dist/standalone/index.min.js`; direct consumers of `index.js` keep a working
+path but receive the larger, unminified artifact.
 
-Before renaming it, establish whether it is already a supported public CDN path.
-If it is, retain it until a planned breaking change. If it is not, the recommended
-`.mjs` path can be adopted in a coordinated change to Rollup output, minification,
-source-map references, CDN consumers, and documentation. Verify that the serving
-CDN returns a JavaScript MIME type for the new path.
-
-Do not change the package-wide `"type"` solely to rename this artifact. Do not add
-a standalone CJS build or an extra unminified variant without a consumer need.
+Do not change the package-wide `"type"` solely for this naming decision. Do not
+add a standalone CJS build.
 
 ## Related build-review evidence
 
-Naming is independent of these correctness findings from the same review:
+The following observations describe the CLI-based implementation reviewed on
+2026-10-16. The minifier script was integrated into Rollup on 2026-10-18; script
+failure and dependency findings below are historical.
 
 - `yarn build:standalone` succeeded in the current workspace.
 - With the minifier copied into an isolated fixture that had no esbuild
