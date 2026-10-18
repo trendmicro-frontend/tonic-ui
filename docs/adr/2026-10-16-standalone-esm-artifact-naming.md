@@ -1,7 +1,7 @@
 # Standalone ESM artifact naming
 
 **Date:** 2026-10-16
-**Status:** Recommendation recorded; no artifact rename implemented.
+**Status:** Recommendation recorded; the current `index.js` path remains; no `.mjs` rename implemented.
 
 ## Context
 
@@ -51,6 +51,18 @@ external; consumers supply those dependencies through an import map.”** Add-on
 packages must also document any other permitted externals, such as the core
 `@tonic-ui/react` package described in the
 [standalone roadmap](../plans/2026-10-15-future-packages-standalone-cdn-roadmap.md).
+
+## Implemented dependency contract
+
+The current implementation keeps `dist/standalone/index.js` and bundles the
+runtime code used from all 13 direct dependencies declared by
+`packages/react/package.json`. Rollup tree-shakes the artifact; it does not copy
+each dependency's full package. React, React DOM, and Emotion remain external
+peer dependency families supplied by the consumer.
+
+The exact package list, installation guidance, and build contract are recorded
+in the [standalone artifact spec](../specs/2026-10-18-react-standalone-esm-artifact.md)
+and [`packages/react/README.md`](../../packages/react/README.md).
 
 ## Compatibility and implementation boundary
 

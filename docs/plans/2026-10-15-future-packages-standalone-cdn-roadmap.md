@@ -111,4 +111,12 @@ Scaling: **N family packages → 1 (core) + N (add-ons) + 7 Emotion files** (imm
 The core precedent for this pattern (feasibility-probe results, 2026-10-15):
 
 - `packages/react` ships `dist/standalone/index.js`: the full library in one minified ESM file (512 kB raw / 141 kB gzip, versus 560 kB for the esm.sh build), importing only the React and Emotion families, which the consumer's import map provides as one shared instance each.
+
+The implemented core artifact's dependency contract is recorded in the
+[standalone artifact spec](../specs/2026-10-18-react-standalone-esm-artifact.md):
+runtime code from all 13 direct non-peer dependencies is bundled (tree-shaken),
+while React and Emotion remain external. `yarn build:standalone` emits the
+minified ES2022 ESM at the existing `dist/standalone/index.js` path; no `.mjs`
+rename has been implemented.
+
 - Browser E2E: the file + import-mapped React/Emotion rendered Tonic components identically to the esm.sh path (single shared Emotion cache, `data-color-scheme` set before mount — the one behavioral precondition the demos' bootstraps already satisfy). The demos' build scripts switch to the artifact automatically once the installed package ships it (bare-specifier import map entries, `raw.esm.sh` CDN URL).
