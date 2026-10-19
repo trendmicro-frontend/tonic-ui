@@ -1,5 +1,6 @@
 /.next
 /build
+/build-*
 /coverage
 /dist
 
