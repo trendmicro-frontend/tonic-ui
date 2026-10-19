@@ -23,7 +23,7 @@ test.describe('esm-cdn-with-fallback', () => {
     expect(cdnRequests).toEqual([]);
   });
 
-  test('all-cdn-fail scenario falls back to local', async ({ page }) => {
+  test('all-cdn-fail scenario falls back to local', async ({ page, request }) => {
     await page.goto('inspector.html?scenario=all-cdn-fail');
     await expect(page.locator('#react-source')).toHaveText('Local (same origin)');
     await expect(page.locator('#react-dom-source')).toHaveText('Local (same origin)');
@@ -31,10 +31,13 @@ test.describe('esm-cdn-with-fallback', () => {
     const runtimeFrame = page.frames().find(frame => frame.url().includes('/runtime.html'));
     expect(new URL(runtimeFrame.url()).searchParams.get('__failed').split(','))
       .toEqual(['react', 'react-dom', '@tonic-ui/react']);
-    // The shell owns the manifest section and loads it independently of the
-    // runtime frame, so it stays inspectable when the CDN fails.
-    await page.getByRole('button', { name: 'Show runtime manifest' }).click();
-    await expect(page.locator('#runtime-manifest')).toContainText('"groups"');
+    // The shell links to the manifest independently of the runtime frame, so it
+    // stays inspectable when the CDN fails.
+    const manifestLink = page.getByRole('link', { name: 'Open runtime manifest' });
+    await expect(manifestLink).toHaveAttribute('href', './runtime-manifest.json');
+    const manifestResponse = await request.get(await manifestLink.getAttribute('href'));
+    expect(manifestResponse.ok()).toBe(true);
+    expect(await manifestResponse.text()).toContain('"groups"');
   });
 
   test('cdn-first scenario selects the available sources and displays their hosts', async ({ page, request }) => {
@@ -54,14 +57,14 @@ test.describe('esm-cdn-with-fallback', () => {
     );
   });
 
-  test('collapses the runtime manifest by default and toggles it', async ({ page }) => {
+  test('opens the runtime manifest in a new window', async ({ page, context }) => {
     await page.goto('inspector.html?scenario=all-local');
-    const manifest = page.locator('#runtime-manifest');
-    await expect(manifest).toHaveCount(0);
-    await page.getByRole('button', { name: 'Show runtime manifest' }).click();
-    await expect(manifest).toContainText('"groups"');
-    await page.getByRole('button', { name: 'Hide runtime manifest' }).click();
-    await expect(manifest).toHaveCount(0);
+    const [manifestPage] = await Promise.all([
+      context.waitForEvent('page'),
+      page.getByRole('link', { name: 'Open runtime manifest' }).click(),
+    ]);
+    await expect(manifestPage).toHaveURL(/\/runtime-manifest\.json$/);
+    await expect(manifestPage.locator('body')).toContainText('"groups"');
   });
 
   // The shell URL does not take `__local`: the scenario selects the runtime.

@@ -1,5 +1,6 @@
-import { Box, useColorMode } from '@tonic-ui/react';
+import { useColorMode } from '@tonic-ui/react';
 import { useEffect, useRef, useState } from 'react';
+import Iframe from '@/components/Iframe';
 
 const basePath = process.env.TONIC_UI_REACT_DOCS_BASE_PATH || '';
 const demoSrc = `${basePath}/demos/esm-cdn-with-fallback/inspector.html`;
@@ -8,7 +9,7 @@ const App = () => {
   const [colorMode] = useColorMode();
   const iframeRef = useRef(null);
   const initialSrc = useRef(`${demoSrc}?colorMode=${colorMode}`).current;
-  const [iframeHeight, setIframeHeight] = useState(1000);
+  const [iframeHeight, setIframeHeight] = useState(0);
 
   useEffect(() => {
     const frame = iframeRef.current;
@@ -32,14 +33,12 @@ const App = () => {
   }, [colorMode]);
 
   return (
-    <Box
-      as="iframe"
+    <Iframe
       ref={iframeRef}
       src={initialSrc}
       title="Standalone Tonic UI CDN and local runtime demonstration"
-      border={1}
-      borderColor="border.secondary"
-      sx={{ width: '100%', height: iframeHeight + 2 }}
+      width="100%"
+      height={iframeHeight}
     />
   );
 };

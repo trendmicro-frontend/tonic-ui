@@ -27,7 +27,7 @@ npm run dev:inspector
 
 Build with `npm run build:inspector` and serve with `npm run preview:inspector`. The default `npm run build` does not include inspector files.
 
-The inspector is a visible shell with a scenario dropdown and a hidden, reloadable runtime frame. The shell document owns every visible section, including the runtime-manifest.json display (collapsed by default), which the shell fetches itself so the manifest stays inspectable while the frame loads and after failures. `public/runtime.html` runs in a hidden iframe as the disposable import-map realm and streams its load log to the shell. A scenario change or CDN fallback reloads only that hidden document; the selected-source cells and versions update in place after the chosen runtime mounts. Failure presets inject a real missing-module import, not a simulated success. For actual CDN outage checks, disable the network in DevTools.
+The inspector is a visible shell with a scenario dropdown and a hidden, reloadable runtime frame. The shell document owns every visible section and links to `runtime-manifest.json` in a new window, so the manifest stays inspectable while the frame loads and after failures. `public/runtime.html` runs in a hidden iframe as the disposable import-map realm and streams its load log to the shell. A scenario change or CDN fallback reloads only that hidden document; the selected-source cells update in place after the chosen runtime mounts. Failure presets inject a real missing-module import, not a simulated success. For actual CDN outage checks, disable the network in DevTools.
 
 Open the inspector URL with `?scenario=all-local` (or any scenario id) to start in that scenario; `?run` numbering distinguishes frame reloads.
 ## What the build uses

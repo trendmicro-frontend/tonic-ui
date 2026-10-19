@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
-  Box, Button, Dropdown, DropdownButton, Table, TableBody, TableCell,
+  Box, Button, Dropdown, DropdownButton, Link, Table, TableBody, TableCell,
   TableHeader, TableRow, Text,
   TonicProvider, useColorMode, useColorStyle,
 } from '@tonic-ui/react';
@@ -35,13 +35,9 @@ function Shell() {
   const [runtime, setRuntime] = useState(null);
   const [log, setLog] = useState('Loading runtime...\n');
   const [progress, setProgress] = useState(null);
-  const [manifest, setManifest] = useState(null);
-  const [manifestOpen, setManifestOpen] = useState(false);
   const [spinnerFrame, setSpinnerFrame] = useState(0);
   const frameRef = useRef(null);
   const runRef = useRef(0);
-  const loadingRef = useRef(true);
-  const reportHeightRef = useRef(null);
   // Only the initial document carries `colorMode` in the URL so the first paint
   // uses the right theme. Later changes reach the frame through postMessage and
   // do not reset its fallback state.
@@ -58,9 +54,6 @@ function Shell() {
     }
     const root = document.getElementById('root');
     const reportHeight = () => {
-      if (loadingRef.current) {
-        return;
-      }
       const height = Math.ceil(root.getBoundingClientRect().height);
       if (height > 0) {
         window.parent.postMessage(
@@ -69,13 +62,11 @@ function Shell() {
         );
       }
     };
-    reportHeightRef.current = reportHeight;
     const observer = new ResizeObserver(reportHeight);
     observer.observe(root);
     reportHeight();
     return () => {
       observer.disconnect();
-      reportHeightRef.current = null;
     };
   }, []);
 
@@ -108,11 +99,9 @@ function Shell() {
           setSpinnerFrame(0);
           setProgress(data.value);
         } else if (data?.type === 'cdn-runtime:complete' && data.runtime) {
-          loadingRef.current = false;
           setProgress(null);
           setRuntime(data.runtime);
           setLog(data.runtime.log);
-          requestAnimationFrame(() => reportHeightRef.current?.());
         }
         return;
       }
@@ -135,34 +124,7 @@ function Shell() {
     history.replaceState(null, '', url);
   }, [scenario]);
 
-  useEffect(() => {
-    let active = true;
-    // The manifest lives beside the shell document in every output layout, so
-    // the shell reads the same file the runtime frame bootstrap loads.
-    fetch(new URL('./runtime-manifest.json', location.href).href)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`Cannot load the runtime manifest: ${response.status}`);
-        }
-        return response.text();
-      })
-      .then(text => {
-        if (active) {
-          setManifest(text);
-        }
-      })
-      .catch(error => {
-        if (active) {
-          setManifest(`${error.message}\n`);
-        }
-      });
-    return () => {
-      active = false;
-    };
-  }, []);
-
   const loadScenario = (id) => {
-    loadingRef.current = true;
     setScenario(id);
     setLog(`Loading scenario: ${id}...\n`);
     setProgress(null);
@@ -171,22 +133,31 @@ function Shell() {
   };
 
   return (
-    <Box p="4x" backgroundColor={colorStyle.background.primary} color={colorStyle.color.primary}>
+    <Box backgroundColor={colorStyle.background.primary} color={colorStyle.color.primary}>
       <Text mb="4x">Choose a scenario to inspect which runtime families use CDN or local files before the app mounts.</Text>
       <Box mb="4x">
-        <Text id="scenario-label" mb="2x">Scenario</Text>
         <Box display="flex" gap="2x" alignItems="center" flexWrap="wrap">
           <Dropdown
             items={scenarios}
             value={scenarios.find(item => item.id === scenario) || scenarios[0]}
             onChange={item => loadScenario(item.id)}
             renderToggle={({ renderItem, value }) => (
-              <DropdownButton id="scenario" aria-labelledby="scenario-label scenario">
+              <DropdownButton id="scenario" aria-label={`Scenario: ${value.label}`}>
                 {renderItem(value)}
               </DropdownButton>
             )}
           />
           <Button id="retry" variant="secondary" onClick={() => loadScenario(scenario)}>Retry</Button>
+        </Box>
+        <Box mt="2x">
+          <Link
+            id="runtime-manifest-link"
+            href="./runtime-manifest.json"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Open runtime manifest ↗
+          </Link>
         </Box>
       </Box>
       <Table
@@ -232,29 +203,6 @@ function Shell() {
             {' '}
             {`${progress.group}: ${progress.source}`}
           </span>
-        ) : null}
-      </Box>
-      <Box mt="4x">
-        <Box display="flex" gap="2x" alignItems="center" mb="2x">
-          <Button
-            id="manifest-toggle"
-            variant="secondary"
-            aria-expanded={manifestOpen}
-            onClick={() => setManifestOpen(open => !open)}
-          >
-            {manifestOpen ? 'Hide runtime manifest' : 'Show runtime manifest'}
-          </Button>
-        </Box>
-        {manifestOpen ? (
-          <Box
-            as="pre"
-            id="runtime-manifest"
-            p="3x"
-            backgroundColor={colorStyle.background.secondary}
-            sx={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}
-          >
-            {manifest ?? 'Loading manifest...\n'}
-          </Box>
         ) : null}
       </Box>
       <Box
