@@ -1,0 +1,11 @@
+{
+  "name": "tonic-ui",
+  "version": "1.0.0",
+  "description": "Tonic UI application token resolution, frontend development highlights, and upgrades.",
+  "author": { "name": "Tonic UI Team" },
+  "homepage": "https://trendmicro-frontend.github.io/tonic-ui-docs/v3/",
+  "repository": "https://github.com/trendmicro-frontend/tonic-ui",
+  "license": "MIT",
+  "keywords": ["tonic-ui", "figma", "semantic-tokens", "react", "migration"],
+  "skills": ["./tonic-ui-dev", "./tonic-ui-tokens", "./tonic-ui-upgrade"]
+}

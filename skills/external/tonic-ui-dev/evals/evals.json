@@ -1,0 +1,61 @@
+{
+  "skill_name": "tonic-ui-dev",
+  "evals": [
+    {
+      "id": 0,
+      "name": "follow-real-import-before-docs",
+      "prompt": "Hypothetical app fixture: a screen imports Picker from src/ui/PickerV2. Another file src/ui/Picker exists but is not imported here. PickerV2 wraps a library Menu, accepts onSelect(item), and the existing field writes item.id to React Hook Form. Add an option to that field without changing dependencies. What is your approach?",
+      "expected_output": "Follows the actual PickerV2 import and its Menu implementation rather than the similarly named unused wrapper. Reuses the existing field and onSelect-to-ID contract, preserves labels and existing form validation/i18n, queries relevant Menu documentation/examples if needed, and does not replace the field with a newly invented Picker, demand an upgrade target, run a release checklist or install MCP by default.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "retrieve-referenced-example",
+      "prompt": "Hypothetical retrieval fixture: Tonic UI MCP is already connected. use-docs advertises @tonic-ui/react@v3 and returns the page file:///docs/components/menu/. fetch-pages for that page shows an API and render('./controlled-menu'). I need controlled open state inside our existing app wrapper. Describe the next retrieval and integration steps; do not claim tools ran in this offline evaluation.",
+      "expected_output": "Uses fetch-codes with urls containing file:///docs/components/menu/controlled-menu, derived from the page's actual render reference, instead of guessing example names or copying a preview. Reads the real example before adapting controlled state to the app wrapper's existing contract, avoids installing already-connected MCP or adding providers, and verifies the relevant open/close/focus behavior without claiming it was exercised.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "locked-versus-installed-version",
+      "prompt": "Hypothetical app fixture: package.json and lockfile resolve the component library to 3.0.0-alpha.2, but installed package metadata says 3.0.0-alpha.1. The MCP docs are labeled v3 and show a component that is absent from installed declarations. Can we paste that example into our app and mark it working?",
+      "expected_output": "Distinguishes intended locked version from installed alpha.1, refuses to assume a v3 docs label proves the API exists, reports the mismatch and checks relevant exports/declarations. Prefers an existing supported app wrapper/primitive if suitable; compatibility uncertainty justifies consulting changelog and matching source. Does not silently install, upgrade, patch node_modules or mark an unrun example working.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "local-checkout-without-mcp",
+      "prompt": "There are no Tonic UI MCP tools in this session, but an existing readable checkout contains its docs index, the relevant component page and its referenced example source. I only want help using that component in the app. Do we need to install MCP or dependencies first?",
+      "expected_output": "Reads the existing local index, selected page and referenced example directly; no MCP or dependency installation is required to read existing files. Does not recommend setup as a prerequisite, clone a duplicate checkout, or claim the latest checkout matches the app's installed version without checking relevance. Continues the app task using available evidence.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "offer-clone-only-when-needed",
+      "prompt": "We now need release evidence for an API mismatch. No MCP tools, suitable checkout or supplied changelog are available. We can access the Tonic UI repository. Explain the local options, but I have not authorized any commands or configuration changes.",
+      "expected_output": "Offers a local git clone only because the needed evidence is unavailable, with a specified repository/destination scope to approve before execution. Explains clone-plus-direct-read needs no dependency install or MCP, and local MCP is an optional alternative requiring appropriate build/dependencies and client-specific registration. Does not execute or claim a clone/install/config edit/service start, touch credentials, require a global install or create a separate tonic-ui-mcp skill.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "conditional-changelog-through-mcp",
+      "prompt": "Hypothetical release fixture, not real release facts: the app update is 3.0.0-alpha.1 to 3.0.0-alpha.4. A known checkout changelog lists alpha.5: later change; alpha.4: selected change; alpha.1: source change. Tonic UI MCP is connected with its config at the checkout root. How do we retrieve and scope this evidence?",
+      "expected_output": "Uses existing fetch-pages with urls containing a known local absolute changelog path, file URL or packages/react/CHANGELOG.md relative to the MCP config root. Uses prerelease-aware (source,target] ordering: alpha.4 only; excludes alpha.1 and alpha.5. Distinguishes announced change from matching implementation evidence, resolves bounds per affected package, and does not suggest installing connected MCP or require changelogs for unrelated ordinary app tasks.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "preserve-app-contract-and-verify",
+      "prompt": "Hypothetical app fixture: an existing filter wrapper has onSelect(item), i18n labels, permission-based disabled state, analytics attributes and a custom toggle. Official docs show a raw Dropdown with onChange(item) and an object-valued selection. Our form stores an ID. The build passes after an integration change. What must we preserve and what can we report as verified?",
+      "expected_output": "Keeps the wrapper and maps item to its ID at the existing form boundary rather than replacing the app with the demo's object state. Preserves i18n, permissions, analytics/custom toggle and appropriate state ownership. Exercises resulting form values, displayed label and affected disabled/focus interactions; a passing build proves compatibility only, and unrendered visual/interaction results remain UNVERIFIED.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "name": "failed-source-is-not-no-change",
+      "prompt": "Tonic UI fetch-pages rejects a remote GitHub changelog URL with Domain not allowed. A known local checkout is readable instead. Its changelog claims an option is dropped, while the matching shipped source shows that option forwarded. Should we change MCP's allow-list, patch the library, or apply the old workaround?",
+      "expected_output": "Uses the available local checkout path through fetch-pages or direct read instead of bypassing the localhost/127.0.0.1 HTTP restriction or inventing a configurable allow-list. No clone/install is necessary. Reports changelog-versus-shipped-source conflict with both references; does not infer no change from a fetch error, patch library files or apply a historic workaround unconditionally. Unread or unexercised claims stay UNVERIFIED.",
+      "files": []
+    }
+  ]
+}

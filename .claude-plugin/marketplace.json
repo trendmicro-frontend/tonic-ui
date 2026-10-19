@@ -1,0 +1,15 @@
+{
+  "name": "tonic-ui",
+  "owner": { "name": "Tonic UI Team" },
+  "metadata": { "description": "Tonic UI AI skills for consuming application development and upgrades." },
+  "plugins": [
+    {
+      "name": "tonic-ui",
+      "source": "./skills/external",
+      "description": "Tonic UI application token resolution, frontend development highlights, and upgrades.",
+      "version": "1.0.0",
+      "author": { "name": "Tonic UI Team" },
+      "category": "development"
+    }
+  ]
+}

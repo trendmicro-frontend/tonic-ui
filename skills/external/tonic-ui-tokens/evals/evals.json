@@ -1,0 +1,117 @@
+{
+  "skill_name": "tonic-ui-tokens",
+  "evals": [
+    {
+      "id": 0,
+      "name": "labelled-figma-name",
+      "prompt": "In Figma dev mode a designer selected the variable $color.status.negative.text on the error message in our toast. What is the real Tonic UI v3 token path, and what does it resolve to in dark and light mode? We're already on v3; no upgrade needed.",
+      "expected_output": "Maps $color.status.negative.text to colors.error.text (status verified, color DB row 40) via the bundled lookup; reports the resolved dark (#fe4648) and light (#a9071b) values and the CSS variable --tonic-colors-error-text; states the mapping provenance and the declared snapshot version/revision; notes that the color database is confirmed as the v3 semantic color definitions by the repository migration guide; does not treat it as a migration task or suggest package changes.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "private-token-is-implemented-but-internal",
+      "prompt": "The Figma file references $color._component.keyboardFocused.outerFocusRing for a focus ring. Is that a real token in @tonic-ui/react 3? Can I use it in sx, and is it safe to depend on?",
+      "expected_output": "Says it is real and implemented: path colors._component.keyboardFocused.outerFocusRing, visibility private, values #ffffff (dark) / #000000 (light), CSS variable --tonic-colors-_component-keyboardFocused-outerFocusRing. Explains it is a private token (leading `_` segment) — implemented and usable in sx but unpublished/internal, not a stable public API — say so and prefer a public token when one expresses the same intent. Notes _component has no individual design alias (so it is code-only), does not filter it out as 'not found', and does not invent a Figma variable name.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "ambiguous-screenshot-no-label",
+      "prompt": "Here's a screenshot of our app's dashboard. The row hover background looks like a translucent light layer. Which token is it exactly?",
+      "expected_output": "Does not claim a specific token identity from the image. Reports real candidate paths whose role fits a row hover (e.g. colors.actions.hovered public; colors._foreground.subtle.hovered private; colors._overlay.thinest/thinner), with their statuses and dark/light values, labels confidence as ambiguous/likely rather than confirmed because RGB without a variable label cannot identify the original variable, notes alpha/compositing and mode factors, and asks for the variable label or a state screenshot. Correctly flags that it cannot inspect the image if it has no image capability.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "missing-typography-attribute",
+      "prompt": "Design spec says label.md: medium 14px. Give me the implementation in @tonic-ui/react v3, including the line height.",
+      "expected_output": "Composes fontSize: fontSizes.sm (14px) + fontWeight: fontWeights.medium; notes TextLabel does not set medium (pass it explicitly) and that the typography design database has no line-height column, so no design line height is confirmed (missingAttributes: lineHeight), while <Text size=\"sm\"> would apply lineHeights.sm (20px) as code behavior. Must not present 20px as design-confirmed, must not claim a composite $typography.label.md token exists, and should note that the typography snapshot's applicability to Tonic UI is unverified rather than presenting it as a target-confirmed design decision.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "display-size-has-no-token",
+      "prompt": "Our hero headline uses $typography.display.lg. Which font-size token is that?",
+      "expected_output": "Says there is no font-size token at 52px: the row is composed with literalProperties.fontSize = 52px plus fontWeights.bold. Advises using the confirmed literal size, and reports the display-size gap rather than inventing a 5xl-style token (the fontSizes scale stops at 4xl = 32px; adding one is a library change). Notes lineHeight is unconfirmed for this row too.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "reversed-row-85",
+      "prompt": "Our toggle's selected-disabled background should match the design row $color.foreground.primary-variant.selected-disabled. What's the code token, and is it the same as the plain disabled one?",
+      "expected_output": "Returns colors._foreground.primaryVariant.selectedDisabled (row 85), distinct from colors._foreground.primaryVariant.disabled, and notes the source Figma column lists selected-disabled before disabled while its code column lists disabled first — pairing must be by token name, not column position. Both currently resolve to the same computed color but remain distinct tokens.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "design-only-in-progress",
+      "prompt": "Design sent the in-progress status badge spec: $color.status.in-progress.icon and $color.status.in-progress.border. What are the code paths?",
+      "expected_output": "Answers that these design entries are design-only (path null): the color DB lists a stable row whose code column names inProgress.icon/.border, but the current theme has no inProgress family. Returns no invented code path and no substitute token; recommends a reviewed alternative or a designer/engineer decision (points at the handoff template).",
+      "files": []
+    },
+    {
+      "id": 7,
+      "name": "source-conflict-background-high",
+      "prompt": "The color database row for $color.background.high says the code syntax is background.highest. Which do I use for a drawer background?",
+      "expected_output": "Reports the recorded source conflict (row 49): the code column says background.highest (which is already row 48's target) but the row definition (drawer/modal/dock) matches colors.background.high; recommends colors.background.high for drawer/modal and flags the database column as a conflict, without silently following the column or 'fixing' the library.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "name": "unresolved-source-not-verified-by-alias",
+      "prompt": "Is colors.riskLevel.high._gradient.opaque safe to use for our chart gradient? The design name looks confirmed.",
+      "expected_output": "States the record is unresolved-source: its raw value is the unresolved reference {alert.riskLevel.high.chart} in both modes, which the current resolver does not resolve, so no usable color can be reported; a design alias must not be presented as making it verified. Suggests the resolved colors.riskLevel.high.chart instead, and reports the upstream conflict rather than repairing library code.",
+      "files": []
+    },
+    {
+      "id": 9,
+      "name": "preserve-source-typos",
+      "prompt": "Figma shows $color.foreground.seconary.disabled and $color.status.netural.icon. Are these real Tonic UI tokens?",
+      "expected_output": "Recognizes both raw database typos ('seconary', 'netural'), preserves them verbatim, and resolves each to its real implemented path (colors._foreground.secondary.disabled; colors.neutral.icon) via the corrected-spelling alias; explains the typo is in the design source row, not in the code, so search must use the exact raw string or the corrected form. Does not silently normalize the typo.",
+      "files": []
+    },
+    {
+      "id": 10,
+      "name": "chart-range-expansion",
+      "prompt": "The chart spec references $color.chart.categorical.predictable.2-color-group.option-1~4. Which tokens should I put in my palette array, and does option-5 exist?",
+      "expected_output": "Expands the documented range by name into the implemented members (2ColorGroup.option-1..4 with chart-1/chart-2 each), explains the code column's brace syntax is not literal and the range string itself is not resolvable by --figma; notes option-5 exists in code but has no design alias (code-only). States that this repository has no chart package, so there is no Tonic UI chart-library default to assume; palette choice must match the consuming application's explicit chart configuration. May mention that upstream source evidence used the unpredictable family, but must label it as source-only and not a Tonic UI package default.",
+      "files": []
+    },
+    {
+      "id": 11,
+      "name": "no-upgrade-prerequisite",
+      "prompt": "We're on @tonic-ui/react 3.0.0-alpha.1 and need to pick the right token for a modal backdrop and page background. Do we have to run a migration first?",
+      "expected_output": "Answers directly from the bundled snapshot: page background colors.background.low; drawer/modal background colors.background.high; modal backdrop colors._overlay._fixed.light.thicker, and notes the upstream Light Mode guide snapshot recommends a disable-overlay token written _overlay._inverse.thick while the implemented path is colors._overlay.inverse.thick, with the snapshot's applicability to Tonic UI unverified. Explicitly states no migration or package change is required for token selection.",
+      "files": []
+    },
+    {
+      "id": 12,
+      "name": "unknown-name-fails-loudly",
+      "prompt": "Please look up $color.does.not.exist and give me whatever token is closest so I can move on.",
+      "expected_output": "Does not fabricate a nearest match. The lookup exits non-zero with an Unknown token or design query error and no result, so the correct answer is that nothing is implemented for that name. May suggest searching by role wording with --query to find real candidates, but must not present an arbitrary token as the answer and must not fall back to black/transparent.",
+      "files": []
+    },
+    {
+      "id": 13,
+      "name": "legacy-name-and-decimal-key-resolution",
+      "prompt": "Two things: what is the CSS variable for the old blue:60 legacy token, and how do I address the border token at 0.5 pixels?",
+      "expected_output": "Gives the legacy token's real path colors.blue:60 (kind legacy, retained from v2) with CSS variable --tonic-colors-blue_60 — noting colons become underscores while dots become hyphens. For the border, uses the bracket-addressed path borders[\"0.5\"] with unitValues (0.5px solid; 0.0313rem solid) and CSS variable --tonic-borders-0-5. Notes --family borders includes the bracket-addressed decimal keys. Does not claim a fabricated variable name or assume both separators become hyphens.",
+      "files": []
+    },
+    {
+      "id": 14,
+      "name": "code-only-implemented-without-design-name",
+      "prompt": "Our designer says there is no Figma variable for the scrollbar track color we want to style. Does the theme not have one?",
+      "expected_output": "Explains the distinction: an implemented token can be code-only, i.e. it has no design alias while still being real and usable. Suggests looking up a real component-internal path (e.g. colors._component.scrollbar.track.enabled) via --token/--family, notes _component has no design alias at all, and reports the lookup's status as code-only. Does not conclude 'no token exists' merely because there is no Figma name, and does not invent a design name to fill the gap.",
+      "files": []
+    },
+    {
+      "id": 15,
+      "name": "multiword-query-is-literal",
+      "prompt": "I ran `--query 'selected disabled'` and it exited non-zero with 'Unknown token or design query'. Am I using the search wrong?",
+      "expected_output": "Explains that --query is a literal, case-insensitive substring match against token paths and each design alias's name/role/notes, so a multiword query only matches if that exact phrase appears in a single string. 'selected disabled' fails because no such contiguous phrase exists; --query 'table text' and 'toast border' work because those phrases occur in role strings. Advises using a single keyword (e.g. --query disabled) or a phrase copied verbatim from the design wording, and points at --figma for an exact design name.",
+      "files": []
+    }
+  ]
+}

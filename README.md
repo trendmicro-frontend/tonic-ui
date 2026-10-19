@@ -23,6 +23,14 @@ v1 | https://trendmicro-frontend.github.io/tonic-ui/react/v1/
 * Low barriers to customize UI components using building block components
 * A standarized [styled system](https://github.com/trendmicro-frontend/tonic-ui/tree/main/packages/styled-system) and [theme](https://github.com/trendmicro-frontend/tonic-ui/tree/main/packages/theme)
 
+## AI skills marketplace
+
+The [Tonic UI skills catalog](skills/README.md) separates repository-development
+skills in `skills/internal/` from app-facing skills in `skills/external/`.
+Marketplace installation exposes only `tonic-ui-tokens`, `tonic-ui-dev`, and
+`tonic-ui-upgrade` to Claude Code, Codex, and omp. Native repository discovery
+exposes only the six internal contributor skills; MCP connectors remain optional.
+
 ## Contributing
 
 If you're interested in contributing to Tonic UI, check out the [contribution guide](https://trendmicro-frontend.github.io/tonic-ui-docs/v3/contributing).

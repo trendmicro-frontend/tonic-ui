@@ -107,8 +107,8 @@ The changeset file should include the packages being released in the YAML front 
 [AGENTS.md](AGENTS.md) contains the persistent policies and the task-to-skill index.
 Task-specific workflows follow the [Agent Skills standard](https://agentskills.io/specification).
 
-- Edit skills only in `.agents/skills/<name>/SKILL.md`. Tool-specific discovery
-  directories are adapters, not separate content sources.
+- Edit repository skills in `skills/internal/<name>/` and app-facing skills in
+  `skills/external/<name>/`. Native discovery directories are adapters, not copies.
 - Keep supporting files inside the same skill directory: `references/`, `scripts/`,
   `assets/`, or existing `evals/`.
 - Use standard `name` and `description` frontmatter. Match `name` to the directory,
@@ -121,20 +121,29 @@ Task-specific workflows follow the [Agent Skills standard](https://agentskills.i
 - Keep mandatory policies in the root `AGENTS.md`, not only in optional skills.
   Do not add policy copies in tool-specific context files.
 
-For a new skill, create the shared directory and update the task index. Add any
-required discovery adapters as relative symlinks from the repository root:
+For a new internal skill, create the shared directory and update the task index.
+Add matching discovery adapters as relative symlinks from the repository root:
 
 ```bash
-ln -s ../../.agents/skills/<name> .claude/skills/<name>
+ln -s ../../skills/internal/<name> .claude/skills/<name>
+ln -s ../../skills/internal/<name> .agents/skills/<name>
 ```
+
+External skills are plugin-only: do not add them to either native adapter directory.
 
 Use a checkout that preserves symlinks; do not replace links with independently
 edited copies. Verify frontmatter, resource links, symlink targets, and actual skill
 loading after changes. If `skills-ref` is already installed, use
 `skills-ref validate <skill-directory>` without installing new dependencies.
 
-Tool-specific discovery rules and smoke scenarios are documented in the
-[shared agent skills migration plan](docs/plans/2026-10-06-shared-agent-skills-migration.md).
+Current installation, native discovery, task boundaries, and verification commands
+are in [the skills catalog](skills/README.md). The
+[shared agent skills migration plan](docs/plans/2026-10-06-shared-agent-skills-migration.md)
+records the earlier `.agents/skills` migration, not the current physical source.
+
+Marketplace catalogs point only at `skills/external`; its shared
+`.claude-plugin/plugin.json` explicitly lists the three external skill directories.
+Internal workflows are never bundled for consuming apps.
 
 ## Conventional Commits
 
