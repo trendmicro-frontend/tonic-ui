@@ -24,9 +24,12 @@
 
 ## Shared Agent Skills
 
-OMP is the primary agent. OMP and Codex discover `.agents/skills/` directly;
-Claude Code uses the relative symlinks in `.claude/skills/`. Edit only the shared
-source in `.agents/skills/`; do not create tool-specific content copies.
+OMP is the primary agent. `skills/internal/` owns repository-development skills;
+`skills/external/` owns application skills and is the marketplace plugin root.
+`.agents/skills/` and `.claude/skills/` each contain the same six direct relative
+discovery links to `skills/internal/` only. Edit the physical source, never the adapters.
+External application skills are exposed through the plugin, not native adapters;
+see [the catalog](skills/README.md).
 
 Before starting a matching task, load the relevant skill's `SKILL.md`. Use more
 than one skill when the task spans multiple areas, and read its linked references
@@ -34,11 +37,15 @@ when instructed. The paths below are relative to the repository root, not the CW
 
 | Task | Skill instructions |
 | --- | --- |
-| Component structure, hooks, exports, and repository conventions | [tonic-ui-patterns](.agents/skills/tonic-ui-patterns/SKILL.md) |
-| PR descriptions, commit message drafts, and changesets | [tonic-ui-pr](.agents/skills/tonic-ui-pr/SKILL.md) |
-| `slots`, `slotProps`, `useSlot`, and legacy component/props migration | [tonic-ui-slots](.agents/skills/tonic-ui-slots/SKILL.md) |
-| `sx`, `__sx`, `composeSx`, and style precedence | [tonic-ui-sx](.agents/skills/tonic-ui-sx/SKILL.md) |
-| React component JSDoc and props types | [tonic-ui-types](.agents/skills/tonic-ui-types/SKILL.md) |
+| Figma/screenshot token resolution and typography | [tonic-ui-tokens](skills/external/tonic-ui-tokens/SKILL.md) |
+| Application frontend development highlights and optional release checks | [tonic-ui-dev](skills/external/tonic-ui-dev/SKILL.md) |
+| Consuming application upgrades; current v2-to-v3 migration guidance | [tonic-ui-upgrade](skills/external/tonic-ui-upgrade/SKILL.md) |
+| Library component structure, hooks, exports, and repository conventions | [tonic-ui-patterns](skills/internal/tonic-ui-patterns/SKILL.md) |
+| Library PR descriptions, commit message drafts, and changesets | [tonic-ui-pr](skills/internal/tonic-ui-pr/SKILL.md) |
+| Library `slots`, `slotProps`, `useSlot`, and legacy component/props migration | [tonic-ui-slots](skills/internal/tonic-ui-slots/SKILL.md) |
+| Library `sx`, `__sx`, `composeSx`, and style precedence | [tonic-ui-sx](skills/internal/tonic-ui-sx/SKILL.md) |
+| Library React component JSDoc and props types | [tonic-ui-types](skills/internal/tonic-ui-types/SKILL.md) |
+| Library version bumps, prereleases, and maintenance branches | [tonic-ui-version](skills/internal/tonic-ui-version/SKILL.md) |
 
 Skills are task-specific instructions, not replacements for the policies above
 or the host agent's tool and safety rules.

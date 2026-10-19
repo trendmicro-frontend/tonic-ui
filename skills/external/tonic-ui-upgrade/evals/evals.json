@@ -1,0 +1,54 @@
+{
+  "skill_name": "tonic-ui-upgrade",
+  "evals": [
+    {
+      "id": 0,
+      "name": "legacy-token-and-hook-not-required",
+      "prompt": "Our V1 app is on `@tonic-ui/react@2.15.0` and we want to move to `3.0.0-alpha.1`. A teammate says we must first rewrite every `color=\"blue:60\"`-style legacy token, and that our `useColorStyle({ colorMode })` call will crash in v3. Our code has both. What actually has to change, and what can stay?",
+      "expected_output": "Classifies the shared `@tonic-ui/react` bump as necessary and says legacy v2 color refs remain backward compatible in v3 (so a full token rewrite is optional, not a prerequisite). States `useColorStyle({ colorMode })` is supported in v3 (accepts the option and falls back to context mode) and that there is no source evidence of a crash — an obsolete prop, a TS error, an ignored arg and a runtime crash are different claims. Labels changes as necessary/deprecated/optional/manual with source evidence, and warns that primitive token values are not equivalent (gray:10 != gray.100), so a mechanical rename changes appearance.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "custom-severity-preserved-default-removed",
+      "prompt": "Our app merges a custom `colorStyle` with a `severity.info` mapping and passes it to `TonicProvider`. After upgrading to v3, is that customization gone? What about the built-in `colorStyle.severity` the old docs mention?",
+      "expected_output": "Distinguishes the two: the DEFAULT v3 `colorStyle` in `packages/react/src/color-style/color-style.js` contains only background/color/divider/text/shadow, so reading any other default entry yields undefined, while a CUSTOM colorStyle passed to `TonicProvider` is preserved because the provider uses the supplied value/defaultValue. Does not assert that a specific v2 default entry was removed without checking the app's v2 colorStyle. Advises porting the custom mapping's values to v3 semantic tokens (e.g. `severity.informational.text` where the design/code naming requires it) without changing the mapping's intent. Does not claim the customization was removed, and does not demand an unconditional token rewrite.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "mixed-peer-versions-not-universal-pin",
+      "prompt": "Someone on the team says we should pin ALL Tonic packages to `3.0.0-alpha.0` to be safe for the v3 upgrade. We use `@tonic-ui/react`, `@tonic-ui/react-icons` and `@tonic-ui/utils`. Is that right?",
+      "expected_output": "Rejects the blanket alpha.0 pin: package versions move independently and prerelease suffixes across packages do not establish compatibility, and pinning react to alpha.0 would contradict a later target. Says to resolve each package's version from its own peer/dependency metadata; in this repository the current manifests are 3.0.0-alpha.1, while the migration guide still says 3.0.0-alpha.0 — report that guide/manifest conflict rather than silently choosing. Notes the packages are absent that do not exist here (DataGrid/charts) and points at the actual `packages/*/package.json` manifests as evidence, not at a single global version.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "deprecated-props-merge-not-crash",
+      "prompt": "We use `TransitionComponent` / `TransitionProps` on `ModalContent`, `PopperProps={{ usePortal: true }}` on our `Tooltip`, and `SubmenuToggle`. The v3 guide lists `slots`/`slotProps` and `portalled` and `SubmenuTrigger`. Do we have to change all of these right now to upgrade, and will our current code throw?",
+      "expected_output": "Says the deprecated usage still works in v3 and that whether a warning appears depends on the actual callsite, not on the deprecation itself: ModalContent's TransitionComponent/TransitionProps callsite uses `useOnceWhen` + `warnDeprecatedProps(..., { willRemove: true })` and so warns at most once per mounted instance when the prop is set; Popper still reads `usePortal` as a fallback but its warning is commented out, so it emits nothing; `SubmenuToggle` is JSDoc-deprecated with no runtime warning. States that legacy plus slot props are merged with the slot winning, so migration can be incremental and nothing must be changed just to upgrade. Recommends moving to `slots.transition`, root-level `portalled`, and `SubmenuTrigger` (without wrapping it in a MenuItem).",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "datagrid-height-explicit",
+      "prompt": "Our app uses a separate DataGrid package that is not part of Tonic UI. After bumping Tonic UI to v3, what should we do about the grid's sizing, and does v3 remove or rewrite DataGrid?",
+      "expected_output": "States that Tonic UI v3 has no DataGrid package in this repository, so there is no Tonic UI DataGrid version, peer floor, `heightMode` prop or removal/rewrite claim to make. Does not fabricate a package or transfer upstream source-only DataGrid rules. If the app separately owns a DataGrid package, advises reading that package's own package.json, changelog and source, and labeling the sizing decision as app/package-specific. Notes that Tonic UI v3 changes do not by themselves remove an external grid.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "no-release-routing",
+      "prompt": "We finished the v2->v3 plan for our app. Now cut a Tonic UI release: bump the version registry, update the docs version selector, and open the changeset release PR.",
+      "expected_output": "Refuses to route this into the upgrade skill: a consuming-app upgrade never bumps the Tonic UI library, edits the library repository's version registry or docs selectors, or opens release PRs. Says library version/release work is a separate repository-side concern and that no Changeset is produced for an app upgrade. Keeps the app migration limited to the app's own deps/lockfile/code.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "provider-scope-manual",
+      "prompt": "We render our Tonic UI app as a widget embedded inside another company application (same document). The v3 guide shows `useCSSBaseline` and `useCSSVariables` on `TonicProvider` and a `data-color-scheme` attribute. Should we turn those on?",
+      "expected_output": "Classifies the decision as manual, not necessary. Says `useCSSBaseline`/`useCSSVariables` are for standalone applications; an embedded widget sharing the host document should leave them off to avoid clashing with the host's global styles and CSS variables. Notes `data-color-scheme` is required only when `useCSSVariables` is enabled (CSSVariables emits `[data-color-scheme=...]` rules). Does not assert a compile failure either way.",
+      "files": []
+    }
+  ]
+}

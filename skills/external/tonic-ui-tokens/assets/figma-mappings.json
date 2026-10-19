@@ -1,0 +1,5213 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "contentId": "1939407344",
+      "version": 559,
+      "title": "Tonic UI v3 Semantic Color Token Definitions",
+      "updatedAt": "2026-09-09T03:42:01.285Z",
+      "applicability": "confirmed: packages/react-docs/pages/migrations/migrating-color-tokens-from-v2-to-v3/index.page.mdx links this database as the v3 semantic color definitions",
+      "historicalSourceTitle": "Tonic One v4 Semantic Color Token Definitions"
+    },
+    {
+      "contentId": "1962606684",
+      "version": 139,
+      "title": "Typography Token Definitions (upstream snapshot)",
+      "updatedAt": "2026-06-01T08:02:35.518Z",
+      "applicability": "unverified for Tonic UI; rows are retained as upstream design provenance",
+      "historicalSourceTitle": "Tonic One v4 Typography Token Definitions"
+    },
+    {
+      "contentId": "1927774846",
+      "version": 73,
+      "title": "Upstream Designer Handbook snapshot",
+      "role": "design guidance (not an alias table)",
+      "applicability": "unverified for Tonic UI; not Tonic UI-specific guidance",
+      "historicalSourceTitle": "Tonic One v4 Designer Handbook"
+    },
+    {
+      "contentId": "2386166626",
+      "version": 40,
+      "title": "Upstream Light Mode Implementation Guide snapshot",
+      "role": "implementation guidance (not an alias table)",
+      "applicability": "unverified for Tonic UI",
+      "historicalSourceTitle": "Light Mode Implementation Guide \u2013 Known Issues & Notes"
+    }
+  ],
+  "mappings": [
+    {
+      "figma": "$color.text.accent",
+      "path": "colors.text.accent",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "35"
+      },
+      "role": "Most prominent neutral text, used for headings, high-emphasis CTA text, and hovered/active/selected text.",
+      "notes": []
+    },
+    {
+      "figma": "$color.text.primary",
+      "path": "colors.text.primary",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "36"
+      },
+      "role": "General table text and paragraph text.",
+      "notes": []
+    },
+    {
+      "figma": "$color.text.secondary",
+      "path": "colors.text.secondary",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "37"
+      },
+      "role": "Extra/supporting descriptive text.",
+      "notes": []
+    },
+    {
+      "figma": "$color.text.tertiary",
+      "path": "colors.text.tertiary",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "38"
+      },
+      "role": "Default placeholder text in input fields.",
+      "notes": []
+    },
+    {
+      "figma": "$color.text.disabled",
+      "path": "colors.text.disabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "39"
+      },
+      "role": "Text in a disabled state.",
+      "notes": []
+    },
+    {
+      "figma": "$color.text.secondary",
+      "path": "colors.text.secondary",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "47"
+      },
+      "role": "Subtle (gray) link text in the enabled state.",
+      "notes": [
+        "Second design entry with this alias (row 47); it maps to the same implemented token as row 37."
+      ]
+    },
+    {
+      "figma": "$color.status.negative.text",
+      "path": "colors.error.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "40"
+      },
+      "role": "Error/negative status text color.",
+      "notes": [
+        "The negative status is the only status text token implemented; the other status text entries are still TBD (row 70)."
+      ]
+    },
+    {
+      "figma": "$color.icon.accent",
+      "path": "colors.text.accent",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "41"
+      },
+      "role": "Icon color; typically paired with $color.text.accent.",
+      "notes": [
+        "The design source maps icon roles to the same implemented text tokens; there is no separate implemented `icon.*` family."
+      ]
+    },
+    {
+      "figma": "$color.icon.primary",
+      "path": "colors.text.primary",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "42"
+      },
+      "role": "Icon color; typically paired with $color.text.primary.",
+      "notes": [
+        "The design source maps icon roles to the same implemented text tokens; there is no separate implemented `icon.*` family."
+      ]
+    },
+    {
+      "figma": "$color.icon.secondary",
+      "path": "colors.text.secondary",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "43"
+      },
+      "role": "Icon color; typically paired with $color.text.secondary.",
+      "notes": [
+        "The design source maps icon roles to the same implemented text tokens; there is no separate implemented `icon.*` family."
+      ]
+    },
+    {
+      "figma": "$color.icon.tertiary",
+      "path": "colors.text.tertiary",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "44"
+      },
+      "role": "Icon color; typically paired with $color.text.tertiary.",
+      "notes": [
+        "The design source maps icon roles to the same implemented text tokens; there is no separate implemented `icon.*` family."
+      ]
+    },
+    {
+      "figma": "$color.icon.disabled",
+      "path": "colors.text.disabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "45"
+      },
+      "role": "Icon color; typically paired with $color.text.disabled.",
+      "notes": [
+        "The design source maps icon roles to the same implemented text tokens; there is no separate implemented `icon.*` family."
+      ]
+    },
+    {
+      "figma": "$color.link.enabled",
+      "path": "colors._link.enabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "46"
+      },
+      "role": "Link text/icon color, enabled state.",
+      "notes": [
+        "Implemented in the private `_link` family."
+      ]
+    },
+    {
+      "figma": "$color.link.hovered",
+      "path": "colors._link.hovered",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "46"
+      },
+      "role": "Link text/icon color, hovered state.",
+      "notes": [
+        "Implemented in the private `_link` family."
+      ]
+    },
+    {
+      "figma": "$color.link.active",
+      "path": "colors._link.active",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "46"
+      },
+      "role": "Link text/icon color, active state.",
+      "notes": [
+        "Implemented in the private `_link` family."
+      ]
+    },
+    {
+      "figma": "$color.link.visited",
+      "path": "colors._link.visited",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "46"
+      },
+      "role": "Link text/icon color, visited state.",
+      "notes": [
+        "Implemented in the private `_link` family."
+      ]
+    },
+    {
+      "figma": "$color.link.disabled",
+      "path": "colors._link.disabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "46"
+      },
+      "role": "Link text/icon color, disabled state.",
+      "notes": [
+        "Implemented in the private `_link` family."
+      ]
+    },
+    {
+      "figma": "$color.background.highest",
+      "path": "colors.background.highest",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "48"
+      },
+      "role": "Background of the highest elevation: menus, tooltips, toasts, headers.",
+      "notes": []
+    },
+    {
+      "figma": "$color.background.high",
+      "path": "colors.background.high",
+      "status": "source-conflict",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "49"
+      },
+      "role": "Background of high elevation: drawers, modals, docks.",
+      "notes": [
+        "Raw code-syntax column says `background.highest`, which is a different implemented token and the target of row 48. The design name (`high`), the row definition (drawer/modal/dock) and the implemented `colors.background.high` agree; do not follow the column literally."
+      ]
+    },
+    {
+      "figma": "$color.background.medium",
+      "path": "colors.background.medium",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "50"
+      },
+      "role": "Background of medium elevation: widgets or section containers.",
+      "notes": []
+    },
+    {
+      "figma": "$color.background.low",
+      "path": "colors.background.low",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "51"
+      },
+      "role": "Background of the lowest elevation: default page background.",
+      "notes": []
+    },
+    {
+      "figma": "$color.border.decorative.accent",
+      "path": "colors.border.accent",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "52"
+      },
+      "role": "Static, non-interactive accent border line.",
+      "notes": [
+        "The `decorative` qualifier has no code segment; the code column maps to `border.<name>`."
+      ]
+    },
+    {
+      "figma": "$color.border.decorative.primary",
+      "path": "colors.border.primary",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "53"
+      },
+      "role": "Static, non-interactive primary border line.",
+      "notes": [
+        "The `decorative` qualifier has no code segment; the code column maps to `border.<name>`."
+      ]
+    },
+    {
+      "figma": "$color.border.decorative.secondary",
+      "path": "colors.border.secondary",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "54"
+      },
+      "role": "Static, non-interactive secondary border line.",
+      "notes": [
+        "The `decorative` qualifier has no code segment; the code column maps to `border.<name>`."
+      ]
+    },
+    {
+      "figma": "$color.border.decorative.tertiary",
+      "path": "colors.border.tertiary",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "55"
+      },
+      "role": "Static, non-interactive tertiary border line.",
+      "notes": [
+        "The `decorative` qualifier has no code segment; the code column maps to `border.<name>`."
+      ]
+    },
+    {
+      "figma": "$color.border.decorative.subtle",
+      "path": "colors.border.subtle",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "56"
+      },
+      "role": "Static, non-interactive subtle border line.",
+      "notes": [
+        "The `decorative` qualifier has no code segment; the code column maps to `border.<name>`."
+      ]
+    },
+    {
+      "figma": "$color.border.primary.enabled",
+      "path": "colors.border._primary.enabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "57"
+      },
+      "role": "Primary interactive border, enabled state.",
+      "notes": [
+        "Code uses camelCase state suffixes (`selectedHovered`, `selectedDisabled`); the design source uses kebab-case state names."
+      ]
+    },
+    {
+      "figma": "$color.border.primary.hovered",
+      "path": "colors.border._primary.hovered",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "57"
+      },
+      "role": "Primary interactive border, hovered state.",
+      "notes": [
+        "Code uses camelCase state suffixes (`selectedHovered`, `selectedDisabled`); the design source uses kebab-case state names."
+      ]
+    },
+    {
+      "figma": "$color.border.primary.active",
+      "path": "colors.border._primary.active",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "57"
+      },
+      "role": "Primary interactive border, active state.",
+      "notes": [
+        "Code uses camelCase state suffixes (`selectedHovered`, `selectedDisabled`); the design source uses kebab-case state names."
+      ]
+    },
+    {
+      "figma": "$color.border.primary.focused",
+      "path": "colors.border._primary.focused",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "57"
+      },
+      "role": "Primary interactive border, focused state.",
+      "notes": [
+        "Code uses camelCase state suffixes (`selectedHovered`, `selectedDisabled`); the design source uses kebab-case state names."
+      ]
+    },
+    {
+      "figma": "$color.border.primary.selected",
+      "path": "colors.border._primary.selected",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "57"
+      },
+      "role": "Primary interactive border, selected state.",
+      "notes": [
+        "Code uses camelCase state suffixes (`selectedHovered`, `selectedDisabled`); the design source uses kebab-case state names."
+      ]
+    },
+    {
+      "figma": "$color.border.primary.selected-hovered",
+      "path": "colors.border._primary.selectedHovered",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "57"
+      },
+      "role": "Primary interactive border, selected-hovered state.",
+      "notes": [
+        "Code uses camelCase state suffixes (`selectedHovered`, `selectedDisabled`); the design source uses kebab-case state names."
+      ]
+    },
+    {
+      "figma": "$color.border.primary.selected-disabled",
+      "path": "colors.border._primary.selectedDisabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "57"
+      },
+      "role": "Primary interactive border, selected-disabled state.",
+      "notes": [
+        "Code uses camelCase state suffixes (`selectedHovered`, `selectedDisabled`); the design source uses kebab-case state names."
+      ]
+    },
+    {
+      "figma": "$color.border.primary.disabled",
+      "path": "colors.border._primary.disabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "57"
+      },
+      "role": "Primary interactive border, disabled state.",
+      "notes": [
+        "Code uses camelCase state suffixes (`selectedHovered`, `selectedDisabled`); the design source uses kebab-case state names."
+      ]
+    },
+    {
+      "figma": "$color.border.negative.enabled",
+      "path": "colors.border._negative.enabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "58"
+      },
+      "role": "Negative/destructive interactive border, enabled state.",
+      "notes": []
+    },
+    {
+      "figma": "$color.border.negative.hovered",
+      "path": "colors.border._negative.hovered",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "58"
+      },
+      "role": "Negative/destructive interactive border, hovered state.",
+      "notes": []
+    },
+    {
+      "figma": "$color.border.negative.active",
+      "path": "colors.border._negative.active",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "58"
+      },
+      "role": "Negative/destructive interactive border, active state.",
+      "notes": []
+    },
+    {
+      "figma": "$color.border.negative.disbled",
+      "path": "colors.border._negative.disabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "58"
+      },
+      "role": "Negative/destructive interactive border, disabled state.",
+      "notes": [
+        "Raw Figma name contains the typo `disbled`; preserved verbatim. The code column says `border._negative.disabled`."
+      ]
+    },
+    {
+      "figma": "$color.border.promotional.enabled",
+      "path": "colors.border._promotion.enabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "59"
+      },
+      "role": "Promotional interactive border, enabled state.",
+      "notes": [
+        "Design name says `promotional`; the implemented family is `_promotion`."
+      ]
+    },
+    {
+      "figma": "$color.border.promotional.hovered",
+      "path": "colors.border._promotion.hovered",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "59"
+      },
+      "role": "Promotional interactive border, hovered state.",
+      "notes": [
+        "Design name says `promotional`; the implemented family is `_promotion`."
+      ]
+    },
+    {
+      "figma": "$color.border.promotional.active",
+      "path": "colors.border._promotion.active",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "59"
+      },
+      "role": "Promotional interactive border, active state.",
+      "notes": [
+        "Design name says `promotional`; the implemented family is `_promotion`."
+      ]
+    },
+    {
+      "figma": "$color.border.promotional.disabled",
+      "path": "colors.border._promotion.disabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "59"
+      },
+      "role": "Promotional interactive border, disabled state.",
+      "notes": [
+        "Design name says `promotional`; the implemented family is `_promotion`."
+      ]
+    },
+    {
+      "figma": "$color.state-layer.on-background.enabled",
+      "path": "colors.actions.enabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "60"
+      },
+      "role": "Background interaction-state layer for elements that cannot change background, enabled state.",
+      "notes": [
+        "Design name `state-layer` maps to the implemented `actions` family (`on-background` has no code segment)."
+      ]
+    },
+    {
+      "figma": "$color.state-layer.on-background.hovered",
+      "path": "colors.actions.hovered",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "60"
+      },
+      "role": "Background interaction-state layer for elements that cannot change background, hovered state.",
+      "notes": [
+        "Design name `state-layer` maps to the implemented `actions` family (`on-background` has no code segment)."
+      ]
+    },
+    {
+      "figma": "$color.state-layer.on-background.active",
+      "path": "colors.actions.active",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "60"
+      },
+      "role": "Background interaction-state layer for elements that cannot change background, active state.",
+      "notes": [
+        "Design name `state-layer` maps to the implemented `actions` family (`on-background` has no code segment)."
+      ]
+    },
+    {
+      "figma": "$color.state-layer.on-background.disabled",
+      "path": "colors.actions.disabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "60"
+      },
+      "role": "Background interaction-state layer for elements that cannot change background, disabled state.",
+      "notes": [
+        "Design name `state-layer` maps to the implemented `actions` family (`on-background` has no code segment)."
+      ]
+    },
+    {
+      "figma": "$color.state-layer.on-background.dragged",
+      "path": "colors.actions.dragged",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "61"
+      },
+      "role": "Background overlay for dragged rows/elements.",
+      "notes": [
+        "Design name `state-layer` maps to the implemented `actions` family."
+      ]
+    },
+    {
+      "figma": "$color.state-layer.on-background.current",
+      "path": "colors.actions.current",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "62"
+      },
+      "role": "Current-location/context state (expanded row, active tree node, current side-menu item).",
+      "notes": [
+        "Design name `state-layer` maps to the implemented `actions` family."
+      ]
+    },
+    {
+      "figma": "$color.state-layer.on-background.selected",
+      "path": "colors.actions.selected",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "63"
+      },
+      "role": "Selected state (e.g. table row selected via radio/checkbox).",
+      "notes": [
+        "Code uses camelCase state suffixes (`selectedHovered`, `selectedDisabled`); the design source uses kebab-case state names."
+      ]
+    },
+    {
+      "figma": "$color.state-layer.on-background.selected-hovered",
+      "path": "colors.actions.selectedHovered",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "63"
+      },
+      "role": "Selected state, hovered.",
+      "notes": [
+        "Code uses camelCase state suffixes (`selectedHovered`, `selectedDisabled`); the design source uses kebab-case state names."
+      ]
+    },
+    {
+      "figma": "$color.status.positive.icon",
+      "path": "colors.success.icon",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "64"
+      },
+      "role": "Status icon color (positive).",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.negative.icon",
+      "path": "colors.error.icon",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "64"
+      },
+      "role": "Status icon color (negative).",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.major-warning.icon",
+      "path": "colors.warning.icon",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "64"
+      },
+      "role": "Status icon color (major-warning).",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.minor-warning.icon",
+      "path": "colors.minorWarning.icon",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "64"
+      },
+      "role": "Status icon color (minor-warning).",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.informational.icon",
+      "path": "colors.info.icon",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "64"
+      },
+      "role": "Status icon color (informational).",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.netural.icon",
+      "path": "colors.neutral.icon",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "64"
+      },
+      "role": "Status icon color (neutral).",
+      "notes": [
+        "The raw Figma cell is spelled `netural`; preserved verbatim. The design variable is presumably `$color.status.neutral.icon`, and the code column maps this row member to `neutral.icon`."
+      ]
+    },
+    {
+      "figma": "$color.status.in-progress.icon",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "64"
+      },
+      "role": "Status icon color (in-progress).",
+      "notes": [
+        "The row is marked stable and its code column names `inProgress.icon`, but the current implementation has no `inProgress` family. Do not invent a path or substitute a primitive color."
+      ]
+    },
+    {
+      "figma": "$color.status.promotional.icon",
+      "path": "colors.promotion.icon",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "64"
+      },
+      "role": "Status icon color (promotional).",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.positive.border",
+      "path": "colors.success.border",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "65"
+      },
+      "role": "Status border color (positive), e.g. toast border.",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.negative.border",
+      "path": "colors.error.border",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "65"
+      },
+      "role": "Status border color (negative), e.g. toast border.",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.major-warning.border",
+      "path": "colors.warning.border",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "65"
+      },
+      "role": "Status border color (major-warning), e.g. toast border.",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.minor-warning.border",
+      "path": "colors.minorWarning.border",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "65"
+      },
+      "role": "Status border color (minor-warning), e.g. toast border.",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.informational.border",
+      "path": "colors.info.border",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "65"
+      },
+      "role": "Status border color (informational), e.g. toast border.",
+      "notes": [
+        "Row 65 lists Figma `in-progress` (7th) and `neutral` (8th) in a different order than its code column (`neutral` then `inProgress`); the pairing here is by token name, not column position."
+      ]
+    },
+    {
+      "figma": "$color.status.neutral.border",
+      "path": "colors.neutral.border",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "65"
+      },
+      "role": "Status border color (neutral), e.g. toast border.",
+      "notes": [
+        "Row 65 lists Figma `in-progress` (7th) and `neutral` (8th) in a different order than its code column (`neutral` then `inProgress`); the pairing here is by token name, not column position."
+      ]
+    },
+    {
+      "figma": "$color.status.in-progress.border",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "65"
+      },
+      "role": "Status border color (in-progress).",
+      "notes": [
+        "The row is marked stable and its code column names `inProgress.border`, but the current implementation has no `inProgress` family. Do not invent a path."
+      ]
+    },
+    {
+      "figma": "$color.status.promotional.border",
+      "path": "colors.promotion.border",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "65"
+      },
+      "role": "Status border color (promotional), e.g. toast border.",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.positive.foreground",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "66"
+      },
+      "role": "Status foreground/component fill (positive).",
+      "notes": [
+        "Marked \ud83d\udea7TBD in the design source (row 66 has no code-syntax column); not implemented and not safe to use yet."
+      ]
+    },
+    {
+      "figma": "$color.status.negative.foreground",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "66"
+      },
+      "role": "Status foreground/component fill (negative).",
+      "notes": [
+        "Marked \ud83d\udea7TBD in the design source (row 66 has no code-syntax column); not implemented and not safe to use yet."
+      ]
+    },
+    {
+      "figma": "$color.status.major-warning.foreground",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "66"
+      },
+      "role": "Status foreground/component fill (major-warning).",
+      "notes": [
+        "Marked \ud83d\udea7TBD in the design source (row 66 has no code-syntax column); not implemented and not safe to use yet."
+      ]
+    },
+    {
+      "figma": "$color.status.minor-warning.foreground",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "66"
+      },
+      "role": "Status foreground/component fill (minor-warning).",
+      "notes": [
+        "Marked \ud83d\udea7TBD in the design source (row 66 has no code-syntax column); not implemented and not safe to use yet."
+      ]
+    },
+    {
+      "figma": "$color.status.positive.overlay",
+      "path": "colors.success._overlay",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "67"
+      },
+      "role": "Semi-transparent status overlay/fill for positive.",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.negative.overlay",
+      "path": "colors.error._overlay",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "67"
+      },
+      "role": "Semi-transparent status overlay/fill for negative.",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.major-warning.overlay",
+      "path": "colors.warning._overlay",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "67"
+      },
+      "role": "Semi-transparent status overlay/fill for major-warning.",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.minor-warning.overlay",
+      "path": "colors.minorWarning._overlay",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "67"
+      },
+      "role": "Semi-transparent status overlay/fill for minor-warning.",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.informational.overlay",
+      "path": "colors.info._overlay",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "67"
+      },
+      "role": "Semi-transparent status overlay/fill for informational.",
+      "notes": [
+        "Row 67 lists `neutral` before `informational` while its code column lists `info` before `neutral`; the pairing here is by token name, not column position."
+      ]
+    },
+    {
+      "figma": "$color.status.neutral.overlay",
+      "path": "colors.neutral._overlay",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "67"
+      },
+      "role": "Semi-transparent status overlay/fill for neutral.",
+      "notes": [
+        "Row 67 lists `neutral` before `informational` while its code column lists `info` before `neutral`; the pairing here is by token name, not column position."
+      ]
+    },
+    {
+      "figma": "$color.status.in-progress.overlay",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "67"
+      },
+      "role": "Status overlay (semi-transparent fill), in-progress.",
+      "notes": [
+        "The row is marked stable and its code column names `inProgress._overlay`, but the current implementation has no `inProgress` family."
+      ]
+    },
+    {
+      "figma": "$color.status.promotional.overlay",
+      "path": "colors.promotion._overlay",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "67"
+      },
+      "role": "Semi-transparent status overlay/fill for promotional.",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.positive.on-overlay.text",
+      "path": "colors.success._onOverlay.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "68"
+      },
+      "role": "Text placed on the semi-transparent positive status overlay.",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.negative.on-overlay.text",
+      "path": "colors.error._onOverlay.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "68"
+      },
+      "role": "Text placed on the semi-transparent negative status overlay.",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.major-warning.on-overlay.text",
+      "path": "colors.warning._onOverlay.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "68"
+      },
+      "role": "Text placed on the semi-transparent major-warning status overlay.",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.minor-warning.on-overlay.text",
+      "path": "colors.minorWarning._onOverlay.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "68"
+      },
+      "role": "Text placed on the semi-transparent minor-warning status overlay.",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.informational.on-overlay.text",
+      "path": "colors.info._onOverlay.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "68"
+      },
+      "role": "Text placed on the semi-transparent informational status overlay.",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.neutral.on-overlay.text",
+      "path": "colors.neutral._onOverlay.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "68"
+      },
+      "role": "Text placed on the semi-transparent neutral status overlay.",
+      "notes": []
+    },
+    {
+      "figma": "$color.status.in-progress.on-overlay.text",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "68"
+      },
+      "role": "Text on the in-progress status overlay.",
+      "notes": [
+        "The row lists it as stable, but the current implementation has no `inProgress` family."
+      ]
+    },
+    {
+      "figma": "$color.status.promotional.on-overlay.text",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "68"
+      },
+      "role": "Text on the promotional status overlay.",
+      "notes": [
+        "Listed in the row and its code column names `promotion._onOverlay.text`, but the implemented `colors.promotion` family has no `_onOverlay` leaves. Use a reviewed alternative, not a guessed token."
+      ]
+    },
+    {
+      "figma": "$color.status.positive.on-overlay.icon",
+      "path": "colors.success._onOverlay.icon",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "69"
+      },
+      "role": "Icon placed on the semi-transparent positive status overlay.",
+      "notes": [
+        "The row's code-syntax column repeats the `.text` suffix; the implemented icon paths are `.icon`."
+      ]
+    },
+    {
+      "figma": "$color.status.negative.on-overlay.icon",
+      "path": "colors.error._onOverlay.icon",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "69"
+      },
+      "role": "Icon placed on the semi-transparent negative status overlay.",
+      "notes": [
+        "The row's code-syntax column repeats the `.text` suffix; the implemented icon paths are `.icon`."
+      ]
+    },
+    {
+      "figma": "$color.status.major-warning.on-overlay.icon",
+      "path": "colors.warning._onOverlay.icon",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "69"
+      },
+      "role": "Icon placed on the semi-transparent major-warning status overlay.",
+      "notes": [
+        "The row's code-syntax column repeats the `.text` suffix; the implemented icon paths are `.icon`."
+      ]
+    },
+    {
+      "figma": "$color.status.minor-warning.on-overlay.icon",
+      "path": "colors.minorWarning._onOverlay.icon",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "69"
+      },
+      "role": "Icon placed on the semi-transparent minor-warning status overlay.",
+      "notes": [
+        "The row's code-syntax column repeats the `.text` suffix; the implemented icon paths are `.icon`."
+      ]
+    },
+    {
+      "figma": "$color.status.informational.on-overlay.icon",
+      "path": "colors.info._onOverlay.icon",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "69"
+      },
+      "role": "Icon placed on the semi-transparent informational status overlay.",
+      "notes": [
+        "The row's code-syntax column repeats the `.text` suffix; the implemented icon paths are `.icon`."
+      ]
+    },
+    {
+      "figma": "$color.status.neutral.on-overlay.icon",
+      "path": "colors.neutral._onOverlay.icon",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "69"
+      },
+      "role": "Icon placed on the semi-transparent neutral status overlay.",
+      "notes": [
+        "The row's code-syntax column repeats the `.text` suffix; the implemented icon paths are `.icon`."
+      ]
+    },
+    {
+      "figma": "$color.status.in-progress.on-overlay.icon",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "69"
+      },
+      "role": "Icon on the in-progress status overlay.",
+      "notes": [
+        "The current implementation has no `inProgress` family."
+      ]
+    },
+    {
+      "figma": "$color.status.promotional.on-overlay.icon",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "69"
+      },
+      "role": "Icon on the promotional status overlay.",
+      "notes": [
+        "Listed in the row and its code column names `promotion._onOverlay.text`, but the implemented `colors.promotion` family has no `_onOverlay` leaves."
+      ]
+    },
+    {
+      "figma": "$color.status.positive.text",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "70"
+      },
+      "role": "Status text color (positive).",
+      "notes": [
+        "Marked \ud83d\udea7TBD; no code-syntax column and no implemented token.",
+        "Negative status text is not listed because it is already stable (row 40 \u2192 colors.error.text)."
+      ]
+    },
+    {
+      "figma": "$color.status.major-warning.text",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "70"
+      },
+      "role": "Status text color (major-warning).",
+      "notes": [
+        "Marked \ud83d\udea7TBD; no code-syntax column and no implemented token.",
+        "Negative status text is not listed because it is already stable (row 40 \u2192 colors.error.text)."
+      ]
+    },
+    {
+      "figma": "$color.status.minor-warning.text",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "70"
+      },
+      "role": "Status text color (minor-warning).",
+      "notes": [
+        "Marked \ud83d\udea7TBD; no code-syntax column and no implemented token.",
+        "Negative status text is not listed because it is already stable (row 40 \u2192 colors.error.text)."
+      ]
+    },
+    {
+      "figma": "$color.status.informational.text",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "70"
+      },
+      "role": "Status text color (informational).",
+      "notes": [
+        "Marked \ud83d\udea7TBD; no code-syntax column and no implemented token.",
+        "Negative status text is not listed because it is already stable (row 40 \u2192 colors.error.text)."
+      ]
+    },
+    {
+      "figma": "$color.status.neutral.text",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "70"
+      },
+      "role": "Status text color (neutral).",
+      "notes": [
+        "Marked \ud83d\udea7TBD; no code-syntax column and no implemented token.",
+        "Negative status text is not listed because it is already stable (row 40 \u2192 colors.error.text)."
+      ]
+    },
+    {
+      "figma": "$color.status.in-progress.text",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "70"
+      },
+      "role": "Status text color (in-progress).",
+      "notes": [
+        "Marked \ud83d\udea7TBD; no code-syntax column and no implemented token.",
+        "Negative status text is not listed because it is already stable (row 40 \u2192 colors.error.text)."
+      ]
+    },
+    {
+      "figma": "$color.status.promotional.text",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "70"
+      },
+      "role": "Status text color (promotional).",
+      "notes": [
+        "Marked \ud83d\udea7TBD; no code-syntax column and no implemented token.",
+        "Negative status text is not listed because it is already stable (row 40 \u2192 colors.error.text)."
+      ]
+    },
+    {
+      "figma": "$color.alert.risk-level.high.text",
+      "path": "colors.riskLevel.high.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "71"
+      },
+      "role": "Risk-level high text color.",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.risk-level.high.chart",
+      "path": "colors.riskLevel.high.chart",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "72"
+      },
+      "role": "Risk-level high chart color.",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.risk-level.medium.text",
+      "path": "colors.riskLevel.medium.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "71"
+      },
+      "role": "Risk-level medium text color.",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.risk-level.medium.chart",
+      "path": "colors.riskLevel.medium.chart",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "72"
+      },
+      "role": "Risk-level medium chart color.",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.risk-level.low.text",
+      "path": "colors.riskLevel.low.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "71"
+      },
+      "role": "Risk-level low text color.",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.risk-level.low.chart",
+      "path": "colors.riskLevel.low.chart",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "72"
+      },
+      "role": "Risk-level low chart color.",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.risk-level.UTA.text",
+      "path": "colors.riskLevel.uta.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "71"
+      },
+      "role": "Risk-level uta text color.",
+      "notes": [
+        "Figma uses uppercase `UTA`; the implementation segment is lowercase `uta`."
+      ]
+    },
+    {
+      "figma": "$color.alert.risk-level.UTA.chart",
+      "path": "colors.riskLevel.uta.chart",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "72"
+      },
+      "role": "Risk-level uta chart color.",
+      "notes": [
+        "Figma uses uppercase `UTA`; the implementation segment is lowercase `uta`."
+      ]
+    },
+    {
+      "figma": "$color.alert.risk-level.high.foreground",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "73"
+      },
+      "role": "Risk-level high component fill.",
+      "notes": [
+        "Marked \ud83d\udea7TBD; only `high` is listed and no code-syntax column exists."
+      ]
+    },
+    {
+      "figma": "$color.alert.risk-level.high.overlay",
+      "path": "colors.riskLevel.high._overlay",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "74"
+      },
+      "role": "Semi-transparent risk-level high overlay (e.g. risk badge background).",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.risk-level.medium.overlay",
+      "path": "colors.riskLevel.medium._overlay",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "74"
+      },
+      "role": "Semi-transparent risk-level medium overlay (e.g. risk badge background).",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.risk-level.low.overlay",
+      "path": "colors.riskLevel.low._overlay",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "74"
+      },
+      "role": "Semi-transparent risk-level low overlay (e.g. risk badge background).",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.risk-level.UTA.overlay",
+      "path": "colors.riskLevel.uta._overlay",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "74"
+      },
+      "role": "Semi-transparent risk-level uta overlay (e.g. risk badge background).",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.risk-level.high.on-overlay.text",
+      "path": "colors.riskLevel.high._onOverlay.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "75"
+      },
+      "role": "Text placed on the semi-transparent risk-level high overlay.",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.risk-level.medium.on-overlay.text",
+      "path": "colors.riskLevel.medium._onOverlay.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "75"
+      },
+      "role": "Text placed on the semi-transparent risk-level medium overlay.",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.risk-level.low.on-overlay.text",
+      "path": "colors.riskLevel.low._onOverlay.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "75"
+      },
+      "role": "Text placed on the semi-transparent risk-level low overlay.",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.risk-level.UTA.on-overlay.text",
+      "path": "colors.riskLevel.uta._onOverlay.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "75"
+      },
+      "role": "Text placed on the semi-transparent risk-level uta overlay.",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.severity.critical.text",
+      "path": "colors.severity.critical.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "76"
+      },
+      "role": "Severity critical text color.",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.severity.critical.chart",
+      "path": "colors.severity.critical.chart",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "77"
+      },
+      "role": "Severity critical chart color.",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.severity.high.text",
+      "path": "colors.severity.high.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "76"
+      },
+      "role": "Severity high text color.",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.severity.high.chart",
+      "path": "colors.severity.high.chart",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "77"
+      },
+      "role": "Severity high chart color.",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.severity.medium.text",
+      "path": "colors.severity.medium.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "76"
+      },
+      "role": "Severity medium text color.",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.severity.medium.chart",
+      "path": "colors.severity.medium.chart",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "77"
+      },
+      "role": "Severity medium chart color.",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.severity.low.text",
+      "path": "colors.severity.low.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "76"
+      },
+      "role": "Severity low text color.",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.severity.low.chart",
+      "path": "colors.severity.low.chart",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "77"
+      },
+      "role": "Severity low chart color.",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.severity.informational.text",
+      "path": "colors.severity.informational.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "76"
+      },
+      "role": "Severity informational text color.",
+      "notes": [
+        "The row's code column writes `severity.info.text`; no `severity.info.*` token exists in the current implementation. The implemented name is `informational`."
+      ]
+    },
+    {
+      "figma": "$color.alert.severity.informational.chart",
+      "path": "colors.severity.informational.chart",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "77"
+      },
+      "role": "Severity informational chart color.",
+      "notes": [
+        "The row's code column writes `severity.info.chart`; the implemented name is `informational`."
+      ]
+    },
+    {
+      "figma": "$color.alert.severity.critical.foreground",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "78"
+      },
+      "role": "Severity critical component fill (\ud83d\udea7TBD; raw name is prefixed with the draft marker).",
+      "notes": [
+        "Marked \ud83d\udea7TBD; no code-syntax column and no implemented token."
+      ]
+    },
+    {
+      "figma": "$color.alert.severity.critical.overlay",
+      "path": "colors.severity.critical._overlay",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "79"
+      },
+      "role": "Semi-transparent severity critical overlay (e.g. severity badge background).",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.severity.high.overlay",
+      "path": "colors.severity.high._overlay",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "79"
+      },
+      "role": "Semi-transparent severity high overlay (e.g. severity badge background).",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.severity.medium.overlay",
+      "path": "colors.severity.medium._overlay",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "79"
+      },
+      "role": "Semi-transparent severity medium overlay (e.g. severity badge background).",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.severity.low.overlay",
+      "path": "colors.severity.low._overlay",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "79"
+      },
+      "role": "Semi-transparent severity low overlay (e.g. severity badge background).",
+      "notes": [
+        "The row has no `informational` member; the implemented `colors.severity.informational._overlay` has no design alias (code-only)."
+      ]
+    },
+    {
+      "figma": "$color.alert.severity.critical.on-overlay.text",
+      "path": "colors.severity.critical._onOverlay.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "80"
+      },
+      "role": "Text placed on the semi-transparent severity critical overlay.",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.severity.high.on-overlay.text",
+      "path": "colors.severity.high._onOverlay.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "80"
+      },
+      "role": "Text placed on the semi-transparent severity high overlay.",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.severity.medium.on-overlay.text",
+      "path": "colors.severity.medium._onOverlay.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "80"
+      },
+      "role": "Text placed on the semi-transparent severity medium overlay.",
+      "notes": []
+    },
+    {
+      "figma": "$color.alert.severity.low.on-overlay.text",
+      "path": "colors.severity.low._onOverlay.text",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "80"
+      },
+      "role": "Text placed on the semi-transparent severity low overlay.",
+      "notes": [
+        "The row has no `informational` member; the implemented `colors.severity.informational._onOverlay.text` has no design alias (code-only)."
+      ]
+    },
+    {
+      "figma": "$color.foreground.primary.enabled",
+      "path": "colors._foreground.primary.enabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "81"
+      },
+      "role": "primary action component fill, enabled state.",
+      "notes": [
+        []
+      ]
+    },
+    {
+      "figma": "$color.foreground.primary.hovered",
+      "path": "colors._foreground.primary.hovered",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "81"
+      },
+      "role": "primary action component fill, hovered state.",
+      "notes": [
+        []
+      ]
+    },
+    {
+      "figma": "$color.foreground.primary.active",
+      "path": "colors._foreground.primary.active",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "81"
+      },
+      "role": "primary action component fill, active state.",
+      "notes": [
+        []
+      ]
+    },
+    {
+      "figma": "$color.foreground.secondary.enabled",
+      "path": "colors._foreground.secondary.enabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "86"
+      },
+      "role": "secondary action component fill, enabled state.",
+      "notes": [
+        []
+      ]
+    },
+    {
+      "figma": "$color.foreground.secondary.hovered",
+      "path": "colors._foreground.secondary.hovered",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "86"
+      },
+      "role": "secondary action component fill, hovered state.",
+      "notes": [
+        []
+      ]
+    },
+    {
+      "figma": "$color.foreground.secondary.active",
+      "path": "colors._foreground.secondary.active",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "86"
+      },
+      "role": "secondary action component fill, active state.",
+      "notes": [
+        []
+      ]
+    },
+    {
+      "figma": "$color.foreground.negative.enabled",
+      "path": "colors._foreground.negative.enabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "90"
+      },
+      "role": "negative action component fill, enabled state.",
+      "notes": [
+        []
+      ]
+    },
+    {
+      "figma": "$color.foreground.negative.hovered",
+      "path": "colors._foreground.negative.hovered",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "90"
+      },
+      "role": "negative action component fill, hovered state.",
+      "notes": [
+        []
+      ]
+    },
+    {
+      "figma": "$color.foreground.negative.active",
+      "path": "colors._foreground.negative.active",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "90"
+      },
+      "role": "negative action component fill, active state.",
+      "notes": [
+        []
+      ]
+    },
+    {
+      "figma": "$color.foreground.promotional.enabled",
+      "path": "colors._foreground.promotion.enabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "92"
+      },
+      "role": "promotional action component fill, enabled state.",
+      "notes": [
+        "Design name says `promotional`; the implemented family is `_foreground.promotion`."
+      ]
+    },
+    {
+      "figma": "$color.foreground.promotional.hovered",
+      "path": "colors._foreground.promotion.hovered",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "92"
+      },
+      "role": "promotional action component fill, hovered state.",
+      "notes": [
+        "Design name says `promotional`; the implemented family is `_foreground.promotion`."
+      ]
+    },
+    {
+      "figma": "$color.foreground.promotional.active",
+      "path": "colors._foreground.promotion.active",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "92"
+      },
+      "role": "promotional action component fill, active state.",
+      "notes": [
+        "Design name says `promotional`; the implemented family is `_foreground.promotion`."
+      ]
+    },
+    {
+      "figma": "$color.foreground.primary.disabled",
+      "path": "colors._foreground.primary.disabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "82"
+      },
+      "role": "primary action component fill, disabled state.",
+      "notes": []
+    },
+    {
+      "figma": "$color.foreground.seconary.disabled",
+      "path": "colors._foreground.secondary.disabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "87"
+      },
+      "role": "secondary action component fill, disabled state.",
+      "notes": [
+        "Raw Figma name contains the typo `seconary`; preserved verbatim. The code column maps to `_foreground.secondary.disabled`."
+      ]
+    },
+    {
+      "figma": "$color.foreground.negative.disabled",
+      "path": "colors._foreground.negative.disabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "91"
+      },
+      "role": "negative action component fill, disabled state.",
+      "notes": []
+    },
+    {
+      "figma": "$color.foreground.promotional.disabled",
+      "path": "colors._foreground.promotion.disabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "93"
+      },
+      "role": "promotional action component fill, disabled state.",
+      "notes": [
+        "Design name says `promotional`; the implemented family is `_foreground.promotion`."
+      ]
+    },
+    {
+      "figma": "$color.foreground.primary-variant.enabled",
+      "path": "colors._foreground.primaryVariant.enabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "83"
+      },
+      "role": "Toggle/primary-variant component fill, enabled state.",
+      "notes": [
+        "`primary-variant` in the design source is `primaryVariant` in code."
+      ]
+    },
+    {
+      "figma": "$color.foreground.primary-variant.hovered",
+      "path": "colors._foreground.primaryVariant.hovered",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "83"
+      },
+      "role": "Toggle/primary-variant component fill, hovered state.",
+      "notes": [
+        "`primary-variant` in the design source is `primaryVariant` in code."
+      ]
+    },
+    {
+      "figma": "$color.foreground.primary-variant.selected",
+      "path": "colors._foreground.primaryVariant.selected",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "84"
+      },
+      "role": "Toggle/primary-variant component fill, selected state.",
+      "notes": [
+        "Code uses camelCase state suffixes (`selectedHovered`, `selectedDisabled`); the design source uses kebab-case state names."
+      ]
+    },
+    {
+      "figma": "$color.foreground.primary-variant.selected-hovered",
+      "path": "colors._foreground.primaryVariant.selectedHovered",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "84"
+      },
+      "role": "Toggle/primary-variant component fill, selected-hovered state.",
+      "notes": [
+        "Code uses camelCase state suffixes (`selectedHovered`, `selectedDisabled`); the design source uses kebab-case state names."
+      ]
+    },
+    {
+      "figma": "$color.foreground.primary-variant.selected-disabled",
+      "path": "colors._foreground.primaryVariant.selectedDisabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "85"
+      },
+      "role": "Toggle/primary-variant component fill, selected-disabled state.",
+      "notes": [
+        "Row 85 lists Figma `selected-disabled` before `disabled`, while its code column lists `disabled` before `selectedDisabled`; the pairing here is by token name, not column position."
+      ]
+    },
+    {
+      "figma": "$color.foreground.primary-variant.disabled",
+      "path": "colors._foreground.primaryVariant.disabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "85"
+      },
+      "role": "Toggle/primary-variant component fill, disabled state.",
+      "notes": [
+        "Row 85 lists Figma `selected-disabled` before `disabled`, while its code column lists `disabled` before `selectedDisabled`; the pairing here is by token name, not column position."
+      ]
+    },
+    {
+      "figma": "$color.foreground.tertiary.enabled",
+      "path": "colors._foreground.tertiary.enabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "88"
+      },
+      "role": "Third-level action component fill (button groups, advanced filter tags), enabled state.",
+      "notes": [
+        "Code uses camelCase state suffixes (`selectedHovered`, `selectedDisabled`); the design source uses kebab-case state names."
+      ]
+    },
+    {
+      "figma": "$color.foreground.tertiary.hovered",
+      "path": "colors._foreground.tertiary.hovered",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "88"
+      },
+      "role": "Third-level action component fill (button groups, advanced filter tags), hovered state.",
+      "notes": [
+        "Code uses camelCase state suffixes (`selectedHovered`, `selectedDisabled`); the design source uses kebab-case state names."
+      ]
+    },
+    {
+      "figma": "$color.foreground.tertiary.active",
+      "path": "colors._foreground.tertiary.active",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "88"
+      },
+      "role": "Third-level action component fill (button groups, advanced filter tags), active state.",
+      "notes": [
+        "Code uses camelCase state suffixes (`selectedHovered`, `selectedDisabled`); the design source uses kebab-case state names."
+      ]
+    },
+    {
+      "figma": "$color.foreground.tertiary.disabled",
+      "path": "colors._foreground.tertiary.disabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "88"
+      },
+      "role": "Third-level action component fill (button groups, advanced filter tags), disabled state.",
+      "notes": [
+        "Code uses camelCase state suffixes (`selectedHovered`, `selectedDisabled`); the design source uses kebab-case state names."
+      ]
+    },
+    {
+      "figma": "$color.foreground.tertiary.selected",
+      "path": "colors._foreground.tertiary.selected",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "88"
+      },
+      "role": "Third-level action component fill (button groups, advanced filter tags), selected state.",
+      "notes": [
+        "Code uses camelCase state suffixes (`selectedHovered`, `selectedDisabled`); the design source uses kebab-case state names."
+      ]
+    },
+    {
+      "figma": "$color.foreground.tertiary.selected-hovered",
+      "path": "colors._foreground.tertiary.selectedHovered",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "88"
+      },
+      "role": "Third-level action component fill (button groups, advanced filter tags), selected-hovered state.",
+      "notes": [
+        "Code uses camelCase state suffixes (`selectedHovered`, `selectedDisabled`); the design source uses kebab-case state names.",
+        "The raw code-syntax column writes `_foreground/tertiary.selectedHovered` (slash instead of a dot); the implemented path is `_foreground.tertiary.selectedHovered`."
+      ]
+    },
+    {
+      "figma": "$color.foreground.tertiary.selected-disabled",
+      "path": "colors._foreground.tertiary.selectedDisabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "88"
+      },
+      "role": "Third-level action component fill (button groups, advanced filter tags), selected-disabled state.",
+      "notes": [
+        "Code uses camelCase state suffixes (`selectedHovered`, `selectedDisabled`); the design source uses kebab-case state names."
+      ]
+    },
+    {
+      "figma": "$color.foreground.subtle.enabled",
+      "path": "colors._foreground.subtle.enabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "89"
+      },
+      "role": "Lowest-level action component fill (ghost buttons), enabled state.",
+      "notes": [
+        "Implemented in the private `_foreground` family."
+      ]
+    },
+    {
+      "figma": "$color.foreground.subtle.hovered",
+      "path": "colors._foreground.subtle.hovered",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "89"
+      },
+      "role": "Lowest-level action component fill (ghost buttons), hovered state.",
+      "notes": [
+        "Implemented in the private `_foreground` family."
+      ]
+    },
+    {
+      "figma": "$color.foreground.subtle.active",
+      "path": "colors._foreground.subtle.active",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "89"
+      },
+      "role": "Lowest-level action component fill (ghost buttons), active state.",
+      "notes": [
+        "Implemented in the private `_foreground` family."
+      ]
+    },
+    {
+      "figma": "$color.foreground.subtle.disabled",
+      "path": "colors._foreground.subtle.disabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "89"
+      },
+      "role": "Lowest-level action component fill (ghost buttons), disabled state.",
+      "notes": [
+        "The row lists only these four states; the implemented `selected`, `selectedHovered` and `selectedDisabled` subtle states have no design alias (code-only)."
+      ]
+    },
+    {
+      "figma": "$color.overlay.thinest",
+      "path": "colors._overlay.thinest",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "94"
+      },
+      "role": "Semi-transparent fill level `thinest` (e.g. modal backdrop).",
+      "notes": []
+    },
+    {
+      "figma": "$color.overlay.thinner",
+      "path": "colors._overlay.thinner",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "94"
+      },
+      "role": "Semi-transparent fill level `thinner` (e.g. modal backdrop).",
+      "notes": []
+    },
+    {
+      "figma": "$color.overlay.thin",
+      "path": "colors._overlay.thin",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "94"
+      },
+      "role": "Semi-transparent fill level `thin` (e.g. modal backdrop).",
+      "notes": []
+    },
+    {
+      "figma": "$color.overlay.medium",
+      "path": "colors._overlay.medium",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "94"
+      },
+      "role": "Semi-transparent fill level `medium` (e.g. modal backdrop).",
+      "notes": []
+    },
+    {
+      "figma": "$color.overlay.thick",
+      "path": "colors._overlay.thick",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "94"
+      },
+      "role": "Semi-transparent fill level `thick` (e.g. modal backdrop).",
+      "notes": []
+    },
+    {
+      "figma": "$color.overlay.thicker",
+      "path": "colors._overlay.thicker",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "94"
+      },
+      "role": "Semi-transparent fill level `thicker` (e.g. modal backdrop).",
+      "notes": []
+    },
+    {
+      "figma": "$color.overlay.thickest",
+      "path": "colors._overlay.thickest",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "94"
+      },
+      "role": "Semi-transparent fill level `thickest` (e.g. modal backdrop).",
+      "notes": []
+    },
+    {
+      "figma": "$color.shadow.high",
+      "path": "colors._shadow.high",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "95"
+      },
+      "role": "High-elevation shadow color.",
+      "notes": [
+        "The composed box-shadow `shadows.high.main` embeds this color; the row itself maps to the shadow color token."
+      ]
+    },
+    {
+      "figma": "$color.shadow.medium",
+      "path": "colors._shadow.medium",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "96"
+      },
+      "role": "Medium-elevation shadow color.",
+      "notes": [
+        "The composed box-shadow `shadows.medium.main` embeds this color; the row itself maps to the shadow color token."
+      ]
+    },
+    {
+      "figma": "$color.shadow.low",
+      "path": "colors._shadow.low",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "97"
+      },
+      "role": "Low-elevation shadow color.",
+      "notes": [
+        "The composed box-shadow `shadows.low.main` embeds this color; the row itself maps to the shadow color token."
+      ]
+    },
+    {
+      "figma": "$color.highlight.foreground",
+      "path": "colors._highlight",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "98"
+      },
+      "role": "Fill of highlighted text (e.g. matched characters in search results).",
+      "notes": [
+        "The implemented private path is `_highlight`; the `Mark` component (highlight variant) uses it with `text._fixed.light.accent`."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.unpredictable.chart-1",
+      "path": "colors._chart.categorical.unpredictable.chart-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "99"
+      },
+      "role": "Categorical (unpredictable) series color 1 of 14; fixed order, equal visual weight.",
+      "notes": [
+        "Design range: `$color.chart.categorical.unpredictable.chart-1~14` (row 99); the member is expanded by name.",
+        "The raw code syntax `_chart.categorical.unpredictable.{chart_1~14}` uses an underscore; implemented keys are `chart-1`\u2026`chart-14`.",
+        "`chartOther`, `chartEmpty` and the `_overlay` variants are implemented but have no design alias (code-only)."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.unpredictable.chart-2",
+      "path": "colors._chart.categorical.unpredictable.chart-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "99"
+      },
+      "role": "Categorical (unpredictable) series color 2 of 14; fixed order, equal visual weight.",
+      "notes": [
+        "Design range: `$color.chart.categorical.unpredictable.chart-1~14` (row 99); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.unpredictable.chart-3",
+      "path": "colors._chart.categorical.unpredictable.chart-3",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "99"
+      },
+      "role": "Categorical (unpredictable) series color 3 of 14; fixed order, equal visual weight.",
+      "notes": [
+        "Design range: `$color.chart.categorical.unpredictable.chart-1~14` (row 99); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.unpredictable.chart-4",
+      "path": "colors._chart.categorical.unpredictable.chart-4",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "99"
+      },
+      "role": "Categorical (unpredictable) series color 4 of 14; fixed order, equal visual weight.",
+      "notes": [
+        "Design range: `$color.chart.categorical.unpredictable.chart-1~14` (row 99); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.unpredictable.chart-5",
+      "path": "colors._chart.categorical.unpredictable.chart-5",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "99"
+      },
+      "role": "Categorical (unpredictable) series color 5 of 14; fixed order, equal visual weight.",
+      "notes": [
+        "Design range: `$color.chart.categorical.unpredictable.chart-1~14` (row 99); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.unpredictable.chart-6",
+      "path": "colors._chart.categorical.unpredictable.chart-6",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "99"
+      },
+      "role": "Categorical (unpredictable) series color 6 of 14; fixed order, equal visual weight.",
+      "notes": [
+        "Design range: `$color.chart.categorical.unpredictable.chart-1~14` (row 99); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.unpredictable.chart-7",
+      "path": "colors._chart.categorical.unpredictable.chart-7",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "99"
+      },
+      "role": "Categorical (unpredictable) series color 7 of 14; fixed order, equal visual weight.",
+      "notes": [
+        "Design range: `$color.chart.categorical.unpredictable.chart-1~14` (row 99); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.unpredictable.chart-8",
+      "path": "colors._chart.categorical.unpredictable.chart-8",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "99"
+      },
+      "role": "Categorical (unpredictable) series color 8 of 14; fixed order, equal visual weight.",
+      "notes": [
+        "Design range: `$color.chart.categorical.unpredictable.chart-1~14` (row 99); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.unpredictable.chart-9",
+      "path": "colors._chart.categorical.unpredictable.chart-9",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "99"
+      },
+      "role": "Categorical (unpredictable) series color 9 of 14; fixed order, equal visual weight.",
+      "notes": [
+        "Design range: `$color.chart.categorical.unpredictable.chart-1~14` (row 99); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.unpredictable.chart-10",
+      "path": "colors._chart.categorical.unpredictable.chart-10",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "99"
+      },
+      "role": "Categorical (unpredictable) series color 10 of 14; fixed order, equal visual weight.",
+      "notes": [
+        "Design range: `$color.chart.categorical.unpredictable.chart-1~14` (row 99); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.unpredictable.chart-11",
+      "path": "colors._chart.categorical.unpredictable.chart-11",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "99"
+      },
+      "role": "Categorical (unpredictable) series color 11 of 14; fixed order, equal visual weight.",
+      "notes": [
+        "Design range: `$color.chart.categorical.unpredictable.chart-1~14` (row 99); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.unpredictable.chart-12",
+      "path": "colors._chart.categorical.unpredictable.chart-12",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "99"
+      },
+      "role": "Categorical (unpredictable) series color 12 of 14; fixed order, equal visual weight.",
+      "notes": [
+        "Design range: `$color.chart.categorical.unpredictable.chart-1~14` (row 99); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.unpredictable.chart-13",
+      "path": "colors._chart.categorical.unpredictable.chart-13",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "99"
+      },
+      "role": "Categorical (unpredictable) series color 13 of 14; fixed order, equal visual weight.",
+      "notes": [
+        "Design range: `$color.chart.categorical.unpredictable.chart-1~14` (row 99); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.unpredictable.chart-14",
+      "path": "colors._chart.categorical.unpredictable.chart-14",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "99"
+      },
+      "role": "Categorical (unpredictable) series color 14 of 14; fixed order, equal visual weight.",
+      "notes": [
+        "Design range: `$color.chart.categorical.unpredictable.chart-1~14` (row 99); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.1-color-group.option-1.chart-1",
+      "path": "colors._chart.categorical.predictable.1ColorGroup.option-1.chart-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "100"
+      },
+      "role": "Predictable 1-color-group option 1 (single series color).",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.1-color-group.option-1~4` (row 100); the member is expanded by name.",
+        "Code key is `1ColorGroup`; each option carries one `chart-1` color."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.1-color-group.option-2.chart-1",
+      "path": "colors._chart.categorical.predictable.1ColorGroup.option-2.chart-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "100"
+      },
+      "role": "Predictable 1-color-group option 2 (single series color).",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.1-color-group.option-1~4` (row 100); the member is expanded by name.",
+        "Code key is `1ColorGroup`; each option carries one `chart-1` color."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.1-color-group.option-3.chart-1",
+      "path": "colors._chart.categorical.predictable.1ColorGroup.option-3.chart-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "100"
+      },
+      "role": "Predictable 1-color-group option 3 (single series color).",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.1-color-group.option-1~4` (row 100); the member is expanded by name.",
+        "Code key is `1ColorGroup`; each option carries one `chart-1` color."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.1-color-group.option-4.chart-1",
+      "path": "colors._chart.categorical.predictable.1ColorGroup.option-4.chart-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "100"
+      },
+      "role": "Predictable 1-color-group option 4 (single series color).",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.1-color-group.option-1~4` (row 100); the member is expanded by name.",
+        "Code key is `1ColorGroup`; each option carries one `chart-1` color."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.2-color-group.option-1.chart-1",
+      "path": "colors._chart.categorical.predictable.2ColorGroup.option-1.chart-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "101"
+      },
+      "role": "Predictable 2-color-group option 1, series color 1.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.2-color-group.option-1~4` (row 101); the member is expanded by name.",
+        "The implementation also has `option-5` (2 colors) with no design alias \u2014 code-only."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.2-color-group.option-1.chart-2",
+      "path": "colors._chart.categorical.predictable.2ColorGroup.option-1.chart-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "101"
+      },
+      "role": "Predictable 2-color-group option 1, series color 2.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.2-color-group.option-1~4` (row 101); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.2-color-group.option-2.chart-1",
+      "path": "colors._chart.categorical.predictable.2ColorGroup.option-2.chart-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "101"
+      },
+      "role": "Predictable 2-color-group option 2, series color 1.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.2-color-group.option-1~4` (row 101); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.2-color-group.option-2.chart-2",
+      "path": "colors._chart.categorical.predictable.2ColorGroup.option-2.chart-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "101"
+      },
+      "role": "Predictable 2-color-group option 2, series color 2.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.2-color-group.option-1~4` (row 101); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.2-color-group.option-3.chart-1",
+      "path": "colors._chart.categorical.predictable.2ColorGroup.option-3.chart-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "101"
+      },
+      "role": "Predictable 2-color-group option 3, series color 1.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.2-color-group.option-1~4` (row 101); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.2-color-group.option-3.chart-2",
+      "path": "colors._chart.categorical.predictable.2ColorGroup.option-3.chart-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "101"
+      },
+      "role": "Predictable 2-color-group option 3, series color 2.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.2-color-group.option-1~4` (row 101); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.2-color-group.option-4.chart-1",
+      "path": "colors._chart.categorical.predictable.2ColorGroup.option-4.chart-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "101"
+      },
+      "role": "Predictable 2-color-group option 4, series color 1.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.2-color-group.option-1~4` (row 101); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.2-color-group.option-4.chart-2",
+      "path": "colors._chart.categorical.predictable.2ColorGroup.option-4.chart-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "101"
+      },
+      "role": "Predictable 2-color-group option 4, series color 2.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.2-color-group.option-1~4` (row 101); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.3-color-group.option-1.chart-1",
+      "path": "colors._chart.categorical.predictable.3ColorGroup.option-1.chart-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "102"
+      },
+      "role": "Predictable 3-color-group option 1, series color 1.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.3-color-group.option-1~5` (row 102); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.3-color-group.option-1.chart-2",
+      "path": "colors._chart.categorical.predictable.3ColorGroup.option-1.chart-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "102"
+      },
+      "role": "Predictable 3-color-group option 1, series color 2.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.3-color-group.option-1~5` (row 102); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.3-color-group.option-1.chart-3",
+      "path": "colors._chart.categorical.predictable.3ColorGroup.option-1.chart-3",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "102"
+      },
+      "role": "Predictable 3-color-group option 1, series color 3.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.3-color-group.option-1~5` (row 102); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.3-color-group.option-2.chart-1",
+      "path": "colors._chart.categorical.predictable.3ColorGroup.option-2.chart-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "102"
+      },
+      "role": "Predictable 3-color-group option 2, series color 1.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.3-color-group.option-1~5` (row 102); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.3-color-group.option-2.chart-2",
+      "path": "colors._chart.categorical.predictable.3ColorGroup.option-2.chart-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "102"
+      },
+      "role": "Predictable 3-color-group option 2, series color 2.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.3-color-group.option-1~5` (row 102); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.3-color-group.option-2.chart-3",
+      "path": "colors._chart.categorical.predictable.3ColorGroup.option-2.chart-3",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "102"
+      },
+      "role": "Predictable 3-color-group option 2, series color 3.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.3-color-group.option-1~5` (row 102); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.3-color-group.option-3.chart-1",
+      "path": "colors._chart.categorical.predictable.3ColorGroup.option-3.chart-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "102"
+      },
+      "role": "Predictable 3-color-group option 3, series color 1.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.3-color-group.option-1~5` (row 102); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.3-color-group.option-3.chart-2",
+      "path": "colors._chart.categorical.predictable.3ColorGroup.option-3.chart-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "102"
+      },
+      "role": "Predictable 3-color-group option 3, series color 2.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.3-color-group.option-1~5` (row 102); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.3-color-group.option-3.chart-3",
+      "path": "colors._chart.categorical.predictable.3ColorGroup.option-3.chart-3",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "102"
+      },
+      "role": "Predictable 3-color-group option 3, series color 3.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.3-color-group.option-1~5` (row 102); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.3-color-group.option-4.chart-1",
+      "path": "colors._chart.categorical.predictable.3ColorGroup.option-4.chart-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "102"
+      },
+      "role": "Predictable 3-color-group option 4, series color 1.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.3-color-group.option-1~5` (row 102); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.3-color-group.option-4.chart-2",
+      "path": "colors._chart.categorical.predictable.3ColorGroup.option-4.chart-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "102"
+      },
+      "role": "Predictable 3-color-group option 4, series color 2.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.3-color-group.option-1~5` (row 102); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.3-color-group.option-4.chart-3",
+      "path": "colors._chart.categorical.predictable.3ColorGroup.option-4.chart-3",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "102"
+      },
+      "role": "Predictable 3-color-group option 4, series color 3.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.3-color-group.option-1~5` (row 102); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.3-color-group.option-5.chart-1",
+      "path": "colors._chart.categorical.predictable.3ColorGroup.option-5.chart-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "102"
+      },
+      "role": "Predictable 3-color-group option 5, series color 1.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.3-color-group.option-1~5` (row 102); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.3-color-group.option-5.chart-2",
+      "path": "colors._chart.categorical.predictable.3ColorGroup.option-5.chart-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "102"
+      },
+      "role": "Predictable 3-color-group option 5, series color 2.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.3-color-group.option-1~5` (row 102); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.3-color-group.option-5.chart-3",
+      "path": "colors._chart.categorical.predictable.3ColorGroup.option-5.chart-3",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "102"
+      },
+      "role": "Predictable 3-color-group option 5, series color 3.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.3-color-group.option-1~5` (row 102); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.4-color-group.option-1.chart-1",
+      "path": "colors._chart.categorical.predictable.4ColorGroup.option-1.chart-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "103"
+      },
+      "role": "Predictable 4-color-group option 1, series color 1.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.4-color-group.option-1~3` (row 103); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.4-color-group.option-1.chart-2",
+      "path": "colors._chart.categorical.predictable.4ColorGroup.option-1.chart-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "103"
+      },
+      "role": "Predictable 4-color-group option 1, series color 2.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.4-color-group.option-1~3` (row 103); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.4-color-group.option-1.chart-3",
+      "path": "colors._chart.categorical.predictable.4ColorGroup.option-1.chart-3",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "103"
+      },
+      "role": "Predictable 4-color-group option 1, series color 3.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.4-color-group.option-1~3` (row 103); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.4-color-group.option-1.chart-4",
+      "path": "colors._chart.categorical.predictable.4ColorGroup.option-1.chart-4",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "103"
+      },
+      "role": "Predictable 4-color-group option 1, series color 4.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.4-color-group.option-1~3` (row 103); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.4-color-group.option-2.chart-1",
+      "path": "colors._chart.categorical.predictable.4ColorGroup.option-2.chart-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "103"
+      },
+      "role": "Predictable 4-color-group option 2, series color 1.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.4-color-group.option-1~3` (row 103); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.4-color-group.option-2.chart-2",
+      "path": "colors._chart.categorical.predictable.4ColorGroup.option-2.chart-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "103"
+      },
+      "role": "Predictable 4-color-group option 2, series color 2.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.4-color-group.option-1~3` (row 103); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.4-color-group.option-2.chart-3",
+      "path": "colors._chart.categorical.predictable.4ColorGroup.option-2.chart-3",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "103"
+      },
+      "role": "Predictable 4-color-group option 2, series color 3.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.4-color-group.option-1~3` (row 103); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.4-color-group.option-2.chart-4",
+      "path": "colors._chart.categorical.predictable.4ColorGroup.option-2.chart-4",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "103"
+      },
+      "role": "Predictable 4-color-group option 2, series color 4.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.4-color-group.option-1~3` (row 103); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.4-color-group.option-3.chart-1",
+      "path": "colors._chart.categorical.predictable.4ColorGroup.option-3.chart-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "103"
+      },
+      "role": "Predictable 4-color-group option 3, series color 1.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.4-color-group.option-1~3` (row 103); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.4-color-group.option-3.chart-2",
+      "path": "colors._chart.categorical.predictable.4ColorGroup.option-3.chart-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "103"
+      },
+      "role": "Predictable 4-color-group option 3, series color 2.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.4-color-group.option-1~3` (row 103); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.4-color-group.option-3.chart-3",
+      "path": "colors._chart.categorical.predictable.4ColorGroup.option-3.chart-3",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "103"
+      },
+      "role": "Predictable 4-color-group option 3, series color 3.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.4-color-group.option-1~3` (row 103); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.4-color-group.option-3.chart-4",
+      "path": "colors._chart.categorical.predictable.4ColorGroup.option-3.chart-4",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "103"
+      },
+      "role": "Predictable 4-color-group option 3, series color 4.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.4-color-group.option-1~3` (row 103); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.5-color-group.option-1.chart-1",
+      "path": "colors._chart.categorical.predictable.5ColorGroup.option-1.chart-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "104"
+      },
+      "role": "Predictable 5-color-group option 1, series color 1.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.5-color-group.option-1~2` (row 104); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.5-color-group.option-1.chart-2",
+      "path": "colors._chart.categorical.predictable.5ColorGroup.option-1.chart-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "104"
+      },
+      "role": "Predictable 5-color-group option 1, series color 2.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.5-color-group.option-1~2` (row 104); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.5-color-group.option-1.chart-3",
+      "path": "colors._chart.categorical.predictable.5ColorGroup.option-1.chart-3",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "104"
+      },
+      "role": "Predictable 5-color-group option 1, series color 3.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.5-color-group.option-1~2` (row 104); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.5-color-group.option-1.chart-4",
+      "path": "colors._chart.categorical.predictable.5ColorGroup.option-1.chart-4",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "104"
+      },
+      "role": "Predictable 5-color-group option 1, series color 4.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.5-color-group.option-1~2` (row 104); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.5-color-group.option-1.chart-5",
+      "path": "colors._chart.categorical.predictable.5ColorGroup.option-1.chart-5",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "104"
+      },
+      "role": "Predictable 5-color-group option 1, series color 5.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.5-color-group.option-1~2` (row 104); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.5-color-group.option-2.chart-1",
+      "path": "colors._chart.categorical.predictable.5ColorGroup.option-2.chart-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "104"
+      },
+      "role": "Predictable 5-color-group option 2, series color 1.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.5-color-group.option-1~2` (row 104); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.5-color-group.option-2.chart-2",
+      "path": "colors._chart.categorical.predictable.5ColorGroup.option-2.chart-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "104"
+      },
+      "role": "Predictable 5-color-group option 2, series color 2.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.5-color-group.option-1~2` (row 104); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.5-color-group.option-2.chart-3",
+      "path": "colors._chart.categorical.predictable.5ColorGroup.option-2.chart-3",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "104"
+      },
+      "role": "Predictable 5-color-group option 2, series color 3.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.5-color-group.option-1~2` (row 104); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.5-color-group.option-2.chart-4",
+      "path": "colors._chart.categorical.predictable.5ColorGroup.option-2.chart-4",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "104"
+      },
+      "role": "Predictable 5-color-group option 2, series color 4.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.5-color-group.option-1~2` (row 104); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.categorical.predictable.5-color-group.option-2.chart-5",
+      "path": "colors._chart.categorical.predictable.5ColorGroup.option-2.chart-5",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "104"
+      },
+      "role": "Predictable 5-color-group option 2, series color 5.",
+      "notes": [
+        "Design range: `$color.chart.categorical.predictable.5-color-group.option-1~2` (row 104); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-1.lv-1",
+      "path": "colors._chart.sequential.option-1.lv-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 1, level 1 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-{o}.lv-1~lv-10` (row 105); the member is expanded by name.",
+        "The raw code syntax uses `{lv-1~10}`; implemented keys are `lv-1`\u2026`lv-10`."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-1.lv-2",
+      "path": "colors._chart.sequential.option-1.lv-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 1, level 2 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-1.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-1.lv-3",
+      "path": "colors._chart.sequential.option-1.lv-3",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 1, level 3 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-1.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-1.lv-4",
+      "path": "colors._chart.sequential.option-1.lv-4",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 1, level 4 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-1.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-1.lv-5",
+      "path": "colors._chart.sequential.option-1.lv-5",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 1, level 5 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-1.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-1.lv-6",
+      "path": "colors._chart.sequential.option-1.lv-6",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 1, level 6 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-1.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-1.lv-7",
+      "path": "colors._chart.sequential.option-1.lv-7",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 1, level 7 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-1.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-1.lv-8",
+      "path": "colors._chart.sequential.option-1.lv-8",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 1, level 8 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-1.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-1.lv-9",
+      "path": "colors._chart.sequential.option-1.lv-9",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 1, level 9 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-1.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-1.lv-10",
+      "path": "colors._chart.sequential.option-1.lv-10",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 1, level 10 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-1.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-2.lv-1",
+      "path": "colors._chart.sequential.option-2.lv-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 2, level 1 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-2.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-2.lv-2",
+      "path": "colors._chart.sequential.option-2.lv-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 2, level 2 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-2.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-2.lv-3",
+      "path": "colors._chart.sequential.option-2.lv-3",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 2, level 3 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-2.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-2.lv-4",
+      "path": "colors._chart.sequential.option-2.lv-4",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 2, level 4 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-2.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-2.lv-5",
+      "path": "colors._chart.sequential.option-2.lv-5",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 2, level 5 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-2.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-2.lv-6",
+      "path": "colors._chart.sequential.option-2.lv-6",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 2, level 6 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-2.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-2.lv-7",
+      "path": "colors._chart.sequential.option-2.lv-7",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 2, level 7 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-2.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-2.lv-8",
+      "path": "colors._chart.sequential.option-2.lv-8",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 2, level 8 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-2.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-2.lv-9",
+      "path": "colors._chart.sequential.option-2.lv-9",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 2, level 9 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-2.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-2.lv-10",
+      "path": "colors._chart.sequential.option-2.lv-10",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 2, level 10 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-2.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-3.lv-1",
+      "path": "colors._chart.sequential.option-3.lv-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 3, level 1 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-3.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-3.lv-2",
+      "path": "colors._chart.sequential.option-3.lv-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 3, level 2 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-3.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-3.lv-3",
+      "path": "colors._chart.sequential.option-3.lv-3",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 3, level 3 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-3.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-3.lv-4",
+      "path": "colors._chart.sequential.option-3.lv-4",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 3, level 4 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-3.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-3.lv-5",
+      "path": "colors._chart.sequential.option-3.lv-5",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 3, level 5 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-3.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-3.lv-6",
+      "path": "colors._chart.sequential.option-3.lv-6",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 3, level 6 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-3.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-3.lv-7",
+      "path": "colors._chart.sequential.option-3.lv-7",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 3, level 7 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-3.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-3.lv-8",
+      "path": "colors._chart.sequential.option-3.lv-8",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 3, level 8 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-3.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-3.lv-9",
+      "path": "colors._chart.sequential.option-3.lv-9",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 3, level 9 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-3.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-3.lv-10",
+      "path": "colors._chart.sequential.option-3.lv-10",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 3, level 10 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-3.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-4.lv-1",
+      "path": "colors._chart.sequential.option-4.lv-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 4, level 1 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-4.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-4.lv-2",
+      "path": "colors._chart.sequential.option-4.lv-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 4, level 2 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-4.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-4.lv-3",
+      "path": "colors._chart.sequential.option-4.lv-3",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 4, level 3 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-4.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-4.lv-4",
+      "path": "colors._chart.sequential.option-4.lv-4",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 4, level 4 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-4.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-4.lv-5",
+      "path": "colors._chart.sequential.option-4.lv-5",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 4, level 5 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-4.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-4.lv-6",
+      "path": "colors._chart.sequential.option-4.lv-6",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 4, level 6 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-4.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-4.lv-7",
+      "path": "colors._chart.sequential.option-4.lv-7",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 4, level 7 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-4.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-4.lv-8",
+      "path": "colors._chart.sequential.option-4.lv-8",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 4, level 8 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-4.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-4.lv-9",
+      "path": "colors._chart.sequential.option-4.lv-9",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 4, level 9 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-4.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-4.lv-10",
+      "path": "colors._chart.sequential.option-4.lv-10",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 4, level 10 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-4.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-5.lv-1",
+      "path": "colors._chart.sequential.option-5.lv-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 5, level 1 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-5.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-5.lv-2",
+      "path": "colors._chart.sequential.option-5.lv-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 5, level 2 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-5.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-5.lv-3",
+      "path": "colors._chart.sequential.option-5.lv-3",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 5, level 3 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-5.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-5.lv-4",
+      "path": "colors._chart.sequential.option-5.lv-4",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 5, level 4 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-5.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-5.lv-5",
+      "path": "colors._chart.sequential.option-5.lv-5",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 5, level 5 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-5.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-5.lv-6",
+      "path": "colors._chart.sequential.option-5.lv-6",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 5, level 6 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-5.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-5.lv-7",
+      "path": "colors._chart.sequential.option-5.lv-7",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 5, level 7 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-5.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-5.lv-8",
+      "path": "colors._chart.sequential.option-5.lv-8",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 5, level 8 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-5.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-5.lv-9",
+      "path": "colors._chart.sequential.option-5.lv-9",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 5, level 9 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-5.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-5.lv-10",
+      "path": "colors._chart.sequential.option-5.lv-10",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 5, level 10 of 10.",
+      "notes": [
+        "Design range: `$color.chart.sequential.option-5.lv-1~lv-10` (row 105); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.attack-intensity",
+      "path": "colors._chart.sequential.attackIntensity.lv-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "106"
+      },
+      "role": "Attack-intensity sequential level 1 of 10.",
+      "notes": [
+        "The single design name covers the whole 10-level family (row 106).",
+        "The raw code syntax `_chart.sequential.attackIntensity.{lv_1~10}` uses an underscore (`lv_1`); implemented keys are `lv-1`\u2026`lv-10`.",
+        "Used by the charts visual-map configuration in ascending level order."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.attack-intensity",
+      "path": "colors._chart.sequential.attackIntensity.lv-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "106"
+      },
+      "role": "Attack-intensity sequential level 2 of 10.",
+      "notes": [
+        "The single design name covers the whole 10-level family (row 106).",
+        "The raw code syntax `_chart.sequential.attackIntensity.{lv_1~10}` uses an underscore (`lv_1`); implemented keys are `lv-1`\u2026`lv-10`.",
+        "Used by the charts visual-map configuration in ascending level order."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.attack-intensity",
+      "path": "colors._chart.sequential.attackIntensity.lv-3",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "106"
+      },
+      "role": "Attack-intensity sequential level 3 of 10.",
+      "notes": [
+        "The single design name covers the whole 10-level family (row 106).",
+        "The raw code syntax `_chart.sequential.attackIntensity.{lv_1~10}` uses an underscore (`lv_1`); implemented keys are `lv-1`\u2026`lv-10`.",
+        "Used by the charts visual-map configuration in ascending level order."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.attack-intensity",
+      "path": "colors._chart.sequential.attackIntensity.lv-4",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "106"
+      },
+      "role": "Attack-intensity sequential level 4 of 10.",
+      "notes": [
+        "The single design name covers the whole 10-level family (row 106).",
+        "The raw code syntax `_chart.sequential.attackIntensity.{lv_1~10}` uses an underscore (`lv_1`); implemented keys are `lv-1`\u2026`lv-10`.",
+        "Used by the charts visual-map configuration in ascending level order."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.attack-intensity",
+      "path": "colors._chart.sequential.attackIntensity.lv-5",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "106"
+      },
+      "role": "Attack-intensity sequential level 5 of 10.",
+      "notes": [
+        "The single design name covers the whole 10-level family (row 106).",
+        "The raw code syntax `_chart.sequential.attackIntensity.{lv_1~10}` uses an underscore (`lv_1`); implemented keys are `lv-1`\u2026`lv-10`.",
+        "Used by the charts visual-map configuration in ascending level order."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.attack-intensity",
+      "path": "colors._chart.sequential.attackIntensity.lv-6",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "106"
+      },
+      "role": "Attack-intensity sequential level 6 of 10.",
+      "notes": [
+        "The single design name covers the whole 10-level family (row 106).",
+        "The raw code syntax `_chart.sequential.attackIntensity.{lv_1~10}` uses an underscore (`lv_1`); implemented keys are `lv-1`\u2026`lv-10`.",
+        "Used by the charts visual-map configuration in ascending level order."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.attack-intensity",
+      "path": "colors._chart.sequential.attackIntensity.lv-7",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "106"
+      },
+      "role": "Attack-intensity sequential level 7 of 10.",
+      "notes": [
+        "The single design name covers the whole 10-level family (row 106).",
+        "The raw code syntax `_chart.sequential.attackIntensity.{lv_1~10}` uses an underscore (`lv_1`); implemented keys are `lv-1`\u2026`lv-10`.",
+        "Used by the charts visual-map configuration in ascending level order."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.attack-intensity",
+      "path": "colors._chart.sequential.attackIntensity.lv-8",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "106"
+      },
+      "role": "Attack-intensity sequential level 8 of 10.",
+      "notes": [
+        "The single design name covers the whole 10-level family (row 106).",
+        "The raw code syntax `_chart.sequential.attackIntensity.{lv_1~10}` uses an underscore (`lv_1`); implemented keys are `lv-1`\u2026`lv-10`.",
+        "Used by the charts visual-map configuration in ascending level order."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.attack-intensity",
+      "path": "colors._chart.sequential.attackIntensity.lv-9",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "106"
+      },
+      "role": "Attack-intensity sequential level 9 of 10.",
+      "notes": [
+        "The single design name covers the whole 10-level family (row 106).",
+        "The raw code syntax `_chart.sequential.attackIntensity.{lv_1~10}` uses an underscore (`lv_1`); implemented keys are `lv-1`\u2026`lv-10`.",
+        "Used by the charts visual-map configuration in ascending level order."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.attack-intensity",
+      "path": "colors._chart.sequential.attackIntensity.lv-10",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "106"
+      },
+      "role": "Attack-intensity sequential level 10 of 10.",
+      "notes": [
+        "The single design name covers the whole 10-level family (row 106).",
+        "The raw code syntax `_chart.sequential.attackIntensity.{lv_1~10}` uses an underscore (`lv_1`); implemented keys are `lv-1`\u2026`lv-10`.",
+        "Used by the charts visual-map configuration in ascending level order."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-1.lv-1",
+      "path": "colors._chart.divergent.option-1.lv-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 1, level 1 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-1.lv-2",
+      "path": "colors._chart.divergent.option-1.lv-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 1, level 2 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-1.lv-3",
+      "path": "colors._chart.divergent.option-1.lv-3",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 1, level 3 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-1.lv-4",
+      "path": "colors._chart.divergent.option-1.lv-4",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 1, level 4 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-1.lv-5",
+      "path": "colors._chart.divergent.option-1.lv-5",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 1, level 5 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-1.lv-6",
+      "path": "colors._chart.divergent.option-1.lv-6",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 1, level 6 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-1.lv-7",
+      "path": "colors._chart.divergent.option-1.lv-7",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 1, level 7 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-1.lv-8",
+      "path": "colors._chart.divergent.option-1.lv-8",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 1, level 8 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-1.lv-9",
+      "path": "colors._chart.divergent.option-1.lv-9",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 1, level 9 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-1.lv-10",
+      "path": "colors._chart.divergent.option-1.lv-10",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 1, level 10 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-1.lv-11",
+      "path": "colors._chart.divergent.option-1.lv-11",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 1, level 11 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-1.lv-12",
+      "path": "colors._chart.divergent.option-1.lv-12",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 1, level 12 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-1.lv-13",
+      "path": "colors._chart.divergent.option-1.lv-13",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 1, level 13 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-1.lv-14",
+      "path": "colors._chart.divergent.option-1.lv-14",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 1, level 14 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-1.lv-15",
+      "path": "colors._chart.divergent.option-1.lv-15",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 1, level 15 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-1.lv-16",
+      "path": "colors._chart.divergent.option-1.lv-16",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 1, level 16 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-2.lv-1",
+      "path": "colors._chart.divergent.option-2.lv-1",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 2, level 1 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-2.lv-2",
+      "path": "colors._chart.divergent.option-2.lv-2",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 2, level 2 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-2.lv-3",
+      "path": "colors._chart.divergent.option-2.lv-3",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 2, level 3 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-2.lv-4",
+      "path": "colors._chart.divergent.option-2.lv-4",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 2, level 4 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-2.lv-5",
+      "path": "colors._chart.divergent.option-2.lv-5",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 2, level 5 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-2.lv-6",
+      "path": "colors._chart.divergent.option-2.lv-6",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 2, level 6 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-2.lv-7",
+      "path": "colors._chart.divergent.option-2.lv-7",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 2, level 7 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-2.lv-8",
+      "path": "colors._chart.divergent.option-2.lv-8",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 2, level 8 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-2.lv-9",
+      "path": "colors._chart.divergent.option-2.lv-9",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 2, level 9 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-2.lv-10",
+      "path": "colors._chart.divergent.option-2.lv-10",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 2, level 10 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-2.lv-11",
+      "path": "colors._chart.divergent.option-2.lv-11",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 2, level 11 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-2.lv-12",
+      "path": "colors._chart.divergent.option-2.lv-12",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 2, level 12 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-2.lv-13",
+      "path": "colors._chart.divergent.option-2.lv-13",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 2, level 13 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-2.lv-14",
+      "path": "colors._chart.divergent.option-2.lv-14",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 2, level 14 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-2.lv-15",
+      "path": "colors._chart.divergent.option-2.lv-15",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 2, level 15 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$color.chart.divergent.option-2.lv-16",
+      "path": "colors._chart.divergent.option-2.lv-16",
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "107"
+      },
+      "role": "Divergent palette option 2, level 16 of 16 (midpoint divergence).",
+      "notes": [
+        "Design name `$color.chart.divergent.option-1`/`option-2` with `lv-1~16` (row 107); the member is expanded by name."
+      ]
+    },
+    {
+      "figma": "$typography.body.md",
+      "path": null,
+      "status": "composed",
+      "source": {
+        "contentId": "1962606684",
+        "version": 139,
+        "row": "10"
+      },
+      "role": "Body text: default style, 14px regular (table cells, paragraphs).",
+      "notes": [
+        "Design: Body text: default style, 14px regular (table cells, paragraphs).",
+        "Design row has no line-height column; the design line height is unconfirmed.",
+        "Corresponding v3 Figma font style: `regular.body-1|heading.heading-5` (design-side reference only).",
+        "In code, `<Text size=\"sm\">` also applies `lineHeights.sm` (20px); that pairing is code-derived, not design-confirmed.",
+        "Optionally bold for v3 `heading.heading-5` compatibility."
+      ],
+      "properties": {
+        "fontSize": "fontSizes.sm",
+        "fontWeight": "fontWeights.normal"
+      },
+      "missingAttributes": [
+        "lineHeight"
+      ]
+    },
+    {
+      "figma": "$typography.body.lg",
+      "path": null,
+      "status": "composed",
+      "source": {
+        "contentId": "1962606684",
+        "version": 139,
+        "row": "11"
+      },
+      "role": "Body text, 16px regular (longer passages).",
+      "notes": [
+        "Design: Body text, 16px regular (longer passages).",
+        "Design row has no line-height column; the design line height is unconfirmed.",
+        "Corresponding v3 Figma font style: `regular.body-2|heading.heading-6` (design-side reference only).",
+        "In code, `<Text size=\"md\">` also applies `lineHeights.md` (22px); code-derived, not design-confirmed.",
+        "Optionally bold for v3 `heading.heading-6` compatibility."
+      ],
+      "properties": {
+        "fontSize": "fontSizes.md",
+        "fontWeight": "fontWeights.normal"
+      },
+      "missingAttributes": [
+        "lineHeight"
+      ]
+    },
+    {
+      "figma": "$typography.label.sm",
+      "path": null,
+      "status": "composed",
+      "source": {
+        "contentId": "1962606684",
+        "version": 139,
+        "row": "12"
+      },
+      "role": "Label for small (sm) interactive components such as buttons, 12px medium.",
+      "notes": [
+        "Design: Label for small (sm) interactive components such as buttons, 12px medium.",
+        "Design row has no line-height column; the design line height is unconfirmed.",
+        "`TextLabel` does not set `medium`; pass `fontWeight=\"medium\"` explicitly.",
+        "In code, `<Text size=\"xs\">` applies `lineHeights.xs` (18px); code-derived."
+      ],
+      "properties": {
+        "fontSize": "fontSizes.xs",
+        "fontWeight": "fontWeights.medium"
+      },
+      "missingAttributes": [
+        "lineHeight"
+      ]
+    },
+    {
+      "figma": "$typography.label.md",
+      "path": null,
+      "status": "composed",
+      "source": {
+        "contentId": "1962606684",
+        "version": 139,
+        "row": "13"
+      },
+      "role": "Label for medium (md) interactive components, sub-labels, current state; 14px medium.",
+      "notes": [
+        "Design: Label for medium (md) interactive components, sub-labels, current state; 14px medium.",
+        "Design row has no line-height column; the design line height is unconfirmed.",
+        "Corresponding v3 Figma font style: `heading.heading-1` (design-side reference only).",
+        "`TextLabel` does not set `medium`; pass `fontWeight=\"medium\"` explicitly on `Text`/`TextLabel`.",
+        "In code, `<Text size=\"sm\">` applies `lineHeights.sm` (20px); code-derived."
+      ],
+      "properties": {
+        "fontSize": "fontSizes.sm",
+        "fontWeight": "fontWeights.medium"
+      },
+      "missingAttributes": [
+        "lineHeight"
+      ]
+    },
+    {
+      "figma": "$typography.label.lg",
+      "path": null,
+      "status": "composed",
+      "source": {
+        "contentId": "1962606684",
+        "version": 139,
+        "row": "14"
+      },
+      "role": "Label for large (lg) interactive components, 16px medium.",
+      "notes": [
+        "Design: Label for large (lg) interactive components, 16px medium.",
+        "Design row has no line-height column; the design line height is unconfirmed.",
+        "`TextLabel` does not set `medium`; pass `fontWeight=\"medium\"` explicitly.",
+        "In code, `<Text size=\"md\">` applies `lineHeights.md` (22px); code-derived."
+      ],
+      "properties": {
+        "fontSize": "fontSizes.md",
+        "fontWeight": "fontWeights.medium"
+      },
+      "missingAttributes": [
+        "lineHeight"
+      ]
+    },
+    {
+      "figma": "$typography.heading.xsm",
+      "path": null,
+      "status": "composed",
+      "source": {
+        "contentId": "1962606684",
+        "version": 139,
+        "row": "15"
+      },
+      "role": "Heading: inline table headings, rich tooltip panels, 16px semibold.",
+      "notes": [
+        "Design: Heading: inline table headings, rich tooltip panels, 16px semibold.",
+        "Design row has no line-height column; the design line height is unconfirmed.",
+        "Corresponding v3 Figma font style: `regular.subtitle-1` (design-side reference only).",
+        "The docs heading example uses `<Text size=... fontWeight=\"semibold\">`; the weight is not a default.",
+        "In code, `<Text size=\"md\">` applies `lineHeights.md` (22px); code-derived."
+      ],
+      "properties": {
+        "fontSize": "fontSizes.md",
+        "fontWeight": "fontWeights.semibold"
+      },
+      "missingAttributes": [
+        "lineHeight"
+      ]
+    },
+    {
+      "figma": "$typography.heading.sm",
+      "path": null,
+      "status": "composed",
+      "source": {
+        "contentId": "1962606684",
+        "version": 139,
+        "row": "16"
+      },
+      "role": "Heading: page section title (H2), drawer/modal titles, 20px semibold.",
+      "notes": [
+        "Design: Heading: page section title (H2), drawer/modal titles, 20px semibold.",
+        "Design row has no line-height column; the design line height is unconfirmed.",
+        "Corresponding v3 Figma font style: `regular.subtitle-2` (design-side reference only).",
+        "The docs heading example uses `fontWeight=\"semibold\"` explicitly.",
+        "In code, `<Text size=\"xl\">` applies `lineHeights.xl` (28px); code-derived."
+      ],
+      "properties": {
+        "fontSize": "fontSizes.xl",
+        "fontWeight": "fontWeights.semibold"
+      },
+      "missingAttributes": [
+        "lineHeight"
+      ]
+    },
+    {
+      "figma": "$typography.heading.md",
+      "path": null,
+      "status": "composed",
+      "source": {
+        "contentId": "1962606684",
+        "version": 139,
+        "row": "17"
+      },
+      "role": "Heading: page title (H1), 24px semibold.",
+      "notes": [
+        "Design: Heading: page title (H1), 24px semibold.",
+        "Design row has no line-height column; the design line height is unconfirmed.",
+        "Corresponding v3 Figma font style: `regular.subtitle-3` (design-side reference only).",
+        "In code, `<Text size=\"2xl\">` applies `lineHeights.2xl` (32px); code-derived."
+      ],
+      "properties": {
+        "fontSize": "fontSizes.2xl",
+        "fontWeight": "fontWeights.semibold"
+      },
+      "missingAttributes": [
+        "lineHeight"
+      ]
+    },
+    {
+      "figma": "$typography.heading.lg",
+      "path": null,
+      "status": "composed",
+      "source": {
+        "contentId": "1962606684",
+        "version": 139,
+        "row": "18"
+      },
+      "role": "Heading, 28px semibold (currently no primary use case).",
+      "notes": [
+        "Design: Heading, 28px semibold (currently no primary use case).",
+        "Design row has no line-height column; the design line height is unconfirmed.",
+        "Corresponding v3 Figma font style: `heading.display-1` (design-side reference only).",
+        "Design notes it currently has no primary use case.",
+        "In code, `<Text size=\"3xl\">` applies `lineHeights.3xl` (36px); code-derived."
+      ],
+      "properties": {
+        "fontSize": "fontSizes.3xl",
+        "fontWeight": "fontWeights.semibold"
+      },
+      "missingAttributes": [
+        "lineHeight"
+      ]
+    },
+    {
+      "figma": "$typography.heading.xlg",
+      "path": null,
+      "status": "composed",
+      "source": {
+        "contentId": "1962606684",
+        "version": 139,
+        "row": "19"
+      },
+      "role": "Heading, 32px semibold (currently no primary use case).",
+      "notes": [
+        "Design: Heading, 32px semibold (currently no primary use case).",
+        "Design row has no line-height column; the design line height is unconfirmed.",
+        "Corresponding v3 Figma font style: `heading.display-2` (design-side reference only).",
+        "Design notes it currently has no primary use case.",
+        "In code, `<Text size=\"4xl\">` applies `lineHeights.4xl` (40px); code-derived."
+      ],
+      "properties": {
+        "fontSize": "fontSizes.4xl",
+        "fontWeight": "fontWeights.semibold"
+      },
+      "missingAttributes": [
+        "lineHeight"
+      ]
+    },
+    {
+      "figma": "$typography.display.sm",
+      "path": null,
+      "status": "composed",
+      "source": {
+        "contentId": "1962606684",
+        "version": 139,
+        "row": "20"
+      },
+      "role": "Display/smallest hero headline, 36px bold.",
+      "notes": [
+        "Design: Display/smallest hero headline, 36px bold.",
+        "Design row has no line-height column; the design line height is unconfirmed.",
+        "No named font-size token exists at 36px; use the confirmed literal size and do not invent a `5xl` token.",
+        "No code-applied line height accompanies a literal font size."
+      ],
+      "properties": {
+        "fontWeight": "fontWeights.bold"
+      },
+      "literalProperties": {
+        "fontSize": "36px"
+      },
+      "missingAttributes": [
+        "lineHeight"
+      ]
+    },
+    {
+      "figma": "$typography.display.md",
+      "path": null,
+      "status": "composed",
+      "source": {
+        "contentId": "1962606684",
+        "version": 139,
+        "row": "21"
+      },
+      "role": "Display/medium hero headline, 44px bold.",
+      "notes": [
+        "Design: Display/medium hero headline, 44px bold.",
+        "Design row has no line-height column; the design line height is unconfirmed.",
+        "Corresponding v3 Figma font style: `heading.display-3` (design-side reference only).",
+        "No named font-size token exists at 44px; use the confirmed literal size.",
+        "No code-applied line height accompanies a literal font size."
+      ],
+      "properties": {
+        "fontWeight": "fontWeights.bold"
+      },
+      "literalProperties": {
+        "fontSize": "44px"
+      },
+      "missingAttributes": [
+        "lineHeight"
+      ]
+    },
+    {
+      "figma": "$typography.display.lg",
+      "path": null,
+      "status": "composed",
+      "source": {
+        "contentId": "1962606684",
+        "version": 139,
+        "row": "22"
+      },
+      "role": "Display/largest hero headline, 52px bold.",
+      "notes": [
+        "Design: Display/largest hero headline, 52px bold.",
+        "Design row has no line-height column; the design line height is unconfirmed.",
+        "No named font-size token exists at 52px; use the confirmed literal size.",
+        "No code-applied line height accompanies a literal font size."
+      ],
+      "properties": {
+        "fontWeight": "fontWeights.bold"
+      },
+      "literalProperties": {
+        "fontSize": "52px"
+      },
+      "missingAttributes": [
+        "lineHeight"
+      ]
+    },
+    {
+      "figma": "$typography.supporting.md",
+      "path": null,
+      "status": "composed",
+      "source": {
+        "contentId": "1962606684",
+        "version": 139,
+        "row": "26"
+      },
+      "role": "Supporting text, 12px regular.",
+      "notes": [
+        "Design: Supporting text, 12px regular.",
+        "Design row has no line-height column; the design line height is unconfirmed.",
+        "Corresponding v3 Figma font style: `regular.caption` (design-side reference only).",
+        "In code, `<Text size=\"xs\">` applies `lineHeights.xs` (18px); code-derived."
+      ],
+      "properties": {
+        "fontSize": "fontSizes.xs",
+        "fontWeight": "fontWeights.normal"
+      },
+      "missingAttributes": [
+        "lineHeight"
+      ]
+    },
+    {
+      "figma": "$typography.code.md",
+      "path": null,
+      "status": "composed",
+      "source": {
+        "contentId": "1962606684",
+        "version": 139,
+        "row": "27"
+      },
+      "role": "Code text, 14px regular, monospaced.",
+      "notes": [
+        "Design row has no line-height column; the design line height is unconfirmed.",
+        "Corresponding v3 Figma font style: `code.code-1` (design-side reference only).",
+        "The `Code` component applies `fonts.mono` but not a font size; set the 14px size explicitly (`<Text size=\"sm\">`).",
+        "`Code` applies no line height."
+      ],
+      "properties": {
+        "fontSize": "fontSizes.sm",
+        "fontWeight": "fontWeights.normal",
+        "fontFamily": "fonts.mono"
+      },
+      "missingAttributes": [
+        "lineHeight"
+      ]
+    },
+    {
+      "figma": "$typography.superscript.md",
+      "path": null,
+      "status": "composed",
+      "source": {
+        "contentId": "1962606684",
+        "version": 139,
+        "row": "28"
+      },
+      "role": "Preview-badge superscript text, 14px regular.",
+      "notes": [
+        "Design row has no line-height column; the design line height is unconfirmed.",
+        "Corresponding v3 Figma font style: `regular.superscript` (design-side reference only).",
+        "Used exclusively for preview badge text; the docs example adds positioning/size styles (75%, italic) that are not part of this design row.",
+        "In code, `<Text size=\"sm\">` applies `lineHeights.sm` (20px); code-derived."
+      ],
+      "properties": {
+        "fontSize": "fontSizes.sm",
+        "fontWeight": "fontWeights.normal"
+      },
+      "missingAttributes": [
+        "lineHeight"
+      ]
+    },
+    {
+      "figma": "$typography.numeric-display.sublte.md~lg",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1962606684",
+        "version": 139,
+        "row": "23"
+      },
+      "role": "Numeric display, subtle category (14\u201316px medium); draft.",
+      "notes": [
+        "Draft row (no status). Raw Figma name contains the typo `sublte`; preserved verbatim.",
+        "Category range 14~16px maps to design sizes md\u2013lg for this property role.",
+        "No implemented numeric-display tokens exist: do not invent a path."
+      ]
+    },
+    {
+      "figma": "$typography.numeric-display.regular.sm~xlg",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1962606684",
+        "version": 139,
+        "row": "24"
+      },
+      "role": "Numeric display, regular category (20\u201332px medium); draft.",
+      "notes": [
+        "Draft row (no status); 20\u201332px.",
+        "Restricted to expressive/large display numbers, not regular text.",
+        "No implemented token path; do not invent one."
+      ]
+    },
+    {
+      "figma": "$typography.numeric-display.prominent.sm~lg",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1962606684",
+        "version": 139,
+        "row": "23"
+      },
+      "role": "Numeric display, prominent category; draft (size range not independently confirmed).",
+      "notes": [
+        "Listed in row 23\u2019s cell together with the subtle and regular categories.",
+        "Row 25 separately documents a `prominent` category but repeats row 24\u2019s regular Figma string \u2014 a source discrepancy preserved in notes, not corrected.",
+        "No implemented token path."
+      ]
+    },
+    {
+      "figma": "$typography.numeric-display.regular.sm~xlg",
+      "path": null,
+      "status": "design-only",
+      "source": {
+        "contentId": "1962606684",
+        "version": 139,
+        "row": "25"
+      },
+      "role": "Numeric display, prominent category per row 25\u2019s definition; draft.",
+      "notes": [
+        "Row 25\u2019s cell repeats `$typography.numeric-display.regular.sm~xlg` while its definition names the `prominent` category (20\u201332px); the duplicate cell is preserved as observed.",
+        "No implemented token path."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-1.lv-1~lv-10",
+      "path": null,
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 1 (10 levels).",
+      "notes": [
+        "Recorded per option so single-name lookups also resolve; the 10 implemented members are separately mapped at `lv-1`\u2026`lv-10`."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-2.lv-1~lv-10",
+      "path": null,
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 2 (10 levels).",
+      "notes": [
+        "Recorded per option so single-name lookups also resolve; the 10 implemented members are separately mapped at `lv-1`\u2026`lv-10`."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-3.lv-1~lv-10",
+      "path": null,
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 3 (10 levels).",
+      "notes": [
+        "Recorded per option so single-name lookups also resolve; the 10 implemented members are separately mapped at `lv-1`\u2026`lv-10`."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-4.lv-1~lv-10",
+      "path": null,
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 4 (10 levels).",
+      "notes": [
+        "Recorded per option so single-name lookups also resolve; the 10 implemented members are separately mapped at `lv-1`\u2026`lv-10`."
+      ]
+    },
+    {
+      "figma": "$color.chart.sequential.option-5.lv-1~lv-10",
+      "path": null,
+      "status": "family-mapping",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "105"
+      },
+      "role": "Sequential palette option 5 (10 levels).",
+      "notes": [
+        "Recorded per option so single-name lookups also resolve; the 10 implemented members are separately mapped at `lv-1`\u2026`lv-10`."
+      ]
+    },
+    {
+      "figma": "$color.status.neutral.icon",
+      "path": "colors.neutral.icon",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "64"
+      },
+      "role": "Status icon color (neutral).",
+      "notes": [
+        "Corrected-spelling alias of the raw cell `$color.status.netural.icon` in the same row."
+      ]
+    },
+    {
+      "figma": "$color.border.negative.disabled",
+      "path": "colors.border._negative.disabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "58"
+      },
+      "role": "Negative/destructive interactive border, disabled state.",
+      "notes": [
+        "Corrected-spelling alias of the raw cell `$color.border.negative.disbled` in the same row."
+      ]
+    },
+    {
+      "figma": "$color.foreground.secondary.disabled",
+      "path": "colors._foreground.secondary.disabled",
+      "status": "verified",
+      "source": {
+        "contentId": "1939407344",
+        "version": 559,
+        "row": "87"
+      },
+      "role": "Secondary action component fill, disabled state.",
+      "notes": [
+        "Corrected-spelling alias of the raw cell `$color.foreground.seconary.disabled` in the same row."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "tonic-ui",
+  "interface": { "displayName": "Tonic UI" },
+  "plugins": [
+    {
+      "name": "tonic-ui",
+      "source": { "source": "local", "path": "./skills/external" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Developer Tools"
+    }
+  ]
+}

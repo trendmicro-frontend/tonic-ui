@@ -17,6 +17,31 @@ The Tonic UI MCP server provides structured access to Tonic UI documentation and
 
 Learn more about MCP in the [official MCP documentation](https://modelcontextprotocol.io/introduction).
 
+## Read package changelogs
+
+Use `fetch-pages` to read documentation pages or a known package `CHANGELOG.md`.
+For a configuration file at the Tonic UI repository root, pass:
+
+```json
+{
+  "urls": [
+    "packages/react/CHANGELOG.md",
+    "packages/react-icons/CHANGELOG.md"
+  ]
+}
+```
+
+Relative paths resolve from the configuration file's directory on the MCP server,
+not from the consuming app's working directory. Absolute local paths and `file://`
+URLs are also supported. HTTP(S) requests remain limited to `localhost` and
+`127.0.0.1`; a GitHub web link is not automatically a readable MCP resource.
+
+This tool returns file content, not a version-selected change report. Resolve each
+app package's installed version first; for an upgrade, select entries in
+`(source version, target version]` using prerelease-aware version comparison.
+Record the source revision and check implementation claims against the matching
+package source. A `v3` documentation label alone does not establish that match.
+
 ## Quickstart
 
 ### Prerequisites
