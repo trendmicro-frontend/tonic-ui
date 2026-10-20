@@ -1,3 +1,3 @@
 # @tonic-ui/react-docs
 
-A documentation site for React Tonic UI component library.
+A documentation site for the React Tonic UI component library.

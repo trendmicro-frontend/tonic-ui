@@ -1,5 +1,6 @@
 /.next
 /build
+/build-*
 /coverage
 /dist
 
@@ -7,5 +8,11 @@
 /.env.local
 /.env.*.local
 
-# Generated MFE build output
-/public/mfe
+# Generated demo build output
+/public/demos
+
+# Playwright E2E output
+/e2e/test-results
+/e2e/playwright-report
+/output/e2e-test-results/
+/output/e2e-playwright-report/

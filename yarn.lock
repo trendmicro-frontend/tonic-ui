@@ -3516,7 +3516,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/cache@npm:^11.14.0":
+"@emotion/cache@npm:11.14.0, @emotion/cache@npm:^11.14.0":
   version: 11.14.0
   resolution: "@emotion/cache@npm:11.14.0"
   dependencies:
@@ -3546,7 +3546,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/is-prop-valid@npm:1.x":
+"@emotion/is-prop-valid@npm:1.2.2, @emotion/is-prop-valid@npm:1.x":
   version: 1.2.2
   resolution: "@emotion/is-prop-valid@npm:1.2.2"
   dependencies:
@@ -3599,7 +3599,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/react@npm:^11.14.0":
+"@emotion/react@npm:11.14.0, @emotion/react@npm:^11.14.0":
   version: 11.14.0
   resolution: "@emotion/react@npm:11.14.0"
   dependencies:
@@ -3640,7 +3640,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/styled@npm:^11.14.0":
+"@emotion/styled@npm:11.14.1, @emotion/styled@npm:^11.14.0":
   version: 11.14.1
   resolution: "@emotion/styled@npm:11.14.1"
   dependencies:
@@ -6023,6 +6023,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@playwright/test@npm:1.64.1":
+  version: 1.64.1
+  resolution: "@playwright/test@npm:1.64.1"
+  dependencies:
+    playwright: "npm:1.64.1"
+  bin:
+    playwright: cli.js
+  checksum: 10/589855c5fbc9ebbfb072e77e4b24a646f302ca9823d56ac3ff08a8e4ecf7ee13a390fe19236f4f9737e9a736194324f244f90c409a10edeb480c5f99ce77d10e
+  languageName: node
+  linkType: hard
+
 "@popperjs/core@npm:2.x":
   version: 2.11.8
   resolution: "@popperjs/core@npm:2.11.8"
@@ -6074,6 +6085,25 @@ __metadata:
     rollup:
       optional: true
   checksum: 10/89210c8c597b41fd4c561749505c85827697d8d0918c492270f522bd85fac8db3af701cf05480a9e594fcc0df9be42fb7ab025b02a272bde74bb2f63c8c39de2
+  languageName: node
+  linkType: hard
+
+"@rollup/plugin-commonjs@npm:^26":
+  version: 26.0.3
+  resolution: "@rollup/plugin-commonjs@npm:26.0.3"
+  dependencies:
+    "@rollup/pluginutils": "npm:^5.0.1"
+    commondir: "npm:^1.0.1"
+    estree-walker: "npm:^2.0.2"
+    glob: "npm:^10.4.1"
+    is-reference: "npm:1.2.1"
+    magic-string: "npm:^0.30.3"
+  peerDependencies:
+    rollup: ^2.68.0||^3.0.0||^4.0.0
+  peerDependenciesMeta:
+    rollup:
+      optional: true
+  checksum: 10/e7443025339c047e32572c30e248958bead86d2ea993d5db006f3df12df06e9676ed13c38884b5f63bb4f5c8fc979875841909a6fe410f980488ae80d456e711
   languageName: node
   linkType: hard
 
@@ -6927,6 +6957,7 @@ __metadata:
     "@mdx-js/react": "npm:^2.1.2"
     "@module-federation/vite": "npm:^1.16.8"
     "@next/mdx": "npm:^15.0.0"
+    "@playwright/test": "npm:1.64.1"
     "@tanstack/react-table": "npm:^8.21.3"
     "@tanstack/react-virtual": "npm:^3.13.10"
     "@testing-library/jest-dom": "npm:^6.0.0"
@@ -7080,7 +7111,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/react@workspace:^, @tonic-ui/react@workspace:packages/react":
+"@tonic-ui/react@npm:3.0.0-alpha.1, @tonic-ui/react@workspace:^, @tonic-ui/react@workspace:packages/react":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/react@workspace:packages/react"
   dependencies:
@@ -7099,6 +7130,7 @@ __metadata:
     "@emotion/styled": "npm:^11.14.0"
     "@popperjs/core": "npm:2.x"
     "@rollup/plugin-babel": "npm:^6.0.0"
+    "@rollup/plugin-commonjs": "npm:^26"
     "@rollup/plugin-node-resolve": "npm:^15.0.0"
     "@testing-library/dom": "npm:^10.0.0"
     "@testing-library/jest-dom": "npm:^6.0.0"
@@ -7117,6 +7149,7 @@ __metadata:
     date-fns: "npm:^4.4.0"
     del-cli: "npm:^5.0.0"
     ensure-type: "npm:^1.5.1"
+    esbuild: "npm:^0.25.0"
     eslint: "npm:^9.26.0"
     eslint-config-trendmicro: "npm:^4.4.1"
     eslint-import-resolver-typescript: "npm:^3.6.3"
@@ -8307,7 +8340,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitejs/plugin-react@npm:^4.3.1":
+"@vitejs/plugin-react@npm:4.7.0, @vitejs/plugin-react@npm:^4.3.1":
   version: 4.7.0
   resolution: "@vitejs/plugin-react@npm:4.7.0"
   dependencies:
@@ -11999,6 +12032,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"esm-cdn-with-fallback@workspace:examples/esm-cdn-with-fallback":
+  version: 0.0.0-use.local
+  resolution: "esm-cdn-with-fallback@workspace:examples/esm-cdn-with-fallback"
+  dependencies:
+    "@emotion/cache": "npm:11.14.0"
+    "@emotion/is-prop-valid": "npm:1.2.2"
+    "@emotion/react": "npm:11.14.0"
+    "@emotion/styled": "npm:11.14.1"
+    "@tonic-ui/react": "npm:3.0.0-alpha.1"
+    "@vitejs/plugin-react": "npm:4.7.0"
+    react: "npm:19.2.7"
+    react-dom: "npm:19.2.7"
+    vite: "npm:6.4.3"
+  languageName: unknown
+  linkType: soft
+
 "espree@npm:^10.0.1, espree@npm:^10.4.0":
   version: 10.4.0
   resolution: "espree@npm:10.4.0"
@@ -13189,6 +13238,22 @@ __metadata:
   bin:
     glob: dist/esm/bin.mjs
   checksum: 10/698dfe11828b7efd0514cd11e573eaed26b2dff611f0400907281ce3eab0c1e56143ef9b35adc7c77ecc71fba74717b510c7c223d34ca8a98ec81777b293d4ac
+  languageName: node
+  linkType: hard
+
+"glob@npm:^10.4.1":
+  version: 10.5.0
+  resolution: "glob@npm:10.5.0"
+  dependencies:
+    foreground-child: "npm:^3.1.0"
+    jackspeak: "npm:^3.1.2"
+    minimatch: "npm:^9.0.4"
+    minipass: "npm:^7.1.2"
+    package-json-from-dist: "npm:^1.0.0"
+    path-scurry: "npm:^1.11.1"
+  bin:
+    glob: dist/esm/bin.mjs
+  checksum: 10/ab3bccfefcc0afaedbd1f480cd0c4a2c0e322eb3f0aa7ceaa31b3f00b825069f17cf0f1fc8b6f256795074b903f37c0ade37ddda6a176aa57f1c2bbfe7240653
   languageName: node
   linkType: hard
 
@@ -14446,6 +14511,15 @@ __metadata:
   version: 4.0.0
   resolution: "is-promise@npm:4.0.0"
   checksum: 10/0b46517ad47b00b6358fd6553c83ec1f6ba9acd7ffb3d30a0bf519c5c69e7147c132430452351b8a9fc198f8dd6c4f76f8e6f5a7f100f8c77d57d9e0f4261a8a
+  languageName: node
+  linkType: hard
+
+"is-reference@npm:1.2.1":
+  version: 1.2.1
+  resolution: "is-reference@npm:1.2.1"
+  dependencies:
+    "@types/estree": "npm:*"
+  checksum: 10/e7b48149f8abda2c10849ea51965904d6a714193d68942ad74e30522231045acf06cbfae5a4be2702fede5d232e61bf50b3183acdc056e6e3afe07fcf4f4b2bc
   languageName: node
   linkType: hard
 
@@ -19319,6 +19393,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"playwright-core@npm:1.64.1":
+  version: 1.64.1
+  resolution: "playwright-core@npm:1.64.1"
+  bin:
+    playwright-core: cli.js
+  checksum: 10/4a173590bc784d8d5bfe2cace53ccc31316dac11475660b59cea24a2e833875d87183d41a957a20355301ac2b339a17940faaf0b42217156fa9c0c3cfdd4633c
+  languageName: node
+  linkType: hard
+
+"playwright@npm:1.64.1":
+  version: 1.64.1
+  resolution: "playwright@npm:1.64.1"
+  dependencies:
+    playwright-core: "npm:1.64.1"
+  bin:
+    playwright: cli.js
+  checksum: 10/1096fa91e433f84c8677433a26052aa4f269bf0811aa793fe667d7053feb1c2852e9f10f9f0cced77fa2678f8580ed47192f29adbc9c027efa5ba87b38e23e50
+  languageName: node
+  linkType: hard
+
 "possible-typed-array-names@npm:^1.0.0":
   version: 1.0.0
   resolution: "possible-typed-array-names@npm:1.0.0"
@@ -19767,7 +19861,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^18.3.0 || ^19.0.0":
+"react-dom@npm:19.2.7, react-dom@npm:^18.3.0 || ^19.0.0":
   version: 19.2.7
   resolution: "react-dom@npm:19.2.7"
   dependencies:
@@ -19955,7 +20049,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^18.3.0 || ^19.0.0":
+"react@npm:19.2.7, react@npm:^18.3.0 || ^19.0.0":
   version: 19.2.7
   resolution: "react@npm:19.2.7"
   checksum: 10/2939997e87d7f0ee0d9d2bb556866b616b999dfb7916283647034eda867a045a39c4f7a736c8ea6beffffcd78397fc30f63a7a3aaf8425b683c3060670859560
@@ -22190,6 +22284,7 @@ __metadata:
     "@changesets/cli": "npm:^2.30.0"
     "@commitlint/cli": "npm:17.x"
     "@commitlint/config-conventional": "npm:17.x"
+    "@playwright/test": "npm:1.64.1"
     "@tonic-ui/changelog-github": "workspace:*"
     husky: "npm:8.x"
     lerna: "npm:9.x"
@@ -23284,7 +23379,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^6.4.3":
+"vite@npm:6.4.3, vite@npm:^6.4.3":
   version: 6.4.3
   resolution: "vite@npm:6.4.3"
   dependencies:
