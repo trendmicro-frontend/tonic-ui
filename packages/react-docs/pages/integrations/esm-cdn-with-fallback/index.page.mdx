@@ -292,7 +292,7 @@ and `entries/` define the local bundles:
 | :--- | :--- | :--- |
 | `react` | `entries/react.js`: React, React DOM client, JSX runtimes | None |
 | `react-dom` | `entries/react-dom.js`: React DOM root exports | `react` and its subpaths |
-| `tonic-ui-react` (build name for `@tonic-ui/react`) | `entries/@tonic-ui/react.js`: the package, Emotion, ordinary dependencies | React family |
+| `'@tonic-ui/react'` | `entries/@tonic-ui/react.js` (emits `tonic-ui-react-*.js`): the package, Emotion, ordinary dependencies | React family |
 
 Keep the two React entries separate: both React and React DOM need a `default`
 export. The local map sends `react`, `react-dom/client`, and the JSX runtimes to
