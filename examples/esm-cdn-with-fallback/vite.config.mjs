@@ -139,7 +139,7 @@ export default defineConfig(({ command, mode }) => {
           entryFileNames: bundle === 'shell'
             ? '[name].js'
             : bundle === '@tonic-ui/react'
-              ? 'tonic-ui-react-[hash].js'
+              ? 'index-[hash].js'
               : '[name]-[hash].js',
         },
       },
