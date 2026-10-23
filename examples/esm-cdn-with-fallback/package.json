@@ -15,7 +15,7 @@
     "@emotion/is-prop-valid": "1.2.2",
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",
-    "@tonic-ui/react": "3.0.0-alpha.1",
+    "@tonic-ui/react": "3.0.0-alpha.2",
     "react": "19.2.7",
     "react-dom": "19.2.7"
   },
