@@ -404,6 +404,7 @@ describe('Submenu', () => {
     it('should receive click events when clicking submenu items rendered in a portal', async () => {
       const user = userEvent.setup();
       const handleMenuListClick = jest.fn();
+      const handleInteractOutside = jest.fn();
 
       const SubmenuTestComponent = () => {
         return (
@@ -413,7 +414,10 @@ describe('Submenu', () => {
           // unmounts it (`unmountOnExit`). The post-click "still open" assertion
           // would then race that transition: it passes on fast machines that read
           // it mid-transition and fails on slower CI that reads it after unmount.
-          <Menu closeOnSelect={false}>
+          <Menu
+            closeOnSelect={false}
+            onInteractOutside={handleInteractOutside}
+          >
             <MenuButton data-testid="menu-button">
               Options
             </MenuButton>
@@ -479,6 +483,9 @@ describe('Submenu', () => {
       // Verify the event target has the correct value
       const clickEvent = handleMenuListClick.mock.calls[0][0];
       expect(clickEvent.target.getAttribute('value')).toBe('3');
+
+      // A click inside a portalled submenu content is not an outside interaction
+      expect(handleInteractOutside).not.toHaveBeenCalled();
 
       // The menu should still be open (not closed by the click on submenu item)
       expect(screen.getByTestId('menu-list')).toBeInTheDocument();

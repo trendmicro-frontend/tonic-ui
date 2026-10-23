@@ -346,7 +346,7 @@ const App = () => {
         <Text>{dateTimeRange[1]}</Text>
       </Flex>
       <Menu
-        closeOnBlur={!state.isDateTimePickerVisible}
+        closeOnInteractOutside={!state.isDateTimePickerVisible}
         onClose={() => {
           if (state.isDateTimePickerVisible) {
             setState({ isDateTimePickerVisible: false });

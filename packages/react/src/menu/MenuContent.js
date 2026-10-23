@@ -1,10 +1,9 @@
-import { useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
+import { useClickOutside, useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 import { callAll, callEventHandlers, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureArray, ensureFunction } from 'ensure-type';
 import React, { forwardRef, useMemo, useRef } from 'react';
 import { useSlot } from '../slot';
 import { useDefaultProps } from '../default-props';
-import { useEnvironment } from '../environment';
 import { Popper } from '../popper';
 import { Collapse } from '../transitions';
 import { useMenuContentStyle } from './styles';
@@ -73,7 +72,7 @@ const MenuContent = forwardRef((inProps, ref) => {
   const combinedRef = useMergeRefs(nodeRef, ref);
   const menuContext = useMenu(); // context might be an undefined value
   const {
-    closeOnBlur,
+    closeOnInteractOutside,
     isOpen,
     focusOnFirstItem,
     focusOnLastItem,
@@ -86,48 +85,36 @@ const MenuContent = forwardRef((inProps, ref) => {
     matchWidth,
     offset,
     onClose: closeMenu,
+    onInteractOutside,
     placement,
     portalled,
     submenuContentRefs,
   } = { ...menuContext };
-  const { getDocument } = useEnvironment();
   const eventHandler = {};
 
-  // Close the menu on blur
-  eventHandler.onBlur = function (event) {
-    // https://developer.mozilla.org/en-US/docs/Web/API/FocusEvent/relatedTarget
-    // The relatedTarget property represents the `EventTarget` receiving focus or losing focus during a `blur` or `focus` event, respectively.
-    const focusTarget = event.relatedTarget || getDocument().activeElement; // `relatedTarget` is the `EventTarget` receiving focus (if any)
-    const isOutsideMenuToggle = !(menuToggleRef.current?.contains?.(focusTarget));
-    const isOutsideMenuContent = !(menuContentRef.current?.contains?.(focusTarget));
+  useClickOutside([menuContentRef, menuToggleRef], (event) => {
+    if (!isOpen) {
+      return;
+    }
 
-    // Check if focus target is outside all submenu contents rendered in portals
-    let isOutsideSubmenuContent = true;
-    if (submenuContentRefs?.current) {
-      for (const submenuContentRef of submenuContentRefs.current) {
-        if (submenuContentRef.current?.contains?.(focusTarget)) {
-          isOutsideSubmenuContent = false;
-          break;
+    // Submenu contents are mounted and unmounted dynamically, so the ref set is
+    // read at click time to keep portalled submenu content interactions internal.
+    const submenuContentSet = submenuContentRefs?.current;
+    if (submenuContentSet) {
+      for (const submenuContentRef of submenuContentSet) {
+        if (submenuContentRef?.current?.contains?.(event.target)) {
+          return;
         }
       }
     }
 
-    // Close the menu only if focus moves outside the menu toggle, menu content, and all submenu contents
-    //
-    // | Scenario        | isOutsideMenuToggle | isOutsideMenuContent | isOutsideSubmenuContent | shouldClose |
-    // | --------------- | ------------------- | -------------------- | ----------------------- | ----------- |
-    // | Click menu item | true                | false                | true                    | false       |
-    // | Click toggle    | false               | true                 | true                    | false       |
-    // | Click submenu   | true                | true                 | false                   | false       |
-    // | Click outside   | true                | true                 | true                    | true        |
-    //
-    const isOutsideMenu = isOutsideMenuToggle && isOutsideMenuContent && isOutsideSubmenuContent;
-    const shouldClose = isOpen && closeOnBlur && !!focusTarget && isOutsideMenu;
+    onInteractOutside?.(event);
 
-    if (shouldClose) {
+    const shouldClose = Boolean(closeOnInteractOutside);
+    if (shouldClose && !event.defaultPrevented) {
       ensureFunction(closeMenu)();
     }
-  };
+  }, { events: ['click'] });
 
   // Navigate the menu items using keyboard.
   eventHandler.onKeyDown = function (event) {
@@ -233,7 +220,7 @@ const MenuContent = forwardRef((inProps, ref) => {
     <PopperSlot
       {...popperSlotProps}
       modifiers={mergedPopperModifiers}
-      onBlur={callEventHandlers(onBlurProp, eventHandler.onBlur)}
+      onBlur={onBlurProp}
       onKeyDown={callEventHandlers(onKeyDownProp, eventHandler.onKeyDown)}
       {...styleProps}
       {...rest}

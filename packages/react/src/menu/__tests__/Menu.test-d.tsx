@@ -100,16 +100,36 @@ import { Menu, MenuButton, MenuItem, MenuList } from '@tonic-ui/react';
   </MenuList>
 </Menu>;
 
-// With closeOnBlur prop
-<Menu closeOnBlur>
-  <MenuButton>closeOnBlur</MenuButton>
+// With closeOnInteractOutside prop
+<Menu closeOnInteractOutside>
+  <MenuButton>closeOnInteractOutside</MenuButton>
   <MenuList>
     <MenuItem>Item</MenuItem>
   </MenuList>
 </Menu>;
 
-<Menu closeOnBlur={false}>
-  <MenuButton>closeOnBlur false</MenuButton>
+<Menu closeOnInteractOutside={false}>
+  <MenuButton>closeOnInteractOutside false</MenuButton>
+  <MenuList>
+    <MenuItem>Item</MenuItem>
+  </MenuList>
+</Menu>;
+
+// With onInteractOutside callback
+<Menu onInteractOutside={(event) => console.log(event)}>
+  <MenuButton>onInteractOutside</MenuButton>
+  <MenuList>
+    <MenuItem>Item</MenuItem>
+  </MenuList>
+</Menu>;
+
+<Menu
+  closeOnInteractOutside={false}
+  onInteractOutside={(event) => {
+    event.preventDefault();
+  }}
+>
+  <MenuButton>onInteractOutside with preventDefault</MenuButton>
   <MenuList>
     <MenuItem>Item</MenuItem>
   </MenuList>
