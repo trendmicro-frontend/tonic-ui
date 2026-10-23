@@ -19,7 +19,7 @@ const require = createRequire(import.meta.url);
 const bundleDirs = {
   react: `assets/npm/react@${require('react/package.json').version}`,
   'react-dom': `assets/npm/react-dom@${require('react-dom/package.json').version}`,
-  'tonic-ui-react': `assets/npm/@tonic-ui/react@${require('@tonic-ui/react/package.json').version}`,
+  '@tonic-ui/react': `assets/npm/@tonic-ui/react@${require('@tonic-ui/react/package.json').version}`,
   app: 'assets/app',
   shell: 'assets/shell',
 };
@@ -64,7 +64,7 @@ export default defineConfig(({ command, mode }) => {
     throw new Error(`Unknown runtime build: ${bundle}`);
   }
   const input = vendor
-    ? Object.fromEntries(Object.entries(vendor).map(([name, entry]) => [name, resolve(root, entry.file)]))
+    ? { [bundle]: resolve(root, vendor.file) }
     : { [bundle]: resolve(root, `src/${bundle}.jsx`) };
   const external = bundle === 'react'
     ? undefined
@@ -72,7 +72,7 @@ export default defineConfig(({ command, mode }) => {
     // inlined code resolves the shared React instance from the combined entry.
     : bundle === 'react-dom'
       ? id => id === 'react' || id.startsWith('react/')
-      : bundle === 'tonic-ui-react'
+      : bundle === '@tonic-ui/react'
         ? isReact
         // The inspector shell bundles its own React and @tonic-ui/react
         // instances for the visible control surface.
@@ -85,8 +85,8 @@ export default defineConfig(({ command, mode }) => {
   const reactCommonJsNamedExports = {
     name: 'react-commonjs-named-exports',
     transform(code, id) {
-      const entry = Object.values(localEntries[bundle] || {}).find(item => resolve(root, item.file) === id);
-      if (!entry) {
+      const entry = localEntries[bundle];
+      if (!entry || resolve(root, entry.file) !== id) {
         return null;
       }
       const explicit = new Set(
@@ -136,7 +136,11 @@ export default defineConfig(({ command, mode }) => {
           inlineDynamicImports: !vendor,
           // The shell document is static HTML, so its bundled entry keeps a
           // stable file name instead of a content hash.
-          entryFileNames: bundle === 'shell' ? '[name].js' : '[name]-[hash].js',
+          entryFileNames: bundle === 'shell'
+            ? '[name].js'
+            : bundle === '@tonic-ui/react'
+              ? 'index-[hash].js'
+              : '[name]-[hash].js',
         },
       },
     },

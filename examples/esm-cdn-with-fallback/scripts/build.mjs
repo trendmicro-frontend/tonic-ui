@@ -30,7 +30,7 @@ await rm(outputRoot, { recursive: true, force: true });
 // published URL before selecting the raw file, and otherwise falls back to
 // the esm.sh build.
 const versions = versionsOf([
-  ...Object.values(localEntries).flatMap(entries => Object.values(entries).map(entry => packageName(entry.specifier))),
+  ...Object.values(localEntries).map(entry => packageName(entry.specifier)),
   // Emotion is inlined into the @tonic-ui/react bundle; list the primary packages
   // for version visibility in the manifest.
   '@emotion/react',
@@ -47,7 +47,7 @@ if (versions.react !== versions['react-dom']) {
 const bundleDirs = {
   react: `assets/npm/react@${versions.react}`,
   'react-dom': `assets/npm/react-dom@${versions['react-dom']}`,
-  'tonic-ui-react': `assets/npm/@tonic-ui/react@${versions['@tonic-ui/react']}`,
+  '@tonic-ui/react': `assets/npm/@tonic-ui/react@${versions['@tonic-ui/react']}`,
   app: 'assets/app',
   shell: 'assets/shell',
 };
@@ -62,12 +62,12 @@ for (const family of Object.keys(specifiersMap)) {
 // Bare specifiers a runtime bundle may import; anything else has no import-map
 // target and would fail at runtime.
 const allowedImports = new Set([
-  ...Object.values(localEntries).flatMap(entries => Object.values(entries).map(entry => entry.specifier)),
+  ...Object.values(localEntries).map(entry => entry.specifier),
   ...runtimeSpecifiers,
 ]);
 const apps = {};
 
-for (const bundle of ['react', 'react-dom', 'tonic-ui-react', 'app', ...(inspector ? ['shell'] : [])]) {
+for (const bundle of ['react', 'react-dom', '@tonic-ui/react', 'app', ...(inspector ? ['shell'] : [])]) {
   const result = await build({
     configFile: resolve(root, 'vite.config.mjs'),
     // Vite's `mode` option selects the configuration; the value names the bundle.
@@ -81,7 +81,7 @@ for (const bundle of ['react', 'react-dom', 'tonic-ui-react', 'app', ...(inspect
     // remaining import through the import map.
     for (const chunk of chunks) {
       for (const id of [...chunk.imports, ...chunk.dynamicImports]) {
-        if (bundle === 'tonic-ui-react' && isTonicUI(id)) {
+        if (bundle === '@tonic-ui/react' && isTonicUI(id)) {
           throw new Error(`Local @tonic-ui/react build still imports ${id}`);
         }
         if (!files.has(id) && !allowedImports.has(id)) {
@@ -141,9 +141,9 @@ for (const bundle of ['react', 'react-dom', 'tonic-ui-react', 'app', ...(inspect
       },
       probes: [...specifiersMap['react-dom']],
     };
-  } else if (bundle === 'tonic-ui-react') {
+  } else if (bundle === '@tonic-ui/react') {
     groups['@tonic-ui/react'].local = {
-      imports: { '@tonic-ui/react': descriptor('tonic-ui-react').entry },
+      imports: { '@tonic-ui/react': descriptor('@tonic-ui/react').entry },
       probes: [...specifiersMap['@tonic-ui/react']],
     };
   }

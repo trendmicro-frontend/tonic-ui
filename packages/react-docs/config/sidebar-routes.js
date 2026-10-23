@@ -22,7 +22,7 @@ import { MutedText } from '../experiments/muted-text';
 
 export const routes = [
   {
-    title: 'Getting Started',
+    title: 'Getting started',
     icon: (props) => (
       <RocketIcon size="4x" {...props} />
     ),

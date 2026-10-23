@@ -16,9 +16,9 @@ export {
 export const localEntries = {
   // Serves `react`, `react-dom/client`, and `react/jsx-runtime` (-dev) from
   // one file. React is inlined exactly once.
-  react: { react: { specifier: 'react', file: 'entries/react.js' } },
+  react: { specifier: 'react', file: 'entries/react.js' },
   // Serves `react-dom` only; `react` stays external.
-  'react-dom': { 'react-dom': { specifier: 'react-dom', file: 'entries/react-dom.js' } },
+  'react-dom': { specifier: 'react-dom', file: 'entries/react-dom.js' },
   // The @tonic-ui/react package closure, minus the React family, is one file.
-  'tonic-ui-react': { 'tonic-ui-react': { specifier: '@tonic-ui/react', file: 'entries/@tonic-ui/react.js' } },
+  '@tonic-ui/react': { specifier: '@tonic-ui/react', file: 'entries/@tonic-ui/react.js' },
 };

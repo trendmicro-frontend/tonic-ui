@@ -134,7 +134,7 @@ the `data-manifest` attribute). The example build script generates it:
       "cdn": { "imports": { "react-dom": "https://esm.sh/react-dom@19.2.7?target=es2022&external=react", "react-dom/client": "https://esm.sh/react-dom@19.2.7/client?target=es2022&external=react" }, "probes": ["react-dom", "react-dom/client"] }
     },
     "@tonic-ui/react": {
-      "local": { "imports": { "@tonic-ui/react": "./assets/npm/@tonic-ui/react@3.0.0/tonic-ui-react-*.js" }, "probes": ["@tonic-ui/react"] },
+      "local": { "imports": { "@tonic-ui/react": "./assets/npm/@tonic-ui/react@3.0.0/index-*.js" }, "probes": ["@tonic-ui/react"] },
       "cdn": { "imports": { "@tonic-ui/react": "https://esm.sh/@tonic-ui/react@3.0.0?target=es2022&standalone&external=react,react-dom" }, "probes": ["@tonic-ui/react"] }
     }
   },
