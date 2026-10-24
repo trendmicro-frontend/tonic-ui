@@ -55,6 +55,7 @@ const mapPlacementToTransformOrigin = placement => ({
  */
 const PopoverContent = forwardRef((inProps, ref) => {
   const {
+    closeOnBlur, // deprecated
     PopperComponent, // deprecated
     PopperProps, // deprecated
     PopoverArrowComponent, // deprecated
@@ -73,6 +74,13 @@ const PopoverContent = forwardRef((inProps, ref) => {
 
   { // deprecation warning
     const prefix = `${PopoverContent.displayName}:`;
+    useOnceWhen(() => {
+      warnDeprecatedProps('closeOnBlur', {
+        prefix,
+        alternative: 'closeOnInteractOutside',
+        willRemove: true,
+      });
+    }, closeOnBlur !== undefined);
     useOnceWhen(() => {
       warnDeprecatedProps('TransitionComponent', {
         prefix,

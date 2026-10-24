@@ -256,7 +256,7 @@ The `Popper` render prop now receives `computedPlacement` in addition to `placem
 
 ### `Menu` and `Popover` outside clicks
 
-Replace `closeOnBlur` with `closeOnInteractOutside` on `Menu` and `Popover`. The old prop is removed; the new prop defaults to `true`.
+Replace `closeOnBlur` with `closeOnInteractOutside` on `Menu` and `Popover`. The new prop defaults to `true`. Passing `closeOnBlur` to `Menu`, `MenuContent`, `Popover`, or `PopoverContent` emits a development-only deprecation warning once per component instance. The old prop is ignored and is not forwarded to the DOM; set `closeOnInteractOutside` on the parent `Menu` or `Popover` instead.
 
 ```diff
 - <Menu closeOnBlur={false}>

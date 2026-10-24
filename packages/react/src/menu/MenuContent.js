@@ -25,6 +25,7 @@ import useMenu from './useMenu';
  */
 const MenuContent = forwardRef((inProps, ref) => {
   const {
+    closeOnBlur, // deprecated
     PopperComponent, // deprecated
     PopperProps, // deprecated
     TransitionComponent, // deprecated
@@ -39,6 +40,13 @@ const MenuContent = forwardRef((inProps, ref) => {
 
   { // deprecation warning
     const prefix = `${MenuContent.displayName}:`;
+    useOnceWhen(() => {
+      warnDeprecatedProps('closeOnBlur', {
+        prefix,
+        alternative: 'closeOnInteractOutside',
+        willRemove: true,
+      });
+    }, closeOnBlur !== undefined);
     useOnceWhen(() => {
       warnDeprecatedProps('TransitionComponent', {
         prefix,
@@ -100,9 +108,13 @@ const MenuContent = forwardRef((inProps, ref) => {
     // Submenu contents are mounted and unmounted dynamically, so the ref set is
     // read at click time to keep portalled submenu content interactions internal.
     const submenuContentSet = submenuContentRefs?.current;
-    if (submenuContentSet) {
+    if (submenuContentSet?.size) {
+      // Portalled submenu clicks can be retargeted to a shadow host.
+      // The composed path identifies the submenu content as an internal boundary.
+      const eventPath = event.composedPath?.();
       for (const submenuContentRef of submenuContentSet) {
-        if (submenuContentRef?.current?.contains?.(event.target)) {
+        const submenuContent = submenuContentRef?.current;
+        if (submenuContent && (submenuContent.contains(event.target) || eventPath?.includes(submenuContent))) {
           return;
         }
       }

@@ -1,5 +1,5 @@
 import { useId, useOnceWhen, usePrevious } from '@tonic-ui/react-hooks';
-import { runIfFn } from '@tonic-ui/utils';
+import { runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDefaultProps } from '../default-props';
 import config from '../shared/config';
@@ -37,6 +37,7 @@ const defaultPlacement = 'bottom';
  */
 const Popover = (inProps) => {
   const {
+    closeOnBlur, // deprecated
     arrow = true,
     children,
     closeOnEsc = true,
@@ -59,6 +60,17 @@ const Popover = (inProps) => {
     trigger = 'click',
   } = useDefaultProps({ props: inProps, name: 'Popover' });
   const shallowMemo = useShallowMemo();
+
+  { // deprecation warning
+    const prefix = `${Popover.displayName}:`;
+    useOnceWhen(() => {
+      warnDeprecatedProps('closeOnBlur', {
+        prefix,
+        alternative: 'closeOnInteractOutside',
+        willRemove: true,
+      });
+    }, closeOnBlur !== undefined);
+  }
 
   { // validation warnings
     const prefix = `${Popover.displayName}:`;

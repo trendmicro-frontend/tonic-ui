@@ -1,5 +1,5 @@
-import { useId, usePrevious } from '@tonic-ui/react-hooks';
-import { getAllFocusable, runIfFn } from '@tonic-ui/utils';
+import { useId, useOnceWhen, usePrevious } from '@tonic-ui/react-hooks';
+import { getAllFocusable, runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
 import { ensureString } from 'ensure-type';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '../box';
@@ -44,6 +44,7 @@ const mapPlacementToDirection = (placement) => {
  */
 const Menu = forwardRef((inProps, ref) => {
   const {
+    closeOnBlur, // deprecated
     anchorEl,
     autoSelect = false,
     children,
@@ -63,6 +64,18 @@ const Menu = forwardRef((inProps, ref) => {
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Menu' });
   const shallowMemo = useShallowMemo();
+
+  { // deprecation warning
+    const prefix = `${Menu.displayName}:`;
+    useOnceWhen(() => {
+      warnDeprecatedProps('closeOnBlur', {
+        prefix,
+        alternative: 'closeOnInteractOutside',
+        willRemove: true,
+      });
+    }, closeOnBlur !== undefined);
+  }
+
   const menuContentRef = useRef(null);
   const menuToggleRef = useRef(null);
   // The `submenuContentRefs` is used to store refs of submenu contents for detecting clicks outside the menu and its submenus
