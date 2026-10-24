@@ -7,7 +7,7 @@ function UseMenuExample() {
     // Properties
     const isOpen = menu.isOpen;
     const autoSelect = menu.autoSelect;
-    const closeOnBlur = menu.closeOnBlur;
+    const closeOnInteractOutside = menu.closeOnInteractOutside;
     const closeOnSelect = menu.closeOnSelect;
     const direction = menu.direction;
     const placement = menu.placement;
@@ -23,6 +23,11 @@ function UseMenuExample() {
     menu.focusOnLastItem();
     menu.focusOnNextItem();
     menu.focusOnPreviousItem();
+
+    // Callbacks
+    if (menu.onInteractOutside) {
+      menu.onInteractOutside(new Event('click'));
+    }
   }
 
   return null;

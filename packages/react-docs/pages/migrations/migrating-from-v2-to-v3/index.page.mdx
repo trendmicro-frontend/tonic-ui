@@ -254,6 +254,23 @@ The `Popper` render prop now receives `computedPlacement` in addition to `placem
 
 ## Component changes
 
+### `Menu` and `Popover` outside clicks
+
+Replace `closeOnBlur` with `closeOnInteractOutside` on `Menu` and `Popover`. The new prop defaults to `true`. Passing `closeOnBlur` to `Menu`, `MenuContent`, `Popover`, or `PopoverContent` emits a development-only deprecation warning once per component instance. The old prop is ignored and is not forwarded to the DOM; set `closeOnInteractOutside` on the parent `Menu` or `Popover` instead.
+
+```diff
+- <Menu closeOnBlur={false}>
++ <Menu closeOnInteractOutside={false}>
+
+- <Popover closeOnBlur={false}>
++ <Popover closeOnInteractOutside={false}>
+```
+
+Dismissal now uses outside `click` events, as in `Drawer` and `Modal`, rather than blur events. Clicks outside close the overlay even when focus does not move; moving focus without clicking no longer closes it. Trigger and content clicks remain internal, including portalled submenu content for `Menu`. Hover-triggered popovers retain their hover and focus behavior.
+
+Both components also accept `onInteractOutside(event)`, called for outside clicks while open even when `closeOnInteractOutside` is `false`. Call `event.preventDefault()` to prevent automatic dismissal for that click.
+
+
 ### `AutocompleteList`
 
 `AutocompleteList` now follows the library-wide slots convention:

@@ -24,6 +24,12 @@ useClickOutside(refs, handler, [options]);
 | options.events? | string[] | `['mousedown', 'touchstart']` | A list of event types to listen for. If `events` is empty, the hook will not listen to any events. |
 | options.shouldAllRefsOutside? | `boolean` | true | Whether to trigger the handler when all refs are clicked outside. Otherwise, trigger the handler when some (but not all) refs are clicked outside. |
 
+## Shadow DOM and iframe support
+
+The hook checks both DOM containment and the event's composed path. Events whose composed path contains a referenced element count as inside. This prevents internal clicks in open shadow roots from being misclassified when `event.target` is retargeted to the shadow host.
+
+Listeners attach to each referenced element's owner document. Cleanup removes them from those same documents, even after React clears the refs on unmount. No additional options are needed for elements rendered in an iframe.
+
 ## Demos
 
 {render('./useClickOutside')}

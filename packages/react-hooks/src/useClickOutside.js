@@ -23,18 +23,21 @@ const useClickOutside = (refs, handler, options = {}) => {
 
   useEffect(() => {
     const handleCheckIfOutside = (event) => {
+      // Document listeners see the shadow host as event.target for Shadow DOM clicks.
+      // The composed path still includes elements inside an open shadow root, so
+      // checking that path prevents internal clicks from being treated as outside.
+      const eventPath = event.composedPath?.();
       let allRefsOutside = true;
 
       for (let i = 0; i < allRefs.length; i++) {
         const ref = allRefs[i];
         const el = ref?.current;
-        const doc = getOwnerDocument(el);
 
-        if (!el || !doc) {
+        if (!el) {
           continue;
         }
 
-        const isOutside = !el.contains(event.target);
+        const isOutside = !el.contains(event.target) && !eventPath?.includes(el);
         if (!isOutside) {
           allRefsOutside = false;
           break; // Stop early if one ref is not outside
@@ -50,9 +53,10 @@ const useClickOutside = (refs, handler, options = {}) => {
     const filteredEvents = (Array.isArray(events) ? events : [])
       .filter(x => (typeof x === 'string'));
 
+    // Keep the subscribed documents even after React clears the element refs.
+    const documents = allRefs.map(ref => getOwnerDocument(ref?.current));
     // Attach event listeners to the document of each ref
-    allRefs.forEach(ref => {
-      const doc = getOwnerDocument(ref?.current);
+    documents.forEach(doc => {
       if (!doc) {
         return;
       }
@@ -62,11 +66,7 @@ const useClickOutside = (refs, handler, options = {}) => {
     });
 
     return () => {
-      allRefs.forEach(ref => {
-        const doc = getOwnerDocument(ref?.current);
-        if (!doc) {
-          return;
-        }
+      documents.forEach(doc => {
         filteredEvents.forEach(eventName => {
           doc.removeEventListener?.(eventName, handleCheckIfOutside);
         });

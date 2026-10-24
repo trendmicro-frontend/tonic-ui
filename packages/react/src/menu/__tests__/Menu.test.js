@@ -261,4 +261,164 @@ describe('Menu', () => {
       });
     });
   });
+
+  describe('Outside interaction', () => {
+    const OutsideInteractionTestComponent = ({ onInteractOutside, ...props }) => (
+      <>
+        <Menu onInteractOutside={onInteractOutside} {...props}>
+          <MenuButton data-testid="button">Open</MenuButton>
+          <MenuList data-testid="menu-list">
+            <MenuItem data-testid="menu-item">Menu item 1</MenuItem>
+          </MenuList>
+        </Menu>
+        <div data-testid="outside">Outside</div>
+      </>
+    );
+
+    it('should close on outside click even when focus does not move', async () => {
+      const user = userEvent.setup();
+      const onInteractOutside = jest.fn();
+
+      render(<OutsideInteractionTestComponent onInteractOutside={onInteractOutside} />);
+
+      await user.click(screen.getByTestId('button'));
+      expect(await screen.findByTestId('menu-list')).toBeInTheDocument();
+
+      const menuList = screen.getByTestId('menu-list');
+      await waitFor(() => {
+        expect(menuList).toHaveFocus();
+      });
+
+      // `mousedown` is canceled on the outside element, so no focus change (and
+      // therefore no blur) happens before the click.
+      const outside = screen.getByTestId('outside');
+      outside.addEventListener('mousedown', (event) => event.preventDefault());
+      await user.click(outside);
+
+      await waitFor(() => {
+        expect(screen.queryByTestId('menu-list')).not.toBeInTheDocument();
+      });
+      expect(onInteractOutside).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not close on outside click when closeOnInteractOutside is false, but should still call onInteractOutside', async () => {
+      const user = userEvent.setup();
+      const onInteractOutside = jest.fn();
+
+      render(
+        <OutsideInteractionTestComponent
+          closeOnInteractOutside={false}
+          onInteractOutside={onInteractOutside}
+        />
+      );
+
+      await user.click(screen.getByTestId('button'));
+      expect(await screen.findByTestId('menu-list')).toBeInTheDocument();
+
+      await user.click(screen.getByTestId('outside'));
+
+      expect(onInteractOutside).toHaveBeenCalledTimes(1);
+      expect(screen.getByTestId('menu-list')).toBeInTheDocument();
+    });
+
+    it('should not close on outside click when onInteractOutside calls event.preventDefault()', async () => {
+      const user = userEvent.setup();
+      const onInteractOutside = jest.fn((event) => {
+        event.preventDefault();
+      });
+
+      render(<OutsideInteractionTestComponent onInteractOutside={onInteractOutside} />);
+
+      await user.click(screen.getByTestId('button'));
+      expect(await screen.findByTestId('menu-list')).toBeInTheDocument();
+
+      await user.click(screen.getByTestId('outside'));
+
+      expect(onInteractOutside).toHaveBeenCalledTimes(1);
+      expect(screen.getByTestId('menu-list')).toBeInTheDocument();
+    });
+
+    it('should not call onInteractOutside for clicks inside the menu or on the toggle', async () => {
+      const user = userEvent.setup();
+      const onInteractOutside = jest.fn();
+
+      render(
+        <Menu closeOnSelect={false} onInteractOutside={onInteractOutside}>
+          <MenuButton data-testid="button">Open</MenuButton>
+          <MenuList data-testid="menu-list">
+            <MenuItem data-testid="menu-item">Menu item 1</MenuItem>
+          </MenuList>
+        </Menu>
+      );
+
+      const button = screen.getByTestId('button');
+      await user.click(button);
+      expect(await screen.findByTestId('menu-list')).toBeInTheDocument();
+
+      // Click a menu item
+      await user.click(screen.getByTestId('menu-item'));
+      expect(onInteractOutside).not.toHaveBeenCalled();
+      expect(screen.getByTestId('menu-list')).toBeInTheDocument();
+
+      // Click the menu content itself
+      await user.click(screen.getByTestId('menu-list'));
+      expect(onInteractOutside).not.toHaveBeenCalled();
+
+      // Click the toggle while the menu is open
+      await user.click(button);
+      expect(onInteractOutside).not.toHaveBeenCalled();
+      await waitFor(() => {
+        expect(screen.queryByTestId('menu-list')).not.toBeInTheDocument();
+      });
+    });
+
+    it('should not call onInteractOutside while the menu is closed', async () => {
+      const user = userEvent.setup();
+      const onInteractOutside = jest.fn();
+
+      render(<OutsideInteractionTestComponent onInteractOutside={onInteractOutside} />);
+
+      // Clicking outside while the menu has never been opened must not notify
+      await user.click(screen.getByTestId('outside'));
+      expect(onInteractOutside).not.toHaveBeenCalled();
+
+      // Open the menu and close it with the Escape key
+      await user.click(screen.getByTestId('button'));
+      expect(await screen.findByTestId('menu-list')).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByTestId('menu-list')).toHaveFocus();
+      });
+      await user.keyboard('[Escape]');
+      await waitFor(() => {
+        expect(screen.queryByTestId('menu-list')).not.toBeInTheDocument();
+      });
+
+      // Clicking outside after the menu has closed must not notify
+      await user.click(screen.getByTestId('outside'));
+      expect(onInteractOutside).not.toHaveBeenCalled();
+    });
+
+    it('should close a portalled menu on outside click', async () => {
+      const user = userEvent.setup();
+      const onInteractOutside = jest.fn();
+
+      render(
+        <OutsideInteractionTestComponent
+          portalled
+          onInteractOutside={onInteractOutside}
+        />
+      );
+
+      await user.click(screen.getByTestId('button'));
+      expect(await screen.findByTestId('menu-list')).toBeInTheDocument();
+      expect(screen.getByTestId('menu-list').closest('.tonic-ui-portal')).toBeInTheDocument();
+
+      await user.click(screen.getByTestId('outside'));
+
+      await waitFor(() => {
+        expect(screen.queryByTestId('menu-list')).not.toBeInTheDocument();
+      });
+      expect(onInteractOutside).toHaveBeenCalledTimes(1);
+    });
+  });
 });

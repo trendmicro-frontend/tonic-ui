@@ -1,5 +1,5 @@
 import { useId, useOnceWhen, usePrevious } from '@tonic-ui/react-hooks';
-import { runIfFn } from '@tonic-ui/utils';
+import { runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDefaultProps } from '../default-props';
 import config from '../shared/config';
@@ -12,8 +12,8 @@ const defaultPlacement = 'bottom';
  * @typedef {Object} PopoverProps
  * @property {boolean} [arrow=true] - Adds an arrow to the popover.
  * @property {React.ReactNode | ((context: { isOpen: boolean; onClose: (callback?: () => void) => void; onOpen: (callback?: () => void) => void; onToggle: () => void; placement: string }) => React.ReactNode)} [children] -
- * @property {boolean} [closeOnBlur=true] - The popover will close when the user clicks outside of the popover.
  * @property {boolean} [closeOnEsc=true] - The popover will close when you press the `Esc` key.
+ * @property {boolean} [closeOnInteractOutside=true] - Closes the popover when interacting outside the popover trigger and content.
  * @property {boolean} [defaultIsOpen=false] - Whether the popover will be open by default.
  * @property {boolean} [disabled] - The popover will not display.
  * @property {number} [enterDelay=100] - The number of milliseconds to wait before showing the popover if `trigger` is hover.
@@ -24,6 +24,7 @@ const defaultPlacement = 'bottom';
  * @property {boolean} [nextToCursor] - The popover will be positioned next to the cursor.
  * @property {[number, number]} [offset=[0, 12]] - The skidding and distance of the popover.
  * @property {() => void} [onClose] - Callback when the popover is closed.
+ * @property {(event: Event) => void} [onInteractOutside] - Callback fired when interacting outside the popover trigger and content. Call `event.preventDefault()` to prevent the popover from closing.
  * @property {() => void} [onOpen] - Callback when the popover is opened.
  * @property {'top' | 'bottom' | 'right' | 'left' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'right-start' | 'right-end' | 'left-start' | 'left-end'} [placement='bottom'] - The placement of the popover.
  * @property {boolean} [portalled=false] - If `true`, renders the popover in a portal.
@@ -36,10 +37,11 @@ const defaultPlacement = 'bottom';
  */
 const Popover = (inProps) => {
   const {
+    closeOnBlur, // deprecated
     arrow = true,
     children,
-    closeOnBlur = true,
     closeOnEsc = true,
+    closeOnInteractOutside = true,
     defaultIsOpen = false,
     disabled,
     enterDelay = 100,
@@ -50,6 +52,7 @@ const Popover = (inProps) => {
     nextToCursor,
     offset,
     onClose: onCloseProp,
+    onInteractOutside,
     onOpen: onOpenProp,
     placement = defaultPlacement,
     portalled,
@@ -57,6 +60,17 @@ const Popover = (inProps) => {
     trigger = 'click',
   } = useDefaultProps({ props: inProps, name: 'Popover' });
   const shallowMemo = useShallowMemo();
+
+  { // deprecation warning
+    const prefix = `${Popover.displayName}:`;
+    useOnceWhen(() => {
+      warnDeprecatedProps('closeOnBlur', {
+        prefix,
+        alternative: 'closeOnInteractOutside',
+        willRemove: true,
+      });
+    }, closeOnBlur !== undefined);
+  }
 
   { // validation warnings
     const prefix = `${Popover.displayName}:`;
@@ -194,8 +208,8 @@ const Popover = (inProps) => {
   const popoverId = `${config.name}:Popover-${defaultId}`;
   const popoverTriggerId = `${config.name}:PopoverTrigger-${defaultId}`;
   const context = shallowMemo({
-    closeOnBlur,
     closeOnEsc,
+    closeOnInteractOutside,
     disabled,
     followCursor,
     arrow: (followCursor || nextToCursor) ? false : arrow,
@@ -208,6 +222,7 @@ const Popover = (inProps) => {
     nextToCursor,
     offset,
     onClose,
+    onInteractOutside,
     onOpen,
     onToggle,
     placement: (followCursor || nextToCursor) ? 'bottom-start' : placement,

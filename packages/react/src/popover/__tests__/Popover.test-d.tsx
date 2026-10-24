@@ -173,14 +173,20 @@ const popoverInitialFocusRef = createRef<HTMLElement>();
   <PopoverContent><PopoverBody>Content</PopoverBody></PopoverContent>
 </Popover>;
 
-// With closeOnBlur prop
-<Popover closeOnBlur>
-  <PopoverTrigger><Button>closeOnBlur</Button></PopoverTrigger>
+// With closeOnInteractOutside prop
+<Popover closeOnInteractOutside>
+  <PopoverTrigger><Button>closeOnInteractOutside</Button></PopoverTrigger>
   <PopoverContent><PopoverBody>Content</PopoverBody></PopoverContent>
 </Popover>;
 
-<Popover closeOnBlur={false}>
-  <PopoverTrigger><Button>closeOnBlur false</Button></PopoverTrigger>
+<Popover closeOnInteractOutside={false}>
+  <PopoverTrigger><Button>closeOnInteractOutside false</Button></PopoverTrigger>
+  <PopoverContent><PopoverBody>Content</PopoverBody></PopoverContent>
+</Popover>;
+
+// With onInteractOutside prop
+<Popover onInteractOutside={(event) => event.preventDefault()}>
+  <PopoverTrigger><Button>onInteractOutside</Button></PopoverTrigger>
   <PopoverContent><PopoverBody>Content</PopoverBody></PopoverContent>
 </Popover>;
 

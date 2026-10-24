@@ -227,7 +227,7 @@ const NavigationBar = (props) => {
           isOpen={isNotificationCenterOpen}
           onClose={() => toggleIsNotificationCenterOpen(false)}
           onOpen={() => toggleIsNotificationCenterOpen(true)}
-          closeOnBlur={false}
+          closeOnInteractOutside={false}
           placement="bottom-end"
           offset={[0, 1]}
         >

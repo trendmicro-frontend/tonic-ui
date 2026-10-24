@@ -1,6 +1,7 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { useClickOutside } from '@tonic-ui/react-hooks/src';
 
 const GROUP_ONE = 1;
@@ -48,11 +49,23 @@ const TestComponent = ({ activeGroups = [], events, onClickOutside }) => {
   );
 };
 
-describe('useClickOutside', () => {
-  it('should be defined', () => {
-    expect(useClickOutside).toBeDefined();
-  });
+const Boundary = ({ onClickOutside, iframeDocument, events }) => {
+  const ref = useRef(null);
+  const iframeRef = useRef(null);
+  useClickOutside(iframeDocument ? [ref, iframeRef] : ref, onClickOutside, { events });
 
+  return (
+    <>
+      <div ref={ref}><button type="button">Inside</button></div>
+      {iframeDocument ? createPortal(
+        <div ref={iframeRef}><button type="button">Frame inside</button></div>,
+        iframeDocument.body,
+      ) : null}
+    </>
+  );
+};
+
+describe('useClickOutside', () => {
   it('should not call the handler when no groups are active', async () => {
     const user = userEvent.setup();
     const onClickOutside = jest.fn();
@@ -175,5 +188,60 @@ describe('useClickOutside', () => {
 
     await user.click(outsideDiv);
     expect(onClickOutside).toHaveBeenCalledTimes(8);
+  });
+
+  it.each(['mousedown', 'touchstart', 'click'])('keeps composed %s events inside a shadow boundary without treating the entire host as inside', (eventType) => {
+    const host = document.createElement('div');
+    document.body.appendChild(host);
+    const shadowRoot = host.attachShadow({ mode: 'open' });
+    const onClickOutside = jest.fn();
+    const { getByRole, unmount } = render(
+      <Boundary onClickOutside={onClickOutside} events={[eventType]} />,
+      { container: shadowRoot, baseElement: shadowRoot },
+    );
+    const outside = document.createElement('button');
+    shadowRoot.appendChild(outside);
+
+    try {
+      fireEvent(getByRole('button', { name: 'Inside' }), new Event(eventType, { bubbles: true, composed: true }));
+      expect(onClickOutside).not.toHaveBeenCalled();
+
+      fireEvent(outside, new Event(eventType, { bubbles: true, composed: true }));
+      expect(onClickOutside).toHaveBeenCalledTimes(1);
+
+      fireEvent(host, new Event(eventType, { bubbles: true, composed: true }));
+      expect(onClickOutside).toHaveBeenCalledTimes(2);
+    } finally {
+      unmount();
+      host.remove();
+    }
+  });
+
+  it('observes both owner documents and removes their listeners after React clears the refs', () => {
+    const iframe = document.createElement('iframe');
+    document.body.appendChild(iframe);
+    const iframeDocument = iframe.contentDocument;
+    const onClickOutside = jest.fn();
+    const { getByRole, unmount } = render(
+      <Boundary iframeDocument={iframeDocument} onClickOutside={onClickOutside} events={['click']} />,
+    );
+
+    try {
+      fireEvent.click(getByRole('button', { name: 'Inside' }));
+      fireEvent.click(iframeDocument.querySelector('button'));
+      expect(onClickOutside).not.toHaveBeenCalled();
+
+      fireEvent.click(document.body);
+      fireEvent.click(iframeDocument.body);
+      expect(onClickOutside).toHaveBeenCalledTimes(2);
+
+      unmount();
+      fireEvent.click(document.body);
+      fireEvent.click(iframeDocument.body);
+      expect(onClickOutside).toHaveBeenCalledTimes(2);
+    } finally {
+      unmount();
+      iframe.remove();
+    }
   });
 });

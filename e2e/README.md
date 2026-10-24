@@ -1,6 +1,6 @@
 # e2e/
 
-Local Playwright (Chromium) suite for `examples/esm-cdn-with-fallback`. Docs integrations have a separate [react-docs suite](../packages/react-docs/e2e/README.md).
+Local Playwright (Chromium) suite for `examples/esm-cdn-with-fallback`. Docs integrations have a separate [react-docs suite](../packages/react-docs/e2e/README.md). React component regressions use the source-based suite described below.
 
 ## How to run
 
@@ -32,6 +32,19 @@ yarn test:e2e --grep "falls back"
 ```
 
 CDN checks use real `esm.sh` / `raw.esm.sh` URLs and need network access. Local and outage cases avoid or block CDN requests in the browser; builds can still fetch CDN metadata. The Tonic UI group's CDN source prefers the published standalone artifact, served raw from the published npm tarball; when the installed package lacks it, the build probes the published URL and selects the esm.sh build instead, so CDN-first checks probe the generated manifest's candidate URL before checking the final mounted document.
+
+## React component regressions
+
+Run from the repository root after building the workspace dependencies:
+
+```bash
+yarn test:e2e:react
+E2E_NODE_ENV=production yarn test:e2e:react
+```
+
+This suite bundles the current `packages/react/src` with the existing esbuild dependency and starts an in-memory fixture server automatically. It uses the shared Playwright configuration factory and requires no Next.js build or network access.
+
+`packages/react/e2e/overlays.spec.mjs` covers Menu and Popover dismissal, focus, cancellation, controlled state, portals, dynamic nested submenus, iframe ownership and unmount cleanup, Shadow DOM boundaries, keyboard behavior, hover/disabled behavior, and `closeOnBlur` warnings. The production run also checks that deprecation warnings are absent. Interaction checks wait for the component's initial focus before sending subsequent keyboard input.
 
 ## Files
 
