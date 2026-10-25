@@ -3,7 +3,7 @@
 // onInteractOutside contract. Autocomplete and DatePicker listen to the default
 // mousedown/touchstart pair; Dropdown listens to click.
 import { expect, test } from '@playwright/test';
-import { events, open, visit } from '../helpers.mjs';
+import { describeDocumentListeners, documentListeners, events, installListenerProbe, open, visit } from '../helpers.mjs';
 
 // A tap also emits a compatibility mousedown. Check touchstart before that phase.
 const touchStart = async (page, target) => {
@@ -54,13 +54,23 @@ test.describe('Autocomplete', { tag: '@autocomplete' }, () => {
   });
 
   test('removes document listeners on unmount and reattaches on remount', { tag: ['@interact-outside', '@lifecycle'] }, async ({ page }) => {
+    await installListenerProbe(page);
     const scope = await visit(page, 'autocomplete');
     const content = scope.getByTestId('content');
 
     await scope.getByTestId('trigger').click();
     await expect(content).toBeVisible();
+    await expect.poll(async () => describeDocumentListeners(await documentListeners(page))).toEqual({
+      captures: [false],
+      isTop: [true],
+      types: ['mousedown', 'touchstart'],
+    });
+
     await scope.getByTestId('unmount').click();
     await expect(scope.getByTestId('trigger')).toHaveCount(0);
+
+    // Callback logs cannot prove cleanup: the registrations themselves must be gone.
+    await expect.poll(async () => (await documentListeners(page)).active).toEqual([]);
 
     const before = await events(scope);
     await scope.getByTestId('outside').click();
@@ -68,8 +78,15 @@ test.describe('Autocomplete', { tag: '@autocomplete' }, () => {
     expect(await events(scope)).toEqual(before);
 
     await scope.getByTestId('remount').click();
+    await expect(scope.getByTestId('trigger')).toHaveCount(1);
     await scope.getByTestId('trigger').click();
     await expect(content).toBeVisible();
+    await expect.poll(async () => describeDocumentListeners(await documentListeners(page))).toEqual({
+      captures: [false],
+      isTop: [true],
+      types: ['mousedown', 'touchstart'],
+    });
+
     await scope.getByTestId('outside').click();
     await expect(content).toBeHidden();
     expect((await events(scope, 'close')).length).toBe((before.filter(entry => entry.type === 'close')).length + 1);
@@ -121,17 +138,40 @@ test.describe('Autocomplete', { tag: '@autocomplete' }, () => {
   }
 
   test('removes iframe document listeners when unmounted', { tag: ['@interact-outside', '@lifecycle'] }, async ({ page }) => {
+    await installListenerProbe(page);
     const scope = await visit(page, 'autocomplete', { environment: 'iframe' });
     const content = scope.getByTestId('content');
 
     await scope.getByTestId('trigger').click();
     await expect(content).toBeVisible();
+    // The listeners belong to the iframe document, not the parent document.
+    await expect.poll(async () => describeDocumentListeners(await documentListeners(page))).toEqual({
+      captures: [false],
+      isTop: [false],
+      types: ['mousedown', 'touchstart'],
+    });
+
     await scope.getByTestId('unmount').click();
     await expect(scope.getByTestId('trigger')).toHaveCount(0);
+    await expect.poll(async () => (await documentListeners(page)).active).toEqual([]);
 
     const before = await events(scope);
     await scope.getByTestId('outside').click();
     expect(await events(scope)).toEqual(before);
+
+    await scope.getByTestId('remount').click();
+    await expect(scope.getByTestId('trigger')).toHaveCount(1);
+    await scope.getByTestId('trigger').click();
+    await expect(content).toBeVisible();
+    await expect.poll(async () => describeDocumentListeners(await documentListeners(page))).toEqual({
+      captures: [false],
+      isTop: [false],
+      types: ['mousedown', 'touchstart'],
+    });
+
+    await scope.getByTestId('outside').click();
+    await expect(content).toBeHidden();
+    expect((await events(scope, 'close')).length).toBe(before.filter(entry => entry.type === 'close').length + 1);
   });
 });
 
@@ -366,6 +406,7 @@ test.describe('Dropdown', { tag: '@dropdown' }, () => {
     await scope.getByTestId('outside').click();
     await expect(content).toBeVisible();
     expect(await events(scope, 'outside')).toHaveLength(1);
-    expect(await events(scope, 'close')).toEqual([{ type: 'close' }]);
+    await expect.poll(() => events(scope, 'close')).toEqual([{ type: 'close' }]);
+    await expect(content).toBeVisible();
   });
 });

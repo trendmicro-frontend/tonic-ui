@@ -202,6 +202,10 @@ By default, clicking outside the menu closes it, even when focus does not move. 
 
 Set `closeOnInteractOutside={false}` to disable automatic outside-click dismissal. Use `onInteractOutside` to handle outside clicks; call `event.preventDefault()` to keep the menu open for a specific click. Moving focus alone does not close the menu.
 
+Outside clicks are observed in the document capture phase, including sibling controls inside `ModalContent` or `DrawerContent` that stop bubbling. To cancel dismissal, call `event.preventDefault()` in `onInteractOutside`; a target or bubbling `onClick` handler runs after this decision.
+
+Automatic closing runs in a later task, after the target and bubbling click handlers. This lets a portalled target finish its action before `onClose` can unmount its subtree. Unmounting the menu cancels a pending close.
+
 ### Customization
 
 {render('./customization')}

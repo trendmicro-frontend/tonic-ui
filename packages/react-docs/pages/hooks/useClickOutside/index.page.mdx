@@ -22,6 +22,7 @@ useClickOutside(refs, handler, [options]);
 | handler | `(event: MouseEvent) => void` | | A function to call when the click happens outside the referenced elements. |
 | options? | object | | Optional configuration options. |
 | options.events? | string[] | `['mousedown', 'touchstart']` | A list of event types to listen for. If `events` is empty, the hook will not listen to any events. |
+| options.capture? | `boolean` | false | Whether to listen in the capture phase. Set to `true` to detect outside clicks even when an inner handler calls `event.stopPropagation()` before the event bubbles to the document. |
 | options.shouldAllRefsOutside? | `boolean` | true | Whether to trigger the handler when all refs are clicked outside. Otherwise, trigger the handler when some (but not all) refs are clicked outside. |
 
 ## Shadow DOM and iframe support
@@ -29,6 +30,18 @@ useClickOutside(refs, handler, [options]);
 The hook checks both DOM containment and the event's composed path. Events whose composed path contains a referenced element count as inside. This prevents internal clicks in open shadow roots from being misclassified when `event.target` is retargeted to the shadow host.
 
 Listeners attach to each referenced element's owner document. Unattached refs do not subscribe to a fallback document. Cleanup removes listeners from those same documents, even after React clears the refs on unmount. No additional options are needed for elements rendered in an iframe.
+
+Subscriptions refresh after every render of the component that calls the hook. If a ref is initially `null`, a later render that attaches its element subscribes to the element's owner document. Mutating a ref without rendering that component does not refresh subscriptions. Refs that never attach never fall back to the parent document, so parent-document clicks are ignored when all attached elements belong to an iframe.
+
+## Capture phase
+
+By default, listeners run in the bubble phase, so an inner handler that calls `event.stopPropagation()` prevents the outside-click handler from running. Pass `capture: true` to listen in the capture phase instead, which observes the event before it reaches the target:
+
+```js
+useClickOutside(refs, handler, { events: ['mousedown'], capture: true });
+```
+
+The same `capture` value is used when removing the listeners.
 
 ## Demos
 

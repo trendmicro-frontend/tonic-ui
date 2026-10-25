@@ -21,7 +21,7 @@ The default runs development and production separately. `E2E_NODE_ENV=developmen
 
 | Components / tags | Actual contract |
 | :-- | :-- |
-| `@menu`, `@popover` | Native outside `click`; trigger/content are internal, and Menu also excludes live portalled submenu content. Automatic dismissal defaults to `true`. `onInteractOutside` runs before closing. Opt-out and `event.preventDefault()` prevent dismissal, not notification. Focus-only movement does not dismiss a click-triggered overlay. |
+| `@menu`, `@popover` | Native outside `click` in the document capture phase, including sibling controls inside Modal/Drawer content that stops bubbling; trigger/content are internal, and Menu also excludes live portalled submenu content. Automatic dismissal defaults to `true`. `onInteractOutside` runs before closing and before target/bubbling click handlers. Opt-out and `event.preventDefault()` in `onInteractOutside` prevent dismissal, not notification. Focus-only movement does not dismiss a click-triggered overlay. |
 | `@modal` | React click on the real modal container/backdrop, not every document click. Automatic outside dismissal defaults to `false`; notification still runs when disabled, and `event.preventDefault()` cancels dismissal. |
 | `@drawer` | Native document `click` outside Drawer content. Automatic outside dismissal defaults to `false`; notification and cancellation use the same public props as Modal, but the boundary and event propagation differ. |
 | `@dropdown` | Inherits Menu boundaries and outside-interaction props; selection and submenu behavior use real Dropdown items. |
@@ -35,7 +35,7 @@ Scenario tags include `@interact-outside`, `@lifecycle`, `@focus`, `@keyboard`, 
 
 - `fixtures/index.jsx`: component registry, event log, unmount/remount controls, theme, Emotion cache, and document/open-shadow-root/iframe hosts.
 - `fixtures/components/*.jsx`: small real-component fixtures. Each receives `{ params, record }`.
-- `tests/helpers.mjs`: navigation, callback-log reading, and the Menu/Popover open-and-initial-focus helper.
+- `tests/helpers.mjs`: navigation, callback-log reading, the Menu/Popover open-and-initial-focus helper, and the document-listener probe (`installListenerProbe`, `documentListeners`).
 - `tests/scenarios/*.spec.mjs`: shared contracts, including outside clicks, environment boundaries, lifecycle, deprecations, and native touch input.
 - `tests/scenarios/interact-outside.spec.mjs`: one direct outside-interaction entry, with separate Menu/Popover and Modal/Drawer `describe` groups. Shared naming does not imply identical event, default, or focus contracts.
 - `tests/components/*.spec.mjs`: contracts specific to one component.
@@ -50,7 +50,11 @@ The original Menu/Popover cases remain in scenario and component files; there is
 2. Add or extend a small fixture using the real component and callbacks. Register a new component in `fixtures/index.jsx` only when needed.
 3. Put cross-component contracts in `tests/scenarios/`; put unique behavior in `tests/components/`. Add native Playwright component/scenario tags.
 4. Use browser clicks, keyboard input, hover, and taps. Wait for initial focus and transition completion before the next interaction. Do not add sleeps, retries, fake callbacks, source-text assertions, or expected-failure markers.
-5. For a boundary change, cover both internal interactions and real outside dismissal. Use open Shadow DOM and the owning iframe document when applicable; prove callback inactivity after unmount.
+5. For a boundary change, cover both internal interactions and real outside dismissal. Use open Shadow DOM and the owning iframe document when applicable; after unmount, prove the component's own document listeners are removed (`installListenerProbe`), not just that callbacks stopped firing.
 6. Run the affected tag in both modes, then the complete repository entry point. An exposed product defect must remain a failing contract until resolved; do not change the assertion to accept it.
 
-The fixture page accepts `?component=<name>&environment=document|shadow|iframe` for interactive inspection. Use the component's actual default unless a scenario explicitly changes a prop. The common page controls survive component unmount, so callback logs can prove listener cleanup.
+The fixture page accepts `?component=<name>&environment=document|shadow|iframe` for interactive inspection. Use the component's actual default unless a scenario explicitly changes a prop. The common page controls survive component unmount, so callback logs show whether an unmounted component still reacts. Callback logs alone cannot prove listener cleanup: the listener lifecycle tests call `installListenerProbe(page)` before `visit`, then assert that the document-level `mousedown`/`touchstart` registrations a component created (including in the owning iframe document) are gone after unmount and registered again after remount.
+
+For Menu/Popover, `&boundary=modal|drawer` wraps the fixture and a sibling outside target in real dialog content. The outside-interaction scenarios verify dismissal and cancellation across those propagation boundaries.
+
+`&nestedAction` mounts a portalled child Popover inside Menu/Popover. Its parent unmounts on close. The scenario verifies that the child action completes before automatic closing, cancellation preserves the action, and a target-triggered unmount cancels pending closing.

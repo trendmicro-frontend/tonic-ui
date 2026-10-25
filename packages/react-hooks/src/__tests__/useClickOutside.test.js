@@ -6,6 +6,8 @@ import { useClickOutside } from '@tonic-ui/react-hooks/src';
 
 const GROUP_ONE = 1;
 const GROUP_TWO = 2;
+const CLICK_EVENTS = ['click'];
+const MOUSEDOWN_EVENTS = ['mousedown'];
 
 const TestComponent = ({ activeGroups = [], events, onClickOutside }) => {
   const ref1 = useRef(null);
@@ -61,6 +63,43 @@ const Boundary = ({ onClickOutside, iframeDocument, events }) => {
         <div ref={iframeRef}><button type="button">Frame inside</button></div>,
         iframeDocument.body,
       ) : null}
+    </>
+  );
+};
+
+const LateBound = ({ attached, capture, events = CLICK_EVENTS, onClickOutside }) => {
+  const ref = useRef(null);
+  useClickOutside(ref, onClickOutside, { capture, events });
+
+  return (
+    <>
+      {attached ? <div ref={ref}><button type="button">Inside</button></div> : null}
+      <button type="button">Outside</button>
+    </>
+  );
+};
+
+const FrameOnly = ({ capture, events = CLICK_EVENTS, iframeDocument, onClickOutside }) => {
+  const nullRef = useRef(null);
+  const iframeRef = useRef(null);
+  useClickOutside([nullRef, iframeRef], onClickOutside, { capture, events });
+
+  return createPortal(
+    <div ref={iframeRef}><button type="button">Frame inside</button></div>,
+    iframeDocument.body,
+  );
+};
+
+const stopPropagation = event => event.stopPropagation();
+
+const StoppedPropagation = ({ capture, events = MOUSEDOWN_EVENTS, onClickOutside }) => {
+  const ref = useRef(null);
+  useClickOutside(ref, onClickOutside, { capture, events });
+
+  return (
+    <>
+      <button type="button" ref={ref} onMouseDown={stopPropagation}>Inside stopped</button>
+      <button type="button" onMouseDown={stopPropagation}>Outside stopped</button>
     </>
   );
 };
@@ -243,5 +282,106 @@ describe('useClickOutside', () => {
       unmount();
       iframe.remove();
     }
+  });
+
+  it('observes elements attached after the initial render without a fallback document', () => {
+    const onClickOutside = jest.fn();
+    const { rerender } = render(
+      <LateBound attached={false} onClickOutside={onClickOutside} />,
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Outside' }));
+    expect(onClickOutside).not.toHaveBeenCalled();
+
+    rerender(<LateBound attached onClickOutside={onClickOutside} />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Inside' }));
+    expect(onClickOutside).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Outside' }));
+    expect(onClickOutside).toHaveBeenCalledTimes(1);
+  });
+
+  it('re-subscribes with the current handler after a re-render', () => {
+    const firstHandler = jest.fn();
+    const secondHandler = jest.fn();
+    const { rerender } = render(
+      <LateBound attached onClickOutside={firstHandler} />,
+    );
+
+    rerender(<LateBound attached onClickOutside={secondHandler} />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Outside' }));
+    expect(firstHandler).not.toHaveBeenCalled();
+    expect(secondHandler).toHaveBeenCalledTimes(1);
+  });
+
+  it('ignores parent document clicks when refs resolve to an iframe document', () => {
+    const iframe = document.createElement('iframe');
+    document.body.appendChild(iframe);
+    const iframeDocument = iframe.contentDocument;
+    const onClickOutside = jest.fn();
+    const { unmount } = render(
+      <FrameOnly iframeDocument={iframeDocument} onClickOutside={onClickOutside} />,
+    );
+
+    try {
+      // A null ref never falls back to the parent document
+      fireEvent.click(document.body);
+      expect(onClickOutside).not.toHaveBeenCalled();
+
+      fireEvent.click(iframeDocument.querySelector('button'));
+      expect(onClickOutside).not.toHaveBeenCalled();
+
+      fireEvent.click(iframeDocument.body);
+      expect(onClickOutside).toHaveBeenCalledTimes(1);
+    } finally {
+      unmount();
+      iframe.remove();
+    }
+  });
+
+  it('removes capture-phase listeners from the captured documents on unmount', () => {
+    const iframe = document.createElement('iframe');
+    document.body.appendChild(iframe);
+    const iframeDocument = iframe.contentDocument;
+    const onClickOutside = jest.fn();
+    const { unmount } = render(
+      <FrameOnly iframeDocument={iframeDocument} onClickOutside={onClickOutside} capture />,
+    );
+
+    try {
+      fireEvent.click(iframeDocument.body);
+      expect(onClickOutside).toHaveBeenCalledTimes(1);
+
+      unmount();
+
+      // A cleanup with a mismatched capture flag would leave the listener attached
+      fireEvent.click(iframeDocument.body);
+      expect(onClickOutside).toHaveBeenCalledTimes(1);
+    } finally {
+      unmount();
+      iframe.remove();
+    }
+  });
+
+  it('listens in the bubble phase by default and in the capture phase when `capture` is true', () => {
+    const onClickOutside = jest.fn();
+    const { rerender } = render(
+      <StoppedPropagation onClickOutside={onClickOutside} />,
+    );
+
+    // The bubble-phase listener never sees the stopped event
+    fireEvent.mouseDown(screen.getByRole('button', { name: 'Outside stopped' }));
+    expect(onClickOutside).not.toHaveBeenCalled();
+
+    rerender(<StoppedPropagation onClickOutside={onClickOutside} capture />);
+
+    // The capture-phase listener observes the event before it is stopped
+    fireEvent.mouseDown(screen.getByRole('button', { name: 'Outside stopped' }));
+    expect(onClickOutside).toHaveBeenCalledTimes(1);
+
+    fireEvent.mouseDown(screen.getByRole('button', { name: 'Inside stopped' }));
+    expect(onClickOutside).toHaveBeenCalledTimes(1);
   });
 });

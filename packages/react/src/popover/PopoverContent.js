@@ -20,6 +20,7 @@ import { useSlot } from '../slot';
 import PopoverArrow from './PopoverArrow';
 import { usePopoverContentStyle } from './styles';
 import usePopover from './usePopover';
+import useDeferredCallback from '../utils/useDeferredCallback';
 
 const mapPlacementToTransformOrigin = placement => ({
   'top': 'bottom center',
@@ -190,6 +191,12 @@ const PopoverContent = forwardRef((inProps, ref) => {
     };
   }
 
+  const deferClosePopover = useDeferredCallback(() => {
+    if (isOpen) {
+      ensureFunction(closePopover)();
+    }
+  });
+
   useClickOutside([popoverTriggerRef, popoverContentRef], (event) => {
     if (!isOpen || trigger !== 'click' || disabled) {
       return;
@@ -199,10 +206,10 @@ const PopoverContent = forwardRef((inProps, ref) => {
 
     const shouldClose = Boolean(closeOnInteractOutside);
     if (shouldClose && !event.defaultPrevented) {
-      // Close the popover when clicking outside the trigger and content
-      ensureFunction(closePopover)();
+      // Let the target click run before closing can unmount its subtree.
+      deferClosePopover();
     }
-  }, { events: ['click'] });
+  }, { events: ['click'], capture: true });
 
   const popoverTriggerElement = popoverTriggerRef.current;
   const [

@@ -219,6 +219,8 @@ The `Popover` component includes several accessibility features to ensure that i
 * The `Popover` can also be closed by hitting the **Esc** key when the `PopoverContent` element has focus, unless the `closeOnEsc` prop is set to `false`.
 
 * For `trigger="click"`, clicking outside the trigger and content closes the `Popover`, unless `closeOnInteractOutside` is `false`. Moving focus alone does not close it. `onInteractOutside` receives the outside click even when automatic dismissal is disabled; call `event.preventDefault()` to prevent closing for that click.
+* Outside clicks for click-triggered popovers are observed in the document capture phase, including sibling controls inside `ModalContent` or `DrawerContent` that stop bubbling. Cancel dismissal in `onInteractOutside`; a target or bubbling `onClick` handler runs after this decision.
+* Automatic closing runs in a later task, after the target and bubbling click handlers. A portalled target can finish its action before `onClose` unmounts its subtree. Unmounting the popover cancels a pending close.
 
 ### ARIA attributes
 

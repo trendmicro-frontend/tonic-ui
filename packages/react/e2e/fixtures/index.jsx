@@ -4,7 +4,7 @@ import { CacheProvider } from '@emotion/react';
 import React, { useCallback, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { createRoot } from 'react-dom/client';
-import { createTheme, TonicProvider } from '../../src';
+import { createTheme, Drawer, DrawerContent, Modal, ModalContent, ModalOverlay, TonicProvider } from '../../src';
 import MenuFixture from './components/Menu';
 import PopoverFixture from './components/Popover';
 import ModalFixture from './components/Modal';
@@ -14,6 +14,7 @@ import PopperFixture from './components/Popper';
 import AutocompleteFixture from './components/Autocomplete';
 import DatePickerFixture from './components/DatePicker';
 import DropdownFixture from './components/Dropdown';
+import NestedOutsideAction from './components/NestedOutsideAction';
 
 const params = new URLSearchParams(window.location.search);
 const component = params.get('component') || 'menu';
@@ -35,7 +36,10 @@ const FixturePage = () => {
   const [entries, setEntries] = useState([]);
   const [mounted, setMounted] = useState(true);
   const record = entry => setEntries(previous => [...previous, entry]);
-  const Fixture = fixtures[component];
+  const Fixture = params.has('nestedAction') ? NestedOutsideAction : fixtures[component];
+  const boundary = params.get('boundary');
+  const fixture = mounted ? <Fixture params={params} record={record} /> : null;
+  const sibling = <button type="button" data-testid="boundary-outside" style={{ marginTop: 200 }}>Sibling inside dialog</button>;
 
   return (
     <main data-testid="fixture" data-component={component} style={{ padding: 32 }}>
@@ -50,7 +54,24 @@ const FixturePage = () => {
           Outside without focus movement
         </div>
       )}
-      {mounted ? <Fixture params={params} record={record} /> : null}
+      {boundary === 'modal' ? (
+        <Modal isOpen>
+          <ModalOverlay />
+          <ModalContent width={600}>
+            {fixture}
+            {sibling}
+          </ModalContent>
+        </Modal>
+      ) : boundary === 'drawer'
+        ? (
+            <Drawer isOpen>
+              <DrawerContent width={600}>
+                {fixture}
+                {sibling}
+              </DrawerContent>
+            </Drawer>
+          )
+        : fixture}
       <div style={{ position: 'fixed', bottom: 16, left: 16, zIndex: 99999 }}>
         <button type="button" data-testid="page-outside">Outside the overlay container</button>
         <button type="button" data-testid="focus-target">Outside focus target</button>

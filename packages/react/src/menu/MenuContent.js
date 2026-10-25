@@ -8,6 +8,7 @@ import { Popper } from '../popper';
 import { Collapse } from '../transitions';
 import { useMenuContentStyle } from './styles';
 import useMenu from './useMenu';
+import useDeferredCallback from '../utils/useDeferredCallback';
 
 /**
  * @typedef {Object} MenuContentProps
@@ -99,6 +100,11 @@ const MenuContent = forwardRef((inProps, ref) => {
     submenuContentRefs,
   } = { ...menuContext };
   const eventHandler = {};
+  const deferCloseMenu = useDeferredCallback(() => {
+    if (isOpen) {
+      ensureFunction(closeMenu)();
+    }
+  });
 
   useClickOutside([menuContentRef, menuToggleRef], (event) => {
     if (!isOpen) {
@@ -124,9 +130,9 @@ const MenuContent = forwardRef((inProps, ref) => {
 
     const shouldClose = Boolean(closeOnInteractOutside);
     if (shouldClose && !event.defaultPrevented) {
-      ensureFunction(closeMenu)();
+      deferCloseMenu();
     }
-  }, { events: ['click'] });
+  }, { events: ['click'], capture: true });
 
   // Navigate the menu items using keyboard.
   eventHandler.onKeyDown = function (event) {

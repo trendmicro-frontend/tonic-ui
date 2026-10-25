@@ -268,7 +268,9 @@ Replace `closeOnBlur` with `closeOnInteractOutside` on `Menu` and `Popover`. The
 
 Dismissal now uses outside `click` events, as in `Drawer` and `Modal`, rather than blur events. Clicks outside close the overlay even when focus does not move; moving focus without clicking no longer closes it. Trigger and content clicks remain internal, including portalled submenu content for `Menu`. Hover-triggered popovers retain their hover and focus behavior.
 
-Both components also accept `onInteractOutside(event)`, called for outside clicks while open even when `closeOnInteractOutside` is `false`. Call `event.preventDefault()` to prevent automatic dismissal for that click.
+Both components also accept `onInteractOutside(event)`, called for outside clicks while open even when `closeOnInteractOutside` is `false`. Call `event.preventDefault()` there to prevent automatic dismissal for that click. Detection runs in the document capture phase so it also works inside `ModalContent` and `DrawerContent`; target and bubbling `onClick` handlers run after the dismissal decision.
+
+Automatic closing is deferred to a later task so the target's click action runs before `onClose` can unmount it. Unmounting the overlay cancels a pending close; cancellation through `onInteractOutside` is still decided during capture.
 
 
 ### `AutocompleteList`

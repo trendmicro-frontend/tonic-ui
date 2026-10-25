@@ -4,6 +4,59 @@ import { events, open, visit } from '../helpers.mjs';
 test.describe('Menu and Popover', () => {
   for (const kind of ['menu', 'popover']) {
     test.describe(kind, { tag: ['@interact-outside', `@${kind}`] }, () => {
+      test('delivers a portalled target click before outside dismissal unmounts its parent', { tag: '@portal' }, async ({ page }) => {
+        const scope = await visit(page, kind, { nestedAction: '' });
+        await scope.getByTestId('child-trigger').click();
+        await scope.getByTestId('child-action').click();
+        await expect(scope.getByTestId('parent-content')).toHaveCount(0);
+        expect(await events(scope)).toEqual([{ type: 'outside' }, { type: 'action' }, { type: 'close' }]);
+      });
+
+      test('preserves a portalled target action when outside dismissal is cancelled', { tag: '@portal' }, async ({ page }) => {
+        const scope = await visit(page, kind, { nestedAction: '', cancel: '' });
+        await scope.getByTestId('child-trigger').click();
+        await scope.getByTestId('child-action').click();
+        await expect(scope.getByTestId('parent-content')).toBeVisible();
+        expect(await events(scope)).toEqual([{ type: 'outside' }, { type: 'action' }]);
+      });
+
+      test('cancels pending outside dismissal when the target action unmounts its parent', { tag: ['@portal', '@lifecycle'] }, async ({ page }) => {
+        const scope = await visit(page, kind, { nestedAction: '', unmountOnAction: '' });
+        await scope.getByTestId('child-trigger').click();
+        await scope.getByTestId('child-action').click();
+        await expect(scope.getByTestId('parent-content')).toHaveCount(0);
+        await page.evaluate(() => new Promise(resolve => setTimeout(resolve, 0)));
+        expect(await events(scope)).toEqual([{ type: 'outside' }, { type: 'action' }]);
+      });
+
+      for (const boundary of ['modal', 'drawer']) {
+        test(`dismisses across the ${boundary} click propagation boundary`, { tag: `@${boundary}` }, async ({ page }) => {
+          const scope = await visit(page, kind, { boundary });
+          await open(scope);
+          await scope.getByTestId('inside').click();
+          expect(await events(scope, 'outside')).toEqual([]);
+          await expect(scope.getByTestId('content')).toBeVisible();
+
+          await scope.getByTestId('boundary-outside').click();
+          await expect(scope.getByTestId('content')).toBeHidden();
+          expect((await events(scope)).filter(entry => ['outside', 'close'].includes(entry.type))).toEqual([
+            { type: 'outside', eventType: 'click', target: 'boundary-outside', cancelable: true, defaultPrevented: false },
+            { type: 'close' },
+          ]);
+        });
+
+        test(`honors cancellation across the ${boundary} click propagation boundary`, { tag: `@${boundary}` }, async ({ page }) => {
+          const scope = await visit(page, kind, { boundary, cancel: '' });
+          await open(scope);
+          await scope.getByTestId('boundary-outside').click();
+          await expect(scope.getByTestId('content')).toBeVisible();
+          expect(await events(scope, 'outside')).toEqual([
+            { type: 'outside', eventType: 'click', target: 'boundary-outside', cancelable: true, defaultPrevented: true },
+          ]);
+          expect(await events(scope, 'close')).toEqual([]);
+        });
+      }
+
       test('dismisses on click, not mousedown, without a focus change; callbacks run once in order', { tag: '@focus' }, async ({ page }) => {
         const scope = await visit(page, kind);
         await open(scope);
@@ -126,7 +179,8 @@ test.describe('Menu and Popover', () => {
         await scope.getByTestId('outside').click();
         await expect(scope.getByTestId('content')).toBeVisible();
         expect(await events(scope, 'outside')).toHaveLength(1);
-        expect(await events(scope, 'close')).toEqual([{ type: 'close' }]);
+        await expect.poll(() => events(scope, 'close')).toEqual([{ type: 'close' }]);
+        await expect(scope.getByTestId('content')).toBeVisible();
       });
     });
   }
