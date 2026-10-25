@@ -6,9 +6,9 @@
 // build instead.
 
 import { test, expect } from '@playwright/test';
-import { blockCdn } from './helpers.mjs';
+import { blockCdn } from '../../support/cdn.mjs';
 
-test.describe('esm-cdn-with-fallback', () => {
+test.describe('esm-cdn-with-fallback', { tag: ['@example', '@cdn'] }, () => {
   // The @tonic-ui/react group's source may resolve to its local candidate when
   // the published tarball lacks the standalone artifact: the raw.esm.sh file
   // 404s and the family falls back to local by design. The React and React

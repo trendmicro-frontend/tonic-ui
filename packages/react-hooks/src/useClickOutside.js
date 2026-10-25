@@ -54,7 +54,7 @@ const useClickOutside = (refs, handler, options = {}) => {
       .filter(x => (typeof x === 'string'));
 
     // Keep the subscribed documents even after React clears the element refs.
-    const documents = allRefs.map(ref => getOwnerDocument(ref?.current));
+    const documents = allRefs.map(ref => ref?.current ? getOwnerDocument(ref.current) : null);
     // Attach event listeners to the document of each ref
     documents.forEach(doc => {
       if (!doc) {
@@ -68,7 +68,7 @@ const useClickOutside = (refs, handler, options = {}) => {
     return () => {
       documents.forEach(doc => {
         filteredEvents.forEach(eventName => {
-          doc.removeEventListener?.(eventName, handleCheckIfOutside);
+          doc?.removeEventListener?.(eventName, handleCheckIfOutside);
         });
       });
     };

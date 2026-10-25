@@ -1,11 +1,11 @@
-// Module Federation integration: load dashboard and Inventory remotes into the
-// shell document. Verify navigation/revisit, endpoint details, and Drawer close
-// and Escape behavior without moving the portal into another DOM realm.
+// Wujie integration: load sandboxed dashboard and Inventory applications.
+// Verify navigation/remount and endpoint details, with Drawer portals kept
+// inside the projected shadow root rather than leaking into the host document.
 
 import { test, expect } from '@playwright/test';
 
-test.describe('mfe-module-federation', () => {
-  test('loads remotes and keeps the inventory drawer in the shell document', async ({ page }) => {
+test.describe('mfe-wujie', { tag: ['@docs', '@integration', '@wujie', '@drawer', '@portal', '@lifecycle'] }, () => {
+  test('remounts sandbox apps and keeps the inventory drawer inside its shadow root', async ({ page }) => {
     await page.goto('index.html');
     await expect(page.getByText('Endpoint update status', { exact: true })).toBeVisible();
     await expect(page.getByText('OS distribution', { exact: true })).toBeVisible();
@@ -20,16 +20,25 @@ test.describe('mfe-module-federation', () => {
     await expect(drawer).toBeVisible();
     await expect(drawer.getByText('Detail profile', { exact: true })).toBeVisible();
     await expect(drawer.getByText(endpointName, { exact: true })).toBeVisible();
-    expect(await drawer.evaluate(element => element.getRootNode() === document)).toBe(true);
+    // Wujie patches getRootNode() to expose the sandbox document. Check the
+    // physical projection instead of comparing constructors across realms.
+    expect(await drawer.evaluate(element =>
+      Array.from(document.querySelectorAll('wujie-app'))
+        .some(host => host.shadowRoot?.contains(element)))).toBe(true);
     await drawer.getByRole('button', { name: 'Close', exact: true }).last().click();
     await expect(drawer).toBeHidden();
 
+    // Inventory destroys its sandbox on navigation; the next visit must mount
+    // against the new shadow DOM instead of a detached element.
     await page.getByRole('button', { name: 'Dashboard', exact: true }).click();
     await expect(page.getByText('Endpoint update status', { exact: true })).toBeVisible();
     await page.getByRole('button', { name: 'Inventory', exact: true }).click();
     await endpoint.click();
     await expect(drawer.getByText(endpointName, { exact: true })).toBeVisible();
-    await drawer.press('Escape');
+    expect(await drawer.evaluate(element =>
+      Array.from(document.querySelectorAll('wujie-app'))
+        .some(host => host.shadowRoot?.contains(element)))).toBe(true);
+    await drawer.getByRole('button', { name: 'Close', exact: true }).last().click();
     await expect(drawer).toBeHidden();
   });
 });

@@ -1,6 +1,6 @@
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createE2EConfig } from '../../../scripts/playwright-config.mjs';
+import { createE2EConfig } from '../../../e2e/config.mjs';
 import { tests } from './tests/index.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');

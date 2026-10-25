@@ -7,7 +7,7 @@ import { test, expect } from '@playwright/test';
 
 const cdnHosts = /https:\/\/(?:raw\.)?esm\.sh\//;
 
-test.describe('esm-cdn-with-fallback', () => {
+test.describe('esm-cdn-with-fallback', { tag: ['@docs', '@integration', '@cdn'] }, () => {
   test('all-local scenario uses only same-origin files', async ({ page }) => {
     const cdnRequests = [];
     page.on('request', request => {

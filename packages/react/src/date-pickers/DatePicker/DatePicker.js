@@ -158,7 +158,7 @@ const DatePicker = forwardRef((inProps, ref) => {
     }
   }, [isOpen, onClose, onOpen]);
 
-  useClickOutside(nodeRef, onClose);
+  useClickOutside([nodeRef, datePickerContentRef], onClose);
 
   // Check if the value prop has changed
   useEffect(() => {

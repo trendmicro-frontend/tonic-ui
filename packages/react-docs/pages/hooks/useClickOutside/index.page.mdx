@@ -28,7 +28,7 @@ useClickOutside(refs, handler, [options]);
 
 The hook checks both DOM containment and the event's composed path. Events whose composed path contains a referenced element count as inside. This prevents internal clicks in open shadow roots from being misclassified when `event.target` is retargeted to the shadow host.
 
-Listeners attach to each referenced element's owner document. Cleanup removes them from those same documents, even after React clears the refs on unmount. No additional options are needed for elements rendered in an iframe.
+Listeners attach to each referenced element's owner document. Unattached refs do not subscribe to a fallback document. Cleanup removes listeners from those same documents, even after React clears the refs on unmount. No additional options are needed for elements rendered in an iframe.
 
 ## Demos
 

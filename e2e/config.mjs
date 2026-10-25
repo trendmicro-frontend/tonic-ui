@@ -5,7 +5,7 @@ import { defineConfig, devices } from '@playwright/test';
 export function createE2EConfig(root, { tests, baseURL, servers, ...config }) {
   const enableReports = process.env.E2E_REPORTS === '1';
 
-  // Last-run state is unused by both suites, regardless of output mode.
+  // Last-run state is unused by all suites, regardless of output mode.
   process.env.PLAYWRIGHT_LAST_RUN_OUTPUT_FILE = devNull;
 
   return defineConfig({
@@ -18,7 +18,7 @@ export function createE2EConfig(root, { tests, baseURL, servers, ...config }) {
       video: 'off',
     },
     reporter: [
-      ['dot'],
+      ['list'],
       enableReports && ['html', {
         open: 'never',
         outputFolder: resolve(root, 'output', 'e2e-playwright-report'),
@@ -26,7 +26,7 @@ export function createE2EConfig(root, { tests, baseURL, servers, ...config }) {
     ].filter(Boolean),
     projects: tests.map(target => ({
       name: target.name,
-      testMatch: `**/${target.specFile}`,
+      testMatch: target.testMatch,
       use: {
         ...devices['Desktop Chrome'],
         baseURL: baseURL(target),

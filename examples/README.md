@@ -35,7 +35,7 @@ The root [E2E suite](../e2e/README.md) covers local-only loading, CDN-first load
 ```bash
 yarn build-public      # build the Tonic UI packages the example resolves
 yarn playwright install chromium  # one-time Chromium download
-yarn test:e2e
+yarn test:e2e examples
 ```
 
 The suite builds the example and starts its production preview server on an automatically assigned port. Use `E2E_HOST` or `E2E_PORT` to override the host or request a fixed port. Docs integrations, including the inspector, belong to the separate [react-docs suite](../packages/react-docs/e2e/README.md).

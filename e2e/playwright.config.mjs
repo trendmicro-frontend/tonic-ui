@@ -1,6 +1,6 @@
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createE2EConfig } from '../scripts/playwright-config.mjs';
+import { createE2EConfig } from './config.mjs';
 import { tests } from './tests/index.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -13,7 +13,7 @@ const targets = tests.map((target, index) => ({
 }));
 
 export default createE2EConfig(root, {
-  testDir: '.',
+  testDir: './tests',
   retries: process.env.CI ? 1 : 0,
   tests: targets,
   baseURL: app => process.env[app.urlEnv],

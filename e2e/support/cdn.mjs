@@ -8,4 +8,3 @@ export const CDN_HOSTS = /https:\/\/(?:raw\.)?esm\.sh\//;
 export async function blockCdn(page) {
   await page.route(CDN_HOSTS, route => route.abort());
 }
-

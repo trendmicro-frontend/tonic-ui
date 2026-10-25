@@ -6,7 +6,7 @@ const root = dirname(fileURLToPath(import.meta.url));
 const host = process.env.E2E_HOST || '127.0.0.1';
 const build = await context({
   absWorkingDir: root,
-  entryPoints: ['fixture.jsx'],
+  entryPoints: ['fixtures/index.jsx'],
   bundle: true,
   write: false,
   outfile: 'public/app.js',
