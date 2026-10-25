@@ -214,6 +214,16 @@ The `Dropdown` component allows users to choose an item from a list using a simp
 Check out the following components for more details:
 * [Dropdown](../dropdown)
 
+## Commonly asked questions
+
+### Keep the menu open while interacting with another popup
+
+A disabled action can have an enabled info button that explains why it is unavailable. Use `onInteractOutside` to keep the menu open while reading the portalled popover.
+
+Open **Actions** and click the info icon beside **Delete**. Clicking outside both overlays or selecting **Stop** closes the menu.
+
+{render('./interacting-with-another-popup')}
+
 ## Accessibility
 
 ### Keyboard interaction
@@ -223,20 +233,6 @@ Check out the following components for more details:
 | `Enter` \| `Space` | When `MenuToggle` or `MenuButton` is focused, opens the menu. |
 | `ArrowDown` \| `ArrowUp`| When `MenuList` is focused, moves the focus to the next menu item. |
 | `Escape` | When a menu item is focused, closes the menu and moves the focus to the toggle. |
-
-## Commonly asked questions
-
-### Keep the menu open while interacting with another popup
-
-A menu can open a separate popup, such as a layout picker. When that popup is portalled, its content is outside the menu's DOM boundary. To keep the menu open while using it, pass `onInteractOutside` to `Menu` and call `event.preventDefault()` only for clicks inside the popup.
-
-In this example, open **Display options**, select **Choose layout**, and use a layout button. The menu stays open and the layout updates. Clicking elsewhere closes the menu.
-
-{render('./interacting-with-another-popup')}
-
-`closeOnSelect={false}` keeps the menu open when **Choose layout** is selected. It does not disable outside-click closing. The `popupRef` identifies the additional content that should not dismiss the menu; normal submenus, including portalled submenus, are already treated as inside the menu.
-
-Cancel dismissal in `onInteractOutside`, not in the popup's `onClick`: the outside-click decision runs first, during capture. `event.preventDefault()` also cancels the clicked element's native default action; this example uses buttons with explicit `onClick` actions.
 
 ## Props
 

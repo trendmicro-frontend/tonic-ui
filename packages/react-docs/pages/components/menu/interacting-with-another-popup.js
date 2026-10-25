@@ -1,5 +1,6 @@
 import {
-  Button,
+  ButtonBase,
+  Flex,
   Menu,
   MenuButton,
   MenuItem,
@@ -10,43 +11,54 @@ import {
   PopoverTrigger,
   Text,
 } from '@tonic-ui/react';
-import { useRef, useState } from 'react';
+import { InfoOIcon } from '@tonic-ui/react-icons';
+import { useRef } from 'react';
 
 const App = () => {
   const popupRef = useRef(null);
-  const [layout, setLayout] = useState('comfortable');
 
   return (
-    <>
-      <Text mb="3x">Layout: {layout}</Text>
-      <Menu
-        closeOnSelect={false}
-        onInteractOutside={(event) => {
-          if (popupRef.current?.contains(event.target)) {
-            event.preventDefault();
-          }
-        }}
-      >
-        <MenuButton>Display options</MenuButton>
-        <MenuList>
+    <Menu
+      onInteractOutside={(event) => {
+        if (popupRef.current?.contains(event.target)) {
+          event.preventDefault();
+        }
+      }}
+    >
+      <MenuButton>Actions</MenuButton>
+      <MenuList width="max-content" whiteSpace="nowrap">
+        <MenuItem>Stop</MenuItem>
+        <Flex role="none" alignItems="center">
+          <MenuItem disabled flex="auto" width="auto">Delete</MenuItem>
           <Popover placement="right-start" portalled>
             <PopoverTrigger>
-              <MenuItem>Choose layout</MenuItem>
+              <ButtonBase
+                role="menuitem"
+                tabIndex={-1}
+                aria-label="Why is Delete unavailable?"
+                color="text.secondary"
+                flex="none"
+                p="2x"
+                mr="1x"
+              >
+                <InfoOIcon size="4x" />
+              </ButtonBase>
             </PopoverTrigger>
-            <PopoverContent ref={popupRef}>
+            <PopoverContent
+              ref={popupRef}
+              width={220}
+              onKeyDown={(event) => event.stopPropagation()}
+            >
               <PopoverBody>
-                <Button onClick={() => setLayout('compact')}>
-                  Use compact layout
-                </Button>
-                <Button onClick={() => setLayout('comfortable')}>
-                  Use comfortable layout
-                </Button>
+                <Text>
+                  This workflow is still active. Stop the workflow, then try deleting it again.
+                </Text>
               </PopoverBody>
             </PopoverContent>
           </Popover>
-        </MenuList>
-      </Menu>
-    </>
+        </Flex>
+      </MenuList>
+    </Menu>
   );
 };
 
