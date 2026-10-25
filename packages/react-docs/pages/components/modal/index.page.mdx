@@ -80,7 +80,9 @@ One way to implement a nested modal is to use the `useToggle` hook to control mo
 
 ### Prevent the modal from closing on outside interaction
 
-When `closeOnInteractOutside` is set to `true`, the modal will close when users interact outside the modal content. To prevent it from closing for specific interactions, check the event target inside the `onInteractOutside` handler and call `event.preventDefault()` when it matches a specific element.
+With `closeOnInteractOutside={true}`, clicks on the modal's container outside `ModalContent` close the modal. Clicks inside `ModalContent` do not trigger `onInteractOutside`.
+
+To ignore clicks on custom overlay content, call `event.preventDefault()` in `onInteractOutside`. Create `elementRef` with `useRef(null)` and attach it to that content, inside the modal's container but outside `ModalContent`:
 
 ```jsx
 <Modal
@@ -88,8 +90,7 @@ When `closeOnInteractOutside` is set to `true`, the modal will close when users 
   onClose={handleClose}
   closeOnInteractOutside
   onInteractOutside={(event) => {
-    if (event.target.contains(element)) {
-      // Prevent the modal from closing
+    if (elementRef.current?.contains(event.target)) {
       event.preventDefault();
     }
   }}
@@ -105,7 +106,7 @@ When `closeOnInteractOutside` is set to `true`, the modal will close when users 
 | autoFocus | boolean | false | If `true`, the modal will automatically set focus on the first focusable element inside the modal when it is opened.<br />⚠️ This only works if `initialFocusRef` is not defined and `ensureFocus` is set to `true`. |
 | children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
 | closeOnEsc | boolean | false | If `true`, closes the modal when the `Escape` key is pressed. |
-| closeOnInteractOutside | boolean | false | If `true`, closes the modal when interacting outside the modal content. |
+| closeOnInteractOutside | boolean | false | If `true`, closes the modal when clicking its container outside `ModalContent`. Moving focus alone does not close it. |
 | closeOnOutsideClick *(deprecated)* | boolean | false | If `true`, closes the modal when clicking outside the modal content.<br />⚠️️️️️️️️️ This prop is deprecated will be removed in a future release. Use `closeOnInteractOutside` instead. |
 | ensureFocus | boolean | false | If `true`, it ensures that the user's focus remains within the modal when it is open, preventing them from interacting with elements outside the modal. |
 | finalFocusRef | RefObject | | The `ref` of the element that should receive focus when the modal closes.<br />⚠️ This only works if `ensureFocus` is set to `true`. |
@@ -113,7 +114,7 @@ When `closeOnInteractOutside` is set to `true`, the modal will close when users 
 | isClosable | boolean | false | If `true`, a close button will appear on the right side. |
 | isOpen | boolean | false | If `true`, the modal is shown. |
 | onClose | function | | Callback fired when the modal closes. |
-| onInteractOutside | function | | Callback fired when interacting outside the modal content. Call `event.preventDefault()` to prevent the modal from closing. |
+| onInteractOutside | function | | Called when clicking the container outside `ModalContent`, even when `closeOnInteractOutside` is `false`. Call `event.preventDefault()` to prevent closing. |
 | returnFocusOnClose | boolean | true | If `true`, the focus will be restored to the element that was focused on when the modal was initially opened.<br />⚠️ This only works if `ensureFocus` is set to `true`. |
 | size | string | 'auto' | Change the size of the modal. One of: 'auto', 'xs', 'sm', 'md', 'lg', 'xl', 'full' |
 | scrollBehavior | string | 'inside' | Control the scroll behavior of the modal if the content overflows. One of: 'inside', 'outside' |

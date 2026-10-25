@@ -14,3 +14,7 @@ Outside-click detection uses `useClickOutside` with native `click` events in the
 `ResizeHandle` reads touch coordinates from the native `TouchList`, which is array-like rather than an array, including the released touch on `touchend` through `changedTouches`, so `onResizeStart`, `onResize`, and `onResizeEnd` no longer receive `undefined` from native touch events.
 
 Initialize `Scrollbar` measurement callbacks before the callback that depends on them, avoiding a first-render `ReferenceError` in native ES module builds.
+
+Expand Chromium E2E coverage against the current React sources in both development and production. Cover outside-dismissal cancellation and callback ordering, portalled target actions before parent unmount, iframe and Shadow DOM boundaries, listener cleanup, and native touch input.
+
+Move layout- and browser-dependent contracts from mocked unit tests to real-browser scenarios for positioning, component sizing, overflow, scrolling, observers, transitions, color preferences, and resizing. Organize suites under each workspace's `test/e2e/` and consolidate execution through `yarn test:e2e`, with shared configuration and native Playwright tag filtering while retaining reference-application and docs-integration coverage.

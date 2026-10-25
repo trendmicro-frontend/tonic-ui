@@ -358,6 +358,27 @@ The modifier is passed through the nested slot props path: `slotProps.content` c
 
 {render('./faq-flip-modifier')}
 
+### Keep the dropdown open while interacting with another popup
+
+If custom dropdown content opens a separate portalled popup, clicks in that popup can close the dropdown. With the default `Menu` root, use `slotProps.root.onInteractOutside` to keep those clicks from dismissing it:
+
+```jsx
+slotProps={{
+  root: {
+    closeOnSelect: false,
+    onInteractOutside: (event) => {
+      if (popupRef.current?.contains(event.target)) {
+        event.preventDefault();
+      }
+    },
+  },
+}}
+```
+
+Attach `popupRef`, created with `useRef(null)`, to the separate popup's content element. `closeOnSelect: false` keeps the dropdown open when an item is selected to open that popup; omit it if selecting an item should close the dropdown. Clicks elsewhere still close the dropdown.
+
+See the [Menu example](../menu#keep-the-menu-open-while-interacting-with-another-popup) for the complete interaction and cancellation details. This configuration assumes the default `Menu` root; a custom `slots.root` defines its own behavior.
+
 ## Props
 
 The `DropdownProps` interface defines the core `Dropdown` API:
@@ -402,7 +423,7 @@ export interface DropdownProps {
     renderItem: (item: DropdownItem | null) => ReactNode;
     value: DropdownItem | null;
   }) => ReactNode;
-  /** Props for the root and content slots. */
+  /** Props for the root and content slots. With the default Menu root, set root.closeOnInteractOutside to false to disable outside-click closing, or use root.onInteractOutside to cancel specific clicks with event.preventDefault(). */
   slotProps?: {
     root?: Record<string, any>;
     content?: Record<string, any>;
@@ -432,7 +453,7 @@ declare const Dropdown: React.ForwardRefExoticComponent<
 | renderContent | `(args: { items: DropdownItem[], renderItem: (item: DropdownItem \| null) => ReactNode, renderItems: (items: DropdownItem[]) => ReactNode }) => ReactNode` | | Customizes the content rendered inside the dropdown, such as headers, search inputs, or footers. |
 | renderItem | `(item: DropdownItem \| null) => ReactNode` | `defaultRenderItem` | Customizes each item's content. The default returns `item.label` for plain objects and otherwise returns `item`. Custom implementations must accept `null` because the default toggle calls them before selection. |
 | renderToggle | `(args: { renderItem: (item: DropdownItem \| null) => ReactNode, value: DropdownItem \| null }) => ReactNode` | `DropdownToggle` | Renders the toggle. |
-| slotProps | `{ root?: object, content?: object }` | `{}` | Props for the root and content slots. See [Slots and slot props](#slots-and-slot-props). |
+| slotProps | `{ root?: object, content?: object }` | `{}` | Props for the root and content slots. With the default `Menu` root, outside clicks close the dropdown. Set `root.closeOnInteractOutside` to `false` to disable this, or call `event.preventDefault()` in `root.onInteractOutside` to cancel a specific click. See [Slots and slot props](#slots-and-slot-props) and [Menu props](../menu#props). |
 | slots | `{ root?: React.ElementType }` | `{}` | Replaces the internal `Menu` engine through `slots.root`. |
 | value | `DropdownItem \| null` | | The selected item for controlled mode. Pair with `onChange`. |
 

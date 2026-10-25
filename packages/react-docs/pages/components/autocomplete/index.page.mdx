@@ -206,7 +206,7 @@ With `autoHighlight=true`:
 | Hover an option | Highlights that option (via `onMouseEnter`) |
 | Click an option | Commits the option; focus stays on the input (the option's `mousedown` calls `preventDefault`) |
 | Click the clear button (`isClearable=true`) | Clears the input, fires `onChange(null)`, refocuses the input |
-| Click outside the autocomplete | Closes the popup. Applies `closeBehavior` if the typed text drifted from the last committed label. |
+| Click outside the autocomplete | Closes the popup. If the typed text drifted from the last committed label, applies `closeBehavior`; with `closeBehavior="keep"`, the popup still closes and the unfinished text stays in the input. |
 
 ### Keyboard interaction
 
@@ -241,7 +241,7 @@ With `autoHighlight=true`:
 | Name | Type | Default | Description |
 | :--- | :--- | :------ | :---------- |
 | autoHighlight | boolean | `false` | If `true`, the first option is automatically highlighted whenever the filtered list changes or the popup (re)opens. Pressing `Enter` then commits the top match without arrowing first. |
-| closeBehavior | `'restore' \| 'clear' \| 'keep'` | `'restore'` | Controls what happens to the input value when the popup closes (blur, click-outside, or Escape) and the typed text differs from the last committed label. `'restore'` reverts to the last committed label; `'clear'` resets to `''` and fires `onChange(null)` so consumers can clear their selection state; `'keep'` leaves it as-is. |
+| closeBehavior | `'restore' \| 'clear' \| 'keep'` | `'restore'` | Controls what happens to the input text when the popup closes (blur, click-outside, or Escape) and the typed text differs from the last committed label. This prop does not keep the popup open: `'restore'` reverts to the last committed label; `'clear'` resets to `''` and fires `onChange(null)` so consumers can clear their selection state; `'keep'` leaves the unfinished text in the input and does not fire `onChange`. |
 | defaultValue | any | `null` | Initial selected item in uncontrolled mode. Pair with `onChange` to read selection updates without managing `value` externally. The input is seeded with `getItemLabel(defaultValue)`. Ignored when `value` is controlled. |
 | filterItems | `(items, { inputValue, getItemLabel }) => items` | | Default: case-insensitive label match (uses `getItemLabel` to stringify each item). The returned array can also include synthetic items (e.g. `Add "X"`) — see the [Creatable](#creatable) section for the recipe. |
 | getItemLabel | `(item) => string` | | Map an item to its input-text label. Default: `''` for `null`/`undefined`, the string itself for strings, `item.label ?? item.value ?? ''` for plain objects, otherwise `String(item)`. |

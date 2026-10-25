@@ -254,25 +254,6 @@ The `Popper` render prop now receives `computedPlacement` in addition to `placem
 
 ## Component changes
 
-### `Menu` and `Popover` outside clicks
-
-Replace `closeOnBlur` with `closeOnInteractOutside` on `Menu` and `Popover`. The new prop defaults to `true`. Passing `closeOnBlur` to `Menu`, `MenuContent`, `Popover`, or `PopoverContent` emits a development-only deprecation warning once per component instance. The old prop is ignored and is not forwarded to the DOM; set `closeOnInteractOutside` on the parent `Menu` or `Popover` instead.
-
-```diff
-- <Menu closeOnBlur={false}>
-+ <Menu closeOnInteractOutside={false}>
-
-- <Popover closeOnBlur={false}>
-+ <Popover closeOnInteractOutside={false}>
-```
-
-Dismissal now uses outside `click` events, as in `Drawer` and `Modal`, rather than blur events. Clicks outside close the overlay even when focus does not move; moving focus without clicking no longer closes it. Trigger and content clicks remain internal, including portalled submenu content for `Menu`. Hover-triggered popovers retain their hover and focus behavior.
-
-Both components also accept `onInteractOutside(event)`, called for outside clicks while open even when `closeOnInteractOutside` is `false`. Call `event.preventDefault()` there to prevent automatic dismissal for that click. Detection runs in the document capture phase so it also works inside `ModalContent` and `DrawerContent`; target and bubbling `onClick` handlers run after the dismissal decision.
-
-Automatic closing is deferred to a later task so the target's click action runs before `onClose` can unmount it. Unmounting the overlay cancels a pending close; cancellation through `onInteractOutside` is still decided during capture.
-
-
 ### `AutocompleteList`
 
 `AutocompleteList` now follows the library-wide slots convention:
@@ -302,6 +283,44 @@ The deprecated props still work and emit a dev-only warning:
 `<Autocomplete>` forwards non-`content` `slotProps` keys and `slots` down to the list. Nested `slots` / `slotProps` keys inside `slotProps.content` are dropped with a dev-only warning.
 
 See [Overriding component structure](../../customization/overriding-component-structure) for the slots API.
+
+### `Menu`
+
+Replace `closeOnBlur` with `closeOnInteractOutside` on `Menu`. The new prop defaults to `true`:
+
+```diff
+- <Menu closeOnBlur={false}>
++ <Menu closeOnInteractOutside={false}>
+```
+
+Passing `closeOnBlur` to `Menu` or `MenuContent` emits a development-only deprecation warning once per component instance. The old prop is ignored and is not forwarded to the DOM; set `closeOnInteractOutside` on `Menu`, not `MenuContent`.
+
+The menu now closes on outside `click` events rather than blur events. Clicking outside closes it even when focus does not move; moving focus alone no longer closes it. The toggle, content, and submenus—including portalled submenus—are treated as inside the menu. Selecting an item remains controlled separately by `closeOnSelect`.
+
+Use `onInteractOutside(event)` to cancel dismissal for a specific outside click with `event.preventDefault()`. The callback runs while the menu is open, even when `closeOnInteractOutside` is `false`. It runs during document capture, including across `ModalContent` and `DrawerContent` propagation boundaries, so cancel there rather than in a target or bubbling `onClick` handler.
+
+Automatic closing runs in a later task, after click handlers, so the target action can finish before `onClose` unmounts it. Unmounting the menu cancels a pending close.
+
+See [Menu](../../components/menu#props) for the API and [interacting with another popup](../../components/menu#keep-the-menu-open-while-interacting-with-another-popup) for a conditional-dismissal example.
+
+### `Popover`
+
+Replace `closeOnBlur` with `closeOnInteractOutside` on `Popover`. The new prop defaults to `true` and applies to `trigger="click"`:
+
+```diff
+- <Popover closeOnBlur={false}>
++ <Popover closeOnInteractOutside={false}>
+```
+
+Passing `closeOnBlur` to `Popover` or `PopoverContent` emits a development-only deprecation warning once per component instance. The old prop is ignored and is not forwarded to the DOM; set `closeOnInteractOutside` on `Popover`, not `PopoverContent`.
+
+For `trigger="click"`, outside `click` events replace blur-based dismissal. Clicking outside the trigger and content closes the popover even when focus does not move; moving focus alone no longer closes it. Hover-triggered popovers retain their hover and focus behavior.
+
+Use `onInteractOutside(event)` to cancel dismissal for a specific outside click with `event.preventDefault()`. The callback runs for open, enabled click-triggered popovers, even when `closeOnInteractOutside` is `false`. It runs during document capture, including across `ModalContent` and `DrawerContent` propagation boundaries, so cancel there rather than in a target or bubbling `onClick` handler.
+
+Automatic closing runs in a later task, after click handlers, so the target action can finish before `onClose` unmounts it. Unmounting the popover cancels a pending close.
+
+See [Popover](../../components/popover#props) for the API and [keyboard and focus behavior](../../components/popover#keyboard-and-focus).
 
 ### New components
 

@@ -13,7 +13,7 @@ const defaultPlacement = 'bottom';
  * @property {boolean} [arrow=true] - Adds an arrow to the popover.
  * @property {React.ReactNode | ((context: { isOpen: boolean; onClose: (callback?: () => void) => void; onOpen: (callback?: () => void) => void; onToggle: () => void; placement: string }) => React.ReactNode)} [children] -
  * @property {boolean} [closeOnEsc=true] - The popover will close when you press the `Esc` key.
- * @property {boolean} [closeOnInteractOutside=true] - Closes the popover when interacting outside the popover trigger and content.
+ * @property {boolean} [closeOnInteractOutside=true] - If `true`, closes the popover when clicking outside its trigger and content. Only applies to `trigger="click"`. Moving focus alone does not close it.
  * @property {boolean} [defaultIsOpen=false] - Whether the popover will be open by default.
  * @property {boolean} [disabled] - The popover will not display.
  * @property {number} [enterDelay=100] - The number of milliseconds to wait before showing the popover if `trigger` is hover.
@@ -24,7 +24,7 @@ const defaultPlacement = 'bottom';
  * @property {boolean} [nextToCursor] - The popover will be positioned next to the cursor.
  * @property {[number, number]} [offset=[0, 12]] - The skidding and distance of the popover.
  * @property {() => void} [onClose] - Callback when the popover is closed.
- * @property {(event: Event) => void} [onInteractOutside] - Callback fired when interacting outside the popover trigger and content. Call `event.preventDefault()` to prevent the popover from closing.
+ * @property {(event: Event) => void} [onInteractOutside] - Called during document capture when clicking outside an open, enabled click-triggered popover, even when `closeOnInteractOutside` is `false`. Call `event.preventDefault()` here to prevent closing; target and bubbling `onClick` handlers run after this decision. Automatic closing runs after click handlers; unmounting cancels a pending close.
  * @property {() => void} [onOpen] - Callback when the popover is opened.
  * @property {'top' | 'bottom' | 'right' | 'left' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'right-start' | 'right-end' | 'left-start' | 'left-end'} [placement='bottom'] - The placement of the popover.
  * @property {boolean} [portalled=false] - If `true`, renders the popover in a portal.

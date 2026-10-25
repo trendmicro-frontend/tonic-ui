@@ -196,16 +196,6 @@ You can also use the `Scrollbar` component to override the default scrollbar.
 
 {render('./scrolling-scrollbar')}
 
-### Outside clicks
-
-By default, clicking outside the menu closes it, even when focus does not move. The toggle, menu content, and portalled submenu content are treated as inside the menu.
-
-Set `closeOnInteractOutside={false}` to disable automatic outside-click dismissal. Use `onInteractOutside` to handle outside clicks; call `event.preventDefault()` to keep the menu open for a specific click. Moving focus alone does not close the menu.
-
-Outside clicks are observed in the document capture phase, including sibling controls inside `ModalContent` or `DrawerContent` that stop bubbling. To cancel dismissal, call `event.preventDefault()` in `onInteractOutside`; a target or bubbling `onClick` handler runs after this decision.
-
-Automatic closing runs in a later task, after the target and bubbling click handlers. This lets a portalled target finish its action before `onClose` can unmount its subtree. Unmounting the menu cancels a pending close.
-
 ### Customization
 
 {render('./customization')}
@@ -234,6 +224,20 @@ Check out the following components for more details:
 | `ArrowDown` \| `ArrowUp`| When `MenuList` is focused, moves the focus to the next menu item. |
 | `Escape` | When a menu item is focused, closes the menu and moves the focus to the toggle. |
 
+## Commonly asked questions
+
+### Keep the menu open while interacting with another popup
+
+A menu can open a separate popup, such as a layout picker. When that popup is portalled, its content is outside the menu's DOM boundary. To keep the menu open while using it, pass `onInteractOutside` to `Menu` and call `event.preventDefault()` only for clicks inside the popup.
+
+In this example, open **Display options**, select **Choose layout**, and use a layout button. The menu stays open and the layout updates. Clicking elsewhere closes the menu.
+
+{render('./interacting-with-another-popup')}
+
+`closeOnSelect={false}` keeps the menu open when **Choose layout** is selected. It does not disable outside-click closing. The `popupRef` identifies the additional content that should not dismiss the menu; normal submenus, including portalled submenus, are already treated as inside the menu.
+
+Cancel dismissal in `onInteractOutside`, not in the popup's `onClick`: the outside-click decision runs first, during capture. `event.preventDefault()` also cancels the clicked element's native default action; this example uses buttons with explicit `onClick` actions.
+
 ## Props
 
 ### Menu
@@ -243,7 +247,7 @@ Check out the following components for more details:
 | anchorEl | ElementType | | The element to which the menu is attached. |
 | autoSelect | boolean | true | Whether to automatically select the first menu item when the menu is opened. |
 | children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
-| closeOnInteractOutside | boolean | true | Whether to close the menu when clicking outside the toggle, menu content, and submenus. |
+| closeOnInteractOutside | boolean | true | If `true`, closes the menu when clicking outside its toggle, content, and submenus, including portalled submenus. Moving focus alone does not close it. |
 | closeOnSelect | boolean | true | Whether to close the menu when the user selects a menu item. |
 | defaultActiveIndex | number | -1 | The index of the menu item to be selected by default. |
 | defaultIsOpen | boolean | false | Whether the menu is open by default. |
@@ -251,7 +255,7 @@ Check out the following components for more details:
 | matchWidth | boolean | false | If `true`, sizes the menu to match the toggle's width. |
 | offset | [skidding, distance] | [0, 0] | The skidding and distance of the menu. |
 | onClose | function | | Callback when the menu is closed. |
-| onInteractOutside | `(event: Event) => void` | | Called when clicking outside the open menu, even when automatic dismissal is disabled. Call `event.preventDefault()` to prevent closing. |
+| onInteractOutside | `(event: Event) => void` | | Called during document capture when clicking outside the open menu, even when `closeOnInteractOutside` is `false`. Call `event.preventDefault()` here to prevent closing; target and bubbling `onClick` handlers run after this decision. Automatic closing runs after click handlers; unmounting cancels a pending close. |
 | onOpen | function | | Callback when the menu is opened. |
 | placement | string | 'bottom-start' | The placement of the menu. One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end' |
 | portalled | boolean | false | If `true`, renders the menu in a portal. |

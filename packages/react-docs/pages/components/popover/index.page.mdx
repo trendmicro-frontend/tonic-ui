@@ -218,10 +218,6 @@ The `Popover` component includes several accessibility features to ensure that i
 
 * The `Popover` can also be closed by hitting the **Esc** key when the `PopoverContent` element has focus, unless the `closeOnEsc` prop is set to `false`.
 
-* For `trigger="click"`, clicking outside the trigger and content closes the `Popover`, unless `closeOnInteractOutside` is `false`. Moving focus alone does not close it. `onInteractOutside` receives the outside click even when automatic dismissal is disabled; call `event.preventDefault()` to prevent closing for that click.
-* Outside clicks for click-triggered popovers are observed in the document capture phase, including sibling controls inside `ModalContent` or `DrawerContent` that stop bubbling. Cancel dismissal in `onInteractOutside`; a target or bubbling `onClick` handler runs after this decision.
-* Automatic closing runs in a later task, after the target and bubbling click handlers. A portalled target can finish its action before `onClose` unmounts its subtree. Unmounting the popover cancels a pending close.
-
 ### ARIA attributes
 
 * If the `trigger` is set to `click`, the `role` of the `PopoverContent` element is set to `dialog`.
@@ -248,7 +244,7 @@ The `Popover` component includes several accessibility features to ensure that i
 | :--- | :--- | :------ | :---------- |
 | arrow | boolean | true | If `true`, adds an arrow to the popover. |
 | children | ReactNode \| `(context) => ReactNode` | | |
-| closeOnInteractOutside | boolean | true | For `trigger="click"`, closes the popover when clicking outside its trigger and content. |
+| closeOnInteractOutside | boolean | true | If `true`, closes the popover when clicking outside its trigger and content. Only applies to `trigger="click"`. Moving focus alone does not close it. |
 | closeOnEsc | boolean | true | If `true`, the popover will close when you press the `Esc` key. |
 | defaultIsOpen | boolean | false | Whether the popover will be open by default. |
 | disabled | boolean | | If `true`, the popover will not display. |
@@ -260,7 +256,7 @@ The `Popover` component includes several accessibility features to ensure that i
 | nextToCursor | boolean | | If `true`, the popover will be positioned next to the cursor. |
 | offset | [skidding, distance] | [0, 12] | The skidding and distance of the popover. |
 | onClose | () => void | | Callback when the popover is closed. |
-| onInteractOutside | `(event: Event) => void` | | Called when clicking outside an open, enabled click-triggered popover, even when automatic dismissal is disabled. Call `event.preventDefault()` to prevent closing. |
+| onInteractOutside | `(event: Event) => void` | | Called during document capture when clicking outside an open, enabled click-triggered popover, even when `closeOnInteractOutside` is `false`. Call `event.preventDefault()` here to prevent closing; target and bubbling `onClick` handlers run after this decision. Automatic closing runs after click handlers; unmounting cancels a pending close. |
 | onOpen | () => void | | Callback when the popover is opened. |
 | placement | string | 'bottom' | The preferred placement of the popover; Popper.js may choose a different placement when the `flip` modifier is enabled. One of: 'top', 'bottom', 'right', 'left', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'right-start', 'right-end', 'left-start', 'left-end' |
 | portalled | boolean | false | If `true`, renders the popover in a portal. |

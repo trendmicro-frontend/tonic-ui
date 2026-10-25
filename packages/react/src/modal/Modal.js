@@ -17,14 +17,14 @@ const defaultSize = 'auto';
  * @property {boolean} [autoFocus=false] - The modal will automatically set focus on the first focusable element inside the modal when it is opened. ⚠️ This only works if `initialFocusRef` is not defined and `ensureFocus` is set to `true`.
  * @property {React.ReactNode | ((context: { autoFocus: boolean; closeOnEsc: boolean; closeOnInteractOutside: boolean; ensureFocus: boolean; finalFocusRef?: React.RefObject<HTMLElement>; initialFocusRef?: React.RefObject<HTMLElement>; isClosable: boolean; isOpen: boolean; onClose?: () => void; onInteractOutside?: (event: Event) => void; scrollBehavior: 'inside' | 'outside'; size: 'auto' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full' }) => React.ReactNode)} [children] - A function child can be used intead of a React element. This function is called with the context object.
  * @property {boolean} [closeOnEsc=false] - Closes the modal when the `Escape` key is pressed.
- * @property {boolean} [closeOnInteractOutside=false] - Closes the modal when interacting outside the modal content.
+ * @property {boolean} [closeOnInteractOutside=false] - If `true`, closes the modal when clicking its container outside `ModalContent`. Moving focus alone does not close it.
  * @property {boolean} [ensureFocus=false] - Ensures that the user's focus remains within the modal when it is open, preventing them from interacting with elements outside the modal.
  * @property {React.RefObject<HTMLElement>} [finalFocusRef] - The `ref` of the element that should receive focus when the modal closes. ⚠️ This only works if `ensureFocus` is set to `true`.
  * @property {React.RefObject<HTMLElement>} [initialFocusRef] - The `ref` of the element that should receive focus when the modal opens. ⚠️ This only works if `ensureFocus` is set to `true`.
  * @property {boolean} [isClosable=false] - A close button will appear on the right side.
  * @property {boolean} [isOpen=false] - The modal is shown.
  * @property {() => void} [onClose] - Callback fired when the modal closes.
- * @property {(event: Event) => void} [onInteractOutside] - Callback fired when interacting outside the modal content. Call `event.preventDefault()` to prevent the modal from closing.
+ * @property {(event: Event) => void} [onInteractOutside] - Called when clicking the container outside `ModalContent`, even when `closeOnInteractOutside` is `false`. Call `event.preventDefault()` to prevent closing.
  * @property {boolean} [returnFocusOnClose=true] - The focus will be restored to the element that was focused on when the modal was initially opened. ⚠️ This only works if `ensureFocus` is set to `true`.
  * @property {'auto' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full'} [size='auto'] - Change the size of the modal.
  * @property {'inside' | 'outside'} [scrollBehavior='inside'] - Control the scroll behavior of the modal if the content overflows.
