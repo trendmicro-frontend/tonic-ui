@@ -7,7 +7,7 @@ function UsePopoverExample() {
     // Properties
     const isOpen = popover.isOpen;
     const placement = popover.placement;
-    const closeOnBlur = popover.closeOnBlur;
+    const closeOnInteractOutside = popover.closeOnInteractOutside;
     const closeOnEsc = popover.closeOnEsc;
     const disabled = popover.disabled;
     const followCursor = popover.followCursor;
@@ -23,6 +23,7 @@ function UsePopoverExample() {
     // Methods
     popover.onClose();
     popover.onClose(() => { /* noop */ });
+    popover.onInteractOutside?.(new Event('click'));
     popover.onOpen();
     popover.onOpen(() => { /* noop */ });
     popover.onToggle();

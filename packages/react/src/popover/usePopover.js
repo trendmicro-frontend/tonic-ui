@@ -3,8 +3,8 @@ import { PopoverContext } from './context';
 
 /**
  * @typedef {Object} PopoverContextValue
- * @property {boolean} closeOnBlur - Whether the popover closes on blur.
  * @property {boolean} closeOnEsc - Whether the popover closes on Escape key.
+ * @property {boolean} closeOnInteractOutside - Whether the popover closes on outside interaction.
  * @property {boolean} [disabled] - Whether the popover is disabled.
  * @property {boolean} [followCursor] - Whether the popover follows the cursor.
  * @property {boolean} arrow - Whether an arrow is shown.
@@ -17,6 +17,7 @@ import { PopoverContext } from './context';
  * @property {boolean} [nextToCursor] - Whether the popover is positioned next to cursor.
  * @property {[number, number]} [offset] - The skidding and distance of the popover.
  * @property {(callback?: () => void) => void} onClose - Callback to close the popover.
+ * @property {(event: Event) => void} [onInteractOutside] - Callback fired when interacting outside the popover.
  * @property {(callback?: () => void) => void} onOpen - Callback to open the popover.
  * @property {() => void} onToggle - Callback to toggle the popover.
  * @property {string} placement - The placement of the popover.

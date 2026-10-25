@@ -3,50 +3,12 @@ import { render } from '@tonic-ui/react/test-utils/render';
 import { Box, Collapse } from '@tonic-ui/react/src';
 import React from 'react';
 
+// The enter transition measures the rendered content height, which needs real
+// layout; that behavior is covered by the browser suite in
+// packages/react/test/e2e/components/transitions.spec.mjs. These cases keep the
+// deterministic state-to-style mapping that does not depend on layout.
 describe('Collapse', () => {
   const boxHeight = 100;
-
-  // In a JSDOM environment, elements do not have a real layout or rendering context.
-  // We need to adjust the tests to mock the corresponding properties:
-  const mockClientHeight = (height) => {
-    Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
-      configurable: true,
-      value: height,
-    });
-  };
-
-  beforeEach(() => {
-    mockClientHeight(boxHeight); // Default mock height, adjust as needed
-  });
-
-  afterEach(() => {
-    // Clean up mock to avoid test pollution
-    Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
-      configurable: true,
-      value: 0,
-    });
-  });
-
-  it('applies correct styles when entering', () => {
-    const { rerender } = render(
-      <Collapse in={false} data-testid="collapse">
-        <Box height={boxHeight} />
-      </Collapse>
-    );
-
-    rerender(
-      <Collapse in={true} data-testid="collapse">
-        <Box height={boxHeight} />
-      </Collapse>
-    );
-
-    const collapse = screen.getByTestId('collapse');
-    expect(collapse).toHaveStyleRule('height', '100px');
-    expect(collapse).toHaveStyleRule('opacity', '1');
-    expect(collapse).toHaveStyleRule('overflow', 'hidden');
-    expect(collapse).toHaveStyleRule('transition', 'height 300ms cubic-bezier(0.4, 0, 0.2, 1),opacity 300ms cubic-bezier(0.4, 0, 0.2, 1)');
-    expect(collapse).not.toHaveStyleRule('visibility', 'hidden');
-  });
 
   it('applies correct styles when entered', () => {
     render(

@@ -4,7 +4,7 @@ import { MenuContext } from './context';
 /**
  * @typedef {Object} MenuContextValue
  * @property {boolean} autoSelect - Whether to auto-select the first item on open.
- * @property {boolean} closeOnBlur - Whether the menu closes on blur.
+ * @property {boolean} closeOnInteractOutside - Whether the menu closes on outside interaction.
  * @property {boolean} closeOnSelect - Whether the menu closes on item selection.
  * @property {string} [direction] - The direction of the menu ('up' or 'down').
  * @property {() => void} focusOnFirstItem - Focus on the first menu item.
@@ -14,6 +14,7 @@ import { MenuContext } from './context';
  * @property {boolean} isOpen - Whether the menu is open.
  * @property {[number, number]} [offset] - The skidding and distance of the menu.
  * @property {() => void} onClose - Callback to close the menu.
+ * @property {(event: Event) => void} [onInteractOutside] - Callback fired when interacting outside the menu content.
  * @property {() => void} onOpen - Callback to open the menu.
  * @property {() => void} onToggle - Callback to toggle the menu.
  * @property {string} placement - The placement of the menu.

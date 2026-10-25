@@ -60,11 +60,11 @@ The visible shell stays prebuilt and isolated; the hidden app uses Vite-transfor
 
 ## Automated checks
 
-The [root E2E suite](../../e2e/README.md) covers the reference application: local-only loading, CDN-first loading, and automatic local fallback. The [react-docs E2E suite](../../packages/react-docs/e2e/README.md) covers the inspector alongside the other docs demos.
+The [root E2E runner](../../test/e2e/README.md) runs this application's `test/e2e/` suite: local-only loading, CDN-first loading, and automatic local fallback. The [react-docs E2E suite](../../packages/react-docs/test/e2e/README.md) covers the inspector alongside the other docs demos.
 
 ```bash
-yarn test:e2e --project esm-cdn-with-fallback
-yarn workspace @tonic-ui/react-docs test:e2e --project esm-cdn-with-fallback
+yarn test:e2e examples --project esm-cdn-with-fallback
+yarn test:e2e docs --project esm-cdn-with-fallback
 ```
 
 ## The bootstrap

@@ -9,10 +9,12 @@ import { getOwnerDocument } from '@tonic-ui/utils';
  * @param {function(Event): void} handler - The callback function triggered when the click happens outside the referenced elements.
  * @param {Object} [options] - Optional configuration.
  * @param {Array<string>} [options.events=['mousedown', 'touchstart']] - List of event types to listen for.
+ * @param {boolean} [options.capture=false] - Whether to listen in the capture phase instead of the bubble phase.
  */
 
 const useClickOutside = (refs, handler, options = {}) => {
   const {
+    capture = false,
     events = ['mousedown', 'touchstart'],
   } = options;
 
@@ -21,20 +23,49 @@ const useClickOutside = (refs, handler, options = {}) => {
     return Array.isArray(refs) ? refs : [refs];
   }, [refs]);
 
+  // Refresh after every render so elements attached after the initial commit
+  // are observed without polling or mutation observers. The cleanup removes
+  // the exact listeners this render subscribed, even after React clears the
+  // element refs on unmount.
   useEffect(() => {
+    const filteredEvents = (Array.isArray(events) ? events : [])
+      .filter(x => (typeof x === 'string'));
+
+    // Resolve the owner document of each attached ref. Refs that are still
+    // null never fall back to a document, so no parent listener is installed.
+    const documents = [];
+    allRefs.forEach(ref => {
+      const el = ref?.current;
+      if (!el) {
+        return;
+      }
+
+      const doc = getOwnerDocument(el);
+      if (doc && !documents.includes(doc)) {
+        documents.push(doc);
+      }
+    });
+
+    if (documents.length === 0 || filteredEvents.length === 0) {
+      return undefined;
+    }
+
     const handleCheckIfOutside = (event) => {
+      // Document listeners see the shadow host as event.target for Shadow DOM clicks.
+      // The composed path still includes elements inside an open shadow root, so
+      // checking that path prevents internal clicks from being treated as outside.
+      const eventPath = event.composedPath?.();
       let allRefsOutside = true;
 
       for (let i = 0; i < allRefs.length; i++) {
         const ref = allRefs[i];
         const el = ref?.current;
-        const doc = getOwnerDocument(el);
 
-        if (!el || !doc) {
+        if (!el) {
           continue;
         }
 
-        const isOutside = !el.contains(event.target);
+        const isOutside = !el.contains(event.target) && !eventPath?.includes(el);
         if (!isOutside) {
           allRefsOutside = false;
           break; // Stop early if one ref is not outside
@@ -47,32 +78,21 @@ const useClickOutside = (refs, handler, options = {}) => {
       }
     };
 
-    const filteredEvents = (Array.isArray(events) ? events : [])
-      .filter(x => (typeof x === 'string'));
-
     // Attach event listeners to the document of each ref
-    allRefs.forEach(ref => {
-      const doc = getOwnerDocument(ref?.current);
-      if (!doc) {
-        return;
-      }
+    documents.forEach(doc => {
       filteredEvents.forEach(eventName => {
-        doc.addEventListener?.(eventName, handleCheckIfOutside);
+        doc.addEventListener?.(eventName, handleCheckIfOutside, capture);
       });
     });
 
     return () => {
-      allRefs.forEach(ref => {
-        const doc = getOwnerDocument(ref?.current);
-        if (!doc) {
-          return;
-        }
+      documents.forEach(doc => {
         filteredEvents.forEach(eventName => {
-          doc.removeEventListener?.(eventName, handleCheckIfOutside);
+          doc.removeEventListener?.(eventName, handleCheckIfOutside, capture);
         });
       });
     };
-  }, [allRefs, handler, events]);
+  });
 };
 
 export default useClickOutside;

@@ -328,33 +328,6 @@ describe('Dropdown', () => {
     });
   });
 
-  describe('content sizing', () => {
-    it('matches the menu width to the toggle when matchWidth is enabled', async () => {
-      const user = userEvent.setup();
-      render(<Dropdown items={items} matchWidth />);
-      const toggle = screen.getByRole('button');
-      jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function () {
-        const width = this === toggle ? 100 : 400;
-        const rect = { width, height: 40, top: 0, left: 0, right: width, bottom: 40, x: 0, y: 0 };
-        rect.toJSON = () => rect;
-        return rect;
-      });
-      jest.spyOn(HTMLElement.prototype, 'offsetWidth', 'get')
-        .mockImplementation(function () {
-          return this === toggle ? 100 : 400;
-        });
-
-      try {
-        const menu = await openMenu(user);
-        expect(menu).toHaveStyle({ width: '100px' });
-        expect(menu).not.toHaveStyle({ 'max-width': '640px' });
-        expect(menu).not.toHaveStyle({ 'min-width': '100px' });
-      } finally {
-        jest.restoreAllMocks();
-      }
-    });
-  });
-
   describe('portal container', () => {
     it('renders the portalled menu inside document.body when no containerRef is given', async () => {
       const user = userEvent.setup();

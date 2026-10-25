@@ -120,9 +120,11 @@ describe('Switch', () => {
     expect(labelText).toHaveStyleRule('color', 'var(--tonic-colors-text-accent)');
   });
 
-  it('should show the check icon when readOnly + defaultChecked', () => {
+  it('should declare the checked icon opacity when readOnly', () => {
     const { container } = render(<Switch readOnly defaultChecked />);
-    const check = container.querySelector('[data-switch-check]');
-    expect(getComputedStyle(check).opacity).toBe('1');
+    const controlBox = container.querySelector('input + div');
+    expect(controlBox).toHaveStyleRule('opacity', '1', {
+      target: /^input\[type="checkbox"\]:checked\+\.[^>]+>\[data-switch\]>\[data-switch-thumb-group\]>\[data-switch-check\]$/,
+    });
   });
 });

@@ -68,7 +68,7 @@ const mapValueToEndOfDay = (value) => {
  * @property {Date} [minDate] - The minimum date that can be selected.
  * @property {Date} [maxDate] - The maximum date that can be selected.
  * @property {(date: Date) => void} [onChange] - A callback called when the value (the selected date) changes.
- * @property {() => void} [onClose] - Callback when the date picker is closed.
+ * @property {() => void} [onClose] - Called when closing is requested, including clicks outside the input and calendar panel, Escape, and date selection when `closeOnSelect` is `true`. In controlled mode, update `isOpen` to close the popup.
  * @property {(error: string, date: Date) => void} [onError] - An error-first callback called when the date validation returns an error (or the date is valid after error).
  * @property {() => void} [onOpen] - Callback when the date picker is opened.
  * @property {string} [placement='bottom-start'] - The placement of the date picker. One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end'.
@@ -158,7 +158,7 @@ const DatePicker = forwardRef((inProps, ref) => {
     }
   }, [isOpen, onClose, onOpen]);
 
-  useClickOutside(nodeRef, onClose);
+  useClickOutside([nodeRef, datePickerContentRef], onClose);
 
   // Check if the value prop has changed
   useEffect(() => {

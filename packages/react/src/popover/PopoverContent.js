@@ -1,4 +1,4 @@
-import { useHydrated, useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
+import { useClickOutside, useHydrated, useMergeRefs, useOnceWhen } from '@tonic-ui/react-hooks';
 import {
   ariaAttr,
   callAll,
@@ -14,13 +14,13 @@ import { ensureArray, ensureFunction } from 'ensure-type';
 import React, { forwardRef, useMemo, useRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
-import { useEnvironment } from '../environment';
 import { Popper } from '../popper';
 import { Grow } from '../transitions';
 import { useSlot } from '../slot';
 import PopoverArrow from './PopoverArrow';
 import { usePopoverContentStyle } from './styles';
 import usePopover from './usePopover';
+import useDeferredCallback from '../utils/useDeferredCallback';
 
 const mapPlacementToTransformOrigin = placement => ({
   'top': 'bottom center',
@@ -56,6 +56,7 @@ const mapPlacementToTransformOrigin = placement => ({
  */
 const PopoverContent = forwardRef((inProps, ref) => {
   const {
+    closeOnBlur, // deprecated
     PopperComponent, // deprecated
     PopperProps, // deprecated
     PopoverArrowComponent, // deprecated
@@ -74,6 +75,13 @@ const PopoverContent = forwardRef((inProps, ref) => {
 
   { // deprecation warning
     const prefix = `${PopoverContent.displayName}:`;
+    useOnceWhen(() => {
+      warnDeprecatedProps('closeOnBlur', {
+        prefix,
+        alternative: 'closeOnInteractOutside',
+        willRemove: true,
+      });
+    }, closeOnBlur !== undefined);
     useOnceWhen(() => {
       warnDeprecatedProps('TransitionComponent', {
         prefix,
@@ -122,8 +130,8 @@ const PopoverContent = forwardRef((inProps, ref) => {
   const combinedRef = useMergeRefs(nodeRef, ref);
   const {
     arrow,
-    closeOnBlur,
     closeOnEsc,
+    closeOnInteractOutside,
     disabled,
     followCursor,
     isHoveringContentRef,
@@ -134,6 +142,7 @@ const PopoverContent = forwardRef((inProps, ref) => {
     nextToCursor,
     offset,
     onClose: closePopover,
+    onInteractOutside,
     placement,
     portalled,
     popoverId,
@@ -142,7 +151,6 @@ const PopoverContent = forwardRef((inProps, ref) => {
     popoverTriggerRef,
     trigger,
   } = usePopover();
-  const { getDocument } = useEnvironment();
   const role = {
     'click': 'dialog',
     'hover': 'tooltip',
@@ -157,21 +165,6 @@ const PopoverContent = forwardRef((inProps, ref) => {
       ensureFunction(closePopover)();
     }
   };
-
-  if (trigger === 'click') {
-    eventHandler.onBlur = function (event) {
-      // https://developer.mozilla.org/en-US/docs/Web/API/FocusEvent/relatedTarget
-      // The relatedTarget property represents the `EventTarget` receiving focus or losing focus during a `blur` or `focus` event, respectively.
-      const focusTarget = event.relatedTarget || getDocument().activeElement; // `relatedTarget` is the `EventTarget` receiving focus (if any)
-      const isOutsidePopoverTrigger = !(popoverTriggerRef.current?.contains?.(focusTarget));
-      const isOutsidePopoverContent = !(popoverContentRef.current?.contains?.(focusTarget));
-      const shouldClose = isOpen && closeOnBlur && !!focusTarget && isOutsidePopoverTrigger && isOutsidePopoverContent;
-
-      if (shouldClose) {
-        ensureFunction(closePopover)();
-      }
-    };
-  }
 
   if (trigger === 'hover') {
     eventHandler.onMouseEnter = function (event) {
@@ -197,6 +190,26 @@ const PopoverContent = forwardRef((inProps, ref) => {
       }, 100); // XXX: keep opening popover when cursor quickly move between trigger and content
     };
   }
+
+  const deferClosePopover = useDeferredCallback(() => {
+    if (isOpen) {
+      ensureFunction(closePopover)();
+    }
+  });
+
+  useClickOutside([popoverTriggerRef, popoverContentRef], (event) => {
+    if (!isOpen || trigger !== 'click' || disabled) {
+      return;
+    }
+
+    onInteractOutside?.(event);
+
+    const shouldClose = Boolean(closeOnInteractOutside);
+    if (shouldClose && !event.defaultPrevented) {
+      // Let the target click run before closing can unmount its subtree.
+      deferClosePopover();
+    }
+  }, { events: ['click'], capture: true });
 
   const popoverTriggerElement = popoverTriggerRef.current;
   const [
@@ -317,7 +330,7 @@ const PopoverContent = forwardRef((inProps, ref) => {
             {(state, { ref, style: transitionStyle }) => {
               return (
                 <Box
-                  onBlur={callEventHandlers(onBlurProp, eventHandler.onBlur)}
+                  onBlur={onBlurProp}
                   onKeyDown={callEventHandlers(onKeyDownProp, eventHandler.onKeyDown)}
                   onMouseEnter={callEventHandlers(onMouseEnterProp, eventHandler.onMouseEnter)}
                   onMouseLeave={callEventHandlers(onMouseLeaveProp, eventHandler.onMouseLeave)}

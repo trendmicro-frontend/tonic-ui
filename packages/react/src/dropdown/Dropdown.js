@@ -41,7 +41,7 @@ const defaultRenderToggle = ({ renderItem, value }) => (
  * @property {(args: { items: any[], renderItem: (item: any) => React.ReactNode, renderItems: (items: any[]) => React.ReactNode }) => React.ReactNode} [renderContent] - Customizes the content rendered inside the dropdown, such as headers, search inputs, or footers.
  * @property {(item: any) => React.ReactNode} [renderItem] - Customizes each item's content. The default returns `item.label` for plain objects and otherwise returns `item`. Custom implementations must accept `null` because the default toggle calls them before selection.
  * @property {(args: { renderItem: (item: any) => React.ReactNode, value: any }) => React.ReactNode} [renderToggle] - Renders the toggle. Defaults to an unstyled `DropdownToggle`.
- * @property {{ root?: object, content?: object }} [slotProps] - Props for the root and content slots.
+ * @property {{ root?: object, content?: object }} [slotProps] - Props for the root and content slots. With the default `Menu` root, outside clicks close the dropdown. Set `root.closeOnInteractOutside` to `false` to disable this, or call `event.preventDefault()` in `root.onInteractOutside` to cancel a specific click.
  * @property {{ root?: React.ElementType }} [slots] - Slot components. `slots.root` replaces the internal `Menu` engine.
  * @property {any} [value] - The selected item for controlled mode. Pair with `onChange`.
  */

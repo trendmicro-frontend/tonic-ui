@@ -65,6 +65,19 @@ const DateInput = React.forwardRef((props, ref) => {
 
 ### Date time range picker
 
+Range selection is not a built-in `DatePicker` feature. This example composes two `DatePicker` inputs (start date and end date) with two time inputs inside a `Menu`, and manages the range as application state:
+
+- **Draft state**: `DateTimePicker` keeps the four fields (`startDate`, `startTime`, `endDate`, `endTime`) in local state, seeded from the parent's stored range values. Editing a date or time updates only these drafts, so the displayed range does not change yet.
+- **Apply**: the button is disabled while any draft is invalid. Clicking it calls `onApply` with all four values and closes the menu; the parent stores the values and the displayed range updates.
+- **Cancel**: closes the menu without applying the drafts; reopening the editor starts again from the parent's stored range values.
+
+Choosing **Custom Period** opens the editor in place without closing the menu.
+
+Outside interaction is configured at two levels:
+
+- Each `DatePicker` uses `closeOnSelect={true}`, so picking a date closes that calendar immediately and leaves the custom editor open.
+- The parent `Menu` turns `closeOnInteractOutside` off while the custom editor is visible and back on once it is hidden. While the editor is visible, clicking elsewhere does not dismiss the menu; once it is hidden, an outside click closes the menu as usual.
+
 {render('./range-picker')}
 
 ## Props
@@ -84,7 +97,7 @@ const DateInput = React.forwardRef((props, ref) => {
 | minDate | Date | | The minimum date that can be selected. |
 | maxDate | Date | | The maximum date that can be selected. |
 | onChange | function | | A callback called when the value (the selected date) changes.<br/><br/><b>Signature:</b><br/>`function(value) => void`<br/>_value_: The selected date. |
-| onClose | function | | Callback when the date picker is closed. |
+| onClose | function | | Called when closing is requested, including clicks outside the input and calendar panel, Escape, and date selection when `closeOnSelect` is `true`. In controlled mode, update `isOpen` to close the popup. |
 | onError | function | | An error-first callback called when the date validation returns an error (or the date is valid after error).<br/><br/><b>Signature</b><br/>`function(error, value) => void`<br/>_error_: The error message. It will be `undefined` if the date is valid after error.<br/>_value_: The selected date. |
 | onOpen | function | | Callback when the date picker is opened. |
 | placement | string | 'bottom-start' | The placement of the date picker. One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end' |

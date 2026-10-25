@@ -81,6 +81,7 @@ export default defineConfig([
       'dist',
       'global.d.ts',
       'node_modules',
+      'output',
     ],
   },
 ]);

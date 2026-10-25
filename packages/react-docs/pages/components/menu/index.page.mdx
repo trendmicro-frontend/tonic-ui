@@ -214,6 +214,16 @@ The `Dropdown` component allows users to choose an item from a list using a simp
 Check out the following components for more details:
 * [Dropdown](../dropdown)
 
+## Commonly asked questions
+
+### Keep the menu open while interacting with another popup
+
+A disabled action can have an enabled info button that explains why it is unavailable. Use `onInteractOutside` to keep the menu open while reading the portalled popover.
+
+Open **Actions** and click the info icon beside **Delete**. Clicking outside both overlays or selecting **Stop** closes the menu.
+
+{render('./interacting-with-another-popup')}
+
 ## Accessibility
 
 ### Keyboard interaction
@@ -233,7 +243,7 @@ Check out the following components for more details:
 | anchorEl | ElementType | | The element to which the menu is attached. |
 | autoSelect | boolean | true | Whether to automatically select the first menu item when the menu is opened. |
 | children | ReactNode \| `(context) => ReactNode` | | A function child can be used intead of a React element. This function is called with the context object. |
-| closeOnBlur | boolean | true | Whether to close the menu when the user clicks outside of the menu. |
+| closeOnInteractOutside | boolean | true | If `true`, closes the menu when clicking outside its toggle, content, and submenus, including portalled submenus. Moving focus alone does not close it. |
 | closeOnSelect | boolean | true | Whether to close the menu when the user selects a menu item. |
 | defaultActiveIndex | number | -1 | The index of the menu item to be selected by default. |
 | defaultIsOpen | boolean | false | Whether the menu is open by default. |
@@ -241,6 +251,7 @@ Check out the following components for more details:
 | matchWidth | boolean | false | If `true`, sizes the menu to match the toggle's width. |
 | offset | [skidding, distance] | [0, 0] | The skidding and distance of the menu. |
 | onClose | function | | Callback when the menu is closed. |
+| onInteractOutside | `(event: Event) => void` | | Called during document capture when clicking outside the open menu, even when `closeOnInteractOutside` is `false`. Call `event.preventDefault()` here to prevent closing; target and bubbling `onClick` handlers run after this decision. Automatic closing runs after click handlers; unmounting cancels a pending close. |
 | onOpen | function | | Callback when the menu is opened. |
 | placement | string | 'bottom-start' | The placement of the menu. One of: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end' |
 | portalled | boolean | false | If `true`, renders the menu in a portal. |

@@ -1,6 +1,6 @@
 ---
 name: tonic-ui-patterns
-description: Apply Tonic UI repository conventions when creating or reviewing components, hooks, exports, and commit messages. Use for component structure, style hooks, documentation, and changeset workflows.
+description: Apply Tonic UI repository conventions when creating or reviewing components, hooks, exports, browser E2E tests, and commit messages. Use for component structure, style hooks, documentation, and changeset workflows.
 metadata:
   version: "1.0.0"
   source: "local-git-analysis"
@@ -205,6 +205,16 @@ These files typically change together:
 - **Snapshots:** Used extensively for visual regression (`__snapshots__/`)
 - **Accessibility:** Tests use `@tonic-ui/react-base/test-utils/accessibility` utilities
 - **Test command:** `yarn test`
+
+### Browser E2E
+
+- Use the repository entry point: `yarn test:e2e`. Select `react`, `examples`, or `docs` before native Playwright arguments; React runs development and production by default.
+- Read `test/README.md`, `test/e2e/README.md`, and the selected suite's README before adding browser coverage. Browser suites live in `packages/react/test/e2e/`, `packages/react-docs/test/e2e/`, and `examples/esm-cdn-with-fallback/test/e2e/`; existing package unit and type tests stay in place.
+- Keep small real-component fixtures in `packages/react/test/e2e/fixtures/components/`. Under that suite, put shared contracts in `scenarios/` and unique behavior in `components/`, without an extra `tests/` directory. Keep helpers in their owning suite until another suite needs them.
+- Use native component/scenario tags with `--grep`; do not create a project or npm script per component. Projects identify actual application/server targets.
+- All suites reuse `test/e2e/config.mjs`. Preserve root reference-app and react-docs integration coverage; do not add a second server/config framework or an empty future-page scaffold.
+- Test the actual public API and boundary: not every overlay exposes `onInteractOutside`, and defaults/event propagation differ. Use real browser actions, owning-document/open-shadow-root cases, cancellation, and unmount cleanup where applicable.
+- Exposed defects stay failing until resolved. Do not weaken assertions, add expected-failure markers, or test fake callback forwarding to obtain a pass.
 
 ## Changesets & Releases
 

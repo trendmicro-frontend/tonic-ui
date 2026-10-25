@@ -1,3 +1,8 @@
+// A TouchList is array-like but not an Array, so `Array.isArray` is false for
+// native touch events. `touches` is empty for `touchend`, where the released
+// point is exposed through `changedTouches` instead.
+const getTouch = (event) => event.touches?.[0] ?? event.changedTouches?.[0];
+
 export const getIsPassiveListenerSupported = (() => {
   // Cache the result per window so the detection runs once per environment.
   // Keying on the window object keeps the `win` argument meaningful (a value
@@ -33,3 +38,7 @@ export const getIsPassiveListenerSupported = (() => {
     return isPassiveListenerSupported;
   };
 })();
+
+export {
+  getTouch,
+};
