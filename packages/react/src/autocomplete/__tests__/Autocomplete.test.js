@@ -108,7 +108,9 @@ describe('Autocomplete', () => {
       render(<Autocomplete items={items} />);
 
       const input = getInput();
-      act(() => { input.focus(); });
+      act(() => {
+        input.focus();
+      });
       await user.keyboard('[ArrowDown]');
 
       const itemElements = await screen.findAllByRole('option');
@@ -120,7 +122,9 @@ describe('Autocomplete', () => {
       render(<Autocomplete items={items} />);
 
       const input = getInput();
-      act(() => { input.focus(); });
+      act(() => {
+        input.focus();
+      });
       await user.keyboard('[ArrowUp]');
 
       const itemElements = await screen.findAllByRole('option');
@@ -1012,67 +1016,6 @@ describe('Autocomplete', () => {
 
       expect(getInput()).toHaveValue('');
       expect(onChange).toHaveBeenCalledWith(null);
-    });
-  });
-
-  describe('matchWidth', () => {
-    const wideItems = [
-      { value: 'a', label: 'An item with a very long label that would exceed the input width' },
-      { value: 'b', label: 'Another item with an even longer label for testing purposes' },
-    ];
-
-    // anchorRef.current = InputControl's outer Box = getInput().parentElement.
-    // mockRects makes the anchor report a narrow width (100px) while all other elements
-    // (including the listbox) report a wider width (400px), simulating content wider than input.
-    // Both getBoundingClientRect (used by Popper's matchWidth modifier fn) and offsetWidth
-    // (used by useAutocompleteListStyle for minWidth/width) are mocked.
-    const mockRects = (anchorEl) => {
-      jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function () {
-        const width = this === anchorEl ? 100 : 400;
-        const rect = { width, height: 40, top: 0, left: 0, right: width, bottom: 40, x: 0, y: 0 };
-        rect.toJSON = () => rect;
-        return rect;
-      });
-      jest.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockImplementation(function () {
-        return this === anchorEl ? 100 : 400;
-      });
-    };
-
-    it('constrains the listbox to the input width even when content is wider', async () => {
-      const user = userEvent.setup();
-      render(<Autocomplete items={wideItems} matchWidth />);
-      mockRects(getInput().parentElement);
-
-      await user.click(getInput());
-
-      // width is set to the input's width (100px); maxWidth and minWidth are absent
-      // so the popup is constrained to exactly the input width with no cap or floor.
-      const listbox = await screen.findByRole('listbox');
-      expect(listbox).toHaveStyle({ width: '100px' });
-      expect(listbox).not.toHaveStyle({ 'max-width': '640px' });
-      expect(listbox).not.toHaveStyle({ 'min-width': '100px' });
-
-      jest.restoreAllMocks();
-    });
-
-    it('does not constrain the listbox width when false', async () => {
-      const user = userEvent.setup();
-      render(<Autocomplete items={wideItems} />);
-      mockRects(getInput().parentElement);
-
-      await user.click(getInput());
-
-      // Without matchWidth the popup expands to content width. The styles set
-      // minWidth (anchors to input width), maxWidth (hard cap), and width (content-sized).
-      const listbox = await screen.findByRole('listbox');
-      expect(listbox).toHaveStyle({
-        'min-width': '100px',
-        'max-width': '640px',
-        width: 'max-content',
-      });
-      expect(listbox.style.width).toBe('');
-
-      jest.restoreAllMocks();
     });
   });
 

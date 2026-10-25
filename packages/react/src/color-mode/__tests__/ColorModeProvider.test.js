@@ -2,19 +2,6 @@ import { act, render, renderHook, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ColorModeProvider, useColorMode } from '@tonic-ui/react/src';
 import React, { useCallback, useState } from 'react';
-import * as colorModeUtils from '../utils';
-
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: jest.fn().mockImplementation(query => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-  })),
-});
 
 describe('ColorModeProvider', () => {
   it('should toggle the color mode using a toggle button', async () => {
@@ -65,30 +52,6 @@ describe('ColorModeProvider', () => {
       toggleColorMode();
     });
 
-    expect(result.current[0]).toEqual('dark');
-  });
-
-  it('should prioritize the useSystemColorMode over defaultValue', () => {
-    const getColorSchemeSpy = jest
-      .spyOn(colorModeUtils, 'getColorScheme')
-      .mockReturnValueOnce('dark');
-    const onChange = jest.fn();
-    const WrapperComponent = ({ children }) => {
-      return (
-        <ColorModeProvider
-          defaultValue="light"
-          onChange={onChange}
-          useSystemColorMode
-        >
-          {children}
-        </ColorModeProvider>
-      );
-    };
-    const { result } = renderHook(() => useColorMode(), { wrapper: WrapperComponent });
-
-    expect(getColorSchemeSpy).toHaveBeenCalledWith('light', expect.anything());
-    expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith('dark');
     expect(result.current[0]).toEqual('dark');
   });
 

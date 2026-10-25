@@ -4,7 +4,7 @@ import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
 import { useEnvironment } from '../environment';
 import { useResizeHandleStyle } from './styles';
-import { getIsPassiveListenerSupported } from './utils';
+import { getIsPassiveListenerSupported, getTouch } from './utils';
 
 /**
  * @typedef {Object} ResizeHandleProps
@@ -69,14 +69,13 @@ const ResizeHandle = forwardRef((inProps, ref) => {
 
     if (isTouchStartEvent) {
       // Do not respond to multi-touch events (e.g. 2 or more fingers)
-      if (Array.isArray(event.touches) && event.touches.length > 1) {
+      if (event.touches?.length > 1) {
         return;
       }
     }
 
-    const clientX = Array.isArray(event.touches) ? event.touches[0]?.clientX : undefined;
-    const clientY = Array.isArray(event.touches) ? event.touches[0]?.clientY : undefined;
-    onResizeStartProp?.({ clientX, clientY });
+    const touch = getTouch(event);
+    onResizeStartProp?.({ clientX: touch?.clientX, clientY: touch?.clientY });
 
     setIsResizing(true);
 
@@ -89,9 +88,8 @@ const ResizeHandle = forwardRef((inProps, ref) => {
           event.preventDefault();
           event.stopPropagation();
         }
-        const clientX = Array.isArray(event.touches) ? event.touches[0]?.clientX : undefined;
-        const clientY = Array.isArray(event.touches) ? event.touches[0]?.clientY : undefined;
-        onResizeProp?.({ clientX, clientY });
+        const touch = getTouch(event);
+        onResizeProp?.({ clientX: touch?.clientX, clientY: touch?.clientY });
         return false;
       },
       [endEvent]: (event) => {
@@ -102,9 +100,8 @@ const ResizeHandle = forwardRef((inProps, ref) => {
           event.stopPropagation();
         }
         setIsResizing(false);
-        const clientX = Array.isArray(event.touches) ? event.touches[0]?.clientX : undefined;
-        const clientY = Array.isArray(event.touches) ? event.touches[0]?.clientY : undefined;
-        onResizeEndProp?.({ clientX, clientY });
+        const touch = getTouch(event);
+        onResizeEndProp?.({ clientX: touch?.clientX, clientY: touch?.clientY });
       },
     };
 

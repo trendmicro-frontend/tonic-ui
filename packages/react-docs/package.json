@@ -10,7 +10,7 @@
     "pre-push": "bash -c 'echo -e \"=> \\e[1;33m$npm_package_name\\e[0m\"' && yarn run lint && yarn run test",
     "start": "next start",
     "test": "cross-env NODE_ENV=test jest --maxWorkers=2 --passWithNoTests",
-    "test:e2e": "node ../../e2e/run.mjs docs",
+    "test:e2e": "node ../../test/e2e/run.mjs docs",
     "build:esm-cdn-with-fallback": "node ../../examples/esm-cdn-with-fallback/scripts/build.mjs --inspector ../../packages/react-docs/public/demos/esm-cdn-with-fallback",
     "build:mfe": "yarn build:mfe-module-federation && yarn build:mfe-wujie",
     "build:mfe-wujie": "vite build --config ../../examples/mfe-wujie/apps/widget-updates/vite.config.mjs && vite build --config ../../examples/mfe-wujie/apps/widget-os/vite.config.mjs && vite build --config ../../examples/mfe-wujie/apps/inventory/vite.config.mjs && vite build --config ../../examples/mfe-wujie/host/vite.config.mjs",

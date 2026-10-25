@@ -1,3 +1,5 @@
+import { getTouch } from '../utils';
+
 describe('getIsPassiveListenerSupported', () => {
   let getIsPassiveListenerSupported;
 
@@ -99,5 +101,39 @@ describe('getIsPassiveListenerSupported', () => {
     // window's cached `true`.
     expect(getIsPassiveListenerSupported(throwingWindow)).toBe(false);
     expect(throwingWindow.addEventListener).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('getTouch', () => {
+  // Native touch events expose a TouchList, which is array-like but not an
+  // Array; the browser unit tests dispatch real input and cannot cover this
+  // shape deterministically.
+  const createTouchList = (points) => Object.assign(
+    { length: points.length },
+    ...points.map((point, index) => ({ [index]: point })),
+  );
+
+  it('should return the first touch from an array-like TouchList', () => {
+    const touch = { clientX: 120, clientY: 80 };
+    const event = {
+      touches: createTouchList([touch]),
+      changedTouches: createTouchList([]),
+    };
+
+    expect(getTouch(event)).toBe(touch);
+  });
+
+  it('should fall back to changedTouches when touches is empty on touchend', () => {
+    const touch = { clientX: 200, clientY: 160 };
+    const event = {
+      touches: createTouchList([]),
+      changedTouches: createTouchList([touch]),
+    };
+
+    expect(getTouch(event)).toBe(touch);
+  });
+
+  it('should return undefined when no touch point is available', () => {
+    expect(getTouch({ touches: createTouchList([]) })).toBeUndefined();
   });
 });

@@ -179,6 +179,50 @@ const Scrollbar = forwardRef((inProps, ref) => {
     };
   };
 
+  const getHorizontalTrackWidth = useCallback(() => {
+    if (!horizontalTrackRef.current) {
+      return 0;
+    }
+    const trackWidth = getInnerWidth(horizontalTrackRef.current);
+    return trackWidth;
+  }, []);
+
+  const getHorizontalThumbWidth = useCallback(() => {
+    const { clientWidth, scrollWidth } = scrollViewRef.current;
+    if (clientWidth === scrollWidth) {
+      return 0;
+    }
+
+    const trackWidth = getHorizontalTrackWidth();
+    const thumbWidth = Math.max(
+      ensurePositiveFiniteNumber(minThumbWidth),
+      ensurePositiveFiniteNumber(Math.ceil((clientWidth / scrollWidth) * trackWidth)),
+    );
+    return thumbWidth;
+  }, [getHorizontalTrackWidth, minThumbWidth]);
+
+  const getVerticalTrackHeight = useCallback(() => {
+    if (!verticalTrackRef.current) {
+      return 0;
+    }
+    const trackHeight = getInnerHeight(verticalTrackRef.current);
+    return trackHeight;
+  }, []);
+
+  const getVerticalThumbHeight = useCallback(() => {
+    const { clientHeight, scrollHeight } = scrollViewRef.current;
+    if (clientHeight === scrollHeight) {
+      return 0;
+    }
+
+    const trackHeight = getVerticalTrackHeight();
+    const thumbHeight = Math.max(
+      ensurePositiveFiniteNumber(minThumbHeight),
+      ensurePositiveFiniteNumber(Math.ceil((clientHeight / scrollHeight) * trackHeight)),
+    );
+    return thumbHeight;
+  }, [getVerticalTrackHeight, minThumbHeight]);
+
   const update = useCallback((callback) => {
     if (!isHydrated) {
       return;
@@ -226,50 +270,6 @@ const Scrollbar = forwardRef((inProps, ref) => {
       callback(values);
     }
   }, [getHorizontalTrackWidth, getHorizontalThumbWidth, getVerticalTrackHeight, getVerticalThumbHeight, isHydrated, onUpdate]);
-
-  const getHorizontalTrackWidth = useCallback(() => {
-    if (!horizontalTrackRef.current) {
-      return 0;
-    }
-    const trackWidth = getInnerWidth(horizontalTrackRef.current);
-    return trackWidth;
-  }, []);
-
-  const getHorizontalThumbWidth = useCallback(() => {
-    const { clientWidth, scrollWidth } = scrollViewRef.current;
-    if (clientWidth === scrollWidth) {
-      return 0;
-    }
-
-    const trackWidth = getHorizontalTrackWidth();
-    const thumbWidth = Math.max(
-      ensurePositiveFiniteNumber(minThumbWidth),
-      ensurePositiveFiniteNumber(Math.ceil((clientWidth / scrollWidth) * trackWidth)),
-    );
-    return thumbWidth;
-  }, [getHorizontalTrackWidth, minThumbWidth]);
-
-  const getVerticalTrackHeight = useCallback(() => {
-    if (!verticalTrackRef.current) {
-      return 0;
-    }
-    const trackHeight = getInnerHeight(verticalTrackRef.current);
-    return trackHeight;
-  }, []);
-
-  const getVerticalThumbHeight = useCallback(() => {
-    const { clientHeight, scrollHeight } = scrollViewRef.current;
-    if (clientHeight === scrollHeight) {
-      return 0;
-    }
-
-    const trackHeight = getVerticalTrackHeight();
-    const thumbHeight = Math.max(
-      ensurePositiveFiniteNumber(minThumbHeight),
-      ensurePositiveFiniteNumber(Math.ceil((clientHeight / scrollHeight) * trackHeight)),
-    );
-    return thumbHeight;
-  }, [getVerticalTrackHeight, minThumbHeight]);
 
   const hideHorizontalTrack = useCallback(() => {
     if (overflowX === 'scroll') {
