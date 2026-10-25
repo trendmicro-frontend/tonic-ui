@@ -3,12 +3,14 @@
 "@tonic-ui/react-hooks": patch
 ---
 
-fix: align `Menu` and `Popover` dismissal, warn for deprecated `closeOnBlur`, and fix Shadow DOM boundaries and iframe cleanup in `useClickOutside`
+fix: align `Menu` and `Popover` outside-click dismissal
 
-Keep portalled `DatePicker` calendar interactions internal. Refresh `useClickOutside` owner-document subscriptions after renders without a fallback for unattached refs, and support capture-phase listeners so `Menu` and `Popover` dismiss across `ModalContent` and `DrawerContent` click propagation boundaries. Cancel dismissal in `onInteractOutside` before target and bubbling click handlers run.
+Deprecate `closeOnBlur` on `Menu` and `Popover`: the prop is still accepted and emits a development-only warning once per component instance, but it no longer controls dismissal. Set `closeOnInteractOutside` (default `true`) instead. `onInteractOutside(event)` receives outside clicks while the overlay is open, even when automatic dismissal is disabled; call `event.preventDefault()` to keep it open for that click.
 
-Defer automatic outside-click closing until target click handlers finish, so a parent overlay's `onClose` cannot discard a portalled child's action. Cancel pending closing when the overlay unmounts.
+Outside-click detection uses `useClickOutside` with native `click` events in the document capture phase, matching `Drawer` and `Modal`. Clicks outside the toggle and content dismiss the overlay even when focus does not move, including across `ModalContent` and `DrawerContent` propagation boundaries. Automatic closing is deferred to a later task until the target and bubbling click handlers finish, so a portalled target can complete its action before `onClose` unmounts its subtree; unmounting the overlay cancels a pending close. Portalled `DatePicker` calendar clicks count as internal.
 
-Read native `TouchList` coordinates in `ResizeHandle`, including the released touch on `touchend`, so touch dragging resizes with real browser coordinates rather than `undefined` values.
+`useClickOutside` gains a `capture` option, checks the event's composed path so clicks inside an open shadow root count as internal, and refreshes owner-document subscriptions after every render without falling back to the parent document for unattached refs.
+
+`ResizeHandle` reads touch coordinates from the native `TouchList`, which is array-like rather than an array, including the released touch on `touchend` through `changedTouches`, so `onResizeStart`, `onResize`, and `onResizeEnd` no longer receive `undefined` from native touch events.
 
 Initialize `Scrollbar` measurement callbacks before the callback that depends on them, avoiding a first-render `ReferenceError` in native ES module builds.
