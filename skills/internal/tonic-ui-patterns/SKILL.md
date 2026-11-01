@@ -211,8 +211,21 @@ These files typically change together:
 - Use the repository entry point: `yarn test:e2e`. Select `react`, `examples`, or `docs` before native Playwright arguments; React runs development and production by default.
 - Read `test/README.md`, `test/e2e/README.md`, and the selected suite's README before adding browser coverage. Browser suites live in `packages/react/test/e2e/`, `packages/react-docs/test/e2e/`, and `examples/esm-cdn-with-fallback/test/e2e/`; existing package unit and type tests stay in place.
 - Keep small real-component fixtures in `packages/react/test/e2e/fixtures/components/`. Under that suite, put shared contracts in `scenarios/` and unique behavior in `components/`, without an extra `tests/` directory. Keep helpers in their owning suite until another suite needs them.
+- Every browser test drives a real library component. The UI under test — dialog, trigger, control, content — is rendered with Tonic UI (`Button`, `Checkbox`, `Box`, `Text`, `Flex`, `Input`), not raw `<button>`, `<div>`, `<label><input>`, or markup built inside `page.evaluate`. Raw HTML is allowed only for the suite shell and environment hosts: `fixtures/index.jsx` page chrome, `public/index.html`, and the shadow-root/iframe elements.
+- Interact with a component through its own visible semantics. `Checkbox` keeps its state on a visually hidden input: click the rendered label/control and assert `getByRole('checkbox', { name }).toBeChecked()`, because `locator.check()`/`uncheck()` cannot act on the hidden input.
+- Enforcement is review, not lint: ESLint has no element rule for fixtures, so the PR diff must show that each tested element is a library component.
 - Use native component/scenario tags with `--grep`; do not create a project or npm script per component. Projects identify actual application/server targets.
 - All suites reuse `test/e2e/config.mjs`. Preserve root reference-app and react-docs integration coverage; do not add a second server/config framework or an empty future-page scaffold.
+
+#### Screenshot evidence
+
+- Screenshots are opt-in: `E2E_SCREENSHOTS=1`. Without it, nothing is written. All generation goes through `test/e2e/screenshots.mjs`; do not call `page.screenshot` directly.
+- One case = one directory under the owning suite: `output/e2e-screenshots/<scenario>/<case>/`, where `<scenario>` is the spec name (`focus-lock`) and `<case>` is the component and state (`modal-locked`, `drawer-unlocked`).
+- Names follow `<artifact>.<variant>.png`: `screenshot.light.png`, `screenshot.dark.png`, or `screenshot.png`. The name describes the picture, not the reason only one picture exists.
+- A case that depends on the colour mode writes the `light`/`dark` pair with `captureColorModes(page, scenario, case, prepare)`; `prepare(colorMode)` reloads the fixture with `?colorMode=light|dark` and leaves the page in the state to capture.
+- A case that does not depend on the colour mode writes one `screenshot.png` with `capture(page, scenario, case, { colorMode: null, reason })`. `reason` is required and states why the colour mode changes nothing.
+- Any dimension that changes the pixels (colour mode, document/shadow/iframe host, backdrop) belongs in `<scenario>` or `<case>`; the file name is the identity of the shot.
+- Each case directory holds `manifest.json` with `scenario`, `case`, `modeDependent`, `reason`, and one entry per shot (`mode`, `artifact`, fixture `url`), so a reviewer can reproduce the shot. Playwright's own failure screenshots stay in `output/e2e-test-results/`.
 - Test the actual public API and boundary: not every overlay exposes `onInteractOutside`, and defaults/event propagation differ. Use real browser actions, owning-document/open-shadow-root cases, cancellation, and unmount cleanup where applicable.
 - Exposed defects stay failing until resolved. Do not weaken assertions, add expected-failure markers, or test fake callback forwarding to obtain a pass.
 

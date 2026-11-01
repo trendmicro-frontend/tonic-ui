@@ -1,6 +1,9 @@
 /* eslint-disable react/jsx-no-bind */
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
+  Box,
+  Button,
+  Checkbox,
   Modal,
   ModalBody,
   ModalContent,
@@ -22,6 +25,11 @@ import {
  * - `holdOpen` rejects `onClose` like a controlled parent that ignores the request
  * - `closeOnEsc` enables the (default false) Escape handling
  * - `legacy=root&legacyValue=true|false` passes the deprecated `closeOnOutsideClick`
+ * - `ensureFocus` enables the focus trap (`ensureFocus={false}` is the real default)
+ * - `autoFocus` moves focus to the first focusable element in the content on open
+ * - `initialFocus` focuses the dismiss checkbox through `initialFocusRef`
+ * - `finalFocus` focuses `final-target` through `finalFocusRef` on close
+ * - `noReturnFocus` passes `returnFocusOnClose={false}`
  * - `portalled` mounts a portal descendant inside the content
  * - `nested` mounts a second, already open modal inside the content
  */
@@ -36,6 +44,10 @@ const ModalFixture = ({ params, record }) => {
   const [swap, setSwap] = useState(false);
   const [insideClicks, setInsideClicks] = useState(0);
   const [nestedOpen, setNestedOpen] = useState(params.has('nested'));
+  const triggerRef = useRef(null);
+  const insideRef = useRef(null);
+  const dismissRef = useRef(null);
+  const finalTargetRef = useRef(null);
   const legacyProps = params.has('legacy')
     ? { closeOnOutsideClick: params.get('legacyValue') !== 'false' }
     : {};
@@ -71,56 +83,61 @@ const ModalFixture = ({ params, record }) => {
 
   return (
     <>
-      <button
-        type="button"
+      <Button
         data-testid="trigger"
+        ref={triggerRef}
         onClick={() => {
           record({ type: 'open' });
           setIsOpen(true);
         }}
       >
         Open modal
-      </button>
+      </Button>
+      <Button data-testid="final-target" ref={finalTargetRef}>
+        Final focus target
+      </Button>
       <Modal
         {...legacyProps}
-        isOpen={isOpen}
+        autoFocus={params.has('autoFocus')}
         closeOnEsc={closeOnEsc}
         closeOnInteractOutside={dismiss}
+        ensureFocus={params.has('ensureFocus')}
+        finalFocusRef={params.has('finalFocus') ? finalTargetRef : undefined}
+        initialFocusRef={params.has('initialFocus') ? dismissRef : undefined}
+        isOpen={isOpen}
         onClose={handleClose}
         onInteractOutside={swap ? handleOutsideReplacement : handleOutside}
+        returnFocusOnClose={!params.has('noReturnFocus')}
       >
         <ModalOverlay data-testid="outside" />
         <ModalContent data-testid="content" width={360}>
           <ModalHeader>Modal header</ModalHeader>
           <ModalBody>
-            <button
-              type="button"
+            <Button
               data-testid="inside"
+              ref={insideRef}
               onClick={() => setInsideClicks(previous => previous + 1)}
             >
               Inside button
-            </button>
-            <output data-testid="inside-count">{insideClicks}</output>
-            <label>
-              <input
-                aria-label="Dismiss on outside click"
-                type="checkbox"
-                data-testid="dismiss-control"
-                checked={dismiss === true}
-                onChange={event => setDismiss(event.target.checked)}
-              />
+            </Button>
+            <Box as="output" data-testid="inside-count">{insideClicks}</Box>
+            <Checkbox
+              checked={dismiss === true}
+              data-testid="dismiss-control"
+              inputRef={dismissRef}
+              onChange={event => setDismiss(event.target.checked)}
+              inputProps={{ 'aria-label': 'Dismiss on outside click' }}
+            >
               Dismiss on outside click
-            </label>
-            <label>
-              <input
-                aria-label="Replace outside handler"
-                type="checkbox"
-                data-testid="swap-control"
-                checked={swap}
-                onChange={event => setSwap(event.target.checked)}
-              />
+            </Checkbox>
+            <Checkbox
+              checked={swap}
+              data-testid="swap-control"
+              onChange={event => setSwap(event.target.checked)}
+              inputProps={{ 'aria-label': 'Replace outside handler' }}
+            >
               Replace outside handler
-            </label>
+            </Checkbox>
             {params.has('portalled') && (
               <Portal>
                 <button
@@ -144,7 +161,7 @@ const ModalFixture = ({ params, record }) => {
               >
                 <ModalOverlay data-testid="nested-outside" />
                 <ModalContent data-testid="nested-content" width={240}>
-                  <button type="button" data-testid="nested-inside">Nested content</button>
+                  <Button data-testid="nested-inside">Nested content</Button>
                 </ModalContent>
               </Modal>
             )}

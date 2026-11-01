@@ -103,6 +103,9 @@ const FixturePage = () => {
 const App = () => {
   const [container, setContainer] = useState(null);
   const environment = params.get('environment') || 'document';
+  // Screenshots record every case in both modes; make the mode explicit so a
+  // captured case is reproducible instead of inheriting the browser preference.
+  const colorMode = params.get('colorMode') === 'dark' ? 'dark' : 'light';
   const mountShadow = useCallback((node) => {
     if (node) {
       setContainer(node.shadowRoot || node.attachShadow({ mode: 'open' }));
@@ -117,7 +120,7 @@ const App = () => {
   const cache = useMemo(() => createCache({ key: 'e2e', container: container || document.head }), [container]);
   const fixture = (
     <CacheProvider value={cache}>
-      <TonicProvider theme={theme} environment={{ value: () => container || document.body }}>
+      <TonicProvider theme={theme} colorMode={{ value: colorMode }} environment={{ value: () => container || document.body }}>
         <FixturePage />
       </TonicProvider>
     </CacheProvider>

@@ -31,6 +31,8 @@ The default runs development and production separately. `E2E_NODE_ENV=developmen
 
 Scenario tags include `@interact-outside`, `@lifecycle`, `@focus`, `@keyboard`, `@portal`, `@deprecation`, `@positioning`, `@hover`, and `@touch`. A component-specific scenario can carry both its component tag and relevant scenario tags.
 
+`scenarios/focus-lock.spec.mjs` covers the `react-focus-lock` wrapper that only `Modal` and `Drawer` render: `ensureFocus`, `autoFocus`, `initialFocusRef`, `finalFocusRef`, `returnFocusOnClose`, Tab/Shift+Tab wrapping in the document/open-shadow-root/iframe hosts, and the default where the lock is disabled. `Portal` children and nested dialogs land outside the locked subtree, so they are outside this contract.
+
 ## Layout
 
 - `fixtures/index.jsx`: component registry, event log, unmount/remount controls, theme, Emotion cache, and document/open-shadow-root/iframe hosts.
@@ -47,13 +49,14 @@ The original Menu/Popover cases remain in scenario and component files; there is
 ## Extend
 
 1. Identify the actual component API and interaction boundary. Do not assume all overlays share dismissal defaults, event types, or focus behavior.
-2. Add or extend a small fixture using the real component and callbacks. Register a new component in `fixtures/index.jsx` only when needed.
+2. Add or extend a small fixture using the real component and callbacks. Render the UI under test with library components (`Button`, `Checkbox`, `Box`, `Text`), not raw `<button>`/`<div>`/`<label><input>`; only the page chrome and the document/open-shadow-root/iframe hosts stay plain HTML. Register a new component in `fixtures/index.jsx` only when needed.
 3. Put cross-component contracts in `scenarios/`; put unique behavior in `components/`. Add native Playwright component/scenario tags.
 4. Use browser clicks, keyboard input, hover, and taps. Wait for initial focus and transition completion before the next interaction. Do not add sleeps, retries, fake callbacks, source-text assertions, or expected-failure markers.
-5. For a boundary change, cover both internal interactions and real outside dismissal. Use open Shadow DOM and the owning iframe document when applicable; after unmount, prove the component's own document listeners are removed (`installListenerProbe`), not just that callbacks stopped firing.
-6. Run the affected tag in both modes, then the complete repository entry point. An exposed product defect must remain a failing contract until resolved; do not change the assertion to accept it.
+5. When a contract needs visual confirmation, use `test/e2e/screenshots.mjs`: `captureColorModes(page, scenario, case, prepare)` writes the `light`/`dark` pair, `capture(page, scenario, case, { colorMode, reason })` writes one shot. Nothing is written unless `E2E_SCREENSHOTS=1`. Screenshot only after `settleDialog(scope)` — Modal fades its content in and Drawer slides it in, so a shot taken right after `toBeVisible` can show the dialog still transparent or off-screen. The fixture page itself has no `CSSBaseline`, so the page background stays white in both modes; only the Tonic components carry the colour mode.
+6. For a boundary change, cover both internal interactions and real outside dismissal. Use open Shadow DOM and the owning iframe document when applicable; after unmount, prove the component's own document listeners are removed (`installListenerProbe`), not just that callbacks stopped firing.
+7. Run the affected tag in both modes, then the complete repository entry point. An exposed product defect must remain a failing contract until resolved; do not change the assertion to accept it.
 
-The fixture page accepts `?component=<name>&environment=document|shadow|iframe` for interactive inspection. Use the component's actual default unless a scenario explicitly changes a prop. The common page controls survive component unmount, so callback logs show whether an unmounted component still reacts. Callback logs alone cannot prove listener cleanup: the listener lifecycle tests call `installListenerProbe(page)` before `visit`, then assert that the document-level `mousedown`/`touchstart` registrations a component created (including in the owning iframe document) are gone after unmount and registered again after remount.
+The fixture page accepts `?component=<name>&environment=document|shadow|iframe&colorMode=light|dark` for interactive inspection. Use the component's actual default unless a scenario explicitly changes a prop. The common page controls survive component unmount, so callback logs show whether an unmounted component still reacts. Callback logs alone cannot prove listener cleanup: the listener lifecycle tests call `installListenerProbe(page)` before `visit`, then assert that the document-level `mousedown`/`touchstart` registrations a component created (including in the owning iframe document) are gone after unmount and registered again after remount.
 
 For Menu/Popover, `&boundary=modal|drawer` wraps the fixture and a sibling outside target in real dialog content. The outside-interaction scenarios verify dismissal and cancellation across those propagation boundaries.
 

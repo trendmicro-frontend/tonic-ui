@@ -40,7 +40,7 @@ when instructed. The paths below are relative to the repository root, not the CW
 | Figma/screenshot token resolution and typography | [tonic-ui-tokens](skills/external/tonic-ui-tokens/SKILL.md) |
 | Application frontend development highlights and optional release checks | [tonic-ui-dev](skills/external/tonic-ui-dev/SKILL.md) |
 | Consuming application upgrades; current v2-to-v3 migration guidance | [tonic-ui-upgrade](skills/external/tonic-ui-upgrade/SKILL.md) |
-| Library component structure, hooks, exports, and repository conventions | [tonic-ui-patterns](skills/internal/tonic-ui-patterns/SKILL.md) |
+| Library component structure, hooks, exports, browser E2E fixtures, and repository conventions|[tonic-ui-patterns](skills/internal/tonic-ui-patterns/SKILL.md) |
 | Library PR descriptions, commit message drafts, and changesets | [tonic-ui-pr](skills/internal/tonic-ui-pr/SKILL.md) |
 | Library `slots`, `slotProps`, `useSlot`, and legacy component/props migration | [tonic-ui-slots](skills/internal/tonic-ui-slots/SKILL.md) |
 | Library `sx`, `__sx`, `composeSx`, and style precedence | [tonic-ui-sx](skills/internal/tonic-ui-sx/SKILL.md) |
@@ -49,3 +49,13 @@ when instructed. The paths below are relative to the repository root, not the CW
 
 Skills are task-specific instructions, not replacements for the policies above
 or the host agent's tool and safety rules.
+
+## Browser Evidence
+
+Browser screenshots are opt-in: `E2E_SCREENSHOTS=1`. Every capture goes through
+`test/e2e/screenshots.mjs`, never `page.screenshot` directly. Files live in
+`output/e2e-screenshots/<scenario>/<case>/` and are named
+`<artifact>.<variant>.png`: `screenshot.light.png`, `screenshot.dark.png`, or
+`screenshot.png` for a case with no colour-mode variant. Each case directory also
+holds a `manifest.json` recording the props and fixture URL that produced the
+shot. See [`test/e2e/README.md`](test/e2e/README.md) for the full contract.
