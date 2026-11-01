@@ -255,14 +255,16 @@ test.describe('Modal and Drawer', () => {
     test(`@${component} @interact-outside applies live closeOnInteractOutside changes`, async ({ page }) => {
       const scope = await visit(page, component, { initiallyOpen: 'true', dismiss: 'true', ...overlay });
       const dismissControl = scope.getByTestId('dismiss-control');
-      await expect(dismissControl).toBeChecked();
+      const dismissCheckbox = scope.getByRole('checkbox', { name: 'Dismiss on outside click' });
+      await expect(dismissCheckbox).toBeChecked();
 
-      await dismissControl.uncheck();
+      // `Checkbox` exposes its state on a visually hidden input, so the label is the actionable control.
+      await dismissControl.click();
       await clickBackdrop(scope);
       expect(await events(scope)).toEqual([outsideEntry('outside')]);
       await expect(scope.getByTestId('content')).toBeVisible();
 
-      await dismissControl.check();
+      await dismissControl.click();
       await clickBackdrop(scope);
       await expect(scope.getByTestId('content')).toHaveCount(0);
       expect(await events(scope)).toEqual([outsideEntry('outside'), outsideEntry('outside'), { type: 'close' }]);
@@ -272,12 +274,12 @@ test.describe('Modal and Drawer', () => {
       const scope = await visit(page, component, { initiallyOpen: 'true', dismiss: 'true', ...overlay });
       const swapControl = scope.getByTestId('swap-control');
 
-      await swapControl.check();
+      await swapControl.click();
       await clickBackdrop(scope);
       expect(await events(scope)).toEqual([outsideEntry('outside', true)]);
       await expect(scope.getByTestId('content')).toBeVisible();
 
-      await swapControl.uncheck();
+      await swapControl.click();
       await clickBackdrop(scope);
       await expect(scope.getByTestId('content')).toHaveCount(0);
       expect(await events(scope)).toEqual([outsideEntry('outside', true), outsideEntry('outside'), { type: 'close' }]);

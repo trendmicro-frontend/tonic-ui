@@ -7007,7 +7007,7 @@ __metadata:
     react-dnd: "npm:^16.0.1"
     react-dnd-html5-backend: "npm:^16.0.1"
     react-dom: "npm:^18.3.0 || ^19.0.0"
-    react-focus-lock: "npm:^2.9.2"
+    react-focus-lock: "npm:^2.13.7"
     react-frame-component: "npm:^5.2.7"
     react-instantsearch-core: "npm:^7.5.0"
     react-live: "npm:^4.1.3"
@@ -7111,7 +7111,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/react@npm:3.0.0-alpha.2, @tonic-ui/react@workspace:^, @tonic-ui/react@workspace:packages/react":
+"@tonic-ui/react@npm:3.0.0-alpha.3, @tonic-ui/react@workspace:^, @tonic-ui/react@workspace:packages/react":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/react@workspace:packages/react"
   dependencies:
@@ -7166,7 +7166,7 @@ __metadata:
     micro-memoize: "npm:5.x"
     react: "npm:^18.3.0 || ^19.0.0"
     react-dom: "npm:^18.3.0 || ^19.0.0"
-    react-focus-lock: "npm:2.x"
+    react-focus-lock: "npm:^2.13.7"
     react-is: "npm:^18.3.0 || ^19.0.0"
     react-transition-group: "npm:4.x"
     rollup: "npm:^3"
@@ -9627,7 +9627,7 @@ __metadata:
     "@emotion/is-prop-valid": "npm:1.2.2"
     "@emotion/react": "npm:11.14.0"
     "@emotion/styled": "npm:11.14.1"
-    "@tonic-ui/react": "npm:3.0.0-alpha.2"
+    "@tonic-ui/react": "npm:3.0.0-alpha.3"
     "@vitejs/plugin-react": "npm:4.7.0"
     react: "npm:19.2.7"
     react-dom: "npm:19.2.7"
@@ -12691,12 +12691,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"focus-lock@npm:^1.3.2":
-  version: 1.3.4
-  resolution: "focus-lock@npm:1.3.4"
+"focus-lock@npm:^1.3.6":
+  version: 1.3.6
+  resolution: "focus-lock@npm:1.3.6"
   dependencies:
     tslib: "npm:^2.0.3"
-  checksum: 10/21cf95b8678f7ecd51c14d01d7cb286894330ac3d455fa7d2a1bcac931810c2cb0bd1cb920adb764e88a403b1b69be79fa48082b405336dcae1c134d4f183ad1
+  checksum: 10/50a4bf4e330d4aa89c9440e5c37af6915170e6da9c2798235491ee150164d92270879410b3f1c0b9ee7b23f774a909c610ba77dae67622b7bad2d4dddab43956
   languageName: node
   linkType: hard
 
@@ -19816,14 +19816,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-clientside-effect@npm:^1.2.6":
-  version: 1.2.6
-  resolution: "react-clientside-effect@npm:1.2.6"
+"react-clientside-effect@npm:^1.2.7":
+  version: 1.2.8
+  resolution: "react-clientside-effect@npm:1.2.8"
   dependencies:
     "@babel/runtime": "npm:^7.12.13"
   peerDependencies:
-    react: ^15.3.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
-  checksum: 10/45411b2e1d5e77ce8586ef0fa6cef2d394da4660af90a2c0f044a2170a0b601ac023ac2bc62d6109201969329a8dbd13bd1a4bd4027be3980e4fde7c6a48bee3
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+  checksum: 10/17e6778c30e36c16aab18557b31e432080c03a724867f9df7b5cde5b15e334d272955b34964cb89d5d33d100f4d4d3856c45882d8b2c815c6c797795a3a34720
   languageName: node
   linkType: hard
 
@@ -19872,23 +19872,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-focus-lock@npm:2.x, react-focus-lock@npm:^2.9.2":
-  version: 2.11.2
-  resolution: "react-focus-lock@npm:2.11.2"
+"react-focus-lock@npm:^2.13.7":
+  version: 2.13.7
+  resolution: "react-focus-lock@npm:2.13.7"
   dependencies:
     "@babel/runtime": "npm:^7.0.0"
-    focus-lock: "npm:^1.3.2"
+    focus-lock: "npm:^1.3.6"
     prop-types: "npm:^15.6.2"
-    react-clientside-effect: "npm:^1.2.6"
-    use-callback-ref: "npm:^1.3.0"
-    use-sidecar: "npm:^1.1.2"
+    react-clientside-effect: "npm:^1.2.7"
+    use-callback-ref: "npm:^1.3.3"
+    use-sidecar: "npm:^1.1.3"
   peerDependencies:
-    "@types/react": ^16.8.0 || ^17.0.0 || ^18.0.0
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    "@types/react": "*"
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 10/cad626e1325ac9791f6c3e640bebf8d424f5d78a6d9a1042d1092c1fde1be051eef9335a38c162812aedf2bb0a319c3624d565413784f5ef605735b9967b6e07
+  checksum: 10/6d139be2dda350648febcfa1f08c341f65db0e4e3388cb322377a26fa7773605abd4f1fbd621a026bc2c55010d6e41ccb1ab0ae66577ce61404321aad0682a61
   languageName: node
   linkType: hard
 
@@ -23183,18 +23183,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-callback-ref@npm:^1.3.0":
-  version: 1.3.2
-  resolution: "use-callback-ref@npm:1.3.2"
+"use-callback-ref@npm:^1.3.3":
+  version: 1.3.3
+  resolution: "use-callback-ref@npm:1.3.3"
   dependencies:
     tslib: "npm:^2.0.0"
   peerDependencies:
-    "@types/react": ^16.8.0 || ^17.0.0 || ^18.0.0
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    "@types/react": "*"
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 10/3be76eae71b52ab233b4fde974eddeff72e67e6723100a0c0297df4b0d60daabedfa706ffb314d0a52645f2c1235e50fdbd53d99f374eb5df68c74d412e98a9b
+  checksum: 10/adf06a7b6a27d3651c325ac9b66d2b82ccacaed7450b85b211d123e91d9a23cb5a587fcc6db5b4fd07ac7233e5abf024d30cf02ddc2ec46bca712151c0836151
   languageName: node
   linkType: hard
 
@@ -23216,19 +23216,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-sidecar@npm:^1.1.2":
-  version: 1.1.2
-  resolution: "use-sidecar@npm:1.1.2"
+"use-sidecar@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "use-sidecar@npm:1.1.3"
   dependencies:
     detect-node-es: "npm:^1.1.0"
     tslib: "npm:^2.0.0"
   peerDependencies:
-    "@types/react": ^16.9.0 || ^17.0.0 || ^18.0.0
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    "@types/react": "*"
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 10/ec99e31aefeb880f6dc4d02cb19a01d123364954f857811470ece32872f70d6c3eadbe4d073770706a9b7db6136f2a9fbf1bb803e07fbb21e936a47479281690
+  checksum: 10/2fec05eb851cdfc4a4657b1dfb434e686f346c3265ffc9db8a974bb58f8128bd4a708a3cc00e8f51655fccf81822ed4419ebed42f41610589e3aab0cf2492edb
   languageName: node
   linkType: hard
 

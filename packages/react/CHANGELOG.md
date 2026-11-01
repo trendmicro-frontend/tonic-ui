@@ -1,5 +1,11 @@
 # @tonic-ui/react
 
+## 3.0.0-alpha.3
+
+### Patch Changes
+
+- fix(react): import `react-focus-lock` normally, not via the `dist/cjs` deep path by [@cheton](https://github.com/cheton) in [#1232](https://github.com/trendmicro-frontend/tonic-ui/pull/1232)
+
 ## 3.0.0-alpha.2
 
 ### Minor Changes

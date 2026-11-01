@@ -96,9 +96,22 @@ The shared factory joins build and preview commands with `&&`, so preview starts
 Console-only output is the default. Traces, screenshots, and videos are disabled; no last-run state is retained.
 
 ```bash
-E2E_REPORTS=1 yarn test:e2e react
+E2E_REPORTS=1 yarn test:e2e react        # HTML report + failure traces
+E2E_SCREENSHOTS=1 yarn test:e2e react    # one screenshot per test, kept for every test
 DEBUG=pw:webserver yarn test:e2e docs
 ```
+
+`E2E_REPORTS=1` alone still captures no screenshots — it only adds the HTML report and failure traces. `E2E_SCREENSHOTS=1` keeps failure screenshots and enables the named captures from `test/e2e/screenshots.mjs`, which is the shared entry point for every suite.
+
+```
+output/e2e-screenshots/<scenario>/<case>/
+  screenshot.light.png   # mode-dependent case
+  screenshot.dark.png
+  screenshot.png         # case with no colour-mode variant
+  manifest.json          # scenario, case, modeDependent, reason, shots (mode, artifact, fixture url)
+```
+
+Names follow `<artifact>.<variant>.png`: the name describes the picture, not the reason only one picture exists. Use `captureColorModes(page, scenario, case, prepare)` for anything whose appearance changes with the colour mode — `prepare(colorMode)` reloads the fixture with `?colorMode=light|dark` and leaves the page in the state to capture. Use `capture(page, scenario, case, { colorMode, reason })` for a single shot; a case with no variant must pass `reason`, so the manifest says why the colour mode does not change it. Every dimension that changes the pixels — colour mode, document/shadow/iframe host, backdrop — must appear in `<scenario>` or `<case>`, because the file name is the identity of the shot. Development and production runs share one directory, so the last run owns it, like the report directory. Playwright's own failure screenshots stay under `output/e2e-test-results/`.
 
 File mode writes `output/e2e-playwright-report/` and `output/e2e-test-results/` relative to the owning workspace (repository root for examples). Traces are retained only for failures. Development and production use the same React report directory; the most recent run owns that report. The runner stops before a failing run can be overwritten by the next mode. No CI job is added.
 

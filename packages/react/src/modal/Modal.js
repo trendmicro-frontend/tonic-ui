@@ -1,7 +1,7 @@
 import { useOnceWhen } from '@tonic-ui/react-hooks';
 import { getAllFocusable, runIfFn, warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
-import FocusLock from 'react-focus-lock/dist/cjs';
+import FocusLock from 'react-focus-lock';
 import { useDefaultProps } from '../default-props';
 import { Portal } from '../portal';
 import { AnimatePresence } from '../utils/animate-presence';

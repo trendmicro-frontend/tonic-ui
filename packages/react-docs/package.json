@@ -92,7 +92,7 @@
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.3.0 || ^19.0.0",
-    "react-focus-lock": "^2.9.2",
+    "react-focus-lock": "^2.13.7",
     "react-frame-component": "^5.2.7",
     "react-instantsearch-core": "^7.5.0",
     "react-live": "^4.1.3",

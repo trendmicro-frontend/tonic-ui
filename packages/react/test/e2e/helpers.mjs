@@ -8,6 +8,15 @@ export const visit = async (page, component, options = {}) => {
   return scope;
 };
 
+// Modal fades its content in and Drawer slides it in from the edge. Playwright
+// treats a still-off-screen or still-transparent element as visible, so any
+// assertion or screenshot taken before this settle can miss the dialog entirely.
+export const settleDialog = async (scope) => {
+  await expect(scope.getByTestId('content')).toHaveCSS('opacity', '1');
+  await expect(scope.getByTestId('content')).toHaveCSS('transform', 'none');
+  await expect(scope.getByTestId('outside')).toHaveCSS('opacity', '1');
+};
+
 export const events = async (scope, type) => {
   const entries = JSON.parse(await scope.getByTestId('events').textContent());
   return type ? entries.filter(entry => entry.type === type) : entries;
