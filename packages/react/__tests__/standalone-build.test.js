@@ -47,6 +47,53 @@ const expectByteEqual = (actual, expected, label) => {
   );
 };
 
+// The published artifact is served raw by esm.sh and jsDelivr, so every import
+// that is not inlined must be resolvable by the consumer's import map. The set
+// below is the contract documented in the CDN integration guide: if the build
+// emits anything else, the artifact is no longer self-contained.
+const allowedExternalSpecifiers = new Set([
+  'react',
+  'react-dom',
+  '@emotion/react',
+  '@emotion/react/jsx-runtime',
+  '@emotion/styled/base',
+  '@emotion/is-prop-valid',
+]);
+
+const bareSpecifiers = (source) =>
+  [...source.matchAll(/(?:import|from)\s*["']([^"']+)["']/g)].map((match) => match[1]);
+
+test('the standalone artifact keeps only the documented external imports', () => {
+  const artifact = path.join(packageDirectory, 'dist', 'standalone', 'index.min.js');
+  // NODE_ENV=test changes the babel transform; the artifact must be checked as
+  // the published build produces it.
+  const env = { ...process.env, BUILD_STANDALONE_ONLY: '1' };
+  delete env.NODE_ENV;
+  execFileSync(process.execPath, [rollupCli, '--config', 'rollup.config.mjs'], {
+    cwd: packageDirectory,
+    env,
+    stdio: 'pipe',
+  });
+
+  const source = fs.readFileSync(artifact, 'utf8');
+  const specifiers = bareSpecifiers(source);
+  const unexpected = [...new Set(specifiers)].filter((id) => !allowedExternalSpecifiers.has(id));
+  if (unexpected.length > 0) {
+    throw new Error(
+      `dist/standalone/index.min.js imports modules the import map does not provide: ${unexpected.join(', ')}`
+    );
+  }
+  if (specifiers.some((id) => id.startsWith('.') || id.startsWith('/') || id.startsWith('http'))) {
+    throw new Error('the standalone artifact must contain no relative or absolute imports');
+  }
+  if (/require\s*\(/.test(source) || /from\s*["']node:/.test(source)) {
+    throw new Error('the standalone artifact must not contain CommonJS or Node-only imports');
+  }
+  if (!/sourceMappingURL=index\.min\.js\.map/.test(source)) {
+    throw new Error('the standalone artifact must reference its sourcemap by relative name');
+  }
+});
+
 test('standalone minify integrated in rollup is byte-identical to the esbuild CLI pass', () => {
   const fullArtifact = path.join(packageDirectory, 'dist', 'standalone', 'index.js');
   const artifact = path.join(packageDirectory, 'dist', 'standalone', 'index.min.js');
