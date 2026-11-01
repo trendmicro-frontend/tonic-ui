@@ -99,6 +99,8 @@ Per family package the shared runtime demos add **one** import map entry:
 
 Scaling: **N family packages → 1 (core) + N (add-ons) + 7 Emotion files** (immutable, cached for a year — paid once). One core instance, one Emotion instance, N self-contained files. The existing fallback machinery (CDN probe failure → `__local` reload → same-origin bundles) covers every package identically: a 404/timeout on any raw URL degrades that package's family to local, nothing else.
 
+**Applies only to npm-published packages.** InnerSource packages that exist solely in the internal JFrog registry (`@tonic-one/*`) have no esm.sh or jsDelivr URL; the peer-identity rule still applies, but delivery is self-hosted or internally mirrored. The decision record and implementation plan for that case live in the Tonic One repository: `trend-common-platform/tonic-one` → `docs/adr/2026-10-31-inner-source-packages-and-public-cdns.md`.
+
 ## 5. Open items (resolve at implementation time, not before)
 
 - [ ] Confirm whether `@tonic-ui/react-data-grid` (v3 line) imports `@tonic-ui/react` — decides that package's external set.

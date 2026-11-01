@@ -1,5 +1,5 @@
 {
-  "name": "esm-cdn-with-fallback",
+  "name": "cdn-with-fallback",
   "private": true,
   "type": "module",
   "scripts": {

@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import Iframe from '@/components/Iframe';
 
 const basePath = process.env.TONIC_UI_REACT_DOCS_BASE_PATH || '';
-const demoSrc = `${basePath}/demos/esm-cdn-with-fallback/inspector.html`;
+const demoSrc = `${basePath}/demos/cdn-with-fallback/inspector.html`;
 
 const App = () => {
   const [colorMode] = useColorMode();

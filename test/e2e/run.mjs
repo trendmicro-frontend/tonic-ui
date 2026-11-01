@@ -14,7 +14,7 @@ const suites = {
     config: 'packages/react/test/e2e/playwright.config.mjs',
     env: { E2E_NODE_ENV: mode },
   })),
-  examples: [{ name: 'examples', config: 'examples/esm-cdn-with-fallback/test/e2e/playwright.config.mjs' }],
+  examples: [{ name: 'examples', config: 'examples/cdn-with-fallback/test/e2e/playwright.config.mjs' }],
   docs: [{ name: 'docs', config: 'packages/react-docs/test/e2e/playwright.config.mjs' }],
 };
 const targets = suite === 'all' ? Object.values(suites).flat() : suites[suite];

@@ -9619,6 +9619,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cdn-with-fallback@workspace:examples/cdn-with-fallback":
+  version: 0.0.0-use.local
+  resolution: "cdn-with-fallback@workspace:examples/cdn-with-fallback"
+  dependencies:
+    "@emotion/cache": "npm:11.14.0"
+    "@emotion/is-prop-valid": "npm:1.2.2"
+    "@emotion/react": "npm:11.14.0"
+    "@emotion/styled": "npm:11.14.1"
+    "@tonic-ui/react": "npm:3.0.0-alpha.2"
+    "@vitejs/plugin-react": "npm:4.7.0"
+    react: "npm:19.2.7"
+    react-dom: "npm:19.2.7"
+    vite: "npm:6.4.3"
+  languageName: unknown
+  linkType: soft
+
 "chalk@npm:4.1.0":
   version: 4.1.0
   resolution: "chalk@npm:4.1.0"
@@ -12031,22 +12047,6 @@ __metadata:
   checksum: 10/1c95c92983ddf435e7f7d54edd06d703a15773a7d189583d3388e5b5ac714f0a2450b91c0b3bb9b9ccec9bd20994fd8e48d231ed6dabca0be56ef314b32820ff
   languageName: node
   linkType: hard
-
-"esm-cdn-with-fallback@workspace:examples/esm-cdn-with-fallback":
-  version: 0.0.0-use.local
-  resolution: "esm-cdn-with-fallback@workspace:examples/esm-cdn-with-fallback"
-  dependencies:
-    "@emotion/cache": "npm:11.14.0"
-    "@emotion/is-prop-valid": "npm:1.2.2"
-    "@emotion/react": "npm:11.14.0"
-    "@emotion/styled": "npm:11.14.1"
-    "@tonic-ui/react": "npm:3.0.0-alpha.2"
-    "@vitejs/plugin-react": "npm:4.7.0"
-    react: "npm:19.2.7"
-    react-dom: "npm:19.2.7"
-    vite: "npm:6.4.3"
-  languageName: unknown
-  linkType: soft
 
 "espree@npm:^10.0.1, espree@npm:^10.4.0":
   version: 10.4.0

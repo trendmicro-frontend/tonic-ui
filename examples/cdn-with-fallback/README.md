@@ -1,6 +1,6 @@
-# examples/esm-cdn-with-fallback/
+# examples/cdn-with-fallback/
 
-Reference app for the [CDN with fallback](../../packages/react-docs/pages/integrations/esm-cdn-with-fallback/index.page.mdx) integration: React and Tonic UI load from a CDN first, with automatic fallback to same-origin runtime files when a CDN import fails or times out during startup. The application and inspector share `public/bootstrap.js`; all runtime helpers are included in this directory.
+Reference app for the [CDN loading strategies and fallback](../../packages/react-docs/pages/integrations/cdn-with-fallback/index.page.mdx) guide: React and Tonic UI load from a CDN first, with automatic fallback to same-origin runtime files when a CDN import fails or times out during startup. The application and inspector share `public/bootstrap.js`; all runtime helpers are included in this directory.
 
 This one example builds two products:
 
@@ -30,6 +30,22 @@ Build with `npm run build:inspector` and serve with `npm run preview:inspector`.
 The inspector is a visible shell with a scenario dropdown and a hidden, reloadable runtime frame. The shell document owns every visible section and links to `runtime-manifest.json` in a new window, so the manifest stays inspectable while the frame loads and after failures. `public/runtime.html` runs in a hidden iframe as the disposable import-map realm and streams its load log to the shell. A scenario change or CDN fallback reloads only that hidden document; the selected-source cells update in place after the chosen runtime mounts. Failure presets inject a real missing-module import, not a simulated success. For actual CDN outage checks, disable the network in DevTools.
 
 Open the inspector URL with `?scenario=all-local` (or any scenario id) to start in that scenario; `?run` numbering distinguishes frame reloads.
+
+## CDN sources
+
+The example loads React, React DOM, and `@tonic-ui/react` from esm.sh, with same-origin files as the fallback. The `@tonic-ui/react` entry prefers the published standalone artifact; two alternatives were checked and are not used:
+
+- jsDelivr `+esm` (`https://cdn.jsdelivr.net/npm/@tonic-ui/react@3.0.0-alpha.2/+esm`) returns a valid ES module, but
+  it resolves React, React DOM, and Emotion on its own and has no equivalent of esm.sh's
+  `external` parameter. A Chromium test of that endpoint fetched 76 modules with seven different
+  React versions, the import succeeded, and mounting failed with
+  `TypeError: Cannot read properties of null (reading 'useRef')`, so it is not offered as a
+  scenario. The guide documents the import-map aliases that make that endpoint render; this
+  example does not ship them.
+- `3.0.0-alpha.2` is the first release whose tarball contains `dist/standalone/index.min.js`. The
+  build probes that published URL and, when it exists, uses it through `raw.esm.sh`; releases
+  without the file fall back to the esm.sh standalone build.
+
 ## What the build uses
 
 The example is self-contained. Copy this directory to use it outside the
@@ -63,8 +79,8 @@ The visible shell stays prebuilt and isolated; the hidden app uses Vite-transfor
 The [root E2E runner](../../test/e2e/README.md) runs this application's `test/e2e/` suite: local-only loading, CDN-first loading, and automatic local fallback. The [react-docs E2E suite](../../packages/react-docs/test/e2e/README.md) covers the inspector alongside the other docs demos.
 
 ```bash
-yarn test:e2e examples --project esm-cdn-with-fallback
-yarn test:e2e docs --project esm-cdn-with-fallback
+yarn test:e2e examples --project cdn-with-fallback
+yarn test:e2e docs --project cdn-with-fallback
 ```
 
 ## The bootstrap

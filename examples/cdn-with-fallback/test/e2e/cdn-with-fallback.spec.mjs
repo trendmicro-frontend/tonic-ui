@@ -1,4 +1,4 @@
-// esm-cdn-with-fallback example: verify forced-local, CDN-first, and outage
+// cdn-with-fallback example: verify forced-local, CDN-first, and outage
 // startup paths. Assert selected sources only after the final document mounts.
 // The @tonic-ui/react group's CDN source prefers the published standalone artifact,
 // served raw from the published npm tarball; when the installed package
@@ -8,7 +8,7 @@
 import { test, expect } from '@playwright/test';
 import { blockCdn } from './helpers.mjs';
 
-test.describe('esm-cdn-with-fallback', { tag: ['@example', '@cdn'] }, () => {
+test.describe('cdn-with-fallback', { tag: ['@example', '@cdn'] }, () => {
   // The @tonic-ui/react group's source may resolve to its local candidate when
   // the published tarball lacks the standalone artifact: the raw.esm.sh file
   // 404s and the family falls back to local by design. The React and React

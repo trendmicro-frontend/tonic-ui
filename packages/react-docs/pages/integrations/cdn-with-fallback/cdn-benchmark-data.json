@@ -1,0 +1,2166 @@
+{
+  "generatedAt": "2026-11-01",
+  "method": {
+    "package": "@tonic-ui/react@3.0.0-alpha.2",
+    "runsPerStrategy": 3,
+    "cache": "fresh browser context per run (cold cache)",
+    "workload": "TonicProvider + Box p=\"4x\" + Button + useColorMode",
+    "successCriteria": "Button present, computed padding 16px, useColorMode returned a value",
+    "sizes": "JavaScript module requests only; transferred = bytes on the wire (CDP encodedDataLength, so compression counts), decoded = decompressed body length",
+    "span": "first to last JavaScript module request, including incomplete graphs for failed runs",
+    "standaloneHost": "the Rollup standalone artifact is served brotli-compressed from localhost, as a real origin would"
+  },
+  "strategies": [
+    {
+      "id": "esmsh-default",
+      "label": "Default ESM",
+      "note": "Failure case: no import map, and esm.sh's CommonJS wrapper for react-focus-lock throws before the app mounts.",
+      "variant": true,
+      "provider": "esm.sh",
+      "build": "Bundle built by the CDN",
+      "entry": "https://esm.sh/@tonic-ui/react@3.0.0-alpha.2",
+      "importMap": {},
+      "status": "measured",
+      "renders": false,
+      "renderRuns": "0/3",
+      "failure": "x is not a function",
+      "requests": 420,
+      "transferredKiB": 486.5,
+      "decodedKiB": 1152.7,
+      "moduleSpanMs": 805,
+      "reactModulesLoaded": 1,
+      "reactModulesShared": 0,
+      "reactInstances": 1,
+      "emotionModulesLoaded": 31,
+      "reactModuleUrls": [
+        {
+          "url": "https://esm.sh/react@19.3.1/es2022/react.mjs",
+          "shared": false
+        }
+      ],
+      "groupsKiB": {
+        "Tonic UI packages": 765.4,
+        "React / React DOM": 27.5,
+        "Other dependencies": 338.4,
+        "Emotion": 21.4
+      },
+      "largestFileKiB": 338.6,
+      "largestFileShare": 29,
+      "duplicateRequests": 0,
+      "duplicatePaths": [],
+      "topFiles": [
+        {
+          "path": "@tonic-ui/react@3.0.0-alpha.2/es2022/react.mjs",
+          "group": "Tonic UI packages",
+          "transferredKiB": 118.8,
+          "decodedKiB": 338.6,
+          "start": 154,
+          "duration": 116
+        },
+        {
+          "path": "@tonic-ui/react-icons@3.0.0-alpha.1/es2022/react-icons.mjs",
+          "group": "Tonic UI packages",
+          "transferredKiB": 110.8,
+          "decodedKiB": 306.7,
+          "start": 205,
+          "duration": 178
+        },
+        {
+          "path": "@tonic-ui/theme@3.0.0-alpha.1/es2022/theme.mjs",
+          "group": "Tonic UI packages",
+          "transferredKiB": 12.7,
+          "decodedKiB": 56.6,
+          "start": 200,
+          "duration": 82
+        },
+        {
+          "path": "@tonic-ui/styled-system@3.0.0-alpha.1/es2022/styled-system.mjs",
+          "group": "Tonic UI packages",
+          "transferredKiB": 8.8,
+          "decodedKiB": 25.4,
+          "start": 280,
+          "duration": 110
+        },
+        {
+          "path": "date-fns@4.4.0/es2022/parse.mjs",
+          "group": "Other dependencies",
+          "transferredKiB": 5.3,
+          "decodedKiB": 20.5,
+          "start": 217,
+          "duration": 163
+        },
+        {
+          "path": "@popperjs/core@2.11.8/es2022/core.mjs",
+          "group": "Other dependencies",
+          "transferredKiB": 8.9,
+          "decodedKiB": 20.3,
+          "start": 205,
+          "duration": 74
+        },
+        {
+          "path": "@tonic-ui/react-hooks@3.0.0-alpha.2/es2022/react-hooks.mjs",
+          "group": "Tonic UI packages",
+          "transferredKiB": 6.1,
+          "decodedKiB": 14.6,
+          "start": 201,
+          "duration": 75
+        },
+        {
+          "path": "react-transition-group@4.4.5/es2022/react-transition-group.mjs",
+          "group": "Other dependencies",
+          "transferredKiB": 4.8,
+          "decodedKiB": 13.6,
+          "start": 228,
+          "duration": 161
+        },
+        {
+          "path": "date-fns@%5E4.4.0?target=es2022",
+          "group": "Other dependencies",
+          "transferredKiB": 1.7,
+          "decodedKiB": 12.3,
+          "start": 154,
+          "duration": 75
+        },
+        {
+          "path": "node/events.mjs",
+          "group": "Other dependencies",
+          "transferredKiB": 4.8,
+          "decodedKiB": 11.8,
+          "start": 703,
+          "duration": 46
+        },
+        {
+          "path": "tslib@2.9.1/es2022/tslib.mjs",
+          "group": "Other dependencies",
+          "transferredKiB": 4.8,
+          "decodedKiB": 11.1,
+          "start": 619,
+          "duration": 39
+        },
+        {
+          "path": "focus-lock@1.3.6/es2022/focus-lock.mjs",
+          "group": "Other dependencies",
+          "transferredKiB": 4.6,
+          "decodedKiB": 10.5,
+          "start": 498,
+          "duration": 48
+        }
+      ],
+      "waterfall": [
+        {
+          "start": 0,
+          "requests": 1,
+          "transferredKiB": 0.8,
+          "decodedKiB": 1
+        },
+        {
+          "start": 100,
+          "requests": 28,
+          "transferredKiB": 129.3,
+          "decodedKiB": 360.5
+        },
+        {
+          "start": 200,
+          "requests": 300,
+          "transferredKiB": 277.7,
+          "decodedKiB": 645.5
+        },
+        {
+          "start": 300,
+          "requests": 35,
+          "transferredKiB": 32,
+          "decodedKiB": 60.1
+        },
+        {
+          "start": 400,
+          "requests": 37,
+          "transferredKiB": 27.4,
+          "decodedKiB": 45.7
+        },
+        {
+          "start": 500,
+          "requests": 12,
+          "transferredKiB": 3.9,
+          "decodedKiB": 5.3
+        },
+        {
+          "start": 600,
+          "requests": 4,
+          "transferredKiB": 8.8,
+          "decodedKiB": 19.1
+        },
+        {
+          "start": 700,
+          "requests": 3,
+          "transferredKiB": 6.8,
+          "decodedKiB": 15.4
+        }
+      ]
+    },
+    {
+      "id": "esmsh-external",
+      "label": "Default ESM + import map",
+      "note": "Failure case: `?external=react,react-dom` plus an import map, unbundled entry.",
+      "variant": true,
+      "provider": "esm.sh",
+      "build": "Bundle built by the CDN",
+      "entry": "https://esm.sh/@tonic-ui/react@3.0.0-alpha.2?external=react,react-dom",
+      "importMap": {
+        "react": "https://esm.sh/react@19.2.7",
+        "react/jsx-runtime": "https://esm.sh/react@19.2.7/jsx-runtime",
+        "react-dom": "https://esm.sh/react-dom@19.2.7?external=react",
+        "react-dom/client": "https://esm.sh/react-dom@19.2.7/client?external=react"
+      },
+      "status": "measured",
+      "renders": false,
+      "renderRuns": "0/3",
+      "failure": "x is not a function",
+      "requests": 412,
+      "transferredKiB": 508.5,
+      "decodedKiB": 1153.4,
+      "moduleSpanMs": 797,
+      "reactModulesLoaded": 2,
+      "reactModulesShared": 2,
+      "reactInstances": 1,
+      "emotionModulesLoaded": 31,
+      "reactModuleUrls": [
+        {
+          "url": "https://esm.sh/react@19.2.7",
+          "shared": true
+        },
+        {
+          "url": "https://esm.sh/react@19.2.7/es2022/react.mjs",
+          "shared": true
+        }
+      ],
+      "groupsKiB": {
+        "Tonic UI packages": 774.6,
+        "Other dependencies": 336.7,
+        "React / React DOM": 25.3,
+        "Emotion": 21.4
+      },
+      "largestFileKiB": 337,
+      "largestFileShare": 29,
+      "duplicateRequests": 0,
+      "duplicatePaths": [
+        "@tonic-ui/react-hooks/X-ZXJlYWN0/es2022/react-hooks.mjs x2"
+      ],
+      "topFiles": [
+        {
+          "path": "@tonic-ui/react@3.0.0-alpha.2/X-ZXJlYWN0LHJlYWN0LWRvbQ/es2022/react.mjs",
+          "group": "Tonic UI packages",
+          "transferredKiB": 118.5,
+          "decodedKiB": 337,
+          "start": 428,
+          "duration": 314
+        },
+        {
+          "path": "@tonic-ui/react-icons@3.0.0-alpha.1/X-ZXJlYWN0LHJlYWN0LWRvbQ/es2022/react-icons.mjs",
+          "group": "Tonic UI packages",
+          "transferredKiB": 130.4,
+          "decodedKiB": 313.5,
+          "start": 490,
+          "duration": 165
+        },
+        {
+          "path": "@tonic-ui/theme@3.0.0-alpha.1/es2022/theme.mjs",
+          "group": "Tonic UI packages",
+          "transferredKiB": 12.7,
+          "decodedKiB": 56.6,
+          "start": 481,
+          "duration": 81
+        },
+        {
+          "path": "@tonic-ui/styled-system@3.0.0-alpha.1/es2022/styled-system.mjs",
+          "group": "Tonic UI packages",
+          "transferredKiB": 8.8,
+          "decodedKiB": 25.4,
+          "start": 637,
+          "duration": 47
+        },
+        {
+          "path": "date-fns@4.4.0/es2022/parse.mjs",
+          "group": "Other dependencies",
+          "transferredKiB": 5.3,
+          "decodedKiB": 20.5,
+          "start": 488,
+          "duration": 129
+        },
+        {
+          "path": "@popperjs/core@2.11.8/es2022/core.mjs",
+          "group": "Other dependencies",
+          "transferredKiB": 8.9,
+          "decodedKiB": 20.3,
+          "start": 473,
+          "duration": 57
+        },
+        {
+          "path": "@tonic-ui/react-hooks@3.0.0-alpha.2/X-ZXJlYWN0/es2022/react-hooks.mjs",
+          "group": "Tonic UI packages",
+          "transferredKiB": 6.1,
+          "decodedKiB": 14,
+          "start": 701,
+          "duration": 280
+        },
+        {
+          "path": "@tonic-ui/react-hooks@3.0.0-alpha.1/X-ZXJlYWN0/es2022/react-hooks.mjs",
+          "group": "Tonic UI packages",
+          "transferredKiB": 7.9,
+          "decodedKiB": 13.8,
+          "start": 638,
+          "duration": 53
+        },
+        {
+          "path": "react-transition-group@4.4.5/X-ZXJlYWN0LHJlYWN0LWRvbQ/es2022/react-transition-group.mjs",
+          "group": "Other dependencies",
+          "transferredKiB": 4.8,
+          "decodedKiB": 13.4,
+          "start": 491,
+          "duration": 160
+        },
+        {
+          "path": "date-fns@%5E4.4.0?target=es2022",
+          "group": "Other dependencies",
+          "transferredKiB": 1.7,
+          "decodedKiB": 12.3,
+          "start": 428,
+          "duration": 63
+        },
+        {
+          "path": "node/events.mjs",
+          "group": "Other dependencies",
+          "transferredKiB": 4.8,
+          "decodedKiB": 11.8,
+          "start": 954,
+          "duration": 53
+        },
+        {
+          "path": "tslib@2.9.1/es2022/tslib.mjs",
+          "group": "Other dependencies",
+          "transferredKiB": 4.8,
+          "decodedKiB": 11.1,
+          "start": 871,
+          "duration": 42
+        }
+      ],
+      "waterfall": [
+        {
+          "start": 0,
+          "requests": 1,
+          "transferredKiB": 0.8,
+          "decodedKiB": 1.1
+        },
+        {
+          "start": 400,
+          "requests": 300,
+          "transferredKiB": 388.3,
+          "decodedKiB": 927.7
+        },
+        {
+          "start": 500,
+          "requests": 26,
+          "transferredKiB": 16.2,
+          "decodedKiB": 25.4
+        },
+        {
+          "start": 600,
+          "requests": 51,
+          "transferredKiB": 67.2,
+          "decodedKiB": 125.6
+        },
+        {
+          "start": 700,
+          "requests": 26,
+          "transferredKiB": 27.6,
+          "decodedKiB": 52.6
+        },
+        {
+          "start": 800,
+          "requests": 4,
+          "transferredKiB": 5.6,
+          "decodedKiB": 11.6
+        },
+        {
+          "start": 900,
+          "requests": 4,
+          "transferredKiB": 9,
+          "decodedKiB": 20.4
+        },
+        {
+          "start": 1000,
+          "requests": 1,
+          "transferredKiB": 1.6,
+          "decodedKiB": 2.9
+        }
+      ]
+    },
+    {
+      "id": "esmsh-standalone",
+      "label": "Standalone bundle",
+      "note": "`?standalone&external=react,react-dom`: esm.sh merges the package and its own dependencies into one file, then an import map supplies the peers.",
+      "variant": false,
+      "provider": "esm.sh",
+      "build": "Bundle built by the CDN",
+      "entry": "https://esm.sh/@tonic-ui/react@3.0.0-alpha.2?standalone&external=react,react-dom",
+      "importMap": {
+        "react": "https://esm.sh/react@19.2.7",
+        "react/jsx-runtime": "https://esm.sh/react@19.2.7/jsx-runtime",
+        "react-dom": "https://esm.sh/react-dom@19.2.7?external=react",
+        "react-dom/client": "https://esm.sh/react-dom@19.2.7/client?external=react"
+      },
+      "status": "measured",
+      "renders": true,
+      "renderRuns": "3/3",
+      "failure": null,
+      "requests": 46,
+      "transferredKiB": 302.5,
+      "decodedKiB": 793.7,
+      "moduleSpanMs": 551,
+      "reactModulesLoaded": 2,
+      "reactModulesShared": 2,
+      "reactInstances": 1,
+      "emotionModulesLoaded": 29,
+      "reactModuleUrls": [
+        {
+          "url": "https://esm.sh/react@19.2.7",
+          "shared": true
+        },
+        {
+          "url": "https://esm.sh/react@19.2.7/es2022/react.mjs",
+          "shared": true
+        }
+      ],
+      "groupsKiB": {
+        "Tonic UI packages": 0.3,
+        "React / React DOM": 205.1,
+        "Emotion": 20.6,
+        "Tonic UI bundle (merged dependencies)": 552.2,
+        "Other dependencies": 15.5
+      },
+      "largestFileKiB": 552.2,
+      "largestFileShare": 70,
+      "duplicateRequests": 0,
+      "duplicatePaths": [],
+      "topFiles": [
+        {
+          "path": "@tonic-ui/react@3.0.0-alpha.2/X-ZXJlYWN0LHJlYWN0LWRvbQ/es2022/react.bundle.mjs",
+          "group": "Tonic UI bundle (merged dependencies)",
+          "transferredKiB": 195.1,
+          "decodedKiB": 552.2,
+          "start": 371,
+          "duration": 350
+        },
+        {
+          "path": "react-dom@19.2.7/X-ZXJlYWN0/es2022/client.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 67.8,
+          "decodedKiB": 174,
+          "start": 853,
+          "duration": 59
+        },
+        {
+          "path": "react@19.2.7/es2022/react.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 4.3,
+          "decodedKiB": 9.8,
+          "start": 502,
+          "duration": 40
+        },
+        {
+          "path": "stylis@4.2.0/es2022/stylis.mjs",
+          "group": "Other dependencies",
+          "transferredKiB": 4.6,
+          "decodedKiB": 9,
+          "start": 454,
+          "duration": 48
+        },
+        {
+          "path": "react-dom@19.2.7/X-ZXJlYWN0/es2022/react-dom.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 2.5,
+          "decodedKiB": 5.4,
+          "start": 752,
+          "duration": 60
+        },
+        {
+          "path": "scheduler@0.27.0/es2022/scheduler.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 2.6,
+          "decodedKiB": 5.4,
+          "start": 894,
+          "duration": 62
+        },
+        {
+          "path": "@emotion/cache@11.14.0/es2022/cache.mjs",
+          "group": "Emotion",
+          "transferredKiB": 2.7,
+          "decodedKiB": 5,
+          "start": 454,
+          "duration": 49
+        },
+        {
+          "path": "@emotion/is-prop-valid@1.4.0/es2022/is-prop-valid.mjs",
+          "group": "Emotion",
+          "transferredKiB": 2.5,
+          "decodedKiB": 4.3,
+          "start": 457,
+          "duration": 49
+        },
+        {
+          "path": "react-is@16.13.1/es2022/react-is.mjs",
+          "group": "Other dependencies",
+          "transferredKiB": 1.8,
+          "decodedKiB": 3.9,
+          "start": 505,
+          "duration": 41
+        },
+        {
+          "path": "@emotion/react@11.14.0/X-ZXJlYWN0/es2022/react.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 1.8,
+          "decodedKiB": 3.3,
+          "start": 414,
+          "duration": 44
+        },
+        {
+          "path": "@emotion/styled@11.14.1/X-ZXJlYWN0/es2022/base.mjs",
+          "group": "Emotion",
+          "transferredKiB": 1.5,
+          "decodedKiB": 2.6,
+          "start": 413,
+          "duration": 45
+        },
+        {
+          "path": "@emotion/react@11.14.0/X-ZXJlYWN0/es2022/dist/emotion-element-f0de968e.browser.esm.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 1.4,
+          "decodedKiB": 2.4,
+          "start": 413,
+          "duration": 45
+        }
+      ],
+      "waterfall": [
+        {
+          "start": 0,
+          "requests": 1,
+          "transferredKiB": 0.6,
+          "decodedKiB": 0.3
+        },
+        {
+          "start": 300,
+          "requests": 4,
+          "transferredKiB": 196.4,
+          "decodedKiB": 553.8
+        },
+        {
+          "start": 400,
+          "requests": 29,
+          "transferredKiB": 23.1,
+          "decodedKiB": 36.3
+        },
+        {
+          "start": 500,
+          "requests": 6,
+          "transferredKiB": 8.7,
+          "decodedKiB": 17.9
+        },
+        {
+          "start": 700,
+          "requests": 2,
+          "transferredKiB": 2.9,
+          "decodedKiB": 5.6
+        },
+        {
+          "start": 800,
+          "requests": 4,
+          "transferredKiB": 71,
+          "decodedKiB": 179.8
+        }
+      ]
+    },
+    {
+      "id": "esmsh-standalone-no-external",
+      "label": "Standalone bundle, no peer map",
+      "note": "Failure case: `?standalone` bundles its own React, so hooks run on a second instance.",
+      "variant": true,
+      "provider": "esm.sh",
+      "build": "Bundle built by the CDN",
+      "entry": "https://esm.sh/@tonic-ui/react@3.0.0-alpha.2?standalone",
+      "importMap": {
+        "react": "https://esm.sh/react@19.2.7",
+        "react/jsx-runtime": "https://esm.sh/react@19.2.7/jsx-runtime",
+        "react-dom": "https://esm.sh/react-dom@19.2.7?external=react",
+        "react-dom/client": "https://esm.sh/react-dom@19.2.7/client?external=react"
+      },
+      "status": "measured",
+      "renders": false,
+      "renderRuns": "0/3",
+      "failure": "Cannot read properties of null (reading 'useRef')",
+      "requests": 50,
+      "transferredKiB": 310.5,
+      "decodedKiB": 817.7,
+      "moduleSpanMs": 666,
+      "reactModulesLoaded": 3,
+      "reactModulesShared": 2,
+      "reactInstances": 2,
+      "emotionModulesLoaded": 29,
+      "reactModuleUrls": [
+        {
+          "url": "https://esm.sh/react@19.3.1/es2022/react.mjs",
+          "shared": false
+        },
+        {
+          "url": "https://esm.sh/react@19.2.7",
+          "shared": true
+        },
+        {
+          "url": "https://esm.sh/react@19.2.7/es2022/react.mjs",
+          "shared": true
+        }
+      ],
+      "groupsKiB": {
+        "Tonic UI packages": 0.4,
+        "React / React DOM": 221.6,
+        "Emotion": 20.6,
+        "Tonic UI bundle (merged dependencies)": 559.7,
+        "Other dependencies": 15.5
+      },
+      "largestFileKiB": 559.7,
+      "largestFileShare": 68,
+      "duplicateRequests": 1,
+      "duplicatePaths": [
+        "react/es2022/react.mjs x2"
+      ],
+      "topFiles": [
+        {
+          "path": "@tonic-ui/react@3.0.0-alpha.2/es2022/react.bundle.mjs",
+          "group": "Tonic UI bundle (merged dependencies)",
+          "transferredKiB": 195.7,
+          "decodedKiB": 559.7,
+          "start": 382,
+          "duration": 558
+        },
+        {
+          "path": "react-dom@19.2.7/X-ZXJlYWN0/es2022/client.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 67.8,
+          "decodedKiB": 174,
+          "start": 1062,
+          "duration": 62
+        },
+        {
+          "path": "react@19.3.1/es2022/react.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 4.5,
+          "decodedKiB": 10.2,
+          "start": 425,
+          "duration": 45
+        },
+        {
+          "path": "react@19.2.7/es2022/react.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 4.3,
+          "decodedKiB": 9.8,
+          "start": 979,
+          "duration": 45
+        },
+        {
+          "path": "stylis@4.2.0/es2022/stylis.mjs",
+          "group": "Other dependencies",
+          "transferredKiB": 4.6,
+          "decodedKiB": 9,
+          "start": 462,
+          "duration": 41
+        },
+        {
+          "path": "react-dom@19.3.1/es2022/react-dom.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 2.7,
+          "decodedKiB": 5.8,
+          "start": 425,
+          "duration": 46
+        },
+        {
+          "path": "react-dom@19.2.7/X-ZXJlYWN0/es2022/react-dom.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 2.6,
+          "decodedKiB": 5.4,
+          "start": 1062,
+          "duration": 44
+        },
+        {
+          "path": "scheduler@0.27.0/es2022/scheduler.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 2.6,
+          "decodedKiB": 5.4,
+          "start": 1105,
+          "duration": 59
+        },
+        {
+          "path": "@emotion/cache@11.14.0/es2022/cache.mjs",
+          "group": "Emotion",
+          "transferredKiB": 2.7,
+          "decodedKiB": 5,
+          "start": 463,
+          "duration": 44
+        },
+        {
+          "path": "@emotion/is-prop-valid@1.4.0/es2022/is-prop-valid.mjs",
+          "group": "Emotion",
+          "transferredKiB": 2.5,
+          "decodedKiB": 4.3,
+          "start": 475,
+          "duration": 42
+        },
+        {
+          "path": "react-is@16.13.1/es2022/react-is.mjs",
+          "group": "Other dependencies",
+          "transferredKiB": 1.8,
+          "decodedKiB": 3.9,
+          "start": 516,
+          "duration": 39
+        },
+        {
+          "path": "@emotion/react@11.14.0/es2022/react.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 1.8,
+          "decodedKiB": 3.3,
+          "start": 423,
+          "duration": 48
+        }
+      ],
+      "waterfall": [
+        {
+          "start": 0,
+          "requests": 1,
+          "transferredKiB": 0.5,
+          "decodedKiB": 0.4
+        },
+        {
+          "start": 300,
+          "requests": 6,
+          "transferredKiB": 197.3,
+          "decodedKiB": 561.6
+        },
+        {
+          "start": 400,
+          "requests": 31,
+          "transferredKiB": 31,
+          "decodedKiB": 53.7
+        },
+        {
+          "start": 500,
+          "requests": 5,
+          "transferredKiB": 3.6,
+          "decodedKiB": 6.9
+        },
+        {
+          "start": 900,
+          "requests": 2,
+          "transferredKiB": 4.5,
+          "decodedKiB": 9.9
+        },
+        {
+          "start": 1000,
+          "requests": 4,
+          "transferredKiB": 70.9,
+          "decodedKiB": 179.8
+        },
+        {
+          "start": 1100,
+          "requests": 1,
+          "transferredKiB": 2.6,
+          "decodedKiB": 5.4
+        }
+      ]
+    },
+    {
+      "id": "jsdelivr-default",
+      "label": "`+esm`, no import map",
+      "note": "Failure case: jsDelivr pins each peer to its own version.",
+      "variant": true,
+      "provider": "jsDelivr",
+      "build": "Bundle built by the CDN",
+      "entry": "https://cdn.jsdelivr.net/npm/@tonic-ui/react@3.0.0-alpha.2/+esm",
+      "importMap": {},
+      "status": "measured",
+      "renders": false,
+      "renderRuns": "0/3",
+      "failure": "Cannot read properties of null (reading 'useRef')",
+      "requests": 76,
+      "transferredKiB": 399.7,
+      "decodedKiB": 1306.1,
+      "moduleSpanMs": 556,
+      "reactModulesLoaded": 7,
+      "reactModulesShared": 1,
+      "reactInstances": 7,
+      "emotionModulesLoaded": 14,
+      "reactModuleUrls": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/react@19.3.1/+esm",
+          "shared": false
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/react@19.3.0/+esm",
+          "shared": false
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/react@19.0.0/+esm",
+          "shared": false
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/react@18.2.0/+esm",
+          "shared": false
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/react@19.2.0/+esm",
+          "shared": false
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/react@19.1.0/+esm",
+          "shared": false
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+          "shared": true
+        }
+      ],
+      "groupsKiB": {
+        "Tonic UI packages": 675,
+        "React / React DOM": 404.1,
+        "Other dependencies": 201.6,
+        "Emotion": 25.4
+      },
+      "largestFileKiB": 269.7,
+      "largestFileShare": 21,
+      "duplicateRequests": 16,
+      "duplicatePaths": [
+        "react/+esm x7",
+        "@tonic-ui/utils/+esm x2",
+        "@tonic-ui/react-hooks/+esm x2",
+        "react-dom/+esm x3",
+        "@emotion/is-prop-valid/+esm x2",
+        "@babel/runtime/helpers/esm/extends/+esm x3",
+        "@babel/runtime/helpers/extends/+esm x2",
+        "@babel/runtime/helpers/esm/inheritsLoose/+esm x2",
+        "scheduler/+esm x2"
+      ],
+      "topFiles": [
+        {
+          "path": "@tonic-ui/react-icons@3.0.0-alpha.1/+esm",
+          "group": "Tonic UI packages",
+          "transferredKiB": 84.7,
+          "decodedKiB": 269.7,
+          "start": 205,
+          "duration": 94
+        },
+        {
+          "path": "@tonic-ui/react@3.0.0-alpha.2/+esm",
+          "group": "Tonic UI packages",
+          "transferredKiB": 62.9,
+          "decodedKiB": 265.1,
+          "start": 5,
+          "duration": 204
+        },
+        {
+          "path": "react-dom@19.2.7/client/+esm",
+          "group": "React / React DOM",
+          "transferredKiB": 48.2,
+          "decodedKiB": 175.3,
+          "start": 430,
+          "duration": 86
+        },
+        {
+          "path": "react-dom@18.2.0/+esm",
+          "group": "React / React DOM",
+          "transferredKiB": 36.2,
+          "decodedKiB": 128,
+          "start": 262,
+          "duration": 60
+        },
+        {
+          "path": "date-fns@4.4.0/+esm",
+          "group": "Other dependencies",
+          "transferredKiB": 16.1,
+          "decodedKiB": 71.9,
+          "start": 205,
+          "duration": 53
+        },
+        {
+          "path": "@tonic-ui/theme@3.0.0-alpha.1/+esm",
+          "group": "Tonic UI packages",
+          "transferredKiB": 7.6,
+          "decodedKiB": 56.7,
+          "start": 205,
+          "duration": 59
+        },
+        {
+          "path": "@tonic-ui/styled-system@3.0.0-alpha.1/+esm",
+          "group": "Tonic UI packages",
+          "transferredKiB": 7.1,
+          "decodedKiB": 25,
+          "start": 261,
+          "duration": 53
+        },
+        {
+          "path": "@popperjs/core@2.11.8/+esm",
+          "group": "Other dependencies",
+          "transferredKiB": 7.4,
+          "decodedKiB": 20.5,
+          "start": 205,
+          "duration": 44
+        },
+        {
+          "path": "react-focus-lock@2.13.7/dist/cjs/+esm",
+          "group": "Other dependencies",
+          "transferredKiB": 7.1,
+          "decodedKiB": 20,
+          "start": 205,
+          "duration": 59
+        },
+        {
+          "path": "@tonic-ui/react-hooks@3.0.0-alpha.2/+esm",
+          "group": "Tonic UI packages",
+          "transferredKiB": 5.5,
+          "decodedKiB": 13.5,
+          "start": 205,
+          "duration": 44
+        },
+        {
+          "path": "@tonic-ui/react-hooks/+esm",
+          "group": "Tonic UI packages",
+          "transferredKiB": 5,
+          "decodedKiB": 13.3,
+          "start": 295,
+          "duration": 64
+        },
+        {
+          "path": "react-transition-group@4.4.5/+esm",
+          "group": "Other dependencies",
+          "transferredKiB": 4.5,
+          "decodedKiB": 12.8,
+          "start": 205,
+          "duration": 58
+        }
+      ],
+      "waterfall": [
+        {
+          "start": 0,
+          "requests": 1,
+          "transferredKiB": 62.9,
+          "decodedKiB": 265.1
+        },
+        {
+          "start": 200,
+          "requests": 57,
+          "transferredKiB": 258.1,
+          "decodedKiB": 793
+        },
+        {
+          "start": 300,
+          "requests": 15,
+          "transferredKiB": 26.5,
+          "decodedKiB": 63.4
+        },
+        {
+          "start": 400,
+          "requests": 1,
+          "transferredKiB": 48.2,
+          "decodedKiB": 175.3
+        },
+        {
+          "start": 500,
+          "requests": 2,
+          "transferredKiB": 3.8,
+          "decodedKiB": 9.3
+        }
+      ]
+    },
+    {
+      "id": "jsdelivr-esm",
+      "label": "`+esm` bundle",
+      "note": "jsDelivr bundles each package into one file and pins every dependency to an absolute URL; the alias map collapses those URLs onto the pinned peers.",
+      "variant": false,
+      "provider": "jsDelivr",
+      "build": "Bundle built by the CDN",
+      "entry": "https://cdn.jsdelivr.net/npm/@tonic-ui/react@3.0.0-alpha.2/+esm",
+      "importMap": {
+        "react": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "react/jsx-runtime": "https://cdn.jsdelivr.net/npm/react@19.2.7/jsx-runtime/+esm",
+        "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@19.2.7/+esm",
+        "react-dom/client": "https://cdn.jsdelivr.net/npm/react-dom@19.2.7/client/+esm",
+        "https://cdn.jsdelivr.net/npm/react@19.3.1/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/react-dom@19.3.1/+esm": "https://cdn.jsdelivr.net/npm/react-dom@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/react@18.2.0/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/react-dom@18.2.0/+esm": "https://cdn.jsdelivr.net/npm/react-dom@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/react@19.0.0/jsx-runtime/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/jsx-runtime/+esm",
+        "https://cdn.jsdelivr.net/npm/react@19.0.0/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/react@19.3.0/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/@tonic-ui/utils/+esm": "https://cdn.jsdelivr.net/npm/@tonic-ui/utils@3.0.0-alpha.1/+esm",
+        "https://cdn.jsdelivr.net/npm/@tonic-ui/react-hooks/+esm": "https://cdn.jsdelivr.net/npm/@tonic-ui/react-hooks@3.0.0-alpha.2/+esm",
+        "https://cdn.jsdelivr.net/npm/@babel/runtime@7.26.0/helpers/esm/extends/+esm": "https://cdn.jsdelivr.net/npm/@babel/runtime@7.18.9/helpers/esm/extends/+esm",
+        "https://cdn.jsdelivr.net/npm/react@19.2.0/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/@babel/runtime@7.27.6/helpers/esm/extends/+esm": "https://cdn.jsdelivr.net/npm/@babel/runtime@7.18.9/helpers/esm/extends/+esm",
+        "https://cdn.jsdelivr.net/npm/react@19.1.0/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/@emotion/is-prop-valid@1.3.1/+esm": "https://cdn.jsdelivr.net/npm/@emotion/is-prop-valid@1.4.0/+esm",
+        "https://cdn.jsdelivr.net/npm/@babel/runtime@7.27.1/helpers/esm/inheritsLoose/+esm": "https://cdn.jsdelivr.net/npm/@babel/runtime@7.18.9/helpers/esm/inheritsLoose/+esm"
+      },
+      "status": "measured",
+      "renders": true,
+      "renderRuns": "3/3",
+      "failure": null,
+      "requests": 61,
+      "transferredKiB": 323,
+      "decodedKiB": 1075.7,
+      "moduleSpanMs": 493,
+      "reactModulesLoaded": 1,
+      "reactModulesShared": 1,
+      "reactInstances": 1,
+      "emotionModulesLoaded": 13,
+      "reactModuleUrls": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+          "shared": true
+        }
+      ],
+      "groupsKiB": {
+        "Tonic UI packages": 650.9,
+        "React / React DOM": 204,
+        "Other dependencies": 199.8,
+        "Emotion": 20.9
+      },
+      "largestFileKiB": 269.7,
+      "largestFileShare": 25,
+      "duplicateRequests": 1,
+      "duplicatePaths": [
+        "@babel/runtime/helpers/extends/+esm x2"
+      ],
+      "topFiles": [
+        {
+          "path": "@tonic-ui/react-icons@3.0.0-alpha.1/+esm",
+          "group": "Tonic UI packages",
+          "transferredKiB": 85,
+          "decodedKiB": 269.7,
+          "start": 256,
+          "duration": 93
+        },
+        {
+          "path": "@tonic-ui/react@3.0.0-alpha.2/+esm",
+          "group": "Tonic UI packages",
+          "transferredKiB": 62.9,
+          "decodedKiB": 265.1,
+          "start": 5,
+          "duration": 255
+        },
+        {
+          "path": "react-dom@19.2.7/client/+esm",
+          "group": "React / React DOM",
+          "transferredKiB": 48.2,
+          "decodedKiB": 175.3,
+          "start": 433,
+          "duration": 50
+        },
+        {
+          "path": "date-fns@4.4.0/+esm",
+          "group": "Other dependencies",
+          "transferredKiB": 16.1,
+          "decodedKiB": 71.9,
+          "start": 256,
+          "duration": 60
+        },
+        {
+          "path": "@tonic-ui/theme@3.0.0-alpha.1/+esm",
+          "group": "Tonic UI packages",
+          "transferredKiB": 7.6,
+          "decodedKiB": 56.7,
+          "start": 256,
+          "duration": 61
+        },
+        {
+          "path": "@tonic-ui/styled-system@3.0.0-alpha.1/+esm",
+          "group": "Tonic UI packages",
+          "transferredKiB": 6.8,
+          "decodedKiB": 25,
+          "start": 314,
+          "duration": 52
+        },
+        {
+          "path": "@popperjs/core@2.11.8/+esm",
+          "group": "Other dependencies",
+          "transferredKiB": 7.4,
+          "decodedKiB": 20.5,
+          "start": 256,
+          "duration": 94
+        },
+        {
+          "path": "react-focus-lock@2.13.7/dist/cjs/+esm",
+          "group": "Other dependencies",
+          "transferredKiB": 7.1,
+          "decodedKiB": 20,
+          "start": 256,
+          "duration": 62
+        },
+        {
+          "path": "@tonic-ui/react-hooks@3.0.0-alpha.2/+esm",
+          "group": "Tonic UI packages",
+          "transferredKiB": 5.5,
+          "decodedKiB": 13.5,
+          "start": 256,
+          "duration": 45
+        },
+        {
+          "path": "react-transition-group@4.4.5/+esm",
+          "group": "Other dependencies",
+          "transferredKiB": 4.2,
+          "decodedKiB": 12.8,
+          "start": 256,
+          "duration": 47
+        },
+        {
+          "path": "react@19.2.7/+esm",
+          "group": "React / React DOM",
+          "transferredKiB": 4,
+          "decodedKiB": 11.5,
+          "start": 256,
+          "duration": 47
+        },
+        {
+          "path": "tslib@2.8.1/+esm",
+          "group": "Other dependencies",
+          "transferredKiB": 4.1,
+          "decodedKiB": 11.2,
+          "start": 373,
+          "duration": 60
+        }
+      ],
+      "waterfall": [
+        {
+          "start": 0,
+          "requests": 1,
+          "transferredKiB": 62.9,
+          "decodedKiB": 265.1
+        },
+        {
+          "start": 200,
+          "requests": 17,
+          "transferredKiB": 157,
+          "decodedKiB": 519.6
+        },
+        {
+          "start": 300,
+          "requests": 41,
+          "transferredKiB": 53.1,
+          "decodedKiB": 110.9
+        },
+        {
+          "start": 400,
+          "requests": 2,
+          "transferredKiB": 50.3,
+          "decodedKiB": 180
+        }
+      ]
+    },
+    {
+      "id": "jsdelivr-esm-pinned-peers",
+      "label": "`+esm` with Emotion pinned too",
+      "note": "Variant of jsDelivr `+esm`: the alias map covers Emotion as well as React.",
+      "variant": true,
+      "provider": "jsDelivr",
+      "build": "Bundle built by the CDN",
+      "entry": "https://cdn.jsdelivr.net/npm/@tonic-ui/react@3.0.0-alpha.2/+esm",
+      "importMap": {
+        "react": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "react/jsx-runtime": "https://cdn.jsdelivr.net/npm/react@19.2.7/jsx-runtime/+esm",
+        "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@19.2.7/+esm",
+        "react-dom/client": "https://cdn.jsdelivr.net/npm/react-dom@19.2.7/client/+esm",
+        "@emotion/react": "https://cdn.jsdelivr.net/npm/@emotion/react@11.14.0/+esm",
+        "@emotion/react/jsx-runtime": "https://cdn.jsdelivr.net/npm/@emotion/react@11.14.0/jsx-runtime/+esm",
+        "@emotion/styled/base": "https://cdn.jsdelivr.net/npm/@emotion/styled@11.14.1/base/+esm",
+        "@emotion/is-prop-valid": "https://cdn.jsdelivr.net/npm/@emotion/is-prop-valid@1.2.2/+esm",
+        "react-transition-group": "https://cdn.jsdelivr.net/npm/react-transition-group@4.4.5/+esm",
+        "https://cdn.jsdelivr.net/npm/react@19.3.1/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/react-transition-group@4.4.5/+esm": "https://cdn.jsdelivr.net/npm/react-transition-group@4.4.5/+esm",
+        "https://cdn.jsdelivr.net/npm/react-dom@19.3.1/+esm": "https://cdn.jsdelivr.net/npm/react-dom@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/react@18.2.0/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/react-dom@18.2.0/+esm": "https://cdn.jsdelivr.net/npm/react-dom@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/react@19.0.0/jsx-runtime/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/jsx-runtime/+esm",
+        "https://cdn.jsdelivr.net/npm/react@19.0.0/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/react@19.3.0/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/@emotion/is-prop-valid@1.4.0/+esm": "https://cdn.jsdelivr.net/npm/@emotion/is-prop-valid@1.2.2/+esm",
+        "https://cdn.jsdelivr.net/npm/@tonic-ui/utils/+esm": "https://cdn.jsdelivr.net/npm/@tonic-ui/utils@3.0.0-alpha.1/+esm",
+        "https://cdn.jsdelivr.net/npm/@tonic-ui/react-hooks/+esm": "https://cdn.jsdelivr.net/npm/@tonic-ui/react-hooks@3.0.0-alpha.2/+esm",
+        "https://cdn.jsdelivr.net/npm/@babel/runtime@7.26.0/helpers/esm/extends/+esm": "https://cdn.jsdelivr.net/npm/@babel/runtime@7.18.9/helpers/esm/extends/+esm",
+        "https://cdn.jsdelivr.net/npm/react@19.2.0/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/@babel/runtime@7.27.6/helpers/esm/extends/+esm": "https://cdn.jsdelivr.net/npm/@babel/runtime@7.18.9/helpers/esm/extends/+esm",
+        "https://cdn.jsdelivr.net/npm/react@19.1.0/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/@emotion/is-prop-valid@1.3.1/+esm": "https://cdn.jsdelivr.net/npm/@emotion/is-prop-valid@1.2.2/+esm",
+        "https://cdn.jsdelivr.net/npm/@babel/runtime@7.27.1/helpers/esm/inheritsLoose/+esm": "https://cdn.jsdelivr.net/npm/@babel/runtime@7.18.9/helpers/esm/inheritsLoose/+esm"
+      },
+      "status": "measured",
+      "renders": true,
+      "renderRuns": "3/3",
+      "failure": null,
+      "requests": 62,
+      "transferredKiB": 323.8,
+      "decodedKiB": 1076.1,
+      "moduleSpanMs": 492,
+      "reactModulesLoaded": 1,
+      "reactModulesShared": 1,
+      "reactInstances": 1,
+      "emotionModulesLoaded": 14,
+      "reactModuleUrls": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+          "shared": true
+        }
+      ],
+      "groupsKiB": {
+        "Tonic UI packages": 650.9,
+        "React / React DOM": 204,
+        "Other dependencies": 199.8,
+        "Emotion": 21.3
+      },
+      "largestFileKiB": 269.7,
+      "largestFileShare": 25,
+      "duplicateRequests": 2,
+      "duplicatePaths": [
+        "@babel/runtime/helpers/extends/+esm x2",
+        "@emotion/memoize/+esm x2"
+      ],
+      "topFiles": [
+        {
+          "path": "@tonic-ui/react-icons@3.0.0-alpha.1/+esm",
+          "group": "Tonic UI packages",
+          "transferredKiB": 84.7,
+          "decodedKiB": 269.7,
+          "start": 235,
+          "duration": 109
+        },
+        {
+          "path": "@tonic-ui/react@3.0.0-alpha.2/+esm",
+          "group": "Tonic UI packages",
+          "transferredKiB": 62.9,
+          "decodedKiB": 265.1,
+          "start": 5,
+          "duration": 234
+        },
+        {
+          "path": "react-dom@19.2.7/client/+esm",
+          "group": "React / React DOM",
+          "transferredKiB": 48,
+          "decodedKiB": 175.3,
+          "start": 445,
+          "duration": 54
+        },
+        {
+          "path": "date-fns@4.4.0/+esm",
+          "group": "Other dependencies",
+          "transferredKiB": 16,
+          "decodedKiB": 71.9,
+          "start": 235,
+          "duration": 55
+        },
+        {
+          "path": "@tonic-ui/theme@3.0.0-alpha.1/+esm",
+          "group": "Tonic UI packages",
+          "transferredKiB": 7.8,
+          "decodedKiB": 56.7,
+          "start": 235,
+          "duration": 100
+        },
+        {
+          "path": "@tonic-ui/styled-system@3.0.0-alpha.1/+esm",
+          "group": "Tonic UI packages",
+          "transferredKiB": 6.9,
+          "decodedKiB": 25,
+          "start": 337,
+          "duration": 48
+        },
+        {
+          "path": "@popperjs/core@2.11.8/+esm",
+          "group": "Other dependencies",
+          "transferredKiB": 8.1,
+          "decodedKiB": 20.5,
+          "start": 235,
+          "duration": 54
+        },
+        {
+          "path": "react-focus-lock@2.13.7/dist/cjs/+esm",
+          "group": "Other dependencies",
+          "transferredKiB": 7.2,
+          "decodedKiB": 20,
+          "start": 235,
+          "duration": 98
+        },
+        {
+          "path": "@tonic-ui/react-hooks@3.0.0-alpha.2/+esm",
+          "group": "Tonic UI packages",
+          "transferredKiB": 5.5,
+          "decodedKiB": 13.5,
+          "start": 235,
+          "duration": 53
+        },
+        {
+          "path": "react-transition-group@4.4.5/+esm",
+          "group": "Other dependencies",
+          "transferredKiB": 4.2,
+          "decodedKiB": 12.8,
+          "start": 235,
+          "duration": 53
+        },
+        {
+          "path": "react@19.2.7/+esm",
+          "group": "React / React DOM",
+          "transferredKiB": 4.3,
+          "decodedKiB": 11.5,
+          "start": 235,
+          "duration": 54
+        },
+        {
+          "path": "tslib@2.8.1/+esm",
+          "group": "Other dependencies",
+          "transferredKiB": 4.1,
+          "decodedKiB": 11.2,
+          "start": 378,
+          "duration": 43
+        }
+      ],
+      "waterfall": [
+        {
+          "start": 0,
+          "requests": 1,
+          "transferredKiB": 62.9,
+          "decodedKiB": 265.1
+        },
+        {
+          "start": 200,
+          "requests": 34,
+          "transferredKiB": 173.8,
+          "decodedKiB": 545.5
+        },
+        {
+          "start": 300,
+          "requests": 25,
+          "transferredKiB": 37.6,
+          "decodedKiB": 85.5
+        },
+        {
+          "start": 400,
+          "requests": 2,
+          "transferredKiB": 50.3,
+          "decodedKiB": 180
+        }
+      ]
+    },
+    {
+      "id": "jsdelivr-standalone",
+      "label": "Standalone artifact",
+      "note": "The npm-published `dist/standalone/index.min.js` served by jsDelivr. Measured only when the published tarball contains the artifact; otherwise the probe records a 404 and the row is left unmeasured.",
+      "variant": false,
+      "provider": "jsDelivr",
+      "build": "Bundle built by Tonic UI",
+      "entry": "https://cdn.jsdelivr.net/npm/@tonic-ui/react@3.0.0-alpha.2/dist/standalone/index.min.js",
+      "importMap": {
+        "react": "https://esm.sh/react@19.2.7",
+        "react/jsx-runtime": "https://esm.sh/react@19.2.7/jsx-runtime",
+        "react-dom": "https://esm.sh/react-dom@19.2.7?external=react",
+        "react-dom/client": "https://esm.sh/react-dom@19.2.7/client?external=react",
+        "@emotion/react": "https://esm.sh/@emotion/react@11.14.0?external=react",
+        "@emotion/react/jsx-runtime": "https://esm.sh/@emotion/react@11.14.0/jsx-runtime?external=react",
+        "@emotion/styled/base": "https://esm.sh/@emotion/styled@11.14.1/base?external=react",
+        "@emotion/is-prop-valid": "https://esm.sh/@emotion/is-prop-valid@1.2.2"
+      },
+      "status": "measured",
+      "renders": true,
+      "renderRuns": "3/3",
+      "failure": null,
+      "requests": 49,
+      "transferredKiB": 243.8,
+      "decodedKiB": 746.8,
+      "moduleSpanMs": 721,
+      "reactModulesLoaded": 2,
+      "reactModulesShared": 2,
+      "reactInstances": 1,
+      "emotionModulesLoaded": 33,
+      "reactModuleUrls": [
+        {
+          "url": "https://esm.sh/react@19.2.7",
+          "shared": true
+        },
+        {
+          "url": "https://esm.sh/react@19.2.7/es2022/react.mjs",
+          "shared": true
+        }
+      ],
+      "groupsKiB": {
+        "Tonic UI bundle (merged dependencies)": 500.8,
+        "React / React DOM": 205.1,
+        "Emotion": 25.4,
+        "Other dependencies": 15.5
+      },
+      "largestFileKiB": 500.8,
+      "largestFileShare": 67,
+      "duplicateRequests": 2,
+      "duplicatePaths": [
+        "@emotion/is-prop-valid/es2022/is-prop-valid.mjs x2",
+        "@emotion/memoize/es2022/memoize.mjs x2"
+      ],
+      "topFiles": [
+        {
+          "path": "@tonic-ui/react@3.0.0-alpha.2/dist/standalone/index.min.js",
+          "group": "Tonic UI bundle (merged dependencies)",
+          "transferredKiB": 133.4,
+          "decodedKiB": 500.8,
+          "start": 5,
+          "duration": 240
+        },
+        {
+          "path": "react-dom@19.2.7/X-ZXJlYWN0/es2022/client.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 67.8,
+          "decodedKiB": 174,
+          "start": 674,
+          "duration": 64
+        },
+        {
+          "path": "react@19.2.7/es2022/react.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 4.3,
+          "decodedKiB": 9.8,
+          "start": 361,
+          "duration": 49
+        },
+        {
+          "path": "stylis@4.2.0/es2022/stylis.mjs",
+          "group": "Other dependencies",
+          "transferredKiB": 4.6,
+          "decodedKiB": 9,
+          "start": 418,
+          "duration": 43
+        },
+        {
+          "path": "react-dom@19.2.7/X-ZXJlYWN0/es2022/react-dom.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 2.5,
+          "decodedKiB": 5.4,
+          "start": 363,
+          "duration": 197
+        },
+        {
+          "path": "scheduler@0.27.0/es2022/scheduler.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 2.6,
+          "decodedKiB": 5.4,
+          "start": 716,
+          "duration": 56
+        },
+        {
+          "path": "@emotion/cache@11.14.0/es2022/cache.mjs",
+          "group": "Emotion",
+          "transferredKiB": 2.7,
+          "decodedKiB": 5,
+          "start": 418,
+          "duration": 43
+        },
+        {
+          "path": "@emotion/is-prop-valid@1.4.0/es2022/is-prop-valid.mjs",
+          "group": "Emotion",
+          "transferredKiB": 2.5,
+          "decodedKiB": 4.3,
+          "start": 419,
+          "duration": 42
+        },
+        {
+          "path": "@emotion/is-prop-valid@1.2.2/es2022/is-prop-valid.mjs",
+          "group": "Emotion",
+          "transferredKiB": 2.5,
+          "decodedKiB": 4.2,
+          "start": 368,
+          "duration": 47
+        },
+        {
+          "path": "react-is@16.13.1/es2022/react-is.mjs",
+          "group": "Other dependencies",
+          "transferredKiB": 1.8,
+          "decodedKiB": 3.9,
+          "start": 453,
+          "duration": 43
+        },
+        {
+          "path": "@emotion/react@11.14.0/X-ZXJlYWN0/es2022/react.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 1.8,
+          "decodedKiB": 3.3,
+          "start": 364,
+          "duration": 47
+        },
+        {
+          "path": "@emotion/styled@11.14.1/X-ZXJlYWN0/es2022/base.mjs",
+          "group": "Emotion",
+          "transferredKiB": 1.6,
+          "decodedKiB": 2.6,
+          "start": 367,
+          "duration": 47
+        }
+      ],
+      "waterfall": [
+        {
+          "start": 0,
+          "requests": 1,
+          "transferredKiB": 133.4,
+          "decodedKiB": 500.8
+        },
+        {
+          "start": 200,
+          "requests": 6,
+          "transferredKiB": 2.1,
+          "decodedKiB": 2.1
+        },
+        {
+          "start": 300,
+          "requests": 16,
+          "transferredKiB": 17.3,
+          "decodedKiB": 30.7
+        },
+        {
+          "start": 400,
+          "requests": 21,
+          "transferredKiB": 19.6,
+          "decodedKiB": 32.8
+        },
+        {
+          "start": 500,
+          "requests": 1,
+          "transferredKiB": 0.4,
+          "decodedKiB": 0.5
+        },
+        {
+          "start": 600,
+          "requests": 3,
+          "transferredKiB": 68.3,
+          "decodedKiB": 174.4
+        },
+        {
+          "start": 700,
+          "requests": 1,
+          "transferredKiB": 2.6,
+          "decodedKiB": 5.4
+        }
+      ]
+    },
+    {
+      "id": "jsdelivr-standalone-jsdelivr-peers",
+      "label": "Standalone artifact, jsDelivr peers",
+      "note": "Variant: the published standalone bundle with the React family and Emotion served by jsDelivr, so one origin serves everything.",
+      "variant": true,
+      "provider": "jsDelivr",
+      "build": "Bundle built by Tonic UI",
+      "entry": "https://cdn.jsdelivr.net/npm/@tonic-ui/react@3.0.0-alpha.2/dist/standalone/index.min.js",
+      "importMap": {
+        "react": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "react/jsx-runtime": "https://cdn.jsdelivr.net/npm/react@19.2.7/jsx-runtime/+esm",
+        "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@19.2.7/+esm",
+        "react-dom/client": "https://cdn.jsdelivr.net/npm/react-dom@19.2.7/client/+esm",
+        "@emotion/react": "https://cdn.jsdelivr.net/npm/@emotion/react@11.14.0/+esm",
+        "@emotion/react/jsx-runtime": "https://cdn.jsdelivr.net/npm/@emotion/react@11.14.0/jsx-runtime/+esm",
+        "@emotion/styled/base": "https://cdn.jsdelivr.net/npm/@emotion/styled@11.14.1/base/+esm",
+        "@emotion/is-prop-valid": "https://cdn.jsdelivr.net/npm/@emotion/is-prop-valid@1.2.2/+esm",
+        "react-transition-group": "https://cdn.jsdelivr.net/npm/react-transition-group@4.4.5/+esm",
+        "https://cdn.jsdelivr.net/npm/react@19.3.1/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/react-transition-group@4.4.5/+esm": "https://cdn.jsdelivr.net/npm/react-transition-group@4.4.5/+esm",
+        "https://cdn.jsdelivr.net/npm/react-dom@19.3.1/+esm": "https://cdn.jsdelivr.net/npm/react-dom@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/react@18.2.0/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/react-dom@18.2.0/+esm": "https://cdn.jsdelivr.net/npm/react-dom@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/react@19.0.0/jsx-runtime/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/jsx-runtime/+esm",
+        "https://cdn.jsdelivr.net/npm/react@19.0.0/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/react@19.3.0/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/@emotion/is-prop-valid@1.4.0/+esm": "https://cdn.jsdelivr.net/npm/@emotion/is-prop-valid@1.2.2/+esm",
+        "https://cdn.jsdelivr.net/npm/@tonic-ui/utils/+esm": "https://cdn.jsdelivr.net/npm/@tonic-ui/utils@3.0.0-alpha.1/+esm",
+        "https://cdn.jsdelivr.net/npm/@tonic-ui/react-hooks/+esm": "https://cdn.jsdelivr.net/npm/@tonic-ui/react-hooks@3.0.0-alpha.2/+esm",
+        "https://cdn.jsdelivr.net/npm/@babel/runtime@7.26.0/helpers/esm/extends/+esm": "https://cdn.jsdelivr.net/npm/@babel/runtime@7.18.9/helpers/esm/extends/+esm",
+        "https://cdn.jsdelivr.net/npm/react@19.2.0/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/@babel/runtime@7.27.6/helpers/esm/extends/+esm": "https://cdn.jsdelivr.net/npm/@babel/runtime@7.18.9/helpers/esm/extends/+esm",
+        "https://cdn.jsdelivr.net/npm/react@19.1.0/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "https://cdn.jsdelivr.net/npm/@emotion/is-prop-valid@1.3.1/+esm": "https://cdn.jsdelivr.net/npm/@emotion/is-prop-valid@1.2.2/+esm",
+        "https://cdn.jsdelivr.net/npm/@babel/runtime@7.27.1/helpers/esm/inheritsLoose/+esm": "https://cdn.jsdelivr.net/npm/@babel/runtime@7.18.9/helpers/esm/inheritsLoose/+esm"
+      },
+      "status": "measured",
+      "renders": true,
+      "renderRuns": "3/3",
+      "failure": null,
+      "requests": 25,
+      "transferredKiB": 215.3,
+      "decodedKiB": 741.6,
+      "moduleSpanMs": 503,
+      "reactModulesLoaded": 1,
+      "reactModulesShared": 1,
+      "reactInstances": 1,
+      "emotionModulesLoaded": 14,
+      "reactModuleUrls": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+          "shared": true
+        }
+      ],
+      "groupsKiB": {
+        "Tonic UI bundle (merged dependencies)": 500.8,
+        "React / React DOM": 204,
+        "Emotion": 21.3,
+        "Other dependencies": 15.4
+      },
+      "largestFileKiB": 500.8,
+      "largestFileShare": 68,
+      "duplicateRequests": 1,
+      "duplicatePaths": [
+        "@emotion/memoize/+esm x2"
+      ],
+      "topFiles": [
+        {
+          "path": "@tonic-ui/react@3.0.0-alpha.2/dist/standalone/index.min.js",
+          "group": "Tonic UI bundle (merged dependencies)",
+          "transferredKiB": 133.4,
+          "decodedKiB": 500.8,
+          "start": 6,
+          "duration": 238
+        },
+        {
+          "path": "react-dom@19.2.7/client/+esm",
+          "group": "React / React DOM",
+          "transferredKiB": 48.3,
+          "decodedKiB": 175.3,
+          "start": 402,
+          "duration": 54
+        },
+        {
+          "path": "react@19.2.7/+esm",
+          "group": "React / React DOM",
+          "transferredKiB": 4,
+          "decodedKiB": 11.5,
+          "start": 236,
+          "duration": 45
+        },
+        {
+          "path": "stylis@4.2.0/+esm",
+          "group": "Other dependencies",
+          "transferredKiB": 3.8,
+          "decodedKiB": 9.3,
+          "start": 323,
+          "duration": 79
+        },
+        {
+          "path": "@emotion/cache@11.14.0/+esm",
+          "group": "Emotion",
+          "transferredKiB": 2.5,
+          "decodedKiB": 5.2,
+          "start": 280,
+          "duration": 44
+        },
+        {
+          "path": "@emotion/react@11.14.0/+esm",
+          "group": "React / React DOM",
+          "transferredKiB": 2.6,
+          "decodedKiB": 4.9,
+          "start": 236,
+          "duration": 45
+        },
+        {
+          "path": "scheduler@0.27.0/+esm",
+          "group": "React / React DOM",
+          "transferredKiB": 2.1,
+          "decodedKiB": 4.8,
+          "start": 453,
+          "duration": 50
+        },
+        {
+          "path": "react-dom@19.2.7/+esm",
+          "group": "React / React DOM",
+          "transferredKiB": 1.7,
+          "decodedKiB": 4.6,
+          "start": 236,
+          "duration": 44
+        },
+        {
+          "path": "@emotion/is-prop-valid@1.2.2/+esm",
+          "group": "Emotion",
+          "transferredKiB": 2.5,
+          "decodedKiB": 4.5,
+          "start": 236,
+          "duration": 45
+        },
+        {
+          "path": "react-is@16.12.0/+esm",
+          "group": "Other dependencies",
+          "transferredKiB": 1.2,
+          "decodedKiB": 3.5,
+          "start": 323,
+          "duration": 79
+        },
+        {
+          "path": "@emotion/styled@11.14.1/base/+esm",
+          "group": "Emotion",
+          "transferredKiB": 1.9,
+          "decodedKiB": 2.7,
+          "start": 236,
+          "duration": 44
+        },
+        {
+          "path": "@emotion/serialize@1.3.3/+esm",
+          "group": "Emotion",
+          "transferredKiB": 1.5,
+          "decodedKiB": 2.3,
+          "start": 280,
+          "duration": 41
+        }
+      ],
+      "waterfall": [
+        {
+          "start": 0,
+          "requests": 1,
+          "transferredKiB": 133.4,
+          "decodedKiB": 500.8
+        },
+        {
+          "start": 200,
+          "requests": 16,
+          "transferredKiB": 23.6,
+          "decodedKiB": 43.9
+        },
+        {
+          "start": 300,
+          "requests": 6,
+          "transferredKiB": 7.8,
+          "decodedKiB": 16.8
+        },
+        {
+          "start": 400,
+          "requests": 2,
+          "transferredKiB": 50.4,
+          "decodedKiB": 180
+        }
+      ]
+    },
+    {
+      "id": "self-hosted-standalone",
+      "label": "Standalone artifact",
+      "note": "`packages/react/dist/standalone/index.min.js` served from your own origin; an import map supplies the six bare peer imports.",
+      "variant": false,
+      "provider": "Self-hosted",
+      "build": "Bundle built by Tonic UI",
+      "entry": "/standalone/index.min.js",
+      "importMap": {
+        "react": "https://esm.sh/react@19.2.7",
+        "react/jsx-runtime": "https://esm.sh/react@19.2.7/jsx-runtime",
+        "react-dom": "https://esm.sh/react-dom@19.2.7?external=react",
+        "react-dom/client": "https://esm.sh/react-dom@19.2.7/client?external=react",
+        "@emotion/react": "https://esm.sh/@emotion/react@11.14.0?external=react",
+        "@emotion/react/jsx-runtime": "https://esm.sh/@emotion/react@11.14.0/jsx-runtime?external=react",
+        "@emotion/styled/base": "https://esm.sh/@emotion/styled@11.14.1/base?external=react",
+        "@emotion/is-prop-valid": "https://esm.sh/@emotion/is-prop-valid@1.2.2"
+      },
+      "status": "measured",
+      "renders": true,
+      "renderRuns": "3/3",
+      "failure": null,
+      "requests": 49,
+      "transferredKiB": 220.8,
+      "decodedKiB": 746.8,
+      "moduleSpanMs": 930,
+      "reactModulesLoaded": 2,
+      "reactModulesShared": 2,
+      "reactInstances": 1,
+      "emotionModulesLoaded": 33,
+      "reactModuleUrls": [
+        {
+          "url": "https://esm.sh/react@19.2.7",
+          "shared": true
+        },
+        {
+          "url": "https://esm.sh/react@19.2.7/es2022/react.mjs",
+          "shared": true
+        }
+      ],
+      "groupsKiB": {
+        "Tonic UI bundle (merged dependencies)": 500.8,
+        "React / React DOM": 205.1,
+        "Emotion": 25.4,
+        "Other dependencies": 15.5
+      },
+      "largestFileKiB": 500.8,
+      "largestFileShare": 67,
+      "duplicateRequests": 2,
+      "duplicatePaths": [
+        "@emotion/is-prop-valid/es2022/is-prop-valid.mjs x2",
+        "@emotion/memoize/es2022/memoize.mjs x2"
+      ],
+      "topFiles": [
+        {
+          "path": "standalone/index.min.js",
+          "group": "Tonic UI bundle (merged dependencies)",
+          "transferredKiB": 110.5,
+          "decodedKiB": 500.8,
+          "start": 5,
+          "duration": 513
+        },
+        {
+          "path": "react-dom@19.2.7/X-ZXJlYWN0/es2022/client.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 67.8,
+          "decodedKiB": 174,
+          "start": 851,
+          "duration": 61
+        },
+        {
+          "path": "react@19.2.7/es2022/react.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 4.3,
+          "decodedKiB": 9.8,
+          "start": 641,
+          "duration": 43
+        },
+        {
+          "path": "stylis@4.2.0/es2022/stylis.mjs",
+          "group": "Other dependencies",
+          "transferredKiB": 4.7,
+          "decodedKiB": 9,
+          "start": 683,
+          "duration": 46
+        },
+        {
+          "path": "react-dom@19.2.7/X-ZXJlYWN0/es2022/react-dom.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 2.5,
+          "decodedKiB": 5.4,
+          "start": 651,
+          "duration": 40
+        },
+        {
+          "path": "scheduler@0.27.0/es2022/scheduler.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 2.6,
+          "decodedKiB": 5.4,
+          "start": 907,
+          "duration": 64
+        },
+        {
+          "path": "@emotion/cache@11.14.0/es2022/cache.mjs",
+          "group": "Emotion",
+          "transferredKiB": 2.7,
+          "decodedKiB": 5,
+          "start": 683,
+          "duration": 46
+        },
+        {
+          "path": "@emotion/is-prop-valid@1.4.0/es2022/is-prop-valid.mjs",
+          "group": "Emotion",
+          "transferredKiB": 2.5,
+          "decodedKiB": 4.3,
+          "start": 686,
+          "duration": 43
+        },
+        {
+          "path": "@emotion/is-prop-valid@1.2.2/es2022/is-prop-valid.mjs",
+          "group": "Emotion",
+          "transferredKiB": 2.5,
+          "decodedKiB": 4.2,
+          "start": 651,
+          "duration": 45
+        },
+        {
+          "path": "react-is@16.13.1/es2022/react-is.mjs",
+          "group": "Other dependencies",
+          "transferredKiB": 1.8,
+          "decodedKiB": 3.9,
+          "start": 723,
+          "duration": 40
+        },
+        {
+          "path": "@emotion/react@11.14.0/X-ZXJlYWN0/es2022/react.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 1.8,
+          "decodedKiB": 3.3,
+          "start": 645,
+          "duration": 41
+        },
+        {
+          "path": "@emotion/styled@11.14.1/X-ZXJlYWN0/es2022/base.mjs",
+          "group": "Emotion",
+          "transferredKiB": 1.5,
+          "decodedKiB": 2.6,
+          "start": 645,
+          "duration": 51
+        }
+      ],
+      "waterfall": [
+        {
+          "start": 0,
+          "requests": 1,
+          "transferredKiB": 110.5,
+          "decodedKiB": 500.8
+        },
+        {
+          "start": 500,
+          "requests": 6,
+          "transferredKiB": 2.1,
+          "decodedKiB": 2.1
+        },
+        {
+          "start": 600,
+          "requests": 32,
+          "transferredKiB": 32.5,
+          "decodedKiB": 55.8
+        },
+        {
+          "start": 700,
+          "requests": 6,
+          "transferredKiB": 4.6,
+          "decodedKiB": 8.3
+        },
+        {
+          "start": 800,
+          "requests": 3,
+          "transferredKiB": 68.4,
+          "decodedKiB": 174.4
+        },
+        {
+          "start": 900,
+          "requests": 1,
+          "transferredKiB": 2.6,
+          "decodedKiB": 5.4
+        }
+      ]
+    },
+    {
+      "id": "self-hosted-standalone-no-map",
+      "label": "Standalone artifact, no import map",
+      "note": "Failure case: the bundle keeps six bare imports; nothing resolves them.",
+      "variant": true,
+      "provider": "Self-hosted",
+      "build": "Bundle built by Tonic UI",
+      "entry": "/standalone/index.min.js",
+      "importMap": {},
+      "status": "measured",
+      "renders": false,
+      "renderRuns": "0/3",
+      "failure": "Failed to resolve module specifier \"react\". Relative references must start with either \"/\", \"./\", or \"../\".",
+      "requests": 1,
+      "transferredKiB": 110.5,
+      "decodedKiB": 500.8,
+      "moduleSpanMs": 533,
+      "reactModulesLoaded": 1,
+      "reactModulesShared": 0,
+      "reactInstances": 0,
+      "emotionModulesLoaded": 0,
+      "reactModuleUrls": [
+        {
+          "url": "react",
+          "shared": false
+        }
+      ],
+      "groupsKiB": {
+        "Tonic UI bundle (merged dependencies)": 500.8
+      },
+      "largestFileKiB": 500.8,
+      "largestFileShare": 100,
+      "duplicateRequests": 0,
+      "duplicatePaths": [],
+      "topFiles": [
+        {
+          "path": "standalone/index.min.js",
+          "group": "Tonic UI bundle (merged dependencies)",
+          "transferredKiB": 110.5,
+          "decodedKiB": 500.8,
+          "start": 6,
+          "duration": 521
+        }
+      ],
+      "waterfall": [
+        {
+          "start": 0,
+          "requests": 1,
+          "transferredKiB": 110.5,
+          "decodedKiB": 500.8
+        }
+      ]
+    },
+    {
+      "id": "esmsh-standalone-jsdelivr-react",
+      "label": "esm.sh entry, jsDelivr React",
+      "note": "Variant: the library entry stays on esm.sh, the React family comes from jsDelivr.",
+      "variant": true,
+      "provider": "esm.sh + jsDelivr",
+      "build": "Bundle built by the CDN",
+      "entry": "https://esm.sh/@tonic-ui/react@3.0.0-alpha.2?standalone&external=react,react-dom",
+      "importMap": {
+        "react": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+        "react/jsx-runtime": "https://cdn.jsdelivr.net/npm/react@19.2.7/jsx-runtime/+esm",
+        "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@19.2.7/+esm",
+        "react-dom/client": "https://cdn.jsdelivr.net/npm/react-dom@19.2.7/client/+esm"
+      },
+      "status": "measured",
+      "renders": true,
+      "renderRuns": "3/3",
+      "failure": null,
+      "requests": 41,
+      "transferredKiB": 279.8,
+      "decodedKiB": 793.9,
+      "moduleSpanMs": 540,
+      "reactModulesLoaded": 1,
+      "reactModulesShared": 1,
+      "reactInstances": 1,
+      "emotionModulesLoaded": 29,
+      "reactModuleUrls": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+          "shared": true
+        }
+      ],
+      "groupsKiB": {
+        "Tonic UI packages": 0.3,
+        "React / React DOM": 205.3,
+        "Emotion": 20.6,
+        "Tonic UI bundle (merged dependencies)": 552.2,
+        "Other dependencies": 15.5
+      },
+      "largestFileKiB": 552.2,
+      "largestFileShare": 70,
+      "duplicateRequests": 0,
+      "duplicatePaths": [],
+      "topFiles": [
+        {
+          "path": "@tonic-ui/react@3.0.0-alpha.2/X-ZXJlYWN0LHJlYWN0LWRvbQ/es2022/react.bundle.mjs",
+          "group": "Tonic UI bundle (merged dependencies)",
+          "transferredKiB": 195.1,
+          "decodedKiB": 552.2,
+          "start": 146,
+          "duration": 156
+        },
+        {
+          "path": "react-dom@19.2.7/client/+esm",
+          "group": "React / React DOM",
+          "transferredKiB": 48,
+          "decodedKiB": 175.3,
+          "start": 497,
+          "duration": 89
+        },
+        {
+          "path": "react@19.2.7/+esm",
+          "group": "React / React DOM",
+          "transferredKiB": 4,
+          "decodedKiB": 11.5,
+          "start": 291,
+          "duration": 180
+        },
+        {
+          "path": "stylis@4.2.0/es2022/stylis.mjs",
+          "group": "Other dependencies",
+          "transferredKiB": 4.6,
+          "decodedKiB": 9,
+          "start": 292,
+          "duration": 53
+        },
+        {
+          "path": "@emotion/cache@11.14.0/es2022/cache.mjs",
+          "group": "Emotion",
+          "transferredKiB": 2.7,
+          "decodedKiB": 5,
+          "start": 292,
+          "duration": 52
+        },
+        {
+          "path": "scheduler@0.27.0/+esm",
+          "group": "React / React DOM",
+          "transferredKiB": 2.1,
+          "decodedKiB": 4.8,
+          "start": 584,
+          "duration": 53
+        },
+        {
+          "path": "react-dom@19.2.7/+esm",
+          "group": "React / React DOM",
+          "transferredKiB": 2,
+          "decodedKiB": 4.6,
+          "start": 292,
+          "duration": 179
+        },
+        {
+          "path": "@emotion/is-prop-valid@1.4.0/es2022/is-prop-valid.mjs",
+          "group": "Emotion",
+          "transferredKiB": 2.5,
+          "decodedKiB": 4.3,
+          "start": 288,
+          "duration": 49
+        },
+        {
+          "path": "react-is@16.13.1/es2022/react-is.mjs",
+          "group": "Other dependencies",
+          "transferredKiB": 1.9,
+          "decodedKiB": 3.9,
+          "start": 337,
+          "duration": 48
+        },
+        {
+          "path": "@emotion/react@11.14.0/X-ZXJlYWN0/es2022/react.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 1.8,
+          "decodedKiB": 3.3,
+          "start": 198,
+          "duration": 95
+        },
+        {
+          "path": "@emotion/styled@11.14.1/X-ZXJlYWN0/es2022/base.mjs",
+          "group": "Emotion",
+          "transferredKiB": 1.6,
+          "decodedKiB": 2.6,
+          "start": 198,
+          "duration": 95
+        },
+        {
+          "path": "@emotion/react@11.14.0/X-ZXJlYWN0/es2022/dist/emotion-element-f0de968e.browser.esm.mjs",
+          "group": "React / React DOM",
+          "transferredKiB": 1.4,
+          "decodedKiB": 2.4,
+          "start": 197,
+          "duration": 96
+        }
+      ],
+      "waterfall": [
+        {
+          "start": 0,
+          "requests": 1,
+          "transferredKiB": 0.6,
+          "decodedKiB": 0.3
+        },
+        {
+          "start": 100,
+          "requests": 16,
+          "transferredKiB": 204,
+          "decodedKiB": 565
+        },
+        {
+          "start": 200,
+          "requests": 17,
+          "transferredKiB": 21.4,
+          "decodedKiB": 41.6
+        },
+        {
+          "start": 300,
+          "requests": 5,
+          "transferredKiB": 3.7,
+          "decodedKiB": 6.9
+        },
+        {
+          "start": 400,
+          "requests": 1,
+          "transferredKiB": 48,
+          "decodedKiB": 175.3
+        },
+        {
+          "start": 500,
+          "requests": 1,
+          "transferredKiB": 2.1,
+          "decodedKiB": 4.8
+        }
+      ]
+    }
+  ]
+}

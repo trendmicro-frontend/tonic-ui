@@ -16,7 +16,7 @@ The runner executes React development, React production, reference examples, the
 | Selection | Test ownership | Server |
 | :-- | :-- | :-- |
 | `react` | [`packages/react/test/e2e/`](../../packages/react/test/e2e/README.md): component behavior and shared scenarios | Current React sources, bundled in memory with esbuild |
-| `examples` | `examples/esm-cdn-with-fallback/test/e2e/`: reference application | Application production build and preview |
+| `examples` | `examples/cdn-with-fallback/test/e2e/`: reference application | Application production build and preview |
 | `docs` | [`packages/react-docs/test/e2e/`](../../packages/react-docs/test/e2e/README.md): docs-owned integrations | Production demos under `public/demos/` |
 
 ```bash
@@ -70,8 +70,8 @@ Do not create a project per component or duplicate a spec merely to support anot
 
 - `test/e2e/run.mjs`: suite selection and development/production execution.
 - `test/e2e/config.mjs`: shared Playwright defaults and real server construction.
-- `examples/esm-cdn-with-fallback/test/e2e/playwright.config.mjs` and its `index.mjs`: reference-app target, native `testMatch` patterns, build, and preview commands.
-- `examples/esm-cdn-with-fallback/test/e2e/helpers.mjs`: example-specific CDN network controls.
+- `examples/cdn-with-fallback/test/e2e/playwright.config.mjs` and its `index.mjs`: reference-app target, native `testMatch` patterns, build, and preview commands.
+- `examples/cdn-with-fallback/test/e2e/helpers.mjs`: example-specific CDN network controls.
 - `packages/react/test/e2e/scenarios/`: reusable browser contracts across components.
 - `packages/react/test/e2e/components/`: component-specific browser contracts.
 - `packages/react/test/e2e/fixtures/components/`: small real-component fixtures, separate from browser actions and assertions.

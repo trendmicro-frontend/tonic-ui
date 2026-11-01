@@ -12,7 +12,7 @@ Use `test/` for package-level test infrastructure and suites. The MCP CLI suite 
 | Public React TypeScript declarations | Existing type-test files in `packages/react/` | `yarn workspace @tonic-ui/react test:types` |
 | CLI and transport integration tests | `packages/mcp/test/` (Node test runner) | `yarn workspace @tonic-ui/mcp test-cli` |
 | Browser interaction, focus, portals, owning documents, and event ordering | [`packages/react/test/e2e/`](../packages/react/test/e2e/README.md) | `yarn test:e2e react` |
-| Reference application loading and CDN fallback | `examples/esm-cdn-with-fallback/test/e2e/` | `yarn test:e2e examples` |
+| Reference application loading and CDN fallback | `examples/cdn-with-fallback/test/e2e/` | `yarn test:e2e examples` |
 | Documentation demo integrations | [`packages/react-docs/test/e2e/`](../packages/react-docs/test/e2e/README.md) | `yarn test:e2e docs` |
 
 `yarn test` runs workspace test scripts. `yarn test:e2e` runs all browser suites, including both React development and production modes. Browser prerequisites, filters, reports, and debugging are documented in the [E2E guide](./e2e/README.md).
