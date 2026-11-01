@@ -2,4 +2,4 @@
 "@tonic-ui/react": patch
 ---
 
-fix(react): use react-focus-lock ESM, drop the CJS workaround
+fix(react): import react-focus-lock normally, not via the dist/cjs deep path
