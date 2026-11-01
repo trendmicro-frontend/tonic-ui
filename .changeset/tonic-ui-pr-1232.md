@@ -2,4 +2,4 @@
 "@tonic-ui/react": patch
 ---
 
-fix(react): drop the react-focus-lock dist/cjs workaround so CDN imports load correctly
+fix(react): use react-focus-lock ESM, drop the CJS workaround
