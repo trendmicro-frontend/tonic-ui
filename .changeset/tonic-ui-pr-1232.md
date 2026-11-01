@@ -2,4 +2,4 @@
 "@tonic-ui/react": patch
 ---
 
-fix(react): import react-focus-lock from its package entry instead of the dist/cjs deep path
+fix(react): use the react-focus-lock package entry, bump to ^2.13.7
