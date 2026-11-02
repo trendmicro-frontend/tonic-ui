@@ -2144,8 +2144,6 @@
         "Other dependencies": 289,
         "Emotion": 21.4
       },
-      "largestFileKiB": 338.6,
-      "largestFileShare": 26,
       "duplicateRequests": 2,
       "duplicatePaths": [
         "react/es2022/react.mjs x2",
@@ -4402,8 +4400,6 @@
         "React / React DOM": 205.1,
         "Emotion": 21.4
       },
-      "largestFileKiB": 336.9,
-      "largestFileShare": 26,
       "duplicateRequests": 0,
       "duplicatePaths": [],
       "topFiles": [
@@ -4880,8 +4876,6 @@
         "Tonic UI bundle (merged dependencies)": 506.7,
         "Other dependencies": 15.5
       },
-      "largestFileKiB": 506.7,
-      "largestFileShare": 68,
       "duplicateRequests": 0,
       "duplicatePaths": [],
       "topFiles": [
@@ -5346,8 +5340,6 @@
         "Tonic UI bundle (merged dependencies)": 514.4,
         "Other dependencies": 15.5
       },
-      "largestFileKiB": 514.4,
-      "largestFileShare": 67,
       "duplicateRequests": 1,
       "duplicatePaths": [
         "react/es2022/react.mjs x2"
@@ -5926,8 +5918,6 @@
         "Other dependencies": 187.4,
         "Emotion": 25.4
       },
-      "largestFileKiB": 269.7,
-      "largestFileShare": 21,
       "duplicateRequests": 17,
       "duplicatePaths": [
         "react/+esm x7",
@@ -6402,8 +6392,6 @@
         "Other dependencies": 184.5,
         "Emotion": 20.9
       },
-      "largestFileKiB": 269.7,
-      "largestFileShare": 25,
       "duplicateRequests": 0,
       "duplicatePaths": [],
       "topFiles": [
@@ -6887,8 +6875,6 @@
         "React / React DOM": 204,
         "Emotion": 21.3
       },
-      "largestFileKiB": 269.7,
-      "largestFileShare": 25,
       "duplicateRequests": 1,
       "duplicatePaths": [
         "@emotion/memoize/+esm x2"
@@ -7347,8 +7333,6 @@
         "Emotion": 25.4,
         "Other dependencies": 15.5
       },
-      "largestFileKiB": 477.4,
-      "largestFileShare": 66,
       "duplicateRequests": 2,
       "duplicatePaths": [
         "@emotion/is-prop-valid/es2022/is-prop-valid.mjs x2",
@@ -7697,8 +7681,6 @@
         "React / React DOM": 204,
         "Other dependencies": 15.4
       },
-      "largestFileKiB": 477.4,
-      "largestFileShare": 66,
       "duplicateRequests": 1,
       "duplicatePaths": [
         "@emotion/memoize/+esm x2"
@@ -7908,8 +7890,6 @@
         "React / React DOM": 195.9,
         "Emotion": 31.8
       },
-      "largestFileKiB": 477.4,
-      "largestFileShare": 68,
       "duplicateRequests": 0,
       "duplicatePaths": [],
       "topFiles": [
@@ -8314,8 +8294,6 @@
         "Emotion": 25.4,
         "Other dependencies": 15.5
       },
-      "largestFileKiB": 477.4,
-      "largestFileShare": 66,
       "duplicateRequests": 2,
       "duplicatePaths": [
         "@emotion/is-prop-valid/es2022/is-prop-valid.mjs x2",
@@ -8513,8 +8491,6 @@
       "groupsKiB": {
         "Application bundle": 345.8
       },
-      "largestFileKiB": 345.8,
-      "largestFileShare": 100,
       "duplicateRequests": 0,
       "duplicatePaths": [],
       "topFiles": [
@@ -8575,8 +8551,6 @@
       "groupsKiB": {
         "Tonic UI bundle (merged dependencies)": 477.4
       },
-      "largestFileKiB": 477.4,
-      "largestFileShare": 100,
       "duplicateRequests": 0,
       "duplicatePaths": [],
       "topFiles": [
@@ -8876,8 +8850,6 @@
         "Tonic UI bundle (merged dependencies)": 506.7,
         "Other dependencies": 15.5
       },
-      "largestFileKiB": 506.7,
-      "largestFileShare": 68,
       "duplicateRequests": 0,
       "duplicatePaths": [],
       "topFiles": [

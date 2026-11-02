@@ -31,7 +31,7 @@ What each configuration costs, measured on the same page. Details follow per con
 
 <Comparisons />
 
-> **How these numbers were measured?**
+> **How were these numbers measured?**
 >
 > Three cold-cache Chromium runs per configuration; the median is shown. App ready is the time
 > from navigation start until the mounted UI appears. Reproduce it with
@@ -40,8 +40,9 @@ What each configuration costs, measured on the same page. Details follow per con
 
 ## Configurations
 
-Every configuration is an import map: its `@tonic-ui/react` key is the library entry, the other
-keys supply the peers, and the map shown is the one that was measured. The smallest application
+Every CDN configuration is an import map: its `@tonic-ui/react` key is the library entry, the
+other keys supply the peers, and the map shown is the one that was measured. The bundler row
+ships one application chunk and needs no map. The smallest application
 that uses it:
 
 ```jsx
@@ -98,7 +99,7 @@ supplies the peers.
 </script>
 ```
 
-**Measured:** 46 requests · 286.9 KiB wire · 748.2 KiB parsed · largest file 506.7 KiB (68%) · one React instance.
+**Measured:** 46 requests · 286.9 KiB transferred · 748.2 KiB decompressed · one React instance.
 
 **Import map:** the `@tonic-ui/react` key is the entry; four React-family keys follow. esm.sh rewrites the bundle's
 Emotion imports to its own URLs, so the map needs no Emotion keys — Emotion still arrives as
@@ -129,7 +130,7 @@ alias map collapses those URLs onto the pinned peers.
 </script>
 ```
 
-**Measured:** 54 requests · 327.8 KiB wire · 1,060.4 KiB parsed · largest file 269.7 KiB (25%) · one React instance.
+**Measured:** 54 requests · 327.8 KiB transferred · 1,060.4 KiB decompressed · one React instance.
 
 **Import map:** the entry key, four peer keys, and 17 aliases — 22 entries for this release. The fifth line is one of
 them; the rest pin the other React and `@babel/runtime` versions the graph emits.
@@ -161,7 +162,7 @@ stay external.
 </script>
 ```
 
-**Measured:** 49 requests · 279.7 KiB wire · 723.4 KiB parsed · largest file 477.4 KiB (66%) · one React instance.
+**Measured:** 49 requests · 279.7 KiB transferred · 723.4 KiB decompressed · one React instance.
 
 **Import map:** the `@tonic-ui/react` key is the artifact; eight peer keys follow — its six bare specifiers and
 `react/jsx-runtime` with `react-dom/client`. The file is fixed: 488,858 bytes, SHA-256
@@ -192,7 +193,7 @@ The same artifact, with every peer also on jsDelivr.
 </script>
 ```
 
-**Measured:** 25 requests · 209.7 KiB wire · 718.1 KiB parsed · largest file 477.4 KiB (66%) · one React instance.
+**Measured:** 25 requests · 209.7 KiB transferred · 718.1 KiB decompressed · one React instance.
 
 **Import map:** the artifact as the entry key, the same eight peer keys on jsDelivr, and 20 aliases that pin
 the peer URLs the graph emits — 29 entries for this release.
@@ -224,7 +225,7 @@ files.
 </script>
 ```
 
-**Measured:** 7 requests · 172.3 KiB wire · 705.1 KiB parsed · largest file 477.4 KiB (68%) · one React instance.
+**Measured:** 7 requests · 172.3 KiB transferred · 705.1 KiB decompressed · one React instance.
 
 **Import map:** the artifact as the entry, React and React DOM as two bundles, and four Emotion
 specifiers served by two Emotion bundles (the React family is shared, so `react/jsx-runtime` and
@@ -244,7 +245,7 @@ resolve at build time, so no import map is involved and no separate CDN runtime 
 <script type="module" src="./assets/app-bundled-B69I4X1_.js"></script>
 ```
 
-**Measured:** 1 request · 83.8 KiB wire · 345.8 KiB parsed · largest file 345.8 KiB (100%) · one React instance.
+**Measured:** 1 request · 83.8 KiB transferred · 345.8 KiB decompressed · one React instance.
 
 | Bundled dependency | Source |
 | :--- | :--- |

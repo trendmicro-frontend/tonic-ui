@@ -558,7 +558,6 @@ const groupOf = (url) => {
 };
 const stripHost = (url) => url.replace(/^https?:\/\/(esm\.sh|cdn\.jsdelivr\.net)\/(npm\/)?/, '').replace(/^http:\/\/localhost:4321\//, '');
 const median = (values) => [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)];
-const largestDecoded = (modules) => modules.reduce((max, module) => Math.max(max, module.decoded), 0);
 const kiB = (bytes) => +(bytes / 1024).toFixed(1);
 
 const serveScript = (response, file) => {
@@ -655,8 +654,6 @@ async function measure(config) {
       emotionModulesLoaded: 0,
       reactModuleUrls: [],
       groupsKiB: {},
-      largestFileKiB: null,
-      largestFileShare: null,
       duplicateRequests: null,
       duplicatePaths: [],
       topFiles: [],
@@ -861,12 +858,6 @@ async function measure(config) {
     emotionFiles: [...emotionUrls].map((url) => stripHost(url)).sort(),
     reactModuleUrls: representative.reactIdentity.map((item) => ({ url: item.url, shared: Boolean(item.sameAsAppReact) })),
     groupsKiB: Object.fromEntries(Object.entries(groups).map(([key, value]) => [key, kiB(value / RUNS)])),
-    largestFileKiB: kiB(largestDecoded(representative.modules)),
-    // Share of the parsed JavaScript carried by the single biggest file.
-    largestFileShare: Math.round(median(runs.map((run) => {
-      const total = run.modules.reduce((sum, module) => sum + module.decoded, 0);
-      return (largestDecoded(run.modules) / total) * 100;
-    }))),
     duplicateRequests: median(runs.map((run) => duplicateStats(run.modules).duplicateRequests)),
     duplicatePaths: duplicates.duplicatePaths,
     topFiles: representative.modules

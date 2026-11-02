@@ -166,8 +166,7 @@ export default function BundleComposition() {
                 </Text>
                 {isMeasured(config) ? (
                   <Text sx={{ fontSize: 'md', color: muted, mt: '1x' }}>
-                    Largest file: {kiB(config.largestFileKiB)} ({config.largestFileShare}%) ·
-                    {' '}{num(config.duplicateRequests)} duplicate {config.duplicateRequests === 1 ? 'fetch' : 'fetches'}
+                    {num(config.duplicateRequests)} duplicate {config.duplicateRequests === 1 ? 'fetch' : 'fetches'}
                   </Text>
                 ) : (
                   <Text sx={{ fontSize: 'md', color: faint, mt: '1x' }}>
