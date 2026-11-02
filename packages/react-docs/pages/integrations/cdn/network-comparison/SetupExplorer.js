@@ -161,7 +161,7 @@ export default function SetupExplorer() {
         )}
 
         <Text sx={{ fontSize: 'sm', color: faint }}>
-          The reference example (examples/cdn-with-fallback) uses the same entry and import map, and
+          The reference example (examples/cdn-with-local-fallback) uses the same entry and import map, and
           adds same-origin fallback files so the page still mounts when a CDN request fails.
         </Text>
       </Stack>
