@@ -1,7 +1,7 @@
 # Tonic UI: full recursive CDN Network benchmark
 
 This provides **actual Chromium measurements** for the four loading approaches described in
-`packages/react-docs/pages/integrations/esm-cdn-with-fallback/index.page.mdx`:
+`packages/react-docs/pages/integrations/cdn/index.page.mdx`:
 
 1. esm.sh plain URL, no import map: `https://esm.sh/@tonic-ui/react@3.0.0-alpha.1`
 2. esm.sh standalone build with peer dependencies mapped: `https://esm.sh/@tonic-ui/react@3.0.0-alpha.1?standalone&external=react,react-dom`

@@ -14,12 +14,19 @@ const suites = {
     config: 'packages/react/test/e2e/playwright.config.mjs',
     env: { E2E_NODE_ENV: mode },
   })),
-  examples: [{ name: 'examples', config: 'examples/cdn-with-fallback/test/e2e/playwright.config.mjs' }],
-  docs: [{ name: 'docs', config: 'packages/react-docs/test/e2e/playwright.config.mjs' }],
+  examples: [{ name: 'examples', config: 'examples/cdn-with-local-fallback/test/e2e/playwright.config.mjs' }],
+  // Docs demos and documentation pages have separate configs, so a project name
+  // only has to be unique within its kind.
+  'docs:demos': [{ name: 'docs demos', config: 'packages/react-docs/test/e2e/demos/playwright.config.mjs' }],
+  'docs:pages': [{ name: 'docs pages', config: 'packages/react-docs/test/e2e/pages/playwright.config.mjs' }],
+  docs: [
+    { name: 'docs demos', config: 'packages/react-docs/test/e2e/demos/playwright.config.mjs' },
+    { name: 'docs pages', config: 'packages/react-docs/test/e2e/pages/playwright.config.mjs' },
+  ],
 };
 const targets = suite === 'all' ? Object.values(suites).flat() : suites[suite];
 if (!targets) {
-  throw new Error(`Unknown e2e suite "${suite}". Use all, react, examples, or docs.`);
+  throw new Error(`Unknown e2e suite "${suite}". Use all, react, examples, docs, docs:demos, or docs:pages.`);
 }
 
 for (const target of targets) {

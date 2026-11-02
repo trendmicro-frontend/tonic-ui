@@ -45,7 +45,7 @@ const peers = {
 };
 
 // The four approaches documented in
-// packages/react-docs/pages/integrations/esm-cdn-with-fallback/index.page.mdx.
+// packages/react-docs/pages/integrations/cdn/index.page.mdx.
 // Every page mounts a Box and a Button, so the measured graph is the one an
 // application fetches, not only the entry module.
 const cases = [

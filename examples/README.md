@@ -2,12 +2,12 @@
 
 The CDN example is a Yarn workspace. Run `yarn install` from the repository directory and build the Tonic UI packages before running it. Commands below start from the repository directory.
 
-## `cdn-with-fallback`
+## `cdn-with-local-fallback`
 
 React and `@tonic-ui/react` load from a CDN first, with automatic fallback to same-origin runtime files when a CDN import fails or times out during startup.
 
 ```bash
-cd examples/cdn-with-fallback
+cd examples/cdn-with-local-fallback
 npm run dev
 ```
 
@@ -17,9 +17,9 @@ The command builds local runtime files and the manifest before starting Vite. Ve
 
 Inspect `dist/runtime-manifest.json` to see the generated CDN and local candidates. The build probes the published `@tonic-ui/react` standalone artifact; if it is unavailable, the build selects the esm.sh standalone build instead. A CDN import failure at runtime falls back to the local candidate.
 
-The same example builds the [runtime inspector](./cdn-with-fallback/README.md) embedded in the documentation when the `--inspector` option is on: `npm run build:inspector`, `npm run dev:inspector`, `npm run preview:inspector`. The default build contains only the reference application.
+The same example builds the [runtime inspector](./cdn-with-local-fallback/README.md) embedded in the documentation when the `--inspector` option is on: `npm run build:inspector`, `npm run dev:inspector`, `npm run preview:inspector`. The default build contains only the reference application.
 
-Documentation: [CDN with fallback](../packages/react-docs/pages/integrations/cdn-with-fallback/index.page.mdx).
+Documentation: [CDN with fallback](../packages/react-docs/pages/integrations/cdn/index.page.mdx).
 
 ## Micro frontend demos
 

@@ -2,7 +2,7 @@
  * Measure how `@tonic-ui/react` loads from each CDN strategy.
  *
  * Runs each configuration in a fresh Chromium browser (cold cache), three times,
- * and writes medians to pages/integrations/cdn-with-fallback/cdn-benchmark-data.json.
+ * and writes medians to pages/integrations/cdn/cdn-benchmark-data.json.
  *
  * Requirements: the sibling packages and the standalone artifact must be built,
  * because one strategy serves `packages/react/dist/standalone/index.min.js`:
@@ -23,7 +23,7 @@ const ROOT = path.resolve(import.meta.dirname, '../../..');
 const STANDALONE = path.join(ROOT, 'packages/react/dist/standalone/index.min.js');
 const DEFAULT_OUTPUT = path.join(
   ROOT,
-  'packages/react-docs/pages/integrations/cdn-with-fallback/cdn-benchmark-data.json',
+  'packages/react-docs/pages/integrations/cdn/cdn-benchmark-data.json',
 );
 // Measure the version the repository currently builds. CDN configurations can only
 // run against a version that is actually on npm, so fall back to the published
@@ -192,7 +192,7 @@ async function buildLocalRuntime() {
   const bundles = {};
   for (const name of ['react', 'react-dom', '@tonic-ui/react']) {
     await build({
-      configFile: path.join(ROOT, 'examples/cdn-with-fallback/vite.config.mjs'),
+      configFile: path.join(ROOT, 'examples/cdn-with-local-fallback/vite.config.mjs'),
       mode: name,
       build: { outDir: path.join(LOCAL_RUNTIME_DIR, name), emptyOutDir: true },
     });
@@ -203,6 +203,25 @@ async function buildLocalRuntime() {
     bundles[name] = path.join(LOCAL_RUNTIME_DIR, name, files[0]);
   }
   return bundles;
+}
+
+// Emotion as its own CDN bundles, so the artifact's four Emotion specifiers can
+// come from the same origin as React and the artifact.
+const EMOTION_DIR = path.join(ROOT, 'packages/react-docs/build/cdn-emotion');
+
+async function buildEmotionBundles() {
+  await build({
+    configFile: path.join(ROOT, 'examples/cdn-with-local-fallback/vite.emotion.config.mjs'),
+    build: { outDir: EMOTION_DIR, emptyOutDir: true },
+  });
+  return fs.readdirSync(EMOTION_DIR).filter((file) => file.endsWith('.js'));
+}
+
+let emotionFiles = [];
+try {
+  emotionFiles = await buildEmotionBundles();
+} catch (error) {
+  console.warn(`emotion bundles unavailable (${error.message}); skipping the self-hosted CDN configuration`);
 }
 
 let localRuntimeFiles = new Map();
@@ -217,7 +236,41 @@ try {
   console.warn(`local runtime bundles unavailable (${error.message}); skipping the all-local configuration`);
 }
 
-const localUrl = (name) => `http://localhost:${PORT}/runtime/${name}`;
+// The application-bundled strategy: one normal production build in which the
+// bundler resolves React, React DOM, Tonic UI, and Emotion. Nothing is external
+// and there is no import map.
+const APP_BUNDLE_DIR = path.join(ROOT, 'packages/react-docs/build/cdn-app-bundle');
+
+async function buildAppBundle() {
+  await build({
+    configFile: path.join(ROOT, 'examples/cdn-with-local-fallback/vite.app.config.mjs'),
+    build: { outDir: APP_BUNDLE_DIR, emptyOutDir: true },
+  });
+  const meta = JSON.parse(fs.readFileSync(path.join(APP_BUNDLE_DIR, 'build-meta.json'), 'utf8'));
+  const entry = meta.chunks.find((chunk) => chunk.isEntry);
+  if (!entry) {
+    throw new Error('the application build produced no entry chunk');
+  }
+  const modules = meta.chunks.flatMap((chunk) => chunk.modules);
+  const includes = (pattern) => modules.some((id) => pattern.test(id));
+  return {
+    entryFile: entry.file,
+    composition: meta.composition ?? {},
+    chunks: meta.chunks.map((chunk) => ({ file: chunk.file, modules: chunk.modules.length })),
+    // Informational only: these are the dependencies verified in the build
+    // metadata, not extra network requests.
+    bundledDependencies: [
+      includes(/node_modules\/react\//) && 'React',
+      includes(/node_modules\/react-dom\//) && 'React DOM',
+      includes(/(packages\/react\/|@tonic-ui\/)/) && 'Tonic UI',
+      includes(/@emotion\//) && 'Emotion',
+    ].filter(Boolean),
+  };
+}
+
+// A failed production build invalidates the strategy instead of publishing a
+// stale row.
+const appBundle = await buildAppBundle();
 
 const configurations = [
   {
@@ -338,14 +391,17 @@ const configurations = [
     provider: 'Self-hosted',
     build: LOCAL_BUILD,
     label: '`dist/standalone` artifact, served by you',
-    note: '`packages/react/dist/standalone/index.min.js` served from your own origin; an import map supplies the six bare peer imports.',
-    entry: '/standalone/index.min.js',
+    note: 'The artifact and complete standalone bundles for React, React DOM, and Emotion, all served from your own origin. No CDN is involved.',
+    entry: '/cdn/standalone/index.min.js',
     importMap: {
-      ...sharedReact,
-      '@emotion/react': `${ESM}/@emotion/react@11.14.0?external=react`,
-      '@emotion/react/jsx-runtime': `${ESM}/@emotion/react@11.14.0/jsx-runtime?external=react`,
-      '@emotion/styled/base': `${ESM}/@emotion/styled@11.14.1/base?external=react`,
-      '@emotion/is-prop-valid': `${ESM}/@emotion/is-prop-valid@1.2.2`,
+      react: '/cdn/react.js',
+      'react/jsx-runtime': '/cdn/react.js',
+      'react-dom': '/cdn/react-dom.js',
+      'react-dom/client': '/cdn/react.js',
+      '@emotion/react': '/cdn/emotion-react.js',
+      '@emotion/react/jsx-runtime': '/cdn/emotion-react.js',
+      '@emotion/styled/base': '/cdn/emotion-styled-base.js',
+      '@emotion/is-prop-valid': '/cdn/emotion-is-prop-valid.js',
     },
     react: 'react',
     reactDomClient: 'react-dom/client',
@@ -368,21 +424,17 @@ const configurations = [
     reactDomClient: 'react-dom/client',
   },
   {
-    id: 'self-hosted-runtime',
+    id: 'app-bundled',
     variant: false,
     provider: 'Self-hosted',
     build: APP_BUILD,
-    label: 'Everything from your own origin',
-    note: 'Your bundler builds React, React DOM, and the whole Tonic UI closure (Emotion included) into files you serve yourself. No CDN request is made.',
-    entry: localUrl(`@tonic-ui/react@${reactPackage.version}.js`),
-    importMap: {
-      react: localUrl(`react@${REACT_VERSION}.js`),
-      'react/jsx-runtime': localUrl(`react@${REACT_VERSION}.js`),
-      'react-dom': localUrl(`react-dom@${REACT_VERSION}.js`),
-      'react-dom/client': localUrl(`react@${REACT_VERSION}.js`),
-    },
-    react: 'react',
-    reactDomClient: 'react-dom/client',
+    label: 'Application bundle',
+    note: 'React, React DOM, Tonic UI, and Emotion are resolved by the application bundler. The page loads one built entry; no import map and no CDN request.',
+    app: true,
+    entry: `/app/${appBundle.entryFile}`,
+    importMap: {},
+    react: null,
+    reactDomClient: null,
   },
   {
     id: 'self-hosted-standalone-no-map',
@@ -416,6 +468,14 @@ const configurations = [
 ];
 
 const pageHtml = (config) => {
+  if (config.app) {
+    // A normal application page: one module script, no import map.
+    return `<!doctype html>
+<html><head><meta charset="utf-8"><title>${config.id}</title></head>
+<body><div id="root"></div>
+<script type="module" src="${config.entry}"></script>
+</body></html>`;
+  }
   const importMap = Object.keys(config.importMap).length
     ? `<script type="importmap">${JSON.stringify({ imports: config.importMap })}</script>`
     : '';
@@ -424,7 +484,18 @@ const pageHtml = (config) => {
 <body><div id="root"></div>
 ${importMap}
 <script type="module">
-window.__result = { error: null, hookValue: null };
+window.__result = { error: null, hookValue: null, mountedAt: null };
+const markMounted = () => {
+  if (window.__result.mountedAt !== null) {
+    return;
+  }
+  if (document.querySelector('#root button')) {
+    window.__result.mountedAt = performance.now();
+    return;
+  }
+  requestAnimationFrame(markMounted);
+};
+requestAnimationFrame(markMounted);
 async function main() {
   const tonic = await import(${JSON.stringify(config.entry)});
   const React = await import(${JSON.stringify(config.react)});
@@ -450,15 +521,27 @@ main().catch((error) => { window.__result.error = String(error && error.message 
 const isModule = (item) => /javascript/i.test(item.type) || /\.(mjs|js)(\?|$)|\/\+esm(\?|$)/.test(item.url);
 // React itself, not react-dom, jsx runtimes, or unrelated packages named "react-*".
 const isReactModule = (url) =>
-  !url.includes('@tonic-ui') && !url.includes('@emotion') && !url.includes('react-dom') &&
-  !url.includes('jsx-runtime') && !url.includes('react-is') && !url.includes('react-transition-group') &&
-  /react@\d+\.\d+\.\d+/.test(url);
+  /\/cdn\/react\.js$/.test(url) ||
+  (!url.includes('@tonic-ui') && !url.includes('@emotion') && !url.includes('react-dom') &&
+    !url.includes('jsx-runtime') && !url.includes('react-is') && !url.includes('react-transition-group') &&
+    /react@\d+\.\d+\.\d+/.test(url));
 // Group by dependency family, not by host: the self-hosted `standalone/index.min.js`
 // is still the Tonic UI bundle, only served from a different origin. A merged bundle
 // carries peer code inside it, so it gets its own family: counting it as plain
 // "Tonic UI" would make the bars incomparable with per-package setups.
+const isAppBundleFile = (url) => /\/app\/assets\//.test(url);
 const isBundleFile = (url) => /\/es2022\/react\.bundle\.mjs/.test(url) || /\/standalone\/index(\.min)?\.js/.test(url) || /\/runtime\/@tonic-ui\/react@/.test(url);
 const groupOf = (url) => {
+  if (isAppBundleFile(url)) {
+    return 'Application bundle';
+  }
+  // Same-origin CDN bundles are named after their family.
+  if (/\/cdn\/react(-dom)?\.js$/.test(url)) {
+    return 'React / React DOM';
+  }
+  if (/\/cdn\/emotion[^/]*\.js$/.test(url)) {
+    return 'Emotion';
+  }
   if (isBundleFile(url)) {
     return 'Tonic UI bundle (merged dependencies)';
   }
@@ -489,6 +572,35 @@ const server = http.createServer((request, response) => {
     serveScript(response, STANDALONE);
     return;
   }
+  const cdnFile = request.url.match(/^\/cdn\/(.+)$/);
+  if (cdnFile) {
+    const name = decodeURIComponent(cdnFile[1]);
+    const files = {
+      'standalone/index.min.js': STANDALONE,
+      'react.js': localRuntimeFiles.get(`react@${REACT_VERSION}.js`),
+      'react-dom.js': localRuntimeFiles.get(`react-dom@${REACT_VERSION}.js`),
+      ...Object.fromEntries(emotionFiles.map((file) => [file, path.join(EMOTION_DIR, file)])),
+    };
+    const file = files[name];
+    if (file && fs.existsSync(file)) {
+      serveScript(response, file);
+      return;
+    }
+    response.writeHead(404).end('not found');
+    return;
+  }
+  const appAsset = request.url.match(/^\/app\/(.+)$/);
+  if (appAsset) {
+    const file = path.join(APP_BUNDLE_DIR, decodeURIComponent(appAsset[1]));
+    if (file.startsWith(APP_BUNDLE_DIR) && fs.existsSync(file)) {
+      const type = path.extname(file) === '.css' ? 'text/css' : 'application/javascript';
+      response.writeHead(200, { 'content-type': type, 'content-encoding': 'br' });
+      response.end(zlib.brotliCompressSync(fs.readFileSync(file)));
+      return;
+    }
+    response.writeHead(404).end('not found');
+    return;
+  }
   const runtime = request.url.match(/^\/runtime\/(.+)$/);
   if (runtime && localRuntimeFiles.has(runtime[1])) {
     serveScript(response, localRuntimeFiles.get(runtime[1]));
@@ -514,6 +626,14 @@ async function measure(config) {
     build: config.build,
     entry: config.entry,
     importMap: config.importMap,
+    ...(config.app
+      ? {
+          app: true,
+          chunks: appBundle.chunks,
+          bundledDependencies: appBundle.bundledDependencies,
+          bundledComposition: appBundle.composition,
+        }
+      : {}),
   };
   if (config.available === false) {
     // The CDN cannot serve a file the published package does not contain; there is
@@ -600,6 +720,7 @@ async function measure(config) {
       return {
         error: window.__result.error,
         hookValue: window.__result.hookValue,
+        mountedAt: window.__result.mountedAt,
         button: button ? button.textContent : null,
         boxPadding: box ? getComputedStyle(box).padding : null,
         styleTags: document.querySelectorAll('style').length,
@@ -625,23 +746,27 @@ async function measure(config) {
     // the React functions themselves: one instance shares the same function objects.
     const modules = requests.filter(isModule).sort((a, b) => a.start - b.start);
     const reactUrls = [...new Set(modules.map((item) => item.url).filter(isReactModule))];
-    const appUrl = config.importMap.react ?? config.react;
-    let reactIdentity;
-    try {
-      reactIdentity = await page.evaluate(async ({ appUrl, urls }) => {
-        const app = await import(appUrl);
-        return Promise.all(urls.map(async (url) => {
-          try {
-            const candidate = await import(url);
-            return { url, sameAsAppReact: candidate.useState === app.useState && candidate.createElement === app.createElement };
-          } catch (error) {
-            return { url, error: String(error.message) };
-          }
-        }));
-      }, { appUrl, urls: reactUrls });
-    } catch (error) {
-      // The application never reached its React import (no import map, bad entry).
-      reactIdentity = [{ url: appUrl, error: String(error.message) }];
+    const appUrl = config.app ? null : (config.importMap.react ?? config.react);
+    // One self-contained bundle has no bare specifier left to import and compare
+    // against. Every other configuration compares the React functions themselves.
+    let reactIdentity = [];
+    if (!config.app) {
+      try {
+        reactIdentity = await page.evaluate(async ({ appUrl, urls }) => {
+          const app = await import(appUrl);
+          return Promise.all(urls.map(async (url) => {
+            try {
+              const candidate = await import(url);
+              return { url, sameAsAppReact: candidate.useState === app.useState && candidate.createElement === app.createElement };
+            } catch (error) {
+              return { url, error: String(error.message) };
+            }
+          }));
+        }, { appUrl, urls: reactUrls });
+      } catch (error) {
+        // The application never reached its React import (no import map, bad entry).
+        reactIdentity = [{ url: appUrl, error: String(error.message) }];
+      }
     }
 
     runs.push({
@@ -650,6 +775,7 @@ async function measure(config) {
       transferred: modules.reduce((sum, item) => sum + item.transferred, 0),
       decoded: modules.reduce((sum, item) => sum + item.decoded, 0),
       span: modules.length ? modules[modules.length - 1].start + modules[modules.length - 1].duration : 0,
+      readyMs: check.mountedAt,
       modules,
       reactIdentity,
       consoleErrors: consoleErrors.slice(0, 3),
@@ -664,9 +790,9 @@ async function measure(config) {
   // the reported median: the popover's bucket counts then add up to the headline
   // number. Falls back to the first run that rendered.
   const renderingRuns = runs.filter((run, index) => renders[index]);
-  const representative = renderingRuns.find((run) => run.requests === requestsMedian)
-    ?? renderingRuns[0]
-    ?? runs[0];
+  const representative = renderingRuns.find((run) => run.requests === requestsMedian) ??
+    renderingRuns[0] ??
+    runs[0];
   const groups = {};
   for (const run of runs) {
     for (const entry of run.modules) {
@@ -709,12 +835,18 @@ async function measure(config) {
     transferredKiB: kiB(median(runs.map((run) => run.transferred))),
     decodedKiB: kiB(median(runs.map((run) => run.decoded))),
     moduleSpanMs: median(runs.map((run) => run.span)),
+    // Navigation start to the first painted application UI, measured in the page.
+    readyMs: Math.round(median(runs.map((run) => run.readyMs).filter((value) => Number.isFinite(value)))),
     reactModulesLoaded: representative.reactIdentity.length,
     reactModulesShared: representative.reactIdentity.filter((item) => item.sameAsAppReact).length,
     // Distinct React instances: one per URL that failed to match the application's
     // React, plus the application's own copy when it resolved at all.
-    reactInstances: representative.reactIdentity.filter((item) => !item.error && !item.sameAsAppReact).length +
-      (representative.reactIdentity.some((item) => item.sameAsAppReact) ? 1 : 0),
+    // One self-contained bundle: the build metadata shows a single React package
+    // and a successful mount proves it works. Nothing else can be imported.
+    reactInstances: config.app
+      ? 1
+      : representative.reactIdentity.filter((item) => !item.error && !item.sameAsAppReact).length +
+        (representative.reactIdentity.some((item) => item.sameAsAppReact) ? 1 : 0),
     emotionModulesLoaded: emotionUrls.size,
     // Every JavaScript response the run made, largest first: this is what the
     // "Requests" number counts.

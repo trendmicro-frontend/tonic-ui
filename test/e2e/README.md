@@ -16,14 +16,17 @@ The runner executes React development, React production, reference examples, the
 | Selection | Test ownership | Server |
 | :-- | :-- | :-- |
 | `react` | [`packages/react/test/e2e/`](../../packages/react/test/e2e/README.md): component behavior and shared scenarios | Current React sources, bundled in memory with esbuild |
-| `examples` | `examples/cdn-with-fallback/test/e2e/`: reference application | Application production build and preview |
-| `docs` | [`packages/react-docs/test/e2e/`](../../packages/react-docs/test/e2e/README.md): docs-owned integrations | Production demos under `public/demos/` |
+| `examples` | `examples/cdn-with-local-fallback/test/e2e/`: reference application | Application production build and preview |
+| `docs:demos` | [`packages/react-docs/test/e2e/demos/`](../../packages/react-docs/test/e2e/README.md): demo contracts | Production demos under `public/demos/` |
+| `docs:pages` | [`packages/react-docs/test/e2e/pages/`](../../packages/react-docs/test/e2e/README.md): documentation-page contracts | The Next.js docs dev server |
+| `docs` | Both docs configs, run one after the other | Demo preview, then the docs dev server |
 
 ```bash
 yarn test:e2e react
 yarn test:e2e examples
-yarn test:e2e docs
-yarn test:e2e all       # explicit equivalent of yarn test:e2e
+yarn test:e2e docs        # docs:demos then docs:pages
+yarn test:e2e docs:pages
+yarn test:e2e all         # explicit equivalent of yarn test:e2e
 ```
 
 React runs the same contracts against both build modes: development warnings are present only in development; production behavior is exercised with the production React runtime. To run one mode:
@@ -70,8 +73,8 @@ Do not create a project per component or duplicate a spec merely to support anot
 
 - `test/e2e/run.mjs`: suite selection and development/production execution.
 - `test/e2e/config.mjs`: shared Playwright defaults and real server construction.
-- `examples/cdn-with-fallback/test/e2e/playwright.config.mjs` and its `index.mjs`: reference-app target, native `testMatch` patterns, build, and preview commands.
-- `examples/cdn-with-fallback/test/e2e/helpers.mjs`: example-specific CDN network controls.
+- `examples/cdn-with-local-fallback/test/e2e/playwright.config.mjs` and its `index.mjs`: reference-app target, native `testMatch` patterns, build, and preview commands.
+- `examples/cdn-with-local-fallback/test/e2e/helpers.mjs`: example-specific CDN network controls.
 - `packages/react/test/e2e/scenarios/`: reusable browser contracts across components.
 - `packages/react/test/e2e/components/`: component-specific browser contracts.
 - `packages/react/test/e2e/fixtures/components/`: small real-component fixtures, separate from browser actions and assertions.

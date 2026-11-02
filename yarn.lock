@@ -6999,6 +6999,7 @@ __metadata:
     next: "npm:^15.5.14"
     next-plugin-svgr: "npm:^1.1.10"
     node-emoji: "npm:^2.1.0"
+    pele: "npm:^1.13.0"
     prism-react-renderer: "npm:^2.4.1"
     prop-types: "npm:15.x"
     raw-loader: "npm:^4.0.2"
@@ -9619,9 +9620,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cdn-with-fallback@workspace:examples/cdn-with-fallback":
+"cdn-with-local-fallback@workspace:examples/cdn-with-local-fallback":
   version: 0.0.0-use.local
-  resolution: "cdn-with-fallback@workspace:examples/cdn-with-fallback"
+  resolution: "cdn-with-local-fallback@workspace:examples/cdn-with-local-fallback"
   dependencies:
     "@emotion/cache": "npm:11.14.0"
     "@emotion/is-prop-valid": "npm:1.2.2"
@@ -19291,6 +19292,13 @@ __metadata:
   version: 4.0.0
   resolution: "path-type@npm:4.0.0"
   checksum: 10/5b1e2daa247062061325b8fdbfd1fb56dde0a448fb1455453276ea18c60685bdad23a445dc148cf87bc216be1573357509b7d4060494a6fd768c7efad833ee45
+  languageName: node
+  linkType: hard
+
+"pele@npm:^1.13.0":
+  version: 1.13.0
+  resolution: "pele@npm:1.13.0"
+  checksum: 10/0bff53b682e6ada96faf960043171a299f30714ebdfbd86d32e18d4b80fe83df9fcdfd3c36f168f7f173f1cfc92a2195ce0ed32a0c693d8ad2a589a7e808a39e
   languageName: node
   linkType: hard
 
