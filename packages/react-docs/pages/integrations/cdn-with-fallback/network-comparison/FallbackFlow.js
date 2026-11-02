@@ -11,12 +11,35 @@ export default function FallbackFlow() {
   const theme = useTheme();
 
   return (
-    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '3x', margin: '4x 0' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: 'stretch',
+        gap: '2x',
+        margin: '4x 0',
+      }}
+    >
       {steps.map(([title, description], index) => (
-        <Box key={title} sx={{ flex: '1 1 170px', minWidth: 160 }}>
+        <Box
+          key={title}
+          sx={{
+            display: 'flex',
+            alignItems: 'stretch',
+            flex: '1 1 170px',
+            minWidth: 160,
+          }}
+        >
           {index > 0 && (
             <Text
-              sx={{ color: theme.get('colors.text.tertiary'), margin: '0 2x 0 0' }}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                flex: 'none',
+                margin: '0 2x',
+                lineHeight: 1,
+                color: theme.get('colors.text.tertiary'),
+              }}
               aria-hidden="true"
             >
               →
@@ -24,6 +47,10 @@ export default function FallbackFlow() {
           )}
           <Box
             sx={{
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
               background: theme.get('colors.background.highest'),
               border: '1px solid',
               borderColor: theme.get('colors.border.subtle'),
@@ -31,10 +58,10 @@ export default function FallbackFlow() {
               padding: '2x 3x',
             }}
           >
-            <Text sx={{ display: 'block', fontWeight: 'bold' }}>
+            <Text sx={{ fontWeight: 'bold' }}>
               {index + 1}. {title}
             </Text>
-            <Text sx={{ display: 'block', fontSize: 'xs', color: theme.get('colors.text.secondary') }}>
+            <Text sx={{ fontSize: 'xs', color: theme.get('colors.text.secondary') }}>
               {description}
             </Text>
           </Box>

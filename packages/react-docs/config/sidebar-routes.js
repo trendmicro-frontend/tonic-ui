@@ -72,7 +72,7 @@ export const routes = [
       { heading: true, title: 'Micro frontend' },
       { title: 'Micro frontend architecture', path: 'integrations/micro-frontend' },
       { heading: true, title: 'CDN' },
-      { title: 'CDN loading strategies and fallback', path: 'integrations/cdn-with-fallback' },
+      { title: 'CDN with local fallback', path: 'integrations/cdn-with-fallback' },
     ],
   },
   {

@@ -15,7 +15,7 @@ export default function NetworkCost({ metric, setMetric }) {
     <Box sx={panel}>
       <SectionHeading
         icon={<ChartBarIcon size="8x" color={provider['esm.sh']} />}
-        title={`Network cost (${metrics.find((option) => option.key === metric).label})`}
+        title={`Network (${metrics.find((option) => option.key === metric).label})`}
         subtitle={
           metric === 'requests'
             ? 'JavaScript request count for each configuration, on one shared scale (lower is better).'
@@ -27,7 +27,7 @@ export default function NetworkCost({ metric, setMetric }) {
           <ButtonGroup
             variant="secondary"
             role="group"
-            aria-label="Network cost metric"
+            aria-label="Network metric"
             sx={{ '> *:not(:first-of-type)': { marginLeft: -1 } }}
           >
             {metrics.map((option) => (
@@ -115,7 +115,7 @@ export default function NetworkCost({ metric, setMetric }) {
           );
         })}
       </Box>
-      <Text sx={{ display: 'block', fontSize: 'xs', color: faint, mt: '3x' }}>
+      <Text sx={{ fontSize: 'xs', color: faint, mt: '3x' }}>
         Cold cache, three runs each, median shown. Transferred is bytes on the wire after
         compression; decoded is the JavaScript the browser parses. Bars share one absolute
         scale, so the shortest bar is genuinely the cheapest. The jsDelivr standalone row is

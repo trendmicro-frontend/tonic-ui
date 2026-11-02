@@ -21,11 +21,18 @@ yarn workspace @tonic-ui/react-docs test:e2e
 
 The suite builds the real demo applications, then starts their production Vite preview. Build commands must succeed before preview starts. Remote modules and sub-apps use the configured origin. Do not start a server manually; the current demo scenarios do not require a Next.js build or another server wrapper.
 
+Documentation-page specs are rendered by the Next.js dev server that `playwright.config.mjs` starts on port 3129 (`E2E_PAGES_PORT` overrides it, `TONIC_UI_REACT_DOCS_DIST_DIR=build-e2e` keeps it apart from a developer's `yarn dev`). Run just that project with:
+
+```bash
+yarn test:e2e docs --project cdn-with-fallback-docs
+```
+
 CDN-first scenarios need network access. Local-only and outage scenarios control browser CDN requests, but the demo build can still retrieve CDN metadata.
 
 ## Ownership and extension
 
 - `integrations/*.spec.mjs`: current real-demo integration contracts. Existing test behavior is preserved when files are organized here.
+- `pages/*.spec.mjs`: documentation-page contracts rendered by the real docs server. `cdn-with-fallback-docs` checks that the overview links resolve to the configuration sections, that each section carries an entry URL and an import map, and that the measured-cost panel opens a grouped request list.
 - `index.mjs`: application targets, native `testMatch` patterns, URL paths, and real build scripts.
 - `playwright.config.mjs`: real server definition and per-target base URLs, using the shared `test/e2e/config.mjs` factory.
 

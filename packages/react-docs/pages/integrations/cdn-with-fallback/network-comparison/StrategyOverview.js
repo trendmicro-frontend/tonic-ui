@@ -1,5 +1,5 @@
 import { Box, Flex, Icon, Stack, Text, useTheme } from '@tonic-ui/react';
-import { DownloadIcon, LinkIcon } from '@tonic-ui/react-icons';
+import { CodeIcon, DownloadIcon, LinkIcon } from '@tonic-ui/react-icons';
 import { configsByProvider, isMeasured, num } from './data';
 import { CubeGlyph, getComparisonTokens, providerColors } from './shared';
 
@@ -33,12 +33,12 @@ const BuildCard = ({ title, description, bullets, color, icon }) => (
       </Box>
       <Text sx={{ fontSize: 'lg', fontWeight: 'bold' }}>{title}</Text>
     </Flex>
-    <Text sx={{ display: 'block', fontSize: 'md', color: 'text.secondary' }}>
+    <Text sx={{ fontSize: 'md', color: 'text.secondary' }}>
       {description}
     </Text>
     <Stack spacing="1x" mt="3x">
       {bullets.map((bullet) => (
-        <Text key={bullet} sx={{ display: 'block', fontSize: 'sm', color: 'text.tertiary' }}>
+        <Text key={bullet} sx={{ fontSize: 'sm', color: 'text.tertiary' }}>
           {bullet}
         </Text>
       ))}
@@ -58,10 +58,10 @@ const ConfigRow = ({ config, color }) => (
     }}
   >
     <Box sx={{ minWidth: 0 }}>
-      <Text sx={{ display: 'block', fontSize: 'md', fontWeight: 'bold' }}>
+      <Text sx={{ fontSize: 'md', fontWeight: 'bold' }}>
         {config.label}
       </Text>
-      <Text sx={{ display: 'block', fontSize: 'sm', color: 'text.secondary', mt: '1x' }}>
+      <Text sx={{ fontSize: 'sm', color: 'text.secondary', mt: '1x' }}>
         {config.note}
       </Text>
     </Box>
@@ -94,10 +94,10 @@ export default function StrategyOverview() {
   return (
     <Stack spacing="4x">
       <Box sx={panel}>
-        <Text as="h2" sx={{ display: 'block', fontSize: '3xl', fontWeight: 'bold' }}>
-          Two ways to get the JavaScript
+        <Text as="h2" sx={{ fontSize: '3xl', fontWeight: 'bold', mt: 0, mb: 0 }}>
+          Three ways to get the JavaScript
         </Text>
-        <Text sx={{ display: 'block', fontSize: 'md', color: muted, mt: '1x' }}>
+        <Text sx={{ fontSize: 'md', color: muted, mt: '1x' }}>
           Pick a build strategy first. The provider only decides where the file is served from.
         </Text>
         <Box
@@ -130,14 +130,25 @@ export default function StrategyOverview() {
               'Needs the published npm package (or your own origin) to serve it.',
             ]}
           />
+          <BuildCard
+            title="C — Bundle built by your application"
+            color={provider['Self-hosted']}
+            icon={CodeIcon}
+            description="Your bundler installs the package from npm and folds every dependency into your own app files."
+            bullets={[
+              'No import map and no CDN request: the browser only ever talks to your origin.',
+              'Your bundler merges React, React DOM, and Emotion, so one instance of each is guaranteed.',
+              'This is the shape of the reference example’s local fallback, and its measured cost.',
+            ]}
+          />
         </Box>
       </Box>
 
       <Box sx={panel}>
-        <Text as="h3" sx={{ display: 'block', fontSize: '2xl', fontWeight: 'bold' }}>
+        <Text as="h3" sx={{ fontSize: '2xl', fontWeight: 'bold', mt: 0, mb: 0 }}>
           The configurations that work
         </Text>
-        <Text sx={{ display: 'block', fontSize: 'md', color: muted, mt: '1x', mb: '3x' }}>
+        <Text sx={{ fontSize: 'md', color: muted, mt: '1x', mb: '3x' }}>
           Each row is one entry URL plus an import map, run in Chromium with a cold cache
           (three runs, median). “Decoded” is the JavaScript the browser parses; “transferred”
           is what actually crossed the network.

@@ -6,6 +6,13 @@ export const tests = [
     build: 'build:cdn-with-fallback',
   },
   {
+    name: 'cdn-with-fallback-docs',
+    testMatch: '**/pages/cdn-with-fallback-docs.spec.mjs',
+    path: '/integrations/cdn-with-fallback/',
+    // Rendered by the docs dev server, not by a demo build.
+    build: null,
+  },
+  {
     name: 'mfe-module-federation',
     testMatch: '**/integrations/mfe-module-federation.spec.mjs',
     path: '/demos/mfe-module-federation/shell/',

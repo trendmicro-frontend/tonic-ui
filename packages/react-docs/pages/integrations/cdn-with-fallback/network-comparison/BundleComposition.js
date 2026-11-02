@@ -90,11 +90,11 @@ export default function BundleComposition() {
               }}
             />
             <Box sx={{ minWidth: 0 }}>
-              <Text sx={{ display: 'block', fontSize: 'md', lineHeight: 1.25 }}>
+              <Text sx={{ fontSize: 'md', lineHeight: 1.25 }}>
                 {item.label}
               </Text>
               {item.detail ? (
-                <Text sx={{ display: 'block', fontSize: 'sm', color: muted, lineHeight: 1.25 }}>
+                <Text sx={{ fontSize: 'sm', color: muted, lineHeight: 1.25 }}>
                   {item.detail}
                 </Text>
               ) : null}
@@ -158,19 +158,19 @@ export default function BundleComposition() {
               />
 
               <Box sx={{ gridArea: 'label', minWidth: 0 }}>
-                <Text sx={{ display: 'block', fontSize: '2xl', fontWeight: 'bold', lineHeight: 1.2 }}>
+                <Text sx={{ fontSize: '2xl', fontWeight: 'bold', lineHeight: 1.2 }}>
                   {config.label}
                 </Text>
-                <Text sx={{ display: 'block', fontSize: 'md', color: muted, mt: '1x' }}>
+                <Text sx={{ fontSize: 'md', color: muted, mt: '1x' }}>
                   {config.provider} · {config.build}
                 </Text>
                 {isMeasured(config) ? (
-                  <Text sx={{ display: 'block', fontSize: 'md', color: muted, mt: '1x' }}>
+                  <Text sx={{ fontSize: 'md', color: muted, mt: '1x' }}>
                     Largest file: {kiB(config.largestFileKiB)} ({config.largestFileShare}%) ·
                     {' '}{num(config.duplicateRequests)} duplicate {config.duplicateRequests === 1 ? 'fetch' : 'fetches'}
                   </Text>
                 ) : (
-                  <Text sx={{ display: 'block', fontSize: 'md', color: faint, mt: '1x' }}>
+                  <Text sx={{ fontSize: 'md', color: faint, mt: '1x' }}>
                     No file to fetch yet — HTTP {config.probeStatus}
                   </Text>
                 )}
@@ -303,7 +303,6 @@ export default function BundleComposition() {
           <Text
             sx={{
               gridColumn: '3 / 4',
-              display: 'block',
               textAlign: 'center',
               fontSize: 'sm',
               color: muted,

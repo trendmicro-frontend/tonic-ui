@@ -1,15 +1,15 @@
 // The snippets shown on the page are generated from the measured configurations,
 // so the import map a reader copies is the one that was actually run.
 
-// Configurations offered as copy-paste setups: the four canonical ones plus the
-// two cross-host variants that were verified in Chromium.
+// Configurations offered as copy-paste setups, in the same order as the sections
+// on the page: the five canonical ones plus the single-origin variant.
 export const SETUP_IDS = [
   'esmsh-standalone',
   'jsdelivr-esm',
   'jsdelivr-standalone',
-  'self-hosted-standalone',
   'jsdelivr-standalone-jsdelivr-peers',
-  'esmsh-standalone-jsdelivr-react',
+  'self-hosted-standalone',
+  'self-hosted-runtime',
 ];
 
 export const buildIndexHtml = (config) => {

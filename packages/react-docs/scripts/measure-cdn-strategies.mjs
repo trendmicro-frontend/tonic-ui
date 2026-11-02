@@ -17,6 +17,7 @@ import http from 'node:http';
 import path from 'node:path';
 import zlib from 'node:zlib';
 import { chromium } from '@playwright/test';
+import { build } from 'vite';
 
 const ROOT = path.resolve(import.meta.dirname, '../../..');
 const STANDALONE = path.join(ROOT, 'packages/react/dist/standalone/index.min.js');
@@ -179,6 +180,44 @@ async function discoverJsDelivrAliases(rootUrl, canonical = canonicalPeerImports
 // tables.
 const CDN_BUILD = 'Bundle built by the CDN';
 const LOCAL_BUILD = 'Bundle built by Tonic UI';
+const APP_BUILD = 'Bundle built by your application';
+
+// The fully self-hosted case: the application bundles React, React DOM, Emotion, and
+// Tonic UI with its own bundler and serves every file from its own origin. The reference
+// example already builds these bundles, so the measurement reuses its Vite configuration
+// instead of inventing a second one.
+const LOCAL_RUNTIME_DIR = path.join(ROOT, 'packages/react-docs/build/cdn-local-runtime');
+
+async function buildLocalRuntime() {
+  const bundles = {};
+  for (const name of ['react', 'react-dom', '@tonic-ui/react']) {
+    await build({
+      configFile: path.join(ROOT, 'examples/cdn-with-fallback/vite.config.mjs'),
+      mode: name,
+      build: { outDir: path.join(LOCAL_RUNTIME_DIR, name), emptyOutDir: true },
+    });
+    const files = fs.readdirSync(path.join(LOCAL_RUNTIME_DIR, name)).filter((file) => file.endsWith('.js'));
+    if (files.length !== 1) {
+      throw new Error(`Expected one bundle for ${name}, found: ${files.join(', ')}`);
+    }
+    bundles[name] = path.join(LOCAL_RUNTIME_DIR, name, files[0]);
+  }
+  return bundles;
+}
+
+let localRuntimeFiles = new Map();
+try {
+  const bundles = await buildLocalRuntime();
+  localRuntimeFiles = new Map([
+    [`react@${REACT_VERSION}.js`, bundles.react],
+    [`react-dom@${REACT_VERSION}.js`, bundles['react-dom']],
+    [`@tonic-ui/react@${reactPackage.version}.js`, bundles['@tonic-ui/react']],
+  ]);
+} catch (error) {
+  console.warn(`local runtime bundles unavailable (${error.message}); skipping the all-local configuration`);
+}
+
+const localUrl = (name) => `http://localhost:${PORT}/runtime/${name}`;
 
 const configurations = [
   {
@@ -186,8 +225,8 @@ const configurations = [
     variant: true,
     provider: 'esm.sh',
     build: CDN_BUILD,
-    label: 'Default ESM',
-    note: 'Failure case: no import map, and esm.sh\'s CommonJS wrapper for react-focus-lock throws before the app mounts.',
+    label: 'Plain entry, no import map',
+    note: 'Failure case: no import map. esm.sh pins React for every package on its own, so the graph loads two React instances and hooks throw.',
     entry: `${ESM}/${PKG}`,
     importMap: {},
     react: `${ESM}/react@${REACT_VERSION}`,
@@ -195,11 +234,11 @@ const configurations = [
   },
   {
     id: 'esmsh-external',
-    variant: true,
+    variant: false,
     provider: 'esm.sh',
     build: CDN_BUILD,
-    label: 'Default ESM + import map',
-    note: 'Failure case: `?external=react,react-dom` plus an import map, unbundled entry.',
+    label: '`?external` entry: one module per package',
+    note: 'Mounts: `?external=react,react-dom` keeps React external and a four-entry import map supplies it. Every package is still fetched separately, so the request count is the highest of the working setups.',
     entry: `${ESM}/${PKG}?external=react,react-dom`,
     importMap: sharedReact,
     react: 'react',
@@ -209,7 +248,7 @@ const configurations = [
     id: 'esmsh-standalone',
     provider: 'esm.sh',
     build: CDN_BUILD,
-    label: 'Standalone bundle',
+    label: '`?standalone` bundle, built by esm.sh',
     note: '`?standalone&external=react,react-dom`: esm.sh builds one file from the package at request time, then an import map supplies the peers. Not Tonic UI\'s `dist/standalone` artifact.',
     entry: `${ESM}/${PKG}?standalone&external=react,react-dom`,
     importMap: sharedReact,
@@ -221,7 +260,7 @@ const configurations = [
     variant: true,
     provider: 'esm.sh',
     build: CDN_BUILD,
-    label: 'Standalone bundle, no peer map',
+    label: '`?standalone` bundle with no peer map',
     note: 'Failure case: `?standalone` bundles its own React, so hooks run on a second instance.',
     entry: `${ESM}/${PKG}?standalone`,
     importMap: sharedReact,
@@ -244,7 +283,7 @@ const configurations = [
     id: 'jsdelivr-esm',
     provider: 'jsDelivr',
     build: CDN_BUILD,
-    label: '`+esm` bundle',
+    label: '`+esm` bundle, built by jsDelivr',
     note: 'jsDelivr bundles each package into one file and pins every dependency to an absolute URL; the alias map collapses those URLs onto the pinned peers.',
     entry: `${JD}/${PKG}/+esm`,
     importMap: null, // filled from the live graph before the run
@@ -267,7 +306,7 @@ const configurations = [
     id: 'jsdelivr-standalone',
     provider: 'jsDelivr',
     build: LOCAL_BUILD,
-    label: 'Standalone artifact',
+    label: '`dist/standalone` artifact, served by jsDelivr',
     note: 'The npm-published `dist/standalone/index.min.js` served by jsDelivr. Measured only when the published tarball contains the artifact; otherwise the probe records a 404 and the row is left unmeasured.',
     entry: `${JD}/${PKG}/${STANDALONE_PATH}`,
     available: null, // probed below: 404 until the artifact is published to npm
@@ -286,7 +325,7 @@ const configurations = [
     variant: true,
     provider: 'jsDelivr',
     build: LOCAL_BUILD,
-    label: 'Standalone artifact, jsDelivr peers',
+    label: '`dist/standalone` artifact, every peer from jsDelivr',
     note: 'Variant: the published standalone bundle with the React family and Emotion served by jsDelivr, so one origin serves everything.',
     entry: `${JD}/${PKG}/${STANDALONE_PATH}`,
     available: null,
@@ -298,7 +337,7 @@ const configurations = [
     id: 'self-hosted-standalone',
     provider: 'Self-hosted',
     build: LOCAL_BUILD,
-    label: 'Standalone artifact',
+    label: '`dist/standalone` artifact, served by you',
     note: '`packages/react/dist/standalone/index.min.js` served from your own origin; an import map supplies the six bare peer imports.',
     entry: '/standalone/index.min.js',
     importMap: {
@@ -312,11 +351,45 @@ const configurations = [
     reactDomClient: 'react-dom/client',
   },
   {
+    id: 'esmsh-raw-standalone',
+    provider: 'esm.sh',
+    build: LOCAL_BUILD,
+    label: '`dist/standalone` artifact, served by raw.esm.sh',
+    note: 'The npm-published artifact fetched from `raw.esm.sh`; the React family and Emotion resolve on esm.sh. The `raw.` host is required: the plain host answers this path with a 478-byte wrapper.',
+    entry: `https://raw.esm.sh/${PKG}/${STANDALONE_PATH}`,
+    importMap: {
+      ...sharedReact,
+      '@emotion/react': `${ESM}/@emotion/react@11.14.0?external=react`,
+      '@emotion/react/jsx-runtime': `${ESM}/@emotion/react@11.14.0/jsx-runtime?external=react`,
+      '@emotion/styled/base': `${ESM}/@emotion/styled@11.14.1/base?external=react`,
+      '@emotion/is-prop-valid': `${ESM}/@emotion/is-prop-valid@1.2.2`,
+    },
+    react: 'react',
+    reactDomClient: 'react-dom/client',
+  },
+  {
+    id: 'self-hosted-runtime',
+    variant: false,
+    provider: 'Self-hosted',
+    build: APP_BUILD,
+    label: 'Everything from your own origin',
+    note: 'Your bundler builds React, React DOM, and the whole Tonic UI closure (Emotion included) into files you serve yourself. No CDN request is made.',
+    entry: localUrl(`@tonic-ui/react@${reactPackage.version}.js`),
+    importMap: {
+      react: localUrl(`react@${REACT_VERSION}.js`),
+      'react/jsx-runtime': localUrl(`react@${REACT_VERSION}.js`),
+      'react-dom': localUrl(`react-dom@${REACT_VERSION}.js`),
+      'react-dom/client': localUrl(`react@${REACT_VERSION}.js`),
+    },
+    react: 'react',
+    reactDomClient: 'react-dom/client',
+  },
+  {
     id: 'self-hosted-standalone-no-map',
     variant: true,
     provider: 'Self-hosted',
     build: LOCAL_BUILD,
-    label: 'Standalone artifact, no import map',
+    label: '`dist/standalone` artifact with no import map',
     note: 'Failure case: the bundle keeps six bare imports; nothing resolves them.',
     entry: '/standalone/index.min.js',
     importMap: {},
@@ -384,7 +457,7 @@ const isReactModule = (url) =>
 // is still the Tonic UI bundle, only served from a different origin. A merged bundle
 // carries peer code inside it, so it gets its own family: counting it as plain
 // "Tonic UI" would make the bars incomparable with per-package setups.
-const isBundleFile = (url) => /\/es2022\/react\.bundle\.mjs/.test(url) || /\/standalone\/index(\.min)?\.js/.test(url);
+const isBundleFile = (url) => /\/es2022\/react\.bundle\.mjs/.test(url) || /\/standalone\/index(\.min)?\.js/.test(url) || /\/runtime\/@tonic-ui\/react@/.test(url);
 const groupOf = (url) => {
   if (isBundleFile(url)) {
     return 'Tonic UI bundle (merged dependencies)';
@@ -405,11 +478,20 @@ const median = (values) => [...values].sort((a, b) => a - b)[Math.floor(values.l
 const largestDecoded = (modules) => modules.reduce((max, module) => Math.max(max, module.decoded), 0);
 const kiB = (bytes) => +(bytes / 1024).toFixed(1);
 
+const serveScript = (response, file) => {
+  // Self-hosting is measured the way a real server behaves: compressed on the wire.
+  response.writeHead(200, { 'content-type': 'application/javascript', 'content-encoding': 'br' });
+  response.end(zlib.brotliCompressSync(fs.readFileSync(file)));
+};
+
 const server = http.createServer((request, response) => {
   if (request.url === '/standalone/index.min.js') {
-    // Self-hosting is measured the way a real server behaves: compressed on the wire.
-    response.writeHead(200, { 'content-type': 'application/javascript', 'content-encoding': 'br' });
-    response.end(zlib.brotliCompressSync(fs.readFileSync(STANDALONE)));
+    serveScript(response, STANDALONE);
+    return;
+  }
+  const runtime = request.url.match(/^\/runtime\/(.+)$/);
+  if (runtime && localRuntimeFiles.has(runtime[1])) {
+    serveScript(response, localRuntimeFiles.get(runtime[1]));
     return;
   }
   const match = request.url.match(/^\/config\/([a-z-]+)/);
@@ -577,7 +659,14 @@ async function measure(config) {
   }
 
   const renders = runs.map((run) => Boolean(run.button && run.boxPadding === '16px' && run.hookValue));
-  const representative = runs.find((run, index) => renders[index]) ?? runs[0];
+  const requestsMedian = median(runs.map((run) => run.requests));
+  // The detail lists come from one run, so pick a run whose request count equals
+  // the reported median: the popover's bucket counts then add up to the headline
+  // number. Falls back to the first run that rendered.
+  const renderingRuns = runs.filter((run, index) => renders[index]);
+  const representative = renderingRuns.find((run) => run.requests === requestsMedian)
+    ?? renderingRuns[0]
+    ?? runs[0];
   const groups = {};
   for (const run of runs) {
     for (const entry of run.modules) {
@@ -616,7 +705,7 @@ async function measure(config) {
     renders: renders.every(Boolean),
     renderRuns: `${renders.filter(Boolean).length}/${RUNS}`,
     failure: representative.error || representative.consoleErrors[0] || null,
-    requests: median(runs.map((run) => run.requests)),
+    requests: requestsMedian,
     transferredKiB: kiB(median(runs.map((run) => run.transferred))),
     decodedKiB: kiB(median(runs.map((run) => run.decoded))),
     moduleSpanMs: median(runs.map((run) => run.span)),
@@ -627,6 +716,17 @@ async function measure(config) {
     reactInstances: representative.reactIdentity.filter((item) => !item.error && !item.sameAsAppReact).length +
       (representative.reactIdentity.some((item) => item.sameAsAppReact) ? 1 : 0),
     emotionModulesLoaded: emotionUrls.size,
+    // Every JavaScript response the run made, largest first: this is what the
+    // "Requests" number counts.
+    files: representative.modules
+      .map((module) => ({
+        path: stripHost(module.url),
+        group: groupOf(module.url),
+        decodedKiB: kiB(module.decoded),
+      }))
+      .sort((a, b) => b.decodedKiB - a.decodedKiB),
+    // The distinct @emotion/* modules behind `emotionModulesLoaded`.
+    emotionFiles: [...emotionUrls].map((url) => stripHost(url)).sort(),
     reactModuleUrls: representative.reactIdentity.map((item) => ({ url: item.url, shared: Boolean(item.sameAsAppReact) })),
     groupsKiB: Object.fromEntries(Object.entries(groups).map(([key, value]) => [key, kiB(value / RUNS)])),
     largestFileKiB: kiB(largestDecoded(representative.modules)),
@@ -688,6 +788,9 @@ await new Promise((resolve) => server.listen(PORT, resolve));
 const strategies = [];
 try {
   for (const config of configurations) {
+    if (config.id === 'self-hosted-runtime' && localRuntimeFiles.size === 0) {
+      continue;
+    }
     const result = await measure(config);
     strategies.push(result);
     console.log(`${result.label}: ${result.renders ? 'rendered' : 'failed'} · ${result.requests} requests · ${result.transferredKiB} KiB · ${result.reactModulesLoaded} React modules (${result.reactModulesShared} shared)`);
@@ -708,6 +811,7 @@ const document = {
     sizes: 'JavaScript module requests only; transferred = bytes on the wire (CDP encodedDataLength, so compression counts), decoded = decompressed body length',
     span: 'first to last JavaScript module request, including incomplete graphs for failed runs',
     standaloneHost: 'the Rollup standalone artifact is served brotli-compressed from localhost, as a real origin would',
+    localRuntime: 'the all-local configuration builds React, React DOM, and the Tonic UI closure with the reference example\'s Vite configuration, then serves the three bundles brotli-compressed from localhost',
   },
   strategies,
 };

@@ -1,254 +1,261 @@
-import NetworkComparison, { FallbackFlow, SetupExplorer } from './network-comparison/index';
+import { Comparisons, FallbackFlow } from './network-comparison/index';
 
-# Load Tonic UI from a CDN, with a local fallback
+# CDN with local fallback
 
-CDNs can serve npm packages as browser-ready ES modules, so an application can import React and
-`@tonic-ui/react` without bundling every dependency itself.
+## Overview
 
-For a React component library, loading the dependencies is only half the problem. Every module
-that calls a hook has to share one React instance, and a CDN request can fail or stall. This
-page compares the ways to load Tonic UI from a CDN, measures what each one costs, and shows how
-the reference example keeps working when a CDN is unavailable.
+A CDN can serve `@tonic-ui/react` and its dependencies as browser-ready ES modules, so the
+application ships without them. Two things break that: every module that calls a hook must
+resolve to one React instance, and a CDN request can fail or stall. This page compares the ways
+to load the library and shows the fallback that keeps the application mounting when a CDN does
+not answer.
 
-**Scope:** every configuration here needs the package on a public registry. A package
-published only to an internal registry (Tonic One and its add-ons) has no esm.sh or jsDelivr
-entry: `https://esm.sh/@tonic-one/react` and
-`https://cdn.jsdelivr.net/npm/@tonic-one/react/+esm` both return 404. For that case only the
-React family can come from a CDN; the library itself must come from your own origin.
+**Scope.** These configurations need the package on a public registry. A package published only
+to an internal registry (Tonic One and its add-ons) has no esm.sh or jsDelivr entry —
+`https://esm.sh/@tonic-one/react` and `https://cdn.jsdelivr.net/npm/@tonic-one/react/+esm` both
+return 404. There, only the React family can come from a CDN; the library itself must be served
+from your own origin.
 
-## Pick a configuration
+Choose the integration approach that best fits your needs:
 
-| Your goal | Configuration | Requests | Transferred | Decoded JS |
-| :--- | :--- | ---: | ---: | ---: |
-| Fewest CDN requests, nothing to build | esm.sh — Standalone bundle | 46 | 302.5 KiB | 793.7 KiB |
-| One CDN, per-package bundles you can inspect | jsDelivr — `+esm` bundle | 61 | 323.0 KiB | 1,075.7 KiB |
-| The published artifact, served by a CDN | jsDelivr — Standalone artifact | 49 | 243.8 KiB | 746.8 KiB |
-| An artifact you control and deploy | Self-hosted — Standalone artifact | 49 | 220.8 KiB | 746.8 KiB |
-| Survive a CDN outage | the [reference example](https://github.com/trendmicro-frontend/tonic-ui/tree/main/examples/cdn-with-fallback) | CDN first, local files second | | |
+- **Minimal setup and fewer network requests** → [Use esm.sh with `?standalone`](#use-esmsh-with-standalone).
+- **Single CDN with inspectable, per-package bundles** → [Use jsDelivr with `+esm`](#use-jsdelivr-with-esm).
+- **Standalone build with dependencies from esm.sh** → [Load `dist/standalone` through `raw.esm.sh`](#load-diststandalone-through-rawesmsh).
+- **Standalone build and dependencies from a single CDN** → [Load `dist/standalone` through jsDelivr](#load-diststandalone-through-jsdelivr).
+- **Host React and Tonic UI on your own CDN** → [Use self-hosted CDN for React and `dist/standalone`](#use-self-hosted-cdn-for-react-and-diststandalone).
+- **No CDN required** → [Use your application's bundler](#use-your-applications-bundler).
 
-Four configurations mount. The esm.sh bare entry (with or without an import map) does not: its
-per-module CommonJS wrapper breaks, so it is listed under "Setups that fail" instead of
-compared here.
+## Comparisons
 
-**Naming:** "bundle" means the CDN built the file at request time. "artifact" means the file
-`packages/react/rollup.config.mjs` wrote to `dist/standalone/index.min.js` and shipped in the npm
-tarball. esm.sh's `?standalone` bundle and the standalone artifact are two different files.
+What each configuration costs, measured on the same page. Details follow per configuration.
 
-Numbers are medians of three cold-cache Chromium runs with `@tonic-ui/react@3.0.0-alpha.2` and
-React 19.2.7. The details at the end of the page explain how they were measured and how to
-regenerate them.
+<Comparisons />
 
-<SetupExplorer />
+## Configurations
 
-## The two build strategies
+Every configuration is one entry URL plus an import map that supplies the peers. Both appear
+below, and the map is the one that was measured.
 
-**A — Bundle built by the CDN.** You import a specifier and the CDN resolves the dependency
-graph for you. esm.sh merges the package and its dependencies into one file; jsDelivr bundles
-each package separately and rewrites every dependency into a version-pinned absolute URL.
+If your application has a build step, the bundler must leave these specifiers external — in Vite,
+`build.rollupOptions.external: ['@tonic-ui/react', 'react', 'react/jsx-runtime', 'react-dom',
+'react-dom/client', /^@emotion\//]`. Otherwise it resolves and inlines them at build time, and
+the import map is never consulted.
 
-**B — Bundle built by Tonic UI.** `packages/react/rollup.config.mjs` emits
-`dist/standalone/index.js` and `dist/standalone/index.min.js`. Every non-peer dependency is
-inlined; only the React and Emotion families stay bare imports. The bytes you measure are the
-bytes you deploy.
+### Use esm.sh with `?standalone`
 
-Tonic UI ships that artifact because the package, not the CDN, decides what is bundled:
-
-- The build is produced and checked by the package build, so the file you deploy is the file the
-  library tested.
-- React and Emotion stay external so the application can supply one shared copy of each.
-- The artifact does not depend on how a particular CDN resolves peer ranges, and it does not
-  change when the CDN rebuilds it later.
-
-It is not automatically smaller or faster than a CDN-built bundle. The comparison below shows
-the actual numbers for each configuration.
-
-Either way, one rule decides whether the app mounts: **every module that calls a hook must
-resolve to the same React instance, and Emotion must stay single.** CDNs pin peers on their
-own, so the import map has to supply the peers.
-
-<NetworkComparison />
-
-## Why the totals differ
-
-Comparing the "Tonic UI" slice of each CDN is misleading: a merged bundle carries the
-dependencies inside it, while a per-package CDN delivers one bundle per package. Compare the
-totals.
-
-| Configuration | Files | Largest file | Wire | Parsed |
-| :--- | ---: | ---: | ---: | ---: |
-| esm.sh — Standalone bundle | 46 | 552.2 KiB (70%) | 302.5 KiB | 793.7 KiB |
-| jsDelivr — `+esm` bundle | 61 | 269.7 KiB (25%) | 323.0 KiB | 1,075.7 KiB |
-| jsDelivr — Standalone artifact | 49 | 500.8 KiB (67%) | 243.8 KiB | 746.8 KiB |
-| Self-hosted — Standalone artifact | 49 | 500.8 KiB (67%) | 220.8 KiB | 746.8 KiB |
-
-Two packaging decisions explain the gap. esm.sh merges and tree-shakes: its bundle exports only
-7 icon names, while
-`https://cdn.jsdelivr.net/npm/@tonic-ui/react-icons@3.0.0-alpha.1/+esm` exports all 494 icon
-definitions as its own 269.7 KiB module. jsDelivr also resolves every package against its own
-peer ranges, so the same helper code appears in several bundles.
-
-The two standalone rows parse the same 746.8 KiB. Their wire sizes differ only because of the
-compressor: jsDelivr's brotli output for the artifact is 133.4 KiB, the localhost test server's
-brotli pass produced 110.5 KiB.
-
-## Working configuration 1: esm.sh standalone bundle
-
-Select **Standalone bundle** in *Copy a setup* above for the file: four import-map entries
-(`react`, `react/jsx-runtime`, `react-dom`, `react-dom/client`) and the entry URL.
-
-`?standalone` makes esm.sh bundle Tonic UI's ordinary dependencies (Emotion is kept external,
-hence the Emotion entries in the reference example's manifest). `external=react,react-dom`
-keeps React and React DOM as bare specifiers so the import map can resolve them.
-
-**`?standalone` is not the npm artifact.** This file is built by esm.sh, not by Tonic UI. The
-distinction matters when you compare byte sizes or when you need the exact artifact you ship.
-
-## Working configuration 2: jsDelivr `+esm` with aliases
-
-jsDelivr rewrites every dependency into a version-pinned absolute URL. To share one React,
-alias **each URL the graph emits** to your pinned React. Verified in Chromium with
-`@tonic-ui/react@3.0.0-alpha.2` and React 19.2.7, the crawl in
-`scripts/measure-cdn-strategies.mjs` produced 19 entries for this release: four bare
-specifiers plus 15 aliases, one per React, React DOM, or duplicate helper URL that the graph
-emits.
-
-Select **`+esm` bundle** in *Copy a setup* above for the full map: four bare specifiers plus
-the 15 aliases this release needs.
-
-Aliases for non-React packages are not about sharing an instance — they collapse the pinned
-and unpinned spellings of the same module so the browser fetches it once. Without them,
-jsDelivr fetched `@tonic-ui/react-hooks` and `@tonic-ui/utils` twice each.
-
-Trade-off: the list depends on the URLs jsDelivr generates, and those change when peer ranges
-resolve to new versions. Regenerate the map (the script prints the crawl) before shipping.
-Configurations 1, 3, and 4 do not have this coupling.
-
-Adding Emotion aliases to the same map moved the total by one request and 0.6 KiB
-(61 → 62 requests, 322.1 → 322.7 KiB). jsDelivr's own Emotion chain already resolves to a
-single copy; only the React versions collide.
-
-## Working configuration 3: standalone artifact from your own origin
-
-`packages/react/rollup.config.mjs` emits `dist/standalone/index.min.js` (512,854 bytes
-uncompressed). Only the React and Emotion families stay external — six bare imports, no CDN
-URLs inside:
+esm.sh merges the package and its dependencies into one file at request time, then the map
+supplies the peers.
 
 ```text
-react, react-dom,
-@emotion/react, @emotion/react/jsx-runtime, @emotion/styled/base, @emotion/is-prop-valid
+https://esm.sh/@tonic-ui/react@3.0.0-alpha.3?standalone&external=react,react-dom
 ```
 
-`react-transition-group` and `date-fns` are inlined by that build, so they need no map entries.
-Select **Standalone artifact** (self-hosted or jsDelivr) in *Copy a setup* above: the map has eight
-entries — those six plus `react/jsx-runtime` and `react-dom/client` — and only the entry URL
-differs between the two hosts.
+```html
+<script type="importmap">
+{
+  "imports": {
+    "@tonic-ui/react": "https://esm.sh/@tonic-ui/react@3.0.0-alpha.3?standalone&external=react,react-dom",
+    "react": "https://esm.sh/react@19.2.7",
+    "react/jsx-runtime": "https://esm.sh/react@19.2.7/jsx-runtime",
+    "react-dom": "https://esm.sh/react-dom@19.2.7?external=react",
+    "react-dom/client": "https://esm.sh/react-dom@19.2.7/client?external=react"
+  }
+}
+</script>
+```
 
-Serve the file from your origin with the compression your server already applies. That is how
-the self-hosted row was measured: brotli-compressed over localhost, 220.8 KiB on the wire.
+**Measured:** 46 requests · 286.8 KiB wire · 748.2 KiB parsed · largest file 506.7 KiB (68%) ·
+one React instance.
 
-## Working configuration 4: jsDelivr serving the standalone artifact
+**Import map:** the library entry plus four React-family keys. esm.sh rewrites the bundle's
+Emotion imports to its own URLs, so the map needs no Emotion keys — Emotion still arrives as
+separate requests.
 
-`3.0.0-alpha.2` is the first release that ships the artifact, so the same file can now come
-straight from the CDN:
+**Pick it** for the fewest requests and nothing to deploy. **Watch out:** the file is built by
+esm.sh, not by Tonic UI — it is not `dist/standalone/index.min.js` — and its bytes change when
+esm.sh's resolver does. Without
+`external=react,react-dom` it pins its own React: 50 requests, two instances.
+
+### Use jsDelivr with `+esm`
+
+jsDelivr bundles each package into one file and pins every dependency to an absolute URL; the
+alias map collapses those URLs onto the pinned peers.
 
 ```text
-https://cdn.jsdelivr.net/npm/@tonic-ui/react@3.0.0-alpha.2/dist/standalone/index.min.js
+https://cdn.jsdelivr.net/npm/@tonic-ui/react@3.0.0-alpha.3/+esm
 ```
 
-Verified facts:
+```html
+<script type="importmap">
+{
+  "imports": {
+    "@tonic-ui/react": "https://cdn.jsdelivr.net/npm/@tonic-ui/react@3.0.0-alpha.3/+esm",
+    "react": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+    "react/jsx-runtime": "https://cdn.jsdelivr.net/npm/react@19.2.7/jsx-runtime/+esm",
+    "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@19.2.7/+esm",
+    "react-dom/client": "https://cdn.jsdelivr.net/npm/react-dom@19.2.7/client/+esm",
+    "https://cdn.jsdelivr.net/npm/react@19.3.1/+esm": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm"
+  }
+}
+</script>
+```
 
-- jsDelivr answers 200 with `application/javascript`, brotli-compressed: 512,854 bytes on disk,
-  136,106 bytes on the wire.
-- The served bytes are the build output byte for byte; its SHA-256 matches
-  `packages/react/dist/standalone/index.min.js`.
-- `raw.esm.sh/@tonic-ui/react@3.0.0-alpha.2/dist/standalone/index.min.js` also serves the file
-  unchanged. Without the `raw.` subdomain, `esm.sh` returns a 506-byte wrapper instead of the
-  artifact.
-- `3.0.0-alpha.1` still returns 404 at that path: it was published on 2026-09-19, and the
-  standalone build landed in `main` on 2026-10-20. Its tarball has `dist/cjs`, `dist/esm`, and
-  `dist/index.d.ts` only.
+**Measured:** 54 requests · 327.8 KiB wire · 1,060.4 KiB parsed · largest file 269.7 KiB (25%) ·
+one React instance.
 
-Measured: 49 requests, 243.8 KiB transferred, 746.8 KiB decoded. The import map from
-configuration 3 applies unchanged — the bundle is the same file, so the peer specifiers are the
-same. Do not substitute esm.sh's `?standalone` bundle for it: that is a different artifact, built
-by the CDN (552.2 KiB decoded versus 500.8 KiB here).
+**Import map:** the library entry, four peer keys, plus 17 aliases — 22 entries for this release. The fifth line is one of
+them; the rest pin the other React and `@babel/runtime` versions the graph emits.
 
-## The peers do not have to come from the same CDN
+**Pick it** to keep every package visible in the Network tab. **Watch out:** the alias list
+follows the URLs jsDelivr generates, so regenerate it when peer ranges move. Without a map the
+page loads seven React versions and fetches 17 modules twice.
 
-The library entry and the React family can live on different hosts, as long as the import map
-resolves every specifier to one copy. Measured: configuration 1's esm.sh entry with `react`,
-`react/jsx-runtime`, `react-dom`, and `react-dom/client` aliased to jsDelivr rendered
-identically with 41 requests and 279.8 KiB transferred instead of 46 requests and 302.5 KiB —
-jsDelivr needs no shim request per peer module.
+### Load `dist/standalone` through `raw.esm.sh`
 
-This is a variant, not a recommendation. It adds a second origin to your CSP and allow list,
-and it makes two CDNs responsible for the same pinned version. Use it when React is already
-served from another CDN in the same document.
+The file Tonic UI's Rollup build published, served by a CDN. Only the React and Emotion families
+stay external.
 
-The opposite shape also works: the published standalone artifact with every peer from jsDelivr —
-`react`, `react-dom`, and the Emotion family all served by jsDelivr, with the alias map covering
-the pinned peer URLs. Measured: 25 requests, 215.3 KiB transferred, 741.6 KiB decoded, one React
-instance. That is the smallest single-origin setup in this run.
+```text
+https://raw.esm.sh/@tonic-ui/react@3.0.0-alpha.3/dist/standalone/index.min.js
+```
 
-## Setups that fail
+```html
+<script type="importmap">
+{
+  "imports": {
+    "@tonic-ui/react": "https://raw.esm.sh/@tonic-ui/react@3.0.0-alpha.3/dist/standalone/index.min.js",
+    "react": "https://esm.sh/react@19.2.7",
+    "react/jsx-runtime": "https://esm.sh/react@19.2.7/jsx-runtime",
+    "react-dom": "https://esm.sh/react-dom@19.2.7?external=react",
+    "react-dom/client": "https://esm.sh/react-dom@19.2.7/client?external=react",
+    "@emotion/react": "https://esm.sh/@emotion/react@11.14.0?external=react",
+    "@emotion/react/jsx-runtime": "https://esm.sh/@emotion/react@11.14.0/jsx-runtime?external=react",
+    "@emotion/styled/base": "https://esm.sh/@emotion/styled@11.14.1/base?external=react",
+    "@emotion/is-prop-valid": "https://esm.sh/@emotion/is-prop-valid@1.2.2"
+  }
+}
+</script>
+```
 
-Every failure below was reproduced in Chromium (three runs each, all three failed):
+**Measured:** 49 requests · 279.7 KiB wire · 723.4 KiB parsed · largest file 477.4 KiB (66%) ·
+one React instance.
 
-| Setup | Requests | React copies | What the measurement showed |
-| :--- | ---: | ---: | :--- |
-| esm.sh plain entry, no map | 420 | 1, none shared | the entry pulls 420 separate modules (1,152.7 KiB), and `react-focus-lock`'s CommonJS wrapper throws `TypeError: x is not a function` before anything renders |
-| esm.sh plain entry + map | 412 | 1, shared | same wrapper failure. The map covers the bare specifiers, but the entry's own peer URLs are absolute, so they bypass it |
-| esm.sh standalone, no peer map | 50 | 2 | the bundle carries its own React; hooks throw on the second instance |
-| jsDelivr plain `+esm` | 76 | 7 | seven React versions are pinned by jsDelivr: 18.2.0, 19.0.0, 19.1.0, 19.2.0, 19.2.7, 19.3.0, 19.3.1 — 16 of the 76 requests fetch a module already fetched |
-| Standalone artifact, no map | 1 | 0 | the bare peer imports never resolve: `Failed to resolve module specifier "react"` |
+**Import map:** the artifact URL plus eight peer keys — its six bare specifiers and
+`react/jsx-runtime` with `react-dom/client`. The file is fixed: 488,858 bytes, SHA-256
+`1aea08cb…`, identical wherever it is served.
 
-The lesson is the same in every row: the import map is not optional, and it has to cover the
-peer specifiers *and* the CDN-generated peer URLs.
+**Pick it** to get the artifact without deploying it. **Watch out:** the plain `esm.sh` host
+answers this path with a 478-byte wrapper; only `raw.esm.sh` serves the file.
 
-The two esm.sh rows share one root cause, and it is not React: esm.sh resolves
-`react-focus-lock` to its CommonJS build (`/react-focus-lock@2.x/dist/cjs?target=es2022`), and
-the shim it generates returns the module namespace object for
-`require("@babel/runtime/helpers/typeof")` instead of the helper function, so the first call
-throws. `?standalone` avoids that path. Aliasing that specifier to the package's ESM build stops
-the throw, but the entry then loads with a null peer module and the page renders nothing
-(`Cannot read properties of null (reading 'useRef')`). There is no import-map workaround for the
-plain entry.
+### Load `dist/standalone` through jsDelivr
 
-## Two different "standalone" builds
+The same artifact, with every peer also on jsDelivr.
 
-| Build | Bundled | Left external |
-| :--- | :--- | :--- |
-| Rollup `index.min.js` | ordinary dependencies | Emotion, React, React DOM |
-| Vite fallback in the [reference example](https://github.com/trendmicro-frontend/tonic-ui/tree/main/examples/cdn-with-fallback) | ordinary dependencies and Emotion | React, React DOM |
+```text
+https://cdn.jsdelivr.net/npm/@tonic-ui/react@3.0.0-alpha.3/dist/standalone/index.min.js
+```
 
-The reference example prefers the published Rollup artifact through `raw.esm.sh` **only if
-that URL exists**; otherwise it uses an esm.sh-generated standalone build. With
-`3.0.0-alpha.2` the probe succeeds, so the generated manifest points at
-`https://raw.esm.sh/@tonic-ui/react@3.0.0-alpha.2/dist/standalone/index.min.js`. Its local
-fallback files are built separately by Vite. Do not use the Vite fallback's byte size as the
-Rollup standalone size.
+```html
+<script type="importmap">
+{
+  "imports": {
+    "@tonic-ui/react": "https://cdn.jsdelivr.net/npm/@tonic-ui/react@3.0.0-alpha.3/dist/standalone/index.min.js",
+    "react": "https://cdn.jsdelivr.net/npm/react@19.2.7/+esm",
+    "react/jsx-runtime": "https://cdn.jsdelivr.net/npm/react@19.2.7/jsx-runtime/+esm",
+    "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@19.2.7/+esm",
+    "react-dom/client": "https://cdn.jsdelivr.net/npm/react-dom@19.2.7/client/+esm",
+    "@emotion/react": "https://cdn.jsdelivr.net/npm/@emotion/react@11.14.0/+esm",
+    "@emotion/react/jsx-runtime": "https://cdn.jsdelivr.net/npm/@emotion/react@11.14.0/jsx-runtime/+esm",
+    "@emotion/styled/base": "https://cdn.jsdelivr.net/npm/@emotion/styled@11.14.1/base/+esm",
+    "@emotion/is-prop-valid": "https://cdn.jsdelivr.net/npm/@emotion/is-prop-valid@1.2.2/+esm"
+  }
+}
+</script>
+```
 
-## How the fallback works
+**Measured:** 25 requests · 209.7 KiB wire · 718.1 KiB parsed · one React instance.
 
-Fallback is an **application feature**, not something esm.sh or jsDelivr provides.
+**Import map:** the artifact URL, the same eight peer keys on jsDelivr, and 20 aliases that pin
+the peer URLs the graph emits — 29 entries for this release.
 
-You need it when the CDN cannot deliver the module graph: the network blocks the CDN, an
-on-demand build is unavailable, or a request exceeds the group's eight-second budget. Without
-fallback the app never mounts. With it, the same page loads from files you deployed alongside
-the application.
+**Pick it** when one origin should serve everything and you do not want to host the file.
+**Watch out:** the peer URLs are version-pinned; regenerate the map when React or Emotion moves.
+
+### Use self-hosted CDN for React and `dist/standalone`
+
+React and the artifact on the asset host your platform already runs. Emotion stays inside the
+application bundle: its graph is a dozen small packages — `@emotion/cache`, `hash`, `memoize`,
+`serialize`, `sheet`, `stylis` and more — so the app bundle already ships it, and the map points
+all four Emotion specifiers at that module instead of fetching each one.
+
+```text
+https://your-origin.example/standalone/index.min.js
+```
+
+```html
+<script type="importmap">
+{
+  "imports": {
+    "@tonic-ui/react": "https://your-origin.example/standalone/index.min.js",
+    "react": "https://your-origin.example/react@19.2.7.js",
+    "react/jsx-runtime": "https://your-origin.example/react@19.2.7.js",
+    "react-dom": "https://your-origin.example/react-dom@19.2.7.js",
+    "react-dom/client": "https://your-origin.example/react-dom@19.2.7.js",
+    "@emotion/react": "https://your-origin.example/app/emotion.js",
+    "@emotion/react/jsx-runtime": "https://your-origin.example/app/emotion.js",
+    "@emotion/styled/base": "https://your-origin.example/app/emotion.js",
+    "@emotion/is-prop-valid": "https://your-origin.example/app/emotion.js"
+  }
+}
+</script>
+```
+
+**Measured:** 49 requests · 216.4 KiB wire · 723.4 KiB parsed · largest file 477.4 KiB (66%) · one
+React instance — measured with Emotion still fetched from a CDN. Taking Emotion from the app
+bundle removes its 33 requests; that variant is not benchmarked.
+
+**Import map:** the artifact URL and the React keys point at your host; the four Emotion keys at
+the module your application bundle already ships.
+
+**Pick it** when the library should live under your own cache, allow list, and CSP.
+**Watch out:** you deploy the artifact and the peer bundles yourself. A missing file, a wrong
+MIME type, or a blocked CSP entry stops the mount, and nothing retries.
+
+### Use your application's bundler
+
+Your bundler builds React, React DOM, Emotion, and Tonic UI into files you serve. There is no
+CDN request and no import map: the example emits three files, with Emotion inside the Tonic UI
+bundle.
+
+**Measured:** 3 requests · 163.9 KiB wire · 684.4 KiB parsed · largest file 488.5 KiB (71%) · no
+Emotion request.
+
+| File | Wire | Parsed |
+| :--- | ---: | ---: |
+| `runtime/@tonic-ui/react@3.0.0-alpha.3.js` — Tonic UI, Emotion, ordinary dependencies | 110.8 KiB | 488.5 KiB |
+| `runtime/react@19.2.7.js` — React, React DOM client, JSX runtimes | 51.5 KiB | 191.4 KiB |
+| `runtime/react-dom@19.2.7.js` | 1.6 KiB | 4.5 KiB |
+
+**Pick it** for one origin and no peer resolution to police. **Watch out:** you give up the CDN
+cache and must rebuild to change the library. This is the shape the fallback deploys; the entry
+is [src/app.jsx](https://github.com/trendmicro-frontend/tonic-ui/blob/main/examples/cdn-with-fallback/src/app.jsx),
+built by Vite.
+
+## CDN fallbacks
+
+### How it works
+
+Fallback is an application feature, not something esm.sh or jsDelivr provides. You need it when
+the CDN cannot deliver the module graph: the network blocks it, an on-demand build is
+unavailable, or a request exceeds the group's eight-second budget.
 
 <FallbackFlow />
 
-The runtime chooses sources independently for `react`, `react-dom`, and `@tonic-ui/react`. If a
-CDN probe fails or exceeds its eight-second group budget, the document reloads with that group
-forced to same-origin assets. A local, CSS, or mount failure is terminal — it does not trigger
-another CDN retry.
+The runtime resolves `react`, `react-dom`, and `@tonic-ui/react` as separate groups. A failed
+probe or an expired budget reloads the document with that group forced to same-origin files. A
+local, CSS, or mount failure is terminal: it does not retry a CDN.
 
-## Try the demo
-
-The demo loads React and Tonic UI from a CDN first. Choose a scenario to make a CDN family
-unavailable, and watch the application switch to files served from its own origin before the
-app mounts.
+### Try it
 
 ```bash
 cd examples/cdn-with-fallback
@@ -256,20 +263,20 @@ npm run dev             # reference application
 npm run dev:inspector   # interactive runtime inspector
 ```
 
-The inspector below covers six scenarios: CDN-first, React family fails, `@tonic-ui/react` CDN
-fails, all CDN families fail, no `@tonic-ui/react` CDN configuration, and all-local. The runtime
-status table and load log show which source each group resolved to. It is not a multi-way
-benchmark; the comparison above is a separate measurement.
+The inspector covers six scenarios: CDN-first, React family fails, `@tonic-ui/react` CDN fails,
+all CDN families fail, no `@tonic-ui/react` CDN configuration, and all-local. The runtime status
+table and load log show which source each group resolved to.
 
 {render('./usage')}
 
-To force same-origin runtime files in the reference application, append
-`?__local=react,react-dom,@tonic-ui/react` to its URL. Remove `__local` and `__failed` to retry
-CDN-first loading.
+Append `?__local=react,react-dom,@tonic-ui/react` to the reference application's URL to force
+same-origin files. Remove `__local` and `__failed` to retry CDN-first loading.
 
-## Integrate the fallback
+### Integrate it
 
-Use the [complete reference project](https://github.com/trendmicro-frontend/tonic-ui/tree/main/examples/cdn-with-fallback) instead of assembling a partial import map by hand.
+Use the [complete reference project](https://github.com/trendmicro-frontend/tonic-ui/tree/main/examples/cdn-with-fallback) instead of assembling a partial import map by hand. Its application
+is [src/app.jsx](https://github.com/trendmicro-frontend/tonic-ui/blob/main/examples/cdn-with-fallback/src/app.jsx),
+built by Vite; the bootstrap calls its `mount(element, runtime)` export after the probes succeed.
 
 | Step | File or action | Why it matters |
 | :--- | :--- | :--- |
@@ -279,47 +286,20 @@ Use the [complete reference project](https://github.com/trendmicro-frontend/toni
 | 4. Manifest | [scripts/build.mjs](https://github.com/trendmicro-frontend/tonic-ui/blob/main/examples/cdn-with-fallback/scripts/build.mjs) | Generates CDN candidates, probes, and Emotion mappings |
 | 5. Deploy | `npm run build` → `npm run preview` | Serve all of `dist/`, so fallback files stay reachable |
 
-The application exports `mount(element, runtime)`, which the bootstrap calls after the probes
-succeed. `scripts/emotion-redirects.mjs` adds the Emotion aliases the CDN build needs; removing
-them can leave `Box p="4x"` at `padding: 0px` with no error.
+`scripts/emotion-redirects.mjs` adds the Emotion aliases the CDN build needs; removing them can
+leave `Box p="4x"` at `padding: 0px` with no error.
 
-<details>
-<summary>Minimal application entry contract</summary>
-
-```jsx
-import { useEffect } from 'react';
-import { createRoot } from 'react-dom/client';
-import { Button, TonicProvider } from '@tonic-ui/react';
-
-function App({ onMounted }) {
-  useEffect(() => { onMounted(); }, [onMounted]);
-  return (
-    <TonicProvider colorMode={{ defaultValue: 'light' }}>
-      <Button>CDN ready</Button>
-    </TonicProvider>
-  );
-}
-
-export function mount(element, runtime) {
-  return new Promise(resolve => {
-    createRoot(element).render(<App onMounted={resolve} />);
-  });
-}
-```
-
-</details>
-
-## Troubleshooting
+## Troubleshoot
 
 | What you see | Likely cause | What to check |
 | :--- | :--- | :--- |
-| `Invalid hook call`, `useRef` is `null`, state lost between components | Two or more React instances: the CDN pinned a peer version the import map never aliases | In the Network tab, count the distinct React module URLs. Alias every CDN-generated peer URL, not only the bare `react` and `react-dom` keys. |
-| Components render, but with no styling | Emotion is duplicated or missing, including the absolute range-pinned URLs the CDN emits | Verify `@emotion/react`, `@emotion/react/jsx-runtime`, `@emotion/styled/base`, and `@emotion/is-prop-valid` all resolve to one copy. `Box p="4x"` should compute `padding: 16px`. |
-| A CDN URL returns 404 | The package, or that file inside it, is not in the published tarball | Confirm with `npm view <package> <version>`. Internal-registry packages have no esm.sh or jsDelivr entry at all; only the React family can come from a CDN there. |
-| A named export is missing from a `+esm` import | jsDelivr's `+esm` serves the package entry; subpaths need their own specifier | Use the subpath form, e.g. `https://cdn.jsdelivr.net/npm/react@19.2.7/jsx-runtime/+esm`, and map it in the import map. |
-| `dist/standalone/index.min.js` is 404 on the CDN | The pinned release predates the standalone build: `3.0.0-alpha.2` contains the file, `3.0.0-alpha.1` does not | Check the version in the URL and the published tarball. On an older release, serve the file from your own origin. Do not substitute esm.sh's `?standalone` bundle: it is a different artifact. |
-| A CDN import fails or times out | The probe failed, or the group exceeded its eight-second load budget | Read the load log and `runtime-manifest.json`. Remove `__local` and `__failed` from the URL to retry CDN-first loading. |
-| All-local mode does not mount | Fallback files are missing or unreachable | Check that every file in `dist/` is deployed, that manifest-relative paths resolve, and that the MIME type and CSP/CORS allow the request. Local failures do not trigger another CDN retry. |
+| `Invalid hook call`, `useRef` is `null`, state lost between components | Two or more React instances: a CDN pinned a peer version the map never aliases | Count the distinct React module URLs in the Network tab. Alias every CDN-generated peer URL, not only the bare `react` and `react-dom` keys. |
+| Components render, but with no styling | Emotion is duplicated or missing, including the range-pinned URLs the CDN emits | Check that `@emotion/react`, `@emotion/react/jsx-runtime`, `@emotion/styled/base`, and `@emotion/is-prop-valid` resolve to one copy. `Box p="4x"` should compute `padding: 16px`. |
+| A CDN URL returns 404 | The package, or that file inside it, is not in the published tarball | Confirm with `npm view <package> <version>`. Internal-registry packages have no CDN entry at all. |
+| `dist/standalone/index.min.js` is 404 | The pinned release predates the artifact: `3.0.0-alpha.2` and later ship it | Check the version in the URL. On an older release, serve the file from your own origin; do not substitute `?standalone`, which is a different artifact. |
+| A named export is missing from a `+esm` import | `+esm` serves the package entry; subpaths need their own specifier | Use the subpath form, e.g. `https://cdn.jsdelivr.net/npm/react@19.2.7/jsx-runtime/+esm`, and map it. |
+| A CDN import fails or times out | The probe failed, or the group exceeded its eight-second budget | Read the load log and `runtime-manifest.json`. Remove `__local` and `__failed` from the URL to retry. |
+| All-local mode does not mount | Fallback files are missing or unreachable | Check that all of `dist/` is deployed, that manifest-relative paths resolve, and that the MIME type and CSP/CORS allow the request. Local failures do not retry. |
 
 <details>
 <summary>How these numbers were measured</summary>
@@ -331,15 +311,16 @@ node packages/react-docs/scripts/measure-cdn-strategies.mjs
 ```
 
 Each configuration runs three times in a fresh Chromium context (cold cache), loading
-`@tonic-ui/react@3.0.0-alpha.2` with React and React DOM 19.2.7; the median is shown. The
-version comes from `packages/react/package.json`, falling back to npm's `latest` tag when the
-local version is not published. A configuration counts as working only when a button is in the
-DOM, the computed padding of `Box p="4x"` is `16px`, and `useColorMode` returned a value.
-Request counts cover every JavaScript response, including esm.sh's small redirect wrappers;
-"transferred" is the encoded byte count the browser reports for each response and "decoded" is
-the body length the parser sees. Module span is first to last JavaScript request. The
-self-hosted standalone file is served brotli-compressed from localhost, so its transferred size
-is comparable to a CDN's compressed transfer. Configurations whose entry URL is probed before
-the browser runs are recorded with their HTTP status instead of a measurement.
+`@tonic-ui/react@3.0.0-alpha.3` with React and React DOM 19.2.7; the median is shown. The version
+comes from `packages/react/package.json`, falling back to npm's `latest` tag when the local
+version is not published. A configuration counts as working only when a button is in the DOM,
+the computed padding of `Box p="4x"` is `16px`, and `useColorMode` returned a value. Request
+counts cover every JavaScript response, including CDN wrapper modules; "wire" is
+the encoded byte count the browser reports and "parsed" is the body length the parser sees. The
+self-hosted artifact is served brotli-compressed from localhost, so its transfer size is
+comparable to a CDN's. The all-local configuration is built by the reference example's Vite
+configuration (`entries/react.js`, `entries/react-dom.js`, `entries/@tonic-ui/react.js`) and
+served the same way. The file lists behind the ⓘ icons come from one representative run of the
+three.
 
 </details>

@@ -105,10 +105,10 @@ export default function RequestTimeline({
             py: '3x',
           }}
         >
-          <Text sx={{ display: 'block', fontSize: 'sm', color: muted }}>
+          <Text sx={{ fontSize: 'sm', color: muted }}>
             Total requests (JS)
           </Text>
-          <Text sx={{ display: 'block', fontSize: '3xl', fontWeight: 'bold', lineHeight: 1 }}>
+          <Text sx={{ fontSize: '3xl', fontWeight: 'bold', lineHeight: 1 }}>
             {num(active.requests)}
           </Text>
         </Box>
@@ -141,7 +141,7 @@ export default function RequestTimeline({
           </Box>
           <TimeAxis ticks={timeTicks} muted={muted} />
           <TimeAxis ticks={mobileTicks} mobile muted={muted} />
-          <Text sx={{ display: 'block', fontSize: 'xs', color: muted, textAlign: 'center', mt: '1x' }}>
+          <Text sx={{ fontSize: 'xs', color: muted, textAlign: 'center', mt: '1x' }}>
             Time (ms)
           </Text>
         </Stack>

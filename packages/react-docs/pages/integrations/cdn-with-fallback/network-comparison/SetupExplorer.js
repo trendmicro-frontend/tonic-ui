@@ -21,8 +21,8 @@ const useWhen = {
     'Production with your own origin: the entry is a path under your site root (copy dist/standalone/index.min.js there), so you control compression, caching, and versioning.',
   'jsdelivr-standalone-jsdelivr-peers':
     'Single origin for the library and every peer — one entry in your CSP allow list, and the fewest requests in this run.',
-  'esmsh-standalone-jsdelivr-react':
-    'React is already served from jsDelivr somewhere else on the page, so the library entry and the React family come from different hosts.',
+  'self-hosted-runtime':
+    'No CDN at all: your bundler builds React, React DOM, Emotion, and Tonic UI into files you serve. One origin, no peer resolution to police — and this is the shape the fallback deploys when a CDN group fails.',
 };
 
 export default function SetupExplorer() {

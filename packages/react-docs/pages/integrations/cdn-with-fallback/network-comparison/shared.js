@@ -60,15 +60,19 @@ export const SectionHeading = ({
       mb: '4x',
     }}
   >
-    <Flex sx={{ alignItems: 'center', columnGap: '3x', minWidth: 0 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', flex: 'none' }}>{icon}</Box>
+    <Flex sx={{ alignItems: 'flex-start', columnGap: '3x', minWidth: 0 }}>
+      <Flex sx={{ flex: 'none', display: 'inline-flex', alignItems: 'center' }}>
+        {icon}
+      </Flex>
       <Box sx={{ minWidth: 0 }}>
-        <Text as={level} sx={{ display: 'block', fontSize: titleSize, fontWeight: 'bold', lineHeight: 1.1 }}>
+        <Text as={level} sx={{ fontSize: titleSize, fontWeight: 'bold', lineHeight: 1.1, mt: 0, mb: 0 }}>
           {title}
         </Text>
-        <Text sx={{ display: 'block', fontSize: 'md', color: 'text.secondary', mt: '1x' }}>
-          {subtitle}
-        </Text>
+        {subtitle ? (
+          <Text sx={{ fontSize: 'md', color: 'text.secondary', mt: '1x' }}>
+            {subtitle}
+          </Text>
+        ) : null}
       </Box>
     </Flex>
     {aside}

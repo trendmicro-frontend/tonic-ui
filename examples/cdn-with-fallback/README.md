@@ -1,6 +1,6 @@
 # examples/cdn-with-fallback/
 
-Reference app for the [CDN loading strategies and fallback](../../packages/react-docs/pages/integrations/cdn-with-fallback/index.page.mdx) guide: React and Tonic UI load from a CDN first, with automatic fallback to same-origin runtime files when a CDN import fails or times out during startup. The application and inspector share `public/bootstrap.js`; all runtime helpers are included in this directory.
+Reference app for the [CDN with local fallback](../../packages/react-docs/pages/integrations/cdn-with-fallback/index.page.mdx) guide: React and Tonic UI load from a CDN first, with automatic fallback to same-origin runtime files when a CDN import fails or times out during startup. The application and inspector share `public/bootstrap.js`; all runtime helpers are included in this directory.
 
 This one example builds two products:
 
@@ -35,9 +35,9 @@ Open the inspector URL with `?scenario=all-local` (or any scenario id) to start 
 
 The example loads React, React DOM, and `@tonic-ui/react` from esm.sh, with same-origin files as the fallback. The `@tonic-ui/react` entry prefers the published standalone artifact; two alternatives were checked and are not used:
 
-- jsDelivr `+esm` (`https://cdn.jsdelivr.net/npm/@tonic-ui/react@3.0.0-alpha.2/+esm`) returns a valid ES module, but
+- jsDelivr `+esm` (`https://cdn.jsdelivr.net/npm/@tonic-ui/react@3.0.0-alpha.3/+esm`) returns a valid ES module, but
   it resolves React, React DOM, and Emotion on its own and has no equivalent of esm.sh's
-  `external` parameter. A Chromium test of that endpoint fetched 76 modules with seven different
+  `external` parameter. A Chromium test of that endpoint fetched 71 modules with seven different
   React versions, the import succeeded, and mounting failed with
   `TypeError: Cannot read properties of null (reading 'useRef')`, so it is not offered as a
   scenario. The guide documents the import-map aliases that make that endpoint render; this
