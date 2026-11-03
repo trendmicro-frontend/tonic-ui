@@ -3973,6 +3973,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@eslint/js@npm:^9.26.0":
+  version: 9.39.5
+  resolution: "@eslint/js@npm:9.39.5"
+  checksum: 10/042d522f28da10ab205f368a94b620334418eb13a5226e50f7edd03dbe26809eb477d0b7a4dc3968b43a98f6ce594f6c03731214c3e0386fd5bcb74fdb9df64c
+  languageName: node
+  linkType: hard
+
 "@eslint/object-schema@npm:^2.1.7":
   version: 2.1.7
   resolution: "@eslint/object-schema@npm:2.1.7"
@@ -9630,6 +9637,8 @@ __metadata:
     "@emotion/styled": "npm:11.14.1"
     "@tonic-ui/react": "npm:3.0.0-alpha.3"
     "@vitejs/plugin-react": "npm:4.7.0"
+    eslint: "npm:^9.26.0"
+    eslint-plugin-react: "npm:^7.37.5"
     react: "npm:19.2.7"
     react-dom: "npm:19.2.7"
     vite: "npm:6.4.3"
@@ -16841,6 +16850,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mfe-module-federation@workspace:examples/mfe-module-federation":
+  version: 0.0.0-use.local
+  resolution: "mfe-module-federation@workspace:examples/mfe-module-federation"
+  dependencies:
+    eslint: "npm:^9.26.0"
+    eslint-plugin-react: "npm:^7.37.5"
+  languageName: unknown
+  linkType: soft
+
+"mfe-shared@workspace:examples/mfe-shared":
+  version: 0.0.0-use.local
+  resolution: "mfe-shared@workspace:examples/mfe-shared"
+  dependencies:
+    eslint: "npm:^9.26.0"
+    eslint-plugin-react: "npm:^7.37.5"
+  languageName: unknown
+  linkType: soft
+
+"mfe-wujie@workspace:examples/mfe-wujie":
+  version: 0.0.0-use.local
+  resolution: "mfe-wujie@workspace:examples/mfe-wujie"
+  dependencies:
+    eslint: "npm:^9.26.0"
+    eslint-plugin-react: "npm:^7.37.5"
+  languageName: unknown
+  linkType: soft
+
 "micro-memoize@npm:5.x":
   version: 5.1.1
   resolution: "micro-memoize@npm:5.1.1"
@@ -22292,8 +22328,11 @@ __metadata:
     "@changesets/cli": "npm:^2.30.0"
     "@commitlint/cli": "npm:17.x"
     "@commitlint/config-conventional": "npm:17.x"
+    "@eslint/js": "npm:^9.26.0"
     "@playwright/test": "npm:1.64.1"
     "@tonic-ui/changelog-github": "workspace:*"
+    eslint: "npm:^9.26.0"
+    globals: "npm:^15.0.0"
     husky: "npm:8.x"
     lerna: "npm:9.x"
   languageName: unknown
