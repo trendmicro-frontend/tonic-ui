@@ -1,0 +1,80 @@
+{
+  "generatedAt": "2026-10-31",
+  "package": "@tonic-ui/react@3.0.0-alpha.1",
+  "entries": [
+    {
+      "id": "esmsh",
+      "label": "esm.sh — package entry",
+      "url": "https://esm.sh/@tonic-ui/react@3.0.0-alpha.1",
+      "code": "/* esm.sh - @tonic-ui/react@3.0.0-alpha.1 */\nimport \"/@emotion/react@^11.0.0/jsx-runtime?target=es2022\";\nimport \"/@emotion/react@^11.0.0?target=es2022\";\nimport \"/@popperjs/core@2.x?target=es2022\";\nimport \"/@tonic-ui/react-base@^3.0.0-alpha.1/internal?target=es2022\";\nimport \"/@tonic-ui/react-base@^3.0.0-alpha.1?target=es2022\";\nimport \"/@tonic-ui/react-hooks@^3.0.0-alpha.1?target=es2022\";\nimport \"/@tonic-ui/react-icons@^3.0.0-alpha.1?target=es2022\";\nimport \"/@tonic-ui/styled-system@^3.0.0-alpha.1?target=es2022\";\nimport \"/@tonic-ui/theme@^3.0.0-alpha.1?target=es2022\";\nimport \"/@tonic-ui/utils@^3.0.0-alpha.1/internal?target=es2022\";\nimport \"/@tonic-ui/utils@^3.0.0-alpha.1?target=es2022\";\nimport \"/date-fns@^4.4.0?target=es2022\";\nimport \"/ensure-type@^1.5.1?target=es2022\";\nimport \"/micro-memoize@5.x?target=es2022\";\nimport \"/react-dom@^18.3.0%20||%20^19.0.0?target=es2022\";\nimport \"/react-focus-lock@2.x/dist/cjs?target=es2022\";\nimport \"/react-transition-group@4.x?target=es2022\";\nimport \"/react@^18.3.0%20||%20^19.0.0?target=es2022\";\nexport * from \"/@tonic-ui/react@3.0.0-alpha.1/es2022/react.mjs\";",
+      "staticReferences": 19,
+      "peers": [
+        "@emotion/react ^11.0.0",
+        "@popperjs/core 2.x",
+        "date-fns ^4.4.0",
+        "ensure-type ^1.5.1",
+        "micro-memoize 5.x",
+        "react-dom ^18.3.0%20||%20^19.0.0",
+        "react-focus-lock 2.x",
+        "react-transition-group 4.x",
+        "react ^18.3.0%20||%20^19.0.0"
+      ]
+    },
+    {
+      "id": "esmsh-standalone",
+      "label": "esm.sh — `?standalone`",
+      "url": "https://esm.sh/@tonic-ui/react@3.0.0-alpha.1?standalone",
+      "code": "/* esm.sh - @tonic-ui/react@3.0.0-alpha.1 */\nimport \"/@emotion/react@^11.0.0/jsx-runtime?target=es2022\";\nimport \"/@emotion/react@^11.0.0?target=es2022\";\nimport \"/@emotion/styled@^11.0.0/base?target=es2022\";\nimport \"/react-dom@^18.3.0%20||%20^19.0.0?target=es2022\";\nimport \"/react@^18.3.0%20||%20^19.0.0?target=es2022\";\nexport * from \"/@tonic-ui/react@3.0.0-alpha.1/es2022/react.bundle.mjs\";",
+      "staticReferences": 6,
+      "peers": [
+        "@emotion/react ^11.0.0",
+        "@emotion/styled ^11.0.0",
+        "react-dom ^18.3.0%20||%20^19.0.0",
+        "react ^18.3.0%20||%20^19.0.0"
+      ]
+    },
+    {
+      "id": "esmsh-external",
+      "label": "esm.sh — `?standalone&external=react,react-dom`",
+      "url": "https://esm.sh/@tonic-ui/react@3.0.0-alpha.1?standalone&external=react,react-dom",
+      "code": "/* esm.sh - @tonic-ui/react@3.0.0-alpha.1 */\nimport \"/@emotion/react@^11.0.0/jsx-runtime?external=react&target=es2022\";\nimport \"/@emotion/react@^11.0.0?external=react&target=es2022\";\nimport \"/@emotion/styled@^11.0.0/base?external=react&target=es2022\";\nexport * from \"/@tonic-ui/react@3.0.0-alpha.1/X-ZXJlYWN0LHJlYWN0LWRvbQ/es2022/react.bundle.mjs\";",
+      "staticReferences": 4,
+      "peers": [
+        "@emotion/react ^11.0.0",
+        "@emotion/styled ^11.0.0"
+      ]
+    },
+    {
+      "id": "jsdelivr",
+      "label": "jsDelivr — `+esm`",
+      "url": "https://cdn.jsdelivr.net/npm/@tonic-ui/react@3.0.0-alpha.1/+esm",
+      "code": "/**\n * Bundled by jsDelivr using Rollup v4.62.2 and esbuild v0.28.1.\n * Original file: /npm/@tonic-ui/react@3.0.0-alpha.1/dist/esm/index.js\n *\n * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files\n */\nimport … from \"/npm/@tonic-ui/react-hooks@3.0.0-alpha.1/+esm\";\nimport … from \"/npm/react@19.3.0/+esm\";\nimport … from \"/npm/@tonic-ui/utils@3.0.0-alpha.1/+esm\";\nimport … from \"/npm/react-transition-group@4.4.5/+esm\";\nimport … from \"/npm/@emotion/react@11.14.0/jsx-runtime/+esm\";\nimport … from \"/npm/@tonic-ui/react-base@3.0.0-alpha.1/+esm\";\nimport … from \"/npm/date-fns@4.4.0/+esm\";\nimport … from \"/npm/micro-memoize@5.2.0/+esm\";\nimport … from \"/npm/ensure-type@1.5.1/+esm\";\nimport … from \"/npm/@tonic-ui/react-icons@3.0.0-alpha.1/+esm\";\nimport … from \"/npm/@emotion/react@11.14.0/+esm\";\nimport … from \"/npm/@tonic-ui/react-base@3.0.0-alpha.1/internal/+esm\";\nimport … from \"/npm/react-dom@19.3.0/+esm\";\nimport … from \"/npm/@popperjs/core@2.11.8/+esm\";\nimport … from \"/npm/@tonic-ui/utils@3.0.0-alpha.1/internal/+esm\";\nimport … from \"/npm/@tonic-ui/styled-system@3.0.0-alpha.1/+esm\";\nimport … from \"/npm/react-focus-lock@2.13.7/dist/cjs/+esm\";\nimport … from \"/npm/@tonic-ui/theme@3.0.0-alpha.1/+esm\";",
+      "staticReferences": 18,
+      "peers": [
+        "react 19.3.0",
+        "react-transition-group 4.4.5",
+        "@emotion/react 11.14.0",
+        "date-fns 4.4.0",
+        "micro-memoize 5.2.0",
+        "ensure-type 1.5.1",
+        "react-dom 19.3.0",
+        "@popperjs/core 2.11.8",
+        "react-focus-lock 2.13.7"
+      ]
+    }
+  ],
+  "standalone": {
+    "path": "packages/react/dist/standalone/index.js",
+    "available": true,
+    "code": "import * as React from 'react'\nimport React__default, { createContext, forwardRef, useContext, useRef, useMemo, useEffect, useLayoutEffect, useCallback, useState, Children, isValidElement, cloneElement, memo, useReducer, PureComponent, Fragment as Fragment$1 } from 'react'\nimport { jsx, jsxs, Fragment } from '@emotion/react/jsx-runtime'\nimport ReactDOM, { createPortal } from 'react-dom'\nimport _styled from '@emotion/styled/base'\nimport isPropValid from '@emotion/is-prop-valid'\nimport { ThemeProvider as ThemeProvider$2, useTheme as useTheme$2, keyframes, css, Global, createElement } from '@emotion/react'",
+    "staticReferences": 6,
+    "peers": [
+      "react",
+      "@emotion/react/jsx-runtime",
+      "react-dom",
+      "@emotion/styled/base",
+      "@emotion/is-prop-valid",
+      "@emotion/react"
+    ]
+  }
+}
