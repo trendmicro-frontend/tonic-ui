@@ -10,12 +10,14 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
+  SearchInput,
   Space,
   Tag,
   Text,
   useColorMode,
   usePortalManager,
 } from '@tonic-ui/react';
+import { useMediaQuery } from '@tonic-ui/react-hooks';
 import {
   MenuIcon,
   MoonIcon,
@@ -29,8 +31,8 @@ import CodeSandboxIcon from '../icons/CodeSandboxIcon';
 import GitHubIcon from '../icons/GitHubIcon';
 import { open as openInCodeSandbox } from '../sandbox/codesandbox';
 import persistColorMode from '../utils/persist-color-mode';
-import SearchButton from './SearchButton';
-import InstantSearchModal from './InstantSearchModal';
+import SearchModal from './SearchModal';
+import { useSearchQuery } from './SearchQueryProvider';
 
 const BASE_PATH = ensureString(process.env.TONIC_UI_REACT_DOCS_BASE_PATH);
 
@@ -69,6 +71,9 @@ const Header = forwardRef((
   const [colorMode, toggleColorMode] = useColorMode();
   const portal = usePortalManager();
   const track = useTrack();
+  const { query: activeSearchQuery, setQuery: setSearchQuery } = useSearchQuery();
+  // The narrow layout only has room for the search icon.
+  const isSmallScreen = useMediaQuery('(max-width: 743px)');
 
   const version = (() => {
     if (TONIC_UI_REACT_DOCS_VERSION) {
@@ -82,7 +87,7 @@ const Header = forwardRef((
 
   const isPrerelease = TONIC_UI_PRERELEASE_LABELS.includes(version);
 
-  const openInstantSearchModal = useCallback(() => {
+  const openSearchModal = useCallback(() => {
     portal((close) => {
       const onClose = () => {
         track('InstantSearch', 'close_instant_search_modal');
@@ -92,7 +97,7 @@ const Header = forwardRef((
       };
 
       return (
-        <InstantSearchModal onClose={onClose} />
+        <SearchModal onClose={onClose} />
       );
     });
   }, [portal, track]);
@@ -211,12 +216,33 @@ const Header = forwardRef((
           columnGap="4x"
           px="4x"
         >
-          <SearchButton
-            data-track="InstantSearch|open_instant_search_modal"
-            onClick={openInstantSearchModal}
+          <Box
+            flex="none"
+            width={{
+              sm: 56,
+              md: 240,
+            }}
           >
-            Search...
-          </SearchButton>
+            <SearchInput
+              data-track="Search|open_search_modal"
+              isClosable
+              placeholder={isSmallScreen ? '' : 'Search...'}
+              readOnly
+              size="md"
+              value={activeSearchQuery}
+              onClick={(event) => {
+                // The close button clears the query; it must not open the modal.
+                if (event.target.closest('button')) {
+                  return;
+                }
+
+                openSearchModal();
+              }}
+              onClearInput={() => {
+                setSearchQuery('');
+              }}
+            />
+          </Box>
           <Box
             display="flex"
             flex="none"

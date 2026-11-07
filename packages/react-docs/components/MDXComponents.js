@@ -1,6 +1,7 @@
 import {
   Box,
   Code,
+  Highlight,
   Image,
   Link,
   useColorMode,
@@ -9,6 +10,42 @@ import {
 import { ensureString } from 'ensure-type';
 import { isValidElement } from 'react';
 import CodeBlock from './CodeBlock';
+import { useSearchQuery } from './SearchQueryProvider';
+
+/**
+ * Highlights the words of the active search query inside text elements, so a
+ * search result keeps its keywords visible on the target page.
+ */
+const withHighlight = (Component) => {
+  const ComponentWithHighlight = ({ children, ...props }) => {
+    const { query } = useSearchQuery();
+
+    return (
+      <Component {...props}>
+        {query
+          ? (
+              <Highlight
+                as="span"
+                query={query}
+                slotProps={{
+                  mark: {
+                    // System colors: the highlight matches the browser's own
+                    // text selection/find colors in light and dark mode.
+                    backgroundColor: 'Highlight',
+                    color: 'HighlightText',
+                  },
+                }}
+              >
+                {children}
+              </Highlight>
+            )
+          : children}
+      </Component>
+    );
+  };
+
+  return ComponentWithHighlight;
+};
 
 const ParagraphComponent = props => (
   <Box
@@ -331,23 +368,23 @@ const ImageComponent = props => (
  * https://mdxjs.com/getting-started#table-of-components
  */
 const MDXComponents = {
-  p: ParagraphComponent,
-  h1: H1Component,
-  h2: H2Component,
-  h3: H3Component,
-  h4: H4Component,
-  h5: H5Component,
-  h6: H6Component,
-  blockquote: BlockquoteComponent,
+  p: withHighlight(ParagraphComponent),
+  h1: withHighlight(H1Component),
+  h2: withHighlight(H2Component),
+  h3: withHighlight(H3Component),
+  h4: withHighlight(H4Component),
+  h5: withHighlight(H5Component),
+  h6: withHighlight(H6Component),
+  blockquote: withHighlight(BlockquoteComponent),
   ul: UnorderedListComponent,
   ol: OrderedListComponent,
-  li: ListItemComponent,
+  li: withHighlight(ListItemComponent),
   table: TableComponent,
   thead: THeadComponent,
   tbody: TBodyComponent,
   tr: TRComponent,
-  th: THComponent,
-  td: TDComponent,
+  th: withHighlight(THComponent),
+  td: withHighlight(TDComponent),
   pre: PreComponent,
   code: CodeComponent,
   hr: HRComponent,

@@ -85,6 +85,40 @@ describe('SearchInput', () => {
     expect(input).toHaveDisplayValue('hello');
   });
 
+  it('should call the onClearInput function when the close button is clicked', async () => {
+    const user = userEvent.setup();
+    const onClearInput = jest.fn();
+    render(
+      <SearchInput data-testid="input" defaultValue="hello" onClearInput={onClearInput} />
+    );
+    const inputControl = screen.getByTestId('input');
+    const clearButton = inputControl.querySelector('button');
+    expect(clearButton).not.toBeNull();
+    await user.click(clearButton);
+    expect(onClearInput).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not render the close button for a read-only input', () => {
+    render(
+      <SearchInput data-testid="input" defaultValue="hello" readOnly />
+    );
+    const inputControl = screen.getByTestId('input');
+    expect(inputControl.querySelector('button')).toBeNull();
+  });
+
+  it('should render the close button for a read-only input when isClosable is true', async () => {
+    const user = userEvent.setup();
+    const onClearInput = jest.fn();
+    render(
+      <SearchInput data-testid="input" defaultValue="hello" isClosable readOnly onClearInput={onClearInput} />
+    );
+    const inputControl = screen.getByTestId('input');
+    const clearButton = inputControl.querySelector('button');
+    expect(clearButton).not.toBeNull();
+    await user.click(clearButton);
+    expect(onClearInput).toHaveBeenCalledTimes(1);
+  });
+
   it('should match the border color', async () => {
     const user = userEvent.setup();
     render(

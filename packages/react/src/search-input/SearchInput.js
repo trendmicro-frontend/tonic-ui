@@ -17,6 +17,7 @@ const defaultVariant = 'outline';
  * @property {boolean} [disabled] - The input is disabled and the user cannot interact with it.
  * @property {boolean} [error] - The input displays a red border to indicate an error.
  * @property {boolean} [isLoading] - A loading spinner is displayed inside the input field.
+ * @property {boolean} [isClosable=false] - A close button appears when the input has a value, even if the input is read-only.
  * @property {React.ChangeEventHandler<HTMLInputElement>} [onChange] - A callback called when the value is changed.
  * @property {(event: React.MouseEvent<HTMLButtonElement>) => void} [onClearInput] - A callback called when the clear button is clicked.
  * @property {boolean} [readOnly] - The value of the input cannot be edited.
@@ -32,6 +33,7 @@ const SearchInput = forwardRef((inProps, ref) => {
     defaultValue: defaultValueProp = '',
     disabled,
     endAdornment: endAdornmentProp,
+    isClosable = false,
     isLoading,
     onChange: onChangeProp,
     onClearInput: onClearInputProp,
@@ -45,7 +47,7 @@ const SearchInput = forwardRef((inProps, ref) => {
   const nodeRef = useRef();
   const combinedRef = useMergeRefs(nodeRef, ref);
   const [value, setValue] = useState(ensureString(valueProp ?? defaultValueProp));
-  const isClearable = !disabled && !readOnly && !!value;
+  const isClearable = !disabled && !!value && (isClosable || !readOnly);
   const inputSelectionRef = useRef();
   const runAfterUpdate = useRunAfterUpdate();
 

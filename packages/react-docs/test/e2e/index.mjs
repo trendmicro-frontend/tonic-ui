@@ -1,5 +1,11 @@
 export const tests = [
   {
+    name: 'docs-search',
+    testMatch: '**/pages/search.spec.mjs',
+    build: 'build:search-e2e',
+    server: 'search',
+  },
+  {
     name: 'esm-cdn-with-fallback',
     testMatch: '**/integrations/esm-cdn-with-fallback.spec.mjs',
     path: '/demos/esm-cdn-with-fallback/',

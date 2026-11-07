@@ -38,8 +38,10 @@ export default defineConfig([
     ignores: [
       '**/.next',
       '**/build',
-      'coverage',
+      '**/build-*',
       '**/dist',
+      '**/dist-*',
+      'coverage',
       'docs',
       'node_modules',
       'output',

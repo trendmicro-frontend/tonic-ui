@@ -3,6 +3,7 @@
 /build-*
 /coverage
 /dist
+/dist-*
 
 # dotenv-flow
 /.env.local
@@ -10,6 +11,9 @@
 
 # Generated demo build output
 /public/demos
+
+# Generated search index
+/public/search
 
 # Playwright E2E output
 /output/e2e-test-results/

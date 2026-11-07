@@ -6,6 +6,7 @@ const SearchButton = forwardRef(({ children, ...rest }, ref) => {
   return (
     <ButtonBase
       ref={ref}
+      aria-label="Search"
       display="flex"
       alignItems="center"
       justifyContent="space-between"
