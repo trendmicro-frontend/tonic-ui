@@ -6,7 +6,7 @@ import {
 import NextLink from 'next/link';
 import { forwardRef } from 'react';
 
-const InstantSearchRefinementLink = forwardRef((props, ref) => {
+const SearchResultLink = forwardRef((props, ref) => {
   const [colorMode] = useColorMode();
   const [colorStyle] = useColorStyle({ colorMode });
   const defaultColor = colorStyle.color.secondary;
@@ -53,6 +53,6 @@ const InstantSearchRefinementLink = forwardRef((props, ref) => {
   );
 });
 
-InstantSearchRefinementLink.displayName = 'InstantSearchRefinementLink';
+SearchResultLink.displayName = 'SearchResultLink';
 
-export default InstantSearchRefinementLink;
+export default SearchResultLink;

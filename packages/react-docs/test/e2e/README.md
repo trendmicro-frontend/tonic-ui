@@ -1,6 +1,6 @@
 # Docs E2E
 
-Playwright (Chromium) coverage owned by `@tonic-ui/react-docs`. Existing scenarios cover the CDN runtime inspector, Module Federation, and Wujie demos under `public/demos/`. Reference applications belong to the root examples suite; reusable component behavior belongs to the React suite.
+Playwright (Chromium) coverage owned by `@tonic-ui/react-docs`. Existing scenarios cover the CDN runtime inspector, Module Federation, and Wujie demos under `public/demos/`, plus documentation search against a production static export.
 
 ## Run
 
@@ -8,6 +8,7 @@ From the repository root, with workspace dependency builds and Chromium availabl
 
 ```bash
 yarn test:e2e docs
+yarn test:e2e docs --project docs-search
 yarn test:e2e docs --project mfe-wujie
 yarn test:e2e docs --grep @drawer
 yarn test:e2e docs --list
@@ -19,13 +20,14 @@ The workspace alias uses the same repository runner:
 yarn workspace @tonic-ui/react-docs test:e2e
 ```
 
-The suite builds the real demo applications, then starts their production Vite preview. Build commands must succeed before preview starts. Remote modules and sub-apps use the configured origin. Do not start a server manually; the current demo scenarios do not require a Next.js build or another server wrapper.
+The suite builds the real demo applications, then starts their production Vite preview. The `docs-search` project additionally builds the Next.js documentation export (`build:search-e2e`) and serves it from a second Vite preview on an OS-assigned port (`--port 0`); Playwright exports the printed origin as `E2E_SEARCH_URL`, and those specs resolve absolute URLs from it because `use.baseURL` is evaluated before the server starts. Build commands must succeed before preview starts. Remote modules and sub-apps use the configured origin. Do not start a server manually.
 
 CDN-first scenarios need network access. Local-only and outage scenarios control browser CDN requests, but the demo build can still retrieve CDN metadata.
 
 ## Ownership and extension
 
 - `integrations/*.spec.mjs`: current real-demo integration contracts. Existing test behavior is preserved when files are organized here.
+- `pages/*.spec.mjs`: documentation-page contracts that run against the production static export.
 - `index.mjs`: application targets, native `testMatch` patterns, URL paths, and real build scripts.
 - `playwright.config.mjs`: real server definition and per-target base URLs, using the shared `test/e2e/config.mjs` factory.
 

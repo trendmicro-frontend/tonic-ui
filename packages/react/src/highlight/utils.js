@@ -111,6 +111,11 @@ function transformJSXTextNodes(children, callback) {
         // Apply callback to text nodes
         return callback(child);
       } else if (React.isValidElement(child)) {
+        // Void elements (e.g. `<br />`, `<img />`) must not receive children.
+        if (child.props.children === undefined || child.props.children === null) {
+          return child;
+        }
+
         // Recursively transform nested children
         return React.cloneElement(child, {
           children: transformJSXTextNodes(child.props.children, callback),

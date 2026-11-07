@@ -15,23 +15,19 @@ import {
   useMediaQuery,
   useToggle,
 } from '@tonic-ui/react-hooks';
-import algoliasearch from 'algoliasearch/lite';
 import { ensureString } from 'ensure-type';
 import NextApp from 'next/app';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { InstantSearch, Configure } from 'react-instantsearch-core';
 import GlobalStyles from '../components/GlobalStyles';
 import Header from '../components/Header';
 import MDXComponents from '../components/MDXComponents';
 import Main from '../components/Main';
+import { SearchQueryProvider } from '../components/SearchQueryProvider';
 import Sidebar from '../components/Sidebar';
 import TableOfContents from '../components/TableOfContents';
 
 const NONCE = ensureString(process.env.NONCE);
-
-// Algolia search client
-const searchClient = algoliasearch(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_SEARCH_API_KEY);
 
 const EmotionCacheProvider = ({
   children,
@@ -90,55 +86,40 @@ const App = (props) => {
   const Page = (router.pathname === '/') ? DefaultPage : DocsPage;
 
   return (
-    <InstantSearch
-      indexName={process.env.ALGOLIA_INDEX_NAME}
-      searchClient={searchClient}
-      future={{
-        // https://www.algolia.com/doc/api-reference/widgets/instantsearch/react/#widget-param-preservesharedstateonunmount
-        // Starting from the next major version, InstantSearch will change how widgets state is preserved when they are removed.
-        // InstantSearch will keep the state of unmounted widgets to be usable by other widgets with the same attribute.
-        preserveSharedStateOnUnmount: true,
-      }}
-    >
-      <Configure
-        // https://www.algolia.com/doc/api-reference/search-api-parameters/
-        hitsPerPage={1000}
-        highlightPreTag="<mark>"
-        highlightPostTag="</mark>"
-      />
-      <EmotionCacheProvider nonce={NONCE}>
-        <TonicProvider
-          key={initialColorMode} // Force re-render if color mode changes
-          colorMode={{
-            defaultValue: initialColorMode,
-          }}
-          colorStyle={{
-            defaultValue: defaultColorStyle,
-          }}
-          theme={customTheme}
-          useCSSBaseline
-          useCSSVariables
-        >
-          <ToastManager
-            slotProps={{
-              transition: {
-                sx: {
-                  '[data-toast-placement^="top"] > &:first-of-type': {
-                    mt: '4x', // the space to the top edge of the screen
-                  },
-                  '[data-toast-placement^="bottom"] > &:last-of-type': {
-                    mb: '4x', // the space to the bottom edge of the screen
-                  },
-                  '[data-toast-placement$="left"] > &': {
-                    ml: '4x', // the space to the left edge of the screen
-                  },
-                  '[data-toast-placement$="right"] > &': {
-                    mr: '4x', // the space to the right edge of the screen
-                  },
+    <EmotionCacheProvider nonce={NONCE}>
+      <TonicProvider
+        key={initialColorMode} // Force re-render if color mode changes
+        colorMode={{
+          defaultValue: initialColorMode,
+        }}
+        colorStyle={{
+          defaultValue: defaultColorStyle,
+        }}
+        theme={customTheme}
+        useCSSBaseline
+        useCSSVariables
+      >
+        <ToastManager
+          slotProps={{
+            transition: {
+              sx: {
+                '[data-toast-placement^="top"] > &:first-of-type': {
+                  mt: '4x', // the space to the top edge of the screen
+                },
+                '[data-toast-placement^="bottom"] > &:last-of-type': {
+                  mb: '4x', // the space to the bottom edge of the screen
+                },
+                '[data-toast-placement$="left"] > &': {
+                  ml: '4x', // the space to the left edge of the screen
+                },
+                '[data-toast-placement$="right"] > &': {
+                  mr: '4x', // the space to the right edge of the screen
                 },
               },
-            }}
-          >
+            },
+          }}
+        >
+          <SearchQueryProvider>
             <PortalManager>
               <GlobalStyles />
               <Box
@@ -150,10 +131,10 @@ const App = (props) => {
                 </MDXProvider>
               </Box>
             </PortalManager>
-          </ToastManager>
-        </TonicProvider>
-      </EmotionCacheProvider>
-    </InstantSearch>
+          </SearchQueryProvider>
+        </ToastManager>
+      </TonicProvider>
+    </EmotionCacheProvider>
   );
 };
 

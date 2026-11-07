@@ -1,11 +1,10 @@
 import {
   Box,
+  DropdownButton,
   Highlight,
-  MenuButton,
   OverflowTooltip,
 } from '@tonic-ui/react';
 import { useConst } from '@tonic-ui/react-hooks';
-import { useMemo, useState } from 'react';
 import SearchDropdown from '../dropdown/SearchDropdown';
 
 const App = () => {
@@ -38,36 +37,22 @@ const App = () => {
     { value: 'strawberry', label: 'Strawberry' },
     { value: 'watermelon', label: 'Watermelon' },
   ]);
-  const itemValueToLabelMap = useMemo(() => {
-    return Object.fromEntries(items.map(item => [item.value, item.label]));
-  }, [items]);
-
-  const [value, setValue] = useState('');
-
-  const handleChange = (item) => {
-    setValue(item.value);
-  };
-
-  const dropdownLabel = !value
-    ? 'Select a fruit'
-    : `Selected fruit: ${itemValueToLabelMap[value]}`;
 
   return (
     <Box width={200}>
       <SearchDropdown
         items={items}
-        onChange={handleChange}
         renderItem={(item, { searchKeyword }) => (
           <Highlight variant="highlight" query={searchKeyword}>
             {item.label}
           </Highlight>
         )}
-        renderToggle={({ getToggleProps }) => {
-          const toggleProps = getToggleProps({});
+        renderToggle={({ value }) => {
+          const label = value
+            ? `Selected fruit: ${value.label}`
+            : 'Select a fruit';
           return (
-            <MenuButton
-              variant="secondary"
-              {...toggleProps}
+            <DropdownButton
               sx={{
                 maxWidth: '100%',
                 width: '100%',
@@ -77,10 +62,10 @@ const App = () => {
                 },
               }}
             >
-              <OverflowTooltip label={dropdownLabel}>
-                {dropdownLabel}
+              <OverflowTooltip label={label}>
+                {label}
               </OverflowTooltip>
-            </MenuButton>
+            </DropdownButton>
           );
         }}
       />
