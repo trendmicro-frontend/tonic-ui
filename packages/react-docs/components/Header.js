@@ -225,21 +225,24 @@ const Header = forwardRef((
           >
             <SearchInput
               data-track="Search|open_search_modal"
-              isClosable
               placeholder={isSmallScreen ? '' : 'Search...'}
-              readOnly
               size="md"
               value={activeSearchQuery}
+              onChange={(event) => {
+                setSearchQuery(event.target.value);
+              }}
+              onClearInput={() => {
+                setSearchQuery('');
+              }}
               onClick={(event) => {
-                // The close button clears the query; it must not open the modal.
+                // The built-in clear button handles its own click; it must not
+                // open the dialog. The input stays editable so `isClearable`
+                // can render that button.
                 if (event.target.closest('button')) {
                   return;
                 }
 
                 openSearchModal();
-              }}
-              onClearInput={() => {
-                setSearchQuery('');
               }}
             />
           </Box>
