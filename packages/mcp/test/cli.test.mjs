@@ -111,6 +111,23 @@ describe('CLI tests', () => {
       assert(stderr.includes('Port must be between 1 and 65535'));
     });
 
+    test('should exit with error for invalid host', async () => {
+      const cliPath = path.join(__dirname, '..', 'bin', 'cli.js');
+      const process = spawn('node', [cliPath, '--config', configPath, '--type', 'streamable-http', '--host', 'not a host']);
+      let stderr = '';
+
+      process.stderr.on('data', (data) => {
+        stderr += data.toString();
+      });
+
+      const exitCode = await new Promise((resolve) => {
+        process.on('close', resolve);
+      });
+
+      assert.strictEqual(exitCode, 1);
+      assert(stderr.includes('Invalid host "not a host"'));
+    });
+
     test('should show help when --help is used', async () => {
       const cliPath = path.join(__dirname, '..', 'bin', 'cli.js');
       const process = spawn('node', [cliPath, '--help']);
@@ -128,6 +145,7 @@ describe('CLI tests', () => {
       assert(stdout.includes('Usage:'));
       assert(stdout.includes('-t, --type <type>'));
       assert(stdout.includes('-c, --config <path>'));
+      assert(stdout.includes('--host <host>'));
     });
 
     test('should show version when --version is used', async () => {
@@ -231,8 +249,60 @@ describe('CLI tests', () => {
         assert.strictEqual(response.data.name, pkg.name);
         assert.strictEqual(response.data.version, pkg.version);
         assert.strictEqual(response.data.transport, 'streamable-http');
+        assert.strictEqual(response.data.host, '127.0.0.1');
         assert(response.data.endpoints && response.data.endpoints.mcp);
         assert.strictEqual(response.data.endpoints.mcp, 'POST /mcp');
+      } finally {
+        serverProcess.kill('SIGTERM');
+      }
+    });
+
+    test('should bind to a custom host', async () => {
+      const cliPath = path.join(__dirname, '..', 'bin', 'cli.js');
+      const serverProcess = spawn('node', [cliPath, '--config', configPath, '--type', 'streamable-http', '--host', '0.0.0.0', '--port', '0']);
+
+      try {
+        let serverPort;
+        let stdout = '';
+        await new Promise((resolve, reject) => {
+          const timeout = setTimeout(() => reject(new Error('Server start timeout')), 3000);
+
+          serverProcess.stdout.on('data', (data) => {
+            stdout += data.toString();
+            const match = stdout.match(/• Streamable HTTP: http:\/\/127\.0\.0\.1:(\d+)\/mcp/);
+            if (match) {
+              serverPort = Number(match[1]);
+              clearTimeout(timeout);
+              resolve();
+            }
+          });
+        });
+
+        assert(stdout.includes(`• Listening on 0.0.0.0:${serverPort}`));
+
+        // `0.0.0.0` is not a valid request target; the loopback address reaches the same listener.
+        const response = await makeRequest(`http://127.0.0.1:${serverPort}/`);
+        assert.strictEqual(response.status, 200);
+        assert.strictEqual(response.data.host, '0.0.0.0');
+
+        const client = new Client({
+          name: pkg.name,
+          version: pkg.version,
+        }, {
+          capabilities: {}
+        });
+        const transport = new StreamableHTTPClientTransport(
+          new URL(`http://127.0.0.1:${serverPort}/mcp`)
+        );
+
+        try {
+          await client.connect(transport);
+
+          const { tools } = await client.listTools();
+          assert.deepEqual(tools.map(tool => tool.name), ['use-docs', 'fetch-pages', 'fetch-codes']);
+        } finally {
+          await client.close();
+        }
       } finally {
         serverProcess.kill('SIGTERM');
       }
@@ -318,6 +388,57 @@ describe('CLI tests', () => {
         assert(response.data.endpoints && response.data.endpoints.sse && response.data.endpoints.messages);
         assert.strictEqual(response.data.endpoints.sse, 'GET /sse');
         assert.strictEqual(response.data.endpoints.messages, 'POST /messages');
+      } finally {
+        serverProcess.kill('SIGTERM');
+      }
+    });
+
+    test('should bind to a custom host', async () => {
+      const cliPath = path.join(__dirname, '..', 'bin', 'cli.js');
+      const serverProcess = spawn('node', [cliPath, '--config', configPath, '--type', 'sse', '--host', 'localhost', '--port', '0']);
+
+      try {
+        let serverPort;
+        let stdout = '';
+        await new Promise((resolve, reject) => {
+          const timeout = setTimeout(() => reject(new Error('Server start timeout')), 3000);
+
+          serverProcess.stdout.on('data', (data) => {
+            stdout += data.toString();
+            const match = stdout.match(/• SSE: http:\/\/localhost:(\d+)\/sse/);
+            if (match) {
+              serverPort = Number(match[1]);
+              clearTimeout(timeout);
+              resolve();
+            }
+          });
+        });
+
+        assert(stdout.includes(`• Listening on localhost:${serverPort}`));
+        assert(stdout.includes(`• SSE: http://localhost:${serverPort}/sse`));
+
+        const response = await makeRequest(`http://localhost:${serverPort}/`);
+        assert.strictEqual(response.status, 200);
+        assert.strictEqual(response.data.host, 'localhost');
+
+        const client = new Client({
+          name: pkg.name,
+          version: pkg.version,
+        }, {
+          capabilities: {}
+        });
+        const transport = new SSEClientTransport(
+          new URL(`http://localhost:${serverPort}/sse`)
+        );
+
+        try {
+          await client.connect(transport);
+
+          const { tools } = await client.listTools();
+          assert.deepEqual(tools.map(tool => tool.name), ['use-docs', 'fetch-pages', 'fetch-codes']);
+        } finally {
+          await client.close();
+        }
       } finally {
         serverProcess.kill('SIGTERM');
       }
