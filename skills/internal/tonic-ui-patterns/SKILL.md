@@ -221,12 +221,12 @@ These files typically change together:
 #### Screenshot evidence
 
 - Screenshots are opt-in: `E2E_SCREENSHOTS=1`. Without it, nothing is written. All generation goes through `test/e2e/screenshots.mjs`; do not call `page.screenshot` directly.
-- One case = one directory under the owning suite: `output/e2e-screenshots/<scenario>/<case>/`, where `<scenario>` is the spec name (`focus-lock`) and `<case>` is the component and state (`modal-locked`, `drawer-unlocked`).
+- One case = one directory under the owning suite: `.e2e/screenshots/<scenario>/<case>/`, where `<scenario>` is the spec name (`focus-lock`) and `<case>` is the component and state (`modal-locked`, `drawer-unlocked`).
 - Names follow `<artifact>.<variant>.png`: `screenshot.light.png`, `screenshot.dark.png`, or `screenshot.png`. The name describes the picture, not the reason only one picture exists.
 - A case that depends on the colour mode writes the `light`/`dark` pair with `captureColorModes(page, scenario, case, prepare)`; `prepare(colorMode)` reloads the fixture with `?colorMode=light|dark` and leaves the page in the state to capture.
 - A case that does not depend on the colour mode writes one `screenshot.png` with `capture(page, scenario, case, { colorMode: null, reason })`. `reason` is required and states why the colour mode changes nothing.
 - Any dimension that changes the pixels (colour mode, document/shadow/iframe host, backdrop) belongs in `<scenario>` or `<case>`; the file name is the identity of the shot.
-- Each case directory holds `manifest.json` with `scenario`, `case`, `modeDependent`, `reason`, and one entry per shot (`mode`, `artifact`, fixture `url`), so a reviewer can reproduce the shot. Playwright's own failure screenshots stay in `output/e2e-test-results/`.
+- Each case directory holds `manifest.json` with `scenario`, `case`, `modeDependent`, `reason`, and one entry per shot (`mode`, `artifact`, fixture `url`), so a reviewer can reproduce the shot. Playwright's own failure screenshots stay in `.e2e/test-results/`.
 - Test the actual public API and boundary: not every overlay exposes `onInteractOutside`, and defaults/event propagation differ. Use real browser actions, owning-document/open-shadow-root cases, cancellation, and unmount cleanup where applicable.
 - Exposed defects stay failing until resolved. Do not weaken assertions, add expected-failure markers, or test fake callback forwarding to obtain a pass.
 

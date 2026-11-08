@@ -7,9 +7,8 @@
  *   update-docs.sh -> build-search-index.mjs -> next build -> static export
  *
  * The script reads document metadata from `config/sidebar-routes.js` and prose
- * from `pages/**\/*.page.mdx`, then writes:
- *   public/search/index.<content-hash>.json
- *   public/search/manifest.json
+ * from `pages/**\/*.page.mdx`, then writes a content-hashed index and manifest
+ * to `public/search`, or to `.e2e/search` when TONIC_UI_REACT_DOCS_E2E=1.
  */
 
 import { createHash } from 'node:crypto';
@@ -30,7 +29,8 @@ import { flattenSidebarRoutes, parseSidebarRoutes } from './search-index/parse-s
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(scriptDir, '..');
 const pagesDir = path.join(rootDir, 'pages');
-const outputDir = path.join(rootDir, 'public', SEARCH_INDEX_DIR);
+const isE2E = process.env.TONIC_UI_REACT_DOCS_E2E === '1';
+const outputDir = path.join(rootDir, isE2E ? '.e2e' : 'public', SEARCH_INDEX_DIR);
 const sidebarRoutesFile = path.join(rootDir, 'config', 'sidebar-routes.js');
 
 const log = (...args) => console.log('[search-index]', ...args);
@@ -154,12 +154,13 @@ const writeIndex = ({ miniSearch, documents, pageCount }) => {
 
   fs.mkdirSync(outputDir, { recursive: true });
 
-  // Remove stale content-hashed index files so the export directory does not
-  // accumulate indexes from previous builds.
-  const staleFilePattern = new RegExp(`^${SEARCH_INDEX_BASENAME}\\.[0-9a-f]+\\.json$`);
-  for (const file of fs.readdirSync(outputDir)) {
-    if (staleFilePattern.test(file) && file !== filename) {
-      fs.rmSync(path.join(outputDir, file));
+  // Keep E2E artifacts intact; production and dev exports remove stale indexes.
+  if (!isE2E) {
+    const staleFilePattern = new RegExp(`^${SEARCH_INDEX_BASENAME}\\.[0-9a-f]+\\.json$`);
+    for (const file of fs.readdirSync(outputDir)) {
+      if (staleFilePattern.test(file) && file !== filename) {
+        fs.rmSync(path.join(outputDir, file));
+      }
     }
   }
 
@@ -210,7 +211,7 @@ const main = () => {
     pageCount: routes.length,
   });
 
-  log(`Wrote public/${SEARCH_INDEX_DIR}/${manifest.file}`);
+  log(`Wrote ${path.relative(rootDir, outputDir)}/${manifest.file}`);
   log(`Documents: ${manifest.documents}, size: ${(manifest.bytes / 1024).toFixed(1)} KiB, gzip: ${(manifest.gzipBytes / 1024).toFixed(1)} KiB`);
   for (const { query, results, averageMs } of measurements) {
     log(`  "${query}" -> ${results} results in ${averageMs} ms`);

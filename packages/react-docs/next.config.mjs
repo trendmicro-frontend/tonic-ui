@@ -336,7 +336,7 @@ const initialNextConfig = {
     ...buildVersionEnvVars(),
   },
   basePath: process.env.TONIC_UI_REACT_DOCS_BASE_PATH,
-  distDir: process.env.TONIC_UI_REACT_DOCS_DIST_DIR || (process.env.NODE_ENV === 'production' ? 'dist' : 'build'),
+  distDir: process.env.TONIC_UI_REACT_DOCS_DIST_DIR || (process.env.NODE_ENV === 'production' ? 'dist' : '.next'),
   output: process.env.NODE_ENV === 'production' ? 'export' : 'standalone',
   pageExtensions: ['page.js', 'page.mdx'],
   trailingSlash: true,

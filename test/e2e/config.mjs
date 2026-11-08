@@ -15,7 +15,7 @@ export function createE2EConfig(root, { tests, baseURL, servers, ...config }) {
 
   return defineConfig({
     timeout: 60_000,
-    outputDir: resolve(root, 'output', 'e2e-test-results'),
+    outputDir: resolve(root, '.e2e', 'test-results'),
     preserveOutput: enableReports || enableScreenshots ? 'failures-only' : 'never',
     use: {
       trace: enableReports ? 'retain-on-failure' : 'off',
@@ -26,7 +26,7 @@ export function createE2EConfig(root, { tests, baseURL, servers, ...config }) {
       ['list'],
       enableReports && ['html', {
         open: 'never',
-        outputFolder: resolve(root, 'output', 'e2e-playwright-report'),
+        outputFolder: resolve(root, '.e2e', 'playwright-report'),
       }],
     ].filter(Boolean),
     projects: tests.map(target => ({

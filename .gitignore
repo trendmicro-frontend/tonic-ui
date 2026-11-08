@@ -1,6 +1,7 @@
 build
 node_modules
 output
+.e2e/
 lerna-debug.log*
 npm-debug.log*
 yarn-debug.log*

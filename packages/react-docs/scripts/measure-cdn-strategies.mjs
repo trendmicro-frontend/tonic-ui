@@ -186,7 +186,7 @@ const APP_BUILD = 'Bundle built by your application';
 // Tonic UI with its own bundler and serves every file from its own origin. The reference
 // example already builds these bundles, so the measurement reuses its Vite configuration
 // instead of inventing a second one.
-const LOCAL_RUNTIME_DIR = path.join(ROOT, 'packages/react-docs/build/cdn-local-runtime');
+const LOCAL_RUNTIME_DIR = path.join(ROOT, 'packages/react-docs/output/cdn-benchmark/cdn-local-runtime');
 
 async function buildLocalRuntime() {
   const bundles = {};
@@ -207,7 +207,7 @@ async function buildLocalRuntime() {
 
 // Emotion as its own CDN bundles, so the artifact's four Emotion specifiers can
 // come from the same origin as React and the artifact.
-const EMOTION_DIR = path.join(ROOT, 'packages/react-docs/build/cdn-emotion');
+const EMOTION_DIR = path.join(ROOT, 'packages/react-docs/output/cdn-benchmark/cdn-emotion');
 
 async function buildEmotionBundles() {
   await build({
@@ -239,7 +239,7 @@ try {
 // The application-bundled strategy: one normal production build in which the
 // bundler resolves React, React DOM, Tonic UI, and Emotion. Nothing is external
 // and there is no import map.
-const APP_BUNDLE_DIR = path.join(ROOT, 'packages/react-docs/build/cdn-app-bundle');
+const APP_BUNDLE_DIR = path.join(ROOT, 'packages/react-docs/output/cdn-benchmark/cdn-app-bundle');
 
 async function buildAppBundle() {
   await build({

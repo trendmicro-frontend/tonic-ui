@@ -36,10 +36,10 @@ export default defineConfig([
   },
   {
     ignores: [
-      '**/.next',
-      '**/build',
+      '.next',
+      '.e2e',
+      'dist',
       'coverage',
-      'docs',
       'node_modules',
       'output',
       'public',

@@ -1,11 +1,6 @@
 // Documentation search: ranking, suggestions, keyboard behavior, and the
-// highlight the target page applies to the query. These specs run against a
-// production export of the docs served by the site preview server.
+// highlight the target page applies to the query.
 import { expect, test } from '@playwright/test';
-
-// The site preview picks its own port, so Playwright exports the printed
-// origin to the test process instead of resolving `baseURL` for this project.
-const docsUrl = path => new URL(path, process.env.E2E_SITE_URL).href;
 
 // The query travels from the dialog to the target page through sessionStorage,
 // so the URL stays clean and the highlight belongs to that page only.
@@ -33,7 +28,7 @@ const marks = page => page.locator('#main mark[data-tonic="Mark"]');
 const ENTRY_PATH = '/components/link/';
 
 const openSearch = async (page) => {
-  await page.goto(docsUrl(ENTRY_PATH));
+  await page.goto(ENTRY_PATH);
   await headerSearch(page).click();
 
   const dialog = page.getByRole('dialog');
@@ -67,6 +62,23 @@ const searchAndOpenResult = async (page, query) => {
 };
 
 test.describe('documentation search', { tag: ['@docs', '@search'] }, () => {
+  test('loads the generated search manifest and index', async ({ page }) => {
+    const manifestResponse = page.waitForResponse(response =>
+      new URL(response.url()).pathname.endsWith('/search/manifest.json'));
+    const indexResponse = page.waitForResponse(response =>
+      /\/search\/index\.[0-9a-f]+\.json$/.test(new URL(response.url()).pathname));
+
+    const { dialog, input } = await openSearch(page);
+    await input.fill('Button');
+    await expect(getResults(dialog).first()).toContainText('Button');
+
+    const manifest = await manifestResponse;
+    const index = await indexResponse;
+    expect(manifest.ok()).toBe(true);
+    expect(index.ok()).toBe(true);
+    expect(new URL(index.url()).pathname.endsWith(`/search/${(await manifest.json()).file}`)).toBe(true);
+  });
+
   test('ranks exact, prefix, and typo queries', async ({ page }) => {
     const { dialog, input } = await openSearch(page);
 

@@ -41,7 +41,7 @@ Scenario tags include `@interact-outside`, `@lifecycle`, `@focus`, `@keyboard`, 
 - `scenarios/*.spec.mjs`: shared contracts, including outside clicks, environment boundaries, lifecycle, deprecations, and native touch input.
 - `scenarios/interact-outside.spec.mjs`: one direct outside-interaction entry, with separate Menu/Popover and Modal/Drawer `describe` groups. Shared naming does not imply identical event, default, or focus contracts.
 - `components/*.spec.mjs`: contracts specific to one component.
-- `playwright.config.mjs`: native discovery for all specs, using the shared `../../../../test/e2e/config.mjs` factory. Reports still write to `packages/react/output`.
+- `playwright.config.mjs`: native discovery for all specs, using the shared `../../../../test/e2e/config.mjs` factory. Reports write to `packages/react/.e2e/`.
 - `server.mjs`: esbuild server in this suite directory, with the fixture entry point and `public/` as its served directory.
 
 The original Menu/Popover cases remain in scenario and component files; there is no duplicate legacy fixture or spec entry point. Projects represent runtime/server targets, not individual components.

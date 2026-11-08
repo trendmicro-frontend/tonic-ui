@@ -3,13 +3,13 @@ import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import { createRequire } from 'node:module';
 import net from 'node:net';
-import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 // Two Next.js dev servers that share one dist directory corrupt each other's
 // webpack cache. The result is a Fast Refresh full-reload loop after any file
 // edit. Hold a lock for the lifetime of this server so a second `yarn dev`
-// fails with a clear message instead of silently sharing `build/`.
+// fails with a clear message instead of silently sharing `.next/`.
 const require = createRequire(import.meta.url);
 const args = process.argv.slice(2);
 const getPortArgValue = (argv) => {
@@ -33,8 +33,8 @@ if (hasPortFlag && explicitPort === undefined) {
   console.error('Missing value for --port. Pass --port with a number between 1 and 65535.');
   process.exit(1);
 }
-const distDir = process.env.TONIC_UI_REACT_DOCS_DIST_DIR || 'build';
-const lockDir = path.join(os.tmpdir(), 'tonic-ui-react-docs-dev');
+const distDir = process.env.TONIC_UI_REACT_DOCS_DIST_DIR || '.next';
+const lockDir = path.resolve('.e2e', 'locks');
 const lockName = createHash('sha256').update(path.resolve(distDir)).digest('hex').slice(0, 12);
 const lockFile = path.join(lockDir, `${lockName}.lock`);
 
@@ -128,8 +128,14 @@ const cleanup = () => {
   }
 };
 
-const nextCli = require.resolve('next/dist/bin/next');
-const child = spawn(process.execPath, [nextCli, 'dev', '--hostname', '0.0.0.0', ...getNextArgs(args, port)], {
+const isE2E = process.env.TONIC_UI_REACT_DOCS_E2E === '1';
+const nextCli = isE2E
+  ? fileURLToPath(new URL('./e2e-server.mjs', import.meta.url))
+  : require.resolve('next/dist/bin/next');
+const childArgs = isE2E
+  ? [nextCli, String(port)]
+  : [nextCli, 'dev', '--hostname', '0.0.0.0', ...getNextArgs(args, port)];
+const child = spawn(process.execPath, childArgs, {
   env: { ...process.env, NODE_ENV: 'development' },
   stdio: 'inherit',
 });

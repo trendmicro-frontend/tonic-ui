@@ -3,8 +3,8 @@ export const tests = [
   {
     name: 'cdn-with-local-fallback',
     testMatch: '**/cdn-with-local-fallback.spec.mjs',
-    dir: 'examples/cdn-with-local-fallback',
-    build: { command: 'yarn', args: ['build'] },
-    preview: { command: 'yarn', args: ['preview'] },
+    dir: '.',
+    build: { command: 'node', args: ['scripts/build.mjs', '.e2e/app'] },
+    preview: { command: 'yarn', args: ['vite', 'preview', '--mode', 'app', '--outDir', '.e2e/app'] },
   },
 ];
