@@ -77,12 +77,7 @@ test.describe('integrations/cdn', { tag: ['@docs', '@integration', '@cdn'] }, ()
     expect(bareUrls).toHaveLength(0);
   });
 
-  test('mermaid code blocks render diagrams', async ({ page }) => {
-    const flowchart = page.locator('svg.pele-flowchart');
-    await expect(flowchart).toHaveCount(1);
-    await expect(flowchart).toContainText('1. Application loads');
-    await expect(flowchart).toContainText('4. Application mounts');
-
+  test('the mermaid code block renders the fallback sequence', async ({ page }) => {
     // The sequence type is loaded on demand, so this also covers `pele/lazy`.
     const sequence = page.locator('svg.pele-sequence');
     await expect(sequence).toHaveCount(1);

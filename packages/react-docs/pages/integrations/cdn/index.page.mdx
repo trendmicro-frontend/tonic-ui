@@ -25,7 +25,7 @@ Choose the integration approach that best fits your needs:
 - **Host React and Tonic UI on your own CDN** → [`Use self-hosted CDN for React and dist/standalone`](#use-self-hosted-cdn-for-react-and-diststandalone).
 - **No CDN required** → [`Use your application's bundler`](#use-your-applications-bundler).
 
-## CDN loading strategies
+## Loading strategies
 
 What each configuration costs, measured on the same page. Details follow per configuration.
 
@@ -38,7 +38,7 @@ What each configuration costs, measured on the same page. Details follow per con
 > [`measure-cdn-strategies.mjs`](https://github.com/trendmicro-frontend/tonic-ui/blob/main/packages/react-docs/scripts/measure-cdn-strategies.mjs)
 > in `packages/react-docs/scripts`.
 
-## Configurations
+### Configurations
 
 Every CDN configuration is an import map: its `@tonic-ui/react` key is the library entry, the
 other keys supply the peers, and the map shown is the one that was measured. The bundler row
@@ -80,7 +80,7 @@ export default {
 };
 ```
 
-### Use esm.sh with `?standalone`
+#### Use esm.sh with `?standalone`
 
 esm.sh merges the package and its dependencies into one file at request time, then the map
 supplies the peers.
@@ -110,7 +110,7 @@ esm.sh, not by Tonic UI — it is not `dist/standalone/index.min.js` — and its
 esm.sh's resolver does. Without
 `external=react,react-dom` it pins its own React: 50 requests, two instances.
 
-### Use jsDelivr with `+esm`
+#### Use jsDelivr with `+esm`
 
 jsDelivr bundles each package into one file and pins every dependency to an absolute URL; the
 alias map collapses those URLs onto the pinned peers.
@@ -139,7 +139,7 @@ them; the rest pin the other React and `@babel/runtime` versions the graph emits
 follows the URLs jsDelivr generates, so regenerate it when peer ranges move. Without a map the
 page loads seven React versions and fetches 17 modules twice.
 
-### Load `dist/standalone` through `raw.esm.sh`
+#### Load `dist/standalone` through `raw.esm.sh`
 
 The file Tonic UI's Rollup build published, served by a CDN. Only the React and Emotion families
 stay external.
@@ -171,7 +171,7 @@ stay external.
 **Pick it** to get the artifact without deploying it. **Watch out:** the plain `esm.sh` host
 answers this path with a 478-byte wrapper; only `raw.esm.sh` serves the file.
 
-### Load `dist/standalone` through jsDelivr
+#### Load `dist/standalone` through jsDelivr
 
 The same artifact, with every peer also on jsDelivr.
 
@@ -201,7 +201,7 @@ the peer URLs the graph emits — 29 entries for this release.
 **Pick it** when one origin should serve everything and you do not want to host the file.
 **Watch out:** the peer URLs are version-pinned; regenerate the map when React or Emotion moves.
 
-### Use self-hosted CDN for React and `dist/standalone`
+#### Use self-hosted CDN for React and `dist/standalone`
 
 Your own CDN serves the Tonic UI artifact and complete standalone bundles for React, React DOM,
 and Emotion, so no third-party origin is involved. The map points every bare specifier at those
@@ -236,7 +236,7 @@ specifiers served by two Emotion bundles (the React family is shared, so `react/
 `react-dom.js`, and the Emotion bundles. A missing file, a wrong MIME type, or a blocked CSP
 entry stops the mount, and nothing retries.
 
-### Use your application's bundler
+#### Use your application's bundler
 
 Bundle React, React DOM, Tonic UI, and their dependencies with your application. The imports
 resolve at build time, so no import map is involved and no separate CDN runtime is required.
@@ -258,22 +258,13 @@ give up the CDN cache and must rebuild to change the library. The build is
 [`vite.app.config.mjs`](https://github.com/trendmicro-frontend/tonic-ui/blob/main/examples/cdn-with-local-fallback/vite.app.config.mjs);
 the entry is [`entries/app-bundled.jsx`](https://github.com/trendmicro-frontend/tonic-ui/blob/main/examples/cdn-with-local-fallback/entries/app-bundled.jsx).
 
-## CDN with local fallback
+## Local fallback
 
-### How the fallback works
+### How local fallback works
 
 Fallback is an application feature, not something esm.sh or jsDelivr provides. You need it when
 the CDN cannot deliver the module graph: the network blocks it, an on-demand build is
 unavailable, or a request exceeds the group's eight-second budget.
-
-```mermaid
-flowchart LR
-  A["`**1. Application loads**<br/><br/>bootstrap.js installs the import map before any module runs`"]
-  B["`**2. Runtime probes run**<br/><br/>each group (react, react-dom, @tonic-ui/react) is verified`"]
-  C["`**3. Sources are selected**<br/><br/>CDN when reachable, same-origin files otherwise`"]
-  D["`**4. Application mounts**<br/><br/>React and Tonic UI resolve to one instance each`"]
-  A --> B --> C --> D
-```
 
 ```mermaid
 sequenceDiagram
@@ -298,7 +289,7 @@ The runtime resolves `react`, `react-dom`, and `@tonic-ui/react` as separate gro
 probe or an expired budget reloads the document with that group forced to same-origin files. A
 local, CSS, or mount failure is terminal: it does not retry a CDN.
 
-### Run the fallback inspector
+### Run the local fallback inspector
 
 ```bash
 cd examples/cdn-with-local-fallback
@@ -315,7 +306,7 @@ table and load log show which source each group resolved to.
 Append `?__local=react,react-dom,@tonic-ui/react` to the reference application's URL to force
 same-origin files. Remove `__local` and `__failed` to retry CDN-first loading.
 
-### Add the local fallback to your app
+### Add local fallback to your app
 
 Use the [complete reference project](https://github.com/trendmicro-frontend/tonic-ui/tree/main/examples/cdn-with-local-fallback) instead of assembling a partial import map by hand. Its application
 is [src/app.jsx](https://github.com/trendmicro-frontend/tonic-ui/blob/main/examples/cdn-with-local-fallback/src/app.jsx),
@@ -333,7 +324,7 @@ built by Vite; the bootstrap calls its `mount(element, runtime)` export after th
 `scripts/emotion-redirects.mjs` adds the Emotion aliases the CDN build needs; removing them can
 leave `Box p="4x"` at `padding: 0px` with no error.
 
-### Integrate the local fallback with AI
+### Integrate local fallback with AI
 
 Paste this into your AI coding assistant. It clones the reference project, states the runtime
 requirements, and asks for PASS/FAIL evidence per acceptance criterion, so the result is
@@ -461,7 +452,7 @@ Provide:
 Do not report success for any test that was not actually executed.
 ````
 
-## Troubleshoot
+### Troubleshooting
 
 | What you see | Likely cause | What to check |
 | :--- | :--- | :--- |
