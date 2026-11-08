@@ -1,7 +1,9 @@
+// Each project pins its own spec files. Add a new documentation-page contract
+// by placing it in `pages/` and listing it here.
 export const tests = [
   {
     name: 'docs-search',
-    testMatch: '**/pages/*.spec.mjs',
+    testMatch: '**/pages/search.spec.mjs',
     build: 'build:search-e2e',
     server: 'search',
   },
