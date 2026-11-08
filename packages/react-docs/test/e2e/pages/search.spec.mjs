@@ -1,12 +1,31 @@
 import { test, expect } from '@playwright/test';
+import { createTheme } from '@tonic-ui/theme';
 
 // The search preview picks its own port, so Playwright exports the printed
 // origin to the test process instead of resolving `baseURL` for this project.
 const docsUrl = path => new URL(path, process.env.E2E_SEARCH_URL).href;
 
-// `Highlight` uses `Mark variant="highlight"`, whose background is the theme
-// token `_highlight` (`yellow.100`) in both colour modes.
-const highlightColor = 'rgb(254, 236, 188)';
+// The page highlight is `Mark variant="highlight"`, so its background comes from
+// the theme token `_highlight`. Resolve the token instead of hard-coding the
+// value: semantic tokens are written as references, e.g. `{yellow.100}`.
+const theme = createTheme();
+const themeColor = (token) => {
+  const reference = typeof token === 'string' ? token.match(/^\{(.+)\}$/) : null;
+  const value = reference
+    ? reference[1].split('.').reduce((colors, key) => colors?.[key], theme.colors)
+    : token;
+  const hex = /^#([0-9a-f]{3,6})$/i.exec(String(value ?? ''));
+  if (!hex) {
+    return String(value);
+  }
+  const pairs = hex[1].length === 3 ? hex[1].split('').map(char => char + char) : hex[1].match(/.{2}/g);
+  return `rgb(${pairs.map(pair => parseInt(pair, 16)).join(', ')})`;
+};
+
+const highlightColor = async (page) => {
+  const colorMode = await page.evaluate(() => document.documentElement.dataset.colorScheme || 'light');
+  return themeColor(theme.colors._highlight[`_${colorMode}`] ?? theme.colors._highlight._light);
+};
 
 const openSearch = async (page) => {
   await page.goto(docsUrl('/'));
@@ -116,7 +135,7 @@ test.describe('documentation search highlight', { tag: ['@docs', '@search'] }, (
 
     await expect(page).not.toHaveURL(/\?q=/);
     await expect(marks.first()).toBeVisible();
-    await expect(marks.first()).toHaveCSS('background-color', highlightColor);
+    await expect(marks.first()).toHaveCSS('background-color', await highlightColor(page));
     await expect(headerSearch.locator('input')).toHaveValue('onInteractOutside');
     await expect.poll(() => page.evaluate(() => window.sessionStorage.getItem('tonic-ui-docs:search-query'))).toBeNull();
     await expect(marks.first()).toBeInViewport();
