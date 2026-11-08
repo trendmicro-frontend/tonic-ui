@@ -3,6 +3,7 @@ import globals from 'globals';
 import tsParser from '@typescript-eslint/parser';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 import trendmicroConfig from 'eslint-config-trendmicro';
+import tonic from '@tonic-ui/eslint-plugin';
 
 export default defineConfig([
   tsPlugin.configs['flat/recommended'], // TypeScript-specific error rules
@@ -55,6 +56,10 @@ export default defineConfig([
         }
       }
     },
+  },
+  {
+    files: ['test/**/*.{js,jsx,mjs,ts,tsx}'],
+    extends: [tonic.configs.recommended],
   },
   {
     files: ['**/*.d.ts'],

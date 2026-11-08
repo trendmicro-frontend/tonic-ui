@@ -6684,6 +6684,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tonic-ui/eslint-plugin@workspace:*, @tonic-ui/eslint-plugin@workspace:packages/eslint-plugin":
+  version: 0.0.0-use.local
+  resolution: "@tonic-ui/eslint-plugin@workspace:packages/eslint-plugin"
+  dependencies:
+    "@tonic-ui/styled-system": "workspace:*"
+    del-cli: "npm:^5.0.0"
+    eslint: "npm:^9.26.0"
+    eslint-config-trendmicro: "npm:^4.4.1"
+    eslint-plugin-import: "npm:^2.32.0"
+    eslint-plugin-jsx-a11y: "npm:^6.10.2"
+    eslint-plugin-react: "npm:^7.37.5"
+    eslint-plugin-react-hooks: "npm:^7.0.1"
+    globals: "npm:^15.0.0"
+  peerDependencies:
+    eslint: ^9.26.0
+  languageName: unknown
+  linkType: soft
+
 "@tonic-ui/mcp@workspace:packages/mcp":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/mcp@workspace:packages/mcp"
@@ -6985,6 +7003,7 @@ __metadata:
     "@testing-library/jest-dom": "npm:^6.0.0"
     "@testing-library/react": "npm:^16.0.0"
     "@testing-library/user-event": "npm:^14.0.0"
+    "@tonic-ui/eslint-plugin": "workspace:*"
     "@tonic-ui/react-base": "npm:^3.0.0-alpha.1"
     "@tonic-ui/react-hooks": "npm:^3.0.0-alpha.2"
     "@tonic-ui/react-icons": "npm:^3.0.0-alpha.1"
@@ -7029,7 +7048,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/styled-system@npm:^3.0.0-alpha.1, @tonic-ui/styled-system@workspace:packages/styled-system":
+"@tonic-ui/styled-system@npm:^3.0.0-alpha.1, @tonic-ui/styled-system@workspace:*, @tonic-ui/styled-system@workspace:packages/styled-system":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/styled-system@workspace:packages/styled-system"
   dependencies:

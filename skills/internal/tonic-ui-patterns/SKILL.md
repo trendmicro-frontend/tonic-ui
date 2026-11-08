@@ -47,6 +47,7 @@ Common scopes:
 packages/
 ├── changelog-github/   # Custom changelog generator
 ├── codemod/            # Code migration tools
+├── eslint-plugin/      # Internal styling lint rules (private, not published)
 ├── mcp/                # MCP server (TypeScript)
 ├── react/              # Main component library (JavaScript)
 ├── react-base/         # Base primitives (Box)
@@ -59,6 +60,12 @@ packages/
 ```
 
 **Key:** `packages/react` is the most frequently modified package (~38 commits in last 200).
+
+## Workspace Package Scripts
+
+- Every `packages/*` workspace must define `build`, `lint`, `test`, and `pre-push` scripts. Root commands run them across workspaces (`lerna exec -- yarn build`, `yarn workspaces foreach --all run lint`).
+- A package that creates disposable build, test, or coverage output must define a `clean` script for those outputs. Do not remove tracked generated source or other inputs.
+- Source-only packages with no disposable output do not need a `clean` script. Root `clean` uses `lerna exec --parallel -- yarn clean` so it runs only where the script exists; do not add package-specific exclusions or no-op scripts.
 
 ## Component Architecture
 
@@ -214,7 +221,7 @@ These files typically change together:
 - Keep small real-component fixtures in `packages/react/test/e2e/fixtures/components/`. Under that suite, put shared contracts in `scenarios/` and unique behavior in `components/`, without an extra `tests/` directory. Keep helpers in their owning suite until another suite needs them.
 - Every browser test drives a real library component. The UI under test — dialog, trigger, control, content — is rendered with Tonic UI (`Button`, `Checkbox`, `Box`, `Text`, `Flex`, `Input`), not raw `<button>`, `<div>`, `<label><input>`, or markup built inside `page.evaluate`. Raw HTML is allowed only for the suite shell and environment hosts: `fixtures/index.jsx` page chrome, `public/index.html`, and the shadow-root/iframe elements.
 - Interact with a component through its own visible semantics. `Checkbox` keeps its state on a visually hidden input: click the rendered label/control and assert `getByRole('checkbox', { name }).toBeChecked()`, because `locator.check()`/`uncheck()` cannot act on the hidden input.
-- Enforcement is review, not lint: ESLint has no element rule for fixtures, so the PR diff must show that each tested element is a library component.
+- Enforcement is lint: `@tonic-ui/eslint-plugin` runs on `packages/react/test/**` (`no-raw-html-elements`, `no-flat-style-props`, `no-inline-style`), so a fixture using raw elements, flat style props, or an inline `style` object fails `yarn lint` in `packages/react`.
 - Use native component/scenario tags with `--grep`; do not create a project or npm script per component. Projects identify actual application/server targets.
 - All suites reuse `test/e2e/config.mjs`. Preserve root reference-app and react-docs integration coverage; do not add a second server/config framework or an empty future-page scaffold.
 
