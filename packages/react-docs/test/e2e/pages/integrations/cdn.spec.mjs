@@ -40,6 +40,39 @@ test.describe('integrations/cdn', { tag: ['@docs', '@integration', '@cdn'] }, ()
     }
   });
 
+  test('the contents panel lists each configuration beside Configurations', async ({ page }) => {
+    // The panel is `display: none` below 1440px, so check the structure the
+    // client built rather than its rendered appearance.
+    await expect(page.locator('#toc a[href="#configurations"]')).toHaveCount(1);
+
+    // Depth is the number of nested <ul> ancestors inside the panel, so an item
+    // at the same depth as Configurations is its sibling, not its child.
+    const depths = await page.evaluate(() => {
+      const toc = document.getElementById('toc');
+      const result = {};
+
+      toc.querySelectorAll('a[href^="#"]').forEach((link) => {
+        let depth = 0;
+        for (let node = link.parentElement; node && node !== toc; node = node.parentElement) {
+          if (node.tagName === 'UL') {
+            depth += 1;
+          }
+        }
+        result[link.getAttribute('href').slice(1)] = depth;
+      });
+
+      return result;
+    });
+
+    const configurationDepth = depths['configurations'];
+    CONFIGURATIONS.forEach(({ id, title }) => {
+      expect(depths[id], `${title} is nested under Configurations, not beside it`).toBe(configurationDepth);
+    });
+
+    // Top-level sections share the panel's first depth.
+    expect(depths['troubleshooting']).toBe(depths['loading-strategies']);
+  });
+
   test('clicking an overview link scrolls to that configuration', async ({ page }) => {
     const { id } = CONFIGURATIONS[4];
     await page.getByRole('link', { name: CONFIGURATIONS[4].title, exact: true }).first().click();

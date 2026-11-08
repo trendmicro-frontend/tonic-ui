@@ -80,7 +80,7 @@ export default {
 };
 ```
 
-#### Use esm.sh with `?standalone`
+### Use esm.sh with `?standalone`
 
 esm.sh merges the package and its dependencies into one file at request time, then the map
 supplies the peers.
@@ -110,7 +110,7 @@ esm.sh, not by Tonic UI — it is not `dist/standalone/index.min.js` — and its
 esm.sh's resolver does. Without
 `external=react,react-dom` it pins its own React: 50 requests, two instances.
 
-#### Use jsDelivr with `+esm`
+### Use jsDelivr with `+esm`
 
 jsDelivr bundles each package into one file and pins every dependency to an absolute URL; the
 alias map collapses those URLs onto the pinned peers.
@@ -139,7 +139,7 @@ them; the rest pin the other React and `@babel/runtime` versions the graph emits
 follows the URLs jsDelivr generates, so regenerate it when peer ranges move. Without a map the
 page loads seven React versions and fetches 17 modules twice.
 
-#### Load `dist/standalone` through `raw.esm.sh`
+### Load `dist/standalone` through `raw.esm.sh`
 
 The file Tonic UI's Rollup build published, served by a CDN. Only the React and Emotion families
 stay external.
@@ -171,7 +171,7 @@ stay external.
 **Pick it** to get the artifact without deploying it. **Watch out:** the plain `esm.sh` host
 answers this path with a 478-byte wrapper; only `raw.esm.sh` serves the file.
 
-#### Load `dist/standalone` through jsDelivr
+### Load `dist/standalone` through jsDelivr
 
 The same artifact, with every peer also on jsDelivr.
 
@@ -201,7 +201,7 @@ the peer URLs the graph emits — 29 entries for this release.
 **Pick it** when one origin should serve everything and you do not want to host the file.
 **Watch out:** the peer URLs are version-pinned; regenerate the map when React or Emotion moves.
 
-#### Use self-hosted CDN for React and `dist/standalone`
+### Use self-hosted CDN for React and `dist/standalone`
 
 Your own CDN serves the Tonic UI artifact and complete standalone bundles for React, React DOM,
 and Emotion, so no third-party origin is involved. The map points every bare specifier at those
@@ -236,7 +236,7 @@ specifiers served by two Emotion bundles (the React family is shared, so `react/
 `react-dom.js`, and the Emotion bundles. A missing file, a wrong MIME type, or a blocked CSP
 entry stops the mount, and nothing retries.
 
-#### Use your application's bundler
+### Use your application's bundler
 
 Bundle React, React DOM, Tonic UI, and their dependencies with your application. The imports
 resolve at build time, so no import map is involved and no separate CDN runtime is required.
@@ -343,6 +343,7 @@ git clone --depth 1 https://github.com/trendmicro-frontend/tonic-ui.git
 
 Read `examples/cdn-with-local-fallback/README.md` and inspect the following files before making changes:
 
+- `public/index.html` — bootstrap script, manifest reference, and application root.
 - `public/bootstrap.js` — import map, runtime probes, fallback reloads, and mounting.
 - `scripts/build.mjs` — runtime builds and manifest generation.
 - `scripts/manifest.mjs` — runtime groups, package versions, and CDN candidates.
@@ -452,7 +453,7 @@ Provide:
 Do not report success for any test that was not actually executed.
 ````
 
-### Troubleshooting
+## Troubleshooting
 
 | What you see | Likely cause | What to check |
 | :--- | :--- | :--- |
