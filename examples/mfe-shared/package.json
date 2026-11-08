@@ -1,0 +1,11 @@
+{
+  "name": "mfe-shared",
+  "private": true,
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "eslint": "^9.26.0",
+    "eslint-plugin-react": "^7.37.5"
+  }
+}
