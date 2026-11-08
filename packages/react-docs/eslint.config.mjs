@@ -36,11 +36,9 @@ export default defineConfig([
   },
   {
     ignores: [
+      '**/.e2e',
       '**/.next',
       '**/build',
-      '**/build-*',
-      '**/dist',
-      '**/dist-*',
       'coverage',
       'docs',
       'node_modules',

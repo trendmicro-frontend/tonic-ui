@@ -1,9 +1,9 @@
+/.e2e
+
 /.next
 /build
-/build-*
 /coverage
 /dist
-/dist-*
 
 # dotenv-flow
 /.env.local

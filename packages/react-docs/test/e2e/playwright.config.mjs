@@ -46,7 +46,7 @@ if (includeSearchServer) {
     commands: [
       ...searchBuilds,
       // Port 0 lets the OS pick one; the spec reads the printed origin.
-      `yarn vite preview --outDir dist-search-e2e --base / --host ${host} --port 0 --strictPort`,
+      `yarn vite preview --outDir .e2e/search --base / --host ${host} --port 0 --strictPort`,
     ],
     cwd: '.',
     env: {

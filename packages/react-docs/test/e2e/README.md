@@ -20,7 +20,7 @@ The workspace alias uses the same repository runner:
 yarn workspace @tonic-ui/react-docs test:e2e
 ```
 
-The suite builds the real demo applications, then starts their production Vite preview. The `docs-search` project additionally builds the Next.js documentation export (`build:search-e2e`) and serves it from a second Vite preview on an OS-assigned port (`--port 0`); Playwright exports the printed origin as `E2E_SEARCH_URL`, and those specs resolve absolute URLs from it because `use.baseURL` is evaluated before the server starts. Build commands must succeed before preview starts. Remote modules and sub-apps use the configured origin. Do not start a server manually.
+The suite builds the real demo applications, then starts their production Vite preview. The `docs-search` project additionally builds the Next.js documentation export (`build:e2e-search`) and serves it from a second Vite preview on an OS-assigned port (`--port 0`); Playwright exports the printed origin as `E2E_SEARCH_URL`, and those specs resolve absolute URLs from it because `use.baseURL` is evaluated before the server starts. Build commands must succeed before preview starts. Remote modules and sub-apps use the configured origin. Do not start a server manually.
 
 CDN-first scenarios need network access. Local-only and outage scenarios control browser CDN requests, but the demo build can still retrieve CDN metadata.
 
