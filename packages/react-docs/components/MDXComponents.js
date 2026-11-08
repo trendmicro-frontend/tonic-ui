@@ -27,14 +27,7 @@ const withHighlight = (Component) => {
               <Highlight
                 as="span"
                 query={query}
-                slotProps={{
-                  mark: {
-                    // System colors: the highlight matches the browser's own
-                    // text selection/find colors in light and dark mode.
-                    backgroundColor: 'Highlight',
-                    color: 'HighlightText',
-                  },
-                }}
+                variant="highlight"
               >
                 {children}
               </Highlight>

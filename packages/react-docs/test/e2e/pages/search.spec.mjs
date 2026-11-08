@@ -4,16 +4,9 @@ import { test, expect } from '@playwright/test';
 // origin to the test process instead of resolving `baseURL` for this project.
 const docsUrl = path => new URL(path, process.env.E2E_SEARCH_URL).href;
 
-// The page highlight uses the CSS system colors `Highlight`/`HighlightText`,
-// so assert against whatever the browser resolves them to on this platform.
-const systemHighlight = (page) => page.evaluate(() => {
-  const probe = document.createElement('mark');
-  probe.style.backgroundColor = 'Highlight';
-  document.body.appendChild(probe);
-  const value = getComputedStyle(probe).backgroundColor;
-  probe.remove();
-  return value;
-});
+// `Highlight` uses `Mark variant="highlight"`, whose background is the theme
+// token `_highlight` (`yellow.100`) in both colour modes.
+const highlightColor = 'rgb(254, 236, 188)';
 
 const openSearch = async (page) => {
   await page.goto(docsUrl('/'));
@@ -123,7 +116,7 @@ test.describe('documentation search highlight', { tag: ['@docs', '@search'] }, (
 
     await expect(page).not.toHaveURL(/\?q=/);
     await expect(marks.first()).toBeVisible();
-    await expect(marks.first()).toHaveCSS('background-color', await systemHighlight(page));
+    await expect(marks.first()).toHaveCSS('background-color', highlightColor);
     await expect(headerSearch.locator('input')).toHaveValue('onInteractOutside');
     await expect.poll(() => page.evaluate(() => window.sessionStorage.getItem('tonic-ui-docs:search-query'))).toBeNull();
     await expect(marks.first()).toBeInViewport();
