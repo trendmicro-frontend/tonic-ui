@@ -37,7 +37,7 @@ function parseArgs() {
     .version(MCP_SERVER_VERSION)
     .option('-c, --config <path>', 'path to configuration file (JavaScript or JSON format)')
     .option('-t, --type <type>', 'transport type (choices: stdio, streamable-http, sse)', 'stdio')
-    .option('-p, --port <port>', 'port number for HTTP-based transports (streamable-http, sse) (default: 3000)', parseInt)
+    .option('-p, --port <port>', 'port number for HTTP-based transports (streamable-http, sse) (default: 3000)', (value) => parseInt(value, 10), 3000)
     .helpOption('-h, --help', 'display help for command');
 
   program.parse();
@@ -58,8 +58,8 @@ function parseArgs() {
     process.exit(1);
   }
 
-  if (options.port && (options.port < 1 || options.port > 65535)) {
-    console.error(`Error: Port must be between 1 and 65535, got ${options.port}\n`);
+  if (options.port !== 0 && (options.port < 1 || options.port > 65535)) {
+    console.error(`Error: Port must be between 1 and 65535 (or 0 for an ephemeral port), got ${options.port}\n`);
     program.outputHelp();
     process.exit(1);
   }
@@ -73,6 +73,21 @@ function findAvailablePort(startPort, maxAttempts = 10) {
   const net = require('node:net');
 
   return new Promise((resolve, reject) => {
+    if (startPort === 0) {
+      const testServer = net.createServer();
+
+      testServer.on('error', reject);
+      testServer.on('listening', () => {
+        const port = testServer.address().port;
+        testServer.close(() => {
+          resolve(port);
+        });
+      });
+
+      testServer.listen(0, '127.0.0.1');
+      return;
+    }
+
     let currentPort = startPort;
     let attempts = 0;
 
@@ -101,7 +116,7 @@ function findAvailablePort(startPort, maxAttempts = 10) {
         });
       });
 
-      testServer.listen(currentPort);
+      testServer.listen(currentPort, '127.0.0.1');
     }
 
     tryPort();
@@ -248,7 +263,7 @@ async function runStreamableHTTPServer(resolvedConfigPath, port = 3000) {
     });
 
     // Start the server
-    const server = app.listen(serverPort, () => {
+    const server = app.listen(serverPort, '127.0.0.1', () => {
       console.log(`🚀 Tonic UI MCP server is running on HTTP port ${serverPort} (streamable-http)`);
       console.log(`Loaded config file: ${resolvedConfigPath}`);
       console.log('Available endpoints:');
@@ -352,7 +367,7 @@ async function runSSEServer(resolvedConfigPath, port = 3000) {
     });
 
     // Start the server
-    const server = app.listen(serverPort, () => {
+    const server = app.listen(serverPort, '127.0.0.1', () => {
       console.log(`🚀 Tonic UI MCP server is running on HTTP port ${serverPort} (sse)`);
       console.log(`Loaded config file: ${resolvedConfigPath}`);
       console.log('Available endpoints:');

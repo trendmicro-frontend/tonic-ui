@@ -204,7 +204,7 @@ describe('CLI tests', () => {
   describe('Transport type: streamable-http', () => {
     test('should start server successfully', async () => {
       const cliPath = path.join(__dirname, '..', 'bin', 'cli.js');
-      const port = 3000;
+      const port = 0;
       const serverProcess = spawn('node', [cliPath, '--config', configPath, '--type', 'streamable-http', '--port', port.toString()]);
 
       try {
@@ -240,7 +240,7 @@ describe('CLI tests', () => {
 
     test('should list MCP tools successfully', async () => {
       const cliPath = path.join(__dirname, '..', 'bin', 'cli.js');
-      const port = 3000;
+      const port = 0;
       const serverProcess = spawn('node', [cliPath, '--config', configPath, '--type', 'streamable-http', '--port', port.toString()]);
       const client = new Client({
         name: pkg.name,
@@ -288,7 +288,7 @@ describe('CLI tests', () => {
   describe('Transport type: sse', () => {
     test('should start server successfully', async () => {
       const cliPath = path.join(__dirname, '..', 'bin', 'cli.js');
-      const port = 3000;
+      const port = 0;
       const serverProcess = spawn('node', [cliPath, '--config', configPath, '--type', 'sse', '--port', port.toString()]);
 
       try {
@@ -325,7 +325,7 @@ describe('CLI tests', () => {
 
     test('should list MCP tools successfully', async () => {
       const cliPath = path.join(__dirname, '..', 'bin', 'cli.js');
-      const port = 3000;
+      const port = 0;
       const serverProcess = spawn('node', [cliPath, '--config', configPath, '--type', 'sse', '--port', port.toString()]);
       const client = new Client({
         name: pkg.name,
