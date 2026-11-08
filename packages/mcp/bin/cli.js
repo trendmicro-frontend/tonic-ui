@@ -37,7 +37,8 @@ function parseArgs() {
     .version(MCP_SERVER_VERSION)
     .option('-c, --config <path>', 'path to configuration file (JavaScript or JSON format)')
     .option('-t, --type <type>', 'transport type (choices: stdio, streamable-http, sse)', 'stdio')
-    .option('-p, --port <port>', 'port number for HTTP-based transports (streamable-http, sse) (default: 3000)', parseInt)
+    .option('-p, --port <port>', 'port number for HTTP-based transports (streamable-http, sse) (default: 3000)', (value) => parseInt(value, 10), 3000)
+    .option('--host <host>', 'host name or IP address for HTTP-based transports (streamable-http, sse) (default: 127.0.0.1)', '127.0.0.1')
     .helpOption('-h, --help', 'display help for command');
 
   program.parse();
@@ -58,21 +59,85 @@ function parseArgs() {
     process.exit(1);
   }
 
-  if (options.port && (options.port < 1 || options.port > 65535)) {
-    console.error(`Error: Port must be between 1 and 65535, got ${options.port}\n`);
+  if (options.port !== 0 && (options.port < 1 || options.port > 65535)) {
+    console.error(`Error: Port must be between 1 and 65535 (or 0 for an ephemeral port), got ${options.port}\n`);
+    program.outputHelp();
+    process.exit(1);
+  }
+
+  if (!isValidHost(options.host)) {
+    console.error(`Error: Invalid host "${options.host}". Use a hostname, an IPv4 address, or an IPv6 address.\n`);
     program.outputHelp();
     process.exit(1);
   }
 
   return {
     ...options,
+    host: normalizeHost(options.host),
   };
 }
 
-function findAvailablePort(startPort, maxAttempts = 10) {
+function normalizeHost(host) {
+  // Bracketed IPv6 addresses (e.g. `[::1]`) are valid in URLs, but `net`/`express` cannot bind to them.
+  if (/^\[.*\]$/.test(host)) {
+    return host.slice(1, -1);
+  }
+
+  return host;
+}
+
+function isValidHost(host) {
+  const net = require('node:net');
+
+  if (typeof host !== 'string' || host.length === 0) {
+    return false;
+  }
+
+  // Bracketed IPv6 addresses, e.g. [::1].
+  if (/^\[.*\]$/.test(host)) {
+    return net.isIP(host.slice(1, -1)) === 6;
+  }
+
+  if (net.isIP(host) !== 0) {
+    return true;
+  }
+
+  return /^[A-Za-z0-9]([A-Za-z0-9._-]*[A-Za-z0-9])?$/.test(host);
+}
+
+function formatHostForUrl(host) {
+  // Unspecified addresses cannot be used as a request target, so fall back to the loopback address.
+  if (host === '0.0.0.0' || host === '::') {
+    return '127.0.0.1';
+  }
+
+  // IPv6 addresses must be bracketed inside a URL.
+  if (host.includes(':') && !host.startsWith('[')) {
+    return `[${host}]`;
+  }
+
+  return host;
+}
+
+function findAvailablePort(startPort, host, maxAttempts = 10) {
   const net = require('node:net');
 
   return new Promise((resolve, reject) => {
+    if (startPort === 0) {
+      const testServer = net.createServer();
+
+      testServer.on('error', reject);
+      testServer.on('listening', () => {
+        const port = testServer.address().port;
+        testServer.close(() => {
+          resolve(port);
+        });
+      });
+
+      testServer.listen(0, host);
+      return;
+    }
+
     let currentPort = startPort;
     let attempts = 0;
 
@@ -101,7 +166,7 @@ function findAvailablePort(startPort, maxAttempts = 10) {
         });
       });
 
-      testServer.listen(currentPort);
+      testServer.listen(currentPort, host);
     }
 
     tryPort();
@@ -134,9 +199,9 @@ async function runStdioServer(resolvedConfigPath) {
     process.exit(1);
   }
 }
-async function runStreamableHTTPServer(resolvedConfigPath, port = 3000) {
+async function runStreamableHTTPServer(resolvedConfigPath, port = 3000, host = '127.0.0.1') {
   try {
-    const serverPort = await findAvailablePort(port);
+    const serverPort = await findAvailablePort(port, host);
     const transportMap = new Map();
 
     const app = express();
@@ -220,6 +285,7 @@ async function runStreamableHTTPServer(resolvedConfigPath, port = 3000) {
         name: packageJson.name,
         version: packageJson.version ?? '1.0.0',
         transport: 'streamable-http',
+        host,
         endpoints: {
           mcp: 'POST /mcp',
         }
@@ -248,11 +314,14 @@ async function runStreamableHTTPServer(resolvedConfigPath, port = 3000) {
     });
 
     // Start the server
-    const server = app.listen(serverPort, () => {
+    const displayHost = formatHostForUrl(host);
+
+    const server = app.listen(serverPort, host, () => {
       console.log(`🚀 Tonic UI MCP server is running on HTTP port ${serverPort} (streamable-http)`);
       console.log(`Loaded config file: ${resolvedConfigPath}`);
+      console.log(`• Listening on ${host}:${serverPort}`);
       console.log('Available endpoints:');
-      console.log(`• Streamable HTTP: http://127.0.0.1:${serverPort}/mcp`);
+      console.log(`• Streamable HTTP: http://${displayHost}:${serverPort}/mcp`);
     });
 
     // Handle server errors
@@ -275,9 +344,9 @@ async function runStreamableHTTPServer(resolvedConfigPath, port = 3000) {
   }
 }
 
-async function runSSEServer(resolvedConfigPath, port = 3000) {
+async function runSSEServer(resolvedConfigPath, port = 3000, host = '127.0.0.1') {
   try {
-    const serverPort = await findAvailablePort(port);
+    const serverPort = await findAvailablePort(port, host);
     const transportMap = new Map();
 
     const app = express();
@@ -299,6 +368,7 @@ async function runSSEServer(resolvedConfigPath, port = 3000) {
         name: packageJson.name,
         version: packageJson.version ?? '1.0.0',
         transport: 'sse',
+        host,
         endpoints: {
           sse: 'GET /sse',
           messages: 'POST /messages',
@@ -352,12 +422,15 @@ async function runSSEServer(resolvedConfigPath, port = 3000) {
     });
 
     // Start the server
-    const server = app.listen(serverPort, () => {
+    const displayHost = formatHostForUrl(host);
+
+    const server = app.listen(serverPort, host, () => {
       console.log(`🚀 Tonic UI MCP server is running on HTTP port ${serverPort} (sse)`);
       console.log(`Loaded config file: ${resolvedConfigPath}`);
+      console.log(`• Listening on ${host}:${serverPort}`);
       console.log('Available endpoints:');
-      console.log(`• SSE: http://127.0.0.1:${serverPort}/sse`);
-      console.log(`• Messages: http://127.0.0.1:${serverPort}/messages`);
+      console.log(`• SSE: http://${displayHost}:${serverPort}/sse`);
+      console.log(`• Messages: http://${displayHost}:${serverPort}/messages`);
     });
 
     // Handle server errors
@@ -387,9 +460,9 @@ async function main() {
     : path.resolve(process.cwd(), options.config);
 
   if (options.type === 'streamable-http') {
-    await runStreamableHTTPServer(resolvedConfigPath, options.port);
+    await runStreamableHTTPServer(resolvedConfigPath, options.port, options.host);
   } else if (options.type === 'sse') {
-    await runSSEServer(resolvedConfigPath, options.port);
+    await runSSEServer(resolvedConfigPath, options.port, options.host);
   } else { // stdio (default)
     await runStdioServer(resolvedConfigPath);
   }

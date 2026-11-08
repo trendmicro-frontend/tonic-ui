@@ -149,7 +149,7 @@ Visual Studio Code requires specific settings to enable MCP functionality:
 
 ## Supported transports
 
-The Tonic UI MCP server supports **stdio**, **Streamable HTTP**, and **Server-Sent Events (SSE)**. The transport can be specified via the `--type` option. For HTTP-based transports, if the designated port is unavailable, the server will automatically bind to the next available port.
+The Tonic UI MCP server supports **stdio**, **Streamable HTTP**, and **Server-Sent Events (SSE)**. The transport can be specified via the `--type` option. For HTTP-based transports, if the designated port is unavailable, the server will automatically bind to the next available port. The bind address is set with `--host` and defaults to `127.0.0.1`.
 
 ### stdio (default)
 
@@ -213,6 +213,25 @@ Configuration for SSE transport:
   }
 }
 ```
+
+### Custom host
+
+HTTP-based transports bind to `127.0.0.1` unless you set `--host`.
+
+```bash
+npx -y @tonic-ui/mcp --config /path/to/tonic-ui/tonic-ui-mcp.config.js --type streamable-http --host 0.0.0.0 --port 3000
+```
+
+| `--host` value | Result |
+|---|---|
+| `127.0.0.1` (default) | Reachable only from the same machine. |
+| `localhost` | Resolves to the loopback address. |
+| `0.0.0.0` | Reachable from every network interface. |
+| `::1` or `[::1]` | IPv6 loopback. The bracketed form is normalized to `::1`. |
+
+The printed endpoint URLs always use an address you can request, so `0.0.0.0` is shown as `http://127.0.0.1:<port>/mcp`.
+
+> ⚠️ The MCP server has no authentication. A non-loopback host exposes the server to the network. Put it behind a firewall or a reverse proxy that adds authentication.
 
 ## Testing with MCP inspector
 
