@@ -2,7 +2,7 @@ import { Link, Stack } from '@tonic-ui/react';
 
 const App = () => (
   <Stack spacing="4x" shouldWrapChildren>
-    <Link href="#" disabled variant="default">
+    <Link href="#" disabled>
       Link
     </Link>
     <Link href="#" disabled variant="inline">

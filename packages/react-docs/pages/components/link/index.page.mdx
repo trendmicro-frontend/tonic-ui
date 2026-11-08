@@ -2,19 +2,19 @@
 
 A link is an interactive text element that enables users to navigate to another destination — such as a different application, website, resource, or a specific section on the same page.
 
-Links are intended primarily for navigation, not for performing actions.
+Links are intended primarily for navigation, not for performing actions. For navigation within the same application, see [InternalLink](../internal-link). To open an external website in a new window, see [ExternalLink](../external-link).
 
 ## Import
 
 ```js
-import { Link, InternalLink, ExternalLink } from '@tonic-ui/react';
+import { Link } from '@tonic-ui/react';
 ```
 
-## Link
+## Usage
 
 Use the `default` variant for standalone links and the `inline` variant within text.
 
-{render('./link-usage')}
+{render('./usage')}
 
 ### Variants
 
@@ -44,18 +44,6 @@ The `disabled` attribute is not natively supported by the anchor (`<a>`) element
 
 {render('./attribute-disabled')}
 
-## InternalLink
-
-An internal link navigates within the same application and includes a right arrow icon.
-
-{render('./internal-links')}
-
-## ExternalLink
-
-An external link opens an external website in a new window and includes an external link icon.
-
-{render('./external-links')}
-
 ## Props
 
 ### Link
@@ -66,27 +54,3 @@ An external link opens an external website in a new window and includes an exter
 | disabled | boolean | | If `true`, the link is displayed as disabled. |
 | onClick | function | | A callback called when the link is clicked. |
 | variant | string | 'default' | Defines the visual style of the link: <br />- 'default': For standalone links or navigation items.<br />- 'inline': For inline links within text or paragraphs.<br />- 'subtle': For links with reduced visual emphasis but still interactive. |
-
-### InternalLink
-
-Accepts the same props as `Link`.
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| children | ReactNode | | |
-| disabled | boolean | | If `true`, the link is displayed as disabled. |
-| onClick | function | | A callback called when the link is clicked. |
-| variant | string | 'default' | Defines the visual style of the link. |
-
-### ExternalLink
-
-Accepts the same props as `Link`. Sets `target="_blank"` and `rel="noopener noreferrer"` by default.
-
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| children | ReactNode | | |
-| disabled | boolean | | If `true`, the link is displayed as disabled. |
-| onClick | function | | A callback called when the link is clicked. |
-| rel | string | 'noopener noreferrer' | The relationship between the current document and the linked resource. |
-| target | string | '_blank' | Where to open the linked resource. |
-| variant | string | 'default' | Defines the visual style of the link. |

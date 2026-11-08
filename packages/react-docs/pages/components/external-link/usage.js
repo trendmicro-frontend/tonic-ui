@@ -3,7 +3,7 @@ import { ExternalLink, Stack, Text } from '@tonic-ui/react';
 const App = () => (
   <Stack alignItems="flex-start" spacing="4x">
     <ExternalLink href={location.href}>
-      View documentation
+      External link
     </ExternalLink>
     <Text>
       For more information, see the{' '}

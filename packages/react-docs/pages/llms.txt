@@ -225,7 +225,11 @@
 
 ### Navigation
 
-[Link]({{PAGE_BASE}}/components/link/): <classification>LLM should read this page when using the Link component for navigation and hyperlinks, implementing accessible link functionality, or creating both internal and external navigation with proper styling. Related to InternalLink, ExternalLink, ButtonLink, and LinkButton components.</classification>
+[Link]({{PAGE_BASE}}/components/link/): <classification>LLM should read this page when using the Link component for navigation and hyperlinks, implementing accessible link functionality, or styling standalone and inline links. Related to InternalLink, ExternalLink, ButtonLink, and LinkButton components.</classification>
+
+[InternalLink]({{PAGE_BASE}}/components/internal-link/): <classification>LLM should read this page when using the InternalLink component to navigate within the same application, adding a trailing arrow icon to an internal destination, or choosing between Link, InternalLink, and ExternalLink. Related to Link and ExternalLink components.</classification>
+
+[ExternalLink]({{PAGE_BASE}}/components/external-link/): <classification>LLM should read this page when using the ExternalLink component to open a destination outside the application in a new window, adding a trailing external link icon, or configuring target and rel. Related to Link and InternalLink components.</classification>
 
 [ButtonLink]({{PAGE_BASE}}/components/button-link/): <classification>LLM should read this page when using the ButtonLink component for button-styled links, combining button appearance with link functionality, or implementing call-to-action links and navigation buttons. Related to Button, Link, and LinkButton components.</classification>
 

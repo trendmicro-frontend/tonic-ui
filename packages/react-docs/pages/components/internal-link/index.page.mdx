@@ -1,0 +1,58 @@
+# InternalLink
+
+An internal link navigates within the same application and displays a trailing right arrow icon.
+
+Use `InternalLink` for destinations inside the product, such as another page, view, or settings section. To navigate to a destination outside the application, see [ExternalLink](../external-link). For a plain link without an icon, see [Link](../link).
+
+## Import
+
+```js
+import { InternalLink } from '@tonic-ui/react';
+```
+
+## Usage
+
+Use the `default` variant for standalone links and the `inline` variant within text.
+
+{render('./usage')}
+
+### Variants
+
+#### `default`
+
+Use the `default` variant for standalone links or navigation items.
+
+{render('./variant-default')}
+
+#### `inline`
+
+Use the `inline` variant for inline links that appear within text or paragraphs.
+
+{render('./variant-inline')}
+
+#### `subtle`
+
+Use the `subtle` variant for links that should appear interactive but with reduced visual emphasis.
+
+{render('./variant-subtle')}
+
+### Attributes
+
+#### `disabled`
+
+The `disabled` attribute is not natively supported by the anchor (`<a>`) element. The `InternalLink` component adds it for styling purposes only.
+
+{render('./attribute-disabled')}
+
+## Props
+
+### InternalLink
+
+Accepts the same props as [Link](../link). The component renders the `children` followed by a trailing arrow icon.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | The link label. |
+| disabled | boolean | | If `true`, the link is displayed as disabled. |
+| onClick | function | | A callback called when the link is clicked. |
+| variant | string | 'default' | Defines the visual style of the link: <br />- 'default': For standalone links or navigation items.<br />- 'inline': For inline links within text or paragraphs.<br />- 'subtle': For links with reduced visual emphasis but still interactive. |
