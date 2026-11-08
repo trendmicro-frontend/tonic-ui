@@ -1,11 +1,11 @@
 // Documentation search: ranking, suggestions, keyboard behavior, and the
 // highlight the target page applies to the query. These specs run against a
-// production export of the docs served by the search preview server.
+// production export of the docs served by the site preview server.
 import { expect, test } from '@playwright/test';
 
-// The search preview picks its own port, so Playwright exports the printed
+// The site preview picks its own port, so Playwright exports the printed
 // origin to the test process instead of resolving `baseURL` for this project.
-const docsUrl = path => new URL(path, process.env.E2E_SEARCH_URL).href;
+const docsUrl = path => new URL(path, process.env.E2E_SITE_URL).href;
 
 // The query travels from the dialog to the target page through sessionStorage,
 // so the URL stays clean and the highlight belongs to that page only.

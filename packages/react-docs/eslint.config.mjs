@@ -36,7 +36,6 @@ export default defineConfig([
   },
   {
     ignores: [
-      '**/.e2e',
       '**/.next',
       '**/build',
       'coverage',

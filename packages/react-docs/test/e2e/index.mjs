@@ -1,11 +1,10 @@
-// Each project pins its own spec files. Add a new documentation-page contract
-// by placing it in `pages/` and listing it here.
+// Projects group specs by application target and server.
 export const tests = [
   {
-    name: 'docs-search',
-    testMatch: '**/pages/search.spec.mjs',
-    build: 'build:e2e-search',
-    server: 'search',
+    name: 'pages',
+    testMatch: '**/pages/*.spec.mjs',
+    build: 'build:e2e-pages',
+    server: 'site',
   },
   {
     name: 'esm-cdn-with-fallback',
