@@ -5,10 +5,11 @@ import trendmicroConfig from 'eslint-config-trendmicro';
 export default defineConfig([
   ...trendmicroConfig,
   {
-    files: ['**/*.mjs'],
+    files: ['**/*.js', '**/*.mjs'],
     languageOptions: {
       globals: {
         ...globals.es2025,
+        ...globals.jest,
         ...globals.node,
       },
     },

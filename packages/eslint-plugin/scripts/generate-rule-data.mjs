@@ -21,28 +21,20 @@ const readComponentSources = (dir, sources = {}) => {
       continue;
     }
 
-    if (!entry.name.endsWith('.js')) {
+    // Only component files can be JSX element names; hooks and helpers (useModal.js,
+    // createTheme.js) document props that no element can use.
+    if (!/^[A-Z][A-Za-z0-9_]*\.js$/.test(entry.name)) {
       continue;
     }
 
     const source = readFileSync(entryPath, 'utf8');
-    const componentName = basename(entry.name, '.js');
-    const existing = sources[componentName];
-    const documentedProps = [...source.matchAll(/@property\s+(?:\{(?:[^{}]|\{[^{}]*\})*\}\s+)?\[([A-Za-z0-9_]+)/g)]
-      .map(match => match[1])
-      .filter(name => stylePropSet.has(name));
-    const inheritedFrom = [...source.matchAll(/<([A-Z][A-Za-z0-9]*)\b[^>]*\{\.\.\.rest\}/g)]
-      .map(match => match[1]);
 
-    if (existing) {
-      existing.documentedProps = [...new Set([...existing.documentedProps, ...documentedProps])];
-      existing.inheritedFrom = [...new Set([...existing.inheritedFrom, ...inheritedFrom])];
-      continue;
-    }
-
-    sources[componentName] = {
-      documentedProps,
-      inheritedFrom,
+    sources[basename(entry.name, '.js')] = {
+      documentedProps: [...source.matchAll(/@property\s+(?:\{(?:[^{}]|\{[^{}]*\})*\}\s+)?\[?([A-Za-z0-9_]+)/g)]
+        .map(match => match[1])
+        .filter(name => stylePropSet.has(name)),
+      inheritedFrom: [...source.matchAll(/<([A-Z][A-Za-z0-9]*)\b[^>]*\{\.\.\.rest\}/g)]
+        .map(match => match[1]),
     };
   }
 

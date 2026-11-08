@@ -63,9 +63,10 @@ packages/
 
 ## Workspace Package Scripts
 
-- Every `packages/*` workspace must define `build`, `lint`, `test`, and `pre-push` scripts. Root commands run them across workspaces (`lerna exec -- yarn build`, `yarn workspaces foreach --all run lint`).
-- A package that creates disposable build, test, or coverage output must define a `clean` script for those outputs. Do not remove tracked generated source or other inputs.
-- Source-only packages with no disposable output do not need a `clean` script. Root `clean` uses `lerna exec --parallel -- yarn clean` so it runs only where the script exists; do not add package-specific exclusions or no-op scripts.
+- Every `packages/*` workspace must define `build`, `lint`, `test`, `pre-push`, and `clean`. Root commands run them in every workspace (`lerna exec -- yarn build`, `yarn workspaces foreach --all run lint`, `lerna exec --parallel -- yarn clean`), so a missing script fails the root command.
+- Tests run with Jest: `cross-env NODE_ENV=test jest --maxWorkers=2`, `testMatch` `"<rootDir>/**/__tests__/**/*.test.js"` (`.test.mjs` for an `.mjs` package such as `eslint-plugin`), `testEnvironment` `node` for non-React packages, and `babel.config.js` extending `@trendmicro/babel-config` with `@babel/preset-env`. Keep tests in `src/__tests__/` next to the source.
+- `collectCoverage: true` is on for every package, so `coverage/` (`lcov`, `text`, `html`) is disposable output and `clean` must delete it: `del build coverage dist`, or `del coverage` for a package with no bundle. `del` comes from `del-cli`, which must be in the package's `devDependencies`; `clean` never deletes tracked generated source.
+- When a package commits generated input (for example `src/generated/rule-data.mjs`), `build` regenerates it and the generator supports a `--check` mode that exits non-zero when the committed file is stale. Test that guard (`execFileSync(process.execPath, [script, '--check'])`) instead of adding a separate script: the test then runs in `pre-push` and CI, and no step can regenerate the file before the check.
 
 ## Component Architecture
 
@@ -221,7 +222,7 @@ These files typically change together:
 - Keep small real-component fixtures in `packages/react/test/e2e/fixtures/components/`. Under that suite, put shared contracts in `scenarios/` and unique behavior in `components/`, without an extra `tests/` directory. Keep helpers in their owning suite until another suite needs them.
 - Every browser test drives a real library component. The UI under test — dialog, trigger, control, content — is rendered with Tonic UI (`Button`, `Checkbox`, `Box`, `Text`, `Flex`, `Input`), not raw `<button>`, `<div>`, `<label><input>`, or markup built inside `page.evaluate`. Raw HTML is allowed only for the suite shell and environment hosts: `fixtures/index.jsx` page chrome, `public/index.html`, and the shadow-root/iframe elements.
 - Interact with a component through its own visible semantics. `Checkbox` keeps its state on a visually hidden input: click the rendered label/control and assert `getByRole('checkbox', { name }).toBeChecked()`, because `locator.check()`/`uncheck()` cannot act on the hidden input.
-- Enforcement is lint: `@tonic-ui/eslint-plugin` runs on `packages/react/test/**` (`no-raw-html-elements`, `no-flat-style-props`, `no-inline-style`), so a fixture using raw elements, flat style props, or an inline `style` object fails `yarn lint` in `packages/react`.
+- Enforcement is lint: `@tonic-ui/eslint-plugin` runs on `packages/react/test/**` (`no-raw-html-elements` — including `<a>`, `<p>`, and `<hr>`; `no-flat-style-props`; `no-inline-style`), so a fixture using raw elements, flat style props, or an inline `style` object fails `yarn lint` in `packages/react`.
 - Use native component/scenario tags with `--grep`; do not create a project or npm script per component. Projects identify actual application/server targets.
 - All suites reuse `test/e2e/config.mjs`. Preserve root reference-app and react-docs integration coverage; do not add a second server/config framework or an empty future-page scaffold.
 

@@ -5,10 +5,10 @@ const getName = (node) => {
 export const noInlineStyle = {
   meta: {
     type: 'suggestion',
-    docs: { description: 'Author component styling with sx instead of an inline style object.' },
+    docs: { description: 'Prefer sx over inline style objects.' },
     schema: [],
     messages: {
-      useSx: 'Replace the inline style object with sx: style={{ padding: 16 }} becomes sx={{ p: "4x" }}. For a style handoff, compose it in sx: sx={[style, { textOverflow: "clip" }]}.',
+      useSx: 'Replace the inline style object with the sx prop: map its CSS properties to sx shorthands (padding → p), and compose a handoff style inside sx: sx={[style, { textOverflow: "clip" }]}.',
     },
   },
   create(context) {
@@ -18,14 +18,7 @@ export const noInlineStyle = {
           return;
         }
 
-        context.report({
-          node,
-          messageId: 'useSx',
-          data: {
-            'padding: 16': '{{ padding: 16 }}',
-            'p: "4x"': '{{ p: "4x" }}',
-          },
-        });
+        context.report({ node, messageId: 'useSx' });
       },
     };
   },

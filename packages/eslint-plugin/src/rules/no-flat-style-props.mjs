@@ -12,7 +12,7 @@ const getName = (node) => {
 export const noFlatStyleProps = {
   meta: {
     type: 'suggestion',
-    docs: { description: 'Author component styling with sx instead of flat style props.' },
+    docs: { description: 'Prefer sx over flat style props.' },
     schema: [],
     messages: {
       useSx: 'Use sx instead of the flat `{{prop}}` prop on <{{element}}>: <{{element}} sx={{ {{prop}}: … }}>.',
