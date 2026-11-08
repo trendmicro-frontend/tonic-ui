@@ -96,7 +96,9 @@ test.describe('Menu and Popover', () => {
         await expect(scope.getByTestId('content')).toBeVisible();
         expect(await events(scope, 'outside')).toHaveLength(1);
         expect(await events(scope, 'close')).toEqual([]);
-        await scope.getByRole('checkbox', { name: 'Dismiss on outside click' }).check();
+        const dismissCheckbox = scope.getByRole('checkbox', { name: 'Dismiss on outside click' });
+        await scope.getByTestId('dismiss-control').click();
+        await expect(dismissCheckbox).toBeChecked();
         await scope.getByTestId('outside').click();
         await expect(scope.getByTestId('content')).toBeHidden();
         expect(await events(scope, 'outside')).toHaveLength(2);
@@ -112,7 +114,9 @@ test.describe('Menu and Popover', () => {
           { type: 'outside', eventType: 'click', target: 'outside', cancelable: true, defaultPrevented: true },
         ]);
         expect(await events(scope, 'close')).toEqual([]);
-        await scope.getByRole('checkbox', { name: 'Cancel outside dismissal' }).uncheck();
+        const cancelCheckbox = scope.getByRole('checkbox', { name: 'Cancel outside dismissal' });
+        await scope.getByTestId('cancel-control').click();
+        await expect(cancelCheckbox).not.toBeChecked();
         await scope.getByTestId('outside').click();
         await expect(scope.getByTestId('content')).toBeHidden();
         expect(await events(scope, 'close')).toEqual([{ type: 'close' }]);

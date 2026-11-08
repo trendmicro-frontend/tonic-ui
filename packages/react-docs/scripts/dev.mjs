@@ -3,19 +3,38 @@ import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import { createRequire } from 'node:module';
 import net from 'node:net';
-import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 // Two Next.js dev servers that share one dist directory corrupt each other's
 // webpack cache. The result is a Fast Refresh full-reload loop after any file
 // edit. Hold a lock for the lifetime of this server so a second `yarn dev`
-// fails with a clear message instead of silently sharing `build/`.
+// fails with a clear message instead of silently sharing `.next/`.
 const require = createRequire(import.meta.url);
 const args = process.argv.slice(2);
-const portArgIndex = args.findIndex(arg => arg === '--port' || arg === '-p');
-const port = Number(portArgIndex !== -1 ? args[portArgIndex + 1] : (process.env.PORT || 3000));
-const distDir = process.env.TONIC_UI_REACT_DOCS_DIST_DIR || 'build';
-const lockDir = path.join(os.tmpdir(), 'tonic-ui-react-docs-dev');
+const getPortArgValue = (argv) => {
+  for (let index = 0; index < argv.length; index++) {
+    const arg = argv[index];
+    if (arg === '--port' || arg === '-p') {
+      return argv[index + 1];
+    }
+    if (arg.startsWith('--port=')) {
+      return arg.slice('--port='.length);
+    }
+  }
+  return undefined;
+};
+const explicitPort = getPortArgValue(args);
+const hasPortFlag = args.some(arg => arg === '--port' || arg === '-p' || arg.startsWith('--port='));
+const hasExplicitPort = explicitPort !== undefined || process.env.PORT !== undefined;
+const requestedPort = Number(explicitPort ?? process.env.PORT ?? 3000);
+
+if (hasPortFlag && explicitPort === undefined) {
+  console.error('Missing value for --port. Pass --port with a number between 1 and 65535.');
+  process.exit(1);
+}
+const distDir = process.env.TONIC_UI_REACT_DOCS_DIST_DIR || '.next';
+const lockDir = path.resolve('.e2e', 'locks');
 const lockName = createHash('sha256').update(path.resolve(distDir)).digest('hex').slice(0, 12);
 const lockFile = path.join(lockDir, `${lockName}.lock`);
 
@@ -26,10 +45,52 @@ const isPortInUse = (port) => new Promise((resolve) => {
   server.listen(port, '0.0.0.0');
 });
 
-if (Number.isInteger(port) && port > 0 && await isPortInUse(port)) {
-  console.error(`Port ${port} is already in use. Stop the existing dev server, or pass --port <port> with a unique TONIC_UI_REACT_DOCS_DIST_DIR.`);
+const findAvailablePort = async (startPort) => {
+  for (let candidate = startPort; candidate <= 65535; candidate++) {
+    if (!await isPortInUse(candidate)) {
+      return candidate;
+    }
+  }
+  throw new Error(`No available port found at or above ${startPort}.`);
+};
+
+if (!Number.isInteger(requestedPort) || requestedPort <= 0 || requestedPort > 65535) {
+  console.error(`Invalid port "${explicitPort ?? process.env.PORT}". Pass --port with a number between 1 and 65535.`);
   process.exit(1);
 }
+
+let port = requestedPort;
+
+if (await isPortInUse(port)) {
+  if (hasExplicitPort) {
+    console.error(`Port ${port} is already in use. Stop the existing server or pass a different --port.`);
+    process.exit(1);
+  }
+
+  port = await findAvailablePort(port + 1);
+  console.log(`Port ${requestedPort} is in use; using port ${port} instead.`);
+}
+
+// Next.js reads the port from argv. Remove any user-supplied port so the
+// resolved port (including an auto-selected one) is authoritative.
+const getNextArgs = (argv, port) => {
+  const nextArgs = [];
+
+  for (let index = 0; index < argv.length; index++) {
+    const arg = argv[index];
+    if (arg === '--port' || arg === '-p') {
+      index++;
+      continue;
+    }
+    if (arg.startsWith('--port=')) {
+      continue;
+    }
+    nextArgs.push(arg);
+  }
+
+  nextArgs.push('--port', String(port));
+  return nextArgs;
+};
 
 const readLockPid = () => {
   try {
@@ -67,8 +128,14 @@ const cleanup = () => {
   }
 };
 
-const nextCli = require.resolve('next/dist/bin/next');
-const child = spawn(process.execPath, [nextCli, 'dev', '--hostname', '0.0.0.0', ...process.argv.slice(2)], {
+const isE2E = process.env.TONIC_UI_REACT_DOCS_E2E === '1';
+const nextCli = isE2E
+  ? fileURLToPath(new URL('./e2e-server.mjs', import.meta.url))
+  : require.resolve('next/dist/bin/next');
+const childArgs = isE2E
+  ? [nextCli, String(port)]
+  : [nextCli, 'dev', '--hostname', '0.0.0.0', ...getNextArgs(args, port)];
+const child = spawn(process.execPath, childArgs, {
   env: { ...process.env, NODE_ENV: 'development' },
   stdio: 'inherit',
 });

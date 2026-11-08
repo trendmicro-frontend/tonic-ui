@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 import React, { useRef, useState } from 'react';
-import { Popper } from '../../../../src';
+import { Box, Button, Popper } from '../../../../src';
 
 const PopperFixture = ({ params, record }) => {
   const [isOpen, setIsOpen] = useState(params.has('initiallyOpen'));
@@ -16,25 +16,28 @@ const PopperFixture = ({ params, record }) => {
   };
 
   const trigger = (
-    <button
+    <Button
       ref={triggerRef}
-      type="button"
       data-testid="trigger"
       onClick={toggle}
-      style={{ width: 240 }}
+      sx={{ width: 240 }}
     >
       Toggle popper
-    </button>
+    </Button>
   );
 
   return (
-    <div ref={boundaryRef} data-testid="boundary" style={bounded ? { position: 'relative', margin: 80, width: 360, height: 400, overflow: 'hidden' } : undefined}>
+    <Box
+      ref={boundaryRef}
+      data-testid="boundary"
+      sx={bounded ? { position: 'relative', m: '20x', width: 360, height: 400, overflow: 'hidden' } : undefined}
+    >
       {params.has('edge') ? (
-        <div style={{ position: 'fixed', left: 200, bottom: 48 }}>
+        <Box sx={{ position: 'fixed', left: 600, bottom: '12x' }}>
           {trigger}
-        </div>
-      ) : bounded ? <div style={{ position: 'absolute', top: 220, left: 48 }}>{trigger}</div> : trigger}
-      {params.has('resize') && <button type="button" data-testid="grow" onClick={() => setGrown(!grown)} style={{ position: 'fixed', top: 8, left: 8 }}>Resize content</button>}
+        </Box>
+      ) : bounded ? <Box sx={{ position: 'absolute', top: 220, left: '12x' }}>{trigger}</Box> : trigger}
+      {params.has('resize') && <Button data-testid="grow" onClick={() => setGrown(!grown)} sx={{ position: 'fixed', top: '2x', left: '2x' }}>Resize content</Button>}
       <Popper
         data-testid="content"
         isOpen={isOpen}
@@ -52,14 +55,14 @@ const PopperFixture = ({ params, record }) => {
       >
         {({ computedPlacement }) => (
           <>
-            <button type="button" data-testid="inside" data-computed-placement={computedPlacement}>
+            <Button data-testid="inside" data-computed-placement={computedPlacement}>
               Popper content
-            </button>
-            <div style={{ height: grown ? 180 : 48 }}>Spacer</div>
+            </Button>
+            <Box sx={{ height: grown ? 180 : 48 }}>Spacer</Box>
           </>
         )}
       </Popper>
-    </div>
+    </Box>
   );
 };
 

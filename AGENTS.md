@@ -54,7 +54,7 @@ or the host agent's tool and safety rules.
 
 Browser screenshots are opt-in: `E2E_SCREENSHOTS=1`. Every capture goes through
 `test/e2e/screenshots.mjs`, never `page.screenshot` directly. Files live in
-`output/e2e-screenshots/<scenario>/<case>/` and are named
+`.e2e/screenshots/<scenario>/<case>/` in the owning workspace and are named
 `<artifact>.<variant>.png`: `screenshot.light.png`, `screenshot.dark.png`, or
 `screenshot.png` for a case with no colour-mode variant. Each case directory also
 holds a `manifest.json` recording the props and fixture URL that produced the

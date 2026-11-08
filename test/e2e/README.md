@@ -17,7 +17,7 @@ The runner executes React development, React production, reference examples, the
 | :-- | :-- | :-- |
 | `react` | [`packages/react/test/e2e/`](../../packages/react/test/e2e/README.md): component behavior and shared scenarios | Current React sources, bundled in memory with esbuild |
 | `examples` | `examples/cdn-with-local-fallback/test/e2e/`: reference application | Application production build and preview |
-| `docs:demos` | [`packages/react-docs/test/e2e/demos/`](../../packages/react-docs/test/e2e/README.md): demo contracts | Production demos under `public/demos/` |
+| `docs:demos` | [`packages/react-docs/test/e2e/demos/`](../../packages/react-docs/test/e2e/README.md): demo contracts | Production demo builds in the docs workspace's `.e2e/` |
 | `docs:pages` | [`packages/react-docs/test/e2e/pages/`](../../packages/react-docs/test/e2e/README.md): documentation-page contracts | The Next.js docs dev server |
 | `docs` | Both docs configs, run one after the other | Demo preview, then the docs dev server |
 
@@ -78,19 +78,19 @@ Do not create a project per component or duplicate a spec merely to support anot
 - `packages/react/test/e2e/scenarios/`: reusable browser contracts across components.
 - `packages/react/test/e2e/components/`: component-specific browser contracts.
 - `packages/react/test/e2e/fixtures/components/`: small real-component fixtures, separate from browser actions and assertions.
-- `packages/react-docs/test/e2e/integrations/`: docs demo integration tests. Actual demo sources remain in `packages/react-docs/` and `examples/`. Add docs-page scenarios only when there is a real page contract and matching real server; do not add an empty Next.js harness in advance.
+- `packages/react-docs/test/e2e/demos/` and `pages/`: docs demo integrations, documentation-page contracts, and search tests. Actual demo sources remain in `packages/react-docs/` and `examples/`.
 
 All configs use native Playwright `testMatch` patterns, so adding a spec under an existing target does not require another npm script. Add another application target and server only when it needs a different runtime or origin.
 
 ## Servers and network
 
-Servers start automatically and bind an available port. Do not start them manually for test runs. `E2E_HOST` defaults to `127.0.0.1`; `E2E_PORT=0` selects an available port. A nonzero port requests a fixed port:
+Servers start automatically. Do not start them manually for test runs. `E2E_HOST` defaults to `127.0.0.1`; `E2E_PORT=0` selects an available port for the example and demo previews. A nonzero port requests a fixed port:
 
 ```bash
 E2E_HOST=localhost E2E_PORT=4280 yarn test:e2e examples
 ```
 
-In the examples suite, a fixed `E2E_PORT` is the first target's port; later targets use consecutive ports (`E2E_PORT + index`). Docs uses one preview server for all its projects.
+In the examples suite, a fixed `E2E_PORT` is the first target's port; later targets use consecutive ports (`E2E_PORT + index`). Docs demos share one preview server. Docs pages use a Next.js dev server on port 3129, configurable with `E2E_PAGES_PORT`.
 
 The shared factory joins build and preview commands with `&&`, so preview starts only after a successful build. The example and docs CDN scenarios use real `esm.sh` / `raw.esm.sh` URLs and require network access. Their local/outage browser cases block or avoid CDN requests, but builds can still retrieve CDN metadata. React component fixtures use no CDN.
 
@@ -107,15 +107,15 @@ DEBUG=pw:webserver yarn test:e2e docs
 `E2E_REPORTS=1` alone still captures no screenshots — it only adds the HTML report and failure traces. `E2E_SCREENSHOTS=1` keeps failure screenshots and enables the named captures from `test/e2e/screenshots.mjs`, which is the shared entry point for every suite.
 
 ```
-output/e2e-screenshots/<scenario>/<case>/
+.e2e/screenshots/<scenario>/<case>/
   screenshot.light.png   # mode-dependent case
   screenshot.dark.png
   screenshot.png         # case with no colour-mode variant
   manifest.json          # scenario, case, modeDependent, reason, shots (mode, artifact, fixture url)
 ```
 
-Names follow `<artifact>.<variant>.png`: the name describes the picture, not the reason only one picture exists. Use `captureColorModes(page, scenario, case, prepare)` for anything whose appearance changes with the colour mode — `prepare(colorMode)` reloads the fixture with `?colorMode=light|dark` and leaves the page in the state to capture. Use `capture(page, scenario, case, { colorMode, reason })` for a single shot; a case with no variant must pass `reason`, so the manifest says why the colour mode does not change it. Every dimension that changes the pixels — colour mode, document/shadow/iframe host, backdrop — must appear in `<scenario>` or `<case>`, because the file name is the identity of the shot. Development and production runs share one directory, so the last run owns it, like the report directory. Playwright's own failure screenshots stay under `output/e2e-test-results/`.
+Names follow `<artifact>.<variant>.png`: the name describes the picture, not the reason only one picture exists. Use `captureColorModes(page, scenario, case, prepare)` for anything whose appearance changes with the colour mode — `prepare(colorMode)` reloads the fixture with `?colorMode=light|dark` and leaves the page in the state to capture. Use `capture(page, scenario, case, { colorMode, reason })` for a single shot; a case with no variant must pass `reason`, so the manifest says why the colour mode does not change it. Every dimension that changes the pixels — colour mode, document/shadow/iframe host, backdrop — must appear in `<scenario>` or `<case>`, because the file name is the identity of the shot. Development and production runs share one directory, so the last run owns it, like the report directory. Playwright's own failure screenshots stay under `.e2e/test-results/`.
 
-File mode writes `output/e2e-playwright-report/` and `output/e2e-test-results/` relative to the owning workspace (repository root for examples). Traces are retained only for failures. Development and production use the same React report directory; the most recent run owns that report. The runner stops before a failing run can be overwritten by the next mode. No CI job is added.
+File mode writes `.e2e/playwright-report/` and `.e2e/test-results/` relative to the owning workspace. Traces are retained only for failures. Development and production use the same React report directory; the most recent run owns that report. The runner stops before a failing run can be overwritten by the next mode. No CI job is added.
 
 `--last-failed` has no saved state in either mode. Existing HTML reports are not deleted by changing output mode. Builds still write their own generated application assets. `DEBUG=pw:webserver,pw:api` adds server and browser-action diagnostics without enabling retained artifacts.

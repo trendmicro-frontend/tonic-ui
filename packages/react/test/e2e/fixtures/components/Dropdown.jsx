@@ -1,17 +1,17 @@
 /* eslint-disable react/jsx-no-bind */
 import React, { useState } from 'react';
-import { Dropdown, DropdownToggle } from '../../../../src';
+import { Box, Dropdown, DropdownToggle } from '../../../../src';
 
 const items = [
   { value: 'one', label: 'Item one' },
-  { type: 'custom', label: <div data-testid="inside" role="presentation">Custom content</div> },
+  { type: 'custom', label: <Box data-testid="inside" role="presentation">Custom content</Box> },
   {
     type: 'submenu',
     label: 'More items',
     props: { 'data-testid': 'submenu-trigger' },
     children: [
       { value: 'two', label: 'Nested item two', props: { 'data-testid': 'nested-item' } },
-      { type: 'custom', label: <div data-testid="submenu-inside" role="presentation">Submenu content</div> },
+      { type: 'custom', label: <Box data-testid="submenu-inside" role="presentation">Submenu content</Box> },
     ],
   },
   { value: 'three', label: 'Item three' },

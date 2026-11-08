@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { createE2EConfig } from '../../../../test/e2e/config.mjs';
 import { tests } from './index.mjs';
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)), '../../../..');
+const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const host = process.env.E2E_HOST || '127.0.0.1';
 const port = Number(process.env.E2E_PORT || 0);
 const targets = tests.map((target, index) => ({

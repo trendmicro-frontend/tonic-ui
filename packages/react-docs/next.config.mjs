@@ -322,10 +322,6 @@ const initialNextConfig = {
     // Matomo
     MATOMO_URL: process.env.MATOMO_URL,
     MATOMO_CONTAINER_ID: process.env.MATOMO_CONTAINER_ID,
-    // Algolia
-    ALGOLIA_APPLICATION_ID: '7V00GBK8V8',
-    ALGOLIA_SEARCH_API_KEY: 'c87cfe40f6ec7c43d4caf4316afd1816',
-    ALGOLIA_INDEX_NAME: 'tonic-ui-v3',
     // common
     TONIC_UI_REACT_DOCS_BASE_PATH: process.env.TONIC_UI_REACT_DOCS_BASE_PATH,
     TONIC_UI_REACT_DOCS_URL: process.env.TONIC_UI_REACT_DOCS_URL,
@@ -340,7 +336,7 @@ const initialNextConfig = {
     ...buildVersionEnvVars(),
   },
   basePath: process.env.TONIC_UI_REACT_DOCS_BASE_PATH,
-  distDir: process.env.TONIC_UI_REACT_DOCS_DIST_DIR || (process.env.NODE_ENV === 'production' ? 'dist' : 'build'),
+  distDir: process.env.TONIC_UI_REACT_DOCS_DIST_DIR || (process.env.NODE_ENV === 'production' ? 'dist' : '.next'),
   output: process.env.NODE_ENV === 'production' ? 'export' : 'standalone',
   pageExtensions: ['page.js', 'page.mdx'],
   trailingSlash: true,

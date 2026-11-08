@@ -16,11 +16,14 @@ export default createE2EConfig(root, {
   servers: [
     {
       commands: [
-        ...tests.filter(({ build }) => build).map(({ build }) => `yarn ${build}`),
-        `yarn vite preview --outDir public --base / --host ${host} --port ${port} --strictPort`,
+        ...tests.flatMap(({ build }) => build),
+        `yarn vite preview --outDir .e2e/site --base / --host ${host} --port ${port} --strictPort`,
       ],
       cwd: '.',
-      env: { TONIC_UI_REACT_DOCS_BASE_PATH: '' },
+      env: {
+        TONIC_UI_REACT_DOCS_BASE_PATH: '',
+        E2E_DEMOS_DIR: resolve(root, '.e2e/site/demos'),
+      },
       wait: { stdout: /Local:\s+(?<E2E_DOCS_URL>https?:\/\/\S+)/ },
       timeout: 300_000,
     },

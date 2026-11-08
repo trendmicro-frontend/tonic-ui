@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 import React, { useState } from 'react';
-import { Autocomplete, AutocompleteInput } from '../../../../src';
+import { Autocomplete, AutocompleteInput, Box, Button } from '../../../../src';
 
 const baseItems = ['Apple', 'Banana', 'Cherry'];
 
@@ -25,7 +25,7 @@ const AutocompleteFixture = ({ params, record }) => {
   const width = params.get('width');
 
   return (
-    <div style={width ? { width } : undefined}>
+    <Box sx={width ? { width } : undefined}>
       <Autocomplete
         items={items}
         matchWidth={params.has('matchWidth')}
@@ -49,15 +49,15 @@ const AutocompleteFixture = ({ params, record }) => {
         )}
         renderContent={({ items: filteredItems, renderItems }) => (
           <>
-            <button type="button" data-testid="inside" style={{ height: 48 }}>
+            <Button data-testid="inside" sx={{ height: 48 }}>
               Autocomplete header
-            </button>
+            </Button>
             {renderItems(filteredItems)}
           </>
         )}
         slotProps={{ content: { 'data-testid': 'content' } }}
       />
-    </div>
+    </Box>
   );
 };
 

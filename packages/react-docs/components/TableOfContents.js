@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import useThrottledCallbackOnScroll from '../hooks/useThrottledCallbackOnScroll';
 import x from '../utils/json-stringify';
+import { useSearchQuery } from './SearchQueryProvider';
 
 const NavItem = ({ children, nodes, activeIndex, handleClick }) => {
   return (
@@ -47,6 +48,9 @@ const NavList = ({ nodes, activeIndex, handleClick }) => {
 
 const TableOfContents = (props) => {
   const router = useRouter();
+  const { query: searchQuery } = useSearchQuery();
+  const searchQueryRef = useRef(searchQuery);
+  searchQueryRef.current = searchQuery;
   const [nodes, setNodes] = useState([]);
   const tree = useMemo(() => {
     const rootNode = {
@@ -95,7 +99,9 @@ const TableOfContents = (props) => {
       setNodes(Array.from(mainContent.querySelectorAll(headingSelectors)));
     }
 
-    if (window.location.hash) {
+    // A search result scrolls to its matched text block (see SearchScroll), so
+    // scrolling to the heading here would override that position.
+    if (window.location.hash && !searchQueryRef.current) {
       const element = document.querySelector(window.location.hash);
       if (element) {
         setTimeout(() => {

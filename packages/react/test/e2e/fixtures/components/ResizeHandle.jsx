@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { ResizeHandle } from '../../../../src';
+import { Box, ResizeHandle } from '../../../../src';
 
 const INITIAL_WIDTH = 240;
 const MIN_WIDTH = 120;
@@ -38,28 +38,21 @@ const ResizeHandleFixture = ({ record }) => {
   }, [record]);
 
   return (
-    <div style={{ display: 'inline-flex', alignItems: 'stretch', marginTop: 24, height: 160 }}>
-      <div
+    <Box sx={{ display: 'inline-flex', alignItems: 'stretch', mt: '6x', height: 160 }}>
+      <Box
         data-testid="resize-panel"
-        style={{
-          boxSizing: 'border-box',
-          width,
-          height: '100%',
-          padding: 16,
-          border: '1px solid',
-          overflow: 'hidden',
-        }}
+        sx={{ boxSizing: 'border-box', width, height: '100%', p: '4x', border: 1, overflow: 'hidden' }}
       >
         Resizable panel
-      </div>
+      </Box>
       <ResizeHandle
         data-testid="resize-handle"
-        style={{ height: '100%' }}
+        sx={{ height: '100%' }}
         onResizeStart={handleResizeStart}
         onResize={handleResize}
         onResizeEnd={handleResizeEnd}
       />
-    </div>
+    </Box>
   );
 };
 

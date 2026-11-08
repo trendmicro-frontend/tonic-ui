@@ -53,7 +53,7 @@ import {
 import { ensureString } from 'ensure-type';
 import NextLink from 'next/link';
 import { forwardRef, useCallback } from 'react';
-import InstantSearchModal from '../components/InstantSearchModal';
+import SearchModal from '../components/SearchModal';
 import SearchButton from '../components/SearchButton';
 import SkeletonBlock from '../components/SkeletonBlock';
 import useTrack from '../hooks/useTrack';
@@ -370,7 +370,7 @@ const DefaultPageHeader = forwardRef(({ onColorModeChange, ...props }, ref) => {
   }[colorMode];
   const track = useTrack();
 
-  const openInstantSearchModal = useCallback(() => {
+  const openSearchModal = useCallback(() => {
     portal((close) => {
       const onClose = () => {
         track('InstantSearch', 'close_instant_search_modal');
@@ -380,7 +380,7 @@ const DefaultPageHeader = forwardRef(({ onColorModeChange, ...props }, ref) => {
       };
 
       return (
-        <InstantSearchModal onClose={onClose} />
+        <SearchModal onClose={onClose} />
       );
     });
   }, [portal, track]);
@@ -457,8 +457,8 @@ const DefaultPageHeader = forwardRef(({ onColorModeChange, ...props }, ref) => {
           px="4x"
         >
           <SearchButton
-            data-track="Header|open_instant_search_modal"
-            onClick={openInstantSearchModal}
+            data-track="Header|open_search_modal"
+            onClick={openSearchModal}
           >
             Search...
           </SearchButton>

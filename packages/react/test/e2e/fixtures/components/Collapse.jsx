@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 import React, { useState } from 'react';
-import { Box, Collapse } from '../../../../src';
+import { Box, Button, Collapse } from '../../../../src';
 
 // Collapse reports every react-transition-group lifecycle callback so browser
 // tests can prove the callbacks still fire around the real measured animation.
@@ -36,17 +36,17 @@ const CollapseFixture = ({ params, record }) => {
   const resize = () => setContentHeight(Number(params.get('resizedHeight') || 160));
 
   return (
-    <div>
-      <button type="button" data-testid="toggle" onClick={toggle}>
+    <Box>
+      <Button data-testid="toggle" onClick={toggle}>
         Toggle collapse
-      </button>
-      <button type="button" data-testid="resize" onClick={resize}>
+      </Button>
+      <Button data-testid="resize" onClick={resize}>
         Resize content
-      </button>
+      </Button>
       <Collapse data-testid="collapse" {...collapseProps}>
-        <Box data-testid="content" height={contentHeight} />
+        <Box data-testid="content" sx={{ height: contentHeight }} />
       </Collapse>
-    </div>
+    </Box>
   );
 };
 

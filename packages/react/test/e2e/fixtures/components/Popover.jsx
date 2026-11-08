@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 import React, { useState } from 'react';
-import { Popover, PopoverContent, PopoverTrigger } from '../../../../src';
+import { Button, Checkbox, Popover, PopoverContent, PopoverTrigger } from '../../../../src';
 
 const PopoverFixture = ({ params, record }) => {
   const [isOpen, setIsOpen] = useState(params.has('initiallyOpen'));
@@ -39,7 +39,7 @@ const PopoverFixture = ({ params, record }) => {
         record({ type: 'outside', eventType: event.type, target: event.target.dataset.testid, cancelable: event.cancelable, defaultPrevented: event.defaultPrevented });
       }}
     >
-      <PopoverTrigger data-testid="trigger"><button type="button" style={params.has('edge') ? { position: 'fixed', bottom: 8, left: 900 } : undefined}>Open popover</button></PopoverTrigger>
+      <PopoverTrigger data-testid="trigger"><Button sx={params.has('edge') ? { position: 'fixed', bottom: 8, left: 900 } : undefined}>Open popover</Button></PopoverTrigger>
       <PopoverContent
         {...(params.get('legacy') !== 'root' ? legacyProps : {})}
         data-testid="content"
@@ -47,15 +47,23 @@ const PopoverFixture = ({ params, record }) => {
         onKeyDown={event => params.has('cancelEsc') && event.preventDefault()}
         slotProps={{ transition: { timeout: 0 } }}
       >
-        <button type="button" data-testid="inside">Inside button</button>
-        <label>
-          <input type="checkbox" aria-label="Dismiss on outside click" checked={dismiss !== false} onChange={event => setDismiss(event.target.checked)} />
+        <Button data-testid="inside">Inside button</Button>
+        <Checkbox
+          data-testid="dismiss-control"
+          checked={dismiss !== false}
+          onChange={event => setDismiss(event.target.checked)}
+          inputProps={{ 'aria-label': 'Dismiss on outside click' }}
+        >
           Dismiss on outside click
-        </label>
-        <label>
-          <input type="checkbox" aria-label="Cancel outside dismissal" checked={cancel} onChange={event => setCancel(event.target.checked)} />
+        </Checkbox>
+        <Checkbox
+          data-testid="cancel-control"
+          checked={cancel}
+          onChange={event => setCancel(event.target.checked)}
+          inputProps={{ 'aria-label': 'Cancel outside dismissal' }}
+        >
           Cancel outside dismissal
-        </label>
+        </Checkbox>
       </PopoverContent>
     </Popover>
   );

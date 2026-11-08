@@ -111,7 +111,7 @@ const DrawerFixture = ({ params, record }) => {
         returnFocusOnClose={!params.has('noReturnFocus')}
       >
         <DrawerOverlay data-testid="outside" />
-        <DrawerContent data-testid="content" width={320}>
+        <DrawerContent data-testid="content" sx={{ width: 320 }}>
           <DrawerHeader>Drawer header</DrawerHeader>
           <DrawerBody>
             <Button
@@ -141,13 +141,9 @@ const DrawerFixture = ({ params, record }) => {
             </Checkbox>
             {params.has('portalled') && (
               <Portal>
-                <button
-                  type="button"
-                  data-testid="portal-child"
-                  style={{ position: 'fixed', top: 8, right: 8, zIndex: 100000 }}
-                >
-                  Portalled child
-                </button>
+                <Box sx={{ position: 'fixed', top: '2x', left: '2x', zIndex: 100000 }}>
+                  <Button data-testid="portal-child">Portalled child</Button>
+                </Box>
               </Portal>
             )}
           </DrawerBody>

@@ -548,6 +548,21 @@ describe('Highlight', () => {
       expect(marks.length).toBeGreaterThan(0);
     });
 
+    it('should handle void elements', () => {
+      const { container } = render(
+        <Highlight query="hello">
+          <span>
+            hello
+            <br />
+            world
+          </span>
+        </Highlight>
+      );
+
+      expect(container.querySelector('br')).toBeInTheDocument();
+      expect(container.querySelector('mark')).toHaveTextContent('hello');
+    });
+
     it('should handle number children', () => {
       const { container } = render(
         <Highlight query="123">

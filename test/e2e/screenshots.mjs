@@ -7,10 +7,10 @@ import { resolve } from 'node:path';
 // run stays console-only.
 //
 // Layout, relative to the suite's own output directory:
-//   output/e2e-screenshots/<scenario>/<case>/screenshot.light.png
-//   output/e2e-screenshots/<scenario>/<case>/screenshot.dark.png
-//   output/e2e-screenshots/<scenario>/<case>/screenshot.png        // no variant
-//   output/e2e-screenshots/<scenario>/<case>/manifest.json
+//   .e2e/screenshots/<scenario>/<case>/screenshot.light.png
+//   .e2e/screenshots/<scenario>/<case>/screenshot.dark.png
+//   .e2e/screenshots/<scenario>/<case>/screenshot.png        // no variant
+//   .e2e/screenshots/<scenario>/<case>/manifest.json
 //
 // Names follow `<artifact>.<variant>.png`. The name describes the picture, not
 // the reason only one picture exists. The variant is the colour mode when the
@@ -20,11 +20,11 @@ import { resolve } from 'node:path';
 // name is the identity of the shot.
 const ARTIFACT = 'screenshot';
 const enabled = process.env.E2E_SCREENSHOTS === '1';
-let base = resolve(process.cwd(), 'output', 'e2e-screenshots');
+let base = resolve(process.cwd(), '.e2e', 'screenshots');
 
 // Wired by `createE2EConfig` so screenshots sit next to that suite's report.
 export const configureScreenshotDirectory = (root) => {
-  base = resolve(root, 'output', 'e2e-screenshots');
+  base = resolve(root, '.e2e', 'screenshots');
 };
 
 const fileName = (colorMode) => (colorMode === null ? ARTIFACT : `${ARTIFACT}.${colorMode}`) + '.png';
