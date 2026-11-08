@@ -1,0 +1,153 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExternalLink should render correctly 1`] = `
+.emotion-0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: var(--tonic-colors-_link-enabled);
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-0:focus-visible {
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
+  outline-offset: 0;
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1q);
+}
+
+.emotion-0:visited {
+  color: var(--tonic-colors-_link-visited);
+}
+
+.emotion-0:hover,
+.emotion-0[data-hover] {
+  color: var(--tonic-colors-_link-hovered);
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.emotion-0:active,
+.emotion-0[data-active] {
+  color: var(--tonic-colors-_link-active);
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.emotion-2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: var(--tonic-sizes-5x);
+  height: var(--tonic-sizes-5x);
+  vertical-align: middle;
+}
+
+.emotion-4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: var(--tonic-colors-_link-enabled);
+  cursor: pointer;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.emotion-4:focus-visible {
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
+  outline-offset: 0;
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1q);
+}
+
+.emotion-4:visited {
+  color: var(--tonic-colors-_link-visited);
+}
+
+.emotion-4:hover,
+.emotion-4[data-hover] {
+  color: var(--tonic-colors-_link-hovered);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-4:active,
+.emotion-4[data-active] {
+  color: var(--tonic-colors-_link-active);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+<div>
+  <a
+    class="emotion-0 emotion-1"
+    data-tonic="ExternalLink"
+    href="https://default.example.com"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    Default External Link
+    <svg
+      aria-hidden="true"
+      class="emotion-2 emotion-1"
+      fill="currentColor"
+      focusable="false"
+      viewBox="0 0 20 20"
+    >
+      <g
+        transform="translate(5 5)"
+      >
+        <path
+          d="M10 5H9V9H1V1H5V0H1C0.5 0 0 0.5 0 1V9C0 9.5 0.5 10 1 10H9C9.5 10 10 9.5 10 9V5Z"
+        />
+        <path
+          d="M10 0V4L8.35356 2.35356L4.35353 6.35359L3.64642 5.64648L7.64645 1.64645L6 0H10Z"
+        />
+      </g>
+    </svg>
+  </a>
+  <a
+    class="emotion-4 emotion-1"
+    data-tonic="ExternalLink"
+    href="https://inline.example.com"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    Inline External Link
+    <svg
+      aria-hidden="true"
+      class="emotion-2 emotion-1"
+      fill="currentColor"
+      focusable="false"
+      viewBox="0 0 20 20"
+    >
+      <g
+        transform="translate(5 5)"
+      >
+        <path
+          d="M10 5H9V9H1V1H5V0H1C0.5 0 0 0.5 0 1V9C0 9.5 0.5 10 1 10H9C9.5 10 10 9.5 10 9V5Z"
+        />
+        <path
+          d="M10 0V4L8.35356 2.35356L4.35353 6.35359L3.64642 5.64648L7.64645 1.64645L6 0H10Z"
+        />
+      </g>
+    </svg>
+  </a>
+</div>
+`;

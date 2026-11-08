@@ -1,33 +1,17 @@
-import { Link } from '@tonic-ui/react';
-import { SVGIcon } from '@tonic-ui/react-icons';
-
-function InternalLinkIcon(props) {
-  // arrow-right-small.svg
-  return (
-    <SVGIcon
-      viewBox="0 0 20 20"
-      width="5x"
-      height="5x"
-      {...props}
-    >
-      <path d="M10 13.3L12.19 11L6 11L6 10L12.19 10L10 7.7L10.667 7L14 10.5L10.667 14L10 13.3Z" />
-    </SVGIcon>
-  );
-}
-
-function InternalLink({ children, ...rest }) {
-  return (
-    <Link {...rest}>
-      {children}
-      <InternalLinkIcon />
-    </Link>
-  );
-}
+import { InternalLink, Stack, Text } from '@tonic-ui/react';
 
 const App = () => (
-  <InternalLink href={window.location.href}>
-    Internal link
-  </InternalLink>
+  <Stack alignItems="flex-start" spacing="4x">
+    <InternalLink href="#">
+      Internal link
+    </InternalLink>
+    <Text>
+      To manage the status of excluded applications, go to Exclusions &gt;{' '}
+      <InternalLink href="#" variant="inline">
+        Internal link
+      </InternalLink>
+    </Text>
+  </Stack>
 );
 
 export default App;

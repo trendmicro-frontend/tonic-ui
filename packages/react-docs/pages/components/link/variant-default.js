@@ -5,7 +5,7 @@ const App = () => (
     href="#"
     variant="default"
   >
-    Default link
+    Link
   </Link>
 );
 
