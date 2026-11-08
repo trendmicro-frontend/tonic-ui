@@ -1,7 +1,7 @@
 export const tests = [
   {
     name: 'docs-search',
-    testMatch: '**/pages/search.spec.mjs',
+    testMatch: '**/pages/*.spec.mjs',
     build: 'build:search-e2e',
     server: 'search',
   },
