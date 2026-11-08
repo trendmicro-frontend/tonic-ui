@@ -11,6 +11,7 @@ import useClipboard from '../hooks/useClipboard';
 import { ensureString } from 'ensure-type';
 import { themes } from 'prism-react-renderer';
 import { LiveProvider, LiveEditor } from 'react-live';
+import MermaidDiagram from './MermaidDiagram';
 
 const CodeBlock = ({ code: codeProp, language, ...rest }) => {
   const theme = useTheme();
@@ -28,6 +29,12 @@ const CodeBlock = ({ code: codeProp, language, ...rest }) => {
     }),
   }[colorMode];
   const code = ensureString(codeProp).trim();
+
+  // ```mermaid blocks are diagrams, not code to copy.
+  if (language === 'mermaid') {
+    return <MermaidDiagram source={code} />;
+  }
+
   const { onCopy, hasCopied } = useClipboard(code);
 
   return (

@@ -3973,6 +3973,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@eslint/js@npm:^9.26.0":
+  version: 9.39.5
+  resolution: "@eslint/js@npm:9.39.5"
+  checksum: 10/042d522f28da10ab205f368a94b620334418eb13a5226e50f7edd03dbe26809eb477d0b7a4dc3968b43a98f6ce594f6c03731214c3e0386fd5bcb74fdb9df64c
+  languageName: node
+  linkType: hard
+
 "@eslint/object-schema@npm:^2.1.7":
   version: 2.1.7
   resolution: "@eslint/object-schema@npm:2.1.7"
@@ -6999,6 +7006,7 @@ __metadata:
     next: "npm:^15.5.14"
     next-plugin-svgr: "npm:^1.1.10"
     node-emoji: "npm:^2.1.0"
+    pele: "npm:^1.13.0"
     prism-react-renderer: "npm:^2.4.1"
     prop-types: "npm:15.x"
     raw-loader: "npm:^4.0.2"
@@ -9619,6 +9627,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cdn-with-local-fallback@workspace:examples/cdn-with-local-fallback":
+  version: 0.0.0-use.local
+  resolution: "cdn-with-local-fallback@workspace:examples/cdn-with-local-fallback"
+  dependencies:
+    "@emotion/cache": "npm:11.14.0"
+    "@emotion/is-prop-valid": "npm:1.2.2"
+    "@emotion/react": "npm:11.14.0"
+    "@emotion/styled": "npm:11.14.1"
+    "@tonic-ui/react": "npm:3.0.0-alpha.3"
+    "@vitejs/plugin-react": "npm:4.7.0"
+    eslint: "npm:^9.26.0"
+    eslint-plugin-react: "npm:^7.37.5"
+    react: "npm:19.2.7"
+    react-dom: "npm:19.2.7"
+    vite: "npm:6.4.3"
+  languageName: unknown
+  linkType: soft
+
 "chalk@npm:4.1.0":
   version: 4.1.0
   resolution: "chalk@npm:4.1.0"
@@ -12031,22 +12057,6 @@ __metadata:
   checksum: 10/1c95c92983ddf435e7f7d54edd06d703a15773a7d189583d3388e5b5ac714f0a2450b91c0b3bb9b9ccec9bd20994fd8e48d231ed6dabca0be56ef314b32820ff
   languageName: node
   linkType: hard
-
-"esm-cdn-with-fallback@workspace:examples/esm-cdn-with-fallback":
-  version: 0.0.0-use.local
-  resolution: "esm-cdn-with-fallback@workspace:examples/esm-cdn-with-fallback"
-  dependencies:
-    "@emotion/cache": "npm:11.14.0"
-    "@emotion/is-prop-valid": "npm:1.2.2"
-    "@emotion/react": "npm:11.14.0"
-    "@emotion/styled": "npm:11.14.1"
-    "@tonic-ui/react": "npm:3.0.0-alpha.3"
-    "@vitejs/plugin-react": "npm:4.7.0"
-    react: "npm:19.2.7"
-    react-dom: "npm:19.2.7"
-    vite: "npm:6.4.3"
-  languageName: unknown
-  linkType: soft
 
 "espree@npm:^10.0.1, espree@npm:^10.4.0":
   version: 10.4.0
@@ -16840,6 +16850,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mfe-module-federation@workspace:examples/mfe-module-federation":
+  version: 0.0.0-use.local
+  resolution: "mfe-module-federation@workspace:examples/mfe-module-federation"
+  dependencies:
+    eslint: "npm:^9.26.0"
+    eslint-plugin-react: "npm:^7.37.5"
+  languageName: unknown
+  linkType: soft
+
+"mfe-shared@workspace:examples/mfe-shared":
+  version: 0.0.0-use.local
+  resolution: "mfe-shared@workspace:examples/mfe-shared"
+  dependencies:
+    eslint: "npm:^9.26.0"
+    eslint-plugin-react: "npm:^7.37.5"
+  languageName: unknown
+  linkType: soft
+
+"mfe-wujie@workspace:examples/mfe-wujie":
+  version: 0.0.0-use.local
+  resolution: "mfe-wujie@workspace:examples/mfe-wujie"
+  dependencies:
+    eslint: "npm:^9.26.0"
+    eslint-plugin-react: "npm:^7.37.5"
+  languageName: unknown
+  linkType: soft
+
 "micro-memoize@npm:5.x":
   version: 5.1.1
   resolution: "micro-memoize@npm:5.1.1"
@@ -19291,6 +19328,13 @@ __metadata:
   version: 4.0.0
   resolution: "path-type@npm:4.0.0"
   checksum: 10/5b1e2daa247062061325b8fdbfd1fb56dde0a448fb1455453276ea18c60685bdad23a445dc148cf87bc216be1573357509b7d4060494a6fd768c7efad833ee45
+  languageName: node
+  linkType: hard
+
+"pele@npm:^1.13.0":
+  version: 1.13.0
+  resolution: "pele@npm:1.13.0"
+  checksum: 10/0bff53b682e6ada96faf960043171a299f30714ebdfbd86d32e18d4b80fe83df9fcdfd3c36f168f7f173f1cfc92a2195ce0ed32a0c693d8ad2a589a7e808a39e
   languageName: node
   linkType: hard
 
@@ -22284,8 +22328,11 @@ __metadata:
     "@changesets/cli": "npm:^2.30.0"
     "@commitlint/cli": "npm:17.x"
     "@commitlint/config-conventional": "npm:17.x"
+    "@eslint/js": "npm:^9.26.0"
     "@playwright/test": "npm:1.64.1"
     "@tonic-ui/changelog-github": "workspace:*"
+    eslint: "npm:^9.26.0"
+    globals: "npm:^15.0.0"
     husky: "npm:8.x"
     lerna: "npm:9.x"
   languageName: unknown
