@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 import React, { useState } from 'react';
-import { Box, OverflowTooltip, Tooltip } from '../../../../src';
+import { Box, Button, OverflowTooltip, Tooltip } from '../../../../src';
 
 const LONG_TEXT = 'This label is intentionally long enough to overflow the narrow container that holds it';
 const SHORT_TEXT = 'Short label';
@@ -42,20 +42,20 @@ const TooltipFixture = ({ params, record }) => {
   const toggleControlled = () => setIsOpen(previous => !previous);
 
   return (
-    <div>
+    <Box>
       {params.has('scrollable') && (
-        <div data-testid="spacer-top" style={{ height: 400 }} />
+        <Box data-testid="spacer-top" sx={{ height: 400 }} />
       )}
       {useOverflowTooltip ? (
-        <Box data-testid="overflow-container" width={overflowContainerWidth}>
+        <Box data-testid="overflow-container" sx={{ width: overflowContainerWidth }}>
           <Box data-testid="trigger">
             <OverflowTooltip data-testid="content" label="Overflow tooltip" {...tooltipProps}>
               {params.has('fractional') ? ({ ref, style }) => (
-                <div ref={ref} style={{ ...style, textOverflow: 'clip' }}>
-                  <span data-testid="fractional-content" style={{ display: 'inline-block', width: '120.4px' }}>
+                <Box ref={ref} sx={[style, { textOverflow: 'clip' }]}>
+                  <Box as="span" data-testid="fractional-content" sx={{ display: 'inline-block', width: '120.4px' }}>
                     Fractional
-                  </span>
-                </div>
+                  </Box>
+                </Box>
               ) : params.has('noOverflow') ? SHORT_TEXT : LONG_TEXT}
             </OverflowTooltip>
           </Box>
@@ -63,30 +63,29 @@ const TooltipFixture = ({ params, record }) => {
       ) : (
         <Tooltip
           data-testid="content"
-          label={<span data-testid="inside">Tooltip label</span>}
+          label={<Box as="span" data-testid="inside">Tooltip label</Box>}
           {...tooltipProps}
         >
-          <button
-            type="button"
+          <Button
             data-testid="trigger"
-            style={params.has('nearBottom') ? { position: 'fixed', left: 200, bottom: 8, zIndex: 100000 } : undefined}
+            sx={params.has('nearBottom') ? { position: 'fixed', left: 600, bottom: '2x', zIndex: 100000 } : undefined}
           >
             Tooltip trigger
-          </button>
+          </Button>
         </Tooltip>
       )}
-      <button type="button" data-testid="controlled-toggle" onClick={toggleControlled}>
+      <Button data-testid="controlled-toggle" onClick={toggleControlled}>
         Toggle isOpen
-      </button>
+      </Button>
       {params.has('resizable') && (
-        <button type="button" data-testid="resize" onClick={() => setIsWide(previous => !previous)}>
+        <Button data-testid="resize" onClick={() => setIsWide(previous => !previous)}>
           Resize container
-        </button>
+        </Button>
       )}
       {params.has('scrollable') && (
-        <div data-testid="spacer-bottom" style={{ height: 1200 }} />
+        <Box data-testid="spacer-bottom" sx={{ height: 1200 }} />
       )}
-    </div>
+    </Box>
   );
 };
 

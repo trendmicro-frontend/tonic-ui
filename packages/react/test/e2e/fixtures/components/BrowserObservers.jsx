@@ -2,6 +2,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import {
   Box,
+  Button,
   Modal,
   ModalBody,
   ModalContent,
@@ -33,16 +34,15 @@ const ModalObserverFixture = () => {
       <ModalOverlay data-testid="overlay" />
       <ModalContent data-testid="modal-content">
         <ModalBody>
-          <button type="button" data-testid="grow-modal-content" onClick={grow}>
+          <Button data-testid="grow-modal-content" onClick={grow}>
             Grow modal content
-          </button>
-          <button type="button" data-testid="shrink-modal-content" onClick={shrink}>
+          </Button>
+          <Button data-testid="shrink-modal-content" onClick={shrink}>
             Shrink modal content
-          </button>
+          </Button>
           <Box
             data-testid="modal-sized-content"
-            width={contentSize.width}
-            height={contentSize.height}
+            sx={{ width: contentSize.width, height: contentSize.height }}
           />
         </ModalBody>
       </ModalContent>
@@ -77,37 +77,36 @@ const ScrollbarObserverFixture = ({ params, record }) => {
 
   return (
     <>
-      <button type="button" data-testid="grow-scrollbar-frame" onClick={() => setFrameHeight(320)}>
+      <Button data-testid="grow-scrollbar-frame" onClick={() => setFrameHeight(320)}>
         Grow scrollbar frame
-      </button>
-      <button type="button" data-testid="reset-scrollbar-frame" onClick={() => setFrameHeight(200)}>
+      </Button>
+      <Button data-testid="reset-scrollbar-frame" onClick={() => setFrameHeight(200)}>
         Reset scrollbar frame
-      </button>
-      <button type="button" data-testid="add-scrollbar-content" onClick={() => setExtraContent(true)}>
+      </Button>
+      <Button data-testid="add-scrollbar-content" onClick={() => setExtraContent(true)}>
         Add scrollbar content
-      </button>
-      <button type="button" data-testid="remove-scrollbar-content" onClick={() => setExtraContent(false)}>
+      </Button>
+      <Button data-testid="remove-scrollbar-content" onClick={() => setExtraContent(false)}>
         Remove scrollbar content
-      </button>
-      <button
-        type="button"
+      </Button>
+      <Button
         data-testid="resize-scrollbar-content"
         onClick={() => setContentHeight(height => (height === 600 ? 1000 : 600))}
       >
         Resize scrollbar content
-      </button>
-      <button type="button" data-testid="toggle-scrollbar" onClick={() => setShow(value => !value)}>
+      </Button>
+      <Button data-testid="toggle-scrollbar" onClick={() => setShow(value => !value)}>
         Toggle scrollbar
-      </button>
-      <button type="button" data-testid="scroll-to-150" onClick={() => setScrollTarget(150)}>
+      </Button>
+      <Button data-testid="scroll-to-150" onClick={() => setScrollTarget(150)}>
         Scroll to 150
-      </button>
-      <button type="button" data-testid="scroll-to-500" onClick={() => setScrollTarget(500)}>
+      </Button>
+      <Button data-testid="scroll-to-500" onClick={() => setScrollTarget(500)}>
         Scroll to 500
-      </button>
+      </Button>
       {/* The frame resizes without touching the Scrollbar subtree, so only the
           ResizeObserver observing the Scrollbar root can update the thumb. */}
-      <Box data-testid="scrollbar-frame" height={frameHeight}>
+      <Box data-testid="scrollbar-frame" sx={{ height: frameHeight }}>
         {show ? (
           <Scrollbar
             data-testid="scrollbar-root"
@@ -124,13 +123,12 @@ const ScrollbarObserverFixture = ({ params, record }) => {
                 cases only need vertical overflow. */}
             <Box
               data-testid="scroll-content"
-              width={controlled ? 400 : undefined}
-              height={controlled ? 400 : contentHeight}
+              sx={{ width: controlled ? 400 : undefined, height: controlled ? 400 : contentHeight }}
             >
               Scrollable content
             </Box>
             {extraContent ? (
-              <Box data-testid="extra-scroll-content" height={300}>Extra content</Box>
+              <Box data-testid="extra-scroll-content" sx={{ height: 300 }}>Extra content</Box>
             ) : null}
           </Scrollbar>
         ) : null}

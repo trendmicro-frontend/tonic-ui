@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 import React, { useState } from 'react';
-import { Box, Grow } from '../../../../src';
+import { Box, Button, Grow } from '../../../../src';
 
 const GrowFixture = ({ params, record }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,17 +17,17 @@ const GrowFixture = ({ params, record }) => {
   const resize = () => setContentHeight(Number(params.get('resizedHeight') || 300));
 
   return (
-    <div>
-      <button type="button" data-testid="toggle" onClick={toggle}>
+    <Box>
+      <Button data-testid="toggle" onClick={toggle}>
         Toggle grow
-      </button>
-      <button type="button" data-testid="resize" onClick={resize}>
+      </Button>
+      <Button data-testid="resize" onClick={resize}>
         Resize content
-      </button>
+      </Button>
       <Grow in={isOpen} data-testid="grow">
-        <Box data-testid="content" height={contentHeight} />
+        <Box data-testid="content" sx={{ height: contentHeight }} />
       </Grow>
-    </div>
+    </Box>
   );
 };
 

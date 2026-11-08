@@ -110,7 +110,7 @@ const ModalFixture = ({ params, record }) => {
         returnFocusOnClose={!params.has('noReturnFocus')}
       >
         <ModalOverlay data-testid="outside" />
-        <ModalContent data-testid="content" width={360}>
+        <ModalContent data-testid="content" sx={{ width: 360 }}>
           <ModalHeader>Modal header</ModalHeader>
           <ModalBody>
             <Button
@@ -140,13 +140,9 @@ const ModalFixture = ({ params, record }) => {
             </Checkbox>
             {params.has('portalled') && (
               <Portal>
-                <button
-                  type="button"
-                  data-testid="portal-child"
-                  style={{ position: 'fixed', top: 8, right: 8, zIndex: 100000 }}
-                >
-                  Portalled child
-                </button>
+                <Box sx={{ position: 'fixed', top: '2x', right: '2x', zIndex: 100000 }}>
+                  <Button data-testid="portal-child">Portalled child</Button>
+                </Box>
               </Portal>
             )}
             {params.has('nested') && (
@@ -160,7 +156,7 @@ const ModalFixture = ({ params, record }) => {
                 }}
               >
                 <ModalOverlay data-testid="nested-outside" />
-                <ModalContent data-testid="nested-content" width={240}>
+                <ModalContent data-testid="nested-content" sx={{ width: 240 }}>
                   <Button data-testid="nested-inside">Nested content</Button>
                 </ModalContent>
               </Modal>

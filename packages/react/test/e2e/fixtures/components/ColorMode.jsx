@@ -1,9 +1,9 @@
 import React, { useCallback, useRef } from 'react';
-import { ColorModeProvider, useColorMode } from '../../../../src';
+import { Box, ColorModeProvider, useColorMode } from '../../../../src';
 
 const CurrentMode = () => {
   const [mode] = useColorMode();
-  return <output data-testid="color-mode">{mode}</output>;
+  return <Box as="output" data-testid="color-mode">{mode}</Box>;
 };
 
 const ColorModeFixture = ({ params, record }) => {

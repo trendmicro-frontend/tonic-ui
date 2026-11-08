@@ -5,10 +5,10 @@ import { Table, TableHeader, TableBody, TableRow, TableCell, TableScrollbar } fr
 const TableFixture = ({ record }) => {
   const headerRef = useRef(null);
   return (
-    <Table layout="flexbox" width={260} height={240}>
-      <TableHeader ref={headerRef} data-testid="table-header" overflow="hidden">
+    <Table layout="flexbox" sx={{ width: 260, height: 240 }}>
+      <TableHeader ref={headerRef} data-testid="table-header" sx={{ overflow: 'hidden' }}>
         <TableRow>
-          {[0, 1, 2].map(column => <TableCell key={column} flex="none" width={180} height={36} data-testid={`header-${column}`}>Column {column}</TableCell>)}
+          {[0, 1, 2].map(column => <TableCell key={column} sx={{ flex: 'none', width: 180, height: 36 }} data-testid={`header-${column}`}>Column {column}</TableCell>)}
         </TableRow>
       </TableHeader>
       <TableScrollbar
@@ -22,7 +22,7 @@ const TableFixture = ({ record }) => {
         <TableBody>
           {Array.from({ length: 16 }, (_, row) => (
             <TableRow key={row}>
-              {[0, 1, 2].map(column => <TableCell key={column} flex="none" width={180} height={36} data-testid={`cell-${row}-${column}`}>Row {row}, column {column}</TableCell>)}
+              {[0, 1, 2].map(column => <TableCell key={column} sx={{ flex: 'none', width: 180, height: 36 }} data-testid={`cell-${row}-${column}`}>Row {row}, column {column}</TableCell>)}
             </TableRow>
           ))}
         </TableBody>

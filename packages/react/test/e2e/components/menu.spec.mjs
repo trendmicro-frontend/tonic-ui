@@ -5,7 +5,10 @@ for (const environment of ['document', 'shadow']) {
   test(`Menu keeps dynamic deep portals internal and Escape closes only the current level (${environment})`, { tag: ['@menu', '@interact-outside', '@portal', '@keyboard'] }, async ({ page }) => {
     const scope = await visit(page, 'menu', { environment, portalled: '' });
     await open(scope);
-    await scope.getByRole('checkbox', { name: 'Mount submenu' }).check();
+    const submenuCheckbox = scope.getByRole('checkbox', { name: 'Mount submenu' });
+    // `Checkbox` keeps its state on a visually hidden input, so the label is the actionable control.
+    await scope.getByTestId('submenu-control').click();
+    await expect(submenuCheckbox).toBeChecked();
     await scope.getByTestId('submenu-trigger').press('ArrowRight');
     await expect(scope.getByTestId('submenu-content')).toBeVisible();
     await expect(scope.getByTestId('submenu-item')).toBeFocused();
@@ -23,8 +26,10 @@ for (const environment of ['document', 'shadow']) {
     await scope.getByTestId('nested-trigger').press('Escape');
     await expect(scope.getByTestId('submenu-content')).toBeHidden();
     await expect(scope.getByTestId('submenu-trigger')).toBeFocused();
-    await scope.getByRole('checkbox', { name: 'Mount submenu' }).uncheck();
-    await scope.getByRole('checkbox', { name: 'Mount submenu' }).check();
+    await scope.getByTestId('submenu-control').click();
+    await expect(submenuCheckbox).not.toBeChecked();
+    await scope.getByTestId('submenu-control').click();
+    await expect(submenuCheckbox).toBeChecked();
     await scope.getByTestId('submenu-trigger').press('ArrowRight');
     await expect(scope.getByTestId('submenu-content')).toBeVisible();
     await expect(scope.getByTestId('submenu-item')).toBeFocused();

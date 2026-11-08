@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 import React, { useState } from 'react';
-import { Menu, MenuButton, MenuContent, MenuItem, Submenu, SubmenuContent, SubmenuTrigger } from '../../../../src';
+import { Checkbox, Menu, MenuButton, MenuContent, MenuItem, Submenu, SubmenuContent, SubmenuTrigger } from '../../../../src';
 
 const MenuFixture = ({ params, record }) => {
   const [isOpen, setIsOpen] = useState(params.has('initiallyOpen'));
@@ -44,18 +44,30 @@ const MenuFixture = ({ params, record }) => {
         slotProps={{ transition: { timeout: 0 } }}
       >
         <MenuItem data-testid="inside">Inside item</MenuItem>
-        <label>
-          <input type="checkbox" aria-label="Dismiss on outside click" checked={dismiss !== false} onChange={event => setDismiss(event.target.checked)} />
+        <Checkbox
+          data-testid="dismiss-control"
+          checked={dismiss !== false}
+          onChange={event => setDismiss(event.target.checked)}
+          inputProps={{ 'aria-label': 'Dismiss on outside click' }}
+        >
           Dismiss on outside click
-        </label>
-        <label>
-          <input type="checkbox" aria-label="Cancel outside dismissal" checked={cancel} onChange={event => setCancel(event.target.checked)} />
+        </Checkbox>
+        <Checkbox
+          data-testid="cancel-control"
+          checked={cancel}
+          onChange={event => setCancel(event.target.checked)}
+          inputProps={{ 'aria-label': 'Cancel outside dismissal' }}
+        >
           Cancel outside dismissal
-        </label>
-        <label>
-          <input type="checkbox" aria-label="Mount submenu" checked={submenu} onChange={event => setSubmenu(event.target.checked)} />
+        </Checkbox>
+        <Checkbox
+          data-testid="submenu-control"
+          checked={submenu}
+          onChange={event => setSubmenu(event.target.checked)}
+          inputProps={{ 'aria-label': 'Mount submenu' }}
+        >
           Mount submenu
-        </label>
+        </Checkbox>
         {submenu ? (
           <Submenu portalled>
             <SubmenuTrigger data-testid="submenu-trigger">More</SubmenuTrigger>

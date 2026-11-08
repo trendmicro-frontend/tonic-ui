@@ -4,7 +4,7 @@ import { CacheProvider } from '@emotion/react';
 import React, { useCallback, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { createRoot } from 'react-dom/client';
-import { createTheme, Drawer, DrawerContent, Modal, ModalContent, ModalOverlay, TonicProvider } from '../../../src';
+import { Box, Button, createTheme, Drawer, DrawerContent, Modal, ModalContent, ModalOverlay, TonicProvider } from '../../../src';
 import MenuFixture from './components/Menu';
 import PopoverFixture from './components/Popover';
 import ModalFixture from './components/Modal';
@@ -56,25 +56,25 @@ const FixturePage = () => {
   const Fixture = params.has('nestedAction') ? NestedOutsideAction : fixtures[component];
   const boundary = params.get('boundary');
   const fixture = mounted ? <Fixture params={params} record={record} /> : null;
-  const sibling = <button type="button" data-testid="boundary-outside" style={{ marginTop: 200 }}>Sibling inside dialog</button>;
+  const sibling = <Button data-testid="boundary-outside" sx={{ mt: 200 }}>Sibling inside dialog</Button>;
 
   return (
-    <main data-testid="fixture" data-component={component} style={{ padding: 32 }}>
+    <Box as="main" data-testid="fixture" data-component={component} sx={{ p: '8x' }}>
       <h1>{component} browser fixture</h1>
       {!['modal', 'drawer'].includes(component) && (
-        <div
+        <Box
           data-testid="outside"
           role="presentation"
           onMouseDown={event => event.preventDefault()}
-          style={{ position: 'fixed', right: 24, top: 24, padding: 24, border: '1px solid' }}
+          sx={{ position: 'fixed', right: '6x', top: '6x', p: '6x', border: 1 }}
         >
           Outside without focus movement
-        </div>
+        </Box>
       )}
       {boundary === 'modal' ? (
         <Modal isOpen>
           <ModalOverlay />
-          <ModalContent width={600}>
+          <ModalContent sx={{ width: 600 }}>
             {fixture}
             {sibling}
           </ModalContent>
@@ -82,21 +82,41 @@ const FixturePage = () => {
       ) : boundary === 'drawer'
         ? (
             <Drawer isOpen>
-              <DrawerContent width={600}>
+              <DrawerContent sx={{ width: 600 }}>
                 {fixture}
                 {sibling}
               </DrawerContent>
             </Drawer>
           )
         : fixture}
-      <div style={{ position: 'fixed', bottom: 16, left: 16, zIndex: 99999 }}>
-        <button type="button" data-testid="page-outside">Outside the overlay container</button>
-        <button type="button" data-testid="focus-target">Outside focus target</button>
-        <button type="button" data-testid="unmount" onClick={() => setMounted(false)}>Unmount component</button>
-        <button type="button" data-testid="remount" onClick={() => setMounted(true)}>Remount component</button>
-        <output data-testid="events">{JSON.stringify(entries)}</output>
-      </div>
-    </main>
+      <Box
+        sx={{
+          position: 'fixed',
+          bottom: '4x',
+          left: '4x',
+          zIndex: 99999,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          gap: '2x',
+          maxWidth: 400,
+        }}
+      >
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '2x' }}>
+          <Button data-testid="page-outside">Outside the overlay container</Button>
+          <Button data-testid="focus-target">Outside focus target</Button>
+          <Button data-testid="unmount" onClick={() => setMounted(false)}>Unmount component</Button>
+          <Button data-testid="remount" onClick={() => setMounted(true)}>Remount component</Button>
+        </Box>
+        <Box
+          as="output"
+          data-testid="events"
+          sx={{ display: 'block', maxWidth: 400, maxHeight: 120, overflow: 'auto', whiteSpace: 'nowrap', pointerEvents: 'none' }}
+        >
+          {JSON.stringify(entries)}
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
@@ -127,12 +147,13 @@ const App = () => {
   );
 
   if (environment === 'shadow') {
-    return <><div data-testid="shadow-host" ref={mountShadow} />{container ? createPortal(fixture, container) : null}</>;
+    // The host node mounts before TonicProvider exists, so it must not rely on theme tokens.
+    return <><Box data-testid="shadow-host" ref={mountShadow} />{container ? createPortal(fixture, container) : null}</>;
   }
   if (environment === 'iframe') {
     return (
       <>
-        <iframe title="Component frame" sandbox="allow-same-origin allow-scripts" ref={mountFrame} style={{ width: '100%', height: 700 }} />
+        <Box as="iframe" title="Component frame" sandbox="allow-same-origin allow-scripts" ref={mountFrame} sx={{ width: '100%', height: 700 }} />
         {container ? createPortal(fixture, container) : null}
       </>
     );
