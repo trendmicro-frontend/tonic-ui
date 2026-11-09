@@ -33,5 +33,34 @@ jobs:
           yarn install
 
       - name: Publish packages
+        env:
+          PUBLISH_SUMMARY_FILE: publish-summary.json
+        run: yarn ci-publish --summary-file="${PUBLISH_SUMMARY_FILE}"
+
+      - name: Report published packages
+        env:
+          PUBLISH_SUMMARY_FILE: publish-summary.json
         run: |
-          yarn ci-publish
+          write_table() {
+            echo "| Package | Version |"
+            echo "| --- | --- |"
+            jq -r '.[] | "| `\(.packageName)` | \(.version) |"' "${PUBLISH_SUMMARY_FILE}"
+          }
+
+          if [ ! -f "${PUBLISH_SUMMARY_FILE}" ]; then
+            echo "::notice::Nothing to publish."
+            {
+              echo "## Nothing to publish"
+              echo
+              echo "Every package version already exists on the registry."
+            } >> "${GITHUB_STEP_SUMMARY}"
+            exit 0
+          fi
+
+          packages=$(jq -r '[.[] | "\(.packageName)@\(.version)"] | join(", ")' "${PUBLISH_SUMMARY_FILE}")
+          echo "::notice::Published ${packages}"
+          {
+            echo "## Published packages"
+            echo
+            write_table
+          } >> "${GITHUB_STEP_SUMMARY}"
