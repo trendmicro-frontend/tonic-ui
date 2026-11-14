@@ -74,11 +74,11 @@ jobs:
           }
 
           if [ ! -f "${PUBLISH_SUMMARY_FILE}" ]; then
-            echo "::notice::Nothing to publish."
+            echo "::notice::Unable to confirm the publish result. Check the publish log."
             {
-              echo "## Nothing to publish"
+              echo "## Publish result unavailable"
               echo
-              echo "Every package version already exists on the registry."
+              echo "The summary file was not created. Check the publish log for the result."
             } >> "${GITHUB_STEP_SUMMARY}"
             exit 0
           fi
