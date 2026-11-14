@@ -6984,7 +6984,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tonic-ui/react@npm:3.0.0-alpha.3, @tonic-ui/react@workspace:^, @tonic-ui/react@workspace:packages/react":
+"@tonic-ui/react@npm:3.0.0-alpha.4, @tonic-ui/react@workspace:^, @tonic-ui/react@workspace:packages/react":
   version: 0.0.0-use.local
   resolution: "@tonic-ui/react@workspace:packages/react"
   dependencies:
@@ -9432,7 +9432,7 @@ __metadata:
     "@emotion/is-prop-valid": "npm:1.2.2"
     "@emotion/react": "npm:11.14.0"
     "@emotion/styled": "npm:11.14.1"
-    "@tonic-ui/react": "npm:3.0.0-alpha.3"
+    "@tonic-ui/react": "npm:3.0.0-alpha.4"
     "@vitejs/plugin-react": "npm:4.7.0"
     eslint: "npm:^9.26.0"
     eslint-plugin-react: "npm:^7.37.5"
