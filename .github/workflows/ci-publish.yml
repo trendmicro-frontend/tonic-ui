@@ -33,5 +33,57 @@ jobs:
           yarn install
 
       - name: Publish packages
+        id: publish
         run: |
-          yarn ci-publish
+          if output=$(FORCE_COLOR=0 yarn ci-publish --summary-file=publish-summary.json 2>&1); then
+            status=0
+          else
+            status=$?
+          fi
+          printf '%s\n' "${output}"
+          if [ "${status}" -ne 0 ]; then
+            exit "${status}"
+          fi
+          if grep -Eq '^lerna success (No changed packages to publish|All packages have already been published\.)$' <<< "${output}"; then
+            echo "nothing_to_publish=true" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Report published packages
+        env:
+          PUBLISH_SUMMARY_FILE: publish-summary.json
+          NOTHING_TO_PUBLISH: ${{ steps.publish.outputs.nothing_to_publish }}
+        run: |
+          write_table() {
+            echo "| Package | Version |"
+            echo "| --- | --- |"
+            jq -r '.[] | "| `\(.packageName)` | \(.version) |"' "${PUBLISH_SUMMARY_FILE}"
+          }
+
+          if [ ! -f "${PUBLISH_SUMMARY_FILE}" ]; then
+            # Lerna 9 emits these success messages without creating a summary.
+            if [ "${NOTHING_TO_PUBLISH}" = "true" ]; then
+              echo "::notice::Nothing to publish."
+              {
+                echo "## Nothing to publish"
+                echo
+                echo "Lerna reported that no packages needed publishing."
+              } >> "${GITHUB_STEP_SUMMARY}"
+              exit 0
+            fi
+
+            echo "::warning::Unable to confirm the publish result. Check the publish log."
+            {
+              echo "## Publish result unavailable"
+              echo
+              echo "The summary file was not created. Check the publish log for the result."
+            } >> "${GITHUB_STEP_SUMMARY}"
+            exit 0
+          fi
+
+          packages=$(jq -r '[.[] | "\(.packageName)@\(.version)"] | join(", ")' "${PUBLISH_SUMMARY_FILE}")
+          echo "::notice::Published ${packages}"
+          {
+            echo "## Published packages"
+            echo
+            write_table
+          } >> "${GITHUB_STEP_SUMMARY}"
