@@ -143,6 +143,8 @@ test('should match expected exports', () => {
     // link
     'Link',
     'LinkButton',
+    'InternalLink',
+    'ExternalLink',
 
     // list
     'List',

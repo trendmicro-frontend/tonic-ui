@@ -2,7 +2,7 @@
 
 A link is an interactive text element that enables users to navigate to another destination — such as a different application, website, resource, or a specific section on the same page.
 
-Links are intended primarily for navigation, not for performing actions.
+Links are intended primarily for navigation, not for performing actions. For navigation within the same application, see [InternalLink](../internal-link). To open an external website in a new window, see [ExternalLink](../external-link).
 
 ## Import
 
@@ -11,6 +11,10 @@ import { Link } from '@tonic-ui/react';
 ```
 
 ## Usage
+
+Use the `default` variant for standalone links and the `inline` variant within text.
+
+{render('./usage')}
 
 ### Variants
 
@@ -39,20 +43,6 @@ Use the `subtle` variant for links that should appear interactive but with reduc
 The `disabled` attribute is not natively supported by the anchor (`<a>`) element. The `Link` component adds it for styling purposes only.
 
 {render('./attribute-disabled')}
-
-### Examples
-
-#### External links
-
-External links indicate navigation to an external website or resource.
-
-{render('./external-links')}
-
-#### Internal links
-
-Internal links indicate navigation within the same application or domain.
-
-{render('./internal-links')}
 
 ## Props
 

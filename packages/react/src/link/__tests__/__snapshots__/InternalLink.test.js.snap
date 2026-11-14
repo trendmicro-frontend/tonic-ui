@@ -1,0 +1,135 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InternalLink should render correctly 1`] = `
+.emotion-0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: var(--tonic-colors-_link-enabled);
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-0:focus-visible {
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
+  outline-offset: 0;
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1q);
+}
+
+.emotion-0:visited {
+  color: var(--tonic-colors-_link-visited);
+}
+
+.emotion-0:hover,
+.emotion-0[data-hover] {
+  color: var(--tonic-colors-_link-hovered);
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.emotion-0:active,
+.emotion-0[data-active] {
+  color: var(--tonic-colors-_link-active);
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.emotion-2 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: var(--tonic-sizes-5x);
+  height: var(--tonic-sizes-5x);
+  vertical-align: middle;
+}
+
+.emotion-4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: var(--tonic-colors-_link-enabled);
+  cursor: pointer;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.emotion-4:focus-visible {
+  outline-color: var(--tonic-colors-_component-keyboardFocused-outerFocusRing);
+  outline-offset: 0;
+  outline-style: solid;
+  outline-width: var(--tonic-sizes-1q);
+}
+
+.emotion-4:visited {
+  color: var(--tonic-colors-_link-visited);
+}
+
+.emotion-4:hover,
+.emotion-4[data-hover] {
+  color: var(--tonic-colors-_link-hovered);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-4:active,
+.emotion-4[data-active] {
+  color: var(--tonic-colors-_link-active);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+<div>
+  <a
+    class="emotion-0 emotion-1"
+    data-tonic="InternalLink"
+    href="/default"
+  >
+    Default Internal Link
+    <svg
+      aria-hidden="true"
+      class="emotion-2 emotion-1"
+      fill="currentColor"
+      focusable="false"
+      viewBox="0 0 20 20"
+    >
+      <path
+        d="M10 13.3L12.19 11L6 11L6 10L12.19 10L10 7.7L10.667 7L14 10.5L10.667 14L10 13.3Z"
+      />
+    </svg>
+  </a>
+  <a
+    class="emotion-4 emotion-1"
+    data-tonic="InternalLink"
+    href="/inline"
+  >
+    Inline Internal Link
+    <svg
+      aria-hidden="true"
+      class="emotion-2 emotion-1"
+      fill="currentColor"
+      focusable="false"
+      viewBox="0 0 20 20"
+    >
+      <path
+        d="M10 13.3L12.19 11L6 11L6 10L12.19 10L10 7.7L10.667 7L14 10.5L10.667 14L10 13.3Z"
+      />
+    </svg>
+  </a>
+</div>
+`;

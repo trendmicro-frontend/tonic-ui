@@ -1,0 +1,60 @@
+# ExternalLink
+
+An external link opens a destination outside the current application in a new window and displays a trailing external link icon.
+
+The component sets `target="_blank"` and `rel="noopener noreferrer"` by default. For navigation within the same application, see [InternalLink](../internal-link). For a plain link without an icon, see [Link](../link).
+
+## Import
+
+```js
+import { ExternalLink } from '@tonic-ui/react';
+```
+
+## Usage
+
+Use the `default` variant for standalone links and the `inline` variant within text.
+
+{render('./usage')}
+
+### Variants
+
+#### `default`
+
+Use the `default` variant for standalone links or navigation items.
+
+{render('./variant-default')}
+
+#### `inline`
+
+Use the `inline` variant for inline links that appear within text or paragraphs.
+
+{render('./variant-inline')}
+
+#### `subtle`
+
+Use the `subtle` variant for links that should appear interactive but with reduced visual emphasis.
+
+{render('./variant-subtle')}
+
+### Attributes
+
+#### `disabled`
+
+The `disabled` attribute is not natively supported by the anchor (`<a>`) element. The `ExternalLink` component adds it for styling purposes only.
+
+{render('./attribute-disabled')}
+
+## Props
+
+### ExternalLink
+
+Accepts the same props as [Link](../link), and adds `target` and `rel`. The component renders the `children` followed by a trailing external link icon.
+
+| Name | Type | Default | Description |
+| :--- | :--- | :------ | :---------- |
+| children | ReactNode | | The link label. |
+| disabled | boolean | | If `true`, the link is displayed as disabled. |
+| onClick | function | | A callback called when the link is clicked. |
+| rel | string | 'noopener noreferrer' | The relationship between the current document and the linked resource. |
+| target | string | '_blank' | Where to open the linked resource. |
+| variant | string | 'default' | Defines the visual style of the link: <br />- 'default': For standalone links or navigation items.<br />- 'inline': For inline links within text or paragraphs.<br />- 'subtle': For links with reduced visual emphasis but still interactive. |

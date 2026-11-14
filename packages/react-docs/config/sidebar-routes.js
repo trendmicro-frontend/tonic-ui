@@ -411,17 +411,6 @@ export const routes = [
       },
       { title: 'NAVIGATION', heading: true },
       {
-        title: 'Link',
-        path: 'components/link',
-        render: () => {
-          return (
-            <Tooltip label={<Text>tag: a</Text>}>
-              <CodeIcon cursor="default" />
-            </Tooltip>
-          );
-        },
-      },
-      {
         title: 'ButtonLink',
         path: 'components/button-link',
         render: () => {
@@ -432,11 +421,44 @@ export const routes = [
           );
         },
       },
+      {
+        title: 'ExternalLink',
+        path: 'components/external-link',
+        render: () => {
+          return (
+            <Tooltip label={<Text>tag: a</Text>}>
+              <CodeIcon cursor="default" />
+            </Tooltip>
+          );
+        },
+      },
+      {
+        title: 'InternalLink',
+        path: 'components/internal-link',
+        render: () => {
+          return (
+            <Tooltip label={<Text>tag: a</Text>}>
+              <CodeIcon cursor="default" />
+            </Tooltip>
+          );
+        },
+      },
+      {
+        title: 'Link',
+        path: 'components/link',
+        render: () => {
+          return (
+            <Tooltip label={<Text>tag: a</Text>}>
+              <CodeIcon cursor="default" />
+            </Tooltip>
+          );
+        },
+      },
       { title: 'Menu', path: 'components/menu' },
       { title: 'Pagination', path: 'components/pagination' },
-      { title: 'usePagination', path: 'components/pagination/usePagination' },
       { title: 'Tabs', path: 'components/tabs' },
       { title: 'Tree', path: 'components/tree' },
+      { title: 'usePagination', path: 'components/pagination/usePagination' },
 
       { title: 'TRANSITIONS', heading: true },
       { title: 'Transitions', path: 'components/transitions' },
