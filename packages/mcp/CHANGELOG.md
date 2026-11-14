@@ -1,5 +1,12 @@
 # @tonic-ui/mcp
 
+## 3.0.0-alpha.2
+
+### Minor Changes
+
+- feat(mcp): add `--host` to bind Streamable HTTP and SSE transports to a custom address by [@cheton](https://github.com/cheton) in [#1238](https://github.com/trendmicro-frontend/tonic-ui/pull/1238)
+  fix(mcp): avoid CLI test port conflicts by binding localhost transports and using ephemeral ports in tests
+
 ## 3.0.0-alpha.1
 
 ### Patch Changes

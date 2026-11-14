@@ -1,5 +1,15 @@
 # @tonic-ui/react
 
+## 3.0.0-alpha.4
+
+### Minor Changes
+
+- feat(react/link): add `InternalLink` and `ExternalLink` components by [@cheton](https://github.com/cheton) in [#1237](https://github.com/trendmicro-frontend/tonic-ui/pull/1237)
+
+### Patch Changes
+
+- chore(react): apply the `@tonic-ui/eslint-plugin` sx-first rules to test files by [@cheton](https://github.com/cheton) in [#1242](https://github.com/trendmicro-frontend/tonic-ui/pull/1242)
+
 ## 3.0.0-alpha.3
 
 ### Patch Changes
