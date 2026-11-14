@@ -33,13 +33,12 @@ jobs:
           yarn install
 
       - name: Publish packages
-        env:
-          PUBLISH_SUMMARY_FILE: publish-summary.json
-        run: yarn ci-publish --summary-file="${PUBLISH_SUMMARY_FILE}"
+        run: bash .github/scripts/publish-with-summary.sh
 
       - name: Report published packages
         env:
           PUBLISH_SUMMARY_FILE: publish-summary.json
+          PUBLISH_LOG_FILE: ${{ runner.temp }}/publish.log
         run: |
           write_table() {
             echo "| Package | Version |"
@@ -48,7 +47,18 @@ jobs:
           }
 
           if [ ! -f "${PUBLISH_SUMMARY_FILE}" ]; then
-            echo "::notice::Unable to confirm the publish result. Check the publish log."
+            # Lerna 9 emits these success messages without creating a summary.
+            if [ -f "${PUBLISH_LOG_FILE}" ] && grep -Eq '^lerna success (No changed packages to publish|All packages have already been published\.)$' "${PUBLISH_LOG_FILE}"; then
+              echo "::notice::Nothing to publish."
+              {
+                echo "## Nothing to publish"
+                echo
+                echo "Lerna reported that no packages needed publishing."
+              } >> "${GITHUB_STEP_SUMMARY}"
+              exit 0
+            fi
+
+            echo "::warning::Unable to confirm the publish result. Check the publish log."
             {
               echo "## Publish result unavailable"
               echo

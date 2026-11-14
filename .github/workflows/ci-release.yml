@@ -55,7 +55,7 @@ jobs:
           # This expects you to have a script called version that runs some logic and then calls `changeset version`.
           version: yarn ci-version
           # This expects you to have a script called release which does a build for your packages and calls `changeset publish`
-          publish: yarn ci-publish --summary-file=publish-summary.json
+          publish: bash .github/scripts/publish-with-summary.sh
         env:
           GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
@@ -66,6 +66,7 @@ jobs:
         if: steps.changesets.outputs.hasChangesets == 'false'
         env:
           PUBLISH_SUMMARY_FILE: publish-summary.json
+          PUBLISH_LOG_FILE: ${{ runner.temp }}/publish.log
         run: |
           write_table() {
             echo "| Package | Version |"
@@ -74,7 +75,18 @@ jobs:
           }
 
           if [ ! -f "${PUBLISH_SUMMARY_FILE}" ]; then
-            echo "::notice::Unable to confirm the publish result. Check the publish log."
+            # Lerna 9 emits these success messages without creating a summary.
+            if [ -f "${PUBLISH_LOG_FILE}" ] && grep -Eq '^lerna success (No changed packages to publish|All packages have already been published\.)$' "${PUBLISH_LOG_FILE}"; then
+              echo "::notice::Nothing to publish."
+              {
+                echo "## Nothing to publish"
+                echo
+                echo "Lerna reported that no packages needed publishing."
+              } >> "${GITHUB_STEP_SUMMARY}"
+              exit 0
+            fi
+
+            echo "::warning::Unable to confirm the publish result. Check the publish log."
             {
               echo "## Publish result unavailable"
               echo
