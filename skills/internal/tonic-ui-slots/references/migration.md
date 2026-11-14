@@ -241,7 +241,7 @@ const [ArrowSlot, arrowSlotProps] = useSlot({
   name: 'arrow',
   ownerName: TooltipContent.displayName,
   slot: slots.arrow ?? TooltipArrowComponent ?? TooltipArrow,
-  slotProps: slotProps.arrow ?? TooltipArrowProps,
+  slotProps: { ...TooltipArrowProps, ...slotProps.arrow },
 });
 ```
 
