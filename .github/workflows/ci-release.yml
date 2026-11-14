@@ -55,10 +55,23 @@ jobs:
           # This expects you to have a script called version that runs some logic and then calls `changeset version`.
           version: yarn ci-version
           # This expects you to have a script called release which does a build for your packages and calls `changeset publish`
-          publish: bash .github/scripts/publish-with-summary.sh
+          publish: 'bash -c "eval \"$PUBLISH_COMMAND\""'
         env:
           GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
+          PUBLISH_COMMAND: |
+            if output=$(FORCE_COLOR=0 yarn ci-publish --summary-file=publish-summary.json 2>&1); then
+              status=0
+            else
+              status=$?
+            fi
+            printf '%s\n' "${output}"
+            if [ "${status}" -ne 0 ]; then
+              exit "${status}"
+            fi
+            if grep -Eq '^lerna success (No changed packages to publish|All packages have already been published\.)$' <<< "${output}"; then
+              echo "nothing_to_publish=true" >> "${GITHUB_OUTPUT}"
+            fi
 
       - name: Report published packages
         # The action only runs the publish script when no changesets are pending;
@@ -66,7 +79,7 @@ jobs:
         if: steps.changesets.outputs.hasChangesets == 'false'
         env:
           PUBLISH_SUMMARY_FILE: publish-summary.json
-          PUBLISH_LOG_FILE: ${{ runner.temp }}/publish.log
+          NOTHING_TO_PUBLISH: ${{ steps.changesets.outputs.nothing_to_publish }}
         run: |
           write_table() {
             echo "| Package | Version |"
@@ -76,7 +89,7 @@ jobs:
 
           if [ ! -f "${PUBLISH_SUMMARY_FILE}" ]; then
             # Lerna 9 emits these success messages without creating a summary.
-            if [ -f "${PUBLISH_LOG_FILE}" ] && grep -Eq '^lerna success (No changed packages to publish|All packages have already been published\.)$' "${PUBLISH_LOG_FILE}"; then
+            if [ "${NOTHING_TO_PUBLISH}" = "true" ]; then
               echo "::notice::Nothing to publish."
               {
                 echo "## Nothing to publish"
