@@ -15,8 +15,9 @@ Use `test/` for package-level test infrastructure and suites. The MCP CLI suite 
 | Reference application loading and CDN fallback | `examples/cdn-with-local-fallback/test/e2e/` | `yarn test:e2e examples` |
 | Documentation demo integrations | [`packages/react-docs/test/e2e/demos/`](../packages/react-docs/test/e2e/README.md) | `yarn test:e2e docs:demos` |
 | Documentation page contracts | [`packages/react-docs/test/e2e/pages/`](../packages/react-docs/test/e2e/README.md) | `yarn test:e2e docs:pages` |
+| Skill/plugin tooling and repository maintenance contracts | Owning `skills/`, `plugins/`, and `scripts/` directories; shared reporter in `test/test-reporter.mjs` with `test/__tests__/` | `yarn test:ai-tooling` |
 
-`yarn test` runs workspace test scripts. `yarn test:e2e` runs all browser suites, including both React development and production modes. Browser prerequisites, filters, reports, and debugging are documented in the [E2E guide](./e2e/README.md).
+`yarn test` runs skill/plugin tooling tests before workspace test scripts. `yarn test:ai-tooling` uses `test/ai-tooling/run.mjs` and the shared Node test reporter; see [maintenance tooling](../scripts/README.md) for discovery paths and output behavior. `yarn test:e2e` runs all browser suites, including both React development and production modes. Browser prerequisites, filters, reports, and debugging are documented in the [E2E guide](./e2e/README.md).
 
 CSS declarations and browser layout are different contracts. Keep token resolution, generated `padding`/`margin`/size rules, responsive CSS, and style precedence in unit tests. Use real-browser tests for measured insets/gaps, flex or percentage sizing, overflow, scrolling, clipping boundaries, and native observers/media queries. A mocked `getBoundingClientRect`, `offsetHeight`, or observer callback does not verify layout.
 

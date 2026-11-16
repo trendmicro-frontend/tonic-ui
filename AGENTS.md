@@ -24,11 +24,11 @@
 
 ## Shared Agent Skills
 
-OMP is the primary agent. `skills/internal/` owns repository-development skills;
-`skills/external/` owns application skills and is the marketplace plugin root.
-`.agents/skills/` and `.claude/skills/` each contain the same six direct relative
-discovery links to `skills/internal/` only. Edit the physical source, never the adapters.
-External application skills are exposed through the plugin, not native adapters;
+OMP is the primary agent. `skills/` owns seven repository contributor skills;
+`plugins/` owns three independently installable application skills.
+`.agents/skills/` and `.claude/skills/` each contain the same seven direct relative
+discovery links to `skills/<name>/` only. Edit the physical source, never the adapters.
+Application skills are exposed through their individual plugins, not native adapters;
 see [the catalog](skills/README.md).
 
 Before starting a matching task, load the relevant skill's `SKILL.md`. Use more
@@ -37,15 +37,16 @@ when instructed. The paths below are relative to the repository root, not the CW
 
 | Task | Skill instructions |
 | --- | --- |
-| Figma/screenshot token resolution and typography | [tonic-ui-tokens](skills/external/tonic-ui-tokens/SKILL.md) |
-| Application frontend development highlights and optional release checks | [tonic-ui-dev](skills/external/tonic-ui-dev/SKILL.md) |
-| Consuming application upgrades; current v2-to-v3 migration guidance | [tonic-ui-upgrade](skills/external/tonic-ui-upgrade/SKILL.md) |
-| Library component structure, hooks, exports, browser E2E fixtures, and repository conventions|[tonic-ui-patterns](skills/internal/tonic-ui-patterns/SKILL.md) |
-| Library PR descriptions, commit message drafts, and changesets | [tonic-ui-pr](skills/internal/tonic-ui-pr/SKILL.md) |
-| Library `slots`, `slotProps`, `useSlot`, and legacy component/props migration | [tonic-ui-slots](skills/internal/tonic-ui-slots/SKILL.md) |
-| Library `sx`, `__sx`, `composeSx`, and style precedence | [tonic-ui-sx](skills/internal/tonic-ui-sx/SKILL.md) |
-| Library React component JSDoc and props types | [tonic-ui-types](skills/internal/tonic-ui-types/SKILL.md) |
-| Library version bumps, prereleases, and maintenance branches | [tonic-ui-version](skills/internal/tonic-ui-version/SKILL.md) |
+| Figma/screenshot token resolution and typography | [tonic-ui-tokens](plugins/tonic-ui-tokens/skills/tonic-ui-tokens/SKILL.md) |
+| Application frontend development highlights and optional release checks | [tonic-ui-dev](plugins/tonic-ui-dev/skills/tonic-ui-dev/SKILL.md) |
+| Consuming application upgrades; current v2-to-v3 migration guidance | [tonic-ui-upgrade](plugins/tonic-ui-upgrade/skills/tonic-ui-upgrade/SKILL.md) |
+| Library component structure, hooks, exports, browser E2E fixtures, and repository conventions | [tonic-ui-patterns](skills/tonic-ui-patterns/SKILL.md) |
+| Library PR descriptions, commit message drafts, and changesets | [tonic-ui-pr](skills/tonic-ui-pr/SKILL.md) |
+| Library `slots`, `slotProps`, `useSlot`, and legacy component/props migration | [tonic-ui-slots](skills/tonic-ui-slots/SKILL.md) |
+| Library `sx`, `__sx`, `composeSx`, and style precedence | [tonic-ui-sx](skills/tonic-ui-sx/SKILL.md) |
+| Token snapshot capture, freshness, regeneration, and correspondence maintenance | [tonic-ui-tokens-maintenance](skills/tonic-ui-tokens-maintenance/SKILL.md) |
+| Library React component JSDoc and props types | [tonic-ui-types](skills/tonic-ui-types/SKILL.md) |
+| Library version bumps, prereleases, and maintenance branches | [tonic-ui-version](skills/tonic-ui-version/SKILL.md) |
 
 Skills are task-specific instructions, not replacements for the policies above
 or the host agent's tool and safety rules.

@@ -12,7 +12,7 @@
     "clean": "lerna exec --parallel -- yarn clean && lerna clean --yes",
     "changeset": "changeset",
     "ci-publish": "yarn lerna-publish-from-package --yes",
-    "ci-version": "changeset version && yarn install --mode=update-lockfile",
+    "ci-version": "changeset version && yarn install --mode=update-lockfile && node plugins/tonic-ui-tokens/scripts/update-release-token-snapshot.mjs",
     "docs-dev": "yarn build-public; cd packages/react-docs; yarn dev",
     "lerna-publish": "yarn build && yarn lint && yarn test && lerna publish --no-private",
     "lerna-publish-from-git": "yarn build && yarn lint && yarn test && lerna publish from-git --no-private",
@@ -20,8 +20,10 @@
     "lint": "yarn workspaces foreach --all run lint && eslint test",
     "pre-push": "yarn workspaces foreach --all run pre-push",
     "prepare": "husky install",
-    "test": "yarn workspaces foreach --all run test",
-    "test:e2e": "node test/e2e/run.mjs"
+    "test": "yarn test:ai-tooling && echo '\n=== Workspace package tests (Jest) ===' && yarn workspaces foreach --all run test",
+    "test:ai-tooling": "node test/ai-tooling/run.mjs",
+    "test:e2e": "node test/e2e/run.mjs",
+    "validate-ai-tooling": "node scripts/validate-ai-tooling.mjs"
   },
   "author": "Cheton Wu",
   "homepage": "https://github.com/trendmicro-frontend/tonic-ui",
