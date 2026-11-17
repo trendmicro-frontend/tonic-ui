@@ -44,7 +44,7 @@ when instructed. The paths below are relative to the repository root, not the CW
 | Library PR descriptions, commit message drafts, and changesets | [tonic-ui-pr](skills/tonic-ui-pr/SKILL.md) |
 | Library `slots`, `slotProps`, `useSlot`, and legacy component/props migration | [tonic-ui-slots](skills/tonic-ui-slots/SKILL.md) |
 | Library `sx`, `__sx`, `composeSx`, and style precedence | [tonic-ui-sx](skills/tonic-ui-sx/SKILL.md) |
-| Token snapshot capture, freshness, regeneration, and correspondence maintenance | [tonic-ui-tokens-maintenance](skills/tonic-ui-tokens-maintenance/SKILL.md) |
+| Token snapshot capture, freshness, regeneration, reviewed relations and report generation | [tonic-ui-tokens-maintenance](skills/tonic-ui-tokens-maintenance/SKILL.md) |
 | Library React component JSDoc and props types | [tonic-ui-types](skills/tonic-ui-types/SKILL.md) |
 | Library version bumps, prereleases, and maintenance branches | [tonic-ui-version](skills/tonic-ui-version/SKILL.md) |
 

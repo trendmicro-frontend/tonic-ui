@@ -6,7 +6,7 @@ This contributor-only procedure describes explicitly authorized Figma capture an
 
 - A repository checkout with the existing Node dependencies available.
 - Operator-supplied authorized access to the named Foundations and Semantic libraries. Do not put their private file locations or file keys in delivered resources or reports.
-- Explicit authorization for capture, conversion and any affected variable-relation review, separately. Capturing does not authorize changing curated source rows, theme implementation or external publication.
+- Explicit authorization for capture, conversion and any affected variable-relation review, separately. Capturing does not authorize changing the theme implementation or external publication.
 - Explicit authorization before importing a development plugin, reading credentials, changing client configuration or making a network request. Do not install tools or alter credentials or settings as an incidental step.
 
 The captures retain Tonic One v4 names, modes and records. They are independent design snapshots with unverified applicability to Tonic UI v3, not proof of implemented v3 tokens or reviewed correspondences. Keep their locations redacted; do not reconstruct a private location from a fingerprint.
@@ -38,9 +38,9 @@ Inspect added, removed and changed variables and each snapshot's `meta.aliasStat
 After authorized edits and any separately authorized review, verify the local changes:
 
 ```bash
-node --test scripts/figma-variables/__tests__/figma-variables.test.mjs plugins/tonic-ui-tokens/scripts/__tests__/token-inventory.test.mjs plugins/tonic-ui-tokens/scripts/__tests__/token-validation.test.mjs plugins/tonic-ui-tokens/skills/tonic-ui-tokens/scripts/__tests__/lookup-provenance.test.mjs
+node --test scripts/figma-variables/__tests__/figma-variables.test.mjs plugins/tonic-ui-tokens/scripts/__tests__/token-inventory.test.mjs plugins/tonic-ui-tokens/scripts/__tests__/token-validation.test.mjs plugins/tonic-ui-tokens/skills/tonic-ui-tokens/scripts/__tests__/variable-relations.test.mjs plugins/tonic-ui-tokens/skills/tonic-ui-tokens/scripts/__tests__/token-matcher.test.mjs
 node plugins/tonic-ui-tokens/scripts/validate-tokens.mjs
 node scripts/skills/validate-skills.mjs
 ```
 
-Query affected records with the consumer lookup after validation. These offline checks establish local integrity, not that remote files have remained unchanged since capture. Only after local edits and review are snapshots and relation evidence eligible for normal delivery. This procedure does not authorize a commit, push, publication, curated source-version change or theme regeneration.
+Query affected records with the consumer lookup after validation. These offline checks establish local integrity, not that remote files have remained unchanged since capture. Only after local edits and review are snapshots and relation evidence eligible for normal delivery. This procedure does not authorize a commit, push, publication or theme regeneration.

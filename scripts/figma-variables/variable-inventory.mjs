@@ -459,7 +459,7 @@ function buildDocument(flattened, stats) {
       collections,
       notes: [
         'Location-redacted snapshot of the Figma Variables in this library. Independent',
-        'design evidence, not reconciled with Tonic UI v3 tokens or mappings.',
+        'design evidence, not reconciled with Tonic UI v3 tokens or token-relations.json.',
         'Alias values carry a resolved `target` when the destination variable exists in',
         'either Figma library; `null` means it could not be resolved.',
       ],

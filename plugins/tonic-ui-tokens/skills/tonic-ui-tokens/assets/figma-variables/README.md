@@ -13,9 +13,9 @@ They neither establish what the v3 theme implements nor prove current remote des
 | `semantic.json` | semantic | 1,158 | 10 |
 
 `../tokens.json` is generated from the Tonic UI v3 theme and is the implementation
-source of truth. `../figma-mappings.json` contains separately curated design rows and
-their applicability limits. The shipped data has no variable-to-theme review ledger:
-its variable correspondence is `unreviewed`, not an assertion of a match or absence.
+source of truth. `../token-relations.json` is the separate partial correspondence ledger.
+The shipped ledger is empty: its variable correspondence is `unreviewed`, not an
+assertion of a match or absence.
 
 ## Data shape
 
@@ -39,12 +39,13 @@ variables do not have a value in every collection mode.
   the original target names are retained without inventing resolutions.
 - Some v4 aliases target variables outside the captured libraries and remain unresolved.
   Captured descriptions may also be absent; they are not filled in by the exporter.
-- The snapshots are independent design evidence, not a v3 implementation mapping. A
-  similar path, color, mode or `codeSyntax` is not a reviewed correspondence.
+- The snapshots capture variables, not all prototype or text styles. They are independent
+  design evidence, not a v3 implementation mapping. A similar path, color, mode or
+  `codeSyntax` is not a reviewed correspondence.
 
 ## Maintenance
 
 The consumer lookup reads these snapshots offline without a checkout, credentials or
 capture tools. Contributors separately authorized to refresh captures or review relations
 should use the `tonic-ui-tokens-maintenance` skill. Capturing variables does not refresh
-curated source rows or the theme inventory, and does not authorize a relation review.
+the theme inventory or authorize a relation review.

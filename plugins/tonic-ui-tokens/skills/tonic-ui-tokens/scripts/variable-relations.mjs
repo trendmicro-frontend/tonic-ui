@@ -7,6 +7,8 @@ const LIBRARY_KEYS = {
 const pairKey = (library, key) => JSON.stringify([library, key]);
 const isObject = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
 const nonempty = (value) => typeof value === 'string' && value.trim().length > 0;
+const positiveSafeInteger = (value) => Number.isSafeInteger(value) && value > 0;
+const citationPart = (value) => nonempty(value) || positiveSafeInteger(value);
 const digest = (value) => value === undefined || value === null ? null
   : createHash('sha256').update(JSON.stringify(value)).digest('hex');
 
@@ -41,7 +43,7 @@ export function relationSnapshotDigests(relation, inventory, variableLibraries) 
   return { theme: digest(inventory.tokens), foundations: libraryDigest('foundations'), semantic: libraryDigest('semantic') };
 }
 
-function validateEvidence(relation, mappingData, label) {
+function validateEvidence(relation, label) {
   const evidence = relation.evidence;
   const date = evidence?.reviewedAt;
   if (!isObject(evidence) || !nonempty(evidence.reason) || typeof date !== 'string'
@@ -53,11 +55,9 @@ function validateEvidence(relation, mappingData, label) {
     throw new Error(`${label}: evidence.sourceRows must be an array.`);
   }
   for (const row of evidence.sourceRows) {
-    if (!isObject(row) || !nonempty(row.figma) || !['contentId', 'version', 'row'].every((field) => Object.hasOwn(row, field))
-      || !mappingData.mappings.some((mapping) => mapping.figma === row.figma
-      && mapping.source?.contentId === row.contentId && mapping.source?.version === row.version
-      && mapping.source?.row === row.row)) {
-      throw new Error(`${label}: source row does not exactly match a curated mapping.`);
+    if (!isObject(row) || !nonempty(row.figma) || !citationPart(row.contentId)
+      || !positiveSafeInteger(row.version) || !citationPart(row.row)) {
+      throw new Error('Historical source row requires figma, contentId, version and row.');
     }
   }
   const required = relation.status === 'mapped' ? ['figma', 'theme'] : ['theme', 'foundations', 'semantic'];
@@ -74,27 +74,26 @@ function append(map, key, value) {
 }
 
 /** Validate ledger structure and index both endpoints without upgrading stale reviews. */
-export function buildVariableRelationIndex(inventory, mappingData, variableLibraries = []) {
-  if (inventory?.schemaVersion !== 1 || mappingData?.schemaVersion !== 1
-    || !Array.isArray(inventory.tokens) || !Array.isArray(mappingData.mappings)) {
-    throw new Error('Invalid token or mapping inventory schema.');
+export function buildVariableRelationIndex(inventory, relations, variableLibraries = []) {
+  if (inventory?.schemaVersion !== 1 || !Array.isArray(inventory.tokens)
+    || !isObject(relations) || relations.schemaVersion !== 1
+    || Object.hasOwn(relations, 'sources') || Object.hasOwn(relations, 'mappings')) {
+    throw new Error('Invalid token or relation inventory schema.');
   }
-  const libraries = libraryDocuments(variableLibraries);
-  const hasLedger = Object.hasOwn(mappingData, 'variableRelations') || Object.hasOwn(mappingData, 'variableRelationsCoverage');
-  if (hasLedger && (mappingData.variableRelationsCoverage !== 'partial' || !Array.isArray(mappingData.variableRelations))) {
+  if (relations.variableRelationsCoverage !== 'partial' || !Array.isArray(relations.variableRelations)) {
     throw new Error('Variable relations require partial coverage and a relations array.');
   }
-  if (hasLedger && Object.keys(LIBRARY_KEYS).some((name) => !libraries.has(name))) {
+  const libraries = libraryDocuments(variableLibraries);
+  if (relations.variableRelations.length && Object.keys(LIBRARY_KEYS).some((name) => !libraries.has(name))) {
     throw new Error('Variable relation reviews require both foundations and semantic variable library documents.');
   }
 
   const variablesByKey = new Map();
   const variablesByPath = new Map();
-  const bareKeys = new Map();
   const tokens = new Map();
   for (const token of inventory.tokens) {
-    if (!nonempty(token.path) || tokens.has(token.path)) {
-      throw new Error(`Invalid or duplicate theme token path: ${token.path}.`);
+    if (!isObject(token) || !nonempty(token.path) || tokens.has(token.path)) {
+      throw new Error(`Invalid or duplicate theme token path: ${token?.path}.`);
     }
     tokens.set(token.path, token);
   }
@@ -110,7 +109,6 @@ export function buildVariableRelationIndex(inventory, mappingData, variableLibra
       }
       variablesByKey.set(key, variable);
       variablesByPath.set(path, variable);
-      append(bareKeys, variable.figmaKey, { library, variable });
     }
   }
 
@@ -123,7 +121,7 @@ export function buildVariableRelationIndex(inventory, mappingData, variableLibra
   const negativeVariables = new Set();
   const negativeThemes = new Set();
   let absenceDigests;
-  for (const relation of mappingData.variableRelations ?? []) {
+  for (const relation of relations.variableRelations) {
     const label = `Variable relation ${relation?.figma ? `${relation.figma.library}:${relation.figma.key}` : '(no variable)'} → ${relation?.themePath ?? '(no theme)'}`;
     if (!isObject(relation) || !['mapped', 'figma-only', 'theme-only'].includes(relation.status)) {
       throw new Error(`${label}: invalid status.`);
@@ -144,7 +142,7 @@ export function buildVariableRelationIndex(inventory, mappingData, variableLibra
     } else if (Object.hasOwn(relation, 'modeMap')) {
       throw new Error(`${label}: absence reviews must not have a modeMap.`);
     }
-    validateEvidence(relation, mappingData, label);
+    validateEvidence(relation, label);
     const variableKey = hasFigma ? pairKey(relation.figma.library, relation.figma.key) : null;
     if (relation.status === 'mapped') {
       const pair = JSON.stringify([variableKey, relation.themePath]);
@@ -215,7 +213,7 @@ export function buildVariableRelationIndex(inventory, mappingData, variableLibra
     }
   }
 
-  return { coverage: 'partial', libraries, variablesByKey, variablesByPath, bareKeys, tokens, byVariable, byTheme, reviews };
+  return { coverage: 'partial', libraries, variablesByKey, variablesByPath, tokens, byVariable, byTheme, reviews };
 }
 
 function validateVariableDocuments(variableLibraries) {
@@ -328,8 +326,8 @@ function validateVariableDocuments(variableLibraries) {
 }
 
 /** Full validation for delivered assets; stale or removed endpoints require review. */
-export function validateVariableRelations(inventory, mappingData, variableLibraries) {
-  const index = buildVariableRelationIndex(inventory, mappingData, variableLibraries);
+export function validateVariableRelations(inventory, relations, variableLibraries) {
+  const index = buildVariableRelationIndex(inventory, relations, variableLibraries);
   for (const review of index.reviews) {
     if (review.freshness === 'stale') {
       throw new Error(`Stale variable relation ${review.figma ? `${review.figma.library}:${review.figma.key}` : '(no variable)'} → ${review.themePath ?? '(no theme)'}: ${review.staleReasons.join('; ')}.`);

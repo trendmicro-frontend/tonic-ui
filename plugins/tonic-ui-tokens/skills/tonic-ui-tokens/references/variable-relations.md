@@ -1,57 +1,63 @@
 # Captured Figma variable correspondence
 
-Read this reference for a captured variable's identity or its relationship to an implemented
-Tonic UI theme token. Lookup is read-only and offline; the installed skill needs no checkout,
-network access or credentials. The captured libraries describe Tonic One v4 design data,
-whose applicability to the Tonic UI v3 implementation is unverified.
+Use this route for captured Figma variable identity, reviewed theme counterparts, modes
+and freshness. The consumer plugin is read-only and offline; the bundled records are
+snapshots, not live Figma or a complete inventory of prototype and text styles. The
+location-redacted Tonic One v4 captures have unverified applicability to Tonic UI v3.
 
-## Select and look up
+## Select and match
 
-Run exactly one selector relative to this skill directory:
+Run one selector relative to this skill directory:
 
 ```bash
-node <skill-dir>/scripts/lookup-tokens.mjs --variable 'semantic:Color/text/primary'
-node <skill-dir>/scripts/lookup-tokens.mjs --token 'colors.text.accent'
+node <skill-dir>/scripts/lookup-tokens.mjs --figma-variable 'semantic:Color/text/primary'
+node <skill-dir>/scripts/lookup-tokens.mjs --figma-variable 'Color/text/**'
+node <skill-dir>/scripts/lookup-tokens.mjs --theme-token 'colors.text.accent'
 ```
 
-`--variable` accepts an exact stable key, `semantic:<key>` or `foundations:<key>`, or an
-exact qualified path such as `semantic:Color/text/primary`. A bare path must be qualified;
-a bare key is accepted only when unique across both libraries. Unknown and ambiguous
-selectors fail. This selector addresses a captured variable; `--figma` searches the
-separately curated design alias rows.
+An exact captured path or stable key can be scoped with `semantic:` or `foundations:`.
+Without a scope, both loaded libraries are searched; all matches retain their library,
+including shared paths or keys. For path patterns, `*` covers one slash-delimited segment
+and `**` covers zero or more segments. Wildcards do not search stable keys. Matching is
+case-sensitive; quote patterns in the shell.
 
-A variable result includes its captured `variable`, `correspondence` and any current
-reviewed `themeTokens`. An implemented token result keeps its original alias `status`,
-values, CSS variable and `resolutionStatus`, and adds `correspondence` and any current
-reviewed `figmaVariables`. Composed typography exposes correspondence separately on each
-resolved property; a composite variable identity is not implied.
+Valid selectors with no matches return `{ meta, results: [] }` and exit 0. Unknown library
+qualifiers or malformed selectors fail. Variable results contain `variable`,
+`correspondence`, and `themeTokens` for current positive reviews. Theme results preserve
+the inventory record, `correspondence`, and `figmaVariables` for current positive reviews.
+Multiple records may connect either endpoint: report all supported counterparts and their
+scoped modes, not just the first.
 
-## Interpret the evidence
+## Interpret evidence and scope
 
-The shipped target mapping has **no variable-relation ledger**. Captured variables and
-implemented tokens are therefore `unreviewed`, with no inferred counterparts. A similar
-name, value, mode or `codeSyntax` does not establish a match or absence. In particular,
-a captured v4 mode is not proof of a v3 implementation decision.
+The shipped Tonic UI ledger is empty. Captured variables and implemented tokens are
+therefore `unreviewed`, with no inferred counterparts. Similar names, values, modes or
+`codeSyntax` do not establish a match or absence, and a captured v4 mode is not proof of
+a v3 implementation decision.
 
-The lookup also understands separately reviewed relations if supplied with the required
-snapshots and evidence:
+- `mapped`: one or more positive reviews are current. Report each exact `modeMap`;
+  captured modes do not establish mappings for other modes.
+- `figma-only` / `theme-only`: an explicit, current absence review of the endpoint
+  against the two named captured libraries and the captured theme, not every Figma file.
+- `unreviewed`: the partial ledger has no review for this endpoint.
+- `stale`: an endpoint, mode or reviewed snapshot digest changed. Original evidence
+  remains visible, but stale edges are not current counterparts. Another current edge can
+  still be listed; distinguish it from the stale review.
 
-- `mapped`: one or more positive reviews are current. Report all current counterparts and
-  each review's exact `modeMap`; modes and values remain separate, not universally equal.
-- `figma-only` / `theme-only`: an explicit current absence review within the captured
-  libraries and theme snapshot, not a claim about every Figma file or theme version.
-- `unreviewed`: no review establishes a relationship or absence for that endpoint.
-- `stale`: an endpoint, reviewed mode or evidence digest changed. Stale evidence remains
-  visible but is not returned as a current counterpart; other current edges may remain.
+Correspondence precedence is stale, mapped, reviewed absence, then unreviewed.
+Implementation `resolutionStatus` is separate: `verified` means the source value
+resolved, not design approval; an unresolved token stays unresolved even if its
+correspondence is current. A review states correspondence, not universal value equality.
 
-Each review carries its reason, review date, optional exact curated source rows, digests,
-freshness and, for mapped relations, the reviewed mode map. `meta.variableSources` reports
-library fingerprints, capture/export metadata and counts, never private file locations.
-`meta.themeVersion` and `sourceRevision` describe the separate implementation snapshot.
-A timestamp-only change does not stale unchanged positive endpoints; absence reviews depend
-on the entire captured scope. None of these checks establishes current remote design data or
-the version installed in a consuming app.
+Each review exposes its reason, date, `sourceRows` historical citations, snapshot digests,
+freshness and, for a positive relation, mode map. Historical citations are preserved as
+review evidence, not proof of current wiki content. `meta.variableSources` identifies the
+captured libraries by fingerprint and capture/export metadata without private locations;
+`meta.themeVersion` and `sourceRevision` describe the theme snapshot. A timestamp-only
+change does not stale an unchanged positive endpoint. Negative reviews depend on the
+entire captured scope, so new endpoints require review. Neither offline integrity nor a
+capture proves current Figma data or an app's installed theme version.
 
-A curated alias marked `code-only` is not a reviewed absence of a Figma variable. A
-`design-only` row is not automatically a reviewed absence in either captured library. An
-unresolved theme token remains unresolved even if a separate variable review is current.
+For checkout-only report generation or an authorized relation review, use the
+[`tonic-ui-tokens-maintenance` relation procedure](https://github.com/trendmicro-frontend/tonic-ui/blob/main/skills/tonic-ui-tokens-maintenance/references/variable-theme-mapping.md).
+It is optional for consumers and does not authorize capture or a review by itself.

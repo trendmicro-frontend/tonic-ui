@@ -141,6 +141,11 @@ are in [the skills catalog](skills/README.md). Both marketplace catalogs point t
 the three independent directories in `plugins/`; each plugin manifest explicitly
 lists its own skill. Contributor workflows are never bundled for consuming apps.
 
+Token maintenance and classified relation reports are checkout-only contributor workflows;
+consumer token lookup remains in the independent `tonic-ui-tokens` plugin. See the
+[token relations report guide](scripts/README.md#token-relations-report). Report
+generation is read-only and does not authorize capture, review or publication.
+
 Do not add internal repository, intranet, Wiki, Confluence, or private Figma
 locations to AI-tooling resources or active documentation. Use local evidence or
 an operator-supplied authorized source instead; retain public Tonic UI links.

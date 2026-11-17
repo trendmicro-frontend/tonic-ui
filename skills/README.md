@@ -5,14 +5,14 @@ plugins provide application-facing skills; each can be installed independently.
 
 | Group | Skill | Use it for |
 | --- | --- | --- |
-| plugin | [tonic-ui-tokens](../plugins/tonic-ui-tokens/skills/tonic-ui-tokens/SKILL.md) | Resolving Figma color/typography names or a screenshot to real public/private tokens, values and CSS variables; handoff when something is unimplemented |
+| plugin | [tonic-ui-tokens](../plugins/tonic-ui-tokens/skills/tonic-ui-tokens/SKILL.md) | Matching theme tokens or captured Figma variables, values and CSS variables; evidence-labelled screenshots and unconfirmed handoffs |
 | plugin | [tonic-ui-dev](../plugins/tonic-ui-dev/skills/tonic-ui-dev/SKILL.md) | Understand app context, retrieve official APIs/examples, integrate with existing wrappers/forms/state, and verify the requested behavior; includes optional MCP/local-source access and on-demand compatibility investigation |
 | plugin | [tonic-ui-upgrade](../plugins/tonic-ui-upgrade/skills/tonic-ui-upgrade/SKILL.md) | Upgrading a consuming app's Tonic UI packages; current guidance covers the v2-to-v3 migration |
 | contributor | [tonic-ui-patterns](tonic-ui-patterns/SKILL.md) | Repository component structure, hooks, exports and conventions |
 | contributor | [tonic-ui-pr](tonic-ui-pr/SKILL.md) | Library PR descriptions, commit-message drafts and changesets; no publication authorization |
 | contributor | [tonic-ui-slots](tonic-ui-slots/SKILL.md) | `slots`, `slotProps`, `useSlot` and legacy component/props migration |
 | contributor | [tonic-ui-sx](tonic-ui-sx/SKILL.md) | `sx`, `__sx`, `composeSx` and consumer override precedence |
-| contributor | [tonic-ui-tokens-maintenance](tonic-ui-tokens-maintenance/SKILL.md) | Token capture, freshness, regeneration, curated sources and correspondence review |
+| contributor | [tonic-ui-tokens-maintenance](tonic-ui-tokens-maintenance/SKILL.md) | Token capture, freshness, regeneration, classified relation reports and correspondence review |
 | contributor | [tonic-ui-types](tonic-ui-types/SKILL.md) | React component JSDoc and props types |
 | contributor | [tonic-ui-version](tonic-ui-version/SKILL.md) | This library's version registry, prereleases, docs labels and maintenance branches; never an app dependency bump |
 
@@ -82,46 +82,46 @@ installation. Installing plugins or changing client configuration is explicit.
 `plugins/tonic-ui-tokens/skills/tonic-ui-tokens/assets/tokens.json` is generated from the real v3 theme exports plus the existing resolver and CSS-variable utilities, not from the public migration table alone. Its metadata names the theme version, source revision/fingerprints, and both px/rem units and dark/light modes.
 
 - Public, private, primitive, semantic, retained legacy, state, chart, `main` and decimal-key paths are included. Private tokens are implemented but are not stable public API.
-- Figma aliases carry database version/row provenance. Missing aliases stay **code-only**; unimplemented designs stay **design-only**; typography uses real property compositions instead of an invented composite token API.
-- Source conflicts and unresolved values stay explicit. A verified design label does not make an unresolved code reference a usable color.
-- RGB alone cannot identify the original Figma variable. Report real role/state/mode candidates with confidence and confirm identity from variable/style labels or an export.
+- Source-resolution status is distinct from design correspondence: `verified` describes a resolved implementation value, not design approval; unresolved source values remain explicit.
+- RGB alone cannot identify the original Figma variable. Report real role/state/mode candidates with confidence and confirm identity from labels or an export, without inferring a theme counterpart.
 - The snapshot works offline. Compare it against the app's installed package version when available; do not present it as proof of a newer release or of an app's custom theme.
-
-Curated source provenance is recorded in the bundled
-[Figma mappings](../plugins/tonic-ui-tokens/skills/tonic-ui-tokens/assets/figma-mappings.json):
-the color database, typography snapshot (content ID `1962606684`; Tonic UI design
-applicability requires confirmation), upstream handbook snapshot (content ID
-`1927774846`; not Tonic UI-specific guidance) and upstream light-mode snapshot
-(content ID `2386166626`; verify applicability). Their versions are observed
-snapshots, not permanent latest-version pins. Use local evidence or an
-operator-supplied authorized source when refreshing them.
 
 The bundled Foundations and Semantic variable documents are location-redacted
 snapshots of Tonic One v4 design libraries, not evidence that their variables are
 implemented by Tonic UI v3. Their location fields are null and their fingerprints
-identify the source libraries without exposing file locations. Captured variables
-have unreviewed correspondence and no linked theme tokens until target-specific
-evidence is reviewed; implemented v3 token values remain separate from these
-captured design records.
+identify the source libraries without exposing file locations. The partial
+[`token-relations.json`](../plugins/tonic-ui-tokens/skills/tonic-ui-tokens/assets/token-relations.json)
+ledger ships empty: captured variables and theme tokens are unreviewed, not proven
+matches or absences. Captures contain variables, not every prototype or text style.
 
 ### Read-only lookup
 
 Resolve the script relative to the **loaded skill directory**, including in a plugin cache. It needs no Tonic UI checkout and no npm dependency:
 
 ```bash
-node <skill-dir>/scripts/lookup-tokens.mjs --token '_component.keyboardFocused.outerFocusRing'
-node <skill-dir>/scripts/lookup-tokens.mjs --figma '$color.foreground.primary-variant.selected-disabled'
-node <skill-dir>/scripts/lookup-tokens.mjs --family '_chart'
-node <skill-dir>/scripts/lookup-tokens.mjs --variable 'semantic:Color/text/primary'
+node <skill-dir>/scripts/lookup-tokens.mjs --theme-token '_component.keyboardFocused.outerFocusRing'
+node <skill-dir>/scripts/lookup-tokens.mjs --theme-token 'borders["0.5"]'
+node <skill-dir>/scripts/lookup-tokens.mjs --theme-token 'colors.text.*'
+node <skill-dir>/scripts/lookup-tokens.mjs --figma-variable 'semantic:Color/text/primary'
+node <skill-dir>/scripts/lookup-tokens.mjs --figma-variable 'Color/text/**'
 ```
 
-JSON output includes code paths, values, CSS-variable names where actually emitted, design provenance and evidence status. Use exactly one of `--token`, `--figma`, `--family`, `--query` or `--variable`. Variable lookup accepts a library-qualified path or stable key, or a unique bare stable key. Unknown or ambiguous names exit non-zero instead of falling back to black/transparent.
+Supply exactly one selector. JSON output includes inventory records or captured variables
+and their separate correspondence status. Theme results preserve values and emitted CSS
+variables; Figma results retain their library. `*` matches within one path segment and
+`**` matches zero or more complete segments. Matching is case-sensitive, and patterns
+should be shell-quoted. Bare Figma paths and exact keys search all libraries; a
+`semantic:` or `foundations:` prefix narrows scope. Wildcards match Figma paths, not keys.
+Unknown valid selectors return `{ meta, results: [] }` with exit 0, not a guessed fallback.
+Malformed selectors fail. There is no free-text or curated alias search.
 
-Each Figma result includes its matching `designSource` snapshot (content ID,
-version and title), plus applicability or historical-title metadata when supplied.
-Source identity includes both content ID and version. Missing applicability is
-not proof that a design source applies; provenance never promotes unresolved
-code values or unverified design guidance to verified behavior.
+### Checkout-only relation report
+
+From the repository root, run
+`node plugins/tonic-ui-tokens/scripts/report-token-relations.mjs` to write the offline
+classified report to stdout. It is a contributor maintenance tool, not an installed
+consumer-plugin command. See the [token relations report guide](../scripts/README.md#token-relations-report)
+for `--help`, redirection, classifications, grouping and privacy.
 
 ## Development evidence resolution
 
@@ -172,18 +172,19 @@ already available.
 
 After a theme change, regenerate the v3 implementation snapshot with
 `node plugins/tonic-ui-tokens/scripts/generate-token-inventory.mjs`. Generation
-does not overwrite curated Figma mappings, and unchanged content retains its
+does not overwrite the partial relation ledger, and unchanged content retains its
 existing source revision. Metadata synchronization is check-only unless
 `node scripts/plugins/sync-plugin-marketplace-metadata.mjs --write` is explicitly
 requested. The validation and isolation suites check packaged resources and run
 the token lookup outside the checkout; a successful static check is not a
 visual/interaction PASS.
 
-Capture, freshness checking, regeneration, curated-source refresh and
-correspondence review are separate actions; each write or remote capture needs
-its own authorization. Raw variable captures can contain private locations and
-must remain in operator-owned temporary storage or the ignored local cache, not
-in delivered resources. Do not reconstruct or publish private source links.
+Capture, freshness checking, regeneration and correspondence review are separate
+actions; each write or remote capture needs its own authorization. Generating the
+report is read-only and authorizes neither capture nor review. Raw variable captures
+can contain private locations and must remain in operator-owned temporary storage or
+the ignored local cache, not in delivered resources. Do not reconstruct or publish
+private source links.
 
 The version helpers need a real Tonic UI checkout: they prefer the active CWD's checkout, work from nested folders, and fail clearly when a cache-loaded helper has no checkout.
 The sync checker requires all four duplicated-label files and root `README.md`;

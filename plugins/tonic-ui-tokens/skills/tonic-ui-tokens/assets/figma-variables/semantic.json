@@ -1164,7 +1164,7 @@
     ],
     "notes": [
       "Verbatim mirror of the Figma Variables in this library. Not reconciled against",
-      "assets/tokens.json or assets/figma-mappings.json — it is an independent source.",
+      "assets/tokens.json or assets/token-relations.json — it is an independent source.",
       "Alias values carry a resolved `target` when the destination variable exists in",
       "either Figma library; `null` means it could not be resolved."
     ],

@@ -1,7 +1,8 @@
 import { spawnSync } from 'node:child_process';
-import { cpSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { parseThemePath } from '../../skills/tonic-ui-tokens/scripts/path-pattern.mjs';
 
 // Exercise the shipped helper outside the checkout so repository-only imports and
 // missing bundled assets fail, without banning harmless source references in prose.
@@ -46,12 +47,24 @@ require('node:module').syncBuiltinESMExports();
       if (execution.error || execution.status !== 0) {
         throw new Error(`Standalone token lookup failed: ${execution.error?.message ?? execution.stderr}`);
       }
-      return JSON.parse(execution.stdout).results[0];
+      const envelope = JSON.parse(execution.stdout);
+      if (!Array.isArray(envelope?.results)) {
+        throw new Error('Standalone token lookup did not return a results array.');
+      }
+      return envelope;
     };
-    const token = lookup(['--token', '_component.keyboardFocused.outerFocusRing']);
-    const typography = lookup(['--figma', '$typography.body.md']);
-    const variable = lookup(['--variable', 'semantic:Color/text/primary']);
-    const accent = lookup(['--token', 'colors.text.accent']);
+    const tokenResults = lookup(['--theme-token', '_component.keyboardFocused.outerFocusRing']).results;
+    const fontSizeResults = lookup(['--theme-token', 'fontSizes.sm']).results;
+    const variableResults = lookup(['--figma-variable', 'semantic:Color/text/primary']).results;
+    const accentResults = lookup(['--theme-token', 'colors.text.accent']).results;
+    const token = tokenResults.length === 1 ? tokenResults[0] : undefined;
+    const fontSize = fontSizeResults.length === 1 ? fontSizeResults[0] : undefined;
+    const variable = variableResults.length === 1 ? variableResults[0] : undefined;
+    const accent = accentResults.length === 1 ? accentResults[0] : undefined;
+    if (token?.path !== 'colors._component.keyboardFocused.outerFocusRing' || token.visibility !== 'private'
+      || fontSize?.path !== 'fontSizes.sm') {
+      throw new Error('Standalone token lookup did not return the expected private token and font size.');
+    }
     if (variable?.source !== 'figma-variable'
       || variable.variable?.library !== 'semantic'
       || variable.variable?.path !== 'Color/text/primary'
@@ -64,7 +77,34 @@ require('node:module').syncBuiltinESMExports();
       || !Array.isArray(accent.figmaVariables) || accent.figmaVariables.length !== 0) {
       throw new Error('Standalone token lookup did not return the unreviewed accent token.');
     }
-    return { token, typography, variable, accent };
+    const themeMatches = lookup(['--theme-token', 'colors.text.*']).results;
+    const variableMatches = lookup(['--figma-variable', 'semantic:Color/text/*']).results;
+    const assets = join(plugin, 'skills/tonic-ui-tokens/assets');
+    const inventory = JSON.parse(readFileSync(join(assets, 'tokens.json'), 'utf8'));
+    const semantic = JSON.parse(readFileSync(join(assets, 'figma-variables/semantic.json'), 'utf8'));
+    const expectedThemePaths = inventory.tokens.filter((entry) => {
+      const segments = parseThemePath(entry.path);
+      return (segments.length === 3 && segments[0] === 'colors' && segments[1] === 'text')
+        || (segments.length === 4 && segments[1] === 'colors' && segments[2] === 'text');
+    }).map((entry) => entry.path).sort();
+    const expectedVariablePaths = semantic.variables.filter((entry) => {
+      const segments = entry.path.split('/');
+      return segments.length === 3 && segments[0] === 'Color' && segments[1] === 'text';
+    }).map((entry) => entry.path).sort();
+    if (themeMatches.length < 2
+      || JSON.stringify(themeMatches.map((entry) => entry.path)) !== JSON.stringify(expectedThemePaths)
+      || themeMatches.some((entry) => entry.correspondence?.status !== 'unreviewed'
+        || !Array.isArray(entry.figmaVariables) || entry.figmaVariables.length !== 0)) {
+      throw new Error('Standalone token lookup did not return all unreviewed direct text token matches.');
+    }
+    if (variableMatches.length < 2
+      || JSON.stringify(variableMatches.map((entry) => entry.variable?.path)) !== JSON.stringify(expectedVariablePaths)
+      || variableMatches.some((entry) => entry.variable?.library !== 'semantic'
+        || entry.correspondence?.status !== 'unreviewed'
+        || !Array.isArray(entry.themeTokens) || entry.themeTokens.length !== 0)) {
+      throw new Error('Standalone variable lookup did not return all unreviewed direct semantic text variable matches.');
+    }
+    return { token, fontSize, variable, accent, themeMatches, variableMatches };
   } finally {
     rmSync(directory, { recursive: true, force: true });
   }

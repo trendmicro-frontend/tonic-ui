@@ -18,7 +18,7 @@ const assert = (condition, message) => {
 };
 const inventoryRepair = 'Run node plugins/tonic-ui-tokens/scripts/generate-token-inventory.mjs, then bump the plugin version and sync catalog metadata.';
 try {
-  const { values } = parseArgs({ options: { inventory: { type: 'string' }, mappings: { type: 'string' } } });
+  const { values } = parseArgs({ options: { inventory: { type: 'string' }, relations: { type: 'string' } } });
   const inventory = json(values.inventory ? resolve(values.inventory) : join(tokenRoot, 'assets/tokens.json'));
   const expected = buildTokenInventory(repoRoot);
   const actualPaths = new Map(inventory.tokens.map((token) => [token.path, token]));
@@ -34,35 +34,14 @@ try {
   const comparable = { ...expected, meta: { ...expected.meta, sourceRevision: inventory.meta.sourceRevision } };
   assert(isDeepStrictEqual(inventory, comparable), `Token inventory metadata or source fingerprints differ. ${inventoryRepair}`);
 
-  const mappings = json(values.mappings ? resolve(values.mappings) : join(tokenRoot, 'assets/figma-mappings.json'));
-  assert(mappings.schemaVersion === 1, 'Unsupported Figma mapping schema.');
-  const statuses = new Set(['verified', 'family-mapping', 'source-conflict', 'design-only', 'composed']);
-  for (const mapping of mappings.mappings) {
-    assert(typeof mapping.figma === 'string' && mapping.figma.length > 0, 'Missing Figma name.');
-    assert(statuses.has(mapping.status), `Invalid mapping status: ${mapping.figma}`);
-    assert(mapping.source?.contentId && mapping.source?.version && mapping.source?.row, `Missing mapping provenance: ${mapping.figma}`);
-    assert(mappings.sources.some((source) => source.contentId === mapping.source.contentId && source.version === mapping.source.version),
-      `Undeclared mapping source: ${mapping.figma}`);
-    if (mapping.path) {
-      assert(actualPaths.has(mapping.path), `Invalid mapped token target: ${mapping.path}`);
-    }
-    if (mapping.status === 'verified') {
-      assert(mapping.path, `Verified mapping has no implemented target: ${mapping.figma}`);
-    }
-    if (mapping.status === 'design-only') {
-      assert(mapping.path === null, `Design-only mapping invents a target: ${mapping.figma}`);
-    }
-    for (const path of Object.values(mapping.properties ?? {})) {
-      assert(actualPaths.has(path), `Invalid typography target: ${path}`);
-    }
-  }
+  const relations = json(values.relations ? resolve(values.relations) : join(tokenRoot, 'assets/token-relations.json'));
 
   const variableLibraries = ['foundations', 'semantic'].map((library) =>
     json(join(tokenRoot, 'assets/figma-variables', `${library}.json`)));
-  validateVariableRelations(inventory, mappings, variableLibraries);
+  validateVariableRelations(inventory, relations, variableLibraries);
 
   validatePluginIsolation(pluginRoot);
-  console.log(JSON.stringify({ tokens: inventory.meta.counts, mappings: mappings.mappings.length, themeCoverage: 'complete', standaloneLookup: 'checked' }));
+  console.log(JSON.stringify({ tokens: inventory.meta.counts, relations: relations.variableRelations.length, themeCoverage: 'complete', standaloneLookup: 'checked' }));
 } catch (error) {
   console.error(error.message);
   process.exitCode = 1;

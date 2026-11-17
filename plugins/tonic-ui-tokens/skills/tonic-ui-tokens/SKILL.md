@@ -1,153 +1,98 @@
 ---
 name: tonic-ui-tokens
-description: Use when a designer hands over a "$color."/"$typography." Figma name, a captured variable path or key, a screenshot or visual description, or a design spec that needs the real Tonic UI v3 token — resolving color/typography names to implemented code paths, dark and light values and emitted CSS variable names, including private tokens, code-only tokens, design-only entries and unresolved source conflicts. Also use for token paths that "resolve to nothing", for typography compositions (which font-size/weight pair a style uses), and for a handoff list of design entries with no code counterpart. Not for upgrading packages (that is tonic-ui-upgrade) and not for general component development or release verification (that is tonic-ui-dev).
+description: Use for Tonic UI v3 theme-token paths and values, captured Figma variable identity and reviewed correspondence, wildcard lookup, screenshots or unconfirmed design handoffs. Includes private and legacy tokens, CSS variables and unresolved source values. Not for capturing or regenerating data, upgrading packages, general component development or release verification.
 ---
 
 # Tonic UI v3 token resolution
 
-Everyday design-to-code work in an app that already uses `@tonic-ui/react` v3: turn a
-design name, a screenshot, or a design spec into **real implemented tokens** — or into an
-explicit "this is not implemented / not confirmed" answer.
+Use this skill for app-code and Figma prototype questions in an app already using
+`@tonic-ui/react` v3. Match the actual theme inventory or captured variables, report the
+evidence and its limits, and leave unavailable design decisions unconfirmed. Token
+selection does not require an upgrade or package change.
 
-Token selection does **not** require an upgrade or any package change. Do not route a
-color/typography question into `tonic-ui-upgrade`; do not bump dependencies to answer it.
+## Data and boundaries
 
-The bundled data is **generated from the theme source**, not copied from a design table, so
-every implemented leaf is present (public and private). "The design table says X" is not the
-authority here; the source-derived inventory is, and the curated Figma aliases are the bridge
-to design names.
+- `assets/tokens.json` is generated from the Tonic UI v3 theme source and includes public
+  and private, primitive, semantic and legacy leaves, mode and unit values, and emitted
+  CSS variables. Its metadata identifies the theme version and source revision.
+- `assets/figma-variables/` contains location-redacted snapshots of Tonic One v4
+  Foundations and Semantic variables, including modes and alias targets. Their
+  applicability to Tonic UI v3 is **unverified**. They do not include every prototype or
+  text style and are not a live view of Figma.
+- `assets/token-relations.json` is a **partial** ledger of reviewed variable-to-theme
+  correspondence. The shipped Tonic UI ledger is empty: all endpoints are `unreviewed`,
+  not proven matches or absences. Never transplant v4 reviews as v3 evidence.
+- `scripts/lookup-tokens.mjs` reads the bundled data offline. It needs no checkout,
+  installation, Figma connection, credentials or network.
 
-- `assets/tokens.json` — the complete source-derived token inventory (public + private,
-  primitive/semantic/legacy, dark/light values, CSS variable names). 1074 records, 469 private.
-- `assets/figma-mappings.json` — curated design aliases with status and database/row provenance.
-- `assets/figma-variables/` — location-redacted snapshots of Tonic One v4 design libraries;
-  their applicability to Tonic UI v3 is **unverified**.
-- `scripts/lookup-tokens.mjs` — read-only lookup for the bundled data (no install or checkout).
-
-The color database (`1939407344`) is confirmed as the v3 semantic color definitions by the
-repository's v2-to-v3 color migration guide. The typography database (`1962606684`) and the
-Designer Handbook / Light Mode guide snapshots are retained as upstream design provenance;
-their applicability to Tonic UI is **unverified** (see [TOKEN_MAPPING.md](TOKEN_MAPPING.md)).
-
-The variable snapshots are independent of both the v3 implementation and curated aliases.
-The shipped mappings contain no variable-review ledger: captured variables and theme tokens
-are `unreviewed` for correspondence, not proven matches or absences. Read
-[variable-relations.md](references/variable-relations.md) for variable identity, selectors
-and evidence limits; never infer a v3 counterpart from a captured v4 name or value.
+Query only: do not capture or regenerate snapshots, change relations or Figma files, edit
+theme source, or upgrade packages as a side effect. Never infer identity from matching
+names, RGB values, screenshots or `codeSyntax` alone. A lookup does not prove what a
+component renders.
 
 ## Workflow
 
-1. **Classify the query.** Exact Figma alias (`$color.text.primary`), captured variable
-   (`semantic:Color/text/primary`), exact code token (`text.primary`,
-   `_foreground.primaryVariant.selectedDisabled`, legacy `blue:60`), a family (`_component`,
-   `background`, `_chart`), or a visual description (screenshot, "the row hover background",
-   "the disabled toggle fill").
-2. **Look it up** (step "Lookup" below) instead of guessing a path.
-3. **Read the result status** — `verified`, `family-mapping`, `source-conflict`,
-   `design-only`, `composed`, `code-only`, or `unresolved-source` — and the provenance
-   (design row + content version).
-   For captured variables or variable counterparts, read their separate `correspondence`
-   status and the variable-relations reference; an alias status is not a variable review.
-4. **Answer with the real path and value.** Give `path`, dark/light values, and the CSS
-   variable name when the lookup includes it. Private (`_…`) tokens are real but
-   unpublished; say so rather than presenting them as stable public API.
-5. **If evidence is missing, say so and continue with the rest.** Use
-   [UNMAPPED_TOKEN_TEMPLATE.md](UNMAPPED_TOKEN_TEMPLATE.md) for a designer handoff when a
-   token, state, mode, or attribute (typically line height) is unconfirmed. Never invent a
-   path, never substitute a "close" primitive color for a missing semantic decision.
+1. Identify the input: an implemented theme path or short token name, a captured Figma
+   variable path or stable key, or a screenshot/prototype without an identifiable label.
+2. Match the relevant selector below. For a screenshot, first gather role, state, mode and
+   surface; use only actual inventory results as candidates.
+3. Report the complete matching paths, mode/unit values and CSS variable when available.
+   A path with an `_` segment is private: implemented, but not stable public API. Keep
+   retained legacy tokens identified as legacy.
+4. Interpret implementation `resolutionStatus` separately from variable
+   `correspondence`. An unresolved source reference is not a usable resolved value even
+   when its relation is current. Only current positive reviews provide counterparts.
+5. Compare snapshot metadata with the app's installed theme version when possible. If a
+   prototype style, mode, identity or other evidence is missing, say what remains
+   unconfirmed; do not invent a mapping or substitute a visually similar primitive.
 
-## Lookup
+## Match selectors
 
-Run the bundled helper with Node, resolved relative to **this skill's directory** (in a
-plugin cache the skill directory is not the repository root):
+Resolve the command relative to **this skill's directory**, including in a plugin cache:
 
 ```bash
-node <skill-dir>/scripts/lookup-tokens.mjs --token 'text.primary'
-node <skill-dir>/scripts/lookup-tokens.mjs --token '_component.keyboardFocused.outerFocusRing'
-node <skill-dir>/scripts/lookup-tokens.mjs --figma '$color.status.negative.text'
-node <skill-dir>/scripts/lookup-tokens.mjs --figma '$color.foreground.primary-variant.selected-disabled'
-node <skill-dir>/scripts/lookup-tokens.mjs --family '_chart'
-node <skill-dir>/scripts/lookup-tokens.mjs --query 'toast border'
-node <skill-dir>/scripts/lookup-tokens.mjs --variable 'semantic:Color/text/primary'
+node <skill-dir>/scripts/lookup-tokens.mjs --theme-token 'text.primary'
+node <skill-dir>/scripts/lookup-tokens.mjs --theme-token '_component.keyboardFocused.outerFocusRing'
+node <skill-dir>/scripts/lookup-tokens.mjs --theme-token 'borders["0.5"]'
+node <skill-dir>/scripts/lookup-tokens.mjs --theme-token 'colors.text.*'
+node <skill-dir>/scripts/lookup-tokens.mjs --theme-token 'colors.**.disabled'
+node <skill-dir>/scripts/lookup-tokens.mjs --figma-variable 'semantic:Color/text/primary'
+node <skill-dir>/scripts/lookup-tokens.mjs --figma-variable 'Color/text/**'
 ```
 
-- Exactly one of `--token`, `--figma`, `--family`, `--query`, `--variable`.
-- JSON output: `{meta, results}`. Implemented results carry the code path, `kind`,
-  `visibility`, dark/light values, `cssVariable` (when emitted), mapping status and design
-  provenance. Variable results carry the captured record, correspondence and reviewed
-  theme counterparts; the shipped snapshots have no reviewed counterparts.
-- Unknown names **fail with a nonzero exit** — no fabricated black/transparent fallback.
-- `design-only` results have `path: null` and no CSS value; `composed` typography results
-  resolve `properties` to real token paths.
-- Each `--figma` result carries `designSource` with the content ID, version, title,
-  `applicability`, and any historical source title. An `unverified` applicability is a
-  provenance limit, not a code-resolution failure; do not present the row as a
-  target-confirmed design decision.
+Supply exactly one `--theme-token` or `--figma-variable` selector. The output is
+`{ meta, results }`; an unknown valid selector returns an empty `results` array and exit
+0, not a fallback. Invalid selectors or data fail. There is no free-text, alias or
+substring search.
 
-Query mechanics, so you can phrase them correctly:
+- Theme selectors accept full paths, exact short names such as `text.primary`, decimal
+  short names such as `0.5`, private names, and legacy names such as `blue:60`.
+- `*` matches any characters within one segment; an entire unquoted `**` segment matches
+  zero or more complete segments. Thus `colors.text.*` selects direct leaves, while
+  `colors.text.**` also reaches descendants. Quote patterns in a shell.
+- Theme segments are separated by dots; bracket-quoted keys remain one segment, and
+  quoted stars in bracket keys are literal. Figma paths use slashes; dots in a Figma
+  segment are literal. Matching is case-sensitive.
+- A Figma selector can be a captured path or stable key. An optional `semantic:` or
+  `foundations:` prefix restricts the library; without a prefix, all loaded libraries
+  are searched and every match retains its library identity. Wildcards match paths, not
+  stable keys.
 
-- `--token` accepts a full inventory path (`colors.text.primary`), a bare token name
-  (`text.primary`), a bracket-addressed decimal key (`borders["0.5"]`, quoted), or a legacy
-  name (`blue:60`).
-- `--variable` selects `semantic:<path-or-key>`, `foundations:<path-or-key>`, or a stable
-  key unique across both libraries. An unqualified path or ambiguous key fails.
-- `--family` returns a whole prefix, including bracket-addressed decimal keys — use it to
-  enumerate a group instead of guessing member names.
-- `--query` is a **literal, case-insensitive substring match**, not fuzzy, and it is compared
-  against each token path and each design alias's name/role/notes. A multiword query must
-  appear **verbatim** somewhere: `--query 'table text'` and `--query 'toast border'` match
-  because those phrases occur in a role string, but `--query 'selected disabled'` and
-  `--query 'disabled text'` fail because no single string contains them. Prefer one keyword
-  (`--query disabled`) or a phrase copied from the design wording.
-- The design ranges in the source (`chart-1~14`, `option-1~4`, `lv-1~10`) are **not**
-  themselves resolvable by `--figma`; each member is recorded individually (`chart-1`,
-  `option-1.chart-1`, …) so the range is expanded **by name**, never by position.
-- For a chart range, explain that the brace/range notation is not literal lookup input.
-  Separate the requested palette from any chart library's default color selection. This
-  repository has no chart package; `_chart` tokens are theme data, not proof of a consumer
-  default. Do not imply predictable options are defaults.
+## Task references
 
-When no checkout is available this bundled snapshot is sufficient at its declared version.
-When a checkout or installed library exists, prefer it for version-sensitive answers and
-state the freshness limit: the snapshot's `meta.themeVersion`/`sourceRevision` are printed in
-the lookup output, and the app's installed `@tonic-ui/react`/`@tonic-ui/theme` may be a
-different version.
+Read only the references relevant to the request; combine routes when it crosses them.
+Links are relative to this skill directory.
 
-## Reading the statuses
-
-| Status | Meaning |
+| Task | Read |
 | --- | --- |
-| `verified` | The design alias maps to exactly one implemented token, matched by name against its database row. |
-| `family-mapping` | One design entry covers a range (e.g. `chart-1~14`, `lv-1~10`); implemented members are expanded by name from the row. |
-| `source-conflict` | The database row disagrees with the implemented theme (name, order or target); the conflict is recorded and the implementation wins for code. |
-| `design-only` | The design entry has no implemented token — do not invent one or silently substitute another family. |
-| `composed` | A typography role expressed as real property tokens (`fontSize`, `fontWeight`, `fontFamily`) rather than an invented composite API. |
-| `code-only` | An implemented token with no design alias (or an alias whose row omits it); it is real code, not a design decision. |
-| `unresolved-source` | The source reference itself does not resolve (e.g. `colors.riskLevel.*._gradient.opaque`); a verified-looking design alias must not present it as a usable color. |
+| Interpret captured variables, reviewed counterparts, modes or freshness | [Variable relations](references/variable-relations.md) |
+| Interpret a screenshot or visual description | [Screenshot rules](SCREENSHOT_RULES.md) |
+| Prepare a local handoff for an unconfirmed token, state or attribute | [Unmapped token template](UNMAPPED_TOKEN_TEMPLATE.md) |
+| Choose evidence labels and language for an answer | [Language rules](LANGUAGE_RULES.md) |
+| Understand captured variable fields, aliases and known gaps | [Figma variables README](assets/figma-variables/README.md) |
 
-`status` (design correspondence) is separate from the inventory's `resolutionStatus`: a
-confirmed design alias can never upgrade an unresolved code value to `verified`.
-
-## References
-
-- [TOKEN_MAPPING.md](TOKEN_MAPPING.md) — design→code families, ordering/typo/conflict
-  exceptions, draft entries, private and code-only guidance, Designer handoff fields.
-- [TYPOGRAPHY_MAPPING.md](TYPOGRAPHY_MAPPING.md) — typography roles as real
-  size/weight compositions, code-applied vs design-confirmed line height, display-size gaps.
-- [SCREENSHOT_RULES.md](SCREENSHOT_RULES.md) — screenshot workflow and how to report
-  candidate tokens without claiming identity from RGB.
-- [UNMAPPED_TOKEN_TEMPLATE.md](UNMAPPED_TOKEN_TEMPLATE.md) — review template for missing
-  tokens/states/attributes (local report; never sent automatically).
-- [LANGUAGE_RULES.md](LANGUAGE_RULES.md) — output language and evidence labelling.
-- [variable-relations.md](references/variable-relations.md) — read for captured variables,
-  reviewed correspondence, selector rules and the unverified v4/v3 boundary.
-
-## Boundaries
-
-- This skill answers **token questions**. General v3 component development and release
-  verification belong to **`tonic-ui-dev`**; a v2→v3 application migration belongs to
-  **`tonic-ui-upgrade`**.
-- Do not edit library theme source in a consuming app's task; report a source conflict
-  instead. Do not upgrade packages, generate new token snapshots, or change a Figma file.
-- A successful lookup is evidence about the token, not proof that a component renders it;
-  visual claims still need rendered inspection.
+The offline snapshot is evidence at its declared revision, not proof of a newer release,
+the app's custom theme or the current remote prototype. If the host cannot inspect an
+image, say so and request labels or an export while completing reachable lookups.
+General component development belongs to `tonic-ui-dev`; upgrades belong to
+`tonic-ui-upgrade`. Neither is a prerequisite for token selection.

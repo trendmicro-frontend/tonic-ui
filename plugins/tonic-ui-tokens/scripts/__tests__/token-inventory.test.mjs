@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import test, { describe } from 'node:test';
-import { fileURLToPath } from 'node:url';
-import { lookupTokens } from '../../skills/tonic-ui-tokens/scripts/lookup-tokens.mjs';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { createTokenMatcher } from '../../skills/tonic-ui-tokens/scripts/token-matcher.mjs';
 import { relationSnapshotDigests } from '../../skills/tonic-ui-tokens/scripts/variable-relations.mjs';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../../../..');
@@ -15,9 +15,11 @@ const assets = join(repoRoot, 'plugins/tonic-ui-tokens/skills/tonic-ui-tokens/as
 const readAsset = (path) => JSON.parse(readFileSync(join(assets, path), 'utf8'));
 const relationAssets = () => ({
   inventory: readAsset('tokens.json'),
-  mappings: readAsset('figma-mappings.json'),
+  relations: readAsset('token-relations.json'),
   libraries: ['foundations', 'semantic'].map((library) => readAsset(`figma-variables/${library}.json`)),
 });
+const matcher = ({ inventory, relations, libraries }) =>
+  createTokenMatcher({ inventory, relations, figmaVariables: libraries });
 const syntheticRelation = (inventory, libraries, themePath, variablePath = 'Color/text/primary') => {
   const variable = libraries[1].variables.find((entry) => entry.path === variablePath);
   const relation = {
@@ -45,7 +47,7 @@ const result = (args) => response(args).results;
 
 describe('plugins/tonic-ui-tokens / Lookup and inventory generation', () => {
   test('lookup exposes internal focus tokens rather than filtering private namespaces', () => {
-    const records = result(['--token', '_component.keyboardFocused.outerFocusRing']);
+    const records = result(['--theme-token', '_component.keyboardFocused.outerFocusRing']);
     assert.equal(records.length, 1);
     assert.equal(records[0].path, 'colors._component.keyboardFocused.outerFocusRing');
     assert.equal(records[0].visibility, 'private');
@@ -53,8 +55,9 @@ describe('plugins/tonic-ui-tokens / Lookup and inventory generation', () => {
   });
 
   test('variable selector exposes unreviewed captured modes and redacted source metadata', () => {
-    const { libraries } = relationAssets();
-    const output = response(['--variable', 'semantic:Color/text/primary']);
+    const { relations, libraries } = relationAssets();
+    assert.deepEqual(relations, { schemaVersion: 1, variableRelationsCoverage: 'partial', variableRelations: [] });
+    const output = response(['--figma-variable', 'semantic:Color/text/primary']);
     const primary = output.results[0];
     const captured = libraries[1].variables.find((variable) => variable.path === 'Color/text/primary');
     assert.equal(output.results.length, 1);
@@ -67,8 +70,9 @@ describe('plugins/tonic-ui-tokens / Lookup and inventory generation', () => {
     assert.equal(primary.correspondence.coverage, 'partial');
     assert.deepEqual(primary.correspondence.relations, []);
     assert.deepEqual(primary.themeTokens, []);
-    assert.deepEqual(result(['--variable', captured.figmaKey]), [primary]);
+    assert.deepEqual(result(['--figma-variable', captured.figmaKey]), [primary]);
     assert.equal(output.meta.variableRelationCoverage, 'partial');
+    assert.equal(Object.hasOwn(output.meta, 'designSources'), false);
     for (const library of libraries) {
       const source = output.meta.variableSources.find((entry) => entry.library === library.meta.library);
       assert.ok(source);
@@ -81,164 +85,168 @@ describe('plugins/tonic-ui-tokens / Lookup and inventory generation', () => {
     }
   });
 
-  test('reverse token lookup leaves accent correspondence unreviewed', () => {
-    const records = result(['--token', 'colors.text.accent']);
-    assert.equal(records.length, 1);
-    const accent = records[0];
-    assert.equal(accent.path, 'colors.text.accent');
-    assert.equal(accent.correspondence.status, 'unreviewed');
-    assert.equal(accent.correspondence.coverage, 'partial');
-    assert.deepEqual(accent.correspondence.relations, []);
-    assert.deepEqual(accent.figmaVariables, []);
-  });
-
   test('unreviewed variables and tokens do not manufacture absence or matches', () => {
-    const [secondary] = result(['--variable', 'semantic:Color/text/secondary']);
+    const [secondary] = result(['--figma-variable', 'semantic:Color/text/secondary']);
     assert.equal(secondary.variable.codeSyntax.WEB, 'text.secondary');
     assert.equal(secondary.correspondence.status, 'unreviewed');
     assert.deepEqual(secondary.correspondence.relations, []);
     assert.deepEqual(secondary.themeTokens, []);
-    assert.notEqual(secondary.status, 'design-only');
-    const [token] = result(['--token', 'colors.text.secondary']);
-    assert.equal(token.correspondence.status, 'unreviewed');
-    assert.deepEqual(token.figmaVariables, []);
+    for (const path of ['colors.text.secondary', 'colors.text.accent']) {
+      const [token] = result(['--theme-token', path]);
+      assert.equal(token.path, path);
+      assert.equal(token.correspondence.status, 'unreviewed');
+      assert.deepEqual(token.correspondence.relations, []);
+      assert.deepEqual(token.figmaVariables, []);
+      for (const field of ['status', 'mappings', 'designSource', 'resolvedProperties']) {
+        assert.equal(Object.hasOwn(token, field), false, field);
+      }
+    }
   });
 
-  test('variable selector errors are explicit and exactly one selector is required', () => {
-    const barePath = run(lookup, ['--variable', 'Color/text/primary']);
-    assert.notEqual(barePath.status, 0);
-    assert.equal(barePath.stdout, '');
-    assert.match(barePath.stderr, /qualif/i);
-    const unknown = run(lookup, ['--variable', 'semantic:not-a-variable']);
-    assert.notEqual(unknown.status, 0);
-    assert.equal(unknown.stdout, '');
-    assert.match(unknown.stderr, /unknown|not found/i);
-    const multiple = run(lookup, ['--token', 'colors.text.primary', '--variable', 'semantic:Color/text/primary']);
-    assert.notEqual(multiple.status, 0);
-    assert.match(multiple.stderr, /exactly one/i);
-    const help = run(lookup, ['--help']);
-    assert.equal(help.status, 0, help.stderr);
-    for (const selector of ['--token', '--figma', '--family', '--query', '--variable']) {
-      assert.ok(help.stdout.includes(selector), selector);
+  test('CLI matches exact and wildcard selectors across the bundled libraries', () => {
+    assert.deepEqual(result(['--theme-token', 'colors.text.primary']).map((entry) => entry.path), ['colors.text.primary']);
+    const paths = result(['--theme-token', 'colors.text.*']).map((entry) => entry.path);
+    assert.ok(paths.length > 1);
+    assert.ok(paths.includes('colors.text.primary'));
+    assert.ok(paths.includes('colors.text.accent'));
+    assert.ok(paths.every((path) => /^colors\.text\.[^.]+$/.test(path)));
+    assert.deepEqual(paths, [...paths].sort());
+
+    const variables = result(['--figma-variable', 'semantic:Color/text/*']);
+    const variablePaths = variables.map((entry) => entry.variable.path);
+    assert.ok(variablePaths.length > 1);
+    assert.ok(variablePaths.includes('Color/text/primary'));
+    assert.ok(variables.every((entry) => entry.variable.library === 'semantic'
+      && /^Color\/text\/[^/]+$/.test(entry.variable.path)));
+    assert.deepEqual(variablePaths, [...variablePaths].sort());
+
+    const { libraries } = relationAssets();
+    const expected = libraries.flatMap((library) => library.variables
+      .filter((variable) => variable.path === 'Spacing/none')
+      .map((variable) => [library.meta.library, variable.path, variable.figmaKey]));
+    assert.deepEqual(expected.map((entry) => entry[0]), ['foundations', 'semantic']);
+    assert.deepEqual(result(['--figma-variable', 'Spacing/none'])
+      .map(({ variable }) => [variable.library, variable.path, variable.figmaKey]), expected);
+  });
+
+  test('CLI returns an empty envelope for unmatched and wrong-case selectors', () => {
+    for (const args of [
+      ['--theme-token', '_component.nonexistent.token'],
+      ['--theme-token', 'missing.**'],
+      ['--figma-variable', 'semantic:not-a-variable'],
+      ['--figma-variable', 'semantic:color/text/*'],
+    ]) {
+      const output = response(args);
+      assert.deepEqual(output.results, [], args.join(' '));
+      assert.equal(output.meta.variableRelationCoverage, 'partial');
+      assert.equal(typeof output.meta.themeVersion, 'string');
+    }
+  });
+
+  test('CLI rejects invalid or conflicting arguments without stdout', () => {
+    const cases = [
+      [[], /exactly one/i],
+      [['--theme-token'], /argument|value|selector/i],
+      [['--figma-variable'], /argument|value|selector/i],
+      [['--theme-token', ''], /exactly one/i],
+      [['--figma-variable='], /exactly one/i],
+      [['--theme-token', 'colors.text.primary', '--figma-variable', 'semantic:Color/text/primary'], /exactly one/i],
+      [['--theme-token', 'colors.text.primary', '--theme-token', 'colors.text.accent'], /exactly one/i],
+      [['--theme-token=colors.text.primary', '--theme-token=colors.text.accent'], /exactly one/i],
+      [['--figma-variable', 'semantic:Color/text/primary', '--figma-variable', 'semantic:Color/text/accent'], /exactly one/i],
+      [['--figma-variable=semantic:Color/text/primary', '--figma-variable=semantic:Color/text/accent'], /exactly one/i],
+      [['--help', '--theme-token', 'colors.text.primary'], /exactly one|help/i],
+      [['--theme-token', 'colors.text.primary', 'unexpected'], /argument|positional|unexpected/i],
+      [['--unknown', 'value'], /unknown|option/i],
+      [['--theme-token', 'colors..text'], /Invalid selector pattern/i],
+      [['--theme-token', 'colors.***'], /Invalid selector pattern/i],
+      [['--figma-variable', 'semantic:Color//text'], /Invalid selector pattern/i],
+      [['--figma-variable', 'unknown:Color/text/primary'], /Unknown Figma variable library/i],
+      ...['--token', '--variable', '--figma', '--family', '--query']
+        .map((flag) => [[flag, 'anything'], /unknown|option/i]),
+    ];
+    for (const [args, expected] of cases) {
+      const execution = run(lookup, args);
+      assert.notEqual(execution.status, 0, args.join(' '));
+      assert.equal(execution.stdout, '', args.join(' '));
+      assert.match(execution.stderr, expected, args.join(' '));
+    }
+  });
+
+  test('CLI help and import succeed without bundled assets or output side effects', () => {
+    const directory = mkdtempSync(join(tmpdir(), 'tonic-lookup-import-'));
+    try {
+      const scripts = join(directory, 'scripts');
+      cpSync(dirname(lookup), scripts, { recursive: true });
+      const isolatedLookup = join(scripts, 'lookup-tokens.mjs');
+      const help = run(isolatedLookup, ['--help']);
+      assert.equal(help.status, 0, help.stderr);
+      assert.equal(help.stderr, '');
+      assert.match(help.stdout, /Usage: node <skill-directory>\/scripts\/lookup-tokens\.mjs --theme-token PATTERN \| --figma-variable PATTERN/);
+      const script = `await import(${JSON.stringify(pathToFileURL(isolatedLookup).href)}); process.stdout.write('imported');`;
+      const imported = run('--input-type=module', ['--eval', script]);
+      assert.equal(imported.status, 0, imported.stderr);
+      assert.equal(imported.stdout, 'imported');
+      assert.equal(imported.stderr, '');
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  });
+
+  test('CLI executes through a symlink with and without preserving the main symlink', () => {
+    const directory = mkdtempSync(join(tmpdir(), 'tonic-lookup-symlink-'));
+    try {
+      const link = join(directory, 'lookup.mjs');
+      symlinkSync(lookup, link);
+      const args = ['--theme-token', 'colors.text.primary'];
+      const direct = run(lookup, args);
+      assert.equal(direct.status, 0, direct.stderr);
+      for (const execution of [run(link, args), run('--preserve-symlinks-main', [link, ...args])]) {
+        assert.equal(execution.status, 0, execution.stderr);
+        assert.equal(execution.stderr, '');
+        assert.deepEqual(JSON.parse(execution.stdout), JSON.parse(direct.stdout));
+      }
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
     }
   });
 
   test('one reviewed variable can map to multiple explicitly reviewed theme tokens', () => {
-    const { inventory, mappings, libraries } = relationAssets();
-    mappings.variableRelationsCoverage = 'partial';
-    mappings.variableRelations = [
+    const fixture = relationAssets();
+    const { inventory, relations, libraries } = fixture;
+    relations.variableRelations = [
       syntheticRelation(inventory, libraries, 'colors.text.primary'),
       syntheticRelation(inventory, libraries, 'colors.text.secondary'),
     ];
-    const [record] = lookupTokens({ variable: 'semantic:Color/text/primary' }, inventory, mappings, libraries).results;
+    const [record] = matcher(fixture).matchFigmaVariables('semantic:Color/text/primary').results;
     assert.equal(record.correspondence.status, 'mapped');
-    assert.deepEqual(record.themeTokens.map((entry) => entry.path).sort(), ['colors.text.primary', 'colors.text.secondary']);
+    assert.deepEqual(record.themeTokens.map((entry) => entry.path), ['colors.text.primary', 'colors.text.secondary']);
     assert.equal(record.correspondence.relations.length, 2);
   });
 
   test('a reviewed variable relation cannot resolve an unresolved theme value', () => {
-    const { inventory, mappings, libraries } = relationAssets();
+    const fixture = relationAssets();
+    const { inventory, relations, libraries } = fixture;
     const relation = syntheticRelation(inventory, libraries, 'colors.riskLevel.high._gradient.opaque');
-    mappings.variableRelationsCoverage = 'partial';
-    mappings.variableRelations = [relation];
-    const variable = lookupTokens({ variable: 'semantic:Color/text/primary' }, inventory, mappings, libraries).results[0];
+    relations.variableRelations = [relation];
+    const instance = matcher(fixture);
+    const variable = instance.matchFigmaVariables('semantic:Color/text/primary').results[0];
     const unresolved = variable.themeTokens.find((token) => token.path === relation.themePath);
     assert.equal(unresolved.resolutionStatus, 'unresolved-source');
     assert.equal(unresolved.values.dark, '{alert.riskLevel.high.chart}');
-    const token = lookupTokens({ token: relation.themePath }, inventory, mappings, libraries).results[0];
-    assert.equal(token.status, 'unresolved-source');
+    const token = instance.matchThemeTokens(relation.themePath).results[0];
+    assert.equal(token.resolutionStatus, 'unresolved-source');
     assert.equal(token.correspondence.status, 'mapped');
     assert.equal(token.figmaVariables[0].path, 'Color/text/primary');
   });
 
-  test('duplicate keys and paths across libraries require an explicit library', () => {
-    const { inventory, mappings, libraries } = relationAssets();
-    const primary = libraries[1].variables.find((variable) => variable.path === 'Color/text/primary');
-    const referencedKeys = new Set(libraries.flatMap((library) => library.variables.flatMap((variable) =>
-      Object.values(variable.values).map((value) => value.target?.key).filter(Boolean))));
-    const collision = libraries[0].variables.find((variable) =>
-      variable.collection === 'Color' && !referencedKeys.has(variable.figmaKey));
-    assert.ok(collision);
-    collision.figmaKey = primary.figmaKey;
-    collision.path = primary.path;
-    collision.token = primary.token;
-    assert.throws(() => lookupTokens({ variable: primary.figmaKey }, inventory, mappings, libraries), /ambiguous/i);
-    assert.throws(() => lookupTokens({ variable: primary.path }, inventory, mappings, libraries), /qualif/i);
-    const semantic = lookupTokens({ variable: `semantic:${primary.figmaKey}` }, inventory, mappings, libraries).results[0];
-    const foundations = lookupTokens({ variable: `foundations:${primary.path}` }, inventory, mappings, libraries).results[0];
-    assert.equal(semantic.variable.library, 'semantic');
-    assert.equal(semantic.correspondence.status, 'unreviewed');
-    assert.equal(foundations.variable.library, 'foundations');
-    assert.equal(foundations.correspondence.status, 'unreviewed');
-  });
-
-  test('relation-aware lookups require snapshots while old fixtures remain supported', () => {
-    const { inventory, mappings, libraries } = relationAssets();
-    mappings.variableRelationsCoverage = 'partial';
-    mappings.variableRelations = [syntheticRelation(inventory, libraries, 'colors.text.primary')];
-    assert.throws(() => lookupTokens({ token: 'colors.text.primary' }, inventory, mappings), /variable|librar|snapshot/i);
-    const oldMapping = { schemaVersion: 1, mappings: [] };
-    const [record] = lookupTokens({ token: 'colors.text.primary' }, inventory, oldMapping).results;
-    assert.equal(record.status, 'code-only');
-    assert.equal(record.correspondence.status, 'unreviewed');
-    assert.deepEqual(record.figmaVariables, []);
-  });
-
-  test('Figma selected-disabled does not follow the reversed order of its source code column', () => {
-    const records = result(['--figma', '$color.foreground.primary-variant.selected-disabled']);
-    assert.equal(records.length, 1);
-    assert.equal(records[0].path, 'colors._foreground.primaryVariant.selectedDisabled');
-  });
-
-  test('unimplemented design tokens remain design-only without an invented code path', () => {
-    const records = result(['--figma', '$color.status.in-progress.icon']);
-    assert.equal(records.length, 1);
-    assert.equal(records[0].status, 'design-only');
-    assert.equal(records[0].path, null);
-    assert.equal(records[0].cssVariable, undefined);
-  });
-
-  test('legacy CSS variable names preserve the source colon-to-underscore convention', () => {
-    const records = result(['--token', 'blue:60']);
-    assert.equal(records.length, 1);
-    assert.equal(records[0].kind, 'legacy');
-    assert.equal(records[0].cssVariable, '--tonic-colors-blue_60');
-  });
-
-  test('unknown tokens fail without manufacturing a usable color', () => {
-    const execution = run(lookup, ['--token', '_component.nonexistent.token']);
-    assert.notEqual(execution.status, 0);
-    assert.equal(execution.stdout, '');
-    assert.match(execution.stderr, /unknown|not found/i);
-  });
-
-  test('a confirmed design alias cannot make an unresolved source value verified', () => {
-    const inventory = JSON.parse(readFileSync(join(repoRoot, 'plugins/tonic-ui-tokens/skills/tonic-ui-tokens/assets/tokens.json'), 'utf8'));
-    const figma = '$color.risk.level.high.gradient.opaque';
-    const mappings = { schemaVersion: 1, mappings: [{
-      figma, path: 'colors.riskLevel.high._gradient.opaque', status: 'verified',
-    }] };
-    const { results } = lookupTokens({ figma }, inventory, mappings);
-    assert.equal(results[0].status, 'unresolved-source');
-    assert.equal(results[0].values.dark, '{alert.riskLevel.high.chart}');
-  });
-
-  test('family correspondence remains uncertain across token and family routes', () => {
-    const inventory = JSON.parse(readFileSync(join(repoRoot, 'plugins/tonic-ui-tokens/skills/tonic-ui-tokens/assets/tokens.json'), 'utf8'));
-    const mappingData = { schemaVersion: 1, mappings: [{
-      figma: '$color.text.*', path: 'colors.text.primary', status: 'family-mapping',
-    }] };
-    for (const query of [{ token: 'text.primary' }, { family: 'text' }, { query: '$color.text' }]) {
-      const { results } = lookupTokens(query, inventory, mappingData);
-      assert.equal(results.find((entry) => entry.path === 'colors.text.primary').status, 'family-mapping');
-    }
-  });
-
-  test('border family lookup includes literal decimal-key descendants', () => {
-    const inventory = JSON.parse(readFileSync(join(repoRoot, 'plugins/tonic-ui-tokens/skills/tonic-ui-tokens/assets/tokens.json'), 'utf8'));
-    const { results } = lookupTokens({ family: 'borders' }, inventory, { schemaVersion: 1, mappings: [] });
-    assert.equal(results.find((entry) => entry.path === 'borders["0.5"]').values.dark, '0.5px solid');
-    assert.equal(results.find((entry) => entry.path === 'borders["1.5"]').values.dark, '1.5px solid');
+  test('legacy CSS variables and decimal border keys preserve source values', () => {
+    const [legacy] = result(['--theme-token', 'blue:60']);
+    assert.equal(legacy.kind, 'legacy');
+    assert.equal(legacy.cssVariable, '--tonic-colors-blue_60');
+    const borders = result(['--theme-token', 'borders.*']);
+    assert.equal(borders.find((entry) => entry.path === 'borders["0.5"]').values.dark, '0.5px solid');
+    assert.equal(borders.find((entry) => entry.path === 'borders["1.5"]').values.dark, '1.5px solid');
   });
 
   test('generated inventory round-trips named breakpoint aliases through JSON checks', () => {
