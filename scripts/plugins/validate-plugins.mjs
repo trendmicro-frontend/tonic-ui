@@ -1,9 +1,8 @@
 #!/usr/bin/env node
-import { existsSync, lstatSync, readFileSync, readdirSync, realpathSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, realpathSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isDeepStrictEqual, parseArgs } from 'node:util';
-import { PLUGIN_NAMES } from './lib/plugin-metadata.mjs';
 import { validatePluginVersions } from './lib/validate-plugin-versions.mjs';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
@@ -23,7 +22,7 @@ const inside = (root, target) => {
 const isLocalLink = (link) => Boolean(link) && !/^[a-z][a-z0-9+.-]*:/i.test(link) && !link.startsWith('/');
 
 /** Independent plugins; each declares and bundles exactly one skill. */
-export { PLUGIN_NAMES };
+export const PLUGIN_NAMES = ['tonic-ui-dev', 'tonic-ui-tokens', 'tonic-ui-upgrade'].sort();
 
 const markdownFiles = (directory) => {
   const files = [];
@@ -68,13 +67,7 @@ export function validatePlugins(root, { baseRef } = {}) {
     const manifest = json(root, manifestPath);
     assert(manifest?.name === name && typeof manifest.version === 'string' && /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.test(manifest.version), `Invalid plugin identity/version: ${name}`);
     assert(isDeepStrictEqual(manifest.skills, [`./skills/${name}`]), `Plugin must explicitly declare its skill: ${name}`);
-    const skillsRoot = join(pluginRoot, 'skills');
-    assert(lstatSync(skillsRoot).isDirectory(), `Invalid plugin skills directory: ${name}`);
-    assert(isDeepStrictEqual(readdirSync(skillsRoot).sort(), [name]), `Unexpected bundled skills: ${name}`);
-    const skillRoot = join(skillsRoot, name);
-    assert(lstatSync(skillRoot).isDirectory(), `Invalid bundled skill directory: ${name}`);
-    const entryPoint = join(skillRoot, 'SKILL.md');
-    assert(existsSync(entryPoint) && lstatSync(entryPoint).isFile(), `Missing bundled skill entry point: ${name}`);
+    assert(isDeepStrictEqual(readdirSync(join(pluginRoot, 'skills')).sort(), [name]), `Unexpected bundled skills: ${name}`);
     for (const field of ['mcpServers', 'hooks', 'settings', 'lspServers']) {
       assert(manifest[field] === undefined, `Unexpected plugin capability: ${name}/${field}`);
     }

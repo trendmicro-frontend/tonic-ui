@@ -105,6 +105,12 @@ describe('scripts/skills / Skill content', () => {
     assert.throws(() => validateSkills(root), /Missing linked skill resource: plugins\/tonic-ui-dev\/skills\/tonic-ui-dev\/SKILL.md/);
   }));
 
+  test('rejects a missing bundled skill entry point', () => fixture((root) => {
+    repository(root);
+    rmSync(join(root, pluginSkill, 'SKILL.md'));
+    assert.throws(() => validateSkills(root), /Missing skill entry/);
+  }));
+
   test('validates the content of a symlinked bundled skill directory', () => fixture((root) => {
     repository(root);
     rmSync(join(root, pluginSkill), { recursive: true });

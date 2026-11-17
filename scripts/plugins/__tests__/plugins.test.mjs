@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, renameSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import test, { describe } from 'node:test';
@@ -137,21 +137,28 @@ describe('scripts/plugins / Plugin structure', () => {
     put(root, `plugins/${firstPlugin}/skills/${firstPlugin}/reference.md`, 'reference');
     validatePlugins(root);
   }));
-  test('rejects missing skill entry points and symlinked skill directories', () => fixture((root) => {
+  test('accepts a symlinked bundled skill directory while enforcing its plugin boundary', () => fixture((root) => {
     repository(root);
-    const skillsRoot = join(root, `plugins/${firstPlugin}/skills`);
-    const skillRoot = join(skillsRoot, firstPlugin);
-    rmSync(join(skillRoot, 'SKILL.md'));
-    assert.throws(() => validatePlugins(root), /Missing bundled skill entry point/);
-    rmSync(skillRoot, { recursive: true });
-    put(root, 'external-skill/SKILL.md', '# external\n');
-    symlinkSync(join(root, 'external-skill'), skillRoot, 'dir');
-    assert.throws(() => validatePlugins(root), /Invalid bundled skill directory/);
-    rmSync(skillRoot);
-    rmSync(skillsRoot, { recursive: true });
-    put(root, `external-skills/${firstPlugin}/SKILL.md`, '# external\n');
-    symlinkSync(join(root, 'external-skills'), skillsRoot, 'dir');
-    assert.throws(() => validatePlugins(root), /Invalid plugin skills directory/);
+    const pluginRoot = join(root, 'plugins', firstPlugin);
+    const skillRoot = join(pluginRoot, 'skills', firstPlugin);
+    renameSync(skillRoot, join(pluginRoot, 'shared'));
+    symlinkSync('../shared', skillRoot, 'dir');
+    assert.equal(validatePlugins(root).plugins, 3);
+    put(root, 'outside.md', 'outside');
+    put(root, `plugins/${firstPlugin}/shared/SKILL.md`, '# plugin\n\nSee [outside](../../../../outside.md).\n');
+    assert.throws(() => validatePlugins(root), /Resource escapes its independent plugin/);
+  }));
+
+  test('accepts a symlinked skills directory while enforcing its plugin boundary', () => fixture((root) => {
+    repository(root);
+    const pluginRoot = join(root, 'plugins', firstPlugin);
+    const skillsRoot = join(pluginRoot, 'skills');
+    renameSync(skillsRoot, join(pluginRoot, 'bundle'));
+    symlinkSync('bundle', skillsRoot, 'dir');
+    assert.equal(validatePlugins(root).plugins, 3);
+    put(root, 'outside.md', 'outside');
+    put(root, `plugins/${firstPlugin}/bundle/${firstPlugin}/SKILL.md`, '# plugin\n\nSee [outside](../../../../outside.md).\n');
+    assert.throws(() => validatePlugins(root), /Resource escapes its independent plugin/);
   }));
 
   test('each copied plugin retains only its own skill and local resources', () => fixture((root) => {

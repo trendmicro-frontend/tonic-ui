@@ -1,7 +1,5 @@
 import { isDeepStrictEqual } from 'node:util';
 
-export const PLUGIN_NAMES = Object.freeze(['tonic-ui-dev', 'tonic-ui-tokens', 'tonic-ui-upgrade']);
-
 export function alignPluginMetadata(catalog, manifests) {
   if (!Array.isArray(catalog?.plugins) || !(manifests instanceof Map)) {
     throw new Error('Expected catalog.plugins and a manifest Map.');

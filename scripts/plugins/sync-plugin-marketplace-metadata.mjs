@@ -2,8 +2,8 @@
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { isDeepStrictEqual, parseArgs } from 'node:util';
-import { alignPluginMetadata, PLUGIN_NAMES } from './lib/plugin-metadata.mjs';
+import { parseArgs } from 'node:util';
+import { alignPluginMetadata } from './lib/plugin-metadata.mjs';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 try {
@@ -16,9 +16,6 @@ try {
       continue;
     }
     manifests.set(entry.name, JSON.parse(readFileSync(join(repoRoot, 'plugins', entry.name, '.claude-plugin/plugin.json'), 'utf8')));
-  }
-  if (!isDeepStrictEqual([...manifests.keys()].sort(), PLUGIN_NAMES)) {
-    throw new Error('Expected exactly the three independent plugin manifests.');
   }
   const aligned = alignPluginMetadata(catalog, manifests);
   if (aligned.mismatches.length > 0) {

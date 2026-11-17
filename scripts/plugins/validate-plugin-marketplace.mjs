@@ -3,7 +3,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isDeepStrictEqual } from 'node:util';
-import { alignPluginMetadata, PLUGIN_NAMES } from './lib/plugin-metadata.mjs';
+import { alignPluginMetadata } from './lib/plugin-metadata.mjs';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const assert = (condition, message) => { if (!condition) throw new Error(message); };
@@ -25,12 +25,11 @@ export function validatePluginMarketplace(root) {
   const manifests = new Map(readdirSync(pluginsRoot, { withFileTypes: true })
     .filter((entry) => !entry.name.startsWith('.') && entry.isDirectory())
     .map((entry) => [entry.name, json(root, `plugins/${entry.name}/.claude-plugin/plugin.json`)]));
-  const names = [...manifests.keys()].sort();
-  assert(isDeepStrictEqual(names, PLUGIN_NAMES), 'Marketplace must expose exactly the expected plugins.');
   assert(Array.isArray(codexCatalog.plugins), 'Expected Codex catalog.plugins array.');
   const { mismatches } = alignPluginMetadata(claudeCatalog, manifests);
   assert(mismatches.length === 0,
     `Plugin metadata differs: ${mismatches.map(({ plugin, field }) => `${plugin}/${field}`).join(', ')}. Run node scripts/plugins/sync-plugin-marketplace-metadata.mjs --write`);
+  const names = [...manifests.keys()].sort();
   for (const [platform, catalog] of [['Claude', claudeCatalog], ['Codex', codexCatalog]]) {
     const entries = catalog.plugins.map((entry) => entry.name);
     assert(new Set(entries).size === entries.length, `Duplicate ${platform} marketplace plugin entries.`);

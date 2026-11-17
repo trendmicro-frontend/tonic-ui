@@ -119,16 +119,19 @@ describe('scripts/plugins / Plugin marketplace', () => {
     catalog(root, { codex: PLUGIN_NAMES.map((name) => codexEntry(name, name === firstPlugin ? { source: undefined } : {})) });
     assert.throws(() => validatePluginMarketplace(root), /Invalid Codex plugin source/);
   }));
-  test('rejects missing or additional physical plugins even when catalogs match', () => fixture((root) => {
+  test('accepts fewer physical plugins when both catalogs match', () => fixture((root) => {
     repository(root);
     const remaining = PLUGIN_NAMES.slice(0, -1);
     rmSync(join(root, 'plugins', PLUGIN_NAMES.at(-1)), { recursive: true });
     catalog(root, { claude: remaining.map((name) => claudeEntry(name)), codex: remaining.map((name) => codexEntry(name)) });
-    assert.throws(() => validatePluginMarketplace(root), /exactly the expected plugins/);
+    assert.deepEqual(validatePluginMarketplace(root), { catalogs: 2, plugins: 2, metadata: 'aligned' });
+  }));
+
+  test('accepts additional physical plugins when both catalogs match', () => fixture((root) => {
     repository(root);
-    put(root, 'plugins/tonic-ui/.claude-plugin/plugin.json', manifestFor('tonic-ui'));
-    const combined = [...PLUGIN_NAMES, 'tonic-ui'];
+    put(root, 'plugins/demo-extra/.claude-plugin/plugin.json', manifestFor('demo-extra'));
+    const combined = [...PLUGIN_NAMES, 'demo-extra'];
     catalog(root, { claude: combined.map((name) => claudeEntry(name)), codex: combined.map((name) => codexEntry(name)) });
-    assert.throws(() => validatePluginMarketplace(root), /exactly the expected plugins/);
+    assert.deepEqual(validatePluginMarketplace(root), { catalogs: 2, plugins: 4, metadata: 'aligned' });
   }));
 });

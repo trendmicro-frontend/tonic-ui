@@ -350,28 +350,14 @@ describe('plugins/tonic-ui-tokens / Validation and lookup isolation', () => {
     assert.throws(() => validateVariableRelations(inventory, mappings, libraries), /stale.*variable mode v4 \(Dark\) Tonic One is missing/i);
 
     const completeLibraries = readRelationAssets().libraries;
-    const endpointPath = 'colors._component.keyboardFocused.outerFocusRing';
-    const endpointMappings = structuredClone(mappings);
-    const relation = endpointMappings.variableRelations.find((entry) => entry.themePath === 'colors.text.primary');
-    relation.themePath = endpointPath;
-    relation.evidence.sourceRows = [];
-    relation.evidence.snapshots = relationSnapshotDigests(relation, inventory, completeLibraries);
-    assert.ok(!endpointMappings.mappings.some((mapping) => mapping.path === endpointPath
-      || Object.values(mapping.properties ?? {}).includes(endpointPath)));
-    assert.doesNotThrow(() => validateVariableRelations(inventory, endpointMappings, completeLibraries));
-    const beforeRemoval = lookupTokens({ variable: 'semantic:Color/text/primary' }, inventory, endpointMappings, completeLibraries).results[0];
-    assert.equal(beforeRemoval.correspondence.status, 'mapped');
-    assert.deepEqual(beforeRemoval.themeTokens.map((token) => token.path), [endpointPath]);
-
+    const relation = mappings.variableRelations.find((entry) => entry.themePath === 'colors.text.primary');
     const missingTheme = structuredClone(inventory);
-    missingTheme.tokens = missingTheme.tokens.filter((token) => token.path !== endpointPath);
-    missingTheme.meta.counts.total -= 1;
-    missingTheme.meta.counts.private -= 1;
+    missingTheme.tokens = missingTheme.tokens.filter((token) => token.path !== 'colors.text.primary');
     assert.equal(relationSnapshotDigests(relation, missingTheme, completeLibraries).theme, null);
-    const withoutEndpoint = lookupTokens({ variable: 'semantic:Color/text/primary' }, missingTheme, endpointMappings, completeLibraries).results[0];
+    const withoutEndpoint = lookupTokens({ variable: 'semantic:Color/text/primary' }, missingTheme, mappings, completeLibraries).results[0];
     assert.equal(withoutEndpoint.correspondence.status, 'stale');
     assert.deepEqual(withoutEndpoint.themeTokens, []);
-    assert.throws(() => validateVariableRelations(missingTheme, endpointMappings, completeLibraries), /stale.*theme endpoint is missing/i);
+    assert.throws(() => validateVariableRelations(missingTheme, mappings, completeLibraries), /stale.*theme endpoint is missing/i);
   });
 
   test('reviewed absence requires whole-snapshot evidence and becomes stale when scope grows', () => {

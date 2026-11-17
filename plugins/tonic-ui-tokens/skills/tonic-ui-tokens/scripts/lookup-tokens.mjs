@@ -18,7 +18,6 @@ export function lookupTokens(query, inventory, mappingData, variableLibraries = 
   const aliases = new Map();
   for (const mapping of mappingData.mappings) {
     if (mapping.path) {
-      if (!tokens.has(mapping.path)) throw new Error(`Invalid mapped token target: ${mapping.path}`);
       const entries = aliases.get(mapping.path) ?? [];
       entries.push(mapping);
       aliases.set(mapping.path, entries);
@@ -64,6 +63,9 @@ export function lookupTokens(query, inventory, mappingData, variableLibraries = 
     };
   };
   const designRecord = (mapping) => {
+    if (mapping.path && !tokens.has(mapping.path)) {
+      throw new Error(`Invalid mapped token target: ${mapping.path}`);
+    }
     if (mapping.path) {
       const record = implemented(tokens.get(mapping.path));
       return { ...record, status: record.resolutionStatus === 'verified' ? mapping.status : 'unresolved-source', mappings: [mapping], designSource: designSource(mapping) };

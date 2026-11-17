@@ -55,7 +55,10 @@ test('family and query routes retain family correspondence and decimal paths', (
 
 test('invalid mapped and typography token targets fail rather than fabricating values', () => {
   const mapped = { schemaVersion: 1, mappings: [{ figma: '$color.example', path: 'colors.missing', status: 'verified' }] };
-  assert.throws(() => lookup({ token: 'colors.text.primary' }, mapped), /invalid mapped token target/i);
+  assert.throws(() => lookup({ figma: '$color.example' }, mapped), /invalid mapped token target/i);
+  const primary = lookup({ token: 'colors.text.primary' }, mapped);
+  assert.equal(primary.length, 1);
+  assert.equal(primary[0].path, 'colors.text.primary');
   const composed = { schemaVersion: 1, mappings: [{ figma: '$typography.example', properties: { fontSize: 'fontSizes.missing' } }] };
   assert.throws(() => lookup({ figma: '$typography.example' }, composed), /invalid typography token target/i);
 });

@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import test, { describe } from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { alignPluginMetadata, PLUGIN_NAMES } from '../lib/plugin-metadata.mjs';
+import { alignPluginMetadata } from '../lib/plugin-metadata.mjs';
 
 const source = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const manifest = { name: 'demo', version: '1.0.0', description: 'Demo.', author: { name: 'Team' } };
@@ -43,13 +43,10 @@ describe('scripts/plugins / Marketplace metadata', () => {
     for (const file of ['sync-plugin-marketplace-metadata.mjs', 'lib/plugin-metadata.mjs']) {
       put(root, `scripts/plugins/${file}`, readFileSync(join(source, file), 'utf8'));
     }
-    const manifests = new Map(PLUGIN_NAMES.map((name) => [name, { ...manifest, name }]));
-    const entries = PLUGIN_NAMES.map((name) => ({ name, source: `./plugins/${name}`, version: '0.1.0', description: 'old', author: { name: 'Old' }, category: 'development' }));
-    const catalog = { name: 'tonic-ui', plugins: entries };
+    const catalog = { name: 'catalog', plugins: [{ name: 'demo', source: './plugins/demo', version: '0.1.0', description: 'old', author: { name: 'Old' }, category: 'development' }] };
     put(root, '.claude-plugin/marketplace.json', catalog);
-    for (const [name, value] of manifests) put(root, `plugins/${name}/.claude-plugin/plugin.json`, value);
-    const first = PLUGIN_NAMES[0];
-    const manifestPath = `plugins/${first}/.claude-plugin/plugin.json`;
+    put(root, 'plugins/demo/.claude-plugin/plugin.json', manifest);
+    const manifestPath = 'plugins/demo/.claude-plugin/plugin.json';
     const path = join(root, '.claude-plugin/marketplace.json');
     const before = readFileSync(path, 'utf8');
     const check = cli(root);
@@ -58,18 +55,17 @@ describe('scripts/plugins / Marketplace metadata', () => {
     assert.equal(readFileSync(path, 'utf8'), before);
     assert.equal(cli(root, '--write').status, 0);
     const aligned = readFileSync(path, 'utf8');
-    assert.deepEqual(JSON.parse(aligned), { ...catalog, plugins: entries.map((entry) => ({ ...entry, ...manifests.get(entry.name) })) });
+    assert.deepEqual(JSON.parse(aligned), { ...catalog, plugins: [{ ...catalog.plugins[0], ...manifest }] });
     assert.equal(cli(root, '--write').status, 0);
     assert.equal(readFileSync(path, 'utf8'), aligned);
     assert.equal(cli(root).status, 0);
-    const valid = manifests.get(first);
-    for (const invalid of [null, { ...valid, name: 'wrong' }, { ...valid, version: '01.0.0' }, { ...valid, description: '' }, { ...valid, author: { name: '' } }]) {
+    for (const invalid of [null, { ...manifest, name: 'wrong' }, { ...manifest, version: '01.0.0' }, { ...manifest, description: '' }, { ...manifest, author: { name: '' } }]) {
       put(root, manifestPath, invalid);
       assert.notEqual(cli(root, '--write').status, 0);
       assert.equal(readFileSync(path, 'utf8'), aligned);
     }
-    put(root, manifestPath, valid);
-    for (const plugins of [[], [entries[0], entries[0]], [{ ...entries[0], name: 'missing' }]]) {
+    put(root, manifestPath, manifest);
+    for (const plugins of [[], [catalog.plugins[0], catalog.plugins[0]], [{ ...catalog.plugins[0], name: 'missing' }]]) {
       put(root, '.claude-plugin/marketplace.json', { plugins });
       const bytes = readFileSync(path, 'utf8');
       assert.notEqual(cli(root, '--write').status, 0);
@@ -81,14 +77,5 @@ describe('scripts/plugins / Marketplace metadata', () => {
     assert.deepEqual(JSON.parse(readFileSync(path)), catalog);
     rmSync(join(root, manifestPath));
     assert.notEqual(cli(root, '--write').status, 0);
-    put(root, manifestPath, valid);
-    rmSync(join(root, 'plugins', PLUGIN_NAMES.at(-1)), { recursive: true });
-    assert.notEqual(cli(root, '--write').status, 0);
-    assert.deepEqual(JSON.parse(readFileSync(path)), catalog);
-    const last = PLUGIN_NAMES.at(-1);
-    put(root, `plugins/${last}/.claude-plugin/plugin.json`, manifests.get(last));
-    put(root, 'plugins/tonic-ui/.claude-plugin/plugin.json', { ...manifest, name: 'tonic-ui' });
-    assert.notEqual(cli(root, '--write').status, 0);
-    assert.deepEqual(JSON.parse(readFileSync(path)), catalog);
   }));
 });
