@@ -31,19 +31,9 @@ Capture both libraries on each refresh. A single `--from` input works only when 
 
 On failure, retain the task-owned downloads while diagnosing the path-specific error; correct the input or destination and rerun with both inputs if still authorized. Do not replace final assets with raw downloads or manually patch `.payloads/`. A disk error can leave a partial output update; conversion succeeds only after both outputs and the cache are written. Remove only task-owned temporary files when no longer needed; never delete an existing operator-owned cache.
 
-## Alternative: authorized REST export
-
-Only when the request separately authorizes network capture, credential use and final asset writes, an operator may supply the two file keys in `FIGMA_FOUNDATIONS_FILE_KEY` and `FIGMA_SEMANTIC_FILE_KEY` and an access token in `FIGMA_TOKEN` or `FIGMA_ACCESS_TOKEN` through an existing authorized environment. Do not ask for or print their values, inspect credential files or put values in commands or delivered files. The exporter verifies both file-key fingerprints before reading a token or contacting the API. With the authorized environment already prepared, use:
-
-```bash
-node scripts/figma-variables/export-figma-variables.mjs --source env --out plugins/tonic-ui-tokens/skills/tonic-ui-tokens/assets/figma-variables
-```
-
-If file keys, access, authorization or the existing tool are unavailable, report the blocker; do not infer a file key, inspect credentials, install software or change configuration. The REST route is a separate capture, not a prerequisite for offline conversion.
-
 ## Inspect and validate
 
-For either route, inspect added, removed and changed variables and each snapshot's `meta.aliasStats.unresolvedByTarget`. Confirm `meta.fileKey` and `meta.figmaUrl` are null and the expected `meta.fileKeySha256` is retained; never print the raw file key or file location. Unresolved aliases retain the available raw ID, stable variable key and name and are not necessarily broken. Inspect affected relation endpoints and their recorded evidence. Change relations only under separate authorization using the directly routed [variable-to-theme review](variable-theme-mapping.md); do not fill gaps by matching names or colors. Report undecided design choices and stale reviews rather than manually transforming records.
+Inspect added, removed and changed variables and each snapshot's `meta.aliasStats.unresolvedByTarget`. Confirm `meta.fileKey` and `meta.figmaUrl` are null and the expected `meta.fileKeySha256` is retained; never print the raw file key or file location. Unresolved aliases retain the available raw ID, stable variable key and name and are not necessarily broken. Inspect affected relation endpoints and their recorded evidence. Change relations only under separate authorization using the directly routed [variable-to-theme review](variable-theme-mapping.md); do not fill gaps by matching names or colors. Report undecided design choices and stale reviews rather than manually transforming records.
 
 After authorized edits and any separately authorized review, verify the local changes:
 

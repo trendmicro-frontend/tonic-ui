@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 
-// Shared validation and inventory conversion for Figma plugin and REST captures.
+// Validation and inventory conversion for Figma plugin captures.
 const FILES = [
   {
     slug: 'foundations',
@@ -85,7 +85,7 @@ function validateValue(value, type, label) {
   throw new Error(`${label}: invalid ${type} value`);
 }
 
-/** Validate both REST and plugin inventories before filtering or writing. */
+/** Validate plugin inventories before filtering or writing. */
 function validateVariableInput(data, file) {
   const label = file?.slug ?? 'Figma library';
   if (!isMap(data) || !isMap(data.variables) || !isMap(data.collections)) {

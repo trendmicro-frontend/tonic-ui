@@ -29,16 +29,12 @@ for (const file of shippedFiles) {
   inventorySource = inventorySource.replace(file.fileKeySha256, fingerprint(rawFileKeys[file.slug]));
 }
 await fs.writeFile(path.join(fixtureCapture, 'variable-inventory.mjs'), inventorySource);
-for (const name of ['convert-figma-variables.mjs', 'export-figma-variables.mjs']) {
-  await fs.copyFile(path.resolve(directory, '..', name), path.join(fixtureCapture, name));
-}
+await fs.copyFile(path.resolve(directory, '../convert-figma-variables.mjs'),
+  path.join(fixtureCapture, 'convert-figma-variables.mjs'));
 const converter = path.join(fixtureCapture, 'convert-figma-variables.mjs');
-const exporter = path.join(fixtureCapture, 'export-figma-variables.mjs');
 const {
   FILES, identifyLibrary, flattenFile, resolveAliases, buildDocument, normalizeValue, colorToHex,
 } = await import(pathToFileURL(path.join(fixtureCapture, 'variable-inventory.mjs')).href);
-const { fetchFileMeta, fetchVariables, resolveFileKeys, exportSnapshots } =
-  await import(pathToFileURL(exporter).href);
 const { convert } = await import(pathToFileURL(converter).href);
 const [foundationsFile, semanticFile] = FILES;
 const foundationKey = 'a'.repeat(40);
@@ -139,26 +135,24 @@ async function savedBytes(out) {
   return Promise.all(names.map((name) => fs.readFile(path.join(out, name))));
 }
 
-test('CLI entry points run through symlinked paths but do not run on import', async (t) => {
+test('converter CLI runs through symlinked paths but does not run on import', async (t) => {
   const root = await temp(t);
   const alias = path.join(root, 'scripts-alias');
   await fs.symlink(fixtureScripts, alias, 'dir');
-  for (const filename of ['convert-figma-variables.mjs', 'export-figma-variables.mjs']) {
-    const entry = path.join(alias, 'figma-variables', filename);
-    for (const nodeArgs of [[], ['--preserve-symlinks-main']]) {
-      const execution = spawnSync(process.execPath, [...nodeArgs, entry, '--help'], { encoding: 'utf8' });
-      assert.equal(execution.status, 0, execution.stderr);
-      assert.match(execution.stdout, /Usage:/);
-      assert.equal(execution.stderr, '');
-    }
-    for (const argument of [path.join(root, 'missing-argument'), path.join(fixtureCapture, 'variable-inventory.mjs')]) {
-      const execution = spawnSync(process.execPath, [
-        '--input-type=module', '--eval', `await import(${JSON.stringify(pathToFileURL(entry).href)});`, argument,
-      ], { encoding: 'utf8' });
-      assert.equal(execution.status, 0, execution.stderr);
-      assert.equal(execution.stdout, '');
-      assert.equal(execution.stderr, '');
-    }
+  const entry = path.join(alias, 'figma-variables', 'convert-figma-variables.mjs');
+  for (const nodeArgs of [[], ['--preserve-symlinks-main']]) {
+    const execution = spawnSync(process.execPath, [...nodeArgs, entry, '--help'], { encoding: 'utf8' });
+    assert.equal(execution.status, 0, execution.stderr);
+    assert.match(execution.stdout, /Usage:/);
+    assert.equal(execution.stderr, '');
+  }
+  for (const argument of [path.join(root, 'missing-argument'), path.join(fixtureCapture, 'variable-inventory.mjs')]) {
+    const execution = spawnSync(process.execPath, [
+      '--input-type=module', '--eval', `await import(${JSON.stringify(pathToFileURL(entry).href)});`, argument,
+    ], { encoding: 'utf8' });
+    assert.equal(execution.status, 0, execution.stderr);
+    assert.equal(execution.stdout, '');
+    assert.equal(execution.stderr, '');
   }
 });
 
@@ -455,29 +449,6 @@ test('second output write failure is reported before any cache is published', as
   assert.equal(await exists(path.join(out, 'foundations.json')), true); // Partial output is possible.
 });
 
-test('optional REST metadata failures do not mask required variables failures', async (t) => {
-  const oldFetch = globalThis.fetch;
-  t.after(() => { globalThis.fetch = oldFetch; });
-  const { foundations } = fixtureData();
-  const response = (status, body) => ({ status, ok: status >= 200 && status < 300, text: async () => JSON.stringify(body) });
-  globalThis.fetch = async (url) => String(url).includes('/variables/local')
-    ? response(200, { meta: { variables: foundations.variables, variableCollections: foundations.collections } })
-    : response(403, { err: 'forbidden' });
-  const [meta, data] = await Promise.all([
-    fetchFileMeta(rawFileKeys.foundations, 'fake-token', 'foundations'),
-    fetchVariables(rawFileKeys.foundations, 'fake-token', 'foundations'),
-  ]);
-  assert.deepEqual(meta, { name: null, version: null, lastModified: null });
-  const flattened = flattenFile({ file: foundationsFile, data, fileMeta: meta });
-  const document = buildDocument(flattened, resolveAliases([flattened]));
-  assert.equal(document.meta.figmaFileName, null);
-  assert.equal(document.meta.variableCount, 1);
-  globalThis.fetch = async () => response(403, { err: 'forbidden' });
-  await assert.rejects(fetchVariables(rawFileKeys.foundations, 'fake-token', 'foundations'), /403/);
-  globalThis.fetch = async () => response(200, { meta: { variables: null, variableCollections: {} } });
-  await assert.rejects(fetchVariables(rawFileKeys.foundations, 'fake-token', 'foundations'),
-    /expected variable and collection maps/i);
-});
 
 test('producer visibly rejects unsupported extended collections', async () => {
   const source = await fs.readFile(producer, 'utf8');
@@ -522,66 +493,6 @@ test('file identities use fingerprints and never fall back from an unknown suppl
   assert.equal(identifyLibrary({ fileKey: '', fileName: 'Foundations' }).slug, 'foundations');
 });
 
-test('REST rejects missing or wrong identities before reading credentials or fetching', async (t) => {
-  const root = await temp(t);
-  const valid = {
-    FIGMA_FOUNDATIONS_FILE_KEY: rawFileKeys.foundations,
-    FIGMA_SEMANTIC_FILE_KEY: rawFileKeys.semantic,
-  };
-  assert.deepEqual([...resolveFileKeys(valid).keys()], ['foundations', 'semantic']);
-  const wrong = 'unrecognized-synthetic-file-identity';
-  const cases = [
-    [{}, /FIGMA_FOUNDATIONS_FILE_KEY/],
-    [{ FIGMA_FOUNDATIONS_FILE_KEY: valid.FIGMA_FOUNDATIONS_FILE_KEY }, /FIGMA_SEMANTIC_FILE_KEY/],
-    [{ ...valid, FIGMA_FOUNDATIONS_FILE_KEY: wrong }, /foundations.*fingerprint/i],
-    [{ ...valid, FIGMA_SEMANTIC_FILE_KEY: wrong }, /semantic.*fingerprint/i],
-  ];
-  for (const [keys, expected] of cases) {
-    const env = { ...process.env, HOME: root, FIGMA_TOKEN: '', FIGMA_ACCESS_TOKEN: '' };
-    delete env.FIGMA_FOUNDATIONS_FILE_KEY;
-    delete env.FIGMA_SEMANTIC_FILE_KEY;
-    Object.assign(env, keys);
-    const execution = spawnSync(process.execPath, [exporter, '--out', path.join(root, 'out')], {
-      encoding: 'utf8', env,
-    });
-    assert.notEqual(execution.status, 0);
-    assert.match(execution.stderr, expected);
-    assert.doesNotMatch(execution.stderr, /No Figma token/i);
-    assert.equal((execution.stdout + execution.stderr).includes(wrong), false);
-    assert.equal((execution.stdout + execution.stderr).includes(rawFileKeys.foundations), false);
-    assert.equal(await exists(path.join(root, 'out')), false);
-  }
-});
-
-test('REST request failures report only library and status, not response data', async (t) => {
-  const oldFetch = globalThis.fetch;
-  t.after(() => { globalThis.fetch = oldFetch; });
-  const key = rawFileKeys.foundations;
-  const token = 'synthetic-access-token';
-  const location = ['https:', '//', ['tenant', 'atlassian', 'net'].join('.'), '/wiki/example'].join('');
-  const secretBody = `private body ${key} ${token} ${location}`;
-  const safeError = (error) => {
-    assert.match(error.message, /foundations/i);
-    for (const value of [key, token, location, secretBody]) {
-      assert.equal(error.message.includes(value), false);
-    }
-    return true;
-  };
-  globalThis.fetch = async () => ({
-    status: 403, ok: false, text: async () => JSON.stringify({ err: secretBody }),
-  });
-  await assert.rejects(fetchVariables(key, token, 'foundations'), (error) => {
-    assert.match(error.message, /HTTP 403/);
-    return safeError(error);
-  });
-  globalThis.fetch = async () => ({ status: 502, ok: false, text: async () => secretBody });
-  await assert.rejects(fetchVariables(key, token, 'foundations'), (error) => {
-    assert.match(error.message, /HTTP 502/);
-    return safeError(error);
-  });
-  globalThis.fetch = async () => { throw new Error(secretBody); };
-  await assert.rejects(fetchVariables(key, token, 'foundations'), safeError);
-});
 
 test('final conversion guards reject private locations before writing or caching', async (t) => {
   const root = await temp(t);
@@ -609,41 +520,6 @@ test('final conversion guards reject private locations before writing or caching
   }
 });
 
-test('REST validates both serialized snapshots before writing either and preserves strings', async (t) => {
-  const root = await temp(t);
-  const oldFetch = globalThis.fetch;
-  t.after(() => { globalThis.fetch = oldFetch; });
-  const data = fixtureData();
-  const value = 'literal token value remains unchanged';
-  data.foundations.variables['f-red'].resolvedType = 'STRING';
-  data.foundations.variables['f-red'].valuesByMode['f-mode'] = value;
-  const response = (body) => ({ status: 200, ok: true, text: async () => JSON.stringify(body) });
-  globalThis.fetch = async (request) => {
-    const key = String(request).includes(rawFileKeys.foundations) ? 'foundations' : 'semantic';
-    return String(request).includes('/variables/local')
-      ? response({ meta: { variables: data[key].variables, variableCollections: data[key].collections } })
-      : response({ name: key });
-  };
-  const env = {
-    FIGMA_FOUNDATIONS_FILE_KEY: rawFileKeys.foundations,
-    FIGMA_SEMANTIC_FILE_KEY: rawFileKeys.semantic,
-  };
-  const good = path.join(root, 'good');
-  await exportSnapshots({ outDir: good, token: 'synthetic-token', env });
-  const foundation = await readJson(path.join(good, 'foundations.json'));
-  assert.equal(find(foundation, 'red/500').values.Value.value, value);
-  assert.equal(foundation.meta.fileKey, null);
-  assert.equal(foundation.meta.figmaUrl, null);
-  assert.equal(foundation.meta.fileKeySha256, fingerprint(rawFileKeys.foundations));
-  const location = ['https:', '//', ['www', 'figma', 'com'].join('.'), '/file/example'].join('');
-  for (const [index, value] of [location, rawFileKeys.semantic].entries()) {
-    data.semantic.variables['s-primary'].description = `Private: ${value}`;
-    const rejected = path.join(root, `rejected-${index}`);
-    await assert.rejects(exportSnapshots({ outDir: rejected, token: 'synthetic-token', env }),
-      (error) => /semantic.*private location/i.test(error.message) && !error.message.includes(value));
-    assert.equal(await exists(rejected), false);
-  }
-});
 
 test('an unsafe preexisting cache ignore file fails before modifying snapshots', async (t) => {
   const root = await temp(t);
