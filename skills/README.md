@@ -146,7 +146,7 @@ The plugins declare no MCP servers, hooks, provider settings, credentials or aut
 
 ## Maintain and verify
 
-Edit contributor skills in `skills/<name>/` and application skills in `plugins/<name>/skills/<name>/`; keep resources inside the skill directory. Keep local checkouts symlink-preserving; never replace a link with an edited copy.
+Edit contributor skills in `skills/<name>/` and application skills in `plugins/<name>/skills/<name>/`; keep resources inside the skill directory. Plugin skill-directory symlinks must resolve inside their own plugin. Keep local checkouts symlink-preserving; never replace a link with an edited copy.
 
 ```bash
 yarn test:ai-tooling

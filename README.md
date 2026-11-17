@@ -27,8 +27,10 @@ v1 | https://trendmicro-frontend.github.io/tonic-ui/react/v1/
 The [Tonic UI skills catalog](skills/README.md) separates seven repository
 contributor skills in `skills/` from three independently installable application
 plugins in `plugins/`: `tonic-ui-dev`, `tonic-ui-tokens`, and `tonic-ui-upgrade`.
-The `tonic-ui` marketplace exposes these plugins to Claude Code, Codex, and omp;
-native repository discovery exposes only the contributor skills. MCP is optional.
+The `tonic-ui` marketplace exposes these plugins to Claude Code, Codex, and omp.
+For native repository discovery, `.agents/skills/` and `.claude/skills/` contain
+relative symlink adapters to the contributor skills in `skills/`, not separate
+copies. MCP is optional.
 
 ## Contributing
 

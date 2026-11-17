@@ -161,6 +161,28 @@ describe('scripts/plugins / Plugin structure', () => {
     assert.throws(() => validatePlugins(root), /Resource escapes its independent plugin/);
   }));
 
+  test('rejects a bundled skill directory outside its plugin', () => fixture((root) => {
+    repository(root);
+    const pluginRoot = join(root, 'plugins', firstPlugin);
+    const skillRoot = join(pluginRoot, 'skills', firstPlugin);
+    const outside = join(root, 'outside-skill');
+    renameSync(skillRoot, outside);
+    put(root, 'outside-skill/SKILL.md', `---\nname: ${firstPlugin}\ndescription: Test skill.\n---\n`);
+    symlinkSync(outside, skillRoot, 'dir');
+    assert.throws(() => validatePlugins(root), /Bundled skill escapes its independent plugin/);
+  }));
+
+  test('rejects a skills directory outside its plugin', () => fixture((root) => {
+    repository(root);
+    const pluginRoot = join(root, 'plugins', firstPlugin);
+    const skillsRoot = join(pluginRoot, 'skills');
+    const outside = join(root, 'outside-skills');
+    renameSync(skillsRoot, outside);
+    put(root, `outside-skills/${firstPlugin}/SKILL.md`, `---\nname: ${firstPlugin}\ndescription: Test skill.\n---\n`);
+    symlinkSync(outside, skillsRoot, 'dir');
+    assert.throws(() => validatePlugins(root), /Skills directory escapes its independent plugin/);
+  }));
+
   test('each copied plugin retains only its own skill and local resources', () => fixture((root) => {
     for (const name of PLUGIN_NAMES) {
       const isolatedRoot = join(root, name);

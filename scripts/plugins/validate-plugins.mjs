@@ -67,7 +67,12 @@ export function validatePlugins(root, { baseRef } = {}) {
     const manifest = json(root, manifestPath);
     assert(manifest?.name === name && typeof manifest.version === 'string' && /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.test(manifest.version), `Invalid plugin identity/version: ${name}`);
     assert(isDeepStrictEqual(manifest.skills, [`./skills/${name}`]), `Plugin must explicitly declare its skill: ${name}`);
-    assert(isDeepStrictEqual(readdirSync(join(pluginRoot, 'skills')).sort(), [name]), `Unexpected bundled skills: ${name}`);
+    const skillsRoot = join(pluginRoot, 'skills');
+    const skillRoot = join(skillsRoot, name);
+    const realPluginRoot = realpathSync(pluginRoot);
+    assert(inside(realPluginRoot, realpathSync(skillsRoot)), `Skills directory escapes its independent plugin: ${name}`);
+    assert(isDeepStrictEqual(readdirSync(skillsRoot).sort(), [name]), `Unexpected bundled skills: ${name}`);
+    assert(inside(realPluginRoot, realpathSync(skillRoot)), `Bundled skill escapes its independent plugin: ${name}`);
     for (const field of ['mcpServers', 'hooks', 'settings', 'lspServers']) {
       assert(manifest[field] === undefined, `Unexpected plugin capability: ${name}/${field}`);
     }
