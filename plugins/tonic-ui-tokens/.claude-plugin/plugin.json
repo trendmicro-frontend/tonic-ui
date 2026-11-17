@@ -1,0 +1,11 @@
+{
+  "name": "tonic-ui-tokens",
+  "version": "1.0.0",
+  "description": "Resolve design tokens from Figma and screenshots.",
+  "author": { "name": "Tonic UI Team" },
+  "homepage": "https://trendmicro-frontend.github.io/tonic-ui-docs/v3/",
+  "repository": "https://github.com/trendmicro-frontend/tonic-ui",
+  "license": "MIT",
+  "keywords": ["tonic-ui", "figma", "semantic-tokens", "design-to-code"],
+  "skills": ["./skills/tonic-ui-tokens"]
+}

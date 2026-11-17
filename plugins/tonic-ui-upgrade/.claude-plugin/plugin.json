@@ -1,0 +1,11 @@
+{
+  "name": "tonic-ui-upgrade",
+  "version": "1.0.0",
+  "description": "Tonic UI application upgrades and migration.",
+  "author": { "name": "Tonic UI Team" },
+  "homepage": "https://trendmicro-frontend.github.io/tonic-ui-docs/v3/",
+  "repository": "https://github.com/trendmicro-frontend/tonic-ui",
+  "license": "MIT",
+  "keywords": ["tonic-ui", "react", "migration", "upgrade"],
+  "skills": ["./skills/tonic-ui-upgrade"]
+}

@@ -4,9 +4,25 @@
   "metadata": { "description": "Tonic UI AI skills for consuming application development and upgrades." },
   "plugins": [
     {
-      "name": "tonic-ui",
-      "source": "./skills/external",
-      "description": "Tonic UI application token resolution, frontend development highlights, and upgrades.",
+      "name": "tonic-ui-dev",
+      "source": "./plugins/tonic-ui-dev",
+      "description": "Tonic UI application development and integration.",
+      "version": "1.0.0",
+      "author": { "name": "Tonic UI Team" },
+      "category": "development"
+    },
+    {
+      "name": "tonic-ui-tokens",
+      "source": "./plugins/tonic-ui-tokens",
+      "description": "Resolve design tokens from Figma and screenshots.",
+      "version": "1.0.0",
+      "author": { "name": "Tonic UI Team" },
+      "category": "development"
+    },
+    {
+      "name": "tonic-ui-upgrade",
+      "source": "./plugins/tonic-ui-upgrade",
+      "description": "Tonic UI application upgrades and migration.",
       "version": "1.0.0",
       "author": { "name": "Tonic UI Team" },
       "category": "development"

@@ -3,8 +3,20 @@
   "interface": { "displayName": "Tonic UI" },
   "plugins": [
     {
-      "name": "tonic-ui",
-      "source": { "source": "local", "path": "./skills/external" },
+      "name": "tonic-ui-dev",
+      "source": { "source": "local", "path": "./plugins/tonic-ui-dev" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "tonic-ui-tokens",
+      "source": { "source": "local", "path": "./plugins/tonic-ui-tokens" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "tonic-ui-upgrade",
+      "source": { "source": "local", "path": "./plugins/tonic-ui-upgrade" },
       "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
       "category": "Developer Tools"
     }

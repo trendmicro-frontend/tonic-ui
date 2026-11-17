@@ -16,6 +16,8 @@
 
 [Icons]({{PAGE_BASE}}/icons/): <classification>LLM should read this page when using icons in Tonic UI, implementing custom icon components, or working with the Icon and SVGIcon components for displaying iconography.</classification>
 
+[Getting started with icons]({{PAGE_BASE}}/getting-started/icons/): <classification>LLM should read this page for links to predefined icons, custom SVG icons, and icon migration guidance.</classification>
+
 [AI assistant with MCP]({{PAGE_BASE}}/getting-started/mcp/): <classification>LLM should read this page when accessing the Model Context Protocol (MCP) server for Tonic UI documentation and resources.</classification>
 
 [Micro frontend architecture]({{PAGE_BASE}}/integrations/micro-frontend/): <classification>LLM should read this page when integrating Tonic UI components into micro frontend architectures, configuring providers for micro frontend environments, or understanding how to share theme and provider context across independently deployed frontend applications.</classification>
@@ -41,6 +43,8 @@
 [Components - part 2]({{PAGE_BASE}}/contributing/components-part-2/): <classification>LLM should read this page when contributing React components to Tonic UI, understanding advanced component development topics, testing requirements, and finalization steps for the second part of component development.</classification>
 
 [Icons]({{PAGE_BASE}}/contributing/icons/): <classification>LLM should read this page when contributing new icons to the @tonic-ui/react-icons package, understanding icon design standards, SVG optimization, and the process for adding new icons to the icon library.</classification>
+
+[Icon contribution reference]({{PAGE_BASE}}/contributing/icons/icons.page.mdx): <classification>LLM should read this page for the icon contribution reference.</classification>
 
 ## Customization
 
@@ -86,6 +90,14 @@
 [Notification]({{PAGE_BASE}}/patterns/notification/): <classification>LLM should read this page when implementing notification patterns and user feedback systems, understanding best practices for toast notifications, alert patterns, and user communication strategies using Tonic UI components.</classification>
 
 [Table display]({{PAGE_BASE}}/patterns/table-display/): <classification>LLM should read this page when implementing table display patterns, understanding best practices for data table layouts, responsive table design, and advanced table functionality using Tonic UI Table components.</classification>
+
+## Playground
+
+[Playground]({{PAGE_BASE}}/playground/): <classification>LLM should read this page for the playground overview.</classification>
+
+[Gomoku]({{PAGE_BASE}}/playground/gomoku/): <classification>LLM should read this page for the Gomoku playground.</classification>
+
+[Othello]({{PAGE_BASE}}/playground/othello/): <classification>LLM should read this page for the Othello playground.</classification>
 
 ## Components
 

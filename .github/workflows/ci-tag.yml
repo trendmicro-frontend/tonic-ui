@@ -57,9 +57,20 @@ jobs:
       - name: Build & Test
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          VALIDATION_MCP: '1'
         run: |
           yarn build
-          yarn lint
+          yarn lint &
+          lint_pid=$!
+          yarn validate-ai-tooling &
+          validation_pid=$!
+          lint_status=0
+          validation_status=0
+          wait "$lint_pid" || lint_status=$?
+          wait "$validation_pid" || validation_status=$?
+          if [ "$lint_status" -ne 0 ] || [ "$validation_status" -ne 0 ]; then
+            exit 1
+          fi
           yarn test
 
       - name: Upload coverage to Codecov
