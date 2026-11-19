@@ -1,20 +1,22 @@
 # Responsive values
 
-The responsive values rely on the [breakpoints](../../theme/breakpoints) defined in the theme configuration. The breakpoints are used to generate the media queries that make the theme responsive.
+Responsive values use the [breakpoints](../../theme/breakpoints) defined in the theme. Each breakpoint starts at its minimum viewport width.
 
-| Breakpoint | Media Query |
-| :--------- | :---------- |
-| `sm` | `@media screen and (min-width: 320px)` |
-| `md` | `@media screen and (min-width: 640px)` |
-| `lg` | `@media screen and (min-width: 1024px)` |
-| `xl` | `@media screen and (min-width: 1280px)` |
-| `2xl` | `@media screen and (min-width: 1680px)` |
+| Breakpoint | Minimum width |
+| :--------- | :------------ |
+| `xs` | `0px` |
+| `sm` | `600px` |
+| `md` | `900px` |
+| `lg` | `1200px` |
+| `xl` | `1536px` |
 
-To use the responsive values, you can use either the array or object syntax.
+Use either array or object syntax for responsive style props.
 
 ## Array syntax
 
-Let's say you have a `Box` component that looks like this:
+Array values are base-first. Index `0` is an unconditional base value, and subsequent indices correspond to the configured breakpoint keys in ascending width order. With the default theme, the indices after the base are `xs`, `sm`, `md`, `lg`, and `xl`.
+
+For example, start with a `Box` that has a fixed width:
 
 ```jsx
 <Box backgroundColor="red.500" width="50%">
@@ -22,28 +24,42 @@ Let's say you have a `Box` component that looks like this:
 </Box>
 ```
 
-To make the `width` responsive, you can use the array syntax as follows:
+Use an array to change the width across breakpoints:
 
 ```jsx
-<Box backgroundColor="red.500" width={["25%","50%","75%","100%"]}>
+<Box backgroundColor="red.500" width={[null, '25%', '50%', '75%', '100%', '100%']}>
   This is a box
 </Box>
 ```
 
-Here is how to interpret the array syntax:
+The values apply as follows:
 
-* On a `sm` breakpoint (`≥ 320px`), the `width` will be `25%`
-* On a `md` breakpoint (`≥ 640px`), the `width` will be `50%`
-* On a `lg` breakpoint (`≥ 1024px`), the `width` will be `75%`
-* On a `xl` breakpoint (`≥ 1280px`), the `width` will be `100%`
+| Index | Breakpoint | Width |
+| :---- | :--------- | :---- |
+| `0` | Base | No value (`null`) |
+| `1` | `xs` (`≥ 0px`) | `25%` |
+| `2` | `sm` (`≥ 600px`) | `50%` |
+| `3` | `md` (`≥ 900px`) | `75%` |
+| `4` | `lg` (`≥ 1200px`) | `100%` |
+| `5` | `xl` (`≥ 1536px`) | `100%` |
 
-> To skip certain breakpoints, you can pass `null` to any position in the array.
+Pass `null` to skip a position. Since `xs` starts at `0px`, a value at index `1` overrides the unconditional base at every nonnegative viewport width.
+
+### Migrating array values
+
+Index `3` previously corresponded to `lg`. With the new breakpoint scale, index `3` corresponds to `md`, while `lg` is at index `4`. Tonic UI keeps index `0` as the unconditional base, unlike Material UI's `iterateBreakpoints`. To preserve a large-screen change at `lg`, use a named style prop:
+
+```jsx
+// Before: index 3 was lg.
+<Text fontSize={['4xl', null, null, 48]} />
+
+// After: the large size starts at lg (1200px).
+<Text fontSize={{ _: '4xl', lg: 48 }} />
+```
 
 ## Object syntax
 
-You can also use the object syntax to define responsive values. It's also the recommended syntax to use the responsive values.
-
-Let's say you have a `Text` component that looks like this:
+Named keys make the intended breakpoints explicit. Use `_` for the unconditional base value. For example, start with a `Text` component with a fixed font size:
 
 ```jsx
 <Text fontSize={32}>
@@ -51,7 +67,7 @@ Let's say you have a `Text` component that looks like this:
 </Text>
 ```
 
-To make the `fontSize` responsive, you can use the object syntax as follows:
+Use an object to change the font size across breakpoints:
 
 ```jsx
 <Text fontSize={{ _: 24, md: 32, lg: 40, xl: 48 }}>
@@ -59,14 +75,7 @@ To make the `fontSize` responsive, you can use the object syntax as follows:
 </Text>
 ```
 
-Here is how to interpret the object syntax:
-
-* On a `sm` breakpoint (`≥ 320px`), the `fontSize` will be `24px`
-* On a `md` breakpoint (`≥ 640px`), the `fontSize` will be `32px`
-* On a `lg` breakpoint (`≥ 1024px`), the `fontSize` will be `40px`
-* On a `xl` breakpoint (`≥ 1280px`), the `fontSize` will be `48px`
-
-> You can use the `_` key to define a default value for all breakpoints.
+The base font size is `24px`. At `md` (`≥ 900px`) it becomes `32px`, at `lg` (`≥ 1200px`) it becomes `40px`, and at `xl` (`≥ 1536px`) it becomes `48px`.
 
 ## Under the hood
 
@@ -78,20 +87,20 @@ Given the following example:
 </Box>
 ```
 
-It will generate the following CSS:
+The responsive style props generate the following CSS:
 
 ```css
 .Box {
   width: 100%;
 }
 
-@media screen and (min-width: 320px) {
+@media (min-width:600px) {
   .Box {
     width: 50%;
   }
 }
 
-@media screen and (min-width: 640px) {
+@media (min-width:900px) {
   .Box {
     width: 25%;
   }

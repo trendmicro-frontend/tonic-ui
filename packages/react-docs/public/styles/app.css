@@ -171,7 +171,7 @@ dd {
 /**
  * Main
  */
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1200px) {
   #main {
     width: calc(100% - var(--docs-sidebar-width) - var(--docs-toc-width));
   }

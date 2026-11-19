@@ -249,15 +249,40 @@ describe('plugins/tonic-ui-tokens / Lookup and inventory generation', () => {
     assert.equal(borders.find((entry) => entry.path === 'borders["1.5"]').values.dark, '1.5px solid');
   });
 
-  test('generated inventory round-trips named breakpoint aliases through JSON checks', () => {
+  test('generated inventory round-trips breakpoint values through JSON checks', () => {
     const directory = mkdtempSync(join(tmpdir(), 'tonic-snapshot-check-'));
     try {
       const file = join(directory, 'tokens.json');
-      assert.equal(run(generator, ['--output', file]).status, 0);
+      const generated = run(generator, ['--output', file]);
+      assert.equal(generated.status, 0, generated.stderr);
       const checked = run(generator, ['--output', file, '--check']);
       assert.equal(checked.status, 0, checked.stderr);
       const data = JSON.parse(readFileSync(file, 'utf8'));
-      assert.equal(data.tokens.find((entry) => entry.path === 'breakpoints.sm').values.dark, '320px');
+      const breakpoints = data.tokens.filter((entry) => entry.path === 'breakpoints' || entry.path.startsWith('breakpoints.'));
+      assert.deepEqual(breakpoints.map((entry) => entry.path), [
+        'breakpoints.values.lg',
+        'breakpoints.values.md',
+        'breakpoints.values.sm',
+        'breakpoints.values.xl',
+        'breakpoints.values.xs',
+      ]);
+      for (const [index, value] of [1200, 900, 600, 1536, 0].entries()) {
+        const token = breakpoints[index];
+        assert.equal(token.kind, 'primitive');
+        assert.equal(token.raw, value);
+        assert.deepEqual(token.values, { dark: value, light: value });
+        assert.equal(token.cssVariable, null);
+        assert.equal(token.unitValues, undefined);
+      }
+      for (const file of [
+        'packages/utils/src/internal/index.js',
+        'packages/utils/src/internal/createBreakpoints.js',
+        'packages/utils/src/internal/resolveTheme.js',
+        'packages/utils/src/assertion.js',
+        'packages/utils/src/shared.js',
+      ]) {
+        assert.match(data.meta.sourceHashes[file], /^[a-f0-9]{64}$/);
+      }
     } finally {
       rmSync(directory, { recursive: true, force: true });
     }
@@ -294,7 +319,7 @@ describe('plugins/tonic-ui-tokens / Lookup and inventory generation', () => {
       assert.equal(unchanged.status, 0, unchanged.stderr);
       assert.equal(readFileSync(file, 'utf8'), preserved);
 
-      inventory.tokens.find((token) => token.path === 'breakpoints.sm').values.dark = 'stale';
+      inventory.tokens.find((token) => token.path === 'breakpoints.values.sm').values.dark = 'stale';
       writeFileSync(file, `${JSON.stringify(inventory)}\n`);
       const checked = run(generator, ['--output', file, '--check']);
       assert.notEqual(checked.status, 0);
@@ -303,7 +328,7 @@ describe('plugins/tonic-ui-tokens / Lookup and inventory generation', () => {
       assert.equal(refreshed.status, 0, refreshed.stderr);
       const updated = JSON.parse(readFileSync(file, 'utf8'));
       assert.equal(updated.meta.sourceRevision, currentRevision);
-      assert.equal(updated.tokens.find((token) => token.path === 'breakpoints.sm').values.dark, '320px');
+      assert.equal(updated.tokens.find((token) => token.path === 'breakpoints.values.sm').values.dark, 600);
     } finally {
       rmSync(directory, { recursive: true, force: true });
     }

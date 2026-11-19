@@ -1,7 +1,9 @@
 import { get, isNullish, isPlainObject } from '@tonic-ui/utils';
-import { ensureArray } from 'ensure-type';
+import { createBreakpoints } from '@tonic-ui/utils/internal';
 import system from './system';
 import { pseudoClassSelector, pseudoElementSelector } from './pseudo';
+
+const defaultBreakpoints = createBreakpoints();
 
 const createPseudoResolver = (theme) => (styleProps) => {
   if (isNullish(styleProps)) {
@@ -55,13 +57,52 @@ const createPseudoResolver = (theme) => (styleProps) => {
   return Object.fromEntries(entries);
 };
 
+const emptyQuery = Symbol('empty responsive query');
+
+function removeEmptyQueries(styles) {
+  for (const key of Object.keys(styles)) {
+    if (styles[key] === emptyQuery) {
+      delete styles[key];
+    } else if (isPlainObject(styles[key])) {
+      removeEmptyQueries(styles[key]);
+    }
+  }
+  return styles;
+}
+
+// Deep merging preserves declarations in nested rules. Raw responsive declarations also
+// need overwritten keys moved to the end so aliases resolve in authored order.
+const mergeResolvedSx = (acc, resolved, preserveSourceOrder = false, authoredRules) => {
+  const next = { ...acc };
+  for (const key in resolved) {
+    if (!Object.prototype.hasOwnProperty.call(resolved, key)) {
+      continue;
+    }
+    const accValue = next[key];
+    const resolvedValue = resolved[key];
+    if (resolvedValue === emptyQuery && Object.prototype.hasOwnProperty.call(next, key)) {
+      continue;
+    }
+    const wasAuthored = authoredRules?.has(accValue);
+    const isAuthored = authoredRules?.has(resolvedValue);
+    if (preserveSourceOrder || (isAuthored && !wasAuthored)) {
+      delete next[key];
+    }
+    next[key] = (isPlainObject(accValue) && isPlainObject(resolvedValue))
+      ? mergeResolvedSx(accValue, resolvedValue, preserveSourceOrder, authoredRules)
+      : resolvedValue;
+    if (wasAuthored || isAuthored) {
+      if (isPlainObject(next[key])) {
+        authoredRules.add(next[key]);
+      }
+    }
+  }
+  return next;
+};
+
 const createResponsiveResolver = theme => styleProps => {
   const next = {};
-  const breakpoints = ensureArray(get(theme, 'breakpoints'));
-  const mediaQueries = [
-    null,
-    ...breakpoints.map(n => `@media screen and (min-width: ${n})`),
-  ];
+  let mediaQueries;
 
   for (const key in styleProps) {
     if (!Object.prototype.hasOwnProperty.call(styleProps, key)) {
@@ -74,49 +115,46 @@ const createResponsiveResolver = theme => styleProps => {
     }
 
     if (!Array.isArray(value)) {
-      next[key] = value;
+      const previous = next[key];
+      if (mediaQueries?.includes(key)) {
+        delete next[key];
+      }
+      next[key] = isPlainObject(previous) && isPlainObject(value)
+        ? mergeResolvedSx(previous, value, true)
+        : value;
       continue;
     }
 
-    for (let i = 0; i < value.slice(0, mediaQueries.length).length; i++) {
+    if (!mediaQueries) {
+      const breakpoints = get(theme, 'breakpoints', defaultBreakpoints);
+      mediaQueries = [null, ...breakpoints.keys.map(key => breakpoints.up(key))];
+    }
+    for (let i = 0; i < value.length && i < mediaQueries.length; i++) {
       const media = mediaQueries[i];
+      const item = value[i];
+      if (isNullish(item)) {
+        // Reserve the query's position for declarations from later arrays.
+        if (media) {
+          next[media] ??= emptyQuery;
+        }
+        continue;
+      }
       if (!media) {
-        next[key] = value[i];
+        next[key] = item;
         continue;
       }
-      next[media] = next[media] || {};
-      if (value[i] === null || value[i] === undefined) {
-        continue;
-      }
-      next[media][key] = value[i];
+      next[media] = mergeResolvedSx(
+        isPlainObject(next[media]) ? next[media] : {},
+        { [key]: item },
+        true
+      );
     }
   }
 
   return next;
 };
 
-// Merges two already-resolved sx() results for the array-composition branch below. Deep,
-// not shallow: when both sides have a plain object at the same key (a nested selector, a
-// media query, ...), recurses into it instead of letting `resolved`'s value replace `acc`'s
-// wholesale -- this is what makes two array items that both touch the same nested selector
-// compose per-declaration rather than the later one discarding the earlier one's rules. A
-// non-object value (or a type mismatch) is a plain last-write-wins overwrite, same as before.
-const mergeResolvedSx = (acc, resolved) => {
-  const next = { ...acc };
-  for (const key in resolved) {
-    if (!Object.prototype.hasOwnProperty.call(resolved, key)) {
-      continue;
-    }
-    const accValue = next[key];
-    const resolvedValue = resolved[key];
-    next[key] = (isPlainObject(accValue) && isPlainObject(resolvedValue))
-      ? mergeResolvedSx(accValue, resolvedValue)
-      : resolvedValue;
-  }
-  return next;
-};
-
-const sx = (valueOrFn) => (props = {}) => {
+const resolveSx = (valueOrFn, props, authoredRules) => {
   if (isNullish(valueOrFn)) {
     return {};
   }
@@ -140,7 +178,9 @@ const sx = (valueOrFn) => (props = {}) => {
    * ```
    */
   if (Array.isArray(valueOrFn)) {
-    return valueOrFn.reduce((acc, item) => mergeResolvedSx(acc, sx(item)(props)), {});
+    const rules = authoredRules ?? new WeakSet();
+    const result = valueOrFn.reduce((acc, item) => mergeResolvedSx(acc, resolveSx(item, props, rules), false, rules), {});
+    return authoredRules ? result : removeEmptyQueries(result);
   }
 
   const theme = {
@@ -158,6 +198,12 @@ const sx = (valueOrFn) => (props = {}) => {
     }
 
     const styleValueOrFn = resolvedStyleProps[key];
+    if (styleValueOrFn === emptyQuery) {
+      if (authoredRules) {
+        result[key] = emptyQuery;
+      }
+      continue;
+    }
     const value = (typeof styleValueOrFn === 'function') ? styleValueOrFn(theme) : styleValueOrFn;
 
     if (isPlainObject(value)) {
@@ -172,7 +218,10 @@ const sx = (valueOrFn) => (props = {}) => {
        *
        * `__colorMode` is forwarded so color tokens resolve correctly in dark mode.
        */
-      result[key] = sx(value)({ theme, __colorMode: props.__colorMode });
+      result[key] = resolveSx(value, { theme, __colorMode: props.__colorMode }, authoredRules);
+      if (authoredRules && key.startsWith('@media ') && Object.prototype.hasOwnProperty.call(originalStyleProps, key)) {
+        authoredRules.add(result[key]);
+      }
       continue;
     }
 
@@ -211,5 +260,7 @@ const sx = (valueOrFn) => (props = {}) => {
 
   return result;
 };
+
+const sx = (valueOrFn) => (props = {}) => resolveSx(valueOrFn, props);
 
 export default sx;

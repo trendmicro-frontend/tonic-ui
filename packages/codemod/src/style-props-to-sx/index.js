@@ -406,6 +406,25 @@ function flagUnresolvedIfStyleLike(node, localName, allImports, styleNames, unre
   unresolvedReview.push(`${localName} (${locationHint}, could not verify where these props are forwarded): ${styleAttrNames.join(', ')}`);
 }
 
+function getCascadeGroup(name) {
+  // The browser treats legacy grid gaps as aliases of the modern gap properties.
+  if (name === 'gridGap' || name === 'gridRowGap' || name === 'gridColumnGap') {
+    return 'gap';
+  }
+  return system.config[name]?.group;
+}
+
+// The flat system parser treats objects as breakpoint maps; sx treats them as
+// nested rules. Without type information, a binding or call can return either.
+function canMoveSystemValue(j, expression) {
+  if (expression.type === 'ConditionalExpression') {
+    return canMoveSystemValue(j, expression.consequent) && canMoveSystemValue(j, expression.alternate);
+  }
+  return j.Literal.check(expression) || expression.type === 'ArrayExpression' ||
+    expression.type === 'TemplateLiteral' || expression.type === 'UnaryExpression' ||
+    expression.type === 'BinaryExpression';
+}
+
 function toObjectPropertyValue(j, attr) {
   // No value (boolean shorthand, e.g. `disabled`) -- unusual for a style
   // prop, but handle it rather than crash.
@@ -570,7 +589,8 @@ export default function transformer(file, api) {
       wrapperOwnProtectedProps = resolved.ownProtectedProps;
     }
 
-    const toExtract = [];
+    let toExtract = [];
+    const responsiveGroups = new Set();
     let existingSxAttr = null;
     for (const attr of node.attributes) {
       if (attr.type !== 'JSXAttribute') {
@@ -591,7 +611,26 @@ export default function transformer(file, api) {
         manualReview.push(`${importedName}.${attrName}`);
         continue;
       }
+      if (system.config[attrName] && attr.value?.type === 'JSXExpressionContainer' &&
+        !canMoveSystemValue(j, attr.value.expression)) {
+        responsiveGroups.add(getCascadeGroup(attrName));
+        manualReview.push(`${importedName}.${attrName} (may be a responsive object)`);
+        continue;
+      }
       toExtract.push(attr);
+    }
+
+    if (responsiveGroups.size > 0) {
+      // Keep aliases and shorthand/longhand pairs in the same cascade tier.
+      // The style group is a conservative boundary (e.g. margin, padding).
+      toExtract = toExtract.filter((attr) => {
+        const name = attr.name.name;
+        if (responsiveGroups.has(getCascadeGroup(name))) {
+          manualReview.push(`${importedName}.${name} (same style group as a possible responsive object)`);
+          return false;
+        }
+        return true;
+      });
     }
 
     if (toExtract.length === 0) {

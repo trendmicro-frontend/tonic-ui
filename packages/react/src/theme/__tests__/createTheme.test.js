@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@tonic-ui/react/src';
+import { Box, useTheme } from '@tonic-ui/react/src';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { TONIC_THEME } from '../constants';
 import createTheme from '../createTheme';
@@ -24,6 +24,62 @@ describe('createTheme', () => {
   it('should create a default theme', () => {
     const theme = createTheme();
     defaultThemeScales.forEach(scale => expect(theme).toHaveProperty(scale));
+  });
+
+  it('replaces breakpoint values and rebuilds helpers without mutating the original', () => {
+    const values = { lg: 1280, xs: 0, sm: 640 };
+    const original = createTheme({ breakpoints: { values, unit: 'em' } });
+    const extended = createTheme(original, { breakpoints: { values: { xs: 0, lg: 1000 }, step: 10 } });
+    values.sm = 1;
+
+    expect(original.breakpoints.keys).toEqual(['xs', 'sm', 'lg']);
+    expect(original.breakpoints.up('sm')).toBe('@media (min-width:640em)');
+    expect(original.breakpoints.values.md).toBeUndefined();
+    expect(extended.breakpoints.down('lg')).toBe('@media (max-width:999.9em)');
+    expect(extended.breakpoints.values.sm).toBeUndefined();
+  });
+
+  it('exposes immutable breakpoint widths across the base theme and color modes', () => {
+    const theme = createTheme();
+    for (const variant of [theme, theme.toColorMode('light'), theme.toColorMode('dark')]) {
+      expect(Reflect.set(variant, 'breakpoints', {})).toBe(false);
+      expect(Reflect.set(variant.breakpoints.values, 'md', 1)).toBe(false);
+      expect(Reflect.set(variant.breakpoints.keys, 0, 'xl')).toBe(false);
+      expect(variant.breakpoints.values.md).toBe(900);
+      expect(variant.breakpoints.up('md')).toBe('@media (min-width:900px)');
+    }
+    expect(theme.toColorMode('dark').get('breakpoints.values.md')).toBe(900);
+    expect(theme.toColorMode('light').get('breakpoints.values.md')).toBe(900);
+    expect(createTheme(theme, { breakpoints: { values: { md: 1000 } } }).breakpoints.up('md')).toBe('@media (min-width:1000px)');
+    expect(theme.breakpoints.up('md')).toBe('@media (min-width:900px)');
+  });
+
+  it('keeps empty breakpoint scales, rejects legacy inputs and excludes breakpoint CSS variables', () => {
+    const theme = createTheme({ breakpoints: { values: {} } });
+    expect(theme.breakpoints.keys).toEqual([]);
+    expect(() => createTheme({ breakpoints: [] })).toThrow(TypeError);
+    expect(() => createTheme({}, { breakpoints: null })).toThrow(TypeError);
+    expect(Object.keys(theme.cssVariables).some(key => key.startsWith('--tonic-breakpoints'))).toBe(false);
+    expect(theme.cssVariables['--tonic-space-1x']).toBeDefined();
+  });
+
+  it('uses base-first responsive props and explicit media rules on a Box', () => {
+    const { container } = render(<Box display={['block', 'inline', 'flex', 'grid', 'inline-block', 'none']} />);
+    expect(container.firstChild).toHaveStyleRule('display', 'block');
+    const cases = [[0, 'inline'], [600, 'flex'], [900, 'grid'], [1200, 'inline-block'], [1536, 'none']];
+    for (const [width, display] of cases) {
+      expect(container.firstChild).toHaveStyleRule('display', display, { media: `(min-width:${width}px)` });
+    }
+
+    function MediaExample() {
+      const { breakpoints } = useTheme();
+      return <Box sx={{ backgroundColor: 'blue', [breakpoints.not('md')]: { backgroundColor: 'red' } }} />;
+    }
+    const example = render(<MediaExample />).container.firstChild;
+    expect(example).toHaveStyleRule('background-color', 'blue');
+    expect(example).toHaveStyleRule('background-color', 'red', {
+      media: 'not all and (min-width:900px) and (max-width:1199.95px)',
+    });
   });
 
   it('should stamp the TONIC_THEME symbol on the returned theme', () => {

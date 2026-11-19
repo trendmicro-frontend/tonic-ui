@@ -21,7 +21,7 @@
     "test": "cross-env NODE_ENV=test jest --maxWorkers=2"
   },
   "dependencies": {
-    "@tonic-ui/utils": "^3.0.0-alpha.1",
+    "@tonic-ui/utils": "workspace:^",
     "ensure-type": "^1.5.1"
   },
   "devDependencies": {

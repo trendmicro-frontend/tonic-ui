@@ -1,3 +1,4 @@
+import { createBreakpoints } from '@tonic-ui/utils/internal';
 import createV2Theme from '../v2';
 import { createPrimitiveTokens } from './primitive';
 import { createSemanticTokens } from './semantic';
@@ -5,8 +6,7 @@ import { createSemanticTokens } from './semantic';
 /**
  * Create v3 theme combining v2, primitives and semantic tokens
  *
- * @param {string} unit - Unit type ('px' or 'rem')
- * @returns {Object} Combined v3 theme object
+ * @param {'px'|'rem'} [unit='rem'] - Unit type for dimension tokens.
  */
 const createTheme = (unit = 'rem') => {
   const deprecatedTheme = createV2Theme(unit);
@@ -15,7 +15,7 @@ const createTheme = (unit = 'rem') => {
 
   // Merge strategy: deprecated provides base, primitive overrides conflicts
   // This way primitive tokens naturally override deprecated tokens with same names
-  return {
+  const theme = {
     colors: {
       ...deprecatedTheme.colors,
       ...primitiveTokens.colors,
@@ -41,22 +41,7 @@ const createTheme = (unit = 'rem') => {
       ...deprecatedTheme.radii,
       ...primitiveTokens.radii,
     },
-    // breakpoints must be an array, cannot use object spread
-    // Start with deprecated array, then override with primitive values
-    breakpoints: (() => {
-      const merged = [];
-      // Copy all properties from deprecated (numeric indices and named properties)
-      Object.keys(deprecatedTheme.breakpoints).forEach(key => {
-        merged[key] = deprecatedTheme.breakpoints[key];
-      });
-      // Override with primitive values (both array indices and named properties)
-      if (primitiveTokens.breakpoints) {
-        Object.keys(primitiveTokens.breakpoints).forEach(key => {
-          merged[key] = primitiveTokens.breakpoints[key];
-        });
-      }
-      return merged;
-    })(),
+    breakpoints: createBreakpoints({ values: primitiveTokens.breakpoints }),
     lineHeights: {
       ...deprecatedTheme.lineHeights,
       ...primitiveTokens.lineHeights,
@@ -82,6 +67,8 @@ const createTheme = (unit = 'rem') => {
       ...semanticTokens.shadows,
     },
   };
+  Object.defineProperty(theme, 'breakpoints', { writable: false, configurable: false });
+  return /** @type {Omit<typeof theme, 'breakpoints'> & Readonly<Pick<typeof theme, 'breakpoints'>>} */ (theme);
 };
 
 export default createTheme;

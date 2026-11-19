@@ -213,11 +213,14 @@ pseudo props. They never touch `__sx` (it's internal and off the public type):
 <Button bg="blue:50">Save</Button>   {/* style prop, tier 1 — also beats base __sx */}
 ```
 
-Both remain fully functional, coequal tiers — this doesn't change. Going forward, `sx`
-is the **preferred** authoring convention for new/migrated consumer JSX, including on
-the layout primitives (`Box`/`Flex`/`Grid`/`Stack`/`StackItem`/`Space`). The
-`style-props-to-sx` codemod (`packages/codemod/src/style-props-to-sx`) mechanically
-migrates existing flat-prop usage to `sx`.
+Prefer `sx` for new consumer JSX, including layout primitives. Flat style props still
+work, but `sx` wins when both set the same declaration at equal specificity.
+
+When using the [`style-props-to-sx` codemod](../../packages/codemod/README.md#style-props-to-sx),
+keep named breakpoint objects such as `width={{ _: '100%', lg: '50%' }}` flat:
+`sx.width` interprets that object as a nested rule, not responsive values.
+Do not mechanically move props flagged `needs manual review`, including aliases
+such as `w` left beside `width`; moving only one can change the cascade.
 
 ## The specificity boundary (read before promising "consumers can override anything")
 

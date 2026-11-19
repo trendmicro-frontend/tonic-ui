@@ -24,7 +24,7 @@ const SearchButton = forwardRef(({ children, ...rest }, ref) => {
       px="3x"
       height="8x"
       minWidth={{
-        sm: 34,
+        _: 34,
         md: 200,
       }}
       transition="min-width 0.2s"
@@ -34,7 +34,7 @@ const SearchButton = forwardRef(({ children, ...rest }, ref) => {
         <SearchOIcon />
         <Text
           display={{
-            sm: 'none',
+            _: 'none',
             md: 'block',
           }}
           color="text.tertiary"

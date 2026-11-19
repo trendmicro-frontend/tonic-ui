@@ -54,7 +54,11 @@ For additional options with `jscodeshift`, refer to the complete [jscodeshift CL
 
 ### `style-props-to-sx`
 
-Converts flat style props and pseudo props (e.g. `width="8x"`, `_hover={{ ... }}`) on non-layout `@agentic-ui/react` / `@agentic-ui/react-icons` components into the `sx` prop. Layout primitives (`Box`, `Flex`, `Grid`, `Stack`, `StackItem`, `Space`) are left untouched, since their own flat props are their intended API — as are a small set of components with a specific prop that has real JS behavior beyond CSS (e.g. `Scrollbar`'s `width`/`height`/`overflow`, `Skeleton`'s `animation`, `Toast`'s `appearance` — see the transform's own header comment for the full list and reasoning). Elements with an existing `sx` prop that isn't a plain object literal are left untouched rather than guessed at.
+Converts flat style props and pseudo props (e.g. `width="8x"`, `_hover={{ ... }}`) on `@tonic-ui/react` and `@tonic-ui/react-icons` components into the `sx` prop, including on layout primitives such as `Box`. It leaves component-specific props with behavior beyond CSS in place (e.g. `Scrollbar`'s `width`/`height`/`overflow` or `Toast`'s `appearance`). It does not merge into an existing `sx` unless that value is a plain object literal.
+
+A flat prop such as `width={{ _: '100%', lg: '50%' }}` uses breakpoint names. Moving that object into `sx.width` would turn the breakpoint names into nested CSS rules. The transform keeps the flat prop and reports it for manual review. It also keeps expressions whose value could be a breakpoint map, such as `width={props.width}`. Responsive array literals can still move to `sx`.
+
+If a possible breakpoint map stays flat, the transform keeps other props in the same CSS group flat. For example, moving only `w` alongside `width`, or `gridGap` alongside `gap`, can change which value wins because `sx` has higher priority. Unrelated props such as `color` can still move.
 
 ```diff
 -<Button variant="primary" width="8x" height="8x" borderRadius="circle">
@@ -66,13 +70,13 @@ Converts flat style props and pseudo props (e.g. `width="8x"`, `_hover={{ ... }}
 Preview the changes first:
 
 ```bash
-npx @agentic-ui/codemod@latest style-props-to-sx src --dry --print
+npx @tonic-ui/codemod@latest style-props-to-sx src --dry --print
 ```
 
 Then apply them, and run `eslint --fix` on the changed files afterward to normalize formatting (JSX closing-bracket placement, re-indented multi-line pseudo-prop objects):
 
 ```bash
-npx @agentic-ui/codemod@latest style-props-to-sx src
+npx @tonic-ui/codemod@latest style-props-to-sx src
 ```
 
 If the transform can't safely convert a prop (e.g. it's one of the protected component+prop pairs above), it leaves that prop untouched and logs `needs manual review: <Component>.<prop>` for that file instead of guessing.

@@ -8,6 +8,9 @@ const processColorModeTokens = (obj, path = '', prefix = '') => {
   const result = {};
 
   for (const [key, value] of Object.entries(obj)) {
+    if (!path && key === 'breakpoints') {
+      continue;
+    }
     const currentPath = path ? `${path}.${key}` : key;
 
     if (typeof value === 'object' && value !== null && !Array.isArray(value)) {

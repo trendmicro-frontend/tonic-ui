@@ -32,7 +32,7 @@ import { TONIC_THEME } from '../theme/constants';
  * @property {ColorModeConfig} [colorMode] - Color mode configuration object.
  * @property {ColorStyleConfig} [colorStyle] - Color style configuration object.
  * @property {EnvironmentConfig} [environment] - Environment configuration object.
- * @property {ThemeScales} [theme] - Custom theme object created with `createTheme()`.
+ * @property {Parameters<typeof import('../theme/createTheme').default>[0]} [theme] - Theme options or an object created with `createTheme()`.
  * @property {boolean} [useCSSBaseline=false] - If `true`, applies CSS reset and base styles globally.
  * @property {boolean} [useCSSVariables=false] - If `true`, enables CSS variable replacement for theme tokens.
  */

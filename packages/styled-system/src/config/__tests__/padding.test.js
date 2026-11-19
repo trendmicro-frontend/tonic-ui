@@ -1,7 +1,8 @@
+import { createBreakpoints } from '@tonic-ui/utils/internal';
 import padding from '../padding';
 
 const defaultTheme = {
-  breakpoints: [40, 52, 64].map(n => n + 'em'),
+  breakpoints: createBreakpoints({ values: { sm: 40, md: 52, lg: 64 }, unit: 'em' }),
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
 };
 
@@ -55,8 +56,8 @@ test('returns responsive values', () => {
   });
   expect(styles).toEqual({
     padding: 0,
-    '@media screen and (min-width: 40em)': { padding: 8 },
-    '@media screen and (min-width: 52em)': { padding: 16 },
+    '@media (min-width:40em)': { padding: 8 },
+    '@media (min-width:52em)': { padding: 16 },
   });
 });
 
@@ -175,44 +176,41 @@ test('supports object values', () => {
     theme: { ...defaultTheme },
     p: {
       _: 0,
-      0: 1,
-      1: 2,
+      sm: 1,
+      md: 2,
     }
   });
   expect(styles).toEqual({
     padding: 0,
-    '@media screen and (min-width: 40em)': {
+    '@media (min-width:40em)': {
       padding: 4,
     },
-    '@media screen and (min-width: 52em)': {
+    '@media (min-width:52em)': {
       padding: 8,
     },
   });
 });
 
-test('supports non-array breakpoints', () => {
+test('supports a custom named breakpoint subset', () => {
   const theme = {
     ...defaultTheme,
     disableStyledSystemCache: true,
-    breakpoints: {
-      small: '40em',
-      medium: '52em',
-    }
+    breakpoints: createBreakpoints({ values: { sm: 40, md: 52 }, unit: 'em' }),
   };
   const styles = padding({
     theme,
     p: {
       _: 0,
-      small: 1,
-      medium: 2,
+      sm: 1,
+      md: 2,
     },
   });
   expect(styles).toEqual({
     padding: 0,
-    '@media screen and (min-width: 40em)': {
+    '@media (min-width:40em)': {
       padding: 4,
     },
-    '@media screen and (min-width: 52em)': {
+    '@media (min-width:52em)': {
       padding: 8,
     },
   });

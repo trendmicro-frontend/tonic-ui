@@ -16,6 +16,17 @@ const createWrapper = (colorMode, themeOverrides) => {
 };
 
 describe('useTheme', () => {
+  it.each(['light', 'dark'])('exposes configured breakpoint helpers in %s mode', (mode) => {
+    const options = { breakpoints: { values: { xs: 0, sm: 40, lg: 80 }, unit: 'em', step: 10 } };
+    const { result } = renderHook(() => useTheme(), { wrapper: createWrapper(mode, options) });
+    const { breakpoints } = result.current;
+    expect(breakpoints.up('sm')).toBe('@media (min-width:40em)');
+    expect(breakpoints.down('sm')).toBe('@media (max-width:39.9em)');
+    expect(breakpoints.only('sm')).toBe('@media (min-width:40em) and (max-width:79.9em)');
+    expect(breakpoints.not('sm')).toBe('@media not all and (min-width:40em) and (max-width:79.9em)');
+    expect(breakpoints.between('xs', 'lg')).toBe('@media (min-width:0em) and (max-width:79.9em)');
+  });
+
   it('should resolve _dark tokens when color mode is dark', () => {
     const { result } = renderHook(() => useTheme(), {
       wrapper: createWrapper('dark'),

@@ -1,5 +1,22 @@
 import { createTheme } from '@tonic-ui/react';
 
+const viewportTheme = createTheme();
+const viewportQuery: string = viewportTheme.breakpoints.only('md');
+createTheme({ breakpoints: { values: { xs: 0, sm: 40 }, unit: 'em', step: 10 } });
+createTheme(viewportTheme, { breakpoints: { values: { lg: 1000 } } });
+// @ts-expect-error Unknown breakpoint name.
+createTheme({ breakpoints: { values: { tablet: 640 } } });
+// @ts-expect-error Legacy array config is not accepted.
+createTheme({ breakpoints: ['600px'] });
+// @ts-expect-error Removed alias.
+viewportTheme.breakpoints.up('2xl');
+// @ts-expect-error only() accepts a key, not a width.
+viewportTheme.breakpoints.only(600);
+// @ts-expect-error Cannot replace the breakpoint snapshot.
+viewportTheme.breakpoints = createTheme().breakpoints;
+// @ts-expect-error Cannot mutate a width in the snapshot.
+viewportTheme.breakpoints.values.md = 1000;
+
 // Basic usage
 const myTheme = createTheme({
   colors: {

@@ -9,6 +9,8 @@ import createV3Theme from './v3';
  *
  * Strategy:
  * - v3 integrates v2 (deprecated) + primitives + semantic tokens
+ *
+ * @param {'px'|'rem'} [unit='rem'] - Unit type for dimension tokens.
  */
 const createTheme = (unit = 'rem') => createV3Theme(unit);
 

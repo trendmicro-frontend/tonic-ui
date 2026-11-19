@@ -1,3 +1,4 @@
+import { createBreakpoints } from '@tonic-ui/utils/internal';
 import { sx } from '@tonic-ui/styled-system/src';
 
 const defaultTheme = {
@@ -8,13 +9,9 @@ const defaultTheme = {
     4: '.25rem solid',
     5: '.3125rem solid',
   },
-  breakpoints: [
-    '320px',
-    '640px',
-    '1024px',
-    '1280px',
-    '1680px',
-  ],
+  breakpoints: createBreakpoints({
+    values: { xs: 320, sm: 640, md: 1024, lg: 1280, xl: 1680 },
+  }),
   colors: {
     transparent: 'transparent',
     current: 'currentColor',
@@ -288,16 +285,6 @@ test('should pass', () => {
       '--tonic-borders-3': '.1875rem solid',
       '--tonic-borders-4': '.25rem solid',
       '--tonic-borders-5': '.3125rem solid',
-      '--tonic-breakpoints-0': '320px',
-      '--tonic-breakpoints-1': '640px',
-      '--tonic-breakpoints-2': '1024px',
-      '--tonic-breakpoints-3': '1280px',
-      '--tonic-breakpoints-4': '1680px',
-      '--tonic-breakpoints-sm': '320px',
-      '--tonic-breakpoints-md': '640px',
-      '--tonic-breakpoints-lg': '1024px',
-      '--tonic-breakpoints-xl': '1280px',
-      '--tonic-breakpoints-2xl': '1680px',
       '--tonic-colors-transparent': 'transparent',
       '--tonic-colors-current': 'currentColor',
       '--tonic-colors-red_100': '#6e0002',
@@ -590,7 +577,163 @@ test('should pass', () => {
   });
 });
 
+describe('responsive values', () => {
+  const breakpoints = createBreakpoints({
+    values: { xs: 0, sm: 600, md: 900, lg: 1200, xl: 1536 },
+  });
+  const theme = { breakpoints };
+
+  it('uses base-first arrays, skips nullish entries, and truncates extra values', () => {
+    const style = sx({
+      width: [null, '25%', null, '75%', undefined, '100%', 'ignored'],
+    })({ theme });
+
+    expect(style).toEqual({
+      '@media (min-width:0px)': { width: '25%' },
+      '@media (min-width:900px)': { width: '75%' },
+      '@media (min-width:1536px)': { width: '100%' },
+    });
+  });
+
+  it('uses a custom breakpoint unit for array entries', () => {
+    const customTheme = {
+      breakpoints: createBreakpoints({
+        values: { sm: 40, md: 52, lg: 64 },
+        unit: 'em',
+      }),
+    };
+
+    expect(sx({ width: ['100%', '50%', '25%'] })({ theme: customTheme })).toEqual({
+      width: '100%',
+      '@media (min-width:40em)': { width: '50%' },
+      '@media (min-width:52em)': { width: '25%' },
+    });
+  });
+
+  it('uses only the base array value without a theme', () => {
+    expect(sx({ width: ['100%', '50%'] })({})).toEqual({ width: '100%' });
+  });
+
+  it('keeps lower array breakpoints first when an earlier property skips them', () => {
+    const style = sx({
+      color: [null, null, 'red', null],
+      width: [null, '50%', '100%'],
+    })({ theme });
+
+    const xs = breakpoints.up('xs');
+    const sm = breakpoints.up('sm');
+    expect(Object.keys(style)).toEqual([xs, sm]);
+    expect(style[xs].width).toBe('50%');
+    expect(style[sm].width).toBe('100%');
+  });
+
+  it('accepts computed nested media keys from every helper', () => {
+    const style = sx({
+      [breakpoints.up('sm')]: { color: 'red' },
+      [breakpoints.down('sm')]: { color: 'blue' },
+      [breakpoints.between('sm', 'lg')]: { color: 'green' },
+      [breakpoints.only('md')]: { color: 'black' },
+      [breakpoints.not('md')]: { color: 'white' },
+    })({ theme });
+
+    expect(style).toEqual({
+      '@media (min-width:600px)': { color: 'red' },
+      '@media (max-width:599.95px)': { color: 'blue' },
+      '@media (min-width:600px) and (max-width:1199.95px)': { color: 'green' },
+      '@media (min-width:900px) and (max-width:1199.95px)': { color: 'black' },
+      '@media not all and (min-width:900px) and (max-width:1199.95px)': { color: 'white' },
+    });
+  });
+
+  it.each([
+    [undefined, '50%', '50%'],
+    ['75%', '75%', '50%'],
+  ])('merges an explicit query with an array in authored order (explicit width: %s)', (explicitWidth, arrayFirstWidth, explicitFirstWidth) => {
+    const query = breakpoints.up('sm');
+    const responsiveWidth = Object.freeze([null, null, '50%']);
+    const explicitRule = Object.freeze({
+      color: 'red',
+      ...(explicitWidth === undefined ? {} : { width: explicitWidth }),
+    });
+    const arrayFirst = Object.freeze({ width: responsiveWidth, [query]: explicitRule });
+    const explicitFirst = Object.freeze({ [query]: explicitRule, width: responsiveWidth });
+
+    expect(sx(arrayFirst)({ theme })).toEqual({
+      [query]: { width: arrayFirstWidth, color: 'red' },
+    });
+    expect(sx(explicitFirst)({ theme })).toEqual({
+      [query]: { width: explicitFirstWidth, color: 'red' },
+    });
+  });
+
+  it('preserves authored order when declarations use aliases for the same property', () => {
+    const query = breakpoints.up('sm');
+    const width = [null, null, '50%'];
+
+    expect(sx({ width, [query]: { w: '75%', width: '80%' } })({ theme })).toEqual({
+      [query]: { width: '80%' },
+    });
+    expect(sx({ [query]: { width: '75%', w: '80%' }, width })({ theme })).toEqual({
+      [query]: { width: '50%' },
+    });
+  });
+
+  it('merges nested declarations within the same responsive rule', () => {
+    const query = breakpoints.up('sm');
+    const hover = [null, null, { color: 'green' }];
+    const rule = { '&:hover': { color: 'red', backgroundColor: 'blue' } };
+
+    expect(sx({ '&:hover': hover, [query]: rule })({ theme })).toEqual({
+      [query]: { '&:hover': { color: 'red', backgroundColor: 'blue' } },
+    });
+    expect(sx({ [query]: rule, '&:hover': hover })({ theme })).toEqual({
+      [query]: { '&:hover': { color: 'green', backgroundColor: 'blue' } },
+    });
+  });
+
+  it('continues treating property-level objects as nested rules', () => {
+    const width = { _: '100%', sm: '50%' };
+    expect(sx({ width })({ theme })).toEqual({ width });
+  });
+});
+
 describe('array composition', () => {
+  const breakpoints = createBreakpoints({ values: { xs: 0, sm: 600, md: 900 } });
+  const theme = { breakpoints };
+
+  it('keeps generated breakpoint rules in width order across composed items', () => {
+    const xs = breakpoints.up('xs');
+    const sm = breakpoints.up('sm');
+    const result = sx([
+      { color: [null, null, 'red', null] },
+      { width: [null, '50%', '100%'] },
+    ])({ theme });
+
+    expect(Object.keys(result)).toEqual([xs, sm]);
+    expect(result[xs]).toEqual({ width: '50%' });
+    expect(result[sm]).toEqual({ color: 'red', width: '100%' });
+  });
+
+  it('preserves the authored order of explicit media rules across items', () => {
+    const xs = breakpoints.up('xs');
+    const sm = breakpoints.up('sm');
+    const result = sx([{ [sm]: { width: '100%' } }, { [xs]: { width: '50%' } }])({ theme });
+    expect(Object.keys(result)).toEqual([sm, xs]);
+  });
+
+  it.each([null, 'blue'])('anchors explicit rules after generated array slots (%s)', (baseColor) => {
+    const xs = breakpoints.up('xs');
+    const sm = breakpoints.up('sm');
+    const result = sx([
+      { color: [null, baseColor, 'red'] },
+      { [sm]: { width: '100%' } },
+      { [xs]: { width: '50%' } },
+    ])({ theme });
+    expect(Object.keys(result)).toEqual([sm, xs]);
+    expect(result[sm]).toEqual({ color: 'red', width: '100%' });
+    expect(result[xs]).toEqual(baseColor === null ? { width: '50%' } : { color: baseColor, width: '50%' });
+  });
+
   // A later array item overrides an earlier one's individual declarations,
   // not the whole value at that key. For a flat property this was already
   // correct (a last-write-wins overwrite). For a NESTED rule (a

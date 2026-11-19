@@ -35,7 +35,7 @@ export function loadThemeSources(repoRoot) {
     const localRequire = (request) => {
       if (request.startsWith('.')) return load(resolve(dirname(file), request));
       if (request === '@tonic-ui/utils/internal') {
-        return load(join(repoRoot, 'packages/utils/src/internal/toCSSVariable.js'));
+        return load(join(repoRoot, 'packages/utils/src/internal/index.js'));
       }
       return createRequire(file)(request);
     };
@@ -46,8 +46,7 @@ export function loadThemeSources(repoRoot) {
   const createTheme = load(join(repoRoot, 'packages/theme/src/createTheme.js')).default;
   const { createPrimitiveTokens } = load(join(repoRoot, 'packages/theme/src/v3/primitive/index.js'));
   const { createSemanticTokens } = load(join(repoRoot, 'packages/theme/src/v3/semantic/index.js'));
-  const { resolveTheme } = load(join(repoRoot, 'packages/utils/src/internal/resolveTheme.js'));
-  const { toCSSVariable } = load(join(repoRoot, 'packages/utils/src/internal/toCSSVariable.js'));
+  const { resolveTheme, toCSSVariable } = load(join(repoRoot, 'packages/utils/src/internal/index.js'));
   const { mapThemeToCSSVariables } = load(join(repoRoot, 'packages/react/src/theme/utils/css-vars.js'));
   return { createTheme, createPrimitiveTokens, createSemanticTokens, resolveTheme, toCSSVariable, mapThemeToCSSVariables, sourceHashes };
 }
@@ -84,9 +83,10 @@ export function buildTokenInventory(repoRoot) {
   const source = loadThemeSources(repoRoot);
   const px = source.createTheme('px');
   const rem = source.createTheme('rem');
-  const rawPx = collectTokens(px);
-  const rawRem = collectTokens(rem);
-  const primitive = collectTokens(source.createPrimitiveTokens('px'));
+  const rawPx = collectTokens({ ...px, breakpoints: { values: px.breakpoints.values } });
+  const rawRem = collectTokens({ ...rem, breakpoints: { values: rem.breakpoints.values } });
+  const primitiveTokens = source.createPrimitiveTokens('px');
+  const primitive = collectTokens({ ...primitiveTokens, breakpoints: { values: primitiveTokens.breakpoints } });
   const semantic = collectTokens(source.createSemanticTokens('px'));
   const resolvedPx = source.resolveTheme(px);
   const resolvedRem = source.resolveTheme(rem);
@@ -114,7 +114,7 @@ export function buildTokenInventory(repoRoot) {
       visibility: segments.some((part) => part.startsWith('_')) ? 'private' : 'public',
       raw: serializable(value),
       values,
-      cssVariable: Object.hasOwn(cssVariables, cssVariable) && ['string', 'number'].includes(typeof cssValue) ? cssVariable : null,
+      cssVariable: scale !== 'breakpoints' && Object.hasOwn(cssVariables, cssVariable) && ['string', 'number'].includes(typeof cssValue) ? cssVariable : null,
       resolutionStatus: containsUnresolved(values) ? 'unresolved-source' : 'verified',
     };
     if (JSON.stringify(values) !== JSON.stringify(remValues)) record.unitValues = { px: values, rem: remValues };

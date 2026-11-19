@@ -1,6 +1,17 @@
 import React, { createRef, useRef } from 'react';
 import { Box } from '@tonic-ui/react';
 
+<Box sx={({ breakpoints }) => {
+  // @ts-expect-error Box may render without a theme provider.
+  breakpoints.up('sm');
+  if (breakpoints) {
+    // @ts-expect-error Unknown breakpoint name.
+    breakpoints.up('mobile');
+    return { [breakpoints.up('sm')]: { display: 'block' } };
+  }
+  return { display: 'block' };
+}} />;
+
 // === Box ===
 <Box>Content</Box>;
 

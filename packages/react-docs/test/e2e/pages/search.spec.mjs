@@ -143,7 +143,7 @@ test.describe('documentation search', { tag: ['@docs', '@search'] }, () => {
 });
 
 test.describe('documentation search highlight', { tag: ['@docs', '@search'] }, () => {
-  // The docs layout shows the sidebar from the `lg` breakpoint (1440px).
+  // The docs layout shows the sidebar from the `lg` breakpoint (1200px).
   test.use({ viewport: { width: 1440, height: 900 } });
 
   test('keeps the query on the target page without a query string', async ({ page }) => {

@@ -1,7 +1,8 @@
+import { createBreakpoints } from '@tonic-ui/utils/internal';
 import outline from '../outline';
 
 const defaultTheme = {
-  breakpoints: [40, 52, 64].map(n => n + 'em'),
+  breakpoints: createBreakpoints({ values: { sm: 40, md: 52, lg: 64 }, unit: 'em' }),
   size: [0, 4, 8, 16, 32, 64, 128, 256, 512],
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
 };

@@ -490,13 +490,7 @@ const getTokenData = (type) => {
   if (type === 'primitive') {
     return {
       borders: primitiveBorders.rem,
-      breakpoints: {
-        sm: primitiveBreakpoints.sm,
-        md: primitiveBreakpoints.md,
-        lg: primitiveBreakpoints.lg,
-        xl: primitiveBreakpoints.xl,
-        '2xl': primitiveBreakpoints['2xl'],
-      },
+      breakpoints: primitiveBreakpoints,
       colors: primitiveColors,
       fonts: primitiveFonts,
       fontSizes: primitiveFontSizes.rem,

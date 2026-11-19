@@ -16,6 +16,7 @@ import {
   Text,
   useColorMode,
   usePortalManager,
+  useTheme,
 } from '@tonic-ui/react';
 import { useMediaQuery } from '@tonic-ui/react-hooks';
 import {
@@ -72,8 +73,9 @@ const Header = forwardRef((
   const portal = usePortalManager();
   const track = useTrack();
   const { query: activeSearchQuery, setQuery: setSearchQuery } = useSearchQuery();
+  const theme = useTheme();
   // The narrow layout only has room for the search icon.
-  const isSmallScreen = useMediaQuery('(max-width: 743px)');
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md').replace(/^@media\s*/, ''));
 
   const version = (() => {
     if (TONIC_UI_REACT_DOCS_VERSION) {
@@ -143,7 +145,7 @@ const Header = forwardRef((
         <Box>
           <Box
             display={{
-              sm: 'block',
+              _: 'block',
               lg: 'none',
             }}
           >
@@ -159,7 +161,7 @@ const Header = forwardRef((
           </Box>
           <Box
             display={{
-              sm: 'none',
+              _: 'none',
               lg: 'block',
             }}
           >
@@ -219,7 +221,7 @@ const Header = forwardRef((
           <Box
             flex="none"
             width={{
-              sm: 56,
+              _: 56,
               md: 240,
             }}
           >

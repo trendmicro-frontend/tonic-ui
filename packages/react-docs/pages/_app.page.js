@@ -147,11 +147,11 @@ const DefaultPage = (props) => {
 const DocsPage = (props) => {
   const [sidebarWidth, setSidebarWidth] = useState(240);
   const containerRef = useRef();
+  const theme = useTheme();
   const isMediaQueryMatched = useMediaQuery(
-    '(min-width: 1024px)',
+    theme.breakpoints.up('lg').replace(/^@media\s*/, ''),
   );
   const [isSidebarVisible, toggleSidebarVisible] = useToggle(isMediaQueryMatched ? true : false);
-  const theme = useTheme();
   const headerHeight = theme.get('sizes.12x');
   const handleDragResizableHandle = useCallback((e) => {
     const { left: parentLeft } = containerRef.current.getBoundingClientRect();
@@ -183,19 +183,19 @@ const DocsPage = (props) => {
     return {
       flexShrink: 0,
       width: {
-        sm: isSidebarVisible ? sidebarWidth : 0,
+        _: isSidebarVisible ? sidebarWidth : 0,
         lg: sidebarWidth,
       },
       willChange: 'width',
       transition: {
-        sm: 'width .2s ease-in-out',
+        _: 'width .2s ease-in-out',
         lg: 'none',
       },
       overflowY: 'auto',
       overflowX: 'hidden',
       position: 'fixed',
       top: {
-        sm: 0,
+        _: 0,
         lg: headerHeight,
       },
       bottom: 0,
@@ -208,18 +208,18 @@ const DocsPage = (props) => {
     return {
       position: 'relative',
       ml: {
-        sm: 0,
+        _: 0,
         lg: sidebarWidth,
       },
       pt: headerHeight,
       minHeight: '100vh',
       width: {
-        sm: '100%',
+        _: '100%',
         lg: `calc(100% - ${sidebarWidth}px)`,
       },
       willChange: 'width,margin',
       transition: {
-        sm: 'width .3s ease-in-out, margin .3s ease-in-out',
+        _: 'width .3s ease-in-out, margin .3s ease-in-out',
         lg: 'none',
       },
     };

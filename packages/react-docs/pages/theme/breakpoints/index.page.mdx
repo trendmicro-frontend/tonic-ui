@@ -2,27 +2,29 @@ import ThemeTokens from "@/components/ThemeTokens";
 
 # breakpoints
 
-The default breakpoints is an array of the following values:
+Breakpoints define viewport widths for responsive styles and CSS media queries.
 
-```js
-[
-  '320px',  // sm
-  '744px',  // md
-  '1440px', // lg
-  '1680px', // xl
-  '1920px', // 2xl
-]
+## Default breakpoints
+
+`createTheme()` uses these numeric values, in pixels:
+
+| Name | Minimum width |
+| :--- | :------------ |
+| `xs` | `0px` |
+| `sm` | `600px` |
+| `md` | `900px` |
+| `lg` | `1200px` |
+| `xl` | `1536px` |
+
+```jsx
+import { createTheme, TonicProvider } from '@tonic-ui/react';
+
+const theme = createTheme();
+
+function App({ children }) {
+  return <TonicProvider theme={theme}>{children}</TonicProvider>;
+}
 ```
-
-The first value in the array is the smallest breakpoint, and the last value is the largest. You can also use `sm`, `md`, `lg`, `xl`, and `2xl` as breakpoint names to reference the breakpoints in the array.
-
-| Breakpoint | Media Query |
-| :--------- | :---------- |
-| `sm` | `@media screen and (min-width: 320px)` |
-| `md` | `@media screen and (min-width: 744px)` |
-| `lg` | `@media screen and (min-width: 1440px)` |
-| `xl` | `@media screen and (min-width: 1680px)` |
-| `2xl` | `@media screen and (min-width: 1920px)` |
 
 ## Design tokens
 
@@ -30,51 +32,121 @@ The first value in the array is the smallest breakpoint, and the last value is t
 
 <ThemeTokens type="primitive" scales={[{ name: 'breakpoints', defaultIsExpanded: true }]} />
 
-
 ## Examples
 
-Try resizing your browser window to see the effect of the responsive styles.
+Resize the browser to see the active breakpoint range and matching media queries.
 
 {render('./breakpoints')}
 
-## Customizing breakpoints
+{render('./media-queries')}
 
-For more control over the breakpoints, you can define custom breakpoints for your application.
+## CSS media queries
 
-To do this, add a `breakpoints` array with additional aliases (e.g. `sm`, `md`, `lg`, `xl`, and `2xl`) to your theme.
+Read `breakpoints` with `useTheme()` inside a `TonicProvider`. Each helper returns a CSS media query that can be used as a key in `sx`.
 
 ```jsx
-// 1. Import the theme
-import {
-  TonicProvider, // Provides theme and context for Tonic UI components
-  createTheme,   // For theme customization
-} from '@tonic-ui/react';
+import { Box, createTheme, TonicProvider, useTheme } from '@tonic-ui/react';
 
-// 2. Update the breakpoints
-const breakpoints = [
-  '320px',
-  '744px',
-  '1440px',
-  '1680px',
-  '1920px',
-];
-breakpoints.sm = breakpoints[0];
-breakpoints.md = breakpoints[1];
-breakpoints.lg = breakpoints[2];
-breakpoints.xl = breakpoints[3];
-breakpoints['2xl'] = breakpoints[4];
+const theme = createTheme();
 
-// 3. Extend the theme
-const customTheme = createTheme({
-  breakpoints,
-});
+function ResponsiveBox() {
+  const { breakpoints } = useTheme();
 
-// 4. Pass the custom theme to the theme provider
+  return (
+    <Box sx={{ backgroundColor: 'blue', [breakpoints.not('md')]: { backgroundColor: 'red' } }} />
+  );
+}
+
 function App() {
   return (
-    <TonicProvider theme={customTheme}>
-      {children}
+    <TonicProvider theme={theme}>
+      <ResponsiveBox />
     </TonicProvider>
   );
 }
 ```
+
+For the default theme, the five helpers produce:
+
+```js
+breakpoints.up('sm');            // '@media (min-width:600px)'
+breakpoints.down('sm');          // '@media (max-width:599.95px)'
+breakpoints.between('sm', 'md'); // '@media (min-width:600px) and (max-width:899.95px)'
+breakpoints.only('md');          // '@media (min-width:900px) and (max-width:1199.95px)'
+breakpoints.not('md');           // '@media not all and (min-width:900px) and (max-width:1199.95px)'
+```
+
+## Customizing breakpoints
+
+Pass breakpoint options to `createTheme()`. `values` replaces the default map and supports the standard names `xs`, `sm`, `md`, `lg`, and `xl`. The keys are sorted by their numeric values. Omit a name if the theme does not need that breakpoint.
+
+```jsx
+import { createTheme } from '@tonic-ui/react';
+
+const theme = createTheme({
+  breakpoints: {
+    values: { xs: 0, sm: 640, md: 960, lg: 1280, xl: 1600 },
+    unit: 'px',
+    step: 1,
+  },
+});
+```
+
+`unit` defaults to `px` and is appended to each numeric value. For example, use `unit: 'rem'` with values expressed in `rem`. `step` defaults to `5`. Upper-bound helpers subtract `step / 100` from the end value, so `down('sm')` in this custom theme returns `@media (max-width:639.99px)`.
+
+The `step / 100` adjustment follows the Material UI convention for approximating an exclusive upper bound. CSS does not require it, and the adjustment can leave a subpixel gap between adjacent queries.
+
+## API
+
+The read-only `theme.breakpoints` object exposes `keys`, `values`, `unit`, `step`, and five query helpers. In these examples the default theme is used. Named arguments must be configured breakpoint names; unknown names throw. `up`, `down`, and `between` also accept numeric widths in the configured unit. `only` and `not` accept names only.
+
+`up`, `down`, and `between` use the supplied widths directly, regardless of whether a key is first, last, or the only key. `only` and `not` use the next configured key in ascending width order.
+
+### theme.breakpoints.up
+
+`up(keyOrWidth)` accepts a configured name or number and includes the lower boundary:
+
+```js
+breakpoints.up('sm'); // '@media (min-width:600px)'
+breakpoints.up(750);  // '@media (min-width:750px)'
+```
+
+### theme.breakpoints.down
+
+`down(keyOrWidth)` accepts a configured name or number. Its maximum is the supplied width minus `step / 100`, approximating an exclusive upper boundary:
+
+```js
+breakpoints.down('sm'); // '@media (max-width:599.95px)'
+breakpoints.down(750);  // '@media (max-width:749.95px)'
+```
+
+### theme.breakpoints.between
+
+`between(start, end)` accepts a configured name or number for each argument. It includes the start and approximates an exclusive end:
+
+```js
+breakpoints.between('sm', 'md'); // '@media (min-width:600px) and (max-width:899.95px)'
+breakpoints.between(700, 1000);  // '@media (min-width:700px) and (max-width:999.95px)'
+```
+
+### theme.breakpoints.only
+
+`only(key)` accepts a configured name and spans from that breakpoint to just below the next. The last key, including a single configured key, has no upper bound:
+
+```js
+breakpoints.only('xs'); // '@media (min-width:0px) and (max-width:599.95px)'
+breakpoints.only('md'); // '@media (min-width:900px) and (max-width:1199.95px)'
+breakpoints.only('xl'); // '@media (min-width:1536px)'
+```
+
+### theme.breakpoints.not
+
+`not(key)` accepts a configured name. For a middle key, it matches outside the range returned by `only(key)`.
+
+```js
+breakpoints.not('xs'); // '@media (min-width:600px)'
+breakpoints.not('md'); // '@media not all and (min-width:900px) and (max-width:1199.95px)'
+breakpoints.not('xl'); // '@media (max-width:1535.95px)'
+```
+
+For the first key with a successor, `not` matches from the next breakpoint upward. If the first width is nonzero, widths below it still do not match. For example, with `{ sm: 600, md: 900 }`, `not('sm')` matches at 900px and above, not below 600px. For the last or only key, `not` matches up to that width minus `step / 100`.
