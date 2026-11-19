@@ -627,6 +627,20 @@ describe('responsive values', () => {
     expect(style[sm].width).toBe('100%');
   });
 
+  it('keeps later rules when two responsive slots use the same width', () => {
+    const breakpoints = createBreakpoints({ values: { xs: 0, sm: 600, md: 600, lg: 1200 } });
+    const style = sx({
+      color: [null, null, 'red', null, 'green'],
+      width: [null, '25%'],
+    })({ theme: { breakpoints } });
+
+    expect(Object.entries(style)).toEqual([
+      [breakpoints.up('xs'), { width: '25%' }],
+      [breakpoints.up('sm'), { color: 'red' }],
+      [breakpoints.up('lg'), { color: 'green' }],
+    ]);
+  });
+
   it('accepts computed nested media keys from every helper', () => {
     const style = sx({
       [breakpoints.up('sm')]: { color: 'red' },
@@ -721,17 +735,33 @@ describe('array composition', () => {
     expect(Object.keys(result)).toEqual([sm, xs]);
   });
 
-  it.each([null, 'blue'])('anchors explicit rules after generated array slots (%s)', (baseColor) => {
+  it.each([false, true])('sorts merged breakpoint rules together (composed: %s)', (composed) => {
     const xs = breakpoints.up('xs');
     const sm = breakpoints.up('sm');
-    const result = sx([
-      { color: [null, baseColor, 'red'] },
+    const rules = [
+      { color: [null, 'blue', 'red'] },
       { [sm]: { width: '100%' } },
       { [xs]: { width: '50%' } },
+    ];
+    const result = sx(composed ? rules : Object.assign({}, ...rules))({ theme });
+
+    expect(Object.entries(result)).toEqual([
+      [xs, { color: 'blue', width: '50%' }],
+      [sm, { color: 'red', width: '100%' }],
+    ]);
+  });
+
+  it('leaves explicit-only media keys in their slots when sorting generated rules', () => {
+    const xs = breakpoints.up('xs');
+    const sm = breakpoints.up('sm');
+    const md = breakpoints.up('md');
+    const result = sx([
+      { color: [null, null, 'red'] },
+      { [md]: { width: '50%' } },
+      { width: [null, '25%'] },
     ])({ theme });
-    expect(Object.keys(result)).toEqual([sm, xs]);
-    expect(result[sm]).toEqual({ color: 'red', width: '100%' });
-    expect(result[xs]).toEqual(baseColor === null ? { width: '50%' } : { color: baseColor, width: '50%' });
+
+    expect(Object.keys(result)).toEqual([xs, md, sm]);
   });
 
   // A later array item overrides an earlier one's individual declarations,

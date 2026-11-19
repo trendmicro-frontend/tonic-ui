@@ -52,7 +52,17 @@ const App = () => {
           { [breakpoints.up('xs')]: { width: '50%' } },
         ]}
       >
-        Explicit media rules: the last matching rule keeps this at half width
+        Merged breakpoint rules: half width below sm, full width from sm
+      </Box>
+      <Box
+        data-testid="breakpoint-specificity-override"
+        sx={{
+          color: [null, 'blue', 'red'],
+          [breakpoints.up('sm')]: { width: '100%' },
+          '&&': { width: '50%' },
+        }}
+      >
+        Higher selector specificity keeps this at half width
       </Box>
     </Box>
   );

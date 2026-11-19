@@ -76,6 +76,8 @@ breakpoints.only('md');          // '@media (min-width:900px) and (max-width:119
 breakpoints.not('md');           // '@media not all and (min-width:900px) and (max-width:1199.95px)'
 ```
 
+Responsive arrays generate media rules in ascending breakpoint order. An explicit rule with the same query merges into that rule, rather than replacing it. If you need an exception to override a matching rule regardless of order, use `&&` on just the declaration that needs higher selector specificity, for example `sx={{ '&&': { width: '50%' } }}`. Prefer one responsive value when it can express the layout directly.
+
 ## Customizing breakpoints
 
 Pass breakpoint options to `createTheme()`. `values` replaces the default map and supports the standard names `xs`, `sm`, `md`, `lg`, and `xl`. The keys are sorted by their numeric values. Omit a name if the theme does not need that breakpoint.

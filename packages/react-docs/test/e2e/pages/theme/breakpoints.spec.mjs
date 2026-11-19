@@ -53,10 +53,16 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
       })).toBeCloseTo(ratio, 2);
     }
 
-    const explicit = page.getByTestId('breakpoint-explicit-sx');
-    await expect.poll(() => explicit.evaluate(element => {
-      return element.getBoundingClientRect().width / element.parentElement.getBoundingClientRect().width;
-    })).toBeCloseTo(0.5, 2);
+    for (const [width, color, regularRatio] of [[599, 'rgb(0, 0, 255)', 0.5], [600, 'rgb(255, 0, 0)', 1]]) {
+      await page.setViewportSize({ width, height: 900 });
+      for (const [id, ratio] of [['breakpoint-explicit-sx', regularRatio], ['breakpoint-specificity-override', 0.5]]) {
+        const example = page.getByTestId(id);
+        await expect(example).toHaveCSS('color', color);
+        await expect.poll(() => example.evaluate(element => {
+          return element.getBoundingClientRect().width / element.parentElement.getBoundingClientRect().width;
+        })).toBeCloseTo(ratio, 2);
+      }
+    }
   });
 
   test('records the examples in both color modes', async ({ page }) => {

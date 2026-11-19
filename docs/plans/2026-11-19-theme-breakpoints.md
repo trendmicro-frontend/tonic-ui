@@ -102,6 +102,7 @@ Jest source mappings 的確切設定：`"^@tonic-ui/utils/internal$": "<rootDir>
 - Parser 合併完 declarations 後，base properties 在前，已產生的 queries 按當前 runtime sorted `keys` 對應的 media list 輸出。刪除舊 `sortObject` 的 localeCompare sorting：例如 `10.125em` 必須在 `10.5em` 前，不能比較 query strings。陣列和具名物件同時出現也使用同一順序；同一 query 保留現有 per-declaration merge。其他 pseudo 與 `sx` composition 行為不變。
 - 五個 helper 的 computed keys 可直接當作 sx／__sx nested media rules。不要新增 root wrapper；不要順便擴增目前 sx 尚未提供的 property-level named responsive-object API。
 - `sx.js` 展開 responsive array 時，若與明確的 `[theme.breakpoints.up('sm')]` 命中同一 query，按作者順序逐項合併，不可覆蓋整個規則，也不可修改傳入的 `sx` 物件。`sx.test.js` 用 `width: [null, null, '50%']` 與明確規則 `{ color: 'red' }` 測兩種順序：同一 rule 一律同時保留寬 50% 和紅色。再讓明確規則也設定 `width: '75%'`：明確規則在後時寬 75%，array 在後時寬 50%。這是 Tonic 的保證；[MUI `styleFunctionSx`](https://github.com/mui/material-ui/blob/a55ec7da097cd9123335ed97e230b39151083ae0/packages/mui-system/src/styleFunctionSx/styleFunctionSx.ts) 對明確 nested key 直接賦值，不是兩種順序的驗收依據。
+- `sx({...})` 和 `sx([...])` 都將陣列實際產生的 query（含與明寫規則合併的 query）按斷點升冪排列。只替換這些 query 的位置；沒有與陣列合併的明寫規則保持原位置。不同 query 重疊時，不拆分宣告來同時維護兩種順序，也不自動提高 selector specificity。刻意需要較高優先權時，由作者用 `&&` 明示，只包要覆寫的屬性；用 Chromium 在 599px 和 600px 驗證一般規則及覆寫的寬度與顏色。
 
 遷移 custom test fixtures：
 
