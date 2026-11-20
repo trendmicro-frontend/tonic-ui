@@ -15,6 +15,10 @@ ruleTester.run('no-flat-style-props', plugin.rules['no-flat-style-props'], {
   valid: [
     { code: '<Box sx={{ p: "4x" }} />' },
     { code: '<Grid sx={{ gap: "4x", rowGap: "2x", columnGap: "3x" }} />' },
+    { code: '<Grid gap={{ sm: "4x" }} />' },
+    { code: '<Box gap={{ sm: "4x" }} />' },
+    { code: '<Grid columnGap={compact ? "2x" : { md: "4x" }} />' },
+    { code: '<Grid rowGap={responsiveGap} />' },
     { code: '<Box />' },
     // Documented props of a real component are its public API, not style drift.
     { code: '<Scrollbar width={100} height={100} overflow="auto" />' },
@@ -41,10 +45,18 @@ ruleTester.run('no-flat-style-props', plugin.rules['no-flat-style-props'], {
     {
       code: '<Grid gridGap="4x" gridRowGap="2x" gridColumnGap="3x" />',
       errors: [
-        { messageId: 'useModernGridGap', data: { prop: 'gridGap', replacement: 'gap' } },
-        { messageId: 'useModernGridGap', data: { prop: 'gridRowGap', replacement: 'rowGap' } },
-        { messageId: 'useModernGridGap', data: { prop: 'gridColumnGap', replacement: 'columnGap' } },
+        { messageId: 'replaceUnsupportedProp', data: { element: 'Grid', prop: 'gridGap', replacement: 'gap' } },
+        { messageId: 'replaceUnsupportedProp', data: { element: 'Grid', prop: 'gridRowGap', replacement: 'rowGap' } },
+        { messageId: 'replaceUnsupportedProp', data: { element: 'Grid', prop: 'gridColumnGap', replacement: 'columnGap' } },
       ],
+    },
+    {
+      code: '<Grid gridGap={{ sm: "4x" }} />',
+      errors: [{ messageId: 'replaceUnsupportedProp', data: { element: 'Grid', prop: 'gridGap', replacement: 'gap' } }],
+    },
+    {
+      code: '<Grid gap={["2x", null, "4x"]} />',
+      errors: [{ messageId: 'useSx', data: { prop: 'gap', element: 'Grid' } }],
     },
     {
       code: '<Box gridGap="4x" />',
@@ -106,6 +118,10 @@ ruleTester.run('no-flat-style-props', plugin.rules['no-flat-style-props'], {
     {
       code: '<SuperscriptText color={textColor}>{children}</SuperscriptText>',
       errors: [{ messageId: 'useSx', data: { prop: 'color', element: 'SuperscriptText' } }],
+    },
+    {
+      code: '<Grid width={contentWidth} />',
+      errors: [{ messageId: 'useSx', data: { prop: 'width', element: 'Grid' } }],
     },
   ],
 });

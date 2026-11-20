@@ -4,14 +4,34 @@ const stylePropSet = new Set(stylePropNames);
 const documentedProps = new Map(
   Object.entries(documentedStyleProps).map(([componentName, props]) => [componentName, new Set(props)]),
 );
-const gridGapReplacements = new Map([
-  ['gridGap', 'gap'],
-  ['gridRowGap', 'rowGap'],
-  ['gridColumnGap', 'columnGap'],
+const unsupportedFlatPropReplacements = new Map([
+  ['Grid', new Map([
+    ['gridGap', 'gap'],
+    ['gridRowGap', 'rowGap'],
+    ['gridColumnGap', 'columnGap'],
+  ])],
 ]);
+const replacementTargets = new Set(
+  [...unsupportedFlatPropReplacements.values()].flatMap(replacements => [...replacements.values()]),
+);
 
 const getName = (node) => {
   return node.type === 'JSXIdentifier' ? node.name : undefined;
+};
+
+// Flat props accept breakpoint maps. In sx, objects become nested rules.
+// Do not recommend moving a replacement target unless syntax rules out a map.
+const isScalarOrArray = (expression) => {
+  if (expression.type === 'ConditionalExpression') {
+    return isScalarOrArray(expression.consequent) && isScalarOrArray(expression.alternate);
+  }
+  if (expression.type === 'Literal') {
+    return expression.value === null || typeof expression.value !== 'object';
+  }
+  return expression.type === 'ArrayExpression' ||
+    expression.type === 'TemplateLiteral' ||
+    expression.type === 'UnaryExpression' ||
+    expression.type === 'BinaryExpression';
 };
 
 export const noFlatStyleProps = {
@@ -21,7 +41,7 @@ export const noFlatStyleProps = {
     schema: [],
     messages: {
       useSx: 'Use sx instead of the flat `{{prop}}` prop on <{{element}}>: <{{element}} sx={{ {{prop}}: … }}>.',
-      useModernGridGap: '<Grid> does not support the flat `{{prop}}` prop. Use `{{replacement}}` instead.',
+      replaceUnsupportedProp: '<{{element}}> does not support the flat `{{prop}}` prop. Use `{{replacement}}` instead.',
     },
   },
   create(context) {
@@ -29,7 +49,7 @@ export const noFlatStyleProps = {
       JSXAttribute(node) {
         const propName = getName(node.name);
 
-        if (propName === undefined || !stylePropSet.has(propName)) {
+        if (propName === undefined) {
           return;
         }
 
@@ -49,15 +69,22 @@ export const noFlatStyleProps = {
           return; // DOM elements are covered by no-raw-html-elements
         }
 
-        if (elementName === 'Grid') {
-          const replacement = gridGapReplacements.get(propName);
-          if (replacement !== undefined) {
-            context.report({ node, messageId: 'useModernGridGap', data: { prop: propName, replacement } });
-            return;
-          }
+        const replacement = unsupportedFlatPropReplacements.get(elementName)?.get(propName);
+        if (replacement !== undefined) {
+          context.report({
+            node,
+            messageId: 'replaceUnsupportedProp',
+            data: { element: elementName, prop: propName, replacement },
+          });
+          return;
         }
 
-        if (documentedProps.get(elementName)?.has(propName)) {
+        if (!stylePropSet.has(propName) || documentedProps.get(elementName)?.has(propName)) {
+          return;
+        }
+
+        if (replacementTargets.has(propName) && node.value?.type === 'JSXExpressionContainer' &&
+          !isScalarOrArray(node.value.expression)) {
           return;
         }
 
