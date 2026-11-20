@@ -21,17 +21,23 @@ const getName = (node) => {
 
 // Flat props accept breakpoint maps. In sx, objects become nested rules.
 // Do not recommend moving a replacement target unless syntax rules out a map.
-const isScalarOrArray = (expression) => {
+const isScalar = (expression) => {
   if (expression.type === 'ConditionalExpression') {
-    return isScalarOrArray(expression.consequent) && isScalarOrArray(expression.alternate);
+    return isScalar(expression.consequent) && isScalar(expression.alternate);
   }
   if (expression.type === 'Literal') {
     return expression.value === null || typeof expression.value !== 'object';
   }
-  return expression.type === 'ArrayExpression' ||
-    expression.type === 'TemplateLiteral' ||
+  return expression.type === 'TemplateLiteral' ||
     expression.type === 'UnaryExpression' ||
     expression.type === 'BinaryExpression';
+};
+
+const hasResponsiveArray = (expression) => {
+  if (expression.type === 'ConditionalExpression') {
+    return hasResponsiveArray(expression.consequent) || hasResponsiveArray(expression.alternate);
+  }
+  return expression.type === 'ArrayExpression';
 };
 
 export const noFlatStyleProps = {
@@ -41,6 +47,7 @@ export const noFlatStyleProps = {
     schema: [],
     messages: {
       useSx: 'Use sx instead of the flat `{{prop}}` prop on <{{element}}>: <{{element}} sx={{ {{prop}}: … }}>.',
+      responsiveArray: 'The flat `{{prop}}` prop on <{{element}}> uses a responsive array. Replace it with a breakpoint object or explicit media keys in sx.',
       replaceUnsupportedProp: 'The flat `{{prop}}` prop on <{{element}}> is deprecated. Use `{{replacement}}` instead.',
     },
   },
@@ -82,9 +89,13 @@ export const noFlatStyleProps = {
         if (!stylePropSet.has(propName) || documentedProps.get(elementName)?.has(propName)) {
           return;
         }
+        if (node.value?.type === 'JSXExpressionContainer' && hasResponsiveArray(node.value.expression)) {
+          context.report({ node, messageId: 'responsiveArray', data: { prop: propName, element: elementName } });
+          return;
+        }
 
         if (replacementTargets.has(propName) && node.value?.type === 'JSXExpressionContainer' &&
-          !isScalarOrArray(node.value.expression)) {
+          !isScalar(node.value.expression)) {
           return;
         }
 

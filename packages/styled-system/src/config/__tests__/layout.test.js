@@ -29,7 +29,7 @@ test('returns layout styles', () => {
 test('returns responsive values', () => {
   const style = layout({
     theme: { ...defaultTheme },
-    width: ['100%', '50%', '25%'],
+    width: { _: '100%', sm: '50%', md: '25%' },
     minHeight: 32,
     maxWidth: 768,
   });

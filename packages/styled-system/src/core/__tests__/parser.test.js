@@ -39,8 +39,8 @@ test('uses the current breakpoint scale when providers alternate', () => {
   ]) {
     const styles = parser({
       theme: { ...theme, breakpoints },
-      fontSize: [1, 2, 3, 3],
-      color: ['primary', null, 'secondary'],
+      fontSize: { _: 1, sm: 2, md: 3, lg: 3 },
+      color: { _: 'primary', md: 'secondary' },
     });
 
     expect(styles).toEqual({
@@ -57,16 +57,16 @@ test('uses the current breakpoint scale when providers alternate', () => {
 });
 
 test('reuses a cached media list only for the same breakpoint object', () => {
-  parser({ theme, fontSize: [1, 2] });
+  parser({ theme, fontSize: { _: 1, sm: 2 } });
   const cachedMedia = parser.cache.media;
 
-  parser({ theme, color: ['primary', 'secondary'] });
+  parser({ theme, color: { _: 'primary', sm: 'secondary' } });
   expect(parser.cache.breakpoints).toBe(defaultBreakpoints);
   expect(parser.cache.media).toBe(cachedMedia);
 });
 
 test('disabled caching uses local breakpoints without changing the cache', () => {
-  parser({ theme, fontSize: [1, 2] });
+  parser({ theme, fontSize: { _: 1, sm: 2 } });
   const cachedMedia = parser.cache.media;
   const uncachedBreakpoints = createBreakpoints({
     values: { sm: 7, md: 8, lg: 9 },
@@ -75,8 +75,8 @@ test('disabled caching uses local breakpoints without changing the cache', () =>
 
   const styles = parser({
     theme: { ...theme, breakpoints: uncachedBreakpoints, disableStyledSystemCache: true },
-    fontSize: [1, 2, 3, 3],
-    color: ['primary', null, 'secondary'],
+    fontSize: { _: 1, sm: 2, md: 3, lg: 3 },
+    color: { _: 'primary', md: 'secondary' },
   });
 
   expect(styles).toEqual({
@@ -88,7 +88,7 @@ test('disabled caching uses local breakpoints without changing the cache', () =>
   });
   expect(parser.cache.breakpoints).toBe(defaultBreakpoints);
   expect(parser.cache.media).toBe(cachedMedia);
-  expect(parser({ theme, fontSize: [1, 2, 3, 3] })).toEqual({
+  expect(parser({ theme, fontSize: { _: 1, sm: 2, md: 3, lg: 3 } })).toEqual({
     fontSize: 4,
     '@media (width >= 40em)': { fontSize: 8 },
     '@media (width >= 52em)': { fontSize: 16 },
@@ -99,19 +99,26 @@ test('disabled caching uses local breakpoints without changing the cache', () =>
 
 test('disabled caching does not read a cached list for the same breakpoint object', () => {
   const freshParser = system({ color: true });
-  freshParser({ theme, color: ['red', 'blue'] });
+  freshParser({ theme, color: { _: 'red', sm: 'blue' } });
   const cachedMedia = freshParser.cache.media;
-  cachedMedia[1] = '@media stale';
+  cachedMedia[0] = '@media stale';
 
-  expect(freshParser({
+  const styles = freshParser({
     theme: { ...theme, disableStyledSystemCache: true },
-    color: ['red', 'blue'],
-  })).toEqual({
+    color: { md: 'green', sm: 'blue', _: 'red' },
+  });
+  expect(styles).toEqual({
     color: 'red',
     '@media (width >= 40em)': { color: 'blue' },
+    '@media (width >= 52em)': { color: 'green' },
   });
+  expect(Object.keys(styles)).toEqual([
+    'color',
+    '@media (width >= 40em)',
+    '@media (width >= 52em)',
+  ]);
   expect(freshParser.cache.media).toBe(cachedMedia);
-  expect(cachedMedia[1]).toBe('@media stale');
+  expect(cachedMedia[0]).toBe('@media stale');
 });
 
 test('does not create a media list without a responsive value', () => {
@@ -125,6 +132,21 @@ test('does not create a media list without a responsive value', () => {
 test('without a theme only renders unconditional responsive values', () => {
   const freshParser = system({ color: true });
 
-  expect(freshParser({ color: ['red', 'blue'] })).toEqual({ color: 'red' });
   expect(freshParser({ color: { _: 'red', sm: 'blue' } })).toEqual({ color: 'red' });
+});
+
+test('rejects responsive arrays without a theme', () => {
+  const parseColor = system({ color: true });
+  expect(() => parseColor({ color: ['red', 'blue'] })).toThrow(TypeError);
+});
+
+test.each([
+  { value: [] },
+  { value: ['red', 'blue'] },
+  { value: { _: ['red', 'blue'] } },
+  { value: { sm: ['red', 'blue'] } },
+])('rejects array values for a style prop: $value', ({ value }) => {
+  const parseColor = () => parser({ theme, color: value });
+  expect(parseColor).toThrow(TypeError);
+  expect(parseColor).toThrow('Responsive array values are not supported for style prop "color". Use a breakpoint object with scalar values instead.');
 });

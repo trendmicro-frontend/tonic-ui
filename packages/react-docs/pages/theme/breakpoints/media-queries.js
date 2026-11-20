@@ -36,8 +36,8 @@ const App = () => {
       <Box
         data-testid="breakpoint-composed-sx"
         sx={[
-          { color: [null, 'text.secondary', 'text.primary'], backgroundColor: 'background.high', borderRadius: 'sm', px: '3x', py: '2x', boxSizing: 'border-box' },
-          { width: ['100%', '50%', '100%'] },
+          { backgroundColor: 'background.high', borderRadius: 'sm', px: '3x', py: '2x', boxSizing: 'border-box' },
+          { width: '100%', [breakpoints.gte('sm')]: { width: '50%', color: 'text.secondary' }, [breakpoints.gte('md')]: { width: '100%', color: 'text.primary' } },
         ]}
       >
         Array composition
@@ -45,9 +45,9 @@ const App = () => {
       <Box
         data-testid="breakpoint-explicit-sx"
         sx={[
-          { width: '100%', color: [null, 'text.secondary', 'text.primary'], backgroundColor: 'background.high', borderRadius: 'sm', px: '3x', py: '2x', boxSizing: 'border-box' },
-          { [breakpoints.gte('md')]: { width: '100%' } },
+          { width: '100%', backgroundColor: 'background.high', borderRadius: 'sm', px: '3x', py: '2x', boxSizing: 'border-box', [breakpoints.gte('sm')]: { color: 'text.secondary' } },
           { [breakpoints.gte('sm')]: { width: '50%' } },
+          { [breakpoints.gte('md')]: { width: '100%', color: 'text.primary' } },
         ]}
       >
         Merged media rules
@@ -55,13 +55,13 @@ const App = () => {
       <Box
         data-testid="breakpoint-specificity-override"
         sx={{
-          color: [null, 'text.secondary', 'text.primary'],
+          [breakpoints.gte('sm')]: { color: 'text.secondary' },
           backgroundColor: 'background.high',
           borderRadius: 'sm',
           px: '3x',
           py: '2x',
           boxSizing: 'border-box',
-          [breakpoints.gte('md')]: { width: '100%' },
+          [breakpoints.gte('md')]: { width: '100%', color: 'text.primary' },
           '&&': { width: '50%' },
         }}
       >

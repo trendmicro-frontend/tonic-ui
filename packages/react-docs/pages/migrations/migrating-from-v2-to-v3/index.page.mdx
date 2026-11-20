@@ -205,20 +205,22 @@ theme.get('colors.text.primary'); // always uses the `_dark` value
 
 ### `sx` array merging
 
-When `sx` receives an **array**, v2 merged the items with a shallow spread, so a nested selector (such as `&:hover`) in a later item replaced the earlier item's nested object wholesale. v3 merges **per declaration**, recursing into nested selectors, so both items' declarations are kept:
+When the `sx` prop receives an **array of style objects**, v2 merged the items with a shallow spread, so a nested selector (such as `&:hover`) in a later item replaced the earlier item's nested object wholesale. v3 keeps this composition form and merges **per declaration**, recursing into nested selectors, so both items' declarations are kept:
 
 ```jsx
 // v2: the second item's `&:hover` discarded the first item's `&:hover` entirely
 // v3: the two `&:hover` declarations compose
 <Box
   sx={[
-    { '&:hover': { color: 'red.500' } },
-    { '&:hover': { backgroundColor: 'gray.100' } },
+    { '&:hover': { color: 'red' } },
+    { '&:hover': { backgroundColor: 'lightgray' } },
   ]}
 />
 ```
 
 A flat property is still a plain last-write-wins overwrite. If existing code relied on a later array item resetting a nested selector, review that usage.
+
+This composition array is different from an array used as a responsive value for a single property. Responsive value arrays were removed; migrate those as described under [Breakpoints](#breakpoints).
 
 ### `Popper` render prop
 
@@ -359,7 +361,39 @@ The v3 default breakpoints use `rem`. The pixel equivalents assume a browser ini
 | `xl` | `1280px` | `80rem` (`1280px`) |
 | `2xl` | `1680px` | `96rem` (`1536px`) |
 
-There is no `320px` breakpoint in the v3 defaults. Use `_` in responsive objects or index `0` in responsive arrays for unqualified base styles. Array indices `1` through `5` correspond to `sm`, `md`, `lg`, `xl`, and `2xl`. Recheck layouts at the new thresholds, even if the breakpoint names did not change.
+There is no `320px` breakpoint in the v3 defaults. Recheck layouts at the new thresholds, even if the breakpoint names did not change. Responsive value arrays are no longer supported: use breakpoint objects with `_` for the unconditional base on flat style props.
+
+With the v2 default scale, the old positions after the base were `sm`, `md`, `lg`, `xl`, and `2xl`. For example:
+
+```jsx
+// Before: removed responsive value array, using v2's default scale.
+<Box width={['100%', '75%', null, '50%']} />
+
+// After: sm now starts at 40rem; lg starts at 64rem.
+<Box width={{ _: '100%', sm: '75%', lg: '50%' }} />
+```
+
+The `sm` change above moves from `320px` to `40rem` (`640px` with a `16px` initial font size). If an app must retain its old thresholds, configure the v3 breakpoints accordingly. Map positions against the app's actual old scale, especially if it used custom breakpoints.
+
+For individual declarations inside `sx`, use explicit media query keys instead of breakpoint objects or responsive value arrays. Read the active theme inside a `TonicProvider`:
+
+```jsx
+import { Box, useTheme } from '@tonic-ui/react';
+
+function ResponsiveBox() {
+  const { breakpoints } = useTheme();
+
+  return (
+    <Box sx={{
+      width: '100%',
+      [breakpoints.gte('sm')]: { width: '75%' },
+      [breakpoints.gte('lg')]: { width: '50%' },
+    }} />
+  );
+}
+```
+
+This also applies to the internal `__sx` channel. Arrays of `sx` or `__sx` style objects remain supported for composition.
 
 If you pass an array of breakpoints to `createTheme()`, replace it with `breakpoints: { values: { ... }, unit: 'px' }` to keep your custom pixel widths. Replace direct reads such as `theme.breakpoints.md` with `theme.breakpoints.values.md` for the numeric width, or `theme.breakpoints.gte('md')` for a CSS media query. See [Breakpoints](../../theme/breakpoints) and [Responsive values](../../styled-system/responsive-values).
 
@@ -395,7 +429,7 @@ See [Theme](../../theme) for the full token list.
 
 - [ ] Review array-form `sx` usages that relied on a later item replacing a nested selector.
 - [ ] Re-check `borderRadius` usages on `sm` / `lg` — the values changed.
-- [ ] Recheck responsive layouts at the new breakpoint widths and migrate any custom breakpoint arrays or direct breakpoint aliases.
+- [ ] Recheck responsive layouts at the new breakpoint widths; replace responsive value arrays, custom breakpoint arrays, and direct breakpoint aliases.
 - [ ] Load the `Inter` and `DM Mono` fonts if you rely on the default `fonts.base` / `fonts.mono`.
 
 ### Color tokens

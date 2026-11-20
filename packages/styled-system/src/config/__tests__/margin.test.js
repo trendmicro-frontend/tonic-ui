@@ -138,7 +138,7 @@ test('returns negative theme values using CSS variables', () => {
 test('returns responsive values', () => {
   const styles = margin({
     theme: { ...defaultTheme },
-    m: [0, 2, 3],
+    m: { _: 0, sm: 2, md: 3 },
   });
   expect(styles).toEqual({
     margin: 0,

@@ -43,6 +43,11 @@ import { Box } from '@tonic-ui/react';
   Responsive box
 </Box>;
 
+// @ts-expect-error An sx declaration cannot use a responsive value array.
+<Box sx={{ width: ['100%', '50%'] }} />;
+
+<Box sx={[{ width: '100%' }, { '@media (width >= 40rem)': { width: '50%' } }]} />;
+
 // Ref
 const boxRef = createRef<HTMLDivElement>();
 <Box ref={boxRef}>With ref</Box>;

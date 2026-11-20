@@ -1,11 +1,8 @@
 import { get, isNullish, isPlainObject } from '@tonic-ui/utils';
-import { createBreakpoints } from '@tonic-ui/utils/internal';
 import system from './system';
 import { pseudoClassSelector, pseudoElementSelector } from './pseudo';
 
-const defaultBreakpoints = createBreakpoints();
-
-const resolvePseudo = (styleProps) => {
+const resolvePseudo = (styleProps, theme) => {
   if (isNullish(styleProps)) {
     return {};
   }
@@ -44,7 +41,11 @@ const resolvePseudo = (styleProps) => {
   });
 
   let entries = [];
-  for (const [name, value] of orderedEntries) {
+  for (const [name, valueOrFn] of orderedEntries) {
+    const value = typeof valueOrFn === 'function' ? valueOrFn(theme) : valueOrFn;
+    if (Array.isArray(value)) {
+      throw new TypeError(`Array values are not supported for sx property "${name}". Use explicit media queries instead.`);
+    }
     const selectorFunction = pseudoClassSelector[name] ?? pseudoElementSelector[name];
     if (typeof selectorFunction === 'function') {
       entries = entries.concat(selectorFunction(value));
@@ -55,43 +56,7 @@ const resolvePseudo = (styleProps) => {
   return Object.fromEntries(entries);
 };
 
-// Sort only rules populated by responsive arrays. Explicit-only rules keep
-// their positions, even when their keys match a configured breakpoint.
-function orderResponsiveQueries(styles, context) {
-  const { generatedRules, mediaQueries } = context;
-  let lastRank = -1;
-  let needsSort = false;
-  const keys = Object.keys(styles);
-  for (const key of keys) {
-    const rule = styles[key];
-    if (isPlainObject(rule)) {
-      styles[key] = orderResponsiveQueries(rule, context);
-      if (generatedRules.has(rule)) {
-        generatedRules.add(styles[key]);
-        const rank = mediaQueries.indexOf(key);
-        needsSort ||= rank < lastRank;
-        lastRank = rank;
-      }
-    }
-  }
-  if (!needsSort) {
-    return styles;
-  }
-
-  const sorted = keys.filter(key => generatedRules.has(styles[key]));
-  sorted.sort((a, b) => mediaQueries.indexOf(a) - mediaQueries.indexOf(b));
-  const ordered = {};
-  let index = 0;
-  for (const key of keys) {
-    const orderedKey = generatedRules.has(styles[key]) ? sorted[index++] : key;
-    ordered[orderedKey] = styles[orderedKey];
-  }
-  return ordered;
-}
-
-// Deep merging preserves declarations in nested rules. Raw responsive declarations also
-// need overwritten keys moved to the end so aliases resolve in authored order.
-const mergeResolvedSx = (acc, resolved, preserveSourceOrder = false, generatedRules) => {
+const mergeResolvedSx = (acc, resolved) => {
   const next = { ...acc };
   for (const key in resolved) {
     if (!Object.prototype.hasOwnProperty.call(resolved, key)) {
@@ -99,72 +64,14 @@ const mergeResolvedSx = (acc, resolved, preserveSourceOrder = false, generatedRu
     }
     const accValue = next[key];
     const resolvedValue = resolved[key];
-    if (preserveSourceOrder) {
-      delete next[key];
-    }
     next[key] = (isPlainObject(accValue) && isPlainObject(resolvedValue))
-      ? mergeResolvedSx(accValue, resolvedValue, preserveSourceOrder, generatedRules)
+      ? mergeResolvedSx(accValue, resolvedValue)
       : resolvedValue;
   }
-  if (generatedRules?.has(acc) || generatedRules?.has(resolved)) {
-    generatedRules.add(next);
-  }
   return next;
 };
 
-const resolveResponsive = (theme, context, styleProps) => {
-  const next = {};
-
-  for (const key in styleProps) {
-    if (!Object.prototype.hasOwnProperty.call(styleProps, key)) {
-      continue;
-    }
-
-    const value = typeof styleProps[key] === 'function' ? styleProps[key](theme) : styleProps[key];
-    if (isNullish(value)) {
-      continue;
-    }
-
-    if (!Array.isArray(value)) {
-      const previous = next[key];
-      const merged = isPlainObject(previous) && isPlainObject(value)
-        ? mergeResolvedSx(previous, value, true)
-        : value;
-      next[key] = merged;
-      if (context.generatedRules?.has(previous) && isPlainObject(merged)) {
-        context.generatedRules.add(merged);
-      }
-      continue;
-    }
-
-    if (!context.mediaQueries) {
-      const breakpoints = get(theme, 'breakpoints', defaultBreakpoints);
-      context.mediaQueries = breakpoints.keys.map(key => breakpoints.gte(key));
-      context.generatedRules = new WeakSet();
-    }
-    const { generatedRules, mediaQueries } = context;
-    for (let i = 0; i < value.length && i <= mediaQueries.length; i++) {
-      const item = value[i];
-      if (isNullish(item)) {
-        continue;
-      }
-      if (i === 0) {
-        next[key] = item;
-        continue;
-      }
-      const media = mediaQueries[i - 1];
-      const previous = next[media];
-      next[media] = isPlainObject(previous)
-        ? mergeResolvedSx(previous, { [key]: item }, true)
-        : { [key]: item };
-      generatedRules.add(next[media]);
-    }
-  }
-
-  return next;
-};
-
-const resolveSx = (valueOrFn, props, context) => {
+const resolveSx = (valueOrFn, props) => {
   if (isNullish(valueOrFn)) {
     return {};
   }
@@ -189,8 +96,8 @@ const resolveSx = (valueOrFn, props, context) => {
    */
   if (Array.isArray(valueOrFn)) {
     return valueOrFn.reduce((acc, item) => {
-      const resolved = resolveSx(item, props, context);
-      return mergeResolvedSx(acc, resolved, false, context.generatedRules);
+      const resolved = resolveSx(item, props);
+      return mergeResolvedSx(acc, resolved);
     }, {});
   }
 
@@ -198,7 +105,10 @@ const resolveSx = (valueOrFn, props, context) => {
     ...(props.theme || props),
   };
   const originalStyleProps = (typeof valueOrFn === 'function') ? valueOrFn(theme) : valueOrFn;
-  const resolvedStyleProps = resolveResponsive(theme, context, resolvePseudo(originalStyleProps));
+  if (Array.isArray(originalStyleProps)) {
+    return resolveSx(originalStyleProps, props);
+  }
+  const resolvedStyleProps = resolvePseudo(originalStyleProps, theme);
 
   let result = {};
   for (const key in resolvedStyleProps) {
@@ -208,6 +118,12 @@ const resolveSx = (valueOrFn, props, context) => {
 
     const styleValueOrFn = resolvedStyleProps[key];
     const value = (typeof styleValueOrFn === 'function') ? styleValueOrFn(theme) : styleValueOrFn;
+    if (isNullish(value)) {
+      continue;
+    }
+    if (Array.isArray(value)) {
+      throw new TypeError(`Array values are not supported for sx property "${key}". Use explicit media queries instead.`);
+    }
 
     if (isPlainObject(value)) {
       /**
@@ -221,10 +137,7 @@ const resolveSx = (valueOrFn, props, context) => {
        *
        * `__colorMode` is forwarded so color tokens resolve correctly in dark mode.
        */
-      result[key] = resolveSx(value, { theme, __colorMode: props.__colorMode }, context);
-      if (context.generatedRules?.has(value)) {
-        context.generatedRules.add(result[key]);
-      }
+      result[key] = resolveSx(value, { theme, __colorMode: props.__colorMode });
       continue;
     }
 
@@ -264,10 +177,6 @@ const resolveSx = (valueOrFn, props, context) => {
   return result;
 };
 
-const sx = (valueOrFn) => (props = {}) => {
-  const context = {};
-  const result = resolveSx(valueOrFn, props, context);
-  return context.generatedRules ? orderResponsiveQueries(result, context) : result;
-};
+const sx = (valueOrFn) => (props = {}) => resolveSx(valueOrFn, props);
 
 export default sx;

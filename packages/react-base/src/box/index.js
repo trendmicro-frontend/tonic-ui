@@ -7,7 +7,7 @@ import { ColorModeContext } from '../internal/color-mode/context';
 /** @typedef {ThemeScales & { readonly breakpoints?: ReturnType<typeof import('@tonic-ui/utils/internal').createBreakpoints> }} SxTheme */
 
 /**
- * @typedef {{ [key: string]: string | number | boolean | null | undefined | SxStyleObject | Array<string | number | null> | ((theme: SxTheme) => string | number | SxStyleObject) }} SxStyleObject
+ * @typedef {{ [key: string]: string | number | boolean | null | undefined | SxStyleObject | ((theme: SxTheme) => string | number | SxStyleObject) }} SxStyleObject
  */
 
 /**

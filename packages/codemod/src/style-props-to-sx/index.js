@@ -407,13 +407,13 @@ function flagUnresolvedIfStyleLike(node, localName, allImports, styleNames, unre
   unresolvedReview.push(`${localName} (${locationHint}, could not verify where these props are forwarded): ${styleAttrNames.join(', ')}`);
 }
 
-// The flat system parser treats objects as breakpoint maps; sx treats them as
-// nested rules. Without type information, a binding or call can return either.
+// Flat breakpoint maps and legacy responsive arrays cannot be moved into sx.
+// Without type information, a binding or call can return either.
 function canMoveSystemValue(j, expression) {
   if (expression.type === 'ConditionalExpression') {
     return canMoveSystemValue(j, expression.consequent) && canMoveSystemValue(j, expression.alternate);
   }
-  return j.Literal.check(expression) || expression.type === 'ArrayExpression' ||
+  return j.Literal.check(expression) ||
     expression.type === 'TemplateLiteral' || expression.type === 'UnaryExpression' ||
     expression.type === 'BinaryExpression';
 }
@@ -610,7 +610,7 @@ export default function transformer(file, api) {
       if (system.config[attrName] && attr.value?.type === 'JSXExpressionContainer' &&
         !canMoveSystemValue(j, attr.value.expression)) {
         responsiveGroups.add(system.config[attrName].group);
-        manualReview.push(`${importedName}.${attrName} (may be a responsive object)`);
+        manualReview.push(`${importedName}.${attrName} (may be a responsive object or array)`);
         continue;
       }
       toExtract.push(attr);
@@ -622,7 +622,7 @@ export default function transformer(file, api) {
       toExtract = toExtract.filter((attr) => {
         const name = attr.name.name;
         if (responsiveGroups.has(system.config[name]?.group)) {
-          manualReview.push(`${importedName}.${name} (same style group as a protected prop or possible responsive object)`);
+          manualReview.push(`${importedName}.${name} (same style group as a protected prop or possible responsive value)`);
           return false;
         }
         return true;

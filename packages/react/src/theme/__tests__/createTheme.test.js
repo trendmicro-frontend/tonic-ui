@@ -64,8 +64,8 @@ describe('createTheme', () => {
     expect(theme.cssVariables['--tonic-space-1x']).toBeDefined();
   });
 
-  it('uses base-first responsive props and explicit media rules on a Box', () => {
-    const { container } = render(<Box display={['block', 'inline', 'flex', 'grid', 'inline-block', 'none']} />);
+  it('uses named responsive props and explicit media rules on a Box', () => {
+    const { container } = render(<Box display={{ _: 'block', sm: 'inline', md: 'flex', lg: 'grid', xl: 'inline-block', '2xl': 'none' }} />);
     expect(container.firstChild).toHaveStyleRule('display', 'block');
     const cases = [[40, 'inline'], [48, 'flex'], [64, 'grid'], [80, 'inline-block'], [96, 'none']];
     for (const [width, display] of cases) {

@@ -52,7 +52,7 @@ test('returns theme values', () => {
 test('returns responsive values', () => {
   const styles = padding({
     theme: { ...defaultTheme },
-    p: [0, 2, 3],
+    p: { _: 0, sm: 2, md: 3 },
   });
   expect(styles).toEqual({
     padding: 0,

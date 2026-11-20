@@ -2,24 +2,24 @@
 
 ## Context
 
-預設斷點為 `sm/md/lg/xl/2xl = 40/48/64/80/96rem`，公開 `gte`、`lt`、`between`、`only` 四個 helpers。採用 `createTheme({ breakpoints: { values, unit } })` 物件契約，移除舊 breakpoint array、`xs` 斷點與 `theme.breakpoints.md` 等 alias API，不提供舊 helper 名稱或雙格式相容層。元件 responsive style props 繼續支援 array／object；只有 array 的 index 0 和 object 的 `_` 是 unconditional base。
+預設斷點為 `sm/md/lg/xl/2xl = 40/48/64/80/96rem`，公開 `gte`、`lt`、`between`、`only` 四個 helpers。採用 `createTheme({ breakpoints: { values, unit } })` 物件契約，移除舊 breakpoint array、`xs` 斷點與 `theme.breakpoints.md` 等 alias API，不提供舊 helper 名稱或雙格式相容層。移除 responsive style value arrays；flat style props 使用具名 breakpoint object，`_` 是 unconditional base；`sx`／`__sx` 用明確 media query keys。`sx`／`__sx` 本身的 style-object composition arrays 繼續支援。
 預設直接呼叫 `createTheme()` 即取得上述五個斷點；在瀏覽器初始字級為 16px 時，分別相當於 640/768/1024/1280/1536px。公開斷點名稱限定 sm/md/lg/xl/2xl，不提供 mobile/tablet/laptop/desktop 等替代名稱；設定只使用 values/unit，不提供 `step`。文件沿用現有 `/theme/breakpoints/` 頁面，參考 MUI 的分節方式，不另建重複頁面。
 Phase 1 是可單獨合併的 viewport breaking change；[Phase 2: Container Queries](./2026-11-19-theme-container-queries.md) 從合併 Phase 1 後的 `main` 開始，重用這裡的 runtime 斷點。不在 Phase 1 加 container API、shorthand 或占位程式。分拆不授權 commit、push 或建立遠端 PR。
 
-**目前狀態（PR #1249）**：Phase 1 已在 draft PR 實作並推送，尚未合併；以下 Findings 是實作前的歷史基線，不是目前檔案狀態。預設斷點、helper、文件與 token inventory 已更新；發布前仍須完成第 1 節的雙向套件相容性驗收。
+**狀態（PR #1249）**：Phase 1 曾在 draft PR 實作並推送，尚未合併；以下 Findings 是實作前的歷史基線，不是目前檔案狀態。其後核准的 breaking cutover 移除 responsive style value arrays；本計畫以下契約與驗收已按此決定更新，不表示 cutover 或檢查已完成。發布前仍須完成第 1 節的雙向套件相容性驗收。
 
-以下 Approach 與 Verification 保留原核准的實作契約與驗收要求，不表示每個條目都已由目前程式碼或測試涵蓋，也不表示檢查已執行。對照目前來源，仍須核對下列差異，不能用現有測試的存在取代原驗收：
+以下 Approach 與 Verification 是更新後的實作契約與驗收要求，不表示每個條目都已由目前程式碼或測試涵蓋，也不表示檢查已執行。尤其須核對下列驗收，不能用現有測試的存在取代：
 
-- `packages/react-docs/pages/theme/breakpoints/breakpoints.js` 目前僅在 base 標示上界、其他段標示各斷點的起點；第 4 節原訂的完整範圍標籤尚未呈現。
-- `packages/react/src/theme/__tests__/useTheme.test.js` 現用 `{ sm: 40, lg: 80 }` 的 em fixture，而非第 5 節的 `{ sm: 0, md: 40, xl: 80 }`；後者的驗收仍須補足。`createTheme.test.js` 的 Box 案例使用預設 provider，並未涵蓋第 5 節要求的 custom provider。
-- `packages/styled-system/src/core/__tests__/system.test.js` 的混合 object 案例將未配置的 `2xl` 作為忽略項；仍須驗證已配置的 `2xl` 作為 named responsive key。`packages/react-docs/test/e2e/pages/theme/breakpoints.spec.mjs` 在 639px 驗證 composed width，但明確規則的顏色／寬度案例從 640px 開始；第 3 節的 639px 驗收仍須補足。
+- `packages/react-docs/pages/theme/breakpoints/breakpoints.js` 的六段需呈現第 4 節要求的完整範圍標籤。
+- `packages/react/src/theme/__tests__/useTheme.test.js` 需涵蓋第 5 節的 `{ sm: 0, md: 40, xl: 80 }` em fixture；`createTheme.test.js` 的 Box 案例需涵蓋 custom provider。
+- `packages/styled-system/src/core/__tests__/system.test.js` 需驗證已配置的 `2xl` 作為 named responsive key；`packages/react-docs/test/e2e/pages/theme/breakpoints.spec.mjs` 需在 639px 驗證第 3 節的明確規則顏色／寬度。
 
 ## Findings（Phase 1 實作前的歷史基線）
 
 - 官方規格：https://next.mui.com/material-ui/customization/breakpoints/。
 - MUI 實作與測試參考：[createBreakpoints](https://github.com/mui/material-ui/tree/master/packages/mui-system/src/createBreakpoints)、[createTheme](https://github.com/mui/material-ui/blob/master/packages/mui-system/src/createTheme/createTheme.ts)、[responsive resolution](https://github.com/mui/material-ui/blob/master/packages/mui-system/src/breakpoints/breakpoints.ts)。只參考數值排序與 API 組織，不採用其預設斷點；Tonic 使用 CSS range syntax 與精確上界，不加入 MUI dependency。
 - 當時 theme 實作於 `packages/theme/src/v3/`；`primitive/breakpoints.js` 是舊 array，`v3/index.js` 合併 v2 array／aliases，會留下舊名稱，因此不能沿用。
-- 當時 `packages/styled-system/src/core/parser.js` 與 `src/sx.js` 直接迭代舊 array；responsive array 已是 `[base, breakpoint0, breakpoint1, ...]`，不是 MUI 的 first-value-at-first-breakpoint 規則。
+- 當時 `packages/styled-system/src/core/parser.js` 與 `src/sx.js` 直接迭代舊 breakpoint array；舊版 responsive value array 是 `[base, breakpoint0, breakpoint1, ...]`，遷移時須依舊 theme 將各槽位轉成具名 key 或明確 media query，不保留此格式。
 - React `createTheme.js` 先 deep merge 再 `resolveTheme()`；helper functions 必須依最終 options 重建，避免 closure 指向舊 values。`resolveTheme()` 與 color-mode variants 保留 enumerable functions。
 - 實作前的 CSS variable mapper 若直接處理新的 breakpoint object，會把 functions、keys、unit 等當成 design tokens；因此必須排除該物件。CSS media-query boundary 不能使用 CSS variables。
 - `fontSizes/lineHeights` 的 `xs`／`2xl` 是字級 tokens，不應因 breakpoint 變更刪除。保留 v2 定義、Figma snapshots 與 reviewed relations；本次會同步 PR CI 強制檢查的 source-derived tokens inventory。
@@ -70,8 +70,8 @@ export const breakpoints = { sm: 40, md: 48, lg: 64, xl: 80, '2xl': 96 };
 移除該 factory 的 JSDoc `@returns {Object}`（讓 declaration 推論 output），使用 `@param {'px'|'rem'} [unit='rem']`；`packages/theme/src/createTheme.js` 同樣保留推論回傳，不覆蓋成 opaque `Object`。公開 `breakpoints` 應推論為 `ReturnType<typeof createBreakpoints>`。
 
 `packages/theme` 新增對 `@tonic-ui/utils` 的直接依賴；同步受影響的 manifests 與 `yarn.lock`。此處不能沿用舊 utils 的最低版本：它未匯出 `createBreakpoints`。開發時使用本地 workspace，不安裝或發布套件。
-發布驗收：依實際 release plan 核對待發布 tarball 的 `package.json`，不是只看 workspace build。theme、styled-system、react 的 utils 下限須包含新 helper；react 對 theme、react-base、styled-system，以及 react-base 對 styled-system 的下限須排除舊 array 契約的組合。以各允許下限的打包產物、無 Jest mappings 或 workspace symlink 的 consumer 驗證：預設 theme 的 `gte('sm')` 回傳 `@media (width >= 40rem)`，Box 的 responsive array 在此門檻套用正確樣式（瀏覽器初始字級 16px 時為 640px）。版本號由 release plan 決定，不在此預填或發版。
-反方向也是發布阻擋條件：以已發布且仍使用 array 的 React、react-base 及其相依套件 manifests 配對實際候選版本，依套件管理器的 semver 規則檢查所有能形成「舊 renderer＋新 theme」或「新 renderer＋舊 theme」的解析路徑。舊 parser 會對新物件呼叫 `.map()`；調高新 manifest 的下限不能改寫舊 manifest。若任一不相容組合仍可解析，停止發布並另選舊範圍不接受的候選版本，再重驗雙向矩陣；不靠同步發布、清 lockfile 或新增 array shim。
+發布驗收：依實際 release plan 核對待發布 tarball 的 `package.json`，不是只看 workspace build。theme、styled-system、react 的 utils 下限須包含新 helper；react 對 theme、react-base、styled-system，以及 react-base 對 styled-system 的下限須排除舊 breakpoint array 契約的組合。以各允許下限的打包產物、無 Jest mappings 或 workspace symlink 的 consumer 驗證：預設 theme 的 `gte('sm')` 回傳 `@media (width >= 40rem)`，Box 的具名 responsive object 在此門檻套用正確樣式（瀏覽器初始字級 16px 時為 640px）。版本號由 release plan 決定，不在此預填或發版。
+反方向也是發布阻擋條件：以已發布且仍依賴舊 breakpoint array 的 React、react-base 及其相依套件 manifests 配對實際候選版本，依套件管理器的 semver 規則檢查所有能形成「舊 renderer＋新 theme」或「新 renderer＋舊 theme」的解析路徑。舊 parser 會對新物件呼叫 `.map()`；調高新 manifest 的下限不能改寫舊 manifest。若任一不相容組合仍可解析，停止發布並另選舊範圍不接受的候選版本，再重驗雙向矩陣；不靠同步發布、清 lockfile 或新增 array shim。消費端的舊 responsive style value arrays 亦須明確遷移，不能因套件可解析就視為相容。
 
 沿用現有 Changesets 發布流程，由 release PR 產生實際候選版本；不在功能分支預填版本。驗收涵蓋 React → react-icons → react-base → styled-system 的間接 renderer 路徑，以及最低版本 tarball 渲染 Box 與 SVGIcon 的 40rem 樣式。已發布的 `^3.0.0-alpha.1` 仍可解析後續 `3.0.0-alpha.*` 與穩定的 `3.x`；若預設流程產出的候選落在該範圍內，不得視為通過雙向相容性驗收。
 Jest source mappings 的確切設定：`"^@tonic-ui/utils/internal$": "<rootDir>/../utils/src/internal/index.js"`、`"^@tonic-ui/utils$": "<rootDir>/../utils/src/index.js"`。
@@ -97,17 +97,17 @@ Jest source mappings 的確切設定：`"^@tonic-ui/utils/internal$": "<rootDir>
 
 在 `packages/react-base/src/box/index.js` 的 `sx` callbacks（含陣列項與 property callback）把 `breakpoints` 宣告為 optional，存在時型別同 factory 回傳值。Box 可以單獨使用；不能從 JSX 推論上層有 `TonicProvider`，也不為無 provider 的 callback 注入預設斷點。文件在 provider 內用 `useTheme()` 取得必有 helpers 的 theme；可獨立渲染的 callback 則先判斷 `theme.breakpoints`。`TonicProvider` 與 `ThemeProvider` 的 `theme` prop 只接受合法 raw options 或已建立的 theme，不用寬鬆的 `ThemeScales` 聯集，不改 provider runtime 分支。
 
-### 3. Responsive renderer object-only 遷移
+### 3. Responsive style value object-only 遷移與 sx composition
 
-`packages/styled-system/src/core/parser.js` 與 `src/sx.js` 以 module-level `createBreakpoints()` 空 runtime object 當無 theme fallback。`sx.js` 移除對 breakpoint scale 的 ensureArray。Parser 在有 responsive 值的每次 parse 讀目前 `props.theme.breakpoints`，不要讓第一個 provider 決定其他 provider 的 CSS。保留單槽 `cache.breakpoints/cache.media`，只有 scale reference 相同才重用 media list；更換 reference 時重建。`disableStyledSystemCache` 為 true 時使用該次呼叫的 local media list，不讀寫 cache；無 responsive 值不建立 list。
+`packages/styled-system/src/core/parser.js` 使用 module-level `createBreakpoints()` 空 runtime object 當無 theme fallback。Parser 在有 responsive object 的每次 parse 讀目前 `props.theme.breakpoints`，不要讓第一個 provider 決定其他 provider 的 CSS。保留單槽 `cache.breakpoints/cache.media`，只有 scale reference 相同才重用 media list；更換 reference 時重建。`disableStyledSystemCache` 為 true 時使用該次呼叫的 local media list，不讀寫 cache；無 responsive object 不建立 list。
 
-- media list 為 `[null, ...breakpoints.keys.map(key => breakpoints.gte(key))]`。default responsive array 的位置為 `[base, sm, md, lg, xl, 2xl]`；多餘值照現有規則截斷，null/undefined 跳過。
+- 刪除 flat style props 中的 responsive value array 解譯，以及 `sx.js` 個別 property 的 responsive array 展開、相關 breakpoint fallback 與僅供該展開使用的排序邏輯；不新增舊值相容層。`sx`／`__sx` 本身的 style-object composition arrays 和 per-declaration merge 保留。
 - responsive object 的 `_` 是 unconditional base；values 中存在的 key 使用 gte(key)，以 property existence 判斷。即使 custom value 為零，也要輸出具名 media query，不能把它視為 base 或不存在。
 - 未知 responsive object key 忽略，不再退化成 unconditional base，避免已移除的 xs 或拼錯 key 意外套到所有尺寸；`2xl` 是有效 key。舊 numeric object-key fixtures 改具名 keys，不保留 array-index alias。
-- Parser 合併完 declarations 後，base properties 在前，已產生的 queries 按當前 runtime sorted `keys` 對應的 media list 輸出。刪除舊 `sortObject` 的 localeCompare sorting：例如 `10.125em` 必須在 `10.5em` 前，不能比較 query strings。陣列和具名物件同時出現也使用同一順序；同一 query 保留現有 per-declaration merge。其他 pseudo 與 `sx` composition 行為不變。
-- 四個 helper 的 computed keys 可直接當作 sx／__sx nested media rules。不要新增 root wrapper；不要順便擴增目前 sx 尚未提供的 property-level named responsive-object API。
-- `sx.js` 展開 responsive array 時，若與明確的 `[theme.breakpoints.gte('sm')]` 命中同一 query，按作者順序逐項合併，不可覆蓋整個規則，也不可修改傳入的 `sx` 物件。`sx.test.js` 用 `width: [null, '50%']` 與明確規則 `{ color: 'red' }` 測兩種順序：同一 rule 一律同時保留寬 50% 和紅色。再讓明確規則也設定 `width: '75%'`：明確規則在後時寬 75%，array 在後時寬 50%。這是 Tonic 的保證；[MUI `styleFunctionSx`](https://github.com/mui/material-ui/blob/a55ec7da097cd9123335ed97e230b39151083ae0/packages/mui-system/src/styleFunctionSx/styleFunctionSx.ts) 對明確 nested key 直接賦值，不是兩種順序的驗收依據。
-- `sx({...})` 和 `sx([...])` 都將陣列實際產生的 query（含與明寫規則合併的 query）按斷點升冪排列。只替換這些 query 的位置；沒有與陣列合併的明寫規則保持原位置。不同 query 重疊時，不拆分宣告來同時維護兩種順序，也不自動提高 selector specificity。刻意需要較高優先權時，由作者用 `&&` 明示，只包要覆寫的屬性；瀏覽器初始字級為 16px 時，用 Chromium 在 639px 和 640px 驗證一般規則及覆寫的寬度與顏色。
+- Parser 合併完 declarations 後，base properties 在前，已產生的 queries 按當前 runtime sorted `keys` 輸出。刪除舊 `sortObject` 的 localeCompare sorting：例如 `10.125em` 必須在 `10.5em` 前，不能比較 query strings。同一 query 保留現有 per-declaration merge。其他 pseudo 與 `sx` composition 行為不變。
+- 四個 helper 的 computed keys 可直接當作 `sx`／`__sx` nested media rules。不要新增 root wrapper；不要擴增 `sx` 的 property-level named responsive-object API。明確規則依作者順序輸出，不因 breakpoint 排序而重排。
+- `sx.test.js` 驗證 `sx` composition array 中兩個相同 computed media keys 按宣告合併：不同屬性均保留，相同屬性由較後項覆寫；反向排列時優先權亦反向。不修改傳入的 style objects。另驗證 flat responsive object 與 `sx` 明確規則在同一 query 的不同宣告均生效，同屬性按既有 channel precedence 處理。
+- 不同 query 重疊時，不拆分宣告來同時維護兩種順序，也不自動提高 selector specificity。刻意需要較高優先權時，由作者用 `&&` 明示，只包要覆寫的屬性；瀏覽器初始字級為 16px 時，用 Chromium 在 639px 和 640px 驗證一般規則及覆寫的寬度與顏色。
 
 遷移 custom test fixtures：
 
@@ -129,10 +129,10 @@ fixtures 使用 `createBreakpoints({ values: { sm: 40, md: 52, lg: 64 }, unit: '
 - `packages/react-docs/components/ThemeTokens.js` 的 getTokenData('primitive') 使用 `breakpoints: primitiveBreakpoints`，資料來源是純 numeric map，不展示 runtime metadata/functions；目前 token table 將數字加上 `rem` 顯示，並非顯示裸數字。
 - 原 `pages/theme/breakpoints/breakpoints.js` 改為六段 base/sm/md/lg/xl/2xl；fontSize/lineHeight 可使用字級 tokens xs/sm/md/lg/xl/2xl，display 以 `_` 設定 base 再用相鄰斷點隱藏。六段依序標示 `<40rem`、`40–<48rem`、`48–<64rem`、`64–<80rem`、`80–<96rem`、`>=96rem`；其像素換算須說明假設瀏覽器初始字級 16px。各段加 `data-testid="breakpoint-range-base"`、`breakpoint-range-sm` 等穩定 selector。
 - 新增 `pages/theme/breakpoints/media-queries.js`，並在同頁現有 Examples 區塊 render。用 Box/useTheme 展示四個 helper，具可見 query 名稱的 Box 預設 display:none，query 成立則 block。id/query 為 `gte-sm`/gte('sm')、`lt-sm`/lt('sm')、`only-md`/only('md')、`between-sm-md`/between('sm','md')；各自 `data-testid="breakpoint-${id}"`。這是可操作範例，不是隱藏測試 UI。
-- `pages/styled-system/responsive-values/index.page.mdx` 的表格與 generated CSS 使用新 rem thresholds，明確說明 array base-first：`[base, sm, md, lg, xl, 2xl]`。目前 array 範例為 `['25%', '50%', '75%', '100%', null, '100%']`，依序對應這六個槽位並示範跳過的值；object 範例以 `_` 作 base。
+- `pages/styled-system/responsive-values/index.page.mdx` 的表格與 generated CSS 使用新 rem thresholds；以 `_` 與具名 keys 示範 flat style props，以 breakpoint helper 的明確 media query keys 示範 `sx`。說明 responsive value arrays 已移除，但整個 `sx`／`__sx` 的 style-object composition arrays 保留。
 - `pages/getting-started/the-sx-prop/using-media-queries.js` 在 provider 內用 `useTheme()` 與 gte('sm')／gte('md')／gte('lg') 產生 `sx` keys，保留原字級值。`useMediaQuery` hook API 不變；`pages/hooks/useMediaQuery/useMediaQuery.js` 的 demo 已更新為 `40/48/64/80/96rem` 的五個原生 media queries。
 - `pages/index.page.js` 的 maxWidth 使用 `{ md: '1024px', lg: '1280px', xl: '1680px' }`，保留三個既有 width 值。Grid templateColumns 使用 `{ _: '1fr', xl: '1fr 1fr' }`；flexDirection 以 `_`／`xl` 在 80rem 切換大版面（瀏覽器初始字級 16px 時為 1280px）。
-- `pages/getting-started/usage/components/FormulaOne.js` 保留大版面字級切換：使用具名 style props `{ _: 原 base 值, lg: 原大版面值 }`，行高使用 `lineHeight`。responsive-values 文件另以範例展示先前 `[base, xs, sm, md, lg, xl]` 遷移到具名 key：原 index 4 是 `lg`，現在也以 `lg` 指定；移除無條件匹配的 `xs` 槽位並將其值移至 base。這是獨立的遷移範例，不是目前 FormulaOne 的實際 base 值。不同於 [MUI `iterateBreakpoints`](https://github.com/mui/material-ui/blob/a55ec7da097cd9123335ed97e230b39151083ae0/packages/mui-system/src/breakpoints/breakpoints.ts)，Tonic 的 index 0 仍是 unconditional base。現有 `packages/react-docs/test/e2e/pages/getting-started/usage.spec.mjs` 驗收此 demo 在 1023px 顯示 base 字級，1024px 才使用大版面字級（初始字級 16px）。
+- `pages/getting-started/usage/components/FormulaOne.js` 保留大版面字級切換：使用具名 style props `{ _: 原 base 值, lg: 原大版面值 }`，行高使用 `lineHeight`。responsive-values 文件另以遷移範例展示舊 `[base, xs, sm, md, lg, xl]` 如何轉成具名 key：原 index 4 是 `lg`，改以 `lg` 指定；移除無條件匹配的 `xs` 槽位並將其值移至 base。這是獨立的舊版遷移範例，不是目前 FormulaOne 的實際 base 值。現有 `packages/react-docs/test/e2e/pages/getting-started/usage.spec.mjs` 驗收此 demo 在 1023px 顯示 base 字級，1024px 才使用大版面字級（初始字級 16px）。
 
 修正 docs shell 使用 sm 作「所有尺寸 base」的地方：
 
@@ -163,11 +163,11 @@ React `src/theme/__tests__/createTheme.test.js` 新增：
 - values override 整組替換且排序；用標準名稱的子集合 `{ '2xl':96, sm:40, lg:64 }`，確認不殘留 md/xl。
 - `createTheme(existingTheme, { breakpoints: { values: { sm:640, lg:1000 }, unit:'px' } })` 的 lt('lg') 為 `@media (width < 1000px)`，原 theme 不變，證明重建 closure 與明確覆寫 unit。另驗證只覆寫 values 時保留 inherited rem unit。
 - empty values 不回填；舊 array/null options 拒絕；cssVariables 無任何 --tonic-breakpoints 開頭 key，其他例如 --tonic-space-1x 繼續存在。
-- 用現有 render helper 的 default provider，render `<Box display={['block', 'inline', 'flex', 'grid', 'inline-block', 'none']} />`，檢查 base='block'，40rem='inline'、48rem='flex'、64rem='grid'、80rem='inline-block'、96rem='none' 六個 CSS rules。另 render 文件的 `only('md')` 範例，驗證 base 為 red、48rem–<64rem media rule 為 blue。custom theme 使用明確 TonicProvider wrapper 的案例仍須涵蓋。無 provider 的 `renderToString` 驗收位於 `packages/react-base/src/box/__tests__/Box.ssr.test.js`：普通 Box 的文字和基礎樣式正常；有 guard 的 callback 看到 `breakpoints` 缺省，只輸出 base 樣式，不產生 media rule。
+- 用現有 render helper 的 default provider，render `<Box display={{ _: 'block', sm: 'inline', md: 'flex', lg: 'grid', xl: 'inline-block', '2xl': 'none' }} />`，檢查 base='block'，40rem='inline'、48rem='flex'、64rem='grid'、80rem='inline-block'、96rem='none' 六個 CSS rules。另 render 文件的 `only('md')` 範例，驗證 base 為 red、48rem–<64rem media rule 為 blue。custom theme 使用明確 TonicProvider wrapper 的案例仍須涵蓋。無 provider 的 `renderToString` 驗收位於 `packages/react-base/src/box/__tests__/Box.ssr.test.js`：普通 Box 的文字和基礎樣式正常；有 guard 的 callback 看到 `breakpoints` 缺省，只輸出 base 樣式，不產生 media rule。
 
 `src/theme/__tests__/useTheme.test.js` 現有 `createWrapper(colorMode, themeOverrides)` 會先呼叫 `createTheme`，現有 light/dark 案例使用 `{ values: { sm: 40, lg: 80 }, unit: 'em' }`。仍須以標準名稱 fixture `{ values: { sm:0, md:40, xl:80 }, unit:'em' }` 驗證 gte('md') 為 `@media (width >= 40em)`、lt('md') 為 `@media (width < 40em)`、only('md') 為 `@media (40em <= width < 80em)`、between('sm','xl') 為 `@media (0em <= width < 80em)`。這涵蓋 resolveTheme/color-mode 傳遞，不另加只測 function identity 的 wiring test。
 
-styled-system 的 core parser/system 測試加入 custom sm=0 仍是 media query、object keys 亂序輸入仍正確排序、未知／xs key 不成為 base，並確認 2xl 是有效 key；sx 測試加入 array null skip、custom zero 與 custom unit 的 array 解譯，以及 helper computed nested media key。既有 named/numeric fixtures 依第3節遷移，不把 nested selector sx 測試改成尚未支援的 property-level named responsive object。
+styled-system 的 core parser/system 測試加入 custom sm=0 仍是 media query、object keys 亂序輸入仍正確排序、未知／xs key 不成為 base，並確認 2xl 是有效 key；確認被移除的 style value arrays 不再產生 breakpoint media rules。sx 測試涵蓋 helper computed nested media key、同一 query 的 composition array 合併與作者順序，並確認 property-level array 不再展開為 responsive rules。既有 named/numeric fixtures 依第3節遷移，不把 nested selector sx 測試改成尚未支援的 property-level named responsive object。
 
 ### 6. 讓 source-derived token inventory 隨新契約更新
 
@@ -186,6 +186,8 @@ styled-system 的 core parser/system 測試加入 custom sm=0 仍是 media query
 在 `createTheme.test-d.tsx` 令 `theme = createTheme()`，在 `useTheme.test-d.tsx` 的 hook fixture 令 `theme = useTheme()`；兩處都用 `@ts-expect-error` 驗證 `theme.breakpoints = createTheme().breakpoints` 被拒絕。右側是合法的斷點物件，測的是整個欄位不可替換，不是值的型別不符；保留下方針對 `values.md` 的獨立測試。
 
 在 `packages/react/src/box/__tests__/Box.test-d.tsx` 驗證 `<Box sx={({ breakpoints }) => breakpoints ? { [breakpoints.gte('sm')]: { display: 'block' } } : { display: 'block' }} />`。嚴格型別檢查應拒絕未判空的呼叫、判空後的 `.gte('mobile')` 及寫入 `createTheme().breakpoints.values.md`。兩個 provider 各自的 `.test-d.tsx` 均接受合法的 raw breakpoint options 與 `createTheme()`，並以 `@ts-expect-error` 拒絕 `{ breakpoints: ['600px'] }`。
+
+型別驗收涵蓋具名 flat responsive object、`sx` 的明確 media query key 與 `sx` composition array。TypeScript 不必拒絕所有舊的 responsive value arrays；不為此收緊共用 `StyleProps`。不支援的 responsive value arrays 由 runtime 拒絕。
 
 ## Verification
 
@@ -239,7 +241,7 @@ runner 自行啟動 Next.js docs server（預設3129，衝突時設 E2E_PAGES_PO
 
 ## Assumptions & contingencies
 
-- 公開斷點名稱僅 sm/md/lg/xl/2xl；應用程式無須提供 values。object-only 與 values/unit 設定介面保留。預設 theme 不論 dimension-unit 引數都使用 rem；只有直接呼叫空的低階 factory 預設 px。responsive array base-first 保留現有 Tonic 語意，文件明示與 MUI array 語意不同。
+- 公開斷點名稱僅 sm/md/lg/xl/2xl；應用程式無須提供 values。object-only 與 values/unit 設定介面保留。預設 theme 不論 dimension-unit 引數都使用 rem；只有直接呼叫空的低階 factory 預設 px。responsive style value arrays 已移除；flat props 用具名 breakpoint objects，`sx`／`__sx` 用明確 media keys，兩個 channel 的 composition arrays 保留。
 - 公開 helper 僅為 gte/lt/between/only，不提供 not 或 aliases，也不複製 MUI 私有 internal_mediaKeys。
 - refs 的 MUI 原始碼僅用作設計參考，不修改該 repo，不引入或安裝 MUI。
 - 若現有 dependency builds 缺失，以已列 build-public 補齊；若依賴或 Chromium 本身未安裝，完成可達的 source/unit 工作並報告缺少的前提，不自行安裝。

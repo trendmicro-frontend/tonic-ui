@@ -60,3 +60,9 @@ test('resolves legacy grid gap style props, including responsive size tokens', (
     '@media (width >= 600px)': { gridRowGap: '1rem' },
   });
 });
+
+test('rejects responsive arrays in the composed system parser', () => {
+  const parse = () => system({ gridGap: ['2x', '4x'] });
+  expect(parse).toThrow(TypeError);
+  expect(parse).toThrow('Responsive array values are not supported for style prop "gridGap".');
+});

@@ -12,64 +12,11 @@ Responsive values use the [breakpoints](../../theme/breakpoints) defined in the 
 
 Pixel equivalents assume the browser's default initial font size of `16px`.
 
-Use either array or object syntax for responsive style props.
+Use a breakpoint object on a flat style prop. Responsive value arrays are no longer supported in style props or in individual `sx` or `__sx` declarations.
 
-## Array syntax
+## Breakpoint object syntax
 
-Array values are base-first. Index `0` is an unconditional base value, and subsequent indices correspond to the configured breakpoint keys in ascending width order. With the default theme, the indices after the base are `sm`, `md`, `lg`, `xl`, and `2xl`.
-
-For example, start with a `Box` that has a fixed width:
-
-```jsx
-<Box backgroundColor="red.500" width="50%">
-  This is a box
-</Box>
-```
-
-Use an array to change the width across breakpoints:
-
-```jsx
-<Box backgroundColor="red.500" width={['25%', '50%', '75%', '100%', null, '100%']}>
-  This is a box
-</Box>
-```
-
-The values apply as follows:
-
-| Index | Breakpoint | Width |
-| :---- | :--------- | :---- |
-| `0` | Base | `25%` |
-| `1` | `sm` (`≥ 40rem`) | `50%` |
-| `2` | `md` (`≥ 48rem`) | `75%` |
-| `3` | `lg` (`≥ 64rem`) | `100%` |
-| `4` | `xl` (`≥ 80rem`) | No value (`null`) |
-| `5` | `2xl` (`≥ 96rem`) | `100%` |
-
-Pass `null` to skip a position. A skipped position retains the last applicable value.
-
-### Migrating array values
-
-The previous breakpoint scale included `xs` at `0px` after the unconditional base. Remove that slot and move its value to the base if it was set: `xs` matched every nonnegative viewport width. The remaining named slots shift left by one. Use a named style prop to make the intended breakpoint explicit:
-
-```jsx
-// Before: xs applied everywhere, and index 4 was lg.
-<Text fontSize={['4xl', '3xl', null, null, 48]} />
-
-// After: the large size starts at lg (64rem).
-<Text fontSize={{ _: '3xl', lg: 48 }} />
-```
-
-## Object syntax
-
-Named keys make the intended breakpoints explicit. Use `_` for the unconditional base value. For example, start with a `Text` component with a fixed font size:
-
-```jsx
-<Text fontSize={32}>
-  This is a text
-</Text>
-```
-
-Use an object to change the font size across breakpoints:
+Named keys make the intended breakpoints explicit. Use `_` for an unconditional base value:
 
 ```jsx
 <Text fontSize={{ _: 24, md: 32, lg: 40, xl: 48 }}>
@@ -77,9 +24,45 @@ Use an object to change the font size across breakpoints:
 </Text>
 ```
 
-The base font size is `24px`. At `md` (`≥ 48rem`) it becomes `32px`, at `lg` (`≥ 64rem`) it becomes `40px`, and at `xl` (`≥ 80rem`) it becomes `48px`.
+The base font size is `24px`. At `md` (`≥ 48rem`) it becomes `32px`, at `lg` (`≥ 64rem`) it becomes `40px`, and at `xl` (`≥ 80rem`) it becomes `48px`. A value continues to apply until another matching breakpoint overrides it. Omit `_` if no base declaration is needed. Unconfigured breakpoint names are ignored.
 
-Keep named breakpoint objects on flat style props. Inside `sx`, use an array or [breakpoint media queries](../../theme/breakpoints#css-media-queries). A value such as `sx={{ gap: { sm: '4x' } }}` does not set a responsive gap.
+## Responsive styles in `sx`
+
+Keep breakpoint objects on flat style props. Inside `sx` or the internal `__sx` channel, use explicit media query keys instead. In a child of `TonicProvider`, use the active theme's helpers:
+
+```jsx
+import { Box, useTheme } from '@tonic-ui/react';
+
+function ResponsiveBox() {
+  const { breakpoints } = useTheme();
+
+  return (
+    <Box sx={{ width: '100%', [breakpoints.gte('md')]: { width: '50%' } }} />
+  );
+}
+```
+
+You can also use a native media query as a key. A breakpoint object inside an `sx` property is a nested rule, not a responsive value. See [breakpoint media queries](../../theme/breakpoints#css-media-queries) for more examples.
+
+Arrays passed to `sx` itself, or to the internal `__sx` channel, still compose style objects in order. They are not responsive value arrays:
+
+```jsx
+<Box sx={[{ color: 'black' }, { '&:hover': { color: 'blue' } }]} />
+```
+
+## Migrating removed responsive arrays
+
+Map each old array position using the breakpoint scale configured in the old theme, then use named keys for flat props or explicit media query keys in `sx`. For example, an earlier scale placed `xs` at `0px` after the unconditional base, so `xs` matched every nonnegative viewport and index `4` was `lg`:
+
+```jsx
+// Before: removed array syntax with the earlier xs-based scale.
+<Text fontSize={['4xl', '3xl', null, null, 48]} />
+
+// After: xs becomes the base, and the large size starts at lg.
+<Text fontSize={{ _: '3xl', lg: 48 }} />
+```
+
+If the old `xs` slot was empty, retain the original base instead. Recheck the actual viewport thresholds: configured breakpoint widths may have changed along with their names or positions.
 
 ## Under the hood
 

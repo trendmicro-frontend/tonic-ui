@@ -29,7 +29,7 @@ test('returns a style parser', () => {
     },
     color: 'tomato',
     backgroundColor: 'primary',
-    mx: [2, 3, 4],
+    mx: { _: 2, sm: 3, md: 4 },
   });
   expect(styles).toEqual({
     color: 'tomato',
@@ -47,7 +47,7 @@ test('returns a style parser', () => {
   });
 });
 
-test('merges multiple responsive styles', () => {
+test('merges responsive styles even when breakpoint keys are out of order', () => {
   const parser = system({
     margin: true,
     padding: true,
@@ -57,9 +57,9 @@ test('merges multiple responsive styles', () => {
     theme: {
       breakpoints: defaultBreakpoints,
     },
-    margin: [0, 4, 8],
-    padding: [16, 32, 64],
-    width: ['100%', '50%'],
+    margin: { md: 8, _: 0, sm: 4 },
+    padding: { _: 16, sm: 32, md: 64 },
+    width: { _: '100%', sm: '50%' },
   });
   expect(styles).toEqual({
     margin: 0,
@@ -126,8 +126,8 @@ test('gets values from theme', () => {
       },
       space: [0, 6, 12, 24, 48, 96],
     },
-    mx: [0, 1, 2, 3],
-    color: ['primary', 'black'],
+    mx: { _: 0, sm: 1, md: 2, lg: 3 },
+    color: { _: 'primary', sm: 'black' },
   });
   expect(style).toEqual({
     color: 'tomato',
@@ -179,7 +179,7 @@ test('returns a noop function with no arguments', () => {
   expect(typeof parser).toBe('function');
 });
 
-test('skips null values in arrays', () => {
+test('skips nullish values in breakpoint objects', () => {
   const parser = system({
     fontSize: {
       property: 'fontSize',
@@ -190,7 +190,7 @@ test('skips null values in arrays', () => {
     theme: {
       breakpoints: defaultBreakpoints,
     },
-    fontSize: [16, null, null, 18],
+    fontSize: { _: 16, sm: null, md: undefined, lg: 18 },
   });
   expect(style).toEqual({
     fontSize: 16,
@@ -287,7 +287,7 @@ test('sorts media queries when responsive object values are used', () => {
   ]);
 });
 
-test('sorts mixed responsive values and treats zero and unknown keys correctly', () => {
+test('sorts responsive objects and treats zero and unknown keys correctly', () => {
   const parser = system({ margin: true, padding: true, color: true });
   const breakpoints = createBreakpoints({
     values: { sm: 0, md: 600, lg: 900 },
@@ -296,7 +296,7 @@ test('sorts mixed responsive values and treats zero and unknown keys correctly',
   const styles = parser({
     theme: { breakpoints },
     margin: { lg: 4, sm: 1, _: 0, xs: 999, '2xl': 999, typo: 999, 0: 999 },
-    padding: [4, 1, 2, 3],
+    padding: { _: 4, sm: 1, md: 2, lg: 3 },
     color: { xs: 'red', '2xl': 'red', typo: 'blue' },
   });
 

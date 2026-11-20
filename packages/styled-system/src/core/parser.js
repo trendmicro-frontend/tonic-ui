@@ -3,28 +3,7 @@ import { createBreakpoints } from '@tonic-ui/utils/internal';
 
 const defaultBreakpoints = createBreakpoints();
 
-const parseResponsiveStyle = (mediaQueries, sx, scale, raw, _props) => {
-  const styles = {};
-
-  raw.slice(0, mediaQueries.length).forEach((value, i) => {
-    if (value === null || value === undefined) {
-      return;
-    }
-    const media = mediaQueries[i];
-    const style = sx(scale, value, _props);
-    if (!media) {
-      Object.assign(styles, style);
-    } else {
-      Object.assign(styles, {
-        [media]: Object.assign({}, styles[media], style),
-      });
-    }
-  });
-
-  return styles;
-};
-
-const parseResponsiveObject = (breakpoints, sx, scale, raw, _props) => {
+const parseResponsiveObject = (breakpoints, sx, scale, raw, props, propName) => {
   const styles = {};
 
   for (const key in raw) {
@@ -36,12 +15,15 @@ const parseResponsiveObject = (breakpoints, sx, scale, raw, _props) => {
     if (value === null || value === undefined) {
       continue;
     }
+    if ((key === '_' || Object.prototype.hasOwnProperty.call(breakpoints.values, key)) && Array.isArray(value)) {
+      throw new TypeError(`Responsive array values are not supported for style prop "${propName}". Use a breakpoint object with scalar values instead.`);
+    }
     if (key === '_') {
-      Object.assign(styles, sx(scale, value, _props));
+      Object.assign(styles, sx(scale, value, props));
     } else if (Object.prototype.hasOwnProperty.call(breakpoints.values, key)) {
       const media = breakpoints.gte(key);
       Object.assign(styles, {
-        [media]: Object.assign({}, styles[media], sx(scale, value, _props)),
+        [media]: Object.assign({}, styles[media], sx(scale, value, props)),
       });
     }
   }
@@ -66,13 +48,17 @@ const parser = config => {
       const raw = props[key];
       const scale = get(props.theme, sx.scale, sx.defaultScale);
 
+      if (Array.isArray(raw)) {
+        throw new TypeError(`Responsive array values are not supported for style prop "${key}". Use a breakpoint object with scalar values instead.`);
+      }
+
       if (typeof raw === 'object' && raw !== null) {
         if (!mediaQueries) {
           breakpoints = get(props.theme, 'breakpoints', defaultBreakpoints);
           if (!isCacheDisabled && cache.breakpoints === breakpoints && cache.media) {
             mediaQueries = cache.media;
           } else {
-            mediaQueries = [null, ...breakpoints.keys.map(name => breakpoints.gte(name))];
+            mediaQueries = breakpoints.keys.map(name => breakpoints.gte(name));
             if (!isCacheDisabled) {
               cache.breakpoints = breakpoints;
               cache.media = mediaQueries;
@@ -80,9 +66,7 @@ const parser = config => {
           }
         }
 
-        const responsiveStyles = Array.isArray(raw)
-          ? parseResponsiveStyle(mediaQueries, sx, scale, raw, props)
-          : parseResponsiveObject(breakpoints, sx, scale, raw, props);
+        const responsiveStyles = parseResponsiveObject(breakpoints, sx, scale, raw, props, key);
         styles = merge(styles, responsiveStyles);
         continue;
       }
@@ -95,7 +79,7 @@ const parser = config => {
     }
 
     if (mediaQueries) {
-      const mediaSet = new Set(mediaQueries.slice(1));
+      const mediaSet = new Set(mediaQueries);
       const orderedStyles = {};
       for (const key of Object.keys(styles)) {
         if (!mediaSet.has(key)) {

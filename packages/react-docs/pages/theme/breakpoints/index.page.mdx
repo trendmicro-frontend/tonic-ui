@@ -79,7 +79,7 @@ To use the same style on both sides of a range, set it as the base style and ove
 
 For container widths, use the same CSS syntax with `@container`. For example, `@container sidebar not (40rem <= width < 48rem)` styles descendants when the named `sidebar` container is outside that range.
 
-Responsive arrays generate media rules in ascending breakpoint order. An explicit rule with the same query merges into that rule, rather than replacing it. If you need an exception to override a matching rule regardless of order, use `&&` on just the declaration that needs higher selector specificity, for example `sx={{ '&&': { width: '50%' } }}`. Prefer one responsive value when it can express the layout directly.
+Responsive style props accept breakpoint objects. In `sx`, use the helpers as media query keys. If an exception must override a matching rule regardless of order, use `&&` on just the declaration that needs higher selector specificity, for example `sx={{ '&&': { width: '50%' } }}`.
 
 ## Customizing breakpoints
 
