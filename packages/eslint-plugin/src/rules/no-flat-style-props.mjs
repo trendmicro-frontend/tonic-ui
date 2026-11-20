@@ -41,7 +41,7 @@ export const noFlatStyleProps = {
     schema: [],
     messages: {
       useSx: 'Use sx instead of the flat `{{prop}}` prop on <{{element}}>: <{{element}} sx={{ {{prop}}: … }}>.',
-      replaceUnsupportedProp: '<{{element}}> does not support the flat `{{prop}}` prop. Use `{{replacement}}` instead.',
+      replaceUnsupportedProp: 'The flat `{{prop}}` prop on <{{element}}> is deprecated. Use `{{replacement}}` instead.',
     },
   },
   create(context) {

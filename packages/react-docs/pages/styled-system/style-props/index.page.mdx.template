@@ -38,7 +38,7 @@ __flexbox__
 
 __gap__
 
-`gridGap`, `gridRowGap`, and `gridColumnGap` are legacy aliases supported for backward compatibility on `Box`. For new code, use `gap`, `rowGap`, and `columnGap`, respectively. `Grid` accepts only the modern names as flat gap props.
+`gridGap`, `gridRowGap`, and `gridColumnGap` are legacy aliases supported for backward compatibility. On `Grid`, they are deprecated; use `gap`, `rowGap`, and `columnGap`, respectively.
 
 ### Grid
 

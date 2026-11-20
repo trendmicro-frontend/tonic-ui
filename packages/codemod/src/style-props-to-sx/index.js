@@ -601,6 +601,9 @@ export default function transformer(file, api) {
         continue;
       }
       if (isProtectedProp(importedName, attrName) || wrapperOwnProtectedProps?.has(attrName)) {
+        if (importedName === 'Grid' && LAYER2_PROTECTED_PROPS.Grid.has(attrName)) {
+          responsiveGroups.add(system.config[attrName].group);
+        }
         manualReview.push(`${importedName}.${attrName}`);
         continue;
       }
@@ -619,7 +622,7 @@ export default function transformer(file, api) {
       toExtract = toExtract.filter((attr) => {
         const name = attr.name.name;
         if (responsiveGroups.has(system.config[name]?.group)) {
-          manualReview.push(`${importedName}.${name} (same style group as a possible responsive object)`);
+          manualReview.push(`${importedName}.${name} (same style group as a protected prop or possible responsive object)`);
           return false;
         }
         return true;

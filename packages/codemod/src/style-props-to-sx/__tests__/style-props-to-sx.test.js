@@ -98,7 +98,7 @@ describe('style-props-to-sx', () => {
     }
   });
 
-  it('does not activate unsupported Grid gap props by moving them into sx', () => {
+  it('keeps deprecated Grid gap props flat for manual review', () => {
     const source = `import { Grid } from '@tonic-ui/react';
 const App = () => (
   <Grid templateColumns="1fr 1fr" gap="4x" rowGap="2x" columnGap="3x" gridGap="8px" gridRowGap="12px" gridColumnGap="16px" />
@@ -108,10 +108,10 @@ const App = () => (
     expect(out).toContain('gridGap="8px"');
     expect(out).toContain('gridRowGap="12px"');
     expect(out).toContain('gridColumnGap="16px"');
-    expect(out).toContain("gap: '4x'");
-    expect(out).toContain("rowGap: '2x'");
-    expect(out).toContain("columnGap: '3x'");
-    expect(out).not.toMatch(/\b(?:gap|rowGap|columnGap)=/);
+    expect(out).toContain('gap="4x"');
+    expect(out).toContain('rowGap="2x"');
+    expect(out).toContain('columnGap="3x"');
+    expect(out).not.toContain('sx={{');
   });
 
   it('still migrates responsive arrays into an existing sx object', () => {

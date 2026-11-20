@@ -26,12 +26,8 @@ import { Grid } from '@tonic-ui/react';
 <Grid gap="4x">With Gap</Grid>;
 <Grid columnGap="2x" rowGap="4x">With Row/Column Gap</Grid>;
 
-// @ts-expect-error Grid does not support gridGap as a flat prop
-<Grid gridGap="4x" />;
-// @ts-expect-error Grid does not support gridRowGap as a flat prop
-<Grid gridRowGap="4x" />;
-// @ts-expect-error Grid does not support gridColumnGap as a flat prop
-<Grid gridColumnGap="4x" />;
+// Deprecated aliases remain supported.
+<Grid gridGap="4x" gridRowGap={{ _: '2x', sm: '3x' }} gridColumnGap="4x" />;
 
 // With area, row, column
 <Grid area="header">Area</Grid>;

@@ -1,3 +1,5 @@
+import { useOnceWhen } from '@tonic-ui/react-hooks';
+import { warnDeprecatedProps } from '@tonic-ui/utils';
 import React, { forwardRef } from 'react';
 import { Box } from '../box';
 import { useDefaultProps } from '../default-props';
@@ -8,7 +10,14 @@ import { useDefaultProps } from '../default-props';
  */
 
 /**
- * @type {ForwardRefComponent<'div', GridProps & Partial<Record<'gridGap' | 'gridRowGap' | 'gridColumnGap', never>>>}
+ * @typedef {Object} LegacyGridGapProps
+ * @property {any} [gridGap] - **Deprecated.** Use `gap` instead.
+ * @property {any} [gridRowGap] - **Deprecated.** Use `rowGap` instead.
+ * @property {any} [gridColumnGap] - **Deprecated.** Use `columnGap` instead.
+ */
+
+/**
+ * @type {ForwardRefComponent<'div', GridProps & LegacyGridGapProps>}
  */
 const Grid = forwardRef((inProps, ref) => {
   const {
@@ -24,10 +33,15 @@ const Grid = forwardRef((inProps, ref) => {
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Grid' });
 
-  // These legacy names are supported by styled-system, not by Grid's flat props.
-  delete rest.gridGap;
-  delete rest.gridRowGap;
-  delete rest.gridColumnGap;
+  useOnceWhen(() => {
+    warnDeprecatedProps('gridGap', { prefix: 'Grid:', alternative: 'gap', willRemove: true });
+  }, rest.gridGap !== undefined);
+  useOnceWhen(() => {
+    warnDeprecatedProps('gridRowGap', { prefix: 'Grid:', alternative: 'rowGap', willRemove: true });
+  }, rest.gridRowGap !== undefined);
+  useOnceWhen(() => {
+    warnDeprecatedProps('gridColumnGap', { prefix: 'Grid:', alternative: 'columnGap', willRemove: true });
+  }, rest.gridColumnGap !== undefined);
 
   return (
     <Box
