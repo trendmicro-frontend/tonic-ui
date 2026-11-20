@@ -53,7 +53,7 @@ function ResponsiveBox() {
   const { breakpoints } = useTheme();
 
   return (
-    <Box sx={{ backgroundColor: 'blue', [breakpoints.not('md')]: { backgroundColor: 'red' } }} />
+    <Box sx={{ backgroundColor: 'red', [breakpoints.only('md')]: { backgroundColor: 'blue' } }} />
   );
 }
 
@@ -66,15 +66,18 @@ function App() {
 }
 ```
 
-For the default theme, the five helpers produce:
+For the default theme, the four helpers produce:
 
 ```js
-breakpoints.up('sm');            // '@media (min-width:600px)'
-breakpoints.down('sm');          // '@media (max-width:599.95px)'
-breakpoints.between('sm', 'md'); // '@media (min-width:600px) and (max-width:899.95px)'
-breakpoints.only('md');          // '@media (min-width:900px) and (max-width:1199.95px)'
-breakpoints.not('md');           // '@media not all and (min-width:900px) and (max-width:1199.95px)'
+breakpoints.gte('sm');           // '@media (width >= 600px)'
+breakpoints.lt('sm');            // '@media (width < 600px)'
+breakpoints.between('sm', 'md'); // '@media (600px <= width < 900px)'
+breakpoints.only('md');          // '@media (900px <= width < 1200px)'
 ```
+
+To use the same style on both sides of a range, set it as the base style and override it inside the range with `only()` or `between()`, as in the example above. If a rule must match only outside a range, write a native CSS query directly, such as `@media not (900px <= width < 1200px)`.
+
+For container widths, use the same CSS syntax with `@container`. For example, `@container sidebar not (600px <= width < 900px)` styles descendants when the named `sidebar` container is outside that range.
 
 Responsive arrays generate media rules in ascending breakpoint order. An explicit rule with the same query merges into that rule, rather than replacing it. If you need an exception to override a matching rule regardless of order, use `&&` on just the declaration that needs higher selector specificity, for example `sx={{ '&&': { width: '50%' } }}`. Prefer one responsive value when it can express the layout directly.
 
@@ -89,66 +92,49 @@ const theme = createTheme({
   breakpoints: {
     values: { xs: 0, sm: 640, md: 960, lg: 1280, xl: 1600 },
     unit: 'px',
-    step: 1,
   },
 });
 ```
 
-`unit` defaults to `px` and is appended to each numeric value. For example, use `unit: 'rem'` with values expressed in `rem`. `step` defaults to `5`. Upper-bound helpers subtract `step / 100` from the end value, so `down('sm')` in this custom theme returns `@media (max-width:639.99px)`.
-
-The `step / 100` adjustment follows the Material UI convention for approximating an exclusive upper bound. CSS does not require it, and the adjustment can leave a subpixel gap between adjacent queries.
+`unit` defaults to `px` and is appended to each numeric value. For example, use `unit: 'rem'` with values expressed in `rem`. Upper bounds use the exclusive `<` operator, so `lt('sm')` in this custom theme returns `@media (width < 640px)`. Adjacent ranges meet at the exact breakpoint without a subpixel gap.
 
 ## API
 
-The read-only `theme.breakpoints` object exposes `keys`, `values`, `unit`, `step`, and five query helpers. In these examples the default theme is used. Named arguments must be configured breakpoint names; unknown names throw. `up`, `down`, and `between` also accept numeric widths in the configured unit. `only` and `not` accept names only.
+The read-only `theme.breakpoints` object exposes `keys`, `values`, `unit`, and four query helpers. In these examples the default theme is used. Named arguments must be configured breakpoint names; unknown names throw. `gte`, `lt`, and `between` also accept numeric widths in the configured unit. `only` accepts only a configured name.
 
-`up`, `down`, and `between` use the supplied widths directly, regardless of whether a key is first, last, or the only key. `only` and `not` use the next configured key in ascending width order.
+### theme.breakpoints.gte
 
-### theme.breakpoints.up
-
-`up(keyOrWidth)` accepts a configured name or number and includes the lower boundary:
+`gte(keyOrWidth)` accepts a configured name or number and includes the lower boundary:
 
 ```js
-breakpoints.up('sm'); // '@media (min-width:600px)'
-breakpoints.up(750);  // '@media (min-width:750px)'
+breakpoints.gte('sm'); // '@media (width >= 600px)'
+breakpoints.gte(750);  // '@media (width >= 750px)'
 ```
 
-### theme.breakpoints.down
+### theme.breakpoints.lt
 
-`down(keyOrWidth)` accepts a configured name or number. Its maximum is the supplied width minus `step / 100`, approximating an exclusive upper boundary:
+`lt(keyOrWidth)` accepts a configured name or number and excludes the upper boundary:
 
 ```js
-breakpoints.down('sm'); // '@media (max-width:599.95px)'
-breakpoints.down(750);  // '@media (max-width:749.95px)'
+breakpoints.lt('sm'); // '@media (width < 600px)'
+breakpoints.lt(750);  // '@media (width < 750px)'
 ```
 
 ### theme.breakpoints.between
 
-`between(start, end)` accepts a configured name or number for each argument. It includes the start and approximates an exclusive end:
+`between(start, end)` accepts a configured name or number for each argument. It includes the start and excludes the end:
 
 ```js
-breakpoints.between('sm', 'md'); // '@media (min-width:600px) and (max-width:899.95px)'
-breakpoints.between(700, 1000);  // '@media (min-width:700px) and (max-width:999.95px)'
+breakpoints.between('sm', 'md'); // '@media (600px <= width < 900px)'
+breakpoints.between(700, 1000);  // '@media (700px <= width < 1000px)'
 ```
 
 ### theme.breakpoints.only
 
-`only(key)` accepts a configured name and spans from that breakpoint to just below the next. The last key, including a single configured key, has no upper bound:
+`only(key)` accepts a configured name and spans from that breakpoint up to, but not including, the next. The last key, including a single configured key, has no upper bound:
 
 ```js
-breakpoints.only('xs'); // '@media (min-width:0px) and (max-width:599.95px)'
-breakpoints.only('md'); // '@media (min-width:900px) and (max-width:1199.95px)'
-breakpoints.only('xl'); // '@media (min-width:1536px)'
+breakpoints.only('xs'); // '@media (0px <= width < 600px)'
+breakpoints.only('md'); // '@media (900px <= width < 1200px)'
+breakpoints.only('xl'); // '@media (width >= 1536px)'
 ```
-
-### theme.breakpoints.not
-
-`not(key)` accepts a configured name. For a middle key, it matches outside the range returned by `only(key)`.
-
-```js
-breakpoints.not('xs'); // '@media (min-width:600px)'
-breakpoints.not('md'); // '@media not all and (min-width:900px) and (max-width:1199.95px)'
-breakpoints.not('xl'); // '@media (max-width:1535.95px)'
-```
-
-For the first key with a successor, `not` matches from the next breakpoint upward. If the first width is nonzero, widths below it still do not match. For example, with `{ sm: 600, md: 900 }`, `not('sm')` matches at 900px and above, not below 600px. For the last or only key, `not` matches up to that width minus `step / 100`.

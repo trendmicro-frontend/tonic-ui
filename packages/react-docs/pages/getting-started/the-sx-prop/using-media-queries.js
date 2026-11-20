@@ -8,15 +8,15 @@ const App = () => {
       fontSize="md"
       lineHeight="md"
       sx={{
-        [breakpoints.up('sm')]: {
+        [breakpoints.gte('sm')]: {
           fontSize: 'lg',
           lineHeight: 'lg',
         },
-        [breakpoints.up('md')]: {
+        [breakpoints.gte('md')]: {
           fontSize: 'xl',
           lineHeight: 'xl',
         },
-        [breakpoints.up('lg')]: {
+        [breakpoints.gte('lg')]: {
           fontSize: '2xl',
           lineHeight: '2xl',
         },

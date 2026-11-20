@@ -39,7 +39,7 @@ const parseResponsiveObject = (breakpoints, sx, scale, raw, _props) => {
     if (key === '_') {
       Object.assign(styles, sx(scale, value, _props));
     } else if (Object.prototype.hasOwnProperty.call(breakpoints.values, key)) {
-      const media = breakpoints.up(key);
+      const media = breakpoints.gte(key);
       Object.assign(styles, {
         [media]: Object.assign({}, styles[media], sx(scale, value, _props)),
       });
@@ -72,7 +72,7 @@ const parser = config => {
           if (!isCacheDisabled && cache.breakpoints === breakpoints && cache.media) {
             mediaQueries = cache.media;
           } else {
-            mediaQueries = [null, ...breakpoints.keys.map(name => breakpoints.up(name))];
+            mediaQueries = [null, ...breakpoints.keys.map(name => breakpoints.gte(name))];
             if (!isCacheDisabled) {
               cache.breakpoints = breakpoints;
               cache.media = mediaQueries;

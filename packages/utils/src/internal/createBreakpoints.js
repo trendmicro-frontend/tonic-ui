@@ -1,5 +1,5 @@
 /** @typedef {'xs' | 'sm' | 'md' | 'lg' | 'xl'} Breakpoint */
-/** @typedef {{ values?: Partial<Record<Breakpoint, number>>, unit?: string, step?: number }} BreakpointOptions */
+/** @typedef {{ values?: Partial<Record<Breakpoint, number>>, unit?: string }} BreakpointOptions */
 
 /** @param {BreakpointOptions} [options] */
 export function createBreakpoints(options = {}) {
@@ -7,7 +7,7 @@ export function createBreakpoints(options = {}) {
     throw new TypeError('[Tonic UI] breakpoints must be an options object.');
   }
 
-  const { values: input = {}, unit = 'px', step = 5 } = options;
+  const { values: input = {}, unit = 'px' } = options;
   const entries = Object.entries(input);
   const keys = /** @type {Breakpoint[]} */ ([]);
   const values = /** @type {Partial<Record<Breakpoint, number>>} */ ({});
@@ -45,32 +45,18 @@ export function createBreakpoints(options = {}) {
     return index;
   }
 
-  const epsilon = step / 100;
   /** @param {Breakpoint | number} key */
-  const up = (key) => `@media (min-width:${width(key)}${unit})`;
+  const gte = (key) => `@media (width >= ${width(key)}${unit})`;
   /** @param {Breakpoint | number} key */
-  const down = (key) => `@media (max-width:${width(key) - epsilon}${unit})`;
+  const lt = (key) => `@media (width < ${width(key)}${unit})`;
   /** @param {Breakpoint | number} start @param {Breakpoint | number} end */
-  const between = (start, end) => `${up(start)} and (max-width:${width(end) - epsilon}${unit})`;
+  const between = (start, end) => `@media (${width(start)}${unit} <= width < ${width(end)}${unit})`;
 
   /** @param {Breakpoint} key */
   function only(key) {
     const next = keys[indexOf(key) + 1];
-    return next ? between(key, next) : up(key);
+    return next ? between(key, next) : gte(key);
   }
 
-  /** @param {Breakpoint} key */
-  function not(key) {
-    const index = indexOf(key);
-    const next = keys[index + 1];
-    if (!next) {
-      return down(key);
-    }
-    if (index === 0) {
-      return up(next);
-    }
-    return between(key, next).replace('@media', '@media not all and');
-  }
-
-  return Object.freeze({ keys: sortedKeys, values: sortedValues, unit, step, up, down, between, only, not });
+  return Object.freeze({ keys: sortedKeys, values: sortedValues, unit, gte, lt, between, only });
 }

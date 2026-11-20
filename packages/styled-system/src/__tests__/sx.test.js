@@ -589,9 +589,9 @@ describe('responsive values', () => {
     })({ theme });
 
     expect(style).toEqual({
-      '@media (min-width:0px)': { width: '25%' },
-      '@media (min-width:900px)': { width: '75%' },
-      '@media (min-width:1536px)': { width: '100%' },
+      '@media (width >= 0px)': { width: '25%' },
+      '@media (width >= 900px)': { width: '75%' },
+      '@media (width >= 1536px)': { width: '100%' },
     });
   });
 
@@ -605,8 +605,8 @@ describe('responsive values', () => {
 
     expect(sx({ width: ['100%', '50%', '25%'] })({ theme: customTheme })).toEqual({
       width: '100%',
-      '@media (min-width:40em)': { width: '50%' },
-      '@media (min-width:52em)': { width: '25%' },
+      '@media (width >= 40em)': { width: '50%' },
+      '@media (width >= 52em)': { width: '25%' },
     });
   });
 
@@ -620,8 +620,8 @@ describe('responsive values', () => {
       width: [null, '50%', '100%'],
     })({ theme });
 
-    const xs = breakpoints.up('xs');
-    const sm = breakpoints.up('sm');
+    const xs = breakpoints.gte('xs');
+    const sm = breakpoints.gte('sm');
     expect(Object.keys(style)).toEqual([xs, sm]);
     expect(style[xs].width).toBe('50%');
     expect(style[sm].width).toBe('100%');
@@ -635,27 +635,25 @@ describe('responsive values', () => {
     })({ theme: { breakpoints } });
 
     expect(Object.entries(style)).toEqual([
-      [breakpoints.up('xs'), { width: '25%' }],
-      [breakpoints.up('sm'), { color: 'red' }],
-      [breakpoints.up('lg'), { color: 'green' }],
+      [breakpoints.gte('xs'), { width: '25%' }],
+      [breakpoints.gte('sm'), { color: 'red' }],
+      [breakpoints.gte('lg'), { color: 'green' }],
     ]);
   });
 
   it('accepts computed nested media keys from every helper', () => {
     const style = sx({
-      [breakpoints.up('sm')]: { color: 'red' },
-      [breakpoints.down('sm')]: { color: 'blue' },
+      [breakpoints.gte('sm')]: { color: 'red' },
+      [breakpoints.lt('sm')]: { color: 'blue' },
       [breakpoints.between('sm', 'lg')]: { color: 'green' },
       [breakpoints.only('md')]: { color: 'black' },
-      [breakpoints.not('md')]: { color: 'white' },
     })({ theme });
 
     expect(style).toEqual({
-      '@media (min-width:600px)': { color: 'red' },
-      '@media (max-width:599.95px)': { color: 'blue' },
-      '@media (min-width:600px) and (max-width:1199.95px)': { color: 'green' },
-      '@media (min-width:900px) and (max-width:1199.95px)': { color: 'black' },
-      '@media not all and (min-width:900px) and (max-width:1199.95px)': { color: 'white' },
+      '@media (width >= 600px)': { color: 'red' },
+      '@media (width < 600px)': { color: 'blue' },
+      '@media (600px <= width < 1200px)': { color: 'green' },
+      '@media (900px <= width < 1200px)': { color: 'black' },
     });
   });
 
@@ -663,7 +661,7 @@ describe('responsive values', () => {
     [undefined, '50%', '50%'],
     ['75%', '75%', '50%'],
   ])('merges an explicit query with an array in authored order (explicit width: %s)', (explicitWidth, arrayFirstWidth, explicitFirstWidth) => {
-    const query = breakpoints.up('sm');
+    const query = breakpoints.gte('sm');
     const responsiveWidth = Object.freeze([null, null, '50%']);
     const explicitRule = Object.freeze({
       color: 'red',
@@ -681,7 +679,7 @@ describe('responsive values', () => {
   });
 
   it('preserves authored order when declarations use aliases for the same property', () => {
-    const query = breakpoints.up('sm');
+    const query = breakpoints.gte('sm');
     const width = [null, null, '50%'];
 
     expect(sx({ width, [query]: { w: '75%', width: '80%' } })({ theme })).toEqual({
@@ -693,7 +691,7 @@ describe('responsive values', () => {
   });
 
   it('merges nested declarations within the same responsive rule', () => {
-    const query = breakpoints.up('sm');
+    const query = breakpoints.gte('sm');
     const hover = [null, null, { color: 'green' }];
     const rule = { '&:hover': { color: 'red', backgroundColor: 'blue' } };
 
@@ -716,8 +714,8 @@ describe('array composition', () => {
   const theme = { breakpoints };
 
   it('keeps generated breakpoint rules in width order across composed items', () => {
-    const xs = breakpoints.up('xs');
-    const sm = breakpoints.up('sm');
+    const xs = breakpoints.gte('xs');
+    const sm = breakpoints.gte('sm');
     const result = sx([
       { color: [null, null, 'red', null] },
       { width: [null, '50%', '100%'] },
@@ -729,15 +727,15 @@ describe('array composition', () => {
   });
 
   it('preserves the authored order of explicit media rules across items', () => {
-    const xs = breakpoints.up('xs');
-    const sm = breakpoints.up('sm');
+    const xs = breakpoints.gte('xs');
+    const sm = breakpoints.gte('sm');
     const result = sx([{ [sm]: { width: '100%' } }, { [xs]: { width: '50%' } }])({ theme });
     expect(Object.keys(result)).toEqual([sm, xs]);
   });
 
   it.each([false, true])('sorts merged breakpoint rules together (composed: %s)', (composed) => {
-    const xs = breakpoints.up('xs');
-    const sm = breakpoints.up('sm');
+    const xs = breakpoints.gte('xs');
+    const sm = breakpoints.gte('sm');
     const rules = [
       { color: [null, 'blue', 'red'] },
       { [sm]: { width: '100%' } },
@@ -752,9 +750,9 @@ describe('array composition', () => {
   });
 
   it('leaves explicit-only media keys in their slots when sorting generated rules', () => {
-    const xs = breakpoints.up('xs');
-    const sm = breakpoints.up('sm');
-    const md = breakpoints.up('md');
+    const xs = breakpoints.gte('xs');
+    const sm = breakpoints.gte('sm');
+    const md = breakpoints.gte('md');
     const result = sx([
       { color: [null, null, 'red'] },
       { [md]: { width: '50%' } },

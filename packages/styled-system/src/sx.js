@@ -139,7 +139,7 @@ const resolveResponsive = (theme, context, styleProps) => {
 
     if (!context.mediaQueries) {
       const breakpoints = get(theme, 'breakpoints', defaultBreakpoints);
-      context.mediaQueries = breakpoints.keys.map(key => breakpoints.up(key));
+      context.mediaQueries = breakpoints.keys.map(key => breakpoints.gte(key));
       context.generatedRules = new WeakSet();
     }
     const { generatedRules, mediaQueries } = context;

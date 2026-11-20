@@ -37,10 +37,10 @@ test('returns responsive values', () => {
     width: '100%',
     maxWidth: 768,
     minHeight: 32,
-    '@media (min-width:40em)': {
+    '@media (width >= 40em)': {
       width: '50%',
     },
-    '@media (min-width:52em)': {
+    '@media (width >= 52em)': {
       width: '25%',
     },
   });

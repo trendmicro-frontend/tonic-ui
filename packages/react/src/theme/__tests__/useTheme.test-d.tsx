@@ -5,8 +5,8 @@ import { useTheme, Box, createTheme } from '@tonic-ui/react';
 function UseThemeColors() {
   const theme = useTheme();
   const query: string = theme.breakpoints.between('sm', 1000);
-  // @ts-expect-error Unknown breakpoint name.
-  theme.breakpoints.not('mobile');
+  // @ts-expect-error No public negation helper.
+  theme.breakpoints.not('md');
   // @ts-expect-error Cannot replace the breakpoint snapshot.
   theme.breakpoints = createTheme().breakpoints;
   return (

@@ -36,11 +36,11 @@ test('returns a style parser', () => {
     backgroundColor: 'rebeccapurple',
     marginLeft: 8,
     marginRight: 8,
-    '@media (min-width:40em)': {
+    '@media (width >= 40em)': {
       marginLeft: 16,
       marginRight: 16,
     },
-    '@media (min-width:52em)': {
+    '@media (width >= 52em)': {
       marginLeft: 32,
       marginRight: 32,
     },
@@ -65,12 +65,12 @@ test('merges multiple responsive styles', () => {
     margin: 0,
     padding: 16,
     width: '100%',
-    '@media (min-width:40em)': {
+    '@media (width >= 40em)': {
       margin: 4,
       padding: 32,
       width: '50%',
     },
-    '@media (min-width:52em)': {
+    '@media (width >= 52em)': {
       margin: 8,
       padding: 64,
     },
@@ -95,12 +95,12 @@ test('merges multiple responsive object styles', () => {
     margin: 0,
     padding: 16,
     width: '100%',
-    '@media (min-width:40em)': {
+    '@media (width >= 40em)': {
       margin: 4,
       padding: 32,
       width: '50%',
     },
-    '@media (min-width:52em)': {
+    '@media (width >= 52em)': {
       margin: 8,
       padding: 64,
     },
@@ -133,16 +133,16 @@ test('gets values from theme', () => {
     color: 'tomato',
     marginLeft: 0,
     marginRight: 0,
-    '@media (min-width:40em)': {
+    '@media (width >= 40em)': {
       color: 'black',
       marginLeft: 6,
       marginRight: 6,
     },
-    '@media (min-width:52em)': {
+    '@media (width >= 52em)': {
       marginLeft: 12,
       marginRight: 12,
     },
-    '@media (min-width:64em)': {
+    '@media (width >= 64em)': {
       marginLeft: 24,
       marginRight: 24,
     },
@@ -194,7 +194,7 @@ test('skips null values in arrays', () => {
   });
   expect(style).toEqual({
     fontSize: 16,
-    '@media (min-width:64em)': {
+    '@media (width >= 64em)': {
       fontSize: 18,
     }
   });
@@ -248,13 +248,13 @@ test('supports custom named breakpoint objects', () => {
   expect(styles).toEqual({
     margin: 0,
     padding: 16,
-    '@media (min-width:32em)': {
+    '@media (width >= 32em)': {
       margin: 4,
     },
-    '@media (min-width:40em)': {
+    '@media (width >= 40em)': {
       margin: 8,
     },
-    '@media (min-width:64em)': {
+    '@media (width >= 64em)': {
       padding: 64,
     },
   });
@@ -280,10 +280,10 @@ test('sorts media queries when responsive object values are used', () => {
   });
   expect(Object.keys(styles)).toEqual([
     'padding',
-    '@media (min-width:10.125em)',
-    '@media (min-width:10.5em)',
-    '@media (min-width:64em)',
-    '@media (min-width:128em)',
+    '@media (width >= 10.125em)',
+    '@media (width >= 10.5em)',
+    '@media (width >= 64em)',
+    '@media (width >= 128em)',
   ]);
 });
 
@@ -302,16 +302,16 @@ test('sorts mixed responsive values and treats zero and unknown keys correctly',
   expect(styles).toEqual({
     margin: 0,
     padding: 4,
-    '@media (min-width:0px)': { margin: 1, padding: 1 },
-    '@media (min-width:600px)': { padding: 2 },
-    '@media (min-width:900px)': { margin: 4, padding: 3 },
+    '@media (width >= 0px)': { margin: 1, padding: 1 },
+    '@media (width >= 600px)': { padding: 2 },
+    '@media (width >= 900px)': { margin: 4, padding: 3 },
   });
   expect(Object.keys(styles)).toEqual([
     'margin',
     'padding',
-    '@media (min-width:0px)',
-    '@media (min-width:600px)',
-    '@media (min-width:900px)',
+    '@media (width >= 0px)',
+    '@media (width >= 600px)',
+    '@media (width >= 900px)',
   ]);
 });
 

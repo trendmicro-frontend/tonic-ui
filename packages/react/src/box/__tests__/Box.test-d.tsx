@@ -3,11 +3,11 @@ import { Box } from '@tonic-ui/react';
 
 <Box sx={({ breakpoints }) => {
   // @ts-expect-error Box may render without a theme provider.
-  breakpoints.up('sm');
+  breakpoints.gte('sm');
   if (breakpoints) {
     // @ts-expect-error Unknown breakpoint name.
-    breakpoints.up('mobile');
-    return { [breakpoints.up('sm')]: { display: 'block' } };
+    breakpoints.gte('mobile');
+    return { [breakpoints.gte('sm')]: { display: 'block' } };
   }
   return { display: 'block' };
 }} />;

@@ -92,7 +92,7 @@ describe('Box __sx internal base-style channel', () => {
     expect(container.firstChild).toHaveStyleRule('color', 'red');
     // First breakpoint media query value
     expect(container.firstChild).toHaveStyleRule('color', 'blue', {
-      media: '(min-width:40em)',
+      media: '(width >= 40em)',
     });
   });
 

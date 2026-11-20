@@ -149,7 +149,7 @@ const DocsPage = (props) => {
   const containerRef = useRef();
   const theme = useTheme();
   const isMediaQueryMatched = useMediaQuery(
-    theme.breakpoints.up('lg').replace(/^@media\s*/, ''),
+    theme.breakpoints.gte('lg').replace(/^@media\s*/, ''),
   );
   const [isSidebarVisible, toggleSidebarVisible] = useToggle(isMediaQueryMatched ? true : false);
   const headerHeight = theme.get('sizes.12x');

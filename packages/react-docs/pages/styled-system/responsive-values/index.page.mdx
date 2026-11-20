@@ -77,6 +77,8 @@ Use an object to change the font size across breakpoints:
 
 The base font size is `24px`. At `md` (`≥ 900px`) it becomes `32px`, at `lg` (`≥ 1200px`) it becomes `40px`, and at `xl` (`≥ 1536px`) it becomes `48px`.
 
+Keep named breakpoint objects on flat style props. Inside `sx`, use an array or [breakpoint media queries](../../theme/breakpoints#css-media-queries). A value such as `sx={{ gap: { sm: '4x' } }}` does not set a responsive gap.
+
 ## Under the hood
 
 Given the following example:
@@ -94,13 +96,13 @@ The responsive style props generate the following CSS:
   width: 100%;
 }
 
-@media (min-width:600px) {
+@media (width >= 600px) {
   .Box {
     width: 50%;
   }
 }
 
-@media (min-width:900px) {
+@media (width >= 900px) {
   .Box {
     width: 25%;
   }

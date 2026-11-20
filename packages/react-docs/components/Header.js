@@ -75,7 +75,7 @@ const Header = forwardRef((
   const { query: activeSearchQuery, setQuery: setSearchQuery } = useSearchQuery();
   const theme = useTheme();
   // The narrow layout only has room for the search icon.
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md').replace(/^@media\s*/, ''));
+  const isSearchCompact = useMediaQuery(theme.breakpoints.lt('md').replace(/^@media\s*/, ''));
 
   const version = (() => {
     if (TONIC_UI_REACT_DOCS_VERSION) {
@@ -227,7 +227,7 @@ const Header = forwardRef((
           >
             <SearchInput
               data-track="Search|open_search_modal"
-              placeholder={isSmallScreen ? '' : 'Search...'}
+              placeholder={isSearchCompact ? '' : 'Search...'}
               size="md"
               value={activeSearchQuery}
               onChange={(event) => {

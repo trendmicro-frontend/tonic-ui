@@ -57,6 +57,6 @@ test('resolves legacy grid gap style props, including responsive size tokens', (
     gridGap: '.5rem',
     gridRowGap: '.75rem',
     gridColumnGap: '12px',
-    '@media (min-width:600px)': { gridRowGap: '1rem' },
+    '@media (width >= 600px)': { gridRowGap: '1rem' },
   });
 });

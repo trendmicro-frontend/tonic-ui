@@ -46,12 +46,12 @@ test('uses the current breakpoint scale when providers alternate', () => {
     expect(styles).toEqual({
       color: 'rebeccapurple',
       fontSize: 4,
-      [`@media (min-width:${widths[0]}em)`]: { fontSize: 8 },
-      [`@media (min-width:${widths[1]}em)`]: {
+      [`@media (width >= ${widths[0]}em)`]: { fontSize: 8 },
+      [`@media (width >= ${widths[1]}em)`]: {
         fontSize: 16,
         color: 'papayawhip',
       },
-      [`@media (min-width:${widths[2]}em)`]: { fontSize: 16 },
+      [`@media (width >= ${widths[2]}em)`]: { fontSize: 16 },
     });
   }
 });
@@ -82,17 +82,17 @@ test('disabled caching uses local breakpoints without changing the cache', () =>
   expect(styles).toEqual({
     color: 'rebeccapurple',
     fontSize: 4,
-    '@media (min-width:7em)': { fontSize: 8 },
-    '@media (min-width:8em)': { fontSize: 16, color: 'papayawhip' },
-    '@media (min-width:9em)': { fontSize: 16 },
+    '@media (width >= 7em)': { fontSize: 8 },
+    '@media (width >= 8em)': { fontSize: 16, color: 'papayawhip' },
+    '@media (width >= 9em)': { fontSize: 16 },
   });
   expect(parser.cache.breakpoints).toBe(defaultBreakpoints);
   expect(parser.cache.media).toBe(cachedMedia);
   expect(parser({ theme, fontSize: [1, 2, 3, 3] })).toEqual({
     fontSize: 4,
-    '@media (min-width:40em)': { fontSize: 8 },
-    '@media (min-width:52em)': { fontSize: 16 },
-    '@media (min-width:64em)': { fontSize: 16 },
+    '@media (width >= 40em)': { fontSize: 8 },
+    '@media (width >= 52em)': { fontSize: 16 },
+    '@media (width >= 64em)': { fontSize: 16 },
   });
   expect(parser.cache.media).toBe(cachedMedia);
 });
@@ -108,7 +108,7 @@ test('disabled caching does not read a cached list for the same breakpoint objec
     color: ['red', 'blue'],
   })).toEqual({
     color: 'red',
-    '@media (min-width:40em)': { color: 'blue' },
+    '@media (width >= 40em)': { color: 'blue' },
   });
   expect(freshParser.cache.media).toBe(cachedMedia);
   expect(cachedMedia[1]).toBe('@media stale');

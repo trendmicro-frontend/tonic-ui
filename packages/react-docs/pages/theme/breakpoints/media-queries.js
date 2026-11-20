@@ -6,28 +6,22 @@ const App = () => {
   return (
     <Box>
       <Box
-        data-testid="breakpoint-up-sm"
-        sx={{ display: 'none', [breakpoints.up('sm')]: { display: 'block' } }}
+        data-testid="breakpoint-gte-sm"
+        sx={{ display: 'none', [breakpoints.gte('sm')]: { display: 'block' } }}
       >
-        up('sm')
+        gte('sm')
       </Box>
       <Box
-        data-testid="breakpoint-down-sm"
-        sx={{ display: 'none', [breakpoints.down('sm')]: { display: 'block' } }}
+        data-testid="breakpoint-lt-sm"
+        sx={{ display: 'none', [breakpoints.lt('sm')]: { display: 'block' } }}
       >
-        down('sm')
+        lt('sm')
       </Box>
       <Box
         data-testid="breakpoint-only-md"
         sx={{ display: 'none', [breakpoints.only('md')]: { display: 'block' } }}
       >
         only('md')
-      </Box>
-      <Box
-        data-testid="breakpoint-not-md"
-        sx={{ display: 'none', [breakpoints.not('md')]: { display: 'block' } }}
-      >
-        not('md')
       </Box>
       <Box
         data-testid="breakpoint-between-sm-md"
@@ -48,8 +42,8 @@ const App = () => {
         data-testid="breakpoint-explicit-sx"
         sx={[
           { color: [null, 'blue', 'red'] },
-          { [breakpoints.up('sm')]: { width: '100%' } },
-          { [breakpoints.up('xs')]: { width: '50%' } },
+          { [breakpoints.gte('sm')]: { width: '100%' } },
+          { [breakpoints.gte('xs')]: { width: '50%' } },
         ]}
       >
         Merged breakpoint rules: half width below sm, full width from sm
@@ -58,7 +52,7 @@ const App = () => {
         data-testid="breakpoint-specificity-override"
         sx={{
           color: [null, 'blue', 'red'],
-          [breakpoints.up('sm')]: { width: '100%' },
+          [breakpoints.gte('sm')]: { width: '100%' },
           '&&': { width: '50%' },
         }}
       >

@@ -62,6 +62,19 @@ const searchAndOpenResult = async (page, query) => {
 };
 
 test.describe('documentation search', { tag: ['@docs', '@search'] }, () => {
+  test('switches the header search placeholder at md', async ({ page }) => {
+    await page.setViewportSize({ width: 900, height: 900 });
+    await page.goto(ENTRY_PATH);
+    const input = headerSearch(page).getByRole('textbox');
+    const expandedPlaceholder = await input.getAttribute('placeholder');
+    expect(expandedPlaceholder).toBeTruthy();
+
+    await page.setViewportSize({ width: 899, height: 900 });
+    await expect(input).toHaveAttribute('placeholder', '');
+    await page.setViewportSize({ width: 900, height: 900 });
+    await expect(input).toHaveAttribute('placeholder', expandedPlaceholder);
+  });
+
   test('loads the generated search manifest and index', async ({ page }) => {
     const manifestResponse = page.waitForResponse(response =>
       new URL(response.url()).pathname.endsWith('/search/manifest.json'));

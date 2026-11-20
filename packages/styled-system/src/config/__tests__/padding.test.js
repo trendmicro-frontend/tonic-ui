@@ -56,8 +56,8 @@ test('returns responsive values', () => {
   });
   expect(styles).toEqual({
     padding: 0,
-    '@media (min-width:40em)': { padding: 8 },
-    '@media (min-width:52em)': { padding: 16 },
+    '@media (width >= 40em)': { padding: 8 },
+    '@media (width >= 52em)': { padding: 16 },
   });
 });
 
@@ -182,10 +182,10 @@ test('supports object values', () => {
   });
   expect(styles).toEqual({
     padding: 0,
-    '@media (min-width:40em)': {
+    '@media (width >= 40em)': {
       padding: 4,
     },
-    '@media (min-width:52em)': {
+    '@media (width >= 52em)': {
       padding: 8,
     },
   });
@@ -207,10 +207,10 @@ test('supports a custom named breakpoint subset', () => {
   });
   expect(styles).toEqual({
     padding: 0,
-    '@media (min-width:40em)': {
+    '@media (width >= 40em)': {
       padding: 4,
     },
-    '@media (min-width:52em)': {
+    '@media (width >= 52em)': {
       padding: 8,
     },
   });

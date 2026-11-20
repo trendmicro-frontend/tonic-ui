@@ -214,7 +214,7 @@ describe('v4 theme (default)', () => {
       });
 
       expect(breakpoints.values).toEqual({ xs: 0, sm: 600, md: 900, lg: 1200, xl: 1536 });
-      expect(breakpoints.up('lg')).toBe('@media (min-width:1200px)');
+      expect(breakpoints.gte('lg')).toBe('@media (width >= 1200px)');
     });
   });
 
@@ -426,14 +426,13 @@ describe('v4 theme (default)', () => {
       expect(breakpoints.values).toEqual({ xs: 0, sm: 600, md: 900, lg: 1200, xl: 1536 });
       expect(breakpoints.keys).toEqual(['xs', 'sm', 'md', 'lg', 'xl']);
       expect(breakpoints.unit).toBe('px');
-      expect(breakpoints.step).toBe(5);
       expect(breakpoints[0]).toBeUndefined();
       expect(breakpoints.sm).toBeUndefined();
       expect(breakpoints.values['2xl']).toBeUndefined();
       expect(Reflect.set(theme, 'breakpoints', {})).toBe(false);
       expect(Reflect.set(breakpoints.values, 'md', 1)).toBe(false);
       expect(Reflect.set(breakpoints.keys, 0, 'xl')).toBe(false);
-      expect(breakpoints.up('md')).toBe('@media (min-width:900px)');
+      expect(breakpoints.gte('md')).toBe('@media (width >= 900px)');
     });
 
     test('should include primitive zIndices - all layers', () => {

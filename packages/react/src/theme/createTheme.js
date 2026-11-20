@@ -54,7 +54,7 @@ const createTheme = (options = {}, ...args) => {
     );
   }
 
-  let { values, unit, step } = tonicTheme.breakpoints;
+  let { values, unit } = tonicTheme.breakpoints;
   /** @type {ThemeScales} */
   let theme = Object.fromEntries(Object.entries(tonicTheme).filter(([key]) => key !== 'breakpoints'));
   for (const { breakpoints, ...scales } of [rest, ...args]) {
@@ -68,14 +68,11 @@ const createTheme = (options = {}, ...args) => {
       if (breakpoints.unit !== undefined) {
         unit = breakpoints.unit;
       }
-      if (breakpoints.step !== undefined) {
-        step = breakpoints.step;
-      }
     }
     theme = merge(theme, scales);
   }
 
-  const breakpoints = createBreakpoints({ values, unit, step });
+  const breakpoints = createBreakpoints({ values, unit });
   theme.breakpoints = breakpoints;
 
   // Resolve token references (e.g., {colors.primary} → actual value)

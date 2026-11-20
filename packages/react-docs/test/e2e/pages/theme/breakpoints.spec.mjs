@@ -1,18 +1,18 @@
 import { expect, test } from '@playwright/test';
 import { captureColorModes } from '../../../../../../test/e2e/screenshots.mjs';
 
-const HELPERS = ['up-sm', 'down-sm', 'only-md', 'not-md', 'between-sm-md'];
+const HELPERS = ['gte-sm', 'lt-sm', 'only-md', 'between-sm-md'];
 const RANGES = ['xs', 'sm', 'md', 'lg', 'xl'];
 const CASES = [
-  { width: 200, range: 'xs', active: ['down-sm', 'not-md'] },
-  { width: 599, range: 'xs', active: ['down-sm', 'not-md'] },
-  { width: 600, range: 'sm', active: ['up-sm', 'not-md', 'between-sm-md'] },
-  { width: 899, range: 'sm', active: ['up-sm', 'not-md', 'between-sm-md'] },
-  { width: 900, range: 'md', active: ['up-sm', 'only-md'] },
-  { width: 1199, range: 'md', active: ['up-sm', 'only-md'] },
-  { width: 1200, range: 'lg', active: ['up-sm', 'not-md'] },
-  { width: 1535, range: 'lg', active: ['up-sm', 'not-md'] },
-  { width: 1536, range: 'xl', active: ['up-sm', 'not-md'] },
+  { width: 200, range: 'xs', active: ['lt-sm'] },
+  { width: 599, range: 'xs', active: ['lt-sm'] },
+  { width: 600, range: 'sm', active: ['gte-sm', 'between-sm-md'] },
+  { width: 899, range: 'sm', active: ['gte-sm', 'between-sm-md'] },
+  { width: 900, range: 'md', active: ['gte-sm', 'only-md'] },
+  { width: 1199, range: 'md', active: ['gte-sm', 'only-md'] },
+  { width: 1200, range: 'lg', active: ['gte-sm'] },
+  { width: 1535, range: 'lg', active: ['gte-sm'] },
+  { width: 1536, range: 'xl', active: ['gte-sm'] },
 ];
 
 const expectBreakpointState = async (page, { width, active, range }) => {
@@ -89,7 +89,7 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
 
         const main = page.locator('#main');
         const range = main.getByTestId(`breakpoint-range-${scenario.range}`);
-        const helper = main.getByTestId(`breakpoint-${width === 900 ? 'only-md' : 'not-md'}`);
+        const helper = main.getByTestId(`breakpoint-${width === 900 ? 'only-md' : 'gte-sm'}`);
         await helper.evaluate((element) => element.scrollIntoView({ block: 'center', behavior: 'instant' }));
         await expect(range).toBeInViewport();
         await expect(helper).toBeInViewport();

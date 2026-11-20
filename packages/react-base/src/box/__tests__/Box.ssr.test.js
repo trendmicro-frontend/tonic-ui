@@ -5,7 +5,7 @@ import { renderToString } from 'react-dom/server';
 import { Box } from '..';
 
 const responsiveStyle = ({ breakpoints }) => breakpoints
-  ? { [breakpoints.up('sm')]: { color: 'blue' } }
+  ? { [breakpoints.gte('sm')]: { color: 'blue' } }
   : { color: 'red' };
 
 test('a Box without a provider renders base styles without breakpoint rules', () => {

@@ -2,14 +2,22 @@ import { createTheme } from '@tonic-ui/react';
 
 const viewportTheme = createTheme();
 const viewportQuery: string = viewportTheme.breakpoints.only('md');
-createTheme({ breakpoints: { values: { xs: 0, sm: 40 }, unit: 'em', step: 10 } });
+createTheme({ breakpoints: { values: { xs: 0, sm: 40 }, unit: 'em' } });
 createTheme(viewportTheme, { breakpoints: { values: { lg: 1000 } } });
 // @ts-expect-error Unknown breakpoint name.
 createTheme({ breakpoints: { values: { tablet: 640 } } });
 // @ts-expect-error Legacy array config is not accepted.
 createTheme({ breakpoints: ['600px'] });
 // @ts-expect-error Removed alias.
-viewportTheme.breakpoints.up('2xl');
+viewportTheme.breakpoints.gte('2xl');
+const minWidth: string = viewportTheme.breakpoints.gte('md');
+const exclusiveMaxWidth: string = viewportTheme.breakpoints.lt(900);
+// @ts-expect-error The previous helper name is not accepted.
+viewportTheme.breakpoints.up('md');
+// @ts-expect-error The previous helper name is not accepted.
+viewportTheme.breakpoints.down('md');
+// @ts-expect-error Strict range queries do not use a step option.
+createTheme({ breakpoints: { step: 5 } });
 // @ts-expect-error only() accepts a key, not a width.
 viewportTheme.breakpoints.only(600);
 // @ts-expect-error Cannot replace the breakpoint snapshot.
