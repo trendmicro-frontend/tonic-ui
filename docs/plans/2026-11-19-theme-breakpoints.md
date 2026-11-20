@@ -6,18 +6,24 @@
 預設直接呼叫 `createTheme()` 即取得上述五個斷點；在瀏覽器初始字級為 16px 時，分別相當於 640/768/1024/1280/1536px。公開斷點名稱限定 sm/md/lg/xl/2xl，不提供 mobile/tablet/laptop/desktop 等替代名稱；設定只使用 values/unit，不提供 `step`。文件沿用現有 `/theme/breakpoints/` 頁面，參考 MUI 的分節方式，不另建重複頁面。
 Phase 1 是可單獨合併的 viewport breaking change；[Phase 2: Container Queries](./2026-11-19-theme-container-queries.md) 從合併 Phase 1 後的 `main` 開始，重用這裡的 runtime 斷點。不在 Phase 1 加 container API、shorthand 或占位程式。分拆不授權 commit、push 或建立遠端 PR。
 
-**目前狀態（PR #1249）**：Phase 1 已在 draft PR 實作並推送，尚未合併；以下 Findings 描述實作前的基線，不是目前檔案狀態。預設斷點、helper、文件與 token inventory 已更新；發布前仍須完成第 1 節的雙向套件相容性驗收。
+**目前狀態（PR #1249）**：Phase 1 已在 draft PR 實作並推送，尚未合併；以下 Findings 是實作前的歷史基線，不是目前檔案狀態。預設斷點、helper、文件與 token inventory 已更新；發布前仍須完成第 1 節的雙向套件相容性驗收。
 
-## Findings
+以下 Approach 與 Verification 保留原核准的實作契約與驗收要求，不表示每個條目都已由目前程式碼或測試涵蓋，也不表示檢查已執行。對照目前來源，仍須核對下列差異，不能用現有測試的存在取代原驗收：
+
+- `packages/react-docs/pages/theme/breakpoints/breakpoints.js` 目前僅在 base 標示上界、其他段標示各斷點的起點；第 4 節原訂的完整範圍標籤尚未呈現。
+- `packages/react/src/theme/__tests__/useTheme.test.js` 現用 `{ sm: 40, lg: 80 }` 的 em fixture，而非第 5 節的 `{ sm: 0, md: 40, xl: 80 }`；後者的驗收仍須補足。`createTheme.test.js` 的 Box 案例使用預設 provider，並未涵蓋第 5 節要求的 custom provider。
+- `packages/styled-system/src/core/__tests__/system.test.js` 的混合 object 案例將未配置的 `2xl` 作為忽略項；仍須驗證已配置的 `2xl` 作為 named responsive key。`packages/react-docs/test/e2e/pages/theme/breakpoints.spec.mjs` 在 639px 驗證 composed width，但明確規則的顏色／寬度案例從 640px 開始；第 3 節的 639px 驗收仍須補足。
+
+## Findings（Phase 1 實作前的歷史基線）
 
 - 官方規格：https://next.mui.com/material-ui/customization/breakpoints/。
 - MUI 實作與測試參考：[createBreakpoints](https://github.com/mui/material-ui/tree/master/packages/mui-system/src/createBreakpoints)、[createTheme](https://github.com/mui/material-ui/blob/master/packages/mui-system/src/createTheme/createTheme.ts)、[responsive resolution](https://github.com/mui/material-ui/blob/master/packages/mui-system/src/breakpoints/breakpoints.ts)。只參考數值排序與 API 組織，不採用其預設斷點；Tonic 使用 CSS range syntax 與精確上界，不加入 MUI dependency。
-- 目前 theme 實作於 `packages/theme/src/v3/`。`primitive/breakpoints.js` 是舊 array；`v3/index.js` 合併 v2 array／aliases，會留下舊名稱，不能沿用。
-- `packages/styled-system/src/core/parser.js` 與 `src/sx.js` 直接迭代舊 array。目前 responsive array 都是 `[base, breakpoint0, breakpoint1, ...]`，不是 MUI 的 first-value-at-first-breakpoint 規則。
+- 當時 theme 實作於 `packages/theme/src/v3/`；`primitive/breakpoints.js` 是舊 array，`v3/index.js` 合併 v2 array／aliases，會留下舊名稱，因此不能沿用。
+- 當時 `packages/styled-system/src/core/parser.js` 與 `src/sx.js` 直接迭代舊 array；responsive array 已是 `[base, breakpoint0, breakpoint1, ...]`，不是 MUI 的 first-value-at-first-breakpoint 規則。
 - React `createTheme.js` 先 deep merge 再 `resolveTheme()`；helper functions 必須依最終 options 重建，避免 closure 指向舊 values。`resolveTheme()` 與 color-mode variants 保留 enumerable functions。
-- 新 breakpoint object 必須排除於 CSS variable mapping；否則目前 mapper 會把 functions、keys、unit 等當成 design tokens。CSS media-query boundary 不能使用 CSS variables。
+- 實作前的 CSS variable mapper 若直接處理新的 breakpoint object，會把 functions、keys、unit 等當成 design tokens；因此必須排除該物件。CSS media-query boundary 不能使用 CSS variables。
 - `fontSizes/lineHeights` 的 `xs`／`2xl` 是字級 tokens，不應因 breakpoint 變更刪除。保留 v2 定義、Figma snapshots 與 reviewed relations；本次會同步 PR CI 強制檢查的 source-derived tokens inventory。
-- 已嘗試 JavaScript LSP，環境沒有可用 server；以限定搜尋確認 callers，不安裝工具。
+- 實作前曾嘗試 JavaScript LSP，當時環境沒有可用 server；以限定搜尋確認 callers，沒有安裝工具。
 - docs 的 `{render('./file')}` 已確認經 `next.config.mjs` 轉成 Demo component，`components/Demo.js` 直接 render 元件，沒有 iframe；browser spec 可用 `#main` 查詢 demo testids。
 - Container queries 設計參考：https://next.mui.com/material-ui/customization/container-queries/，以及 MUI `packages/mui-system/src/cssContainerQueries/cssContainerQueries.ts`／`.test.ts`。Phase 2 重用 Tonic breakpoint helpers，提供未命名與具名 container，僅替換 `@media` 前綴，保留精確邊界；不提供 `not` helper。此為 Phase 2 的設計證據，不加入 Phase 1。
 
@@ -32,7 +38,7 @@ createBreakpoints({ values = {}, unit = 'px' } = {})
 // => { keys, values, unit, gte, lt, between, only }
 ```
 
-- 定義 `Breakpoint = 'sm' | 'md' | 'lg' | 'xl' | '2xl'`；values 型別為 `Partial<Record<Breakpoint, number>>`，不是任意名稱 map。複製 values 後依數值升冪排序，keys 取排序後名稱。factory 預設空 map 且 unit 為 px，保留低階 styled-system 無 theme 時不提供 responsive thresholds 的現況。設計系統的預設數字與 rem 單位由 theme 提供。
+- 定義 `Breakpoint = 'sm' | 'md' | 'lg' | 'xl' | '2xl'`；values 型別為 `Partial<Record<Breakpoint, number>>`，不是任意名稱 map。複製 values 後依數值升冪排序，keys 取排序後名稱；值為 `undefined` 的標準 key 不列入 values 或 keys。factory 預設空 map 且 unit 為 px，保留低階 styled-system 無 theme 時不提供 responsive thresholds 的現況。設計系統的預設數字與 rem 單位由 theme 提供。
 - 使用具體 JSDoc options、上述有限名稱、method signatures 與回傳形狀，不新增模糊 any typedef。values 若含五個標準名稱之外的 key（包括 `xs`），丟出 `TypeError('[Tonic UI] Unsupported breakpoint name: ' + key + '.')`，不建立替代 aliases。
 - runtime methods 為 enumerable，符合現有 merge／resolution；不用 prototype、class 或 non-enumerable methods。
 - options 是 object；array 或 null 丟出 `TypeError('[Tonic UI] breakpoints must be an options object.')`。`values/unit` 採文件定義的 numeric map／string 契約，不新增驗證框架或自訂 fallback。未提供 options 使用上述預設，空 values 保持空。
@@ -120,13 +126,13 @@ fixtures 使用 `createBreakpoints({ values: { sm: 40, md: 52, lg: 64 }, unit: '
 
 更新現有 `packages/react-docs/pages/theme/breakpoints/index.page.mdx`（URL `/theme/breakpoints/`），不建立重複頁面。`## Default breakpoints` 列五個名稱／rem 數值、16px 初始字級下的像素換算及 `createTheme()` 範例；`## CSS media queries` 展示四個 helpers；`## Customizing breakpoints` 說明標準名稱的 values 與 unit，包括覆寫 px 數值時須明確指定 `unit: 'px'`；`## API` 列各 helper 的參數型別、數字支援、精確 query 和邊界。說明範圍下界包含、上界精確排除，鄰接範圍不留 subpixel 間隙。保留 primitive tokens 與 Examples；在 `TonicProvider` 的子元件用 `const { breakpoints } = useTheme()` 與 `<Box sx={{ backgroundColor: 'red', [breakpoints.only('md')]: { backgroundColor: 'blue' } }} />`。說明需要反向條件時可直接使用 `@media not (48rem <= width < 64rem)`；也可在有具名容器時用原生 `@container sidebar not (40rem <= width < 48rem)`，不宣稱 Phase 2 helper 已可用。
 
-- `packages/react-docs/components/ThemeTokens.js` 的 getTokenData('primitive') 改為 `breakpoints: primitiveBreakpoints`，展示純 numeric map 並在文件標示預設 unit 為 rem，不展示 runtime metadata/functions。
+- `packages/react-docs/components/ThemeTokens.js` 的 getTokenData('primitive') 使用 `breakpoints: primitiveBreakpoints`，資料來源是純 numeric map，不展示 runtime metadata/functions；目前 token table 將數字加上 `rem` 顯示，並非顯示裸數字。
 - 原 `pages/theme/breakpoints/breakpoints.js` 改為六段 base/sm/md/lg/xl/2xl；fontSize/lineHeight 可使用字級 tokens xs/sm/md/lg/xl/2xl，display 以 `_` 設定 base 再用相鄰斷點隱藏。六段依序標示 `<40rem`、`40–<48rem`、`48–<64rem`、`64–<80rem`、`80–<96rem`、`>=96rem`；其像素換算須說明假設瀏覽器初始字級 16px。各段加 `data-testid="breakpoint-range-base"`、`breakpoint-range-sm` 等穩定 selector。
 - 新增 `pages/theme/breakpoints/media-queries.js`，並在同頁現有 Examples 區塊 render。用 Box/useTheme 展示四個 helper，具可見 query 名稱的 Box 預設 display:none，query 成立則 block。id/query 為 `gte-sm`/gte('sm')、`lt-sm`/lt('sm')、`only-md`/only('md')、`between-sm-md`/between('sm','md')；各自 `data-testid="breakpoint-${id}"`。這是可操作範例，不是隱藏測試 UI。
-- `pages/styled-system/responsive-values/index.page.mdx` 改表格與 generated CSS 為新 rem thresholds，明確說明 array base-first：`[base, sm, md, lg, xl, 2xl]`。array 範例使用 `['100%', '75%', '50%', '33.333%', '25%', '20%']`，各位置由 base 開始依序對應這六個槽位；object 範例保留 `_` 作 base，改正其文字與 thresholds。
-- `pages/getting-started/the-sx-prop/using-media-queries.js` 在 provider 內用 `useTheme()` 與 gte('sm')／gte('md')／gte('lg') 產生 `sx` keys，保留原字級值。不改 raw useMediaQuery hook 或其 demo。
+- `pages/styled-system/responsive-values/index.page.mdx` 的表格與 generated CSS 使用新 rem thresholds，明確說明 array base-first：`[base, sm, md, lg, xl, 2xl]`。目前 array 範例為 `['25%', '50%', '75%', '100%', null, '100%']`，依序對應這六個槽位並示範跳過的值；object 範例以 `_` 作 base。
+- `pages/getting-started/the-sx-prop/using-media-queries.js` 在 provider 內用 `useTheme()` 與 gte('sm')／gte('md')／gte('lg') 產生 `sx` keys，保留原字級值。`useMediaQuery` hook API 不變；`pages/hooks/useMediaQuery/useMediaQuery.js` 的 demo 已更新為 `40/48/64/80/96rem` 的五個原生 media queries。
 - `pages/index.page.js` 的 maxWidth 使用 `{ md: '1024px', lg: '1280px', xl: '1680px' }`，保留三個既有 width 值。Grid templateColumns 使用 `{ _: '1fr', xl: '1fr 1fr' }`；flexDirection 以 `_`／`xl` 在 80rem 切換大版面（瀏覽器初始字級 16px 時為 1280px）。
-- `pages/getting-started/usage/components/FormulaOne.js` 保留大版面字級切換：使用具名 style props `{ _: 原 base 值, lg: 原大版面值 }`，行高使用 `lineHeight`。responsive-values 文件展示先前 `[base, xs, sm, md, lg, xl]` 遷移到具名 key 的例子：原 index 4 是 `lg`，現在也以 `lg` 指定；移除無條件匹配的 `xs` 槽位並將其值移至 base。不同於 [MUI `iterateBreakpoints`](https://github.com/mui/material-ui/blob/a55ec7da097cd9123335ed97e230b39151083ae0/packages/mui-system/src/breakpoints/breakpoints.ts)，Tonic 的 index 0 仍是 unconditional base。驗收此 demo 在 1023px 顯示 base 字級，1024px 才使用大版面字級（初始字級 16px）。
+- `pages/getting-started/usage/components/FormulaOne.js` 保留大版面字級切換：使用具名 style props `{ _: 原 base 值, lg: 原大版面值 }`，行高使用 `lineHeight`。responsive-values 文件另以範例展示先前 `[base, xs, sm, md, lg, xl]` 遷移到具名 key：原 index 4 是 `lg`，現在也以 `lg` 指定；移除無條件匹配的 `xs` 槽位並將其值移至 base。這是獨立的遷移範例，不是目前 FormulaOne 的實際 base 值。不同於 [MUI `iterateBreakpoints`](https://github.com/mui/material-ui/blob/a55ec7da097cd9123335ed97e230b39151083ae0/packages/mui-system/src/breakpoints/breakpoints.ts)，Tonic 的 index 0 仍是 unconditional base。現有 `packages/react-docs/test/e2e/pages/getting-started/usage.spec.mjs` 驗收此 demo 在 1023px 顯示 base 字級，1024px 才使用大版面字級（初始字級 16px）。
 
 修正 docs shell 使用 sm 作「所有尺寸 base」的地方：
 
@@ -148,7 +154,7 @@ fixtures 使用 `createBreakpoints({ values: { sm: 40, md: 52, lg: 64 }, unit: '
 - 單一標準 key `{ lg:600 }`、unit='px' 的 `only('lg')` → `@media (width >= 600px)`；非零首項 `{ sm:600, md:900 }`、unit='px' 的 `only('sm')` → `@media (600px <= width < 900px)`。array/null options 拋出約定 TypeError。非標準名稱（含 xs）的 values key 拋出 Unsupported breakpoint name TypeError；helper 不存在的 key 拋出 Unknown breakpoint RangeError，驗證不會加入其他命名或生成 invalid CSS。
 
 更新 theme 現有 createTheme.test.js 的兩處 breakpoint assertions，覆蓋 px/rem dimension-unit 引數、完整 values/keys、breakpoint unit='rem'，且沒有 numeric index、直接 alias 或 xs。對 standalone、React base、light、dark 的公開物件驗收：嘗試改寫 `values.md`、修改 `keys`、替換 `breakpoints` 均不能改變門檻；`values.md` 為 48，`gte('md')` 維持 48rem，mode 的 `get('breakpoints.values.md')` 維持 48。以 `createTheme(existingTheme, { breakpoints: { values: { md: 1000 }, unit: 'px' } })` 另建 theme 才會得到新的 1000px query；舊 theme 不變。改動原始輸入 map 也不得改變任一既有 theme。
-`packages/theme/src/__tests__/index.test.js` 的 default-export 測試目前以整個 theme 深比較；新 factory 每次建立新的 functions，不能比較 function identity。將兩邊解構成 breakpoints 與其他 tokens，其他 tokens 仍完整 toEqual；breakpoints 比較 values/keys/unit，並比較 gte('md') 的實際輸出。不修改既有 public export 名單，因為 factory 只從 utils/internal export。
+`packages/theme/src/__tests__/index.test.js` 的 default-export 測試已將 breakpoints 與其他 tokens 分開，其他 tokens 仍完整 toEqual；breakpoints 比較 values/keys/unit，並比較 gte('md') 的實際輸出，避免比較每次新建的 function identity。不修改既有 public export 名單，因為 factory 只從 utils/internal export。
 
 
 React `src/theme/__tests__/createTheme.test.js` 新增：
@@ -157,15 +163,15 @@ React `src/theme/__tests__/createTheme.test.js` 新增：
 - values override 整組替換且排序；用標準名稱的子集合 `{ '2xl':96, sm:40, lg:64 }`，確認不殘留 md/xl。
 - `createTheme(existingTheme, { breakpoints: { values: { sm:640, lg:1000 }, unit:'px' } })` 的 lt('lg') 為 `@media (width < 1000px)`，原 theme 不變，證明重建 closure 與明確覆寫 unit。另驗證只覆寫 values 時保留 inherited rem unit。
 - empty values 不回填；舊 array/null options 拒絕；cssVariables 無任何 --tonic-breakpoints 開頭 key，其他例如 --tonic-space-1x 繼續存在。
-- 用現有 render helper 的 default provider，render `<Box display={['block', 'inline', 'flex', 'grid', 'inline-block', 'none']} />`，檢查 base='block'，40rem='inline'、48rem='flex'、64rem='grid'、80rem='inline-block'、96rem='none' 六個 CSS rules。另 render 文件的 `only('md')` 範例，驗證 base 為 red、48rem–<64rem media rule 為 blue。custom theme 使用明確 TonicProvider wrapper。另用無 provider 的 `renderToString` 驗證普通 Box 的文字和基礎樣式正常；有 guard 的 callback 看到 `breakpoints` 缺省，只輸出 base 樣式，不產生 media rule。
+- 用現有 render helper 的 default provider，render `<Box display={['block', 'inline', 'flex', 'grid', 'inline-block', 'none']} />`，檢查 base='block'，40rem='inline'、48rem='flex'、64rem='grid'、80rem='inline-block'、96rem='none' 六個 CSS rules。另 render 文件的 `only('md')` 範例，驗證 base 為 red、48rem–<64rem media rule 為 blue。custom theme 使用明確 TonicProvider wrapper 的案例仍須涵蓋。無 provider 的 `renderToString` 驗收位於 `packages/react-base/src/box/__tests__/Box.ssr.test.js`：普通 Box 的文字和基礎樣式正常；有 guard 的 callback 看到 `breakpoints` 缺省，只輸出 base 樣式，不產生 media rule。
 
-`src/theme/__tests__/useTheme.test.js` 利用現有 createWrapper(colorMode, themeOverrides)，對 light/dark 使用標準名稱 fixture `{ values: { sm:0, md:40, xl:80 }, unit:'em' }`。驗證 gte('md') 為 `@media (width >= 40em)`、lt('md') 為 `@media (width < 40em)`、only('md') 為 `@media (40em <= width < 80em)`、between('sm','xl') 為 `@media (0em <= width < 80em)`。這涵蓋 resolveTheme/color-mode 傳遞，不另加只測 function identity 的 wiring test。
+`src/theme/__tests__/useTheme.test.js` 現有 `createWrapper(colorMode, themeOverrides)` 會先呼叫 `createTheme`，現有 light/dark 案例使用 `{ values: { sm: 40, lg: 80 }, unit: 'em' }`。仍須以標準名稱 fixture `{ values: { sm:0, md:40, xl:80 }, unit:'em' }` 驗證 gte('md') 為 `@media (width >= 40em)`、lt('md') 為 `@media (width < 40em)`、only('md') 為 `@media (40em <= width < 80em)`、between('sm','xl') 為 `@media (0em <= width < 80em)`。這涵蓋 resolveTheme/color-mode 傳遞，不另加只測 function identity 的 wiring test。
 
 styled-system 的 core parser/system 測試加入 custom sm=0 仍是 media query、object keys 亂序輸入仍正確排序、未知／xs key 不成為 base，並確認 2xl 是有效 key；sx 測試加入 array null skip、custom zero 與 custom unit 的 array 解譯，以及 helper computed nested media key。既有 named/numeric fixtures 依第3節遷移，不把 nested selector sx 測試改成尚未支援的 property-level named responsive object。
 
 ### 6. 讓 source-derived token inventory 隨新契約更新
 
-`plugins/tonic-ui-tokens/scripts/lib/source-theme.mjs` 的 `localRequire` 現在把 `@tonic-ui/utils/internal` 硬指向 `toCSSVariable.js`。改為 source-load `packages/utils/src/internal/index.js`，使用同一 loader 解析 barrel 內的相對 imports，讓 `createBreakpoints` 和其源檔 fingerprint 可用；不得讀取 dist 或依賴 build 順序。
+`plugins/tonic-ui-tokens/scripts/lib/source-theme.mjs` 實作前曾把 `@tonic-ui/utils/internal` 硬指向 `toCSSVariable.js`；目前已 source-load `packages/utils/src/internal/index.js`，並用同一 loader 解析 barrel 內的相對 imports，因此 `createBreakpoints` 與其源檔可納入 fingerprint，不讀取 dist 或依賴 build 順序。
 
 在該檔 `buildTokenInventory()` 投影 breakpoint runtime，讓 inventory 只收錄五個 numeric width records `breakpoints.values.{sm,md,lg,xl,2xl}`，數值依序為 40/48/64/80/96；px/rem dimension-unit variants 都是相同的 rem breakpoint scale。以獨立的 unit provenance 清楚標明這些數值的單位是 rem，不限制 provenance 的具體 metadata 形狀，也不把它當作另一個 breakpoint token。`resolveTheme()` 仍用未投影 runtime theme，確保 `theme.get('breakpoints.values.sm')` 能解析回 40。不收錄 `keys` 或 helpers，也不保留舊 `breakpoints.sm` 等 aliases；任何 breakpoint 都不產生 CSS custom property。
 
@@ -192,7 +198,7 @@ rtk yarn build-public
 rtk yarn workspace @tonic-ui/utils test --coverage=false --runTestsByPath src/internal/__tests__/createBreakpoints.test.js
 rtk yarn workspace @tonic-ui/theme test --coverage=false --runTestsByPath src/__tests__/createTheme.test.js src/__tests__/index.test.js
 rtk yarn workspace @tonic-ui/styled-system test --coverage=false --runTestsByPath src/core/__tests__/parser.test.js src/core/__tests__/system.test.js src/config/__tests__/layout.test.js src/config/__tests__/margin.test.js src/config/__tests__/padding.test.js src/config/__tests__/outline.test.js src/__tests__/sx.test.js
-rtk yarn workspace @tonic-ui/react-base test --coverage=false --runTestsByPath src/box/__tests__/Box.test.js
+rtk yarn workspace @tonic-ui/react-base test --coverage=false --runTestsByPath src/box/__tests__/Box.test.js src/box/__tests__/Box.ssr.test.js
 rtk yarn workspace @tonic-ui/react test --coverage=false --runTestsByPath src/theme/__tests__/createTheme.test.js src/theme/__tests__/useTheme.test.js
 rtk yarn workspace @tonic-ui/react test:types
 rtk node --test plugins/tonic-ui-tokens/scripts/__tests__/token-inventory.test.mjs
@@ -205,7 +211,7 @@ PLUGIN_BASE_REF=main VALIDATION_BRANCH=main VALIDATION_MCP=1 rtk yarn validate-a
 
 ### 真實瀏覽器邊界與視覺證據
 
-新增 `packages/react-docs/test/e2e/pages/theme/breakpoints.spec.mjs`，依現有 pages/index.mjs 自動成為 project `theme/breakpoints`、URL `/theme/breakpoints/`，不用新增 server/project config。測試用現有 docs 頁面與第4節 demo，不複製 fixture framework。tags 為 @docs、@media、@boundary。
+現有 `packages/react-docs/test/e2e/pages/theme/breakpoints.spec.mjs` 依 pages/index.mjs 自動成為 project `theme/breakpoints`、URL `/theme/breakpoints/`，不用新增 server/project config。測試用現有 docs 頁面與第4節 demo，不複製 fixture framework。tags 為 @docs、@media、@boundary。FormulaOne 的獨立驗收位於 project `getting-started/usage`，應一併執行。
 
 在同一次 page 載入後，使用瀏覽器初始字級 16px，依序 setViewportSize（height900），用 `#main` 內的 testids 驗證下列 helper visibility；visible 用 toBeVisible，其他用 toBeHidden，不用 sleeps／mock matchMedia。像素值是 rem 門檻在此測試設定下的換算：
 
@@ -226,7 +232,7 @@ PLUGIN_BASE_REF=main VALIDATION_BRANCH=main VALIDATION_MCP=1 rtk yarn validate-a
 在 768 與 1024 各加入一次 root `test/e2e/screenshots.mjs` 的 captureColorModes，scenario='breakpoints'，case 分別 'helpers-md-768'/'helpers-lg-1024'。prepare(colorMode) 透過實際 `[title="Toggle color mode"]` 控制切換並等待 html[data-color-scheme] 符合，設定 viewport、將 demo 捲入可見範圍並確認當前 range/helper 狀態。不得用 script 注入樣式或改 application state；不得直接 page.screenshot。
 
 ```bash
-E2E_SCREENSHOTS=1 rtk yarn test:e2e docs:pages --project theme/breakpoints
+E2E_SCREENSHOTS=1 rtk yarn test:e2e docs:pages --project theme/breakpoints --project getting-started/usage
 ```
 
 runner 自行啟動 Next.js docs server（預設3129，衝突時設 E2E_PAGES_PORT 為空閒 port）。完成後讀取 `packages/react-docs/.e2e/screenshots/breakpoints/helpers-md-768/screenshot.light.png` 及 `helpers-lg-1024/screenshot.dark.png`，確認範例可見、窄螢幕 header/sidebar 無遮擋、文字與狀態符合測試。此為 actual surface proof，不以只測 helper 字串取代。
