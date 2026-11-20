@@ -14,12 +14,14 @@ const App = () => {
   const wideLayout = containerQueries.gte(14);
 
   return (
-    <Box sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '6x',
-      [breakpoints.gte('md')]: { flexDirection: 'row' },
-    }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '6x',
+        [breakpoints.gte('md')]: { flexDirection: 'row' },
+      }}
+    >
       {[['Sidebar', 192], ['Main area', 384]].map(([label, width]) => (
         <Box key={width} sx={{ width: `${width}px`, maxWidth: '100%', containerType: 'inline-size' }}>
           <Text sx={{ mb: '2x', fontSize: 'sm', fontWeight: 'semibold' }}>
