@@ -24,6 +24,7 @@ import CollapseFixture from './components/Collapse';
 import GrowFixture from './components/Grow';
 import InputControlFixture from './components/InputControl';
 import DateCalendarFixture from './components/DateCalendar';
+import ContainerQueriesFixture from './components/ContainerQueries';
 
 const params = new URLSearchParams(window.location.search);
 const component = params.get('component') || 'menu';
@@ -47,6 +48,7 @@ const fixtures = {
   grow: GrowFixture,
   'input-control': InputControlFixture,
   'date-calendar': DateCalendarFixture,
+  'container-queries': ContainerQueriesFixture,
 };
 
 const FixturePage = () => {

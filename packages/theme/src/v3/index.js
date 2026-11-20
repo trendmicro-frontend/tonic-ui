@@ -1,4 +1,4 @@
-import { createBreakpoints } from '@tonic-ui/utils/internal';
+import { createBreakpoints, createContainerQueries } from '@tonic-ui/utils/internal';
 import createV2Theme from '../v2';
 import { createPrimitiveTokens } from './primitive';
 import { createSemanticTokens } from './semantic';
@@ -12,6 +12,7 @@ const createTheme = (unit = 'rem') => {
   const deprecatedTheme = createV2Theme(unit);
   const primitiveTokens = createPrimitiveTokens(unit);
   const semanticTokens = createSemanticTokens(unit);
+  const breakpoints = createBreakpoints({ values: primitiveTokens.breakpoints, unit: 'rem' });
 
   // Merge strategy: deprecated provides base, primitive overrides conflicts
   // This way primitive tokens naturally override deprecated tokens with same names
@@ -41,7 +42,8 @@ const createTheme = (unit = 'rem') => {
       ...deprecatedTheme.radii,
       ...primitiveTokens.radii,
     },
-    breakpoints: createBreakpoints({ values: primitiveTokens.breakpoints, unit: 'rem' }),
+    breakpoints,
+    containerQueries: createContainerQueries(breakpoints),
     lineHeights: {
       ...deprecatedTheme.lineHeights,
       ...primitiveTokens.lineHeights,

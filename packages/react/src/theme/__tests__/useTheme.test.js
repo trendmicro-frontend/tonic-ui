@@ -26,6 +26,24 @@ describe('useTheme', () => {
     expect(breakpoints.between(0, 'lg')).toBe('@media (0em <= width < 80em)');
   });
 
+  it.each([
+    ['light', false],
+    ['light', true],
+    ['dark', false],
+    ['dark', true],
+  ])('uses effective container widths in %s mode (prebuilt theme: %s)', (colorMode, prebuilt) => {
+    const options = { breakpoints: { values: { sm: 30, md: 50 }, unit: 'rem' } };
+    const theme = prebuilt ? createTheme(options) : options;
+    const { result } = renderHook(() => useTheme(), {
+      wrapper: ({ children }) => (
+        <TonicProvider theme={theme} colorMode={{ value: colorMode }}>
+          {children}
+        </TonicProvider>
+      ),
+    });
+    expect(result.current.containerQueries('sidebar').only('sm')).toBe('@container sidebar (30rem <= width < 50rem)');
+  });
+
   it('should resolve _dark tokens when color mode is dark', () => {
     const { result } = renderHook(() => useTheme(), {
       wrapper: createWrapper('dark'),

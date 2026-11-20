@@ -578,6 +578,19 @@ test('should pass', () => {
   });
 });
 
+it('keeps authored container rule order and merges matching rules in sx composition', () => {
+  const wide = '@container sidebar (width >= 48rem)';
+  const narrow = '@container sidebar (width >= 40rem)';
+  const base = { [wide]: { width: '50%', color: 'red' }, [narrow]: { width: '75%' } };
+
+  expect(sx(base)({})).toEqual(base);
+  expect(Object.keys(sx(base)({}))).toEqual([wide, narrow]);
+  expect(sx([base, { [wide]: { width: '25%' } }])({})).toEqual({
+    [wide]: { width: '25%', color: 'red' },
+    [narrow]: { width: '75%' },
+  });
+});
+
 describe('responsive values', () => {
   const breakpoints = createBreakpoints({
     values: { sm: 40, md: 48, lg: 64, xl: 80, '2xl': 96 },

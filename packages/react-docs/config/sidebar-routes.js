@@ -596,6 +596,7 @@ export const routes = [
     ),
     routes: [
       { title: 'Getting started', path: 'theme' },
+      { title: 'Container queries', path: 'theme/container-queries' },
 
       { title: 'DESIGN TOKENS', heading: true },
       { title: 'borders', path: 'theme/borders' },

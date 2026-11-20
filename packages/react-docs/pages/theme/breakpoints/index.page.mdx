@@ -77,7 +77,7 @@ breakpoints.only('md');          // '@media (48rem <= width < 64rem)'
 
 To use the same style on both sides of a range, set it as the base style and override it inside the range with `only()` or `between()`, as in the example above. If a rule must match only outside a range, write a native CSS query directly, such as `@media not (48rem <= width < 64rem)`.
 
-For container widths, use the same CSS syntax with `@container`. For example, `@container sidebar not (40rem <= width < 48rem)` styles descendants when the named `sidebar` container is outside that range.
+For container widths, see [Container queries](../container-queries). You can also write native CSS rules such as `@container sidebar not (40rem <= width < 48rem)` to style descendants when the named `sidebar` container is outside that range.
 
 Responsive style props accept breakpoint objects. In `sx`, use the helpers as media query keys. If an exception must override a matching rule regardless of order, use `&&` on just the declaration that needs higher selector specificity, for example `sx={{ '&&': { width: '50%' } }}`.
 

@@ -258,6 +258,9 @@ describe('plugins/tonic-ui-tokens / Lookup and inventory generation', () => {
       const checked = run(generator, ['--output', file, '--check']);
       assert.equal(checked.status, 0, checked.stderr);
       const data = JSON.parse(readFileSync(file, 'utf8'));
+      assert.deepEqual(data.tokens, readAsset('tokens.json').tokens, 'Generated token records must match the bundled snapshot');
+      assert.ok(!data.tokens.some((entry) => entry.path.startsWith('containerQueries') ||
+        entry.cssVariable?.startsWith('--tonic-containerQueries')));
       const breakpoints = data.tokens.filter((entry) => entry.path === 'breakpoints' || entry.path.startsWith('breakpoints.'));
       assert.deepEqual(breakpoints.map((entry) => entry.path), [
         'breakpoints.values.2xl',
@@ -278,6 +281,7 @@ describe('plugins/tonic-ui-tokens / Lookup and inventory generation', () => {
       for (const file of [
         'packages/utils/src/internal/index.js',
         'packages/utils/src/internal/createBreakpoints.js',
+        'packages/utils/src/internal/createContainerQueries.js',
         'packages/utils/src/internal/resolveTheme.js',
         'packages/utils/src/assertion.js',
         'packages/utils/src/shared.js',

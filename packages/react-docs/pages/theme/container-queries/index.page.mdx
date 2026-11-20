@@ -1,0 +1,101 @@
+# Container queries
+
+Container queries style a descendant based on an ancestor container's width instead of the viewport width. The theme's container query helpers use the same scale and unit as [breakpoints](../breakpoints), including inclusive lower and exclusive upper boundaries.
+
+The default breakpoint names are `sm`, `md`, `lg`, `xl`, and `2xl`. `xs` is not a breakpoint.
+
+## Usage
+
+This example uses two rules at the same time. Resize the browser to see what each rule controls:
+
+- **Viewport:** `breakpoints.gte('md')` puts the sidebar and main area side by side at `48rem` (`768px` with a `16px` initial font size). Below that, they stack.
+- **Container:** `containerQueries.gte(14)` gives each gallery three columns when its own container reaches `14rem` (`224px` with a `16px` root font size). The sidebar stays at one column even when both galleries are side by side.
+
+{render('./usage')}
+
+Inside a `TonicProvider`, apply the breakpoint to the outer layout. Set `containerType: 'inline-size'` on each gallery container and apply the container query to the grid inside it.
+
+```jsx
+import { Box, useTheme } from '@tonic-ui/react';
+
+function PhotoGrid({ width, children }) {
+  const { containerQueries } = useTheme();
+
+  return (
+    <Box sx={{ width, maxWidth: '100%', containerType: 'inline-size' }}>
+      <Box sx={{
+        display: 'grid',
+        gridTemplateColumns: '1fr',
+        gap: '2x',
+        [containerQueries.gte(14)]: { gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' },
+      }}>
+        {children}
+      </Box>
+    </Box>
+  );
+}
+
+function GalleryLayout({ photos }) {
+  const { breakpoints } = useTheme();
+
+  return (
+    <Box sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '6x',
+      [breakpoints.gte('md')]: { flexDirection: 'row' },
+    }}>
+      <PhotoGrid width="192px">{photos}</PhotoGrid>
+      <PhotoGrid width="384px">{photos}</PhotoGrid>
+    </Box>
+  );
+}
+```
+
+The helpers produce explicit nested keys for `sx` or `__sx`, not property-level breakpoint objects. You can still use a whole-`sx` or `__sx` composition array to combine objects containing container rules. Rules follow normal CSS cascade order; the helpers do not sort them.
+
+If you use a `Box` theme callback instead of `useTheme()`, guard `theme.containerQueries` before calling it. A `Box` can also render without a provider.
+
+## Named containers
+
+An unnamed query measures the nearest ancestor that supports width queries. To measure a specific ancestor instead, set `containerName: 'gallery'` on that ancestor alongside `containerType: 'inline-size'`, and use `containerQueries('gallery').gte(14)` as an `sx` key on the descendant.
+
+## Customizing container queries
+
+Configure [breakpoints](../breakpoints) with `createTheme()` to change the shared widths or unit. There is no separate container query scale.
+
+```jsx
+import { createTheme } from '@tonic-ui/react';
+
+const theme = createTheme({
+  breakpoints: {
+    values: { sm: 30, md: 50 },
+    unit: 'rem',
+  },
+});
+
+theme.containerQueries('sidebar').only('sm');
+// '@container sidebar (30rem <= width < 50rem)'
+```
+
+For a style that applies on both sides of a range, use it as the base style and override it within the range with `only()` or `between()`. To match only outside a range, use native CSS directly as an `sx` key:
+
+```jsx
+<Box sx={{ '@container sidebar not (40rem <= width < 48rem)': { display: 'flex' } }} />
+```
+
+Raw `@container` rules do not require a helper.
+
+## API
+
+The callable `theme.containerQueries` exposes `gte`, `lt`, `between`, and `only` directly for unnamed queries, or on the object returned by `theme.containerQueries(name)` for named queries. With the default theme:
+
+| Call | Result |
+| :--- | :--- |
+| `containerQueries.gte('sm')` | `@container (width >= 40rem)` |
+| `containerQueries.lt('md')` | `@container (width < 48rem)` |
+| `containerQueries.between('sm', 'lg')` | `@container (40rem <= width < 64rem)` |
+| `containerQueries.only('md')` | `@container (48rem <= width < 64rem)` |
+| `containerQueries('sidebar').gte(18.75)` | `@container sidebar (width >= 18.75rem)` |
+
+`gte`, `lt`, and `between` accept configured breakpoint names or numeric widths in the configured breakpoint unit. With the default `rem` unit, `18.75` means `18.75rem`, or `300px` when the root font size is `16px`. Raw length strings such as `'300px'` are not supported. `only` accepts a configured breakpoint name and ends before the next breakpoint, or has no upper bound for the last name. Unknown or unconfigured names throw. See [breakpoints](../breakpoints) for the available names and configuration.

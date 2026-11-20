@@ -433,6 +433,7 @@ describe('v4 theme (default)', () => {
       expect(Reflect.set(breakpoints.values, 'md', 1)).toBe(false);
       expect(Reflect.set(breakpoints.keys, 0, 'xl')).toBe(false);
       expect(breakpoints.gte('md')).toBe('@media (width >= 48rem)');
+      expect(theme.containerQueries.gte('sm')).toBe('@container (width >= 40rem)');
     });
 
     test('should include primitive zIndices - all layers', () => {

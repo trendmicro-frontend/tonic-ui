@@ -128,8 +128,8 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
   test('records the examples in both color modes', async ({ page }) => {
     await page.goto('./');
 
-    for (const [width, size] of [[767, 'sm'], [768, 'md'], [1024, 'lg']]) {
-      const scenario = CASES.find((entry) => entry.width === width);
+    for (const scenario of CASES.slice(1)) {
+      const { width, range: size } = scenario;
       await captureColorModes(page, 'breakpoints', `helpers-${size}-${width}`, async (colorMode) => {
         await page.setViewportSize({ width, height: 900 });
         const root = page.locator('html');
@@ -147,7 +147,7 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
         }
         await page.setViewportSize({ width, height: 900 });
         for (const id of ['breakpoint-composed-sx', 'breakpoint-explicit-sx', 'breakpoint-specificity-override']) {
-          await expect(page.getByTestId(id)).toHaveCSS('color', width < 768 ? secondary : primary);
+          await expect(page.getByTestId(id)).toHaveCSS('color', size === 'sm' ? secondary : primary);
         }
         if (width < 1024) {
           await expect.poll(() => page.locator('#sidenav').evaluate(element => {
@@ -160,7 +160,7 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
 
         const main = page.locator('#main');
         const range = main.getByTestId(`breakpoint-range-${scenario.range}`);
-        const helper = main.getByTestId(`breakpoint-${width === 768 ? 'only-md' : 'gte-sm'}`);
+        const helper = main.getByTestId(`breakpoint-${scenario.active.at(-1)}`);
         await helper.evaluate((element) => element.scrollIntoView({ block: 'center', behavior: 'instant' }));
         await expect(range).toBeInViewport();
         await expect(helper).toBeInViewport();

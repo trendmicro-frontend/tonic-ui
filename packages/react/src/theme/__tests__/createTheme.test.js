@@ -55,6 +55,25 @@ describe('createTheme', () => {
     expect(theme.breakpoints.gte('md')).toBe('@media (width >= 48rem)');
   });
 
+  it('derives container helpers from each immutable breakpoint snapshot', () => {
+    const original = createTheme({ containerQueries: { gte: 'ignored' } });
+    const extended = createTheme(original, { breakpoints: { values: { sm: 30, md: 50 }, unit: 'rem' } });
+    for (const [theme, min, max] of [[original, 40, 48], [extended, 30, 50]]) {
+      for (const variant of [theme, theme.toColorMode('light'), theme.toColorMode('dark')]) {
+        expect(Reflect.set(variant.breakpoints.values, 'sm', 1)).toBe(false);
+        expect(variant.breakpoints.gte('sm')).toBe(`@media (width >= ${min}rem)`);
+        expect(variant.containerQueries.gte('sm')).toBe(`@container (width >= ${min}rem)`);
+        expect(variant.containerQueries('sidebar').gte('sm')).toBe(`@container sidebar (width >= ${min}rem)`);
+        expect(variant.containerQueries('sidebar').only('sm')).toBe(`@container sidebar (${min}rem <= width < ${max}rem)`);
+      }
+      expect(Object.keys(theme.cssVariables).filter(key => /^--tonic-(?:breakpoints|containerQueries)/.test(key))).toEqual([]);
+      expect(theme.cssVariables['--tonic-space-1x']).toBeDefined();
+    }
+
+    const px = createTheme(extended, { breakpoints: { values: { sm: 320 }, unit: 'px' } });
+    expect(px.containerQueries('sidebar').between(300, 'sm')).toBe('@container sidebar (300px <= width < 320px)');
+  });
+
   it('keeps empty breakpoint scales, rejects legacy inputs and excludes breakpoint CSS variables', () => {
     const theme = createTheme({ breakpoints: { values: {} } });
     expect(theme.breakpoints.keys).toEqual([]);
