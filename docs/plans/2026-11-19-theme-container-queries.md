@@ -4,11 +4,13 @@
 
 Add CSS size-query helpers after [Phase 1: Breakpoints](./2026-11-19-theme-breakpoints.md) merges. The helpers let descendant layout respond to an ancestor container's available width rather than the viewport. Reuse the active theme's `sm/md/lg/xl/2xl` values, which default to `40/48/64/80/96rem` regardless of the theme's dimension-unit argument; use numeric widths in the configured breakpoint unit when content needs another threshold. `xs` is not a breakpoint. Provide only `gte`, `lt`, `between`, and `only`, directly and for named containers. Do not add a separate token scale, shorthand syntax, aliases, or a containment component.
 
+**Current status:** Phase 1 is implemented in draft PR #1249 but has not merged. This plan remains unimplemented; start from `main` only after that PR merges, and recheck its actual merged contract and release gates.
+
 ## Findings
 
 - [MUI's guide](https://next.mui.com/material-ui/customization/container-queries/) documents a callable `theme.containerQueries('sidebar')` with methods also available directly on `theme.containerQueries`. MUI's [`cssContainerQueries.ts` and tests](https://github.com/mui/material-ui/tree/master/packages/mui-system/src/cssContainerQueries) derive their methods from `theme.breakpoints`. This plan follows the shared-scale structure, but uses Phase 1's Tonic helper names and exact CSS range syntax instead of MUI's output.
 - Use Phase 1's scale for containers. Numeric widths cover narrower layouts without a separate scale, aliases, or shorthand.
-- Tonic `packages/styled-system/src/sx.js` passes unknown CSS declarations through and recursively resolves plain-object nested rules. `packages/react-base/src/box/Box.js` accepts a theme callback. The existing styling pipeline is suitable for explicit `@container` keys and `containerType`/`containerName`; do not introduce a wrapper component merely to set CSS containment.
+- Tonic `packages/styled-system/src/sx.js` passes unknown CSS declarations through and recursively resolves plain-object nested rules. `packages/react-base/src/box/index.js` accepts a theme callback. The existing styling pipeline is suitable for explicit `@container` keys and `containerType`/`containerName`; do not introduce a wrapper component merely to set CSS containment.
 - `packages/react/src/theme/createTheme.js` and `packages/theme/src/v3/index.js` assemble the two theme surfaces. The React theme must rebuild helpers from the effective options, before `resolveTheme()` creates its light/dark variants. Docs demos are inline and the docs Playwright runner discovers specs by route.
 
 ## Approach
@@ -54,7 +56,7 @@ In the docs, recommend a base style with an `only()` or `between()` override whe
 
 ### 4. Synchronize the source-derived token inventory
 
-Run `rtk node plugins/tonic-ui-tokens/scripts/generate-token-inventory.mjs` after source changes; compare the regenerated `tokens` array against the Phase 1 base and require identical records (no new container scale). Preserve unambiguous rem unit provenance for the numeric breakpoint widths and emit no breakpoint or container CSS custom properties. Source fingerprints change, so increment exactly the patch component of `plugins/tonic-ui-tokens/.claude-plugin/plugin.json` relative to the Phase 2 base and run `rtk node scripts/plugins/sync-plugin-marketplace-metadata.mjs --write`. Leave Figma snapshots and the relation ledger unchanged. Do not run the release updater, publish a plugin, or open a remote PR as part of implementation.
+With explicit authorization to regenerate the implementation inventory, run `rtk node plugins/tonic-ui-tokens/scripts/generate-token-inventory.mjs` after source changes; compare the regenerated `tokens` array against the Phase 1 base and require identical records (no new container scale). Preserve unambiguous rem unit provenance for the numeric breakpoint widths and emit no breakpoint or container CSS custom properties. Source fingerprints change; review the plugin delivery version and catalog against the Phase 2 base, and obtain separate authorization before any version bump or catalog sync. Leave Figma snapshots and the relation ledger unchanged. Do not run the release updater, publish a plugin, or open a remote PR as part of implementation.
 
 ## Verification
 

@@ -6,6 +6,8 @@
 預設直接呼叫 `createTheme()` 即取得上述五個斷點；在瀏覽器初始字級為 16px 時，分別相當於 640/768/1024/1280/1536px。公開斷點名稱限定 sm/md/lg/xl/2xl，不提供 mobile/tablet/laptop/desktop 等替代名稱；設定只使用 values/unit，不提供 `step`。文件沿用現有 `/theme/breakpoints/` 頁面，參考 MUI 的分節方式，不另建重複頁面。
 Phase 1 是可單獨合併的 viewport breaking change；[Phase 2: Container Queries](./2026-11-19-theme-container-queries.md) 從合併 Phase 1 後的 `main` 開始，重用這裡的 runtime 斷點。不在 Phase 1 加 container API、shorthand 或占位程式。分拆不授權 commit、push 或建立遠端 PR。
 
+**目前狀態（PR #1249）**：Phase 1 已在 draft PR 實作並推送，尚未合併；以下 Findings 描述實作前的基線，不是目前檔案狀態。預設斷點、helper、文件與 token inventory 已更新；發布前仍須完成第 1 節的雙向套件相容性驗收。
+
 ## Findings
 
 - 官方規格：https://next.mui.com/material-ui/customization/breakpoints/。
@@ -123,8 +125,8 @@ fixtures 使用 `createBreakpoints({ values: { sm: 40, md: 52, lg: 64 }, unit: '
 - 新增 `pages/theme/breakpoints/media-queries.js`，並在同頁現有 Examples 區塊 render。用 Box/useTheme 展示四個 helper，具可見 query 名稱的 Box 預設 display:none，query 成立則 block。id/query 為 `gte-sm`/gte('sm')、`lt-sm`/lt('sm')、`only-md`/only('md')、`between-sm-md`/between('sm','md')；各自 `data-testid="breakpoint-${id}"`。這是可操作範例，不是隱藏測試 UI。
 - `pages/styled-system/responsive-values/index.page.mdx` 改表格與 generated CSS 為新 rem thresholds，明確說明 array base-first：`[base, sm, md, lg, xl, 2xl]`。array 範例使用 `['100%', '75%', '50%', '33.333%', '25%', '20%']`，各位置由 base 開始依序對應這六個槽位；object 範例保留 `_` 作 base，改正其文字與 thresholds。
 - `pages/getting-started/the-sx-prop/using-media-queries.js` 在 provider 內用 `useTheme()` 與 gte('sm')／gte('md')／gte('lg') 產生 `sx` keys，保留原字級值。不改 raw useMediaQuery hook 或其 demo。
-- `pages/index.page.js` 的 maxWidth 使用 `{ md: '1024px', lg: '1280px', '2xl': '1680px' }`，保留三個既有 width 值。Grid templateColumns 改 `{ _: '1fr', '2xl': '1fr 1fr' }`；flexDirection 以 `_`／`2xl` 保留 1536px（16px 初始字級）的大版面切換，更新註解為 96rem。
-- `pages/getting-started/usage/components/FormulaOne.js` 保留大版面字級切換：使用具名 style props `{ _: 原 base 值, lg: 原大版面值 }`，行高使用 `lineHeight`。在 responsive-values 文件附上從先前計畫 `[base, xs, sm, md, lg, xl]` 遷移的例子：原 index 3 是 `md`，現在是 `lg`；需要保留語意應使用具名 key，並依需求調整 48rem／64rem 新門檻。不同於 [MUI `iterateBreakpoints`](https://github.com/mui/material-ui/blob/a55ec7da097cd9123335ed97e230b39151083ae0/packages/mui-system/src/breakpoints/breakpoints.ts)，Tonic 的 index 0 仍是 unconditional base。驗收此 demo 在 1023px 顯示 base 字級，1024px 才使用大版面字級（初始字級 16px）。
+- `pages/index.page.js` 的 maxWidth 使用 `{ md: '1024px', lg: '1280px', xl: '1680px' }`，保留三個既有 width 值。Grid templateColumns 使用 `{ _: '1fr', xl: '1fr 1fr' }`；flexDirection 以 `_`／`xl` 在 80rem 切換大版面（瀏覽器初始字級 16px 時為 1280px）。
+- `pages/getting-started/usage/components/FormulaOne.js` 保留大版面字級切換：使用具名 style props `{ _: 原 base 值, lg: 原大版面值 }`，行高使用 `lineHeight`。responsive-values 文件展示先前 `[base, xs, sm, md, lg, xl]` 遷移到具名 key 的例子：原 index 4 是 `lg`，現在也以 `lg` 指定；移除無條件匹配的 `xs` 槽位並將其值移至 base。不同於 [MUI `iterateBreakpoints`](https://github.com/mui/material-ui/blob/a55ec7da097cd9123335ed97e230b39151083ae0/packages/mui-system/src/breakpoints/breakpoints.ts)，Tonic 的 index 0 仍是 unconditional base。驗收此 demo 在 1023px 顯示 base 字級，1024px 才使用大版面字級（初始字級 16px）。
 
 修正 docs shell 使用 sm 作「所有尺寸 base」的地方：
 
@@ -135,11 +137,13 @@ fixtures 使用 `createBreakpoints({ values: { sm: 40, md: 52, lg: 64 }, unit: '
 
 更新現行 v2 → v3 遷移指南的 v3 欄與遷移步驟，保留 v2 數值。不修改舊發布版本的文件、v2 token 定義或不相關固定像素尺寸。`xs`／`2xl` 字級值與 breakpoint 名稱分屬不同 scales，不可混淆。
 
+`Grid` 的 `gridGap`、`gridRowGap`、`gridColumnGap` 保留可用並發出 deprecation warning；推薦 `gap`、`rowGap`、`columnGap`。型別與文件保留舊名稱。codemod 對 deprecated props 提示人工檢查，並讓同組 modern gap props 保持 flat，以免移入 `sx` 後改變 CSS cascade；lint 提示 deprecated 而非不支援。
+
 ### 5. 消費者可觀察的回歸測試
 
 新增 `packages/utils/src/internal/__tests__/createBreakpoints.test.js`：
 
-- 使用完整預設 numeric map 與 unit='rem' 檢查本計畫精確輸出表；含 numeric `lt(18.75)` → `@media (width < 18.75rem)`、`between(40,48)` → `@media (40rem <= width < 48rem)`，以及標準 key 的 values sorting。另確認空 `createBreakpoints()` 的 unit 是 px，numeric `lt(500)` → `@media (width < 500px)`。
+- 使用完整預設 numeric map 與 unit='rem' 檢查 helper 輸出表及 numeric fractional boundaries；另確認空 `createBreakpoints()` 的 unit 是 px，numeric `gte(300)` → `@media (width >= 300px)`。
 - 使用標準名稱 `{ sm:0, md:40, xl:80 }`、unit='em'：lt('md') → `@media (width < 40em)`；only('md') → `@media (40em <= width < 80em)`。這只是隔離測試 unit 的 fixture，不建立另一套產品斷點命名。
 - 單一標準 key `{ lg:600 }`、unit='px' 的 `only('lg')` → `@media (width >= 600px)`；非零首項 `{ sm:600, md:900 }`、unit='px' 的 `only('sm')` → `@media (600px <= width < 900px)`。array/null options 拋出約定 TypeError。非標準名稱（含 xs）的 values key 拋出 Unsupported breakpoint name TypeError；helper 不存在的 key 拋出 Unknown breakpoint RangeError，驗證不會加入其他命名或生成 invalid CSS。
 
@@ -219,13 +223,13 @@ PLUGIN_BASE_REF=main VALIDATION_BRANCH=main VALIDATION_MCP=1 rtk yarn validate-a
 | 1535 | 是 | 否 | 否 | 否 | xl |
 | 1536 | 是 | 否 | 否 | 否 | 2xl |
 
-在 768 與 1024 各加入一次 root `test/e2e/screenshots.mjs` 的 captureColorModes，scenario='breakpoints'，case 分別 'helpers-768'/'helpers-1024'。prepare(colorMode) 透過實際 `[title="Toggle color mode"]` 控制切換並等待 html[data-color-scheme] 符合，設定 viewport、將 demo 捲入可見範圍並確認當前 range/helper 狀態。不得用 script 注入樣式或改 application state；不得直接 page.screenshot。
+在 768 與 1024 各加入一次 root `test/e2e/screenshots.mjs` 的 captureColorModes，scenario='breakpoints'，case 分別 'helpers-md-768'/'helpers-lg-1024'。prepare(colorMode) 透過實際 `[title="Toggle color mode"]` 控制切換並等待 html[data-color-scheme] 符合，設定 viewport、將 demo 捲入可見範圍並確認當前 range/helper 狀態。不得用 script 注入樣式或改 application state；不得直接 page.screenshot。
 
 ```bash
 E2E_SCREENSHOTS=1 rtk yarn test:e2e docs:pages --project theme/breakpoints
 ```
 
-runner 自行啟動 Next.js docs server（預設3129，衝突時設 E2E_PAGES_PORT 為空閒 port）。完成後讀取 `packages/react-docs/.e2e/screenshots/breakpoints/helpers-768/screenshot.light.png` 及 `helpers-1024/screenshot.dark.png`，確認範例可見、窄螢幕 header/sidebar 無遮擋、文字與狀態符合測試。此為 actual surface proof，不以只測 helper 字串取代。
+runner 自行啟動 Next.js docs server（預設3129，衝突時設 E2E_PAGES_PORT 為空閒 port）。完成後讀取 `packages/react-docs/.e2e/screenshots/breakpoints/helpers-md-768/screenshot.light.png` 及 `helpers-lg-1024/screenshot.dark.png`，確認範例可見、窄螢幕 header/sidebar 無遮擋、文字與狀態符合測試。此為 actual surface proof，不以只測 helper 字串取代。
 
 ## Assumptions & contingencies
 
