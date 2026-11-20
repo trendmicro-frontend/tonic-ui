@@ -6,29 +6,47 @@ The default breakpoint names are `sm`, `md`, `lg`, `xl`, and `2xl`. `xs` is not 
 
 ## Usage
 
-The same profile card stacks its avatar above the name in a narrow container and places them side by side in a wide container. Both cards are on the same page. The container width, not the window width, controls the layout.
+This example uses two rules at the same time. Resize the browser to see what each rule controls:
+
+- **Viewport:** `breakpoints.gte('md')` puts the sidebar and main area side by side at `48rem` (`768px` with a `16px` initial font size). Below that, they stack.
+- **Container:** `containerQueries.gte(14)` gives each gallery three columns when its own container reaches `14rem` (`224px` with a `16px` root font size). The sidebar stays at one column even when both galleries are side by side.
 
 {render('./usage')}
 
-Inside a `TonicProvider`, make the outer `Box` a query container with `containerType: 'inline-size'`. Use `containerQueries.gte(12)` as a key in the inner `Box` to switch to a row at `12rem` (`192px` with a `16px` root font size).
+Inside a `TonicProvider`, apply the breakpoint to the outer layout. Set `containerType: 'inline-size'` on each gallery container and apply the container query to the grid inside it.
 
 ```jsx
 import { Box, useTheme } from '@tonic-ui/react';
 
-function ProfileCard() {
+function PhotoGrid({ width, children }) {
   const { containerQueries } = useTheme();
 
   return (
-    <Box sx={{ containerType: 'inline-size' }}>
+    <Box sx={{ width, maxWidth: '100%', containerType: 'inline-size' }}>
       <Box sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '3x',
-        [containerQueries.gte(12)]: { flexDirection: 'row' },
+        display: 'grid',
+        gridTemplateColumns: '1fr',
+        gap: '2x',
+        [containerQueries.gte(14)]: { gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' },
       }}>
-        <Box aria-hidden="true">MC</Box>
-        <Box>Maya Chen</Box>
+        {children}
       </Box>
+    </Box>
+  );
+}
+
+function GalleryLayout({ photos }) {
+  const { breakpoints } = useTheme();
+
+  return (
+    <Box sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '6x',
+      [breakpoints.gte('md')]: { flexDirection: 'row' },
+    }}>
+      <PhotoGrid width="192px">{photos}</PhotoGrid>
+      <PhotoGrid width="384px">{photos}</PhotoGrid>
     </Box>
   );
 }
@@ -38,15 +56,9 @@ The helpers produce explicit nested keys for `sx` or `__sx`, not property-level 
 
 If you use a `Box` theme callback instead of `useTheme()`, guard `theme.containerQueries` before calling it. A `Box` can also render without a provider.
 
-## Named containment contexts
+## Named containers
 
-Call `containerQueries('sidebar')` to target the nearest eligible ancestor named `sidebar`. A name is a valid CSS container identifier without `@`, quotes, or selector syntax. Names select ancestors, not separate token sets. The same breakpoint scale applies to every name.
-
-Call the methods directly, as in `containerQueries.gte(18.75)`, to target the nearest eligible ancestor regardless of its name. In the example, the outer unnamed indicator measures the sidebar, while the inner unnamed indicator measures the nearer `200px` card container. The named `sidebar` query still measures the outer sidebar from inside the card.
-
-Use the width presets or enter a custom width to compare the two ancestors. With a `16px` root font size, the `lt()` indicator appears below `300px`, the `between()` indicator appears from `300px` to below `640px`, and the `only('sm')` indicator appears from `640px` to below `768px`.
-
-{render('./resizing')}
+An unnamed query measures the nearest ancestor that supports width queries. To measure a specific ancestor instead, set `containerName: 'gallery'` on that ancestor alongside `containerType: 'inline-size'`, and use `containerQueries('gallery').gte(14)` as an `sx` key on the descendant.
 
 ## Customizing container queries
 

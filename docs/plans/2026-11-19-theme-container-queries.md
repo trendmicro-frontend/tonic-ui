@@ -49,16 +49,15 @@ Local pack result: direct and named helpers work in an isolated consumer of the 
 
 ### 3. Document and exercise explicit `sx` usage
 
-Create `packages/react-docs/pages/theme/container-queries/index.page.mdx` with title `Container queries`, then `## Usage`, `## Named containment contexts`, `## Customizing container queries`, and `## API`. Link to `../breakpoints` for names, configuration, and inclusive lower and exclusive upper boundaries. Include the output table and numeric input rules; `18.75` uses the default rem unit and equals 300px when the relevant root font size is 16px. In a `TonicProvider` child, obtain `const { containerQueries } = useTheme()`. Put `sx={{ containerType: 'inline-size', containerName: 'sidebar' }}` on the ancestor and `sx={{ [containerQueries('sidebar').gte(18.75)]: { display: 'flex' } }}` on its descendant. Names select ancestors, not token sets. Raw `@container` rules need no helper; do not add `@sm`, `@300/sidebar`, property-level shorthand, or automatic sorting.
+The [Container queries guide](../../packages/react-docs/pages/theme/container-queries/index.page.mdx) introduces `containerType: 'inline-size'` and explicit `sx` rule keys before named containers. Link to Breakpoints for names, configuration, and boundary semantics. Names select ancestors, not token sets. Raw `@container` rules need no helper; do not add shorthand or automatic sorting.
 
 In the docs, recommend a base style with an `only()` or `between()` override when the same style applies on both sides of a range. When a rule must match only outside a range, show native CSS as an `sx` key: `@container sidebar not (40rem <= width < 48rem)`. Do not expose a `not()` helper.
 
 Container query helpers produce explicit nested rule keys for `sx` or `__sx`; they are not property-level breakpoint objects. A whole-`sx` or `__sx` composition array may still combine objects containing these rules.
 
 - Register `{ title: 'Container queries', path: 'theme/container-queries' }` in `packages/react-docs/config/sidebar-routes.js` after the Theme getting-started link and before `DESIGN TOKENS`. Add `[Container queries](./container-queries)` in the theme overview's References and `[Container queries](../container-queries)` in the Phase 1 breakpoints page's CSS media queries section. Add the matching `/theme/container-queries/` entry and classification to `packages/react-docs/pages/llms.txt` next to `theme/breakpoints`; the existing page coverage checker requires it.
-- Add inline demo `packages/react-docs/pages/theme/container-queries/resizing.js` and `{render('./resizing')}` under Usage. Label a Tonic `Input type="number"` with `TextLabel`: `Container width (px)`. Link `htmlFor` to its ID; use `step="any"`, min 200, max 900, initial value 299. Keep the entered text; only finite, nonempty, in-range input changes the applied width. A scrollable `Box` (`sx={{ overflowX: 'auto' }}`) contains `query-sidebar`, an inline-size container named `sidebar` with width `${width}px` and no horizontal padding or border. Its two children are an outer indicator (`query-unnamed-outer`) and a 200px inline-size container named `card` (`query-card-container`). Place the card and remaining indicators inside `card`.
-- Show one descendant `query-card` with `display: 'flex'`, default `flexDirection: 'column'`, and `theme.containerQueries('sidebar').gte(18.75)` switching to row. Render two child text blocks to make the layout difference visible. Add text indicators, default `display: 'none'` and shown on match: `query-unnamed` uses `theme.containerQueries.gte(18.75)` (closer width 200, remains hidden); `query-only-sm` uses `theme.containerQueries('sidebar').only('sm')`. Label the conditions and their units in the UI. These are real component styles, not simulated DOM state or injected test styles.
-- Use the same unnamed `gte(18.75)` rule on both `query-unnamed-outer` and `query-unnamed`. Label the outer indicator as measuring the sidebar and the inner indicator as measuring the card. The outer indicator changes with the input; the inner one does not. At a root font size of 16px, `18.75rem` is 300px and `only('sm')` is `[640px, 768px)`.
+- Usage renders the same six thumbnails in a 192px sidebar and a main area up to 384px wide. `breakpoints.gte('md')` changes the outer layout from stacked to side by side at `48rem`; `containerQueries.gte(14)` changes an individual grid from one to three columns at `14rem`.
+- Explain named containers in prose: set `containerName` on the ancestor and pass the same name to `containerQueries(name)` on the descendant. Keep the interactive gallery only in Usage; exercise nested container selection and query boundaries in the React browser fixture.
 
 ### 4. Synchronize the source-derived token inventory
 
@@ -93,29 +92,24 @@ PLUGIN_BASE_REF=main VALIDATION_BRANCH=main VALIDATION_MCP=1 rtk yarn validate-a
 
 ### Browser acceptance: change the container, not the viewport
 
-Add `packages/react-docs/test/e2e/pages/theme/container-queries.spec.mjs` (auto-discovered project `theme/container-queries`). Use the real docs page and the width input above. At constant viewport 1920×1000 with a computed root font size of 16px, navigate to `./`, locate the demo within `#main`, and fill the labeled spinbutton with each width. Assert the root font size and that `window.innerWidth` stays equal to its initial 1920 reading; use a retrying bounding-box width assertion to verify actual outer width (tolerance `0.001px`), and check that the nearer named box stays `200px` wide. Check `flex-direction` via `toHaveCSS`, and the indicators via `toBeVisible`/`toBeHidden`. Use representable fractional widths immediately below and above 300px, 640px, and 768px to verify the numeric cutoff and exact inclusive/exclusive `only('sm')` boundaries. No injected CSS, fake geometry, or sleeps.
+Use the real docs page to check the stacked and side-by-side layouts at 767px and 768px. Confirm the sidebar keeps one column and the main area keeps three across that viewport boundary and in the desktop and mobile captures. Use `packages/react/test/e2e/components/container-queries.spec.mjs` for nested container selection: hold the viewport at 1920×1000 with a 16px root font size, change the outer container width, and verify the inner container stays 200px wide. Then change the viewport while holding both containers fixed and verify that the query results do not change. No injected CSS, fake geometry, or sleeps.
 
-Assert both unnamed indicators exist before checking visibility: `toBeHidden()` alone also passes for a missing indicator.
+Assert each indicator's computed `display` so a missing indicator cannot pass as hidden.
 
 Chromium can match inclusive lower edges one layout unit (`1/64px`) early even with raw CSS. Test two units below those edges, the exact thresholds, and fractional widths above them. The helper still emits the exact range with no application-level offset.
 
-| Outer content width (px) | Card direction | Unnamed: sidebar child | Unnamed: card child | `only('sm')` |
-| ---: | --- | --- | --- | --- |
-| 299 | column | hidden | hidden | hidden |
-| 299.96875 | column | hidden | hidden | hidden |
-| 300 | row | visible | hidden | hidden |
-| 300.015625 | row | visible | hidden | hidden |
-| 639.96875 | row | visible | hidden | hidden |
-| 640 | row | visible | hidden | visible |
-| 640.015625 | row | visible | hidden | visible |
-| 767.984375 | row | visible | hidden | visible |
-| 768 | row | visible | hidden | hidden |
-| 768.015625 | row | visible | hidden | hidden |
+| Outer width (px) | Named `gte(18.75)` | Unnamed `gte(18.75)` | Active outer range |
+| --- | --- | --- | --- |
+| 299, 299.96875 | hidden | hidden | `lt(18.75)` |
+| 300, 300.015625, 639.96875 | visible | hidden | `between(18.75, 'sm')` |
+| 640, 640.015625, 767.984375 | visible | hidden | `only('sm')` |
+| 768, 768.015625 | visible | hidden | none |
 
-Run the existing Phase 1 breakpoint and `getting-started/usage` projects alongside the new project to protect viewport behavior. For screenshots use `test/e2e/screenshots.mjs` `captureColorModes` at 299 and 640 with scenario `container-queries`, cases `narrow` and `wide`; change color mode using the actual header `[title="Toggle color mode"]` and wait for `html[data-color-scheme]`, then set the width using the input and scroll the demo into view. Never call `page.screenshot` directly. Inspect the two width cases for the visible layout switch and non-overlapping controls.
+Keep running the Phase 1 breakpoint and `getting-started/usage` projects to protect viewport behavior. Capture light and dark screenshots of the desktop and mobile Usage layouts with `captureColorModes`. Change mode with the real header control and wait for `html[data-color-scheme]`. Never call `page.screenshot` directly.
 
 ```sh
 E2E_SCREENSHOTS=1 rtk yarn test:e2e docs:pages --project theme/breakpoints --project getting-started/usage --project theme/container-queries
+rtk yarn test:e2e react --grep @container-queries
 ```
 
 ## Assumptions & contingencies
