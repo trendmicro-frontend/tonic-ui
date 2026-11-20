@@ -53,7 +53,7 @@ function ResponsiveBox() {
   const { breakpoints } = useTheme();
 
   return (
-    <Box sx={{ backgroundColor: 'red', [breakpoints.only('md')]: { backgroundColor: 'blue' } }} />
+    <Box sx={{ backgroundColor: 'background.low', [breakpoints.only('md')]: { backgroundColor: 'background.high' } }} />
   );
 }
 

@@ -18,6 +18,16 @@ const CASES = [
   { width: 1536, range: '2xl', active: ['gte-sm'] },
 ];
 
+const tokenColor = (page, token) => page.evaluate((name) => {
+  const value = getComputedStyle(document.documentElement).getPropertyValue(`--tonic-colors-text-${name}`).trim();
+  const probe = document.createElement('span');
+  probe.style.color = value;
+  document.body.appendChild(probe);
+  const color = getComputedStyle(probe).color;
+  probe.remove();
+  return color;
+}, token);
+
 const expectBreakpointState = async (page, { width, active, range }) => {
   const main = page.locator('#main');
   for (const helper of HELPERS) {
@@ -56,7 +66,8 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
       })).toBeCloseTo(ratio, 2);
     }
 
-    for (const [width, color, regularRatio] of [[640, 'rgb(0, 0, 255)', 0.5], [767, 'rgb(0, 0, 255)', 0.5], [768, 'rgb(255, 0, 0)', 1]]) {
+    for (const [width, token, regularRatio] of [[640, 'secondary', 0.5], [767, 'secondary', 0.5], [768, 'primary', 1]]) {
+      const color = await tokenColor(page, token);
       await page.setViewportSize({ width, height: 900 });
       for (const [id, ratio] of [['breakpoint-explicit-sx', regularRatio], ['breakpoint-specificity-override', 0.5]]) {
         const example = page.getByTestId(id);
@@ -117,7 +128,7 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
   test('records the examples in both color modes', async ({ page }) => {
     await page.goto('./');
 
-    for (const [width, size] of [[768, 'md'], [1024, 'lg']]) {
+    for (const [width, size] of [[767, 'sm'], [768, 'md'], [1024, 'lg']]) {
       const scenario = CASES.find((entry) => entry.width === width);
       await captureColorModes(page, 'breakpoints', `helpers-${size}-${width}`, async (colorMode) => {
         await page.setViewportSize({ width, height: 900 });
@@ -127,7 +138,18 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
           await page.locator('[title="Toggle color mode"]').click();
         }
         await expect(root).toHaveAttribute('data-color-scheme', colorMode);
-        if (width === 768) {
+        await page.setViewportSize({ width: 640, height: 900 });
+        const secondary = await tokenColor(page, 'secondary');
+        const primary = await tokenColor(page, 'primary');
+        expect(secondary).not.toBe(primary);
+        for (const id of ['breakpoint-composed-sx', 'breakpoint-explicit-sx', 'breakpoint-specificity-override']) {
+          await expect(page.getByTestId(id)).toHaveCSS('color', secondary);
+        }
+        await page.setViewportSize({ width, height: 900 });
+        for (const id of ['breakpoint-composed-sx', 'breakpoint-explicit-sx', 'breakpoint-specificity-override']) {
+          await expect(page.getByTestId(id)).toHaveCSS('color', width < 768 ? secondary : primary);
+        }
+        if (width < 1024) {
           await expect.poll(() => page.locator('#sidenav').evaluate(element => {
             const style = getComputedStyle(element);
             const borders = parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
