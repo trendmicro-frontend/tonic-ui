@@ -1,5 +1,5 @@
 import React, { createRef, useRef } from 'react';
-import { Box } from '@tonic-ui/react';
+import { Box, TonicProvider, useTheme } from '@tonic-ui/react';
 
 <Box
   sx={({ breakpoints }) => {
@@ -13,6 +13,36 @@ import { Box } from '@tonic-ui/react';
     return { display: 'block' };
   }}
 />;
+
+function ContainerExample() {
+  const { containerQueries } = useTheme();
+  return (
+    <Box sx={{ containerType: 'inline-size', containerName: 'sidebar' }}>
+      <Box sx={{ [containerQueries('sidebar').gte(18.75)]: { display: 'flex' } }} />
+      <Box
+        sx={[
+          { display: 'block' },
+          (theme) => {
+            // @ts-expect-error JSX cannot infer a theme provider for this callback.
+            theme.containerQueries.gte('sm');
+            if (theme.containerQueries) {
+              // @ts-expect-error Unknown breakpoint name.
+              theme.containerQueries.gte('mobile');
+              // @ts-expect-error Numeric widths cannot include a unit.
+              theme.containerQueries.gte('300px');
+              // @ts-expect-error only accepts a configured key.
+              theme.containerQueries.only(300);
+              return { [theme.containerQueries.gte('sm')]: { display: 'flex' } };
+            }
+            return {};
+          },
+        ]}
+      />
+    </Box>
+  );
+}
+
+<TonicProvider><ContainerExample /></TonicProvider>;
 
 // === Box ===
 <Box>Content</Box>;

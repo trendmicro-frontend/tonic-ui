@@ -6,7 +6,7 @@ Add CSS size-query helpers after [Phase 1: Breakpoints](./2026-11-19-theme-break
 
 Phase 1 removes responsive style value arrays. Flat style props use named breakpoint objects with `_` for the base; `sx` and `__sx` use explicit viewport media query keys. Arrays passed to `sx` or `__sx` themselves still compose style objects. Apply the same explicit-key pattern to container queries rather than adding property-level responsive syntax.
 
-**Current status:** Phase 1 has a draft PR #1249 that has not merged; its linked plan includes the subsequently approved responsive-value cutover. This plan remains unimplemented; start from `main` only after Phase 1 merges, and recheck its actual merged contract and release gates.
+**Current status:** Phase 1 merged in [PR #1249](https://github.com/trendmicro-frontend/tonic-ui/pull/1249). Phase 2 is implemented on a separate branch. Release remains blocked: the current packed dependency floors allow published artifacts without the new helpers, and the old renderer's ranges can accept later incompatible themes. Verify the actual versioned release artifacts against both dependency directions before publishing.
 
 ## Findings
 
@@ -44,6 +44,8 @@ Create `packages/utils/src/internal/createContainerQueries.js` and re-export `cr
 - Check the packed manifests against this phase’s release plan. Theme and React must each require a utils release that exports `createContainerQueries`. Inspect react-base’s emitted Box `.d.ts`: if it references that factory, react-base itself must declare a non-dev dependency on utils with the same minimum capability. A newer utils resolved by React does not satisfy a separate copy resolved by react-base.
 - React’s minimum theme and react-base versions must provide the callable API and typed Box callback. In an isolated consumer of the packed artifacts, resolve each dependency at its lowest permitted version without workspace links, hoisting assumptions, or source aliases. Compile the public Box example with `skipLibCheck: false`, then evaluate the direct and named helpers. Do not publish as part of this check.
 - Keep Phase 1's reverse-compatibility release gate: check the actual theme/renderer candidates against dependency ranges in already-published consumers of the old breakpoint array contract. If a mixed incompatible graph still resolves, block release. Consumers must also migrate removed responsive style value arrays; the named helper smoke test on an all-new graph does not cover either case.
+
+Local pack result: direct and named helpers work in an isolated consumer of the new workspace tarballs. The strict declaration check (`skipLibCheck: false`) fails with duplicate `StyleProps` and `ThemeScales` identifiers and unresolved `Locale`. The current packed React, Theme, and React Base still allow `@tonic-ui/utils@3.0.0-alpha.1`, whose published artifact lacks the factory. The all-new pack smoke test does not validate those published floors.
 
 ### 3. Document and exercise explicit `sx` usage
 
@@ -95,13 +97,15 @@ Add `packages/react-docs/test/e2e/pages/theme/container-queries.spec.mjs` (auto-
 
 Assert both unnamed indicators exist before checking visibility: `toBeHidden()` alone also passes for a missing indicator.
 
+Chromium can match inclusive lower edges one layout unit (`1/64px`) early even with raw CSS. Test two units below those edges, the exact thresholds, and fractional widths above them. The helper still emits the exact range with no application-level offset.
+
 | Outer content width (px) | Card direction | Unnamed: sidebar child | Unnamed: card child | `only('sm')` |
 | ---: | --- | --- | --- | --- |
 | 299 | column | hidden | hidden | hidden |
-| 299.984375 | column | hidden | hidden | hidden |
+| 299.96875 | column | hidden | hidden | hidden |
 | 300 | row | visible | hidden | hidden |
 | 300.015625 | row | visible | hidden | hidden |
-| 639.984375 | row | visible | hidden | hidden |
+| 639.96875 | row | visible | hidden | hidden |
 | 640 | row | visible | hidden | visible |
 | 640.015625 | row | visible | hidden | visible |
 | 767.984375 | row | visible | hidden | visible |

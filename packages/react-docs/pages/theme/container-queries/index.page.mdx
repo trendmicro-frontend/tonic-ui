@@ -1,0 +1,90 @@
+# Container queries
+
+Container queries style a descendant based on an ancestor container's width instead of the viewport width. The theme's container query helpers use the same scale and unit as [breakpoints](../breakpoints), including inclusive lower and exclusive upper boundaries.
+
+The default breakpoint names are `sm`, `md`, `lg`, `xl`, and `2xl`. `xs` is not a breakpoint.
+
+## Usage
+
+Inside a `TonicProvider`, get `containerQueries` with `useTheme()`. Set `containerType: 'inline-size'` on an ancestor, then use a query as an explicit nested rule key in a descendant's `sx`.
+
+```jsx
+import { Box, createTheme, TonicProvider, useTheme } from '@tonic-ui/react';
+
+const theme = createTheme();
+
+function SidebarCard() {
+  const { containerQueries } = useTheme();
+
+  return (
+    <Box sx={{ containerType: 'inline-size', containerName: 'sidebar' }}>
+      <Box sx={{ [containerQueries('sidebar').gte(18.75)]: { display: 'flex' } }}>
+        <Box>First item</Box>
+        <Box>Second item</Box>
+      </Box>
+    </Box>
+  );
+}
+
+function App() {
+  return (
+    <TonicProvider theme={theme}>
+      <SidebarCard />
+    </TonicProvider>
+  );
+}
+```
+
+Change the container width to see the card switch from a column to a row. With a `16px` root font size, `18.75rem` equals `300px`, and the default `sm` range is from `640px` inclusive to `768px` exclusive.
+
+{render('./resizing')}
+
+The helpers produce explicit nested keys for `sx` or `__sx`, not property-level breakpoint objects. You can still use a whole-`sx` or `__sx` composition array to combine objects containing container rules. Rules follow normal CSS cascade order; the helpers do not sort them.
+
+If you use a `Box` theme callback instead of `useTheme()`, guard `theme.containerQueries` before calling it. A `Box` can also render without a provider.
+
+## Named containment contexts
+
+Call `containerQueries('sidebar')` to target the nearest eligible ancestor named `sidebar`. A name is a valid CSS container identifier without `@`, quotes, or selector syntax. Names select ancestors, not separate token sets. The same breakpoint scale applies to every name.
+
+Call the methods directly, as in `containerQueries.gte(18.75)`, to target the nearest eligible ancestor regardless of its name. In the example, the outer unnamed indicator measures the sidebar, while the inner unnamed indicator measures the nearer `200px` card container. The named `sidebar` query still measures the outer sidebar from inside the card.
+
+## Customizing container queries
+
+Configure [breakpoints](../breakpoints) with `createTheme()` to change the shared widths or unit. There is no separate container query scale.
+
+```jsx
+import { createTheme } from '@tonic-ui/react';
+
+const theme = createTheme({
+  breakpoints: {
+    values: { sm: 30, md: 50 },
+    unit: 'rem',
+  },
+});
+
+theme.containerQueries('sidebar').only('sm');
+// '@container sidebar (30rem <= width < 50rem)'
+```
+
+For a style that applies on both sides of a range, use it as the base style and override it within the range with `only()` or `between()`. To match only outside a range, use native CSS directly as an `sx` key:
+
+```jsx
+<Box sx={{ '@container sidebar not (40rem <= width < 48rem)': { display: 'flex' } }} />
+```
+
+Raw `@container` rules do not require a helper.
+
+## API
+
+The callable `theme.containerQueries` exposes `gte`, `lt`, `between`, and `only` directly for unnamed queries, or on the object returned by `theme.containerQueries(name)` for named queries. With the default theme:
+
+| Call | Result |
+| :--- | :--- |
+| `containerQueries.gte('sm')` | `@container (width >= 40rem)` |
+| `containerQueries.lt('md')` | `@container (width < 48rem)` |
+| `containerQueries.between('sm', 'lg')` | `@container (40rem <= width < 64rem)` |
+| `containerQueries.only('md')` | `@container (48rem <= width < 64rem)` |
+| `containerQueries('sidebar').gte(18.75)` | `@container sidebar (width >= 18.75rem)` |
+
+`gte`, `lt`, and `between` accept configured breakpoint names or numeric widths in the configured breakpoint unit. With the default `rem` unit, `18.75` means `18.75rem`, or `300px` when the root font size is `16px`. Raw length strings such as `'300px'` are not supported. `only` accepts a configured breakpoint name and ends before the next breakpoint, or has no upper bound for the last name. Unknown or unconfigured names throw. See [breakpoints](../breakpoints) for the available names and configuration.

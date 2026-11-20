@@ -5,13 +5,15 @@ import { useTheme, Box, createTheme } from '@tonic-ui/react';
 function UseThemeColors() {
   const theme = useTheme();
   const query: string = theme.breakpoints.between('sm', 1000);
+  const directContainerQuery: string = theme.containerQueries.lt('md');
+  const namedContainerQuery: string = theme.containerQueries('sidebar').between(18.75, 'md');
   // @ts-expect-error No public negation helper.
   theme.breakpoints.not('md');
   // @ts-expect-error Cannot replace the breakpoint snapshot.
   theme.breakpoints = createTheme().breakpoints;
   return (
     <Box
-      sx={{ [query]: { display: 'block' } }}
+      sx={{ [query]: { display: 'block' }, [directContainerQuery]: { display: 'none' }, [namedContainerQuery]: { display: 'flex' } }}
       color={theme.colors.text.primary}
       backgroundColor={theme.colors.background.primary}
     >

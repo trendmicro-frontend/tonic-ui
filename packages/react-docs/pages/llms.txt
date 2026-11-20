@@ -369,6 +369,8 @@
 
 [breakpoints]({{PAGE_BASE}}/theme/breakpoints/): <classification>LLM should read this page when understanding and customizing breakpoint theme values, implementing responsive design, or working with media queries and viewport-based styling.</classification>
 
+[Container queries]({{PAGE_BASE}}/theme/container-queries/): <classification>LLM should read this page when styling descendants based on container width, using named or unnamed container queries, or customizing container thresholds through breakpoints.</classification>
+
 [colors]({{PAGE_BASE}}/theme/colors/): <classification>LLM should read this page when understanding and customizing color theme values, working with color palettes, or implementing consistent color schemes across the application.</classification>
 
 [fonts]({{PAGE_BASE}}/theme/fonts/): <classification>LLM should read this page when understanding and customizing font family theme values, working with typography design tokens, or implementing consistent font family styling across components using theme-based font definitions.</classification>

@@ -2,6 +2,8 @@ import { createTheme } from '@tonic-ui/react';
 
 const viewportTheme = createTheme();
 const viewportQuery: string = viewportTheme.breakpoints.only('md');
+const directContainerQuery: string = viewportTheme.containerQueries.gte('sm');
+const namedContainerQuery: string = viewportTheme.containerQueries('sidebar').only('md');
 createTheme({ breakpoints: { values: { sm: 0, md: 48 }, unit: 'em' } });
 createTheme(viewportTheme, { breakpoints: { values: { lg: 1000 }, unit: 'px' } });
 // @ts-expect-error There is no named base breakpoint.

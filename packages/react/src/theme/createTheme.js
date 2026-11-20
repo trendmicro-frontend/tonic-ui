@@ -1,6 +1,6 @@
 import tonicTheme from '@tonic-ui/theme';
 import { merge } from '@tonic-ui/utils';
-import { createBreakpoints, resolveTheme } from '@tonic-ui/utils/internal';
+import { createBreakpoints, createContainerQueries, resolveTheme } from '@tonic-ui/utils/internal';
 import { ensurePlainObject } from 'ensure-type';
 import { mapThemeToCSSVariables } from './utils/css-vars';
 import { TONIC_THEME } from './constants';
@@ -34,7 +34,7 @@ const defaultCSSVariableRootSelector = ':root';
  *
  * @param {CreateThemeOptions & ThemeOverrides} [options={}] - Theme configuration options.
  * @param {...ThemeOverrides} args - Additional theme objects to merge.
- * @returns {ThemeScales & { readonly breakpoints: ReturnType<typeof createBreakpoints>, cssVariablePrefix: string, cssVariables: ThemeScales, rootSelector: string }} The created theme object.
+ * @returns {ThemeScales & { readonly breakpoints: ReturnType<typeof createBreakpoints>, containerQueries: ReturnType<typeof createContainerQueries>, cssVariablePrefix: string, cssVariables: ThemeScales, rootSelector: string }} The created theme object.
  */
 const createTheme = (options = {}, ...args) => {
   const {
@@ -56,7 +56,7 @@ const createTheme = (options = {}, ...args) => {
 
   let { values, unit } = tonicTheme.breakpoints;
   /** @type {ThemeScales} */
-  let theme = Object.fromEntries(Object.entries(tonicTheme).filter(([key]) => key !== 'breakpoints'));
+  let theme = Object.fromEntries(Object.entries(tonicTheme).filter(([key]) => key !== 'breakpoints' && key !== 'containerQueries'));
   for (const { breakpoints, ...scales } of [rest, ...args]) {
     if (breakpoints !== undefined) {
       if (breakpoints === null || typeof breakpoints !== 'object' || Array.isArray(breakpoints)) {
@@ -69,11 +69,13 @@ const createTheme = (options = {}, ...args) => {
         unit = breakpoints.unit;
       }
     }
+    delete scales.containerQueries;
     theme = merge(theme, scales);
   }
 
   const breakpoints = createBreakpoints({ values, unit });
   theme.breakpoints = breakpoints;
+  theme.containerQueries = createContainerQueries(breakpoints);
 
   // Resolve token references (e.g., {colors.primary} → actual value)
   // Note: Preserves _dark/_light structure for color mode handling
