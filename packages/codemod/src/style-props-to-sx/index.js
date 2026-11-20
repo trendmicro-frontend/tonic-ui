@@ -47,9 +47,9 @@ import { system, pseudoClassSelector, pseudoElementSelector } from '@tonic-ui/st
  *      `Box` exactly as before. Kept as a `Set` (not deleted outright) so a
  *      future, unrelated reason to exempt a component doesn't require
  *      re-deriving this comment.
- *   2. `LAYER2_PROTECTED_PROPS` -- components with a specific prop that has
- *      real JS behavior beyond CSS, so moving it to `sx` would be a
- *      functional regression, not a style change (e.g. `Scrollbar`'s
+ *   2. `LAYER2_PROTECTED_PROPS` -- props whose component handles or ignores
+ *      them instead of forwarding them unchanged, so moving them to `sx`
+ *      could change behavior (e.g. `Scrollbar`'s
  *      `width`/`height`/`overflow`, which the component's own logic reads
  *      directly for scroll-threshold math; `Skeleton`'s `animation`, a
  *      `'pulse' | 'wave'` variant selector that happens to share a name with
@@ -77,6 +77,7 @@ const LAYER2_PROTECTED_PROPS = {
   Alert: new Set(['backgroundColor', 'borderColor', 'mb']),
   CircularProgress: new Set(['width', 'height', 'color']),
   DrawerContent: new Set(['margin', 'minHeight', 'minWidth', 'width']),
+  Grid: new Set(['gridGap', 'gridRowGap', 'gridColumnGap']),
   Highlight: new Set(['transform']),
   InputControl: new Set(['borderTopRightRadius', 'borderBottomRightRadius', 'width', 'borderTopLeftRadius', 'borderBottomLeftRadius']),
   LinearProgress: new Set(['color']),
@@ -406,14 +407,6 @@ function flagUnresolvedIfStyleLike(node, localName, allImports, styleNames, unre
   unresolvedReview.push(`${localName} (${locationHint}, could not verify where these props are forwarded): ${styleAttrNames.join(', ')}`);
 }
 
-function getCascadeGroup(name) {
-  // The browser treats legacy grid gaps as aliases of the modern gap properties.
-  if (name === 'gridGap' || name === 'gridRowGap' || name === 'gridColumnGap') {
-    return 'gap';
-  }
-  return system.config[name]?.group;
-}
-
 // The flat system parser treats objects as breakpoint maps; sx treats them as
 // nested rules. Without type information, a binding or call can return either.
 function canMoveSystemValue(j, expression) {
@@ -613,7 +606,7 @@ export default function transformer(file, api) {
       }
       if (system.config[attrName] && attr.value?.type === 'JSXExpressionContainer' &&
         !canMoveSystemValue(j, attr.value.expression)) {
-        responsiveGroups.add(getCascadeGroup(attrName));
+        responsiveGroups.add(system.config[attrName].group);
         manualReview.push(`${importedName}.${attrName} (may be a responsive object)`);
         continue;
       }
@@ -625,7 +618,7 @@ export default function transformer(file, api) {
       // The style group is a conservative boundary (e.g. margin, padding).
       toExtract = toExtract.filter((attr) => {
         const name = attr.name.name;
-        if (responsiveGroups.has(getCascadeGroup(name))) {
+        if (responsiveGroups.has(system.config[name]?.group)) {
           manualReview.push(`${importedName}.${name} (same style group as a possible responsive object)`);
           return false;
         }

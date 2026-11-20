@@ -80,20 +80,38 @@ describe('style-props-to-sx', () => {
   });
 
   it.each([
-    ['gridGap', 'gap'],
-    ['gridRowGap', 'gap'],
-    ['rowGap', 'gridGap'],
-    ['gridColumnGap', 'columnGap'],
-  ])('keeps %s flat when %s may set the same CSS gap', (arrayProp, mapProp) => {
+    ['Grid', 'rowGap', 'gap'],
+    ['Grid', 'columnGap', 'gap'],
+    ['Grid', 'gap', 'rowGap'],
+    ['Box', 'gridGap', 'gap'],
+    ['Box', 'rowGap', 'gridRowGap'],
+    ['Box', 'gridColumnGap', 'columnGap'],
+  ])('on %s, keeps %s flat when %s may set the same CSS gap', (component, arrayProp, mapProp) => {
     const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
     try {
       const gaps = `${arrayProp}={['4px', '8px']} ${mapProp}={{ _: '12px', sm: '16px' }}`;
-      const out = run(`import { Grid } from '@tonic-ui/react';\nconst App = () => <Grid ${gaps} color="red" />;`);
+      const out = run(`import { ${component} } from '@tonic-ui/react';\nconst App = () => <${component} ${gaps} color="red" />;`);
       expect(out).toContain(gaps);
       expect(out).toContain("sx={{ color: 'red' }}");
     } finally {
       warnSpy.mockRestore();
     }
+  });
+
+  it('does not activate unsupported Grid gap props by moving them into sx', () => {
+    const source = `import { Grid } from '@tonic-ui/react';
+const App = () => (
+  <Grid templateColumns="1fr 1fr" gap="4x" rowGap="2x" columnGap="3x" gridGap="8px" gridRowGap="12px" gridColumnGap="16px" />
+);`;
+    const out = run(source);
+    expect(out).toContain('templateColumns="1fr 1fr"');
+    expect(out).toContain('gridGap="8px"');
+    expect(out).toContain('gridRowGap="12px"');
+    expect(out).toContain('gridColumnGap="16px"');
+    expect(out).toContain("gap: '4x'");
+    expect(out).toContain("rowGap: '2x'");
+    expect(out).toContain("columnGap: '3x'");
+    expect(out).not.toMatch(/\b(?:gap|rowGap|columnGap)=/);
   });
 
   it('still migrates responsive arrays into an existing sx object', () => {

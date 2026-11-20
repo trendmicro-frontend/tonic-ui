@@ -1,16 +1,9 @@
+import { createBreakpoints } from '@tonic-ui/utils/internal';
+import system from '../../system';
 import grid from '../grid';
 
 test('returns grid styles', () => {
   const style = grid({
-    theme: {
-      sizes: {
-        '1x': '.25rem',
-        '2x': '.5rem',
-        '3x': '.75rem',
-        '4x': '1rem',
-      },
-    },
-
     gridArea: 'auto',
     gridAutoColumns: 'minmax(100px, auto)',
     gridAutoFlow: 'row',
@@ -28,11 +21,6 @@ test('returns grid styles', () => {
     gridTemplateAreas: '"a b b" "a c d"',
     gridTemplateColumns: 'minmax(100px, 1fr)',
     gridTemplateRows: 'minmax(100px, 1fr)',
-
-    // deprecated properties
-    gridGap: '1x', // `gridGap` is an alias for `gap`
-    gridColumnGap: '2x', // `gridColumnGap` is an alias for `columnGap`
-    gridRowGap: '4x', // `gridRowGap` is an alias for `rowGap`
   });
   expect(style).toEqual({
     gridArea: 'auto',
@@ -52,10 +40,23 @@ test('returns grid styles', () => {
     gridTemplateAreas: '"a b b" "a c d"',
     gridTemplateColumns: 'minmax(100px, 1fr)',
     gridTemplateRows: 'minmax(100px, 1fr)',
+  });
+});
 
-    // deprecated properties
-    gridGap: '.25rem',
-    gridColumnGap: '.5rem',
-    gridRowGap: '1rem',
+test('resolves legacy grid gap style props, including responsive size tokens', () => {
+  const style = system({
+    theme: {
+      breakpoints: createBreakpoints({ values: { sm: 600 } }),
+      sizes: { '2x': '.5rem', '3x': '.75rem', '4x': '1rem' },
+    },
+    gridGap: '2x',
+    gridRowGap: { _: '3x', sm: '4x' },
+    gridColumnGap: '12px',
+  });
+  expect(style).toEqual({
+    gridGap: '.5rem',
+    gridRowGap: '.75rem',
+    gridColumnGap: '12px',
+    '@media (min-width:600px)': { gridRowGap: '1rem' },
   });
 });

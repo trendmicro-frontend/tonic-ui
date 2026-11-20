@@ -4,6 +4,11 @@ const stylePropSet = new Set(stylePropNames);
 const documentedProps = new Map(
   Object.entries(documentedStyleProps).map(([componentName, props]) => [componentName, new Set(props)]),
 );
+const gridGapReplacements = new Map([
+  ['gridGap', 'gap'],
+  ['gridRowGap', 'rowGap'],
+  ['gridColumnGap', 'columnGap'],
+]);
 
 const getName = (node) => {
   return node.type === 'JSXIdentifier' ? node.name : undefined;
@@ -16,6 +21,7 @@ export const noFlatStyleProps = {
     schema: [],
     messages: {
       useSx: 'Use sx instead of the flat `{{prop}}` prop on <{{element}}>: <{{element}} sx={{ {{prop}}: … }}>.',
+      useModernGridGap: '<Grid> does not support the flat `{{prop}}` prop. Use `{{replacement}}` instead.',
     },
   },
   create(context) {
@@ -41,6 +47,14 @@ export const noFlatStyleProps = {
 
         if (/^[a-z]/.test(elementName)) {
           return; // DOM elements are covered by no-raw-html-elements
+        }
+
+        if (elementName === 'Grid') {
+          const replacement = gridGapReplacements.get(propName);
+          if (replacement !== undefined) {
+            context.report({ node, messageId: 'useModernGridGap', data: { prop: propName, replacement } });
+            return;
+          }
         }
 
         if (documentedProps.get(elementName)?.has(propName)) {

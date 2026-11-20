@@ -33,6 +33,19 @@ describe('Form Control ', () => {
     expect(screen.getByText(helperText)).toBeInTheDocument();
   });
 
+  it('preserves token-based gaps in the horizontal layout', () => {
+    render(
+      <FormControl data-testid="horizontal-form" orientation="horizontal">
+        <FormLabel>Username</FormLabel>
+        <FormInput />
+      </FormControl>
+    );
+
+    const form = screen.getByTestId('horizontal-form');
+    expect(form).toHaveStyleRule('row-gap', 'var(--tonic-sizes-1x)');
+    expect(form).toHaveStyleRule('column-gap', 'var(--tonic-sizes-3x)');
+  });
+
   describe('Form Label', () => {
     it('displays required indicator', () => {
       // Arrange

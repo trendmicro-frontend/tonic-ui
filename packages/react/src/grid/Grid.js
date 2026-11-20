@@ -8,13 +8,10 @@ import { useDefaultProps } from '../default-props';
  */
 
 /**
- * @type {ForwardRefComponent<'div', GridProps>}
+ * @type {ForwardRefComponent<'div', GridProps & Partial<Record<'gridGap' | 'gridRowGap' | 'gridColumnGap', never>>>}
  */
 const Grid = forwardRef((inProps, ref) => {
   const {
-    gap,
-    rowGap,
-    columnGap,
     column,
     row,
     area,
@@ -27,13 +24,15 @@ const Grid = forwardRef((inProps, ref) => {
     ...rest
   } = useDefaultProps({ props: inProps, name: 'Grid' });
 
+  // These legacy names are supported by styled-system, not by Grid's flat props.
+  delete rest.gridGap;
+  delete rest.gridRowGap;
+  delete rest.gridColumnGap;
+
   return (
     <Box
       ref={ref}
       display="grid"
-      gridGap={gap}
-      gridRowGap={rowGap}
-      gridColumnGap={columnGap}
       gridColumn={column}
       gridRow={row}
       gridArea={area}

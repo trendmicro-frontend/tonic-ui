@@ -58,7 +58,9 @@ Converts flat style props and pseudo props (e.g. `width="8x"`, `_hover={{ ... }}
 
 A flat prop such as `width={{ _: '100%', lg: '50%' }}` uses breakpoint names. Moving that object into `sx.width` would turn the breakpoint names into nested CSS rules. The transform keeps the flat prop and reports it for manual review. It also keeps expressions whose value could be a breakpoint map, such as `width={props.width}`. Responsive array literals can still move to `sx`.
 
-If a possible breakpoint map stays flat, the transform keeps other props in the same CSS group flat. For example, moving only `w` alongside `width`, or `gridGap` alongside `gap`, can change which value wins because `sx` has higher priority. Unrelated props such as `color` can still move.
+Legacy `gridGap`, `gridRowGap`, and `gridColumnGap` props on `Grid` are reported for manual review, not moved to `sx`. Use `gap`, `rowGap`, and `columnGap` instead.
+
+If a possible breakpoint map stays flat, the transform keeps other props in the same CSS group flat. For example, moving only `w` alongside `width`, or `rowGap` alongside `gap`, can change which value wins because `sx` has higher priority. Unrelated props such as `color` can still move.
 
 ```diff
 -<Button variant="primary" width="8x" height="8x" borderRadius="circle">

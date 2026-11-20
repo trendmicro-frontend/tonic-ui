@@ -14,6 +14,7 @@ const ruleTester = new RuleTester({
 ruleTester.run('no-flat-style-props', plugin.rules['no-flat-style-props'], {
   valid: [
     { code: '<Box sx={{ p: "4x" }} />' },
+    { code: '<Grid sx={{ gap: "4x", rowGap: "2x", columnGap: "3x" }} />' },
     { code: '<Box />' },
     // Documented props of a real component are its public API, not style drift.
     { code: '<Scrollbar width={100} height={100} overflow="auto" />' },
@@ -36,6 +37,18 @@ ruleTester.run('no-flat-style-props', plugin.rules['no-flat-style-props'], {
     {
       code: '<Box p="4x" />',
       errors: [{ messageId: 'useSx', data: { prop: 'p', element: 'Box' } }],
+    },
+    {
+      code: '<Grid gridGap="4x" gridRowGap="2x" gridColumnGap="3x" />',
+      errors: [
+        { messageId: 'useModernGridGap', data: { prop: 'gridGap', replacement: 'gap' } },
+        { messageId: 'useModernGridGap', data: { prop: 'gridRowGap', replacement: 'rowGap' } },
+        { messageId: 'useModernGridGap', data: { prop: 'gridColumnGap', replacement: 'columnGap' } },
+      ],
+    },
+    {
+      code: '<Box gridGap="4x" />',
+      errors: [{ messageId: 'useSx', data: { prop: 'gridGap', element: 'Box' } }],
     },
     {
       code: '<Box width={100} />',
