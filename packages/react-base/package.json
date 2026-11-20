@@ -34,7 +34,8 @@
   },
   "dependencies": {
     "@emotion/is-prop-valid": "1.x",
-    "@tonic-ui/styled-system": "^3.0.0-alpha.1",
+    "@tonic-ui/styled-system": "workspace:^",
+    "@tonic-ui/utils": "workspace:^",
     "ensure-type": "^1.5.1"
   },
   "devDependencies": {
@@ -98,6 +99,10 @@
     "setupFilesAfterEnv": [
       "<rootDir>/jest-setup.js"
     ],
+    "moduleNameMapper": {
+      "^@tonic-ui/utils/internal$": "<rootDir>/../utils/src/internal/index.js",
+      "^@tonic-ui/utils$": "<rootDir>/../utils/src/index.js"
+    },
     "snapshotSerializers": [
       "@emotion/jest/serializer"
     ],

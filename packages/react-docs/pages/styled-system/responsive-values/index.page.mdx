@@ -1,57 +1,22 @@
 # Responsive values
 
-The responsive values rely on the [breakpoints](../../theme/breakpoints) defined in the theme configuration. The breakpoints are used to generate the media queries that make the theme responsive.
+Responsive values use the [breakpoints](../../theme/breakpoints) defined in the theme. Each breakpoint starts at its minimum viewport width.
 
-| Breakpoint | Media Query |
-| :--------- | :---------- |
-| `sm` | `@media screen and (min-width: 320px)` |
-| `md` | `@media screen and (min-width: 640px)` |
-| `lg` | `@media screen and (min-width: 1024px)` |
-| `xl` | `@media screen and (min-width: 1280px)` |
-| `2xl` | `@media screen and (min-width: 1680px)` |
+| Breakpoint | Minimum width | At 16px |
+| :--------- | :------------ | :------ |
+| `sm` | `40rem` | `640px` |
+| `md` | `48rem` | `768px` |
+| `lg` | `64rem` | `1024px` |
+| `xl` | `80rem` | `1280px` |
+| `2xl` | `96rem` | `1536px` |
 
-To use the responsive values, you can use either the array or object syntax.
+Pixel equivalents assume the browser's default initial font size of `16px`.
 
-## Array syntax
+Use a breakpoint object on a flat style prop. Responsive value arrays are no longer supported in style props or in individual `sx` or `__sx` declarations.
 
-Let's say you have a `Box` component that looks like this:
+## Breakpoint object syntax
 
-```jsx
-<Box backgroundColor="red.500" width="50%">
-  This is a box
-</Box>
-```
-
-To make the `width` responsive, you can use the array syntax as follows:
-
-```jsx
-<Box backgroundColor="red.500" width={["25%","50%","75%","100%"]}>
-  This is a box
-</Box>
-```
-
-Here is how to interpret the array syntax:
-
-* On a `sm` breakpoint (`≥ 320px`), the `width` will be `25%`
-* On a `md` breakpoint (`≥ 640px`), the `width` will be `50%`
-* On a `lg` breakpoint (`≥ 1024px`), the `width` will be `75%`
-* On a `xl` breakpoint (`≥ 1280px`), the `width` will be `100%`
-
-> To skip certain breakpoints, you can pass `null` to any position in the array.
-
-## Object syntax
-
-You can also use the object syntax to define responsive values. It's also the recommended syntax to use the responsive values.
-
-Let's say you have a `Text` component that looks like this:
-
-```jsx
-<Text fontSize={32}>
-  This is a text
-</Text>
-```
-
-To make the `fontSize` responsive, you can use the object syntax as follows:
+Named keys make the intended breakpoints explicit. Use `_` for an unconditional base value:
 
 ```jsx
 <Text fontSize={{ _: 24, md: 32, lg: 40, xl: 48 }}>
@@ -59,14 +24,45 @@ To make the `fontSize` responsive, you can use the object syntax as follows:
 </Text>
 ```
 
-Here is how to interpret the object syntax:
+The base font size is `24px`. At `md` (`≥ 48rem`) it becomes `32px`, at `lg` (`≥ 64rem`) it becomes `40px`, and at `xl` (`≥ 80rem`) it becomes `48px`. A value continues to apply until another matching breakpoint overrides it. Omit `_` if no base declaration is needed. Unconfigured breakpoint names are ignored.
 
-* On a `sm` breakpoint (`≥ 320px`), the `fontSize` will be `24px`
-* On a `md` breakpoint (`≥ 640px`), the `fontSize` will be `32px`
-* On a `lg` breakpoint (`≥ 1024px`), the `fontSize` will be `40px`
-* On a `xl` breakpoint (`≥ 1280px`), the `fontSize` will be `48px`
+## Responsive styles in `sx`
 
-> You can use the `_` key to define a default value for all breakpoints.
+Keep breakpoint objects on flat style props. Inside `sx` or the internal `__sx` channel, use explicit media query keys instead. In a child of `TonicProvider`, use the active theme's helpers:
+
+```jsx
+import { Box, useTheme } from '@tonic-ui/react';
+
+function ResponsiveBox() {
+  const { breakpoints } = useTheme();
+
+  return (
+    <Box sx={{ width: '100%', [breakpoints.gte('md')]: { width: '50%' } }} />
+  );
+}
+```
+
+You can also use a native media query as a key. A breakpoint object inside an `sx` property is a nested rule, not a responsive value. See [breakpoint media queries](../../theme/breakpoints#css-media-queries) for more examples.
+
+Arrays passed to `sx` itself, or to the internal `__sx` channel, still compose style objects in order. They are not responsive value arrays:
+
+```jsx
+<Box sx={[{ color: 'black' }, { '&:hover': { color: 'blue' } }]} />
+```
+
+## Migrating removed responsive arrays
+
+Map each old array position using the breakpoint scale configured in the old theme, then use named keys for flat props or explicit media query keys in `sx`. For example, an earlier scale placed `xs` at `0px` after the unconditional base, so `xs` matched every nonnegative viewport and index `4` was `lg`:
+
+```jsx
+// Before: removed array syntax with the earlier xs-based scale.
+<Text fontSize={['4xl', '3xl', null, null, 48]} />
+
+// After: xs becomes the base, and the large size starts at lg.
+<Text fontSize={{ _: '3xl', lg: 48 }} />
+```
+
+If the old `xs` slot was empty, retain the original base instead. Recheck the actual viewport thresholds: configured breakpoint widths may have changed along with their names or positions.
 
 ## Under the hood
 
@@ -78,20 +74,20 @@ Given the following example:
 </Box>
 ```
 
-It will generate the following CSS:
+The responsive style props generate the following CSS:
 
 ```css
 .Box {
   width: 100%;
 }
 
-@media screen and (min-width: 320px) {
+@media (width >= 40rem) {
   .Box {
     width: 50%;
   }
 }
 
-@media screen and (min-width: 640px) {
+@media (width >= 48rem) {
   .Box {
     width: 25%;
   }

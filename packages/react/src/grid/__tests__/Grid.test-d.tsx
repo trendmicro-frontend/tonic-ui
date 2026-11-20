@@ -22,9 +22,12 @@ import { Grid } from '@tonic-ui/react';
   Content
 </Grid>;
 
-// With gap shorthand
+// With inherited gap style props
 <Grid gap="4x">With Gap</Grid>;
 <Grid columnGap="2x" rowGap="4x">With Row/Column Gap</Grid>;
+
+// Deprecated aliases remain supported.
+<Grid gridGap="4x" gridRowGap={{ _: '2x', sm: '3x' }} gridColumnGap="4x" />;
 
 // With area, row, column
 <Grid area="header">Area</Grid>;
@@ -36,7 +39,7 @@ import { Grid } from '@tonic-ui/react';
 <Grid autoRows="minmax(100px, auto)">Auto Rows</Grid>;
 <Grid autoColumns="1fr">Auto Columns</Grid>;
 
-// Grid shorthands — responsive objects
+// Grid shorthand and inherited style prop with responsive objects
 <Grid
   templateColumns={{ sm: '1fr', md: '1fr', lg: '1fr 1fr' }}
   gap={{ sm: '4x', md: '8x', lg: '16x' }}

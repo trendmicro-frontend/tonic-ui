@@ -8,6 +8,9 @@ import { TONIC_THEME } from './constants';
 import createTheme from './createTheme';
 import defaultTheme from './theme';
 
+/**
+ * @param {{ children?: React.ReactNode, theme?: Parameters<typeof createTheme>[0], useCSSVariables?: boolean }} props
+ */
 const ThemeProvider = ({
   children,
   theme: themeProp,

@@ -20,6 +20,7 @@ const App = () => {
         {`<Grid columnGap="${value}">`}
       </pre>
       <Grid
+        data-testid="grid-column-gap-example"
         columnGap={value}
         templateColumns="1fr 1fr"
         bg="gray:10"

@@ -20,6 +20,9 @@
     "prepublishOnly": "yarn run build",
     "test": "cross-env NODE_ENV=test jest --maxWorkers=2"
   },
+  "dependencies": {
+    "@tonic-ui/utils": "workspace:^"
+  },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
@@ -64,6 +67,10 @@
     "setupFilesAfterEnv": [
       "<rootDir>/jest-setup.js"
     ],
+    "moduleNameMapper": {
+      "^@tonic-ui/utils/internal$": "<rootDir>/../utils/src/internal/index.js",
+      "^@tonic-ui/utils$": "<rootDir>/../utils/src/index.js"
+    },
     "testEnvironment": "node",
     "testMatch": [
       "<rootDir>/**/__tests__/**/*.test.js"

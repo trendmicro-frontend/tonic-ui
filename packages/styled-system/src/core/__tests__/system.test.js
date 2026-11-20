@@ -1,6 +1,10 @@
+import { createBreakpoints } from '@tonic-ui/utils/internal';
 import system from '../system';
 
-const defaultBreakpoints = [40, 52, 64].map(n => n + 'em');
+const defaultBreakpoints = createBreakpoints({
+  values: { sm: 40, md: 52, lg: 64 },
+  unit: 'em',
+});
 
 test('returns a style parser', () => {
   const parser = system({
@@ -25,25 +29,25 @@ test('returns a style parser', () => {
     },
     color: 'tomato',
     backgroundColor: 'primary',
-    mx: [2, 3, 4],
+    mx: { _: 2, sm: 3, md: 4 },
   });
   expect(styles).toEqual({
     color: 'tomato',
     backgroundColor: 'rebeccapurple',
     marginLeft: 8,
     marginRight: 8,
-    '@media screen and (min-width: 40em)': {
+    '@media (width >= 40em)': {
       marginLeft: 16,
       marginRight: 16,
     },
-    '@media screen and (min-width: 52em)': {
+    '@media (width >= 52em)': {
       marginLeft: 32,
       marginRight: 32,
     },
   });
 });
 
-test('merges multiple responsive styles', () => {
+test('merges responsive styles even when breakpoint keys are out of order', () => {
   const parser = system({
     margin: true,
     padding: true,
@@ -53,20 +57,20 @@ test('merges multiple responsive styles', () => {
     theme: {
       breakpoints: defaultBreakpoints,
     },
-    margin: [0, 4, 8],
-    padding: [16, 32, 64],
-    width: ['100%', '50%'],
+    margin: { md: 8, _: 0, sm: 4 },
+    padding: { _: 16, sm: 32, md: 64 },
+    width: { _: '100%', sm: '50%' },
   });
   expect(styles).toEqual({
     margin: 0,
     padding: 16,
     width: '100%',
-    '@media screen and (min-width: 40em)': {
+    '@media (width >= 40em)': {
       margin: 4,
       padding: 32,
       width: '50%',
     },
-    '@media screen and (min-width: 52em)': {
+    '@media (width >= 52em)': {
       margin: 8,
       padding: 64,
     },
@@ -83,20 +87,20 @@ test('merges multiple responsive object styles', () => {
     theme: {
       breakpoints: defaultBreakpoints,
     },
-    margin: { _: 0, 0: 4, 1: 8 },
-    padding: { _: 16, 0: 32, 1: 64 },
-    width: { _: '100%', 0: '50%' },
+    margin: { _: 0, sm: 4, md: 8 },
+    padding: { _: 16, sm: 32, md: 64 },
+    width: { _: '100%', sm: '50%' },
   });
   expect(styles).toEqual({
     margin: 0,
     padding: 16,
     width: '100%',
-    '@media screen and (min-width: 40em)': {
+    '@media (width >= 40em)': {
       margin: 4,
       padding: 32,
       width: '50%',
     },
-    '@media screen and (min-width: 52em)': {
+    '@media (width >= 52em)': {
       margin: 8,
       padding: 64,
     },
@@ -122,23 +126,23 @@ test('gets values from theme', () => {
       },
       space: [0, 6, 12, 24, 48, 96],
     },
-    mx: [0, 1, 2, 3],
-    color: ['primary', 'black'],
+    mx: { _: 0, sm: 1, md: 2, lg: 3 },
+    color: { _: 'primary', sm: 'black' },
   });
   expect(style).toEqual({
     color: 'tomato',
     marginLeft: 0,
     marginRight: 0,
-    '@media screen and (min-width: 40em)': {
+    '@media (width >= 40em)': {
       color: 'black',
       marginLeft: 6,
       marginRight: 6,
     },
-    '@media screen and (min-width: 52em)': {
+    '@media (width >= 52em)': {
       marginLeft: 12,
       marginRight: 12,
     },
-    '@media screen and (min-width: 64em)': {
+    '@media (width >= 64em)': {
       marginLeft: 24,
       marginRight: 24,
     },
@@ -175,7 +179,7 @@ test('returns a noop function with no arguments', () => {
   expect(typeof parser).toBe('function');
 });
 
-test('skips null values in arrays', () => {
+test('skips nullish values in breakpoint objects', () => {
   const parser = system({
     fontSize: {
       property: 'fontSize',
@@ -186,15 +190,11 @@ test('skips null values in arrays', () => {
     theme: {
       breakpoints: defaultBreakpoints,
     },
-    fontSize: [16, null, null, 18],
+    fontSize: { _: 16, sm: null, md: undefined, lg: 18 },
   });
   expect(style).toEqual({
     fontSize: 16,
-    // omitting these keys cause issues when using multiple
-    // responsive props together #561 #551 #549
-    '@media screen and (min-width: 40em)': {},
-    '@media screen and (min-width: 52em)': {},
-    '@media screen and (min-width: 64em)': {
+    '@media (width >= 64em)': {
       fontSize: 18,
     }
   });
@@ -228,7 +228,7 @@ test('parser configs can be composed manually', () => {
   });
 });
 
-test('supports non-array breakpoints object', () => {
+test('supports custom named breakpoint objects', () => {
   const parser = system({
     margin: true,
     padding: true,
@@ -237,11 +237,10 @@ test('supports non-array breakpoints object', () => {
   const styles = parser({
     theme: {
       disableStyledSystemCache: true,
-      breakpoints: {
-        sm: '32em',
-        md: '40em',
-        lg: '64em',
-      }
+      breakpoints: createBreakpoints({
+        values: { sm: 32, md: 40, lg: 64 },
+        unit: 'em',
+      }),
     },
     margin: { _: 0, sm: 4, md: 8 },
     padding: { _: 16, lg: 64 },
@@ -249,13 +248,13 @@ test('supports non-array breakpoints object', () => {
   expect(styles).toEqual({
     margin: 0,
     padding: 16,
-    '@media screen and (min-width: 32em)': {
+    '@media (width >= 32em)': {
       margin: 4,
     },
-    '@media screen and (min-width: 40em)': {
+    '@media (width >= 40em)': {
       margin: 8,
     },
-    '@media screen and (min-width: 64em)': {
+    '@media (width >= 64em)': {
       padding: 64,
     },
   });
@@ -270,23 +269,50 @@ test('sorts media queries when responsive object values are used', () => {
   const styles = parser({
     theme: {
       disableStyledSystemCache: true,
-      breakpoints: {
-        sm: '32em',
-        md: '40em',
-        lg: '64em',
-        xl: '128em',
-      }
+      breakpoints: createBreakpoints({
+        values: { sm: 10.125, md: 10.5, lg: 64, xl: 128 },
+        unit: 'em',
+      }),
     },
-    padding: { _: 16, lg: 64, xl: 128 },
-    margin: { sm: 4, md: 8 },
+    padding: { _: 16, xl: 128, lg: 64 },
+    margin: { md: 8, sm: 4 },
     color: { lg: 'tomato' },
   });
   expect(Object.keys(styles)).toEqual([
-    '@media screen and (min-width: 32em)',
-    '@media screen and (min-width: 40em)',
-    '@media screen and (min-width: 64em)',
-    '@media screen and (min-width: 128em)',
     'padding',
+    '@media (width >= 10.125em)',
+    '@media (width >= 10.5em)',
+    '@media (width >= 64em)',
+    '@media (width >= 128em)',
+  ]);
+});
+
+test('sorts responsive objects and treats zero and unknown keys correctly', () => {
+  const parser = system({ margin: true, padding: true, color: true });
+  const breakpoints = createBreakpoints({
+    values: { sm: 0, md: 600, lg: 900 },
+    unit: 'px',
+  });
+  const styles = parser({
+    theme: { breakpoints },
+    margin: { lg: 4, sm: 1, _: 0, xs: 999, '2xl': 999, typo: 999, 0: 999 },
+    padding: { _: 4, sm: 1, md: 2, lg: 3 },
+    color: { xs: 'red', '2xl': 'red', typo: 'blue' },
+  });
+
+  expect(styles).toEqual({
+    margin: 0,
+    padding: 4,
+    '@media (width >= 0px)': { margin: 1, padding: 1 },
+    '@media (width >= 600px)': { padding: 2 },
+    '@media (width >= 900px)': { margin: 4, padding: 3 },
+  });
+  expect(Object.keys(styles)).toEqual([
+    'margin',
+    'padding',
+    '@media (width >= 0px)',
+    '@media (width >= 600px)',
+    '@media (width >= 900px)',
   ]);
 });
 

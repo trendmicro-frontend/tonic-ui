@@ -86,9 +86,9 @@ const DefaultPage = ({ onColorModeChange, ...props }) => {
       <DefaultPageHeader onColorModeChange={onColorModeChange} />
       <Box
         maxWidth={{
-          lg: '1024px',
-          xl: '1280px',
-          '2xl': '1680px',
+          md: '1024px',
+          lg: '1280px',
+          xl: '1680px',
         }}
         pt="20x"
         px="6x"
@@ -98,7 +98,7 @@ const DefaultPage = ({ onColorModeChange, ...props }) => {
           display="flex"
           flexDirection={{
             _: 'column',
-            xl: 'row', // 1024px
+            xl: 'row', // 80rem
           }}
           gap="8x"
           alignItems="center"
@@ -176,10 +176,8 @@ const DefaultPage = ({ onColorModeChange, ...props }) => {
           >
             <Grid
               templateColumns={{
-                sm: '1fr', // 320px
-                md: '1fr', // 640px
-                lg: '1fr', // 1024px
-                xl: '1fr 1fr', // 1280px
+                _: '1fr',
+                xl: '1fr 1fr', // 80rem
               }}
               gap="6x"
             >

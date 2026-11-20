@@ -66,8 +66,8 @@ const FormulaOne = () => {
                 <Text
                   color="#6fffff"
                   fontWeight="bold"
-                  fontSize={['4xl', null, null, 48]}
-                  lineHeights={['4xl', null, null, '1.5']}
+                  fontSize={{ _: '4xl', lg: 48 }}
+                  lineHeight={{ _: '4xl', lg: '1.5' }}
                 >
                   {player.id}
                 </Text>
@@ -78,8 +78,8 @@ const FormulaOne = () => {
                 width="auto"
               >
                 <Text
-                  fontSize={['3xl', null, null, '4xl']}
-                  lineHeight={['3xl', null, null, '4xl']}
+                  fontSize={{ _: '3xl', lg: '4xl' }}
+                  lineHeight={{ _: '3xl', lg: '4xl' }}
                 >
                   {player.laps} / {player.raceTime}
                 </Text>
@@ -98,8 +98,8 @@ const FormulaOne = () => {
               >
                 <Truncate>
                   <Text
-                    fontSize={['2xl', null, null, '3xl']}
-                    lineHeight={['2xl', null, null, '3xl']}
+                    fontSize={{ _: '2xl', lg: '3xl' }}
+                    lineHeight={{ _: '2xl', lg: '3xl' }}
                   >
                     {player.name}
                   </Text>
@@ -109,8 +109,8 @@ const FormulaOne = () => {
                 flexBasis="auto"
                 flexGrow={0}
                 width="auto"
-                fontSize={['xl', null, null, '2xl']}
-                lineHeight={['xl', null, null, '2xl']}
+                fontSize={{ _: 'xl', lg: '2xl' }}
+                lineHeight={{ _: 'xl', lg: '2xl' }}
               >
                 <Light on={player.gates[0]} m="2x" />
                 <Text pr="2x">REC</Text>

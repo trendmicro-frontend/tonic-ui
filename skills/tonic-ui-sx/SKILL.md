@@ -63,7 +63,41 @@ from JSX.
 
 `__sx` and `sx` accept the **identical authoring format**: flat declarations, nested selectors
 (`'& svg'`, `'&:hover'`), pseudo shortcuts (`_hover`), `theme => …` functions, design tokens,
-responsive arrays. They differ only in **tier** (who they belong to), not in what they can express.
+explicit media query keys, and arrays composing style objects. They differ only in **tier**
+(who they belong to), not in what they can express.
+
+## Responsive values versus sx composition
+
+Responsive value arrays have been removed. On flat style props, use a breakpoint object with
+`_` for the unconditional base. Inside `sx` or `__sx`, use explicit media query keys rather
+than breakpoint objects or arrays as individual property values. `sx={[a, b]}` and
+`__sx={composeSx(a, b)}` still compose whole style objects in order; those arrays are not
+responsive values.
+
+For example, inside a `TonicProvider`:
+
+```jsx
+import { Box, useTheme } from '@tonic-ui/react';
+
+function ResponsiveBoxes() {
+  const { breakpoints } = useTheme();
+
+  return (
+    <>
+      <Box width={{ _: '100%', md: '50%' }} />
+      <Box sx={[
+        { width: '100%' },
+        { [breakpoints.gte('md')]: { width: '50%' } },
+      ]} />
+    </>
+  );
+}
+```
+
+For a `Box` theme callback, `theme.breakpoints` is optional even when the `Box` is inside a
+provider; guard it before using a helper. A provider-backed `useTheme()` exposes the helpers.
+See the [responsive values guide](../../packages/react-docs/pages/styled-system/responsive-values/index.page.mdx)
+for migration examples and the breakpoint thresholds.
 
 ## Why `__sx` exists (the problem it solves)
 
@@ -213,11 +247,15 @@ pseudo props. They never touch `__sx` (it's internal and off the public type):
 <Button bg="blue:50">Save</Button>   {/* style prop, tier 1 — also beats base __sx */}
 ```
 
-Both remain fully functional, coequal tiers — this doesn't change. Going forward, `sx`
-is the **preferred** authoring convention for new/migrated consumer JSX, including on
-the layout primitives (`Box`/`Flex`/`Grid`/`Stack`/`StackItem`/`Space`). The
-`style-props-to-sx` codemod (`packages/codemod/src/style-props-to-sx`) mechanically
-migrates existing flat-prop usage to `sx`.
+Prefer `sx` for new consumer JSX, including layout primitives. Flat style props still
+work, but `sx` wins when both set the same declaration at equal specificity.
+
+When using the [`style-props-to-sx` codemod](../../packages/codemod/README.md#style-props-to-sx),
+keep named breakpoint objects such as `width={{ _: '100%', lg: '50%' }}` flat:
+`sx.width` interprets that object as a nested rule, not responsive values. To move it into
+`sx`, use explicit breakpoint media query keys as above. Do not mechanically move props
+flagged `needs manual review`, including aliases such as `w` left beside `width`; moving
+only one can change the cascade.
 
 ## The specificity boundary (read before promising "consumers can override anything")
 
@@ -255,6 +293,8 @@ Channel order resolves ties **only at equal selector specificity**. Specificity 
   `composeSx(a, b)` (array). Object-merging discards whole nested keys like `&:hover`.
 - `composeSx(...)` spread as props (`<Box {...composeSx(...)} />`) → it returns an **array** for the
   `__sx`/`sx` prop, not a props object.
+- Treating a style property's array value as responsive, or placing named breakpoint objects
+  inside an `sx` property → use a breakpoint object on a flat prop or explicit `sx` media keys.
 - Incoming `__sx` not destructured out of `rest`, or `composeSx(...)` placed **before** `{...rest}`
   → the fold is wrong; an injected override is double-applied or silently dropped.
 - `const props = useDefaultProps(...)` capturing the whole bag, then `{...props}` onto the child

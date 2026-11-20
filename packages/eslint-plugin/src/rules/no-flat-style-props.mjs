@@ -4,9 +4,40 @@ const stylePropSet = new Set(stylePropNames);
 const documentedProps = new Map(
   Object.entries(documentedStyleProps).map(([componentName, props]) => [componentName, new Set(props)]),
 );
+const unsupportedFlatPropReplacements = new Map([
+  ['Grid', new Map([
+    ['gridGap', 'gap'],
+    ['gridRowGap', 'rowGap'],
+    ['gridColumnGap', 'columnGap'],
+  ])],
+]);
+const replacementTargets = new Set(
+  [...unsupportedFlatPropReplacements.values()].flatMap(replacements => [...replacements.values()]),
+);
 
 const getName = (node) => {
   return node.type === 'JSXIdentifier' ? node.name : undefined;
+};
+
+// Flat props accept breakpoint maps. In sx, objects become nested rules.
+// Do not recommend moving a replacement target unless syntax rules out a map.
+const isScalar = (expression) => {
+  if (expression.type === 'ConditionalExpression') {
+    return isScalar(expression.consequent) && isScalar(expression.alternate);
+  }
+  if (expression.type === 'Literal') {
+    return expression.value === null || typeof expression.value !== 'object';
+  }
+  return expression.type === 'TemplateLiteral' ||
+    expression.type === 'UnaryExpression' ||
+    expression.type === 'BinaryExpression';
+};
+
+const hasResponsiveArray = (expression) => {
+  if (expression.type === 'ConditionalExpression') {
+    return hasResponsiveArray(expression.consequent) || hasResponsiveArray(expression.alternate);
+  }
+  return expression.type === 'ArrayExpression';
 };
 
 export const noFlatStyleProps = {
@@ -16,6 +47,8 @@ export const noFlatStyleProps = {
     schema: [],
     messages: {
       useSx: 'Use sx instead of the flat `{{prop}}` prop on <{{element}}>: <{{element}} sx={{ {{prop}}: … }}>.',
+      responsiveArray: 'The flat `{{prop}}` prop on <{{element}}> uses a responsive array. Replace it with a breakpoint object or explicit media keys in sx.',
+      replaceUnsupportedProp: 'The flat `{{prop}}` prop on <{{element}}> is deprecated. Use `{{replacement}}` instead.',
     },
   },
   create(context) {
@@ -23,7 +56,7 @@ export const noFlatStyleProps = {
       JSXAttribute(node) {
         const propName = getName(node.name);
 
-        if (propName === undefined || !stylePropSet.has(propName)) {
+        if (propName === undefined) {
           return;
         }
 
@@ -43,7 +76,26 @@ export const noFlatStyleProps = {
           return; // DOM elements are covered by no-raw-html-elements
         }
 
-        if (documentedProps.get(elementName)?.has(propName)) {
+        const replacement = unsupportedFlatPropReplacements.get(elementName)?.get(propName);
+        if (replacement !== undefined) {
+          context.report({
+            node,
+            messageId: 'replaceUnsupportedProp',
+            data: { element: elementName, prop: propName, replacement },
+          });
+          return;
+        }
+
+        if (!stylePropSet.has(propName) || documentedProps.get(elementName)?.has(propName)) {
+          return;
+        }
+        if (node.value?.type === 'JSXExpressionContainer' && hasResponsiveArray(node.value.expression)) {
+          context.report({ node, messageId: 'responsiveArray', data: { prop: propName, element: elementName } });
+          return;
+        }
+
+        if (replacementTargets.has(propName) && node.value?.type === 'JSXExpressionContainer' &&
+          !isScalar(node.value.expression)) {
           return;
         }
 

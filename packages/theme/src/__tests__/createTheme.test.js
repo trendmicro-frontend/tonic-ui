@@ -213,13 +213,8 @@ describe('v4 theme (default)', () => {
         tooltip: 1800,
       });
 
-      // breakpoints should be an array with named properties
-      expect(Array.isArray(breakpoints)).toBe(true);
-      expect(breakpoints.length).toBe(5);
-      expect(breakpoints[0]).toBe('320px');
-      expect(breakpoints[1]).toBe('744px');
-      expect(breakpoints.sm).toBe('320px');
-      expect(breakpoints.md).toBe('744px');
+      expect(breakpoints.values).toEqual({ sm: 40, md: 48, lg: 64, xl: 80, '2xl': 96 });
+      expect(breakpoints.gte('lg')).toBe('@media (width >= 64rem)');
     });
   });
 
@@ -424,21 +419,20 @@ describe('v4 theme (default)', () => {
       });
     });
 
-    test('should include primitive breakpoints - array with named properties', () => {
-      const { breakpoints } = createTheme('rem');
+    test.each(['px', 'rem'])('keeps viewport widths in rem with %s tokens and freezes the snapshot', (unit) => {
+      const theme = createTheme(unit);
+      const { breakpoints } = theme;
 
-      expect(Array.isArray(breakpoints)).toBe(true);
-      expect(breakpoints.length).toBe(5);
-      expect(breakpoints[0]).toBe('320px');
-      expect(breakpoints[1]).toBe('744px');
-      expect(breakpoints[2]).toBe('1440px');
-      expect(breakpoints[3]).toBe('1680px');
-      expect(breakpoints[4]).toBe('1920px');
-      expect(breakpoints.sm).toBe('320px');
-      expect(breakpoints.md).toBe('744px');
-      expect(breakpoints.lg).toBe('1440px');
-      expect(breakpoints.xl).toBe('1680px');
-      expect(breakpoints['2xl']).toBe('1920px');
+      expect(breakpoints.values).toEqual({ sm: 40, md: 48, lg: 64, xl: 80, '2xl': 96 });
+      expect(breakpoints.keys).toEqual(['sm', 'md', 'lg', 'xl', '2xl']);
+      expect(breakpoints.unit).toBe('rem');
+      expect(breakpoints[0]).toBeUndefined();
+      expect(breakpoints.sm).toBeUndefined();
+      expect(breakpoints.values.xs).toBeUndefined();
+      expect(Reflect.set(theme, 'breakpoints', {})).toBe(false);
+      expect(Reflect.set(breakpoints.values, 'md', 1)).toBe(false);
+      expect(Reflect.set(breakpoints.keys, 0, 'xl')).toBe(false);
+      expect(breakpoints.gte('md')).toBe('@media (width >= 48rem)');
     });
 
     test('should include primitive zIndices - all layers', () => {

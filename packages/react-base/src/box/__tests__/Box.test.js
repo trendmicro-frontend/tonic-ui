@@ -1,4 +1,5 @@
 import { ThemeProvider } from '@emotion/react';
+import { createBreakpoints } from '@tonic-ui/utils/internal';
 import { testA11y } from '../../../test-utils/accessibility';
 import { render } from '../../../test-utils/render';
 import { Box } from '..';
@@ -77,28 +78,27 @@ describe('Box __sx internal base-style channel', () => {
     expect(container.firstChild).toHaveStyleRule('color', 'blue', { target: ':hover' });
   });
 
-  // Test 7: responsive array in __sx — needs ThemeProvider with breakpoints
-  it('should resolve responsive array values in __sx', () => {
+  // Test 7: explicit responsive media rules in __sx
+  it('should resolve breakpoint media rules in __sx', () => {
     const theme = {
-      breakpoints: ['40em', '52em', '64em'],
+      breakpoints: createBreakpoints({ values: { sm: 40, md: 52, lg: 64 }, unit: 'em' }),
     };
     const { container } = render(
       <ThemeProvider theme={theme}>
-        <Box __sx={{ color: ['red', 'blue'] }} />
+        <Box __sx={{ color: 'red', [theme.breakpoints.gte('sm')]: { color: 'blue' } }} />
       </ThemeProvider>
     );
     // Base value (no media query)
     expect(container.firstChild).toHaveStyleRule('color', 'red');
     // First breakpoint media query value
     expect(container.firstChild).toHaveStyleRule('color', 'blue', {
-      media: '(min-width: 40em)',
+      media: '(width >= 40em)',
     });
   });
 
   // Test 8: __sx as theme => ({...}) function form
   it('should resolve __sx as a theme function at the lowest priority tier', () => {
     const theme = {
-      breakpoints: ['40em', '52em', '64em'],
       colors: { primary: 'green' },
     };
     function baseSx(t) { return { color: t.colors.primary }; } // eslint-disable-line @stylistic/max-statements-per-line

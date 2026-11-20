@@ -14,8 +14,13 @@ test('should match expected exports', () => {
 });
 
 test('the default export must have all properties defined in the theme object', () => {
-  const theme = createTheme('rem');
-  expect(theme).toEqual(defaultExport);
+  const { breakpoints, ...tokens } = createTheme('rem');
+  const { breakpoints: defaults, ...defaultTokens } = defaultExport;
+  expect(tokens).toEqual(defaultTokens);
+  expect(breakpoints).toMatchObject({
+    values: defaults.values, keys: defaults.keys, unit: defaults.unit,
+  });
+  expect(breakpoints.gte('md')).toBe(defaults.gte('md'));
 
   expect(defaultExport).toHaveProperty('borders');
   expect(defaultExport).toHaveProperty('breakpoints');

@@ -84,7 +84,7 @@ const Sidebar = forwardRef((
       borderRight={1}
       borderRightColor="border.subtle"
       pt={{
-        sm: 0,
+        _: 0,
         lg: '4x',
       }}
       pb="4x"
@@ -92,7 +92,7 @@ const Sidebar = forwardRef((
     >
       <Box
         display={{
-          sm: 'block',
+          _: 'block',
           lg: 'none',
         }}
       >

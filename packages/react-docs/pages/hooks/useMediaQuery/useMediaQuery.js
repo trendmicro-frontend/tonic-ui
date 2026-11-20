@@ -4,11 +4,11 @@ import { useMediaQuery } from '@tonic-ui/react-hooks';
 const App = () => {
   const x = (value) => JSON.stringify(value);
   const isDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  const notLessThan320 = useMediaQuery('(min-width: 320px)');
-  const notLessThan640 = useMediaQuery('(min-width: 640px)');
-  const notLessThan1024 = useMediaQuery('(min-width: 1024px)');
-  const notLessThan1280 = useMediaQuery('(min-width: 1280px)');
-  const notLessThan1680 = useMediaQuery('(min-width: 1680px)');
+  const notLessThanSm = useMediaQuery('(width >= 40rem)');
+  const notLessThanMd = useMediaQuery('(width >= 48rem)');
+  const notLessThanLg = useMediaQuery('(width >= 64rem)');
+  const notLessThanXl = useMediaQuery('(width >= 80rem)');
+  const notLessThan2xl = useMediaQuery('(width >= 96rem)');
 
   return (
     <Table>
@@ -31,33 +31,33 @@ const App = () => {
         </TableRow>
         <TableRow>
           <TableCell width={240}>
-            <Tag fontFamily="mono">(min-width:320px)</Tag>
+            <Tag fontFamily="mono">{'(width >= 40rem)'}</Tag>
           </TableCell>
-          <TableCell>{x(notLessThan320)}</TableCell>
+          <TableCell>{x(notLessThanSm)}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell width={240}>
-            <Tag fontFamily="mono">(min-width:640px)</Tag>
+            <Tag fontFamily="mono">{'(width >= 48rem)'}</Tag>
           </TableCell>
-          <TableCell>{x(notLessThan640)}</TableCell>
+          <TableCell>{x(notLessThanMd)}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell width={240}>
-            <Tag fontFamily="mono">(min-width:1024px)</Tag>
+            <Tag fontFamily="mono">{'(width >= 64rem)'}</Tag>
           </TableCell>
-          <TableCell>{x(notLessThan1024)}</TableCell>
+          <TableCell>{x(notLessThanLg)}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell width={240}>
-            <Tag fontFamily="mono">(min-width:1280px)</Tag>
+            <Tag fontFamily="mono">{'(width >= 80rem)'}</Tag>
           </TableCell>
-          <TableCell>{x(notLessThan1280)}</TableCell>
+          <TableCell>{x(notLessThanXl)}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell width={240}>
-            <Tag fontFamily="mono">(min-width:1680px)</Tag>
+            <Tag fontFamily="mono">{'(width >= 96rem)'}</Tag>
           </TableCell>
-          <TableCell>{x(notLessThan1680)}</TableCell>
+          <TableCell>{x(notLessThan2xl)}</TableCell>
         </TableRow>
       </TableBody>
     </Table>

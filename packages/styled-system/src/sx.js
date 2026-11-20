@@ -1,9 +1,8 @@
 import { get, isNullish, isPlainObject } from '@tonic-ui/utils';
-import { ensureArray } from 'ensure-type';
 import system from './system';
 import { pseudoClassSelector, pseudoElementSelector } from './pseudo';
 
-const createPseudoResolver = (theme) => (styleProps) => {
+const resolvePseudo = (styleProps, theme) => {
   if (isNullish(styleProps)) {
     return {};
   }
@@ -42,65 +41,21 @@ const createPseudoResolver = (theme) => (styleProps) => {
   });
 
   let entries = [];
-
-  for (const [name, value] of orderedEntries) {
+  for (const [name, valueOrFn] of orderedEntries) {
+    const value = typeof valueOrFn === 'function' ? valueOrFn(theme) : valueOrFn;
+    if (Array.isArray(value)) {
+      throw new TypeError(`Array values are not supported for sx property "${name}". Use explicit media queries instead.`);
+    }
     const selectorFunction = pseudoClassSelector[name] ?? pseudoElementSelector[name];
     if (typeof selectorFunction === 'function') {
       entries = entries.concat(selectorFunction(value));
     } else {
-      entries = entries.concat([[name, value]]);
+      entries.push([name, value]);
     }
   }
-
   return Object.fromEntries(entries);
 };
 
-const createResponsiveResolver = theme => styleProps => {
-  const next = {};
-  const breakpoints = ensureArray(get(theme, 'breakpoints'));
-  const mediaQueries = [
-    null,
-    ...breakpoints.map(n => `@media screen and (min-width: ${n})`),
-  ];
-
-  for (const key in styleProps) {
-    if (!Object.prototype.hasOwnProperty.call(styleProps, key)) {
-      continue;
-    }
-
-    const value = typeof styleProps[key] === 'function' ? styleProps[key](theme) : styleProps[key];
-    if (isNullish(value)) {
-      continue;
-    }
-
-    if (!Array.isArray(value)) {
-      next[key] = value;
-      continue;
-    }
-
-    for (let i = 0; i < value.slice(0, mediaQueries.length).length; i++) {
-      const media = mediaQueries[i];
-      if (!media) {
-        next[key] = value[i];
-        continue;
-      }
-      next[media] = next[media] || {};
-      if (value[i] === null || value[i] === undefined) {
-        continue;
-      }
-      next[media][key] = value[i];
-    }
-  }
-
-  return next;
-};
-
-// Merges two already-resolved sx() results for the array-composition branch below. Deep,
-// not shallow: when both sides have a plain object at the same key (a nested selector, a
-// media query, ...), recurses into it instead of letting `resolved`'s value replace `acc`'s
-// wholesale -- this is what makes two array items that both touch the same nested selector
-// compose per-declaration rather than the later one discarding the earlier one's rules. A
-// non-object value (or a type mismatch) is a plain last-write-wins overwrite, same as before.
 const mergeResolvedSx = (acc, resolved) => {
   const next = { ...acc };
   for (const key in resolved) {
@@ -116,7 +71,7 @@ const mergeResolvedSx = (acc, resolved) => {
   return next;
 };
 
-const sx = (valueOrFn) => (props = {}) => {
+const resolveSx = (valueOrFn, props) => {
   if (isNullish(valueOrFn)) {
     return {};
   }
@@ -140,16 +95,20 @@ const sx = (valueOrFn) => (props = {}) => {
    * ```
    */
   if (Array.isArray(valueOrFn)) {
-    return valueOrFn.reduce((acc, item) => mergeResolvedSx(acc, sx(item)(props)), {});
+    return valueOrFn.reduce((acc, item) => {
+      const resolved = resolveSx(item, props);
+      return mergeResolvedSx(acc, resolved);
+    }, {});
   }
 
   const theme = {
     ...(props.theme || props),
   };
-  const resolvePseudo = createPseudoResolver(theme);
-  const resolveResponsive = createResponsiveResolver(theme);
   const originalStyleProps = (typeof valueOrFn === 'function') ? valueOrFn(theme) : valueOrFn;
-  const resolvedStyleProps = resolveResponsive(resolvePseudo(originalStyleProps));
+  if (Array.isArray(originalStyleProps)) {
+    return resolveSx(originalStyleProps, props);
+  }
+  const resolvedStyleProps = resolvePseudo(originalStyleProps, theme);
 
   let result = {};
   for (const key in resolvedStyleProps) {
@@ -159,6 +118,12 @@ const sx = (valueOrFn) => (props = {}) => {
 
     const styleValueOrFn = resolvedStyleProps[key];
     const value = (typeof styleValueOrFn === 'function') ? styleValueOrFn(theme) : styleValueOrFn;
+    if (isNullish(value)) {
+      continue;
+    }
+    if (Array.isArray(value)) {
+      throw new TypeError(`Array values are not supported for sx property "${key}". Use explicit media queries instead.`);
+    }
 
     if (isPlainObject(value)) {
       /**
@@ -172,7 +137,7 @@ const sx = (valueOrFn) => (props = {}) => {
        *
        * `__colorMode` is forwarded so color tokens resolve correctly in dark mode.
        */
-      result[key] = sx(value)({ theme, __colorMode: props.__colorMode });
+      result[key] = resolveSx(value, { theme, __colorMode: props.__colorMode });
       continue;
     }
 
@@ -211,5 +176,7 @@ const sx = (valueOrFn) => (props = {}) => {
 
   return result;
 };
+
+const sx = (valueOrFn) => (props = {}) => resolveSx(valueOrFn, props);
 
 export default sx;

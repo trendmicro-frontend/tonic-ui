@@ -2,27 +2,29 @@ import ThemeTokens from "@/components/ThemeTokens";
 
 # breakpoints
 
-The default breakpoints is an array of the following values:
+Breakpoints define viewport widths for responsive styles and CSS media queries.
 
-```js
-[
-  '320px',  // sm
-  '744px',  // md
-  '1440px', // lg
-  '1680px', // xl
-  '1920px', // 2xl
-]
+## Default breakpoints
+
+`createTheme()` uses these numeric values in `rem`. The equivalent pixel widths assume the browser's default initial font size of `16px`.
+
+| Name | Minimum width | At 16px |
+| :--- | :------------ | :------ |
+| `sm` | `40rem` | `640px` |
+| `md` | `48rem` | `768px` |
+| `lg` | `64rem` | `1024px` |
+| `xl` | `80rem` | `1280px` |
+| `2xl` | `96rem` | `1536px` |
+
+```jsx
+import { createTheme, TonicProvider } from '@tonic-ui/react';
+
+const theme = createTheme();
+
+function App({ children }) {
+  return <TonicProvider theme={theme}>{children}</TonicProvider>;
+}
 ```
-
-The first value in the array is the smallest breakpoint, and the last value is the largest. You can also use `sm`, `md`, `lg`, `xl`, and `2xl` as breakpoint names to reference the breakpoints in the array.
-
-| Breakpoint | Media Query |
-| :--------- | :---------- |
-| `sm` | `@media screen and (min-width: 320px)` |
-| `md` | `@media screen and (min-width: 744px)` |
-| `lg` | `@media screen and (min-width: 1440px)` |
-| `xl` | `@media screen and (min-width: 1680px)` |
-| `2xl` | `@media screen and (min-width: 1920px)` |
 
 ## Design tokens
 
@@ -30,51 +32,109 @@ The first value in the array is the smallest breakpoint, and the last value is t
 
 <ThemeTokens type="primitive" scales={[{ name: 'breakpoints', defaultIsExpanded: true }]} />
 
-
 ## Examples
 
-Try resizing your browser window to see the effect of the responsive styles.
+Resize the browser to see the active breakpoint range and matching media queries.
 
 {render('./breakpoints')}
 
-## Customizing breakpoints
+{render('./media-queries')}
 
-For more control over the breakpoints, you can define custom breakpoints for your application.
+## CSS media queries
 
-To do this, add a `breakpoints` array with additional aliases (e.g. `sm`, `md`, `lg`, `xl`, and `2xl`) to your theme.
+Read `breakpoints` with `useTheme()` inside a `TonicProvider`. Each helper returns a CSS media query that can be used as a key in `sx`.
 
 ```jsx
-// 1. Import the theme
-import {
-  TonicProvider, // Provides theme and context for Tonic UI components
-  createTheme,   // For theme customization
-} from '@tonic-ui/react';
+import { Box, createTheme, TonicProvider, useTheme } from '@tonic-ui/react';
 
-// 2. Update the breakpoints
-const breakpoints = [
-  '320px',
-  '744px',
-  '1440px',
-  '1680px',
-  '1920px',
-];
-breakpoints.sm = breakpoints[0];
-breakpoints.md = breakpoints[1];
-breakpoints.lg = breakpoints[2];
-breakpoints.xl = breakpoints[3];
-breakpoints['2xl'] = breakpoints[4];
+const theme = createTheme();
 
-// 3. Extend the theme
-const customTheme = createTheme({
-  breakpoints,
-});
+function ResponsiveBox() {
+  const { breakpoints } = useTheme();
 
-// 4. Pass the custom theme to the theme provider
+  return (
+    <Box sx={{ backgroundColor: 'background.low', [breakpoints.only('md')]: { backgroundColor: 'background.high' } }} />
+  );
+}
+
 function App() {
   return (
-    <TonicProvider theme={customTheme}>
-      {children}
+    <TonicProvider theme={theme}>
+      <ResponsiveBox />
     </TonicProvider>
   );
 }
+```
+
+For the default theme, the four helpers produce:
+
+```js
+breakpoints.gte('sm');           // '@media (width >= 40rem)'
+breakpoints.lt('sm');            // '@media (width < 40rem)'
+breakpoints.between('sm', 'md'); // '@media (40rem <= width < 48rem)'
+breakpoints.only('md');          // '@media (48rem <= width < 64rem)'
+```
+
+To use the same style on both sides of a range, set it as the base style and override it inside the range with `only()` or `between()`, as in the example above. If a rule must match only outside a range, write a native CSS query directly, such as `@media not (48rem <= width < 64rem)`.
+
+For container widths, use the same CSS syntax with `@container`. For example, `@container sidebar not (40rem <= width < 48rem)` styles descendants when the named `sidebar` container is outside that range.
+
+Responsive style props accept breakpoint objects. In `sx`, use the helpers as media query keys. If an exception must override a matching rule regardless of order, use `&&` on just the declaration that needs higher selector specificity, for example `sx={{ '&&': { width: '50%' } }}`.
+
+## Customizing breakpoints
+
+Pass breakpoint options to `createTheme()`. `values` replaces the default map and supports the standard names `sm`, `md`, `lg`, `xl`, and `2xl`. The keys are sorted by their numeric values. Omit a name if the theme does not need that breakpoint.
+
+```jsx
+import { createTheme } from '@tonic-ui/react';
+
+const theme = createTheme({
+  breakpoints: {
+    values: { sm: 640, md: 960, lg: 1280, xl: 1600 },
+    unit: 'px',
+  },
+});
+```
+
+`unit` is appended to each numeric value. `createTheme()` inherits the active theme's breakpoint unit (`rem` by default), so set `unit: 'px'` explicitly when supplying pixel values. Upper bounds use the exclusive `<` operator, so `lt('sm')` in this custom theme returns `@media (width < 640px)`. Adjacent ranges meet at the exact breakpoint without a subpixel gap.
+
+## API
+
+The read-only `theme.breakpoints` object exposes `keys`, `values`, `unit`, and four query helpers. In these examples the default theme is used. Named arguments must be configured breakpoint names; unknown names throw. `gte`, `lt`, and `between` also accept numeric widths in the configured unit. `only` accepts only a configured name.
+
+### theme.breakpoints.gte
+
+`gte(keyOrWidth)` accepts a configured name or number and includes the lower boundary:
+
+```js
+breakpoints.gte('sm'); // '@media (width >= 40rem)'
+breakpoints.gte(50);   // '@media (width >= 50rem)'
+```
+
+### theme.breakpoints.lt
+
+`lt(keyOrWidth)` accepts a configured name or number and excludes the upper boundary:
+
+```js
+breakpoints.lt('sm'); // '@media (width < 40rem)'
+breakpoints.lt(50);   // '@media (width < 50rem)'
+```
+
+### theme.breakpoints.between
+
+`between(start, end)` accepts a configured name or number for each argument. It includes the start and excludes the end:
+
+```js
+breakpoints.between('sm', 'md'); // '@media (40rem <= width < 48rem)'
+breakpoints.between(44, 60);     // '@media (44rem <= width < 60rem)'
+```
+
+### theme.breakpoints.only
+
+`only(key)` accepts a configured name and spans from that breakpoint up to, but not including, the next. The last key, including a single configured key, has no upper bound:
+
+```js
+breakpoints.only('sm');  // '@media (40rem <= width < 48rem)'
+breakpoints.only('md');  // '@media (48rem <= width < 64rem)'
+breakpoints.only('2xl'); // '@media (width >= 96rem)'
 ```

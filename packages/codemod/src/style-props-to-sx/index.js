@@ -47,9 +47,9 @@ import { system, pseudoClassSelector, pseudoElementSelector } from '@tonic-ui/st
  *      `Box` exactly as before. Kept as a `Set` (not deleted outright) so a
  *      future, unrelated reason to exempt a component doesn't require
  *      re-deriving this comment.
- *   2. `LAYER2_PROTECTED_PROPS` -- components with a specific prop that has
- *      real JS behavior beyond CSS, so moving it to `sx` would be a
- *      functional regression, not a style change (e.g. `Scrollbar`'s
+ *   2. `LAYER2_PROTECTED_PROPS` -- props whose component handles or ignores
+ *      them instead of forwarding them unchanged, so moving them to `sx`
+ *      could change behavior (e.g. `Scrollbar`'s
  *      `width`/`height`/`overflow`, which the component's own logic reads
  *      directly for scroll-threshold math; `Skeleton`'s `animation`, a
  *      `'pulse' | 'wave'` variant selector that happens to share a name with
@@ -77,6 +77,7 @@ const LAYER2_PROTECTED_PROPS = {
   Alert: new Set(['backgroundColor', 'borderColor', 'mb']),
   CircularProgress: new Set(['width', 'height', 'color']),
   DrawerContent: new Set(['margin', 'minHeight', 'minWidth', 'width']),
+  Grid: new Set(['gridGap', 'gridRowGap', 'gridColumnGap']),
   Highlight: new Set(['transform']),
   InputControl: new Set(['borderTopRightRadius', 'borderBottomRightRadius', 'width', 'borderTopLeftRadius', 'borderBottomLeftRadius']),
   LinearProgress: new Set(['color']),
@@ -406,6 +407,17 @@ function flagUnresolvedIfStyleLike(node, localName, allImports, styleNames, unre
   unresolvedReview.push(`${localName} (${locationHint}, could not verify where these props are forwarded): ${styleAttrNames.join(', ')}`);
 }
 
+// Flat breakpoint maps and legacy responsive arrays cannot be moved into sx.
+// Without type information, a binding or call can return either.
+function canMoveSystemValue(j, expression) {
+  if (expression.type === 'ConditionalExpression') {
+    return canMoveSystemValue(j, expression.consequent) && canMoveSystemValue(j, expression.alternate);
+  }
+  return j.Literal.check(expression) ||
+    expression.type === 'TemplateLiteral' || expression.type === 'UnaryExpression' ||
+    expression.type === 'BinaryExpression';
+}
+
 function toObjectPropertyValue(j, attr) {
   // No value (boolean shorthand, e.g. `disabled`) -- unusual for a style
   // prop, but handle it rather than crash.
@@ -570,7 +582,8 @@ export default function transformer(file, api) {
       wrapperOwnProtectedProps = resolved.ownProtectedProps;
     }
 
-    const toExtract = [];
+    let toExtract = [];
+    const responsiveGroups = new Set();
     let existingSxAttr = null;
     for (const attr of node.attributes) {
       if (attr.type !== 'JSXAttribute') {
@@ -588,10 +601,32 @@ export default function transformer(file, api) {
         continue;
       }
       if (isProtectedProp(importedName, attrName) || wrapperOwnProtectedProps?.has(attrName)) {
+        if (importedName === 'Grid' && LAYER2_PROTECTED_PROPS.Grid.has(attrName)) {
+          responsiveGroups.add(system.config[attrName].group);
+        }
         manualReview.push(`${importedName}.${attrName}`);
         continue;
       }
+      if (system.config[attrName] && attr.value?.type === 'JSXExpressionContainer' &&
+        !canMoveSystemValue(j, attr.value.expression)) {
+        responsiveGroups.add(system.config[attrName].group);
+        manualReview.push(`${importedName}.${attrName} (may be a responsive object or array)`);
+        continue;
+      }
       toExtract.push(attr);
+    }
+
+    if (responsiveGroups.size > 0) {
+      // Keep aliases and shorthand/longhand pairs in the same cascade tier.
+      // The style group is a conservative boundary (e.g. margin, padding).
+      toExtract = toExtract.filter((attr) => {
+        const name = attr.name.name;
+        if (responsiveGroups.has(system.config[name]?.group)) {
+          manualReview.push(`${importedName}.${name} (same style group as a protected prop or possible responsive value)`);
+          return false;
+        }
+        return true;
+      });
     }
 
     if (toExtract.length === 0) {

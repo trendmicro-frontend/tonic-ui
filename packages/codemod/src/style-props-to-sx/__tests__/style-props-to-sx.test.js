@@ -49,6 +49,109 @@ describe('style-props-to-sx', () => {
     warnSpy.mockRestore();
   });
 
+  it.each([
+    "{ _: '100%', lg: '50%' }",
+    'props.width',
+    "compact ? '100%' : { lg: '50%' }",
+  ])('keeps a possible responsive map (%s) on the flat prop', (value) => {
+    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    try {
+      const source = `import { Box } from '@tonic-ui/react';\nconst App = () => <Box width={${value}} color="red" />;`;
+      const out = run(source);
+      expect(out).toContain(`width={${value}}`);
+      expect(out).toContain("sx={{ color: 'red' }}");
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Box.width (may be a responsive object or array)'));
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it('keeps an alias before a responsive prop without promoting it to sx', () => {
+    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    try {
+      const widths = `w="100%" width={{ _: '75%', sm: '25%' }}`;
+      const out = run(`import { Box } from '@tonic-ui/react';\nconst App = () => <Box ${widths} color="red" />;`);
+      expect(out).toContain(widths);
+      expect(out).toContain("sx={{ color: 'red' }}");
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Box.w (same style group'));
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it('keeps a scalar alias flat beside a responsive array', () => {
+    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    try {
+      const source = "import { Box } from '@tonic-ui/react';\nconst App = () => <Box w=\"100%\" width={['75%', '25%']} color=\"red\" />;";
+      const out = run(source);
+      expect(out).toContain('w="100%"');
+      expect(out).toContain("width={['75%', '25%']}");
+      expect(out).toContain("sx={{ color: 'red' }}");
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Box.w (same style group'));
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Box.width (may be a responsive object or array)'));
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it.each([
+    ['Grid', 'rowGap', 'gap'],
+    ['Grid', 'columnGap', 'gap'],
+    ['Grid', 'gap', 'rowGap'],
+    ['Box', 'gridGap', 'gap'],
+    ['Box', 'rowGap', 'gridRowGap'],
+    ['Box', 'gridColumnGap', 'columnGap'],
+  ])('on %s, keeps %s flat when %s may set the same CSS gap', (component, arrayProp, mapProp) => {
+    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    try {
+      const gaps = `${arrayProp}={['4px', '8px']} ${mapProp}={{ _: '12px', sm: '16px' }}`;
+      const out = run(`import { ${component} } from '@tonic-ui/react';\nconst App = () => <${component} ${gaps} color="red" />;`);
+      expect(out).toContain(gaps);
+      expect(out).toContain("sx={{ color: 'red' }}");
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it('keeps deprecated Grid gap props flat for manual review', () => {
+    const source = `import { Grid } from '@tonic-ui/react';
+const App = () => (
+  <Grid templateColumns="1fr 1fr" gap="4x" rowGap="2x" columnGap="3x" gridGap="8px" gridRowGap="12px" gridColumnGap="16px" />
+);`;
+    const out = run(source);
+    expect(out).toContain('templateColumns="1fr 1fr"');
+    expect(out).toContain('gridGap="8px"');
+    expect(out).toContain('gridRowGap="12px"');
+    expect(out).toContain('gridColumnGap="16px"');
+    expect(out).toContain('gap="4x"');
+    expect(out).toContain('rowGap="2x"');
+    expect(out).toContain('columnGap="3x"');
+    expect(out).not.toContain('sx={{');
+  });
+
+  it.each([
+    "['100%', null, '50%']",
+    "compact ? ['100%', '50%'] : '75%'",
+    "compact ? '75%' : ['100%', '50%']",
+    "compact ? '75%' : (wide ? '50%' : ['100%', '25%'])",
+  ])('keeps responsive array value %s out of an existing sx object', (value) => {
+    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    try {
+      const source = `import { Box } from '@tonic-ui/react';\nconst App = () => <Box width={${value}} sx={{ color: 'red' }} />;`;
+      const out = run(source);
+      expect(out).toContain(`width={${value}}`);
+      expect(out).toContain("sx={{ color: 'red' }}");
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Box.width (may be a responsive object or array)'));
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it('preserves sx and __sx composition arrays', () => {
+    const source = "import { Box } from '@tonic-ui/react';\nconst App = () => <Box sx={[base, override]} __sx={[internal, extra]} />;";
+    expect(run(source)).toContain('sx={[base, override]} __sx={[internal, extra]}');
+  });
+
   it('reuses the expression node for a pseudo prop with an object value', () => {
     const source = "import { Button } from '@tonic-ui/react';\nconst App = () => <Button _hover={{ backgroundColor: 'red' }} />;\n";
     const out = run(source);

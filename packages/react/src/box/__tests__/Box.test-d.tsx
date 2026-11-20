@@ -1,6 +1,19 @@
 import React, { createRef, useRef } from 'react';
 import { Box } from '@tonic-ui/react';
 
+<Box
+  sx={({ breakpoints }) => {
+    // @ts-expect-error Box may render without a theme provider.
+    breakpoints.gte('sm');
+    if (breakpoints) {
+      // @ts-expect-error Unknown breakpoint name.
+      breakpoints.gte('mobile');
+      return { [breakpoints.gte('sm')]: { display: 'block' } };
+    }
+    return { display: 'block' };
+  }}
+/>;
+
 // === Box ===
 <Box>Content</Box>;
 
@@ -29,6 +42,11 @@ import { Box } from '@tonic-ui/react';
 >
   Responsive box
 </Box>;
+
+// @ts-expect-error An sx declaration cannot use a responsive value array.
+<Box sx={{ width: ['100%', '50%'] }} />;
+
+<Box sx={[{ width: '100%' }, { '@media (width >= 40rem)': { width: '50%' } }]} />;
 
 // Ref
 const boxRef = createRef<HTMLDivElement>();

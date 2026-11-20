@@ -1,7 +1,8 @@
+import { createBreakpoints } from '@tonic-ui/utils/internal';
 import layout from '../layout';
 
 const defaultTheme = {
-  breakpoints: [40, 52, 64].map(n => n + 'em'),
+  breakpoints: createBreakpoints({ values: { sm: 40, md: 52, lg: 64 }, unit: 'em' }),
   sizes: [0, 4, 8, 16, 32, 64, 128, 256, 512],
 };
 
@@ -28,7 +29,7 @@ test('returns layout styles', () => {
 test('returns responsive values', () => {
   const style = layout({
     theme: { ...defaultTheme },
-    width: ['100%', '50%', '25%'],
+    width: { _: '100%', sm: '50%', md: '25%' },
     minHeight: 32,
     maxWidth: 768,
   });
@@ -36,10 +37,10 @@ test('returns responsive values', () => {
     width: '100%',
     maxWidth: 768,
     minHeight: 32,
-    '@media screen and (min-width: 40em)': {
+    '@media (width >= 40em)': {
       width: '50%',
     },
-    '@media screen and (min-width: 52em)': {
+    '@media (width >= 52em)': {
       width: '25%',
     },
   });

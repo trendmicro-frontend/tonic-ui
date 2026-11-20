@@ -1,7 +1,8 @@
+import { createBreakpoints } from '@tonic-ui/utils/internal';
 import margin from '../margin';
 
 const defaultTheme = {
-  breakpoints: [40, 52, 64].map(n => n + 'em'),
+  breakpoints: createBreakpoints({ values: { sm: 40, md: 52, lg: 64 }, unit: 'em' }),
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
 };
 
@@ -10,9 +11,6 @@ const defaultThemeWithCSSVariables = {
   useCSSVariables: true,
   cssVariablePrefix: 'tonic',
   cssVariables: {
-    '--tonic-breakpoints-0': '40em',
-    '--tonic-breakpoints-1': '52em',
-    '--tonic-breakpoints-2': '64em',
     '--tonic-space-0': 0,
     '--tonic-space-1': 4,
     '--tonic-space-2': 8,
@@ -140,12 +138,12 @@ test('returns negative theme values using CSS variables', () => {
 test('returns responsive values', () => {
   const styles = margin({
     theme: { ...defaultTheme },
-    m: [0, 2, 3],
+    m: { _: 0, sm: 2, md: 3 },
   });
   expect(styles).toEqual({
     margin: 0,
-    '@media screen and (min-width: 40em)': { margin: 8 },
-    '@media screen and (min-width: 52em)': { margin: 16 },
+    '@media (width >= 40em)': { margin: 8 },
+    '@media (width >= 52em)': { margin: 16 },
   });
 });
 
@@ -240,44 +238,41 @@ test('supports object values', () => {
     theme: { ...defaultTheme },
     m: {
       _: 0,
-      0: 1,
-      1: 2,
+      sm: 1,
+      md: 2,
     }
   });
   expect(styles).toEqual({
     margin: 0,
-    '@media screen and (min-width: 40em)': {
+    '@media (width >= 40em)': {
       margin: 4,
     },
-    '@media screen and (min-width: 52em)': {
+    '@media (width >= 52em)': {
       margin: 8,
     },
   });
 });
 
-test('supports non-array breakpoints', () => {
+test('supports a custom named breakpoint subset', () => {
   const theme = {
     ...defaultTheme,
     disableStyledSystemCache: true,
-    breakpoints: {
-      small: '40em',
-      medium: '52em',
-    }
+    breakpoints: createBreakpoints({ values: { sm: 40, md: 52 }, unit: 'em' }),
   };
   const styles = margin({
     theme,
     m: {
       _: 0,
-      small: 1,
-      medium: 2,
+      sm: 1,
+      md: 2,
     }
   });
   expect(styles).toEqual({
     margin: 0,
-    '@media screen and (min-width: 40em)': {
+    '@media (width >= 40em)': {
       margin: 4,
     },
-    '@media screen and (min-width: 52em)': {
+    '@media (width >= 52em)': {
       margin: 8,
     },
   });

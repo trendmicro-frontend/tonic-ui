@@ -17,16 +17,19 @@ const config = {
   gridTemplateColumns: true,
   gridTemplateRows: true,
 
-  // The following properties are renamed in CSS3 and will be deprecated or removed in the next major release
-  gridGap: { // `gridGap` is an alias for `gap`
+  // Legacy CSS aliases. Keep them in the same cascade group as the modern gap props.
+  gridGap: {
+    group: 'gap',
     property: 'gridGap',
     scale: 'sizes',
   },
-  gridColumnGap: { // `gridColumnGap` is an alias for `columnGap`
+  gridColumnGap: {
+    group: 'gap',
     property: 'gridColumnGap',
     scale: 'sizes',
   },
-  gridRowGap: { // `gridRowGap` is an alias for `rowGap`
+  gridRowGap: {
+    group: 'gap',
     property: 'gridRowGap',
     scale: 'sizes',
   },

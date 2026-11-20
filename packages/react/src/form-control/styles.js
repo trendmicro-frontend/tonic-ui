@@ -96,8 +96,8 @@ const useFormControlStyle = ({ orientation } = {}) => {
     return {
       display: 'grid',
       gridTemplateColumns: 'auto 1fr',
-      gridRowGap: '1x',
-      gridColumnGap: '3x',
+      rowGap: '1x',
+      columnGap: '3x',
       alignItems: 'center',
     };
   }

@@ -1,5 +1,33 @@
 import { createTheme } from '@tonic-ui/react';
 
+const viewportTheme = createTheme();
+const viewportQuery: string = viewportTheme.breakpoints.only('md');
+createTheme({ breakpoints: { values: { sm: 0, md: 48 }, unit: 'em' } });
+createTheme(viewportTheme, { breakpoints: { values: { lg: 1000 }, unit: 'px' } });
+// @ts-expect-error There is no named base breakpoint.
+createTheme({ breakpoints: { values: { xs: 0 } } });
+// @ts-expect-error Unknown breakpoint name.
+createTheme({ breakpoints: { values: { tablet: 640 } } });
+// @ts-expect-error Legacy array config is not accepted.
+createTheme({ breakpoints: ['600px'] });
+const largestQuery: string = viewportTheme.breakpoints.gte('2xl');
+// @ts-expect-error There is no named base breakpoint.
+viewportTheme.breakpoints.gte('xs');
+const minWidth: string = viewportTheme.breakpoints.gte('md');
+const exclusiveMaxWidth: string = viewportTheme.breakpoints.lt(48);
+// @ts-expect-error The previous helper name is not accepted.
+viewportTheme.breakpoints.up('md');
+// @ts-expect-error The previous helper name is not accepted.
+viewportTheme.breakpoints.down('md');
+// @ts-expect-error Strict range queries do not use a step option.
+createTheme({ breakpoints: { step: 5 } });
+// @ts-expect-error only() accepts a key, not a width.
+viewportTheme.breakpoints.only(600);
+// @ts-expect-error Cannot replace the breakpoint snapshot.
+viewportTheme.breakpoints = createTheme().breakpoints;
+// @ts-expect-error Cannot mutate a width in the snapshot.
+viewportTheme.breakpoints.values.md = 1000;
+
 // Basic usage
 const myTheme = createTheme({
   colors: {

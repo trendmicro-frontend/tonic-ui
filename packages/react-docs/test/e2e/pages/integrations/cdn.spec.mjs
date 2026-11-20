@@ -41,8 +41,8 @@ test.describe('integrations/cdn', { tag: ['@docs', '@integration', '@cdn'] }, ()
   });
 
   test('the contents panel lists each configuration beside Configurations', async ({ page }) => {
-    // The panel is `display: none` below 1440px, so check the structure the
-    // client built rather than its rendered appearance.
+    // The panel is hidden below lg (64rem); check its generated structure
+    // regardless of the viewport.
     await expect(page.locator('#toc a[href="#configurations"]')).toHaveCount(1);
 
     // Depth is the number of nested <ul> ancestors inside the panel, so an item

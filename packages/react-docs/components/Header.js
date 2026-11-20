@@ -16,6 +16,7 @@ import {
   Text,
   useColorMode,
   usePortalManager,
+  useTheme,
 } from '@tonic-ui/react';
 import { useMediaQuery } from '@tonic-ui/react-hooks';
 import {
@@ -72,8 +73,9 @@ const Header = forwardRef((
   const portal = usePortalManager();
   const track = useTrack();
   const { query: activeSearchQuery, setQuery: setSearchQuery } = useSearchQuery();
+  const theme = useTheme();
   // The narrow layout only has room for the search icon.
-  const isSmallScreen = useMediaQuery('(max-width: 743px)');
+  const isSearchCompact = useMediaQuery(theme.breakpoints.lt('md').replace(/^@media\s*/, ''));
 
   const version = (() => {
     if (TONIC_UI_REACT_DOCS_VERSION) {
@@ -143,7 +145,7 @@ const Header = forwardRef((
         <Box>
           <Box
             display={{
-              sm: 'block',
+              _: 'block',
               lg: 'none',
             }}
           >
@@ -159,7 +161,7 @@ const Header = forwardRef((
           </Box>
           <Box
             display={{
-              sm: 'none',
+              _: 'none',
               lg: 'block',
             }}
           >
@@ -219,14 +221,18 @@ const Header = forwardRef((
           <Box
             flex="none"
             width={{
-              sm: 56,
-              md: 240,
+              _: 56,
+              sm: activeSearchQuery ? 96 : 56,
+              md: 200,
+              xl: 240,
             }}
           >
             <SearchInput
               data-track="Search|open_search_modal"
-              placeholder={isSmallScreen ? '' : 'Search...'}
+              placeholder={isSearchCompact ? '' : 'Search...'}
               size="md"
+              slotProps={{ input: { minWidth: 0 } }}
+              startAdornment={isSearchCompact && activeSearchQuery ? null : undefined}
               value={activeSearchQuery}
               onChange={(event) => {
                 setSearchQuery(event.target.value);

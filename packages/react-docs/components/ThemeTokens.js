@@ -309,7 +309,7 @@ const TokenCategory = ({ scale, tokens, defaultIsExpanded }) => {
         return (
           <Stack direction="row" alignItems="center" spacing="2x" fontFamily="mono">
             <ColorSwatch value={value} />
-            <Code>{String(value)}</Code>
+            <Code>{scale === 'breakpoints' && typeof value === 'number' ? `${value}rem` : String(value)}</Code>
           </Stack>
         );
       },
@@ -490,13 +490,7 @@ const getTokenData = (type) => {
   if (type === 'primitive') {
     return {
       borders: primitiveBorders.rem,
-      breakpoints: {
-        sm: primitiveBreakpoints.sm,
-        md: primitiveBreakpoints.md,
-        lg: primitiveBreakpoints.lg,
-        xl: primitiveBreakpoints.xl,
-        '2xl': primitiveBreakpoints['2xl'],
-      },
+      breakpoints: primitiveBreakpoints,
       colors: primitiveColors,
       fonts: primitiveFonts,
       fontSizes: primitiveFontSizes.rem,

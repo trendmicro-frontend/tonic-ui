@@ -15,8 +15,10 @@
       "name": "tonic-ui-tokens",
       "source": "./plugins/tonic-ui-tokens",
       "description": "Resolve design tokens from Figma and screenshots.",
-      "version": "1.0.0",
-      "author": { "name": "Tonic UI Team" },
+      "version": "1.0.1",
+      "author": {
+        "name": "Tonic UI Team"
+      },
       "category": "development"
     },
     {

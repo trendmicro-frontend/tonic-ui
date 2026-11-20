@@ -21,6 +21,7 @@ const App = () => {
         {`<Grid gap="${value}">`}
       </pre>
       <Grid
+        data-testid="grid-gap-example"
         gap={value}
         templateColumns="1fr 1fr"
         bg="gray:10"

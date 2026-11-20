@@ -62,6 +62,38 @@ const searchAndOpenResult = async (page, query) => {
 };
 
 test.describe('documentation search', { tag: ['@docs', '@search'] }, () => {
+  test('switches the header search placeholder at md', async ({ page }) => {
+    await page.setViewportSize({ width: 768, height: 900 });
+    await page.goto(ENTRY_PATH);
+    const input = headerSearch(page).getByRole('textbox');
+    const expandedPlaceholder = await input.getAttribute('placeholder');
+    expect(expandedPlaceholder).toBeTruthy();
+
+    await page.setViewportSize({ width: 767, height: 900 });
+    await expect(input).toHaveAttribute('placeholder', '');
+    await page.setViewportSize({ width: 768, height: 900 });
+    await expect(input).toHaveAttribute('placeholder', expandedPlaceholder);
+
+    await input.focus();
+    await typeQuery(input, 'button');
+    await expect(input).toHaveValue('button');
+    const clear = headerSearch(page).locator('button');
+    for (const width of [767, 639]) {
+      await page.setViewportSize({ width, height: 900 });
+      await expect(input).toHaveValue('button');
+      const [inputBox, searchBox, clearBox] = await Promise.all([
+        input.boundingBox(),
+        headerSearch(page).boundingBox(),
+        clear.boundingBox(),
+      ]);
+      expect(inputBox.width).toBeGreaterThan(0);
+      expect(clearBox.x + clearBox.width).toBeLessThanOrEqual(searchBox.x + searchBox.width);
+    }
+    await clear.click();
+    await expect(input).toHaveValue('');
+    await expect(page.getByRole('dialog')).toHaveCount(0);
+  });
+
   test('loads the generated search manifest and index', async ({ page }) => {
     const manifestResponse = page.waitForResponse(response =>
       new URL(response.url()).pathname.endsWith('/search/manifest.json'));
@@ -143,7 +175,7 @@ test.describe('documentation search', { tag: ['@docs', '@search'] }, () => {
 });
 
 test.describe('documentation search highlight', { tag: ['@docs', '@search'] }, () => {
-  // The docs layout shows the sidebar from the `lg` breakpoint (1440px).
+  // The docs layout shows the sidebar from the `lg` breakpoint (64rem, or 1024px at 16px).
   test.use({ viewport: { width: 1440, height: 900 } });
 
   test('keeps the query on the target page without a query string', async ({ page }) => {

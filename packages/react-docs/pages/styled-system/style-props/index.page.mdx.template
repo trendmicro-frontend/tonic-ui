@@ -38,6 +38,8 @@ __flexbox__
 
 __gap__
 
+`gridGap`, `gridRowGap`, and `gridColumnGap` are legacy aliases supported for backward compatibility. On `Grid`, they are deprecated; use `gap`, `rowGap`, and `columnGap`, respectively.
+
 ### Grid
 
 __grid__

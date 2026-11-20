@@ -4,14 +4,16 @@ import { ColorModeContext } from '../internal/color-mode/context';
 
 /** @import { ElementType, ForwardRefExoticComponent, ComponentPropsWithoutRef, RefAttributes } from 'react' */
 
+/** @typedef {ThemeScales & { readonly breakpoints?: ReturnType<typeof import('@tonic-ui/utils/internal').createBreakpoints> }} SxTheme */
+
 /**
- * @typedef {{ [key: string]: string | number | boolean | null | undefined | SxStyleObject | Array<string | number | null> | ((theme: ThemeScales) => string | number | SxStyleObject) }} SxStyleObject
+ * @typedef {{ [key: string]: string | number | boolean | null | undefined | SxStyleObject | ((theme: SxTheme) => string | number | SxStyleObject) }} SxStyleObject
  */
 
 /**
  * @typedef {Object} BoxProps
  * @property {ElementType} [as] - The element type to render as.
- * @property {SxStyleObject | ((theme: ThemeScales) => SxStyleObject) | Array<SxStyleObject | ((theme: ThemeScales) => SxStyleObject) | boolean | null | undefined>} [sx] - Custom styles that have access to the theme. Accepts a style object, a function receiving the theme, or an array of both.
+ * @property {SxStyleObject | ((theme: SxTheme) => SxStyleObject) | Array<SxStyleObject | ((theme: SxTheme) => SxStyleObject) | boolean | null | undefined>} [sx] - Custom styles that have access to the theme. Accepts a style object, a function receiving the theme, or an array of both.
  */
 
 /**
