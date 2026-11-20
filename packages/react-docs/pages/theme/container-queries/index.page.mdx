@@ -6,38 +6,33 @@ The default breakpoint names are `sm`, `md`, `lg`, `xl`, and `2xl`. `xs` is not 
 
 ## Usage
 
-Inside a `TonicProvider`, get `containerQueries` with `useTheme()`. Set `containerType: 'inline-size'` on an ancestor, then use a query as an explicit nested rule key in a descendant's `sx`.
+The same profile card stacks its avatar above the name in a narrow container and places them side by side in a wide container. Both cards are on the same page. The container width, not the window width, controls the layout.
+
+{render('./usage')}
+
+Inside a `TonicProvider`, make the outer `Box` a query container with `containerType: 'inline-size'`. Use `containerQueries.gte(12)` as a key in the inner `Box` to switch to a row at `12rem` (`192px` with a `16px` root font size).
 
 ```jsx
-import { Box, createTheme, TonicProvider, useTheme } from '@tonic-ui/react';
+import { Box, useTheme } from '@tonic-ui/react';
 
-const theme = createTheme();
-
-function SidebarCard() {
+function ProfileCard() {
   const { containerQueries } = useTheme();
 
   return (
-    <Box sx={{ containerType: 'inline-size', containerName: 'sidebar' }}>
-      <Box sx={{ [containerQueries('sidebar').gte(18.75)]: { display: 'flex' } }}>
-        <Box>First item</Box>
-        <Box>Second item</Box>
+    <Box sx={{ containerType: 'inline-size' }}>
+      <Box sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '3x',
+        [containerQueries.gte(12)]: { flexDirection: 'row' },
+      }}>
+        <Box aria-hidden="true">MC</Box>
+        <Box>Maya Chen</Box>
       </Box>
     </Box>
   );
 }
-
-function App() {
-  return (
-    <TonicProvider theme={theme}>
-      <SidebarCard />
-    </TonicProvider>
-  );
-}
 ```
-
-Change the container width to see the card switch from a column to a row. With a `16px` root font size, `18.75rem` equals `300px`, and the default `sm` range is from `640px` inclusive to `768px` exclusive.
-
-{render('./resizing')}
 
 The helpers produce explicit nested keys for `sx` or `__sx`, not property-level breakpoint objects. You can still use a whole-`sx` or `__sx` composition array to combine objects containing container rules. Rules follow normal CSS cascade order; the helpers do not sort them.
 
@@ -48,6 +43,10 @@ If you use a `Box` theme callback instead of `useTheme()`, guard `theme.containe
 Call `containerQueries('sidebar')` to target the nearest eligible ancestor named `sidebar`. A name is a valid CSS container identifier without `@`, quotes, or selector syntax. Names select ancestors, not separate token sets. The same breakpoint scale applies to every name.
 
 Call the methods directly, as in `containerQueries.gte(18.75)`, to target the nearest eligible ancestor regardless of its name. In the example, the outer unnamed indicator measures the sidebar, while the inner unnamed indicator measures the nearer `200px` card container. The named `sidebar` query still measures the outer sidebar from inside the card.
+
+Use the width presets or enter a custom width to compare the two ancestors. With a `16px` root font size, the `lt()` indicator appears below `300px`, the `between()` indicator appears from `300px` to below `640px`, and the `only('sm')` indicator appears from `640px` to below `768px`.
+
+{render('./resizing')}
 
 ## Customizing container queries
 
