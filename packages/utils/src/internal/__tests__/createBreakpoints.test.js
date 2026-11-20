@@ -1,28 +1,28 @@
 import { createBreakpoints } from '../createBreakpoints';
 
-const defaults = createBreakpoints({ values: { lg: 1200, sm: 600, xl: 1536, xs: 0, md: 900 } });
+const defaults = createBreakpoints({ values: { lg: 64, sm: 40, '2xl': 96, xl: 80, md: 48 }, unit: 'rem' });
 
 test.each([
-  ['gte', ['xs'], '@media (width >= 0px)'],
-  ['gte', ['md'], '@media (width >= 900px)'],
-  ['lt', ['md'], '@media (width < 900px)'],
-  ['lt', ['xs'], '@media (width < 0px)'],
-  ['lt', [500], '@media (width < 500px)'],
-  ['between', ['sm', 'lg'], '@media (600px <= width < 1200px)'],
-  ['between', [600, 800], '@media (600px <= width < 800px)'],
-  ['only', ['md'], '@media (900px <= width < 1200px)'],
-  ['only', ['xl'], '@media (width >= 1536px)'],
-  ['between', [899.95, 900], '@media (899.95px <= width < 900px)'],
-  ['lt', [899.96875], '@media (width < 899.96875px)'],
+  ['gte', ['sm'], '@media (width >= 40rem)'],
+  ['gte', ['md'], '@media (width >= 48rem)'],
+  ['lt', ['md'], '@media (width < 48rem)'],
+  ['lt', ['sm'], '@media (width < 40rem)'],
+  ['lt', [32], '@media (width < 32rem)'],
+  ['between', ['sm', 'lg'], '@media (40rem <= width < 64rem)'],
+  ['between', [36, 44], '@media (36rem <= width < 44rem)'],
+  ['only', ['md'], '@media (48rem <= width < 64rem)'],
+  ['only', ['2xl'], '@media (width >= 96rem)'],
+  ['between', [47.95, 48], '@media (47.95rem <= width < 48rem)'],
+  ['lt', [47.96875], '@media (width < 47.96875rem)'],
 ])('%s(%j) produces %s', (method, args, query) => {
   expect(defaults[method](...args)).toBe(query);
 });
 
 test('uses the configured unit and orders keys by width', () => {
-  const { keys, lt, only } = createBreakpoints({ values: { lg: 80, sm: 40, xs: 0 }, unit: 'em' });
-  expect(keys).toEqual(['xs', 'sm', 'lg']);
-  expect(lt('sm')).toBe('@media (width < 40em)');
-  expect(only('sm')).toBe('@media (40em <= width < 80em)');
+  const { keys, lt, only } = createBreakpoints({ values: { lg: 80, md: 40, sm: 0 }, unit: 'em' });
+  expect(keys).toEqual(['sm', 'md', 'lg']);
+  expect(lt('md')).toBe('@media (width < 40em)');
+  expect(only('md')).toBe('@media (40em <= width < 80em)');
 });
 
 test('handles nonzero first, singleton and empty scales', () => {
@@ -35,11 +35,11 @@ test('handles nonzero first, singleton and empty scales', () => {
 });
 
 test('treats an undefined width as an omitted breakpoint', () => {
-  const { keys, values, gte, only } = createBreakpoints({ values: { md: 900, sm: undefined, xs: 0 } });
-  expect(keys).toEqual(['xs', 'md']);
-  expect(Object.keys(values)).toEqual(['xs', 'md']);
-  expect(only('xs')).toBe('@media (0px <= width < 900px)');
-  expect(() => gte('sm')).toThrow(RangeError);
+  const { keys, values, gte, only } = createBreakpoints({ values: { lg: 900, md: undefined, sm: 0 } });
+  expect(keys).toEqual(['sm', 'lg']);
+  expect(Object.keys(values)).toEqual(['sm', 'lg']);
+  expect(only('sm')).toBe('@media (0px <= width < 900px)');
+  expect(() => gte('md')).toThrow(RangeError);
 });
 
 test('rejects unsupported options and named keys', () => {
@@ -47,6 +47,8 @@ test('rejects unsupported options and named keys', () => {
     expect(() => createBreakpoints(value)).toThrow(new TypeError('[Tonic UI] breakpoints must be an options object.'));
   }
   expect(() => createBreakpoints({ values: { tablet: 600 } })).toThrow(new TypeError('[Tonic UI] Unsupported breakpoint name: tablet.'));
+  expect(() => createBreakpoints({ values: { xs: 0 } })).toThrow(new TypeError('[Tonic UI] Unsupported breakpoint name: xs.'));
+  expect(() => defaults.gte('xs')).toThrow(new RangeError('[Tonic UI] Unknown breakpoint: xs.'));
   expect(() => defaults.gte('40em')).toThrow(new RangeError('[Tonic UI] Unknown breakpoint: 40em.'));
 });
 

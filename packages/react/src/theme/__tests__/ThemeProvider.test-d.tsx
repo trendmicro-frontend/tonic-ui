@@ -12,6 +12,6 @@ const customTheme = createTheme({});
   <div>Custom theme</div>
 </ThemeProvider>;
 
-<ThemeProvider theme={{ breakpoints: { values: { sm: 640 } } }} />;
+<ThemeProvider theme={{ breakpoints: { values: { sm: 40 } } }} />;
 // @ts-expect-error Legacy array config is not accepted.
 <ThemeProvider theme={{ breakpoints: ['600px'] }} />;

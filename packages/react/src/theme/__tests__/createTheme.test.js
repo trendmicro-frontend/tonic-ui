@@ -27,15 +27,15 @@ describe('createTheme', () => {
   });
 
   it('replaces breakpoint values and rebuilds helpers without mutating the original', () => {
-    const values = { lg: 1280, xs: 0, sm: 640 };
+    const values = { xl: 80, sm: 0, md: 48 };
     const original = createTheme({ breakpoints: { values, unit: 'em' } });
-    const extended = createTheme(original, { breakpoints: { values: { xs: 0, lg: 1000 } } });
+    const extended = createTheme(original, { breakpoints: { values: { lg: 64, xl: 80 } } });
     values.sm = 1;
 
-    expect(original.breakpoints.keys).toEqual(['xs', 'sm', 'lg']);
-    expect(original.breakpoints.gte('sm')).toBe('@media (width >= 640em)');
-    expect(original.breakpoints.values.md).toBeUndefined();
-    expect(extended.breakpoints.lt('lg')).toBe('@media (width < 1000em)');
+    expect(original.breakpoints.keys).toEqual(['sm', 'md', 'xl']);
+    expect(original.breakpoints.gte('sm')).toBe('@media (width >= 0em)');
+    expect(original.breakpoints.values.lg).toBeUndefined();
+    expect(extended.breakpoints.lt('lg')).toBe('@media (width < 64em)');
     expect(extended.breakpoints.values.sm).toBeUndefined();
   });
 
@@ -45,13 +45,14 @@ describe('createTheme', () => {
       expect(Reflect.set(variant, 'breakpoints', {})).toBe(false);
       expect(Reflect.set(variant.breakpoints.values, 'md', 1)).toBe(false);
       expect(Reflect.set(variant.breakpoints.keys, 0, 'xl')).toBe(false);
-      expect(variant.breakpoints.values.md).toBe(900);
-      expect(variant.breakpoints.gte('md')).toBe('@media (width >= 900px)');
+      expect(variant.breakpoints.values.md).toBe(48);
+      expect(variant.breakpoints.gte('md')).toBe('@media (width >= 48rem)');
     }
-    expect(theme.toColorMode('dark').get('breakpoints.values.md')).toBe(900);
-    expect(theme.toColorMode('light').get('breakpoints.values.md')).toBe(900);
-    expect(createTheme(theme, { breakpoints: { values: { md: 1000 } } }).breakpoints.gte('md')).toBe('@media (width >= 1000px)');
-    expect(theme.breakpoints.gte('md')).toBe('@media (width >= 900px)');
+    expect(theme.toColorMode('dark').get('breakpoints.values.md')).toBe(48);
+    expect(theme.toColorMode('light').get('breakpoints.values.md')).toBe(48);
+    const custom = createTheme(theme, { breakpoints: { values: { md: 1000 }, unit: 'px' } });
+    expect(custom.breakpoints.gte('md')).toBe('@media (width >= 1000px)');
+    expect(theme.breakpoints.gte('md')).toBe('@media (width >= 48rem)');
   });
 
   it('keeps empty breakpoint scales, rejects legacy inputs and excludes breakpoint CSS variables', () => {
@@ -66,9 +67,9 @@ describe('createTheme', () => {
   it('uses base-first responsive props and explicit media rules on a Box', () => {
     const { container } = render(<Box display={['block', 'inline', 'flex', 'grid', 'inline-block', 'none']} />);
     expect(container.firstChild).toHaveStyleRule('display', 'block');
-    const cases = [[0, 'inline'], [600, 'flex'], [900, 'grid'], [1200, 'inline-block'], [1536, 'none']];
+    const cases = [[40, 'inline'], [48, 'flex'], [64, 'grid'], [80, 'inline-block'], [96, 'none']];
     for (const [width, display] of cases) {
-      expect(container.firstChild).toHaveStyleRule('display', display, { media: `(width >= ${width}px)` });
+      expect(container.firstChild).toHaveStyleRule('display', display, { media: `(width >= ${width}rem)` });
     }
 
     function MediaExample() {
@@ -78,7 +79,7 @@ describe('createTheme', () => {
     const example = render(<MediaExample />).container.firstChild;
     expect(example).toHaveStyleRule('background-color', 'red');
     expect(example).toHaveStyleRule('background-color', 'blue', {
-      media: '(900px <= width < 1200px)',
+      media: '(48rem <= width < 64rem)',
     });
   });
 

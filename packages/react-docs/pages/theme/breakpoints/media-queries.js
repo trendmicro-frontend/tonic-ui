@@ -32,27 +32,27 @@ const App = () => {
       <Box
         data-testid="breakpoint-composed-sx"
         sx={[
-          { color: [null, null, 'red'] },
-          { width: [null, '50%', '100%'] },
+          { color: [null, 'blue', 'red'] },
+          { width: ['100%', '50%', '100%'] },
         ]}
       >
-        Composed styles: half width below sm, full width from sm
+        Composed styles: half width from sm, full width from md
       </Box>
       <Box
         data-testid="breakpoint-explicit-sx"
         sx={[
-          { color: [null, 'blue', 'red'] },
-          { [breakpoints.gte('sm')]: { width: '100%' } },
-          { [breakpoints.gte('xs')]: { width: '50%' } },
+          { width: '100%', color: [null, 'blue', 'red'] },
+          { [breakpoints.gte('md')]: { width: '100%' } },
+          { [breakpoints.gte('sm')]: { width: '50%' } },
         ]}
       >
-        Merged breakpoint rules: half width below sm, full width from sm
+        Merged breakpoint rules: half width from sm, full width from md
       </Box>
       <Box
         data-testid="breakpoint-specificity-override"
         sx={{
           color: [null, 'blue', 'red'],
-          [breakpoints.gte('sm')]: { width: '100%' },
+          [breakpoints.gte('md')]: { width: '100%' },
           '&&': { width: '50%' },
         }}
       >

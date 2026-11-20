@@ -309,7 +309,7 @@ const TokenCategory = ({ scale, tokens, defaultIsExpanded }) => {
         return (
           <Stack direction="row" alignItems="center" spacing="2x" fontFamily="mono">
             <ColorSwatch value={value} />
-            <Code>{String(value)}</Code>
+            <Code>{scale === 'breakpoints' && typeof value === 'number' ? `${value}rem` : String(value)}</Code>
           </Stack>
         );
       },

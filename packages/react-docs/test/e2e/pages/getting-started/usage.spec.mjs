@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test.describe('FormulaOne responsive typography', { tag: ['@docs', '@media', '@boundary'] }, () => {
   test('switches the real example at lg', async ({ page }) => {
-    await page.setViewportSize({ width: 1199, height: 900 });
+    await page.setViewportSize({ width: 1023, height: 900 });
     await page.goto('./');
 
     const main = page.locator('#main');
@@ -12,8 +12,8 @@ test.describe('FormulaOne responsive typography', { tag: ['@docs', '@media', '@b
     const gate = main.getByText('REC', { exact: true }).first();
 
     for (const { width, sizes, lineHeights } of [
-      { width: 1199, sizes: ['32px', '28px', '24px', '20px'], lineHeights: ['40px', '36px', '32px', '28px'] },
-      { width: 1200, sizes: ['48px', '32px', '28px', '24px'], lineHeights: ['72px', '40px', '36px', '32px'] },
+      { width: 1023, sizes: ['32px', '28px', '24px', '20px'], lineHeights: ['40px', '36px', '32px', '28px'] },
+      { width: 1024, sizes: ['48px', '32px', '28px', '24px'], lineHeights: ['72px', '40px', '36px', '32px'] },
     ]) {
       await page.setViewportSize({ width, height: 900 });
       const fields = [id, race, name, gate];

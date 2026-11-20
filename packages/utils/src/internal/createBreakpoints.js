@@ -1,4 +1,4 @@
-/** @typedef {'xs' | 'sm' | 'md' | 'lg' | 'xl'} Breakpoint */
+/** @typedef {'sm' | 'md' | 'lg' | 'xl' | '2xl'} Breakpoint */
 /** @typedef {{ values?: Partial<Record<Breakpoint, number>>, unit?: string }} BreakpointOptions */
 
 /** @param {BreakpointOptions} [options] */
@@ -13,7 +13,7 @@ export function createBreakpoints(options = {}) {
   const values = /** @type {Partial<Record<Breakpoint, number>>} */ ({});
   entries.sort(([, a], [, b]) => (a ?? Infinity) - (b ?? Infinity));
   for (const [key, value] of entries) {
-    if (key !== 'xs' && key !== 'sm' && key !== 'md' && key !== 'lg' && key !== 'xl') {
+    if (key !== 'sm' && key !== 'md' && key !== 'lg' && key !== 'xl' && key !== '2xl') {
       throw new TypeError(`[Tonic UI] Unsupported breakpoint name: ${key}.`);
     }
     if (value === undefined) {

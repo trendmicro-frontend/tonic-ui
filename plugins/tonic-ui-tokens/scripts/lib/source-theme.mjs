@@ -117,6 +117,9 @@ export function buildTokenInventory(repoRoot) {
       cssVariable: scale !== 'breakpoints' && Object.hasOwn(cssVariables, cssVariable) && ['string', 'number'].includes(typeof cssValue) ? cssVariable : null,
       resolutionStatus: containsUnresolved(values) ? 'unresolved-source' : 'verified',
     };
+    if (scale === 'breakpoints') {
+      record.unit = px.breakpoints.unit;
+    }
     if (JSON.stringify(values) !== JSON.stringify(remValues)) record.unitValues = { px: values, rem: remValues };
     return record;
   });

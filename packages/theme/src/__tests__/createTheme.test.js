@@ -213,8 +213,8 @@ describe('v4 theme (default)', () => {
         tooltip: 1800,
       });
 
-      expect(breakpoints.values).toEqual({ xs: 0, sm: 600, md: 900, lg: 1200, xl: 1536 });
-      expect(breakpoints.gte('lg')).toBe('@media (width >= 1200px)');
+      expect(breakpoints.values).toEqual({ sm: 40, md: 48, lg: 64, xl: 80, '2xl': 96 });
+      expect(breakpoints.gte('lg')).toBe('@media (width >= 64rem)');
     });
   });
 
@@ -419,20 +419,20 @@ describe('v4 theme (default)', () => {
       });
     });
 
-    test('keeps viewport widths in px with rem tokens and prevents replacing the snapshot', () => {
-      const theme = createTheme('rem');
+    test.each(['px', 'rem'])('keeps viewport widths in rem with %s tokens and freezes the snapshot', (unit) => {
+      const theme = createTheme(unit);
       const { breakpoints } = theme;
 
-      expect(breakpoints.values).toEqual({ xs: 0, sm: 600, md: 900, lg: 1200, xl: 1536 });
-      expect(breakpoints.keys).toEqual(['xs', 'sm', 'md', 'lg', 'xl']);
-      expect(breakpoints.unit).toBe('px');
+      expect(breakpoints.values).toEqual({ sm: 40, md: 48, lg: 64, xl: 80, '2xl': 96 });
+      expect(breakpoints.keys).toEqual(['sm', 'md', 'lg', 'xl', '2xl']);
+      expect(breakpoints.unit).toBe('rem');
       expect(breakpoints[0]).toBeUndefined();
       expect(breakpoints.sm).toBeUndefined();
-      expect(breakpoints.values['2xl']).toBeUndefined();
+      expect(breakpoints.values.xs).toBeUndefined();
       expect(Reflect.set(theme, 'breakpoints', {})).toBe(false);
       expect(Reflect.set(breakpoints.values, 'md', 1)).toBe(false);
       expect(Reflect.set(breakpoints.keys, 0, 'xl')).toBe(false);
-      expect(breakpoints.gte('md')).toBe('@media (width >= 900px)');
+      expect(breakpoints.gte('md')).toBe('@media (width >= 48rem)');
     });
 
     test('should include primitive zIndices - all layers', () => {

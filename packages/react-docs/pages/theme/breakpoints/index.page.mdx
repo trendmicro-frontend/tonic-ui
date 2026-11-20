@@ -6,15 +6,15 @@ Breakpoints define viewport widths for responsive styles and CSS media queries.
 
 ## Default breakpoints
 
-`createTheme()` uses these numeric values, in pixels:
+`createTheme()` uses these numeric values in `rem`. The equivalent pixel widths assume the browser's default initial font size of `16px`.
 
-| Name | Minimum width |
-| :--- | :------------ |
-| `xs` | `0px` |
-| `sm` | `600px` |
-| `md` | `900px` |
-| `lg` | `1200px` |
-| `xl` | `1536px` |
+| Name | Minimum width | At 16px |
+| :--- | :------------ | :------ |
+| `sm` | `40rem` | `640px` |
+| `md` | `48rem` | `768px` |
+| `lg` | `64rem` | `1024px` |
+| `xl` | `80rem` | `1280px` |
+| `2xl` | `96rem` | `1536px` |
 
 ```jsx
 import { createTheme, TonicProvider } from '@tonic-ui/react';
@@ -69,34 +69,34 @@ function App() {
 For the default theme, the four helpers produce:
 
 ```js
-breakpoints.gte('sm');           // '@media (width >= 600px)'
-breakpoints.lt('sm');            // '@media (width < 600px)'
-breakpoints.between('sm', 'md'); // '@media (600px <= width < 900px)'
-breakpoints.only('md');          // '@media (900px <= width < 1200px)'
+breakpoints.gte('sm');           // '@media (width >= 40rem)'
+breakpoints.lt('sm');            // '@media (width < 40rem)'
+breakpoints.between('sm', 'md'); // '@media (40rem <= width < 48rem)'
+breakpoints.only('md');          // '@media (48rem <= width < 64rem)'
 ```
 
-To use the same style on both sides of a range, set it as the base style and override it inside the range with `only()` or `between()`, as in the example above. If a rule must match only outside a range, write a native CSS query directly, such as `@media not (900px <= width < 1200px)`.
+To use the same style on both sides of a range, set it as the base style and override it inside the range with `only()` or `between()`, as in the example above. If a rule must match only outside a range, write a native CSS query directly, such as `@media not (48rem <= width < 64rem)`.
 
-For container widths, use the same CSS syntax with `@container`. For example, `@container sidebar not (600px <= width < 900px)` styles descendants when the named `sidebar` container is outside that range.
+For container widths, use the same CSS syntax with `@container`. For example, `@container sidebar not (40rem <= width < 48rem)` styles descendants when the named `sidebar` container is outside that range.
 
 Responsive arrays generate media rules in ascending breakpoint order. An explicit rule with the same query merges into that rule, rather than replacing it. If you need an exception to override a matching rule regardless of order, use `&&` on just the declaration that needs higher selector specificity, for example `sx={{ '&&': { width: '50%' } }}`. Prefer one responsive value when it can express the layout directly.
 
 ## Customizing breakpoints
 
-Pass breakpoint options to `createTheme()`. `values` replaces the default map and supports the standard names `xs`, `sm`, `md`, `lg`, and `xl`. The keys are sorted by their numeric values. Omit a name if the theme does not need that breakpoint.
+Pass breakpoint options to `createTheme()`. `values` replaces the default map and supports the standard names `sm`, `md`, `lg`, `xl`, and `2xl`. The keys are sorted by their numeric values. Omit a name if the theme does not need that breakpoint.
 
 ```jsx
 import { createTheme } from '@tonic-ui/react';
 
 const theme = createTheme({
   breakpoints: {
-    values: { xs: 0, sm: 640, md: 960, lg: 1280, xl: 1600 },
+    values: { sm: 640, md: 960, lg: 1280, xl: 1600 },
     unit: 'px',
   },
 });
 ```
 
-`unit` defaults to `px` and is appended to each numeric value. For example, use `unit: 'rem'` with values expressed in `rem`. Upper bounds use the exclusive `<` operator, so `lt('sm')` in this custom theme returns `@media (width < 640px)`. Adjacent ranges meet at the exact breakpoint without a subpixel gap.
+`unit` is appended to each numeric value. `createTheme()` inherits the active theme's breakpoint unit (`rem` by default), so set `unit: 'px'` explicitly when supplying pixel values. Upper bounds use the exclusive `<` operator, so `lt('sm')` in this custom theme returns `@media (width < 640px)`. Adjacent ranges meet at the exact breakpoint without a subpixel gap.
 
 ## API
 
@@ -107,8 +107,8 @@ The read-only `theme.breakpoints` object exposes `keys`, `values`, `unit`, and f
 `gte(keyOrWidth)` accepts a configured name or number and includes the lower boundary:
 
 ```js
-breakpoints.gte('sm'); // '@media (width >= 600px)'
-breakpoints.gte(750);  // '@media (width >= 750px)'
+breakpoints.gte('sm'); // '@media (width >= 40rem)'
+breakpoints.gte(50);   // '@media (width >= 50rem)'
 ```
 
 ### theme.breakpoints.lt
@@ -116,8 +116,8 @@ breakpoints.gte(750);  // '@media (width >= 750px)'
 `lt(keyOrWidth)` accepts a configured name or number and excludes the upper boundary:
 
 ```js
-breakpoints.lt('sm'); // '@media (width < 600px)'
-breakpoints.lt(750);  // '@media (width < 750px)'
+breakpoints.lt('sm'); // '@media (width < 40rem)'
+breakpoints.lt(50);   // '@media (width < 50rem)'
 ```
 
 ### theme.breakpoints.between
@@ -125,8 +125,8 @@ breakpoints.lt(750);  // '@media (width < 750px)'
 `between(start, end)` accepts a configured name or number for each argument. It includes the start and excludes the end:
 
 ```js
-breakpoints.between('sm', 'md'); // '@media (600px <= width < 900px)'
-breakpoints.between(700, 1000);  // '@media (700px <= width < 1000px)'
+breakpoints.between('sm', 'md'); // '@media (40rem <= width < 48rem)'
+breakpoints.between(44, 60);     // '@media (44rem <= width < 60rem)'
 ```
 
 ### theme.breakpoints.only
@@ -134,7 +134,7 @@ breakpoints.between(700, 1000);  // '@media (700px <= width < 1000px)'
 `only(key)` accepts a configured name and spans from that breakpoint up to, but not including, the next. The last key, including a single configured key, has no upper bound:
 
 ```js
-breakpoints.only('xs'); // '@media (0px <= width < 600px)'
-breakpoints.only('md'); // '@media (900px <= width < 1200px)'
-breakpoints.only('xl'); // '@media (width >= 1536px)'
+breakpoints.only('sm');  // '@media (40rem <= width < 48rem)'
+breakpoints.only('md');  // '@media (48rem <= width < 64rem)'
+breakpoints.only('2xl'); // '@media (width >= 96rem)'
 ```

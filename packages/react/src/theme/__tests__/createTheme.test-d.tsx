@@ -2,16 +2,19 @@ import { createTheme } from '@tonic-ui/react';
 
 const viewportTheme = createTheme();
 const viewportQuery: string = viewportTheme.breakpoints.only('md');
-createTheme({ breakpoints: { values: { xs: 0, sm: 40 }, unit: 'em' } });
-createTheme(viewportTheme, { breakpoints: { values: { lg: 1000 } } });
+createTheme({ breakpoints: { values: { sm: 0, md: 48 }, unit: 'em' } });
+createTheme(viewportTheme, { breakpoints: { values: { lg: 1000 }, unit: 'px' } });
+// @ts-expect-error There is no named base breakpoint.
+createTheme({ breakpoints: { values: { xs: 0 } } });
 // @ts-expect-error Unknown breakpoint name.
 createTheme({ breakpoints: { values: { tablet: 640 } } });
 // @ts-expect-error Legacy array config is not accepted.
 createTheme({ breakpoints: ['600px'] });
-// @ts-expect-error Removed alias.
-viewportTheme.breakpoints.gte('2xl');
+const largestQuery: string = viewportTheme.breakpoints.gte('2xl');
+// @ts-expect-error There is no named base breakpoint.
+viewportTheme.breakpoints.gte('xs');
 const minWidth: string = viewportTheme.breakpoints.gte('md');
-const exclusiveMaxWidth: string = viewportTheme.breakpoints.lt(900);
+const exclusiveMaxWidth: string = viewportTheme.breakpoints.lt(48);
 // @ts-expect-error The previous helper name is not accepted.
 viewportTheme.breakpoints.up('md');
 // @ts-expect-error The previous helper name is not accepted.

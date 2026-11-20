@@ -12,7 +12,7 @@ const customTheme = createTheme({});
   <div>Custom themed</div>
 </TonicProvider>;
 
-<TonicProvider theme={{ breakpoints: { values: { sm: 640 } } }} />;
+<TonicProvider theme={{ breakpoints: { values: { sm: 40 } } }} />;
 // @ts-expect-error Legacy array config is not accepted.
 <TonicProvider theme={{ breakpoints: ['600px'] }} />;
 

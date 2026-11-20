@@ -290,13 +290,14 @@ test('sorts media queries when responsive object values are used', () => {
 test('sorts mixed responsive values and treats zero and unknown keys correctly', () => {
   const parser = system({ margin: true, padding: true, color: true });
   const breakpoints = createBreakpoints({
-    values: { xs: 0, sm: 600, md: 900 },
+    values: { sm: 0, md: 600, lg: 900 },
+    unit: 'px',
   });
   const styles = parser({
     theme: { breakpoints },
-    margin: { md: 4, xs: 1, _: 0, '2xl': 999, typo: 999, 0: 999 },
+    margin: { lg: 4, sm: 1, _: 0, xs: 999, '2xl': 999, typo: 999, 0: 999 },
     padding: [4, 1, 2, 3],
-    color: { '2xl': 'red', typo: 'blue' },
+    color: { xs: 'red', '2xl': 'red', typo: 'blue' },
   });
 
   expect(styles).toEqual({

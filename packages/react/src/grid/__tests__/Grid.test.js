@@ -10,7 +10,7 @@ test('applies inherited gap styles and resolves responsive size tokens', () => {
   const grid = screen.getByTestId('grid');
   expect(grid).toHaveStyleRule('gap', 'var(--tonic-sizes-4x)');
   expect(grid).toHaveStyleRule('row-gap', 'var(--tonic-sizes-2x)');
-  expect(grid).toHaveStyleRule('row-gap', 'var(--tonic-sizes-3x)', { media: '(width >= 600px)' });
+  expect(grid).toHaveStyleRule('row-gap', 'var(--tonic-sizes-3x)', { media: '(width >= 40rem)' });
   expect(grid).toHaveStyleRule('column-gap', 'var(--tonic-sizes-1x)');
 });
 

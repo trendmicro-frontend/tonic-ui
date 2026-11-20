@@ -12,23 +12,23 @@ import {
 
 ⚠️ This guide covers the steps to upgrade from Tonic UI v2 to v3. Review the changes below and assess compatibility with your setup before proceeding.
 
-> **Prerelease.** Tonic UI v3 is currently a prerelease (`3.0.0-alpha.0`). APIs may still change before the stable release.
+> **Prerelease.** APIs may change before the stable v3 release. Preview docs may describe changes that are not yet available in a published package.
 
 For the color token changes, see the [Migrating color tokens from v2 to v3](../migrating-color-tokens-from-v2-to-v3) guide.
 
 ## Package updates
 
-Update the core package to v3:
+Choose a published v3 version of [`@tonic-ui/react`](https://www.npmjs.com/package/@tonic-ui/react?activeTab=versions) that includes the changes you need. Replace `VERSION` with that version:
 
 ```bash
 # with npm
-npm install @tonic-ui/react@3.0.0-alpha.0
+npm install @tonic-ui/react@VERSION
 
 # with yarn
-yarn add @tonic-ui/react@3.0.0-alpha.0
+yarn add @tonic-ui/react@VERSION
 ```
 
-If your project uses any of the following packages, update them to the same release line:
+If your project uses any of the following packages, select a compatible v3 version for each. The packages can have different version numbers:
 
 - `@tonic-ui/react-base`
 - `@tonic-ui/react-hooks`
@@ -349,17 +349,19 @@ The v3 theme is **layered**: the v2 token set is kept as a deprecated base layer
 
 ### Breakpoints
 
-The breakpoint values changed while the `sm` / `md` / `lg` / `xl` / `2xl` aliases kept their names, so responsive props now switch at different widths:
+The v3 default breakpoints use `rem`. The pixel equivalents assume a browser initial font size of `16px`.
 
-| Alias | v2 | v3 |
+| Breakpoint | v2 minimum width | v3 minimum width |
 | :-- | :-- | :-- |
-| `sm` | `320px` | `320px` |
-| `md` | `640px` | `744px` |
-| `lg` | `1024px` | `1440px` |
-| `xl` | `1280px` | `1680px` |
-| `2xl` | `1680px` | `1920px` |
+| `sm` | `320px` | `40rem` (`640px`) |
+| `md` | `640px` | `48rem` (`768px`) |
+| `lg` | `1024px` | `64rem` (`1024px`) |
+| `xl` | `1280px` | `80rem` (`1280px`) |
+| `2xl` | `1680px` | `96rem` (`1536px`) |
 
-Verify layouts that rely on responsive props.
+There is no `320px` breakpoint in the v3 defaults. Use `_` in responsive objects or index `0` in responsive arrays for unqualified base styles. Array indices `1` through `5` correspond to `sm`, `md`, `lg`, `xl`, and `2xl`. Recheck layouts at the new thresholds, even if the breakpoint names did not change.
+
+If you pass an array of breakpoints to `createTheme()`, replace it with `breakpoints: { values: { ... }, unit: 'px' }` to keep your custom pixel widths. Replace direct reads such as `theme.breakpoints.md` with `theme.breakpoints.values.md` for the numeric width, or `theme.breakpoints.gte('md')` for a CSS media query. See [Breakpoints](../../theme/breakpoints) and [Responsive values](../../styled-system/responsive-values).
 
 ### Other scales
 
@@ -374,7 +376,7 @@ See [Theme](../../theme) for the full token list.
 
 ### Package updates
 
-- [ ] Upgrade `@tonic-ui/*` packages to `3.0.0-alpha.0`.
+- [ ] Upgrade each `@tonic-ui/*` package you use to a compatible v3 version.
 - [ ] Upgrade React and React DOM to `^18.3.0 || ^19.0.0`.
 - [ ] Install `@emotion/react` and `@emotion/styled` at `^11.0.0`; check for duplicate versions.
 
@@ -393,7 +395,7 @@ See [Theme](../../theme) for the full token list.
 
 - [ ] Review array-form `sx` usages that relied on a later item replacing a nested selector.
 - [ ] Re-check `borderRadius` usages on `sm` / `lg` — the values changed.
-- [ ] Re-check responsive layouts — the `md` / `lg` / `xl` / `2xl` breakpoint values changed.
+- [ ] Recheck responsive layouts at the new breakpoint widths and migrate any custom breakpoint arrays or direct breakpoint aliases.
 - [ ] Load the `Inter` and `DM Mono` fonts if you rely on the default `fonts.base` / `fonts.mono`.
 
 ### Color tokens

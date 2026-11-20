@@ -260,18 +260,19 @@ describe('plugins/tonic-ui-tokens / Lookup and inventory generation', () => {
       const data = JSON.parse(readFileSync(file, 'utf8'));
       const breakpoints = data.tokens.filter((entry) => entry.path === 'breakpoints' || entry.path.startsWith('breakpoints.'));
       assert.deepEqual(breakpoints.map((entry) => entry.path), [
+        'breakpoints.values.2xl',
         'breakpoints.values.lg',
         'breakpoints.values.md',
         'breakpoints.values.sm',
         'breakpoints.values.xl',
-        'breakpoints.values.xs',
       ]);
-      for (const [index, value] of [1200, 900, 600, 1536, 0].entries()) {
+      for (const [index, value] of [96, 64, 48, 40, 80].entries()) {
         const token = breakpoints[index];
         assert.equal(token.kind, 'primitive');
         assert.equal(token.raw, value);
         assert.deepEqual(token.values, { dark: value, light: value });
         assert.equal(token.cssVariable, null);
+        assert.equal(token.unit, 'rem');
         assert.equal(token.unitValues, undefined);
       }
       for (const file of [
@@ -328,7 +329,7 @@ describe('plugins/tonic-ui-tokens / Lookup and inventory generation', () => {
       assert.equal(refreshed.status, 0, refreshed.stderr);
       const updated = JSON.parse(readFileSync(file, 'utf8'));
       assert.equal(updated.meta.sourceRevision, currentRevision);
-      assert.equal(updated.tokens.find((token) => token.path === 'breakpoints.values.sm').values.dark, 600);
+      assert.equal(updated.tokens.find((token) => token.path === 'breakpoints.values.sm').values.dark, 40);
     } finally {
       rmSync(directory, { recursive: true, force: true });
     }

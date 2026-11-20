@@ -222,13 +222,17 @@ const Header = forwardRef((
             flex="none"
             width={{
               _: 56,
-              md: 240,
+              sm: activeSearchQuery ? 96 : 56,
+              md: 200,
+              xl: 240,
             }}
           >
             <SearchInput
               data-track="Search|open_search_modal"
               placeholder={isSearchCompact ? '' : 'Search...'}
               size="md"
+              slotProps={{ input: { minWidth: 0 } }}
+              startAdornment={isSearchCompact && activeSearchQuery ? null : undefined}
               value={activeSearchQuery}
               onChange={(event) => {
                 setSearchQuery(event.target.value);

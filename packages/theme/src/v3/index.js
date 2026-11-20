@@ -41,7 +41,7 @@ const createTheme = (unit = 'rem') => {
       ...deprecatedTheme.radii,
       ...primitiveTokens.radii,
     },
-    breakpoints: createBreakpoints({ values: primitiveTokens.breakpoints }),
+    breakpoints: createBreakpoints({ values: primitiveTokens.breakpoints, unit: 'rem' }),
     lineHeights: {
       ...deprecatedTheme.lineHeights,
       ...primitiveTokens.lineHeights,

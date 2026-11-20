@@ -2,19 +2,21 @@
 
 Responsive values use the [breakpoints](../../theme/breakpoints) defined in the theme. Each breakpoint starts at its minimum viewport width.
 
-| Breakpoint | Minimum width |
-| :--------- | :------------ |
-| `xs` | `0px` |
-| `sm` | `600px` |
-| `md` | `900px` |
-| `lg` | `1200px` |
-| `xl` | `1536px` |
+| Breakpoint | Minimum width | At 16px |
+| :--------- | :------------ | :------ |
+| `sm` | `40rem` | `640px` |
+| `md` | `48rem` | `768px` |
+| `lg` | `64rem` | `1024px` |
+| `xl` | `80rem` | `1280px` |
+| `2xl` | `96rem` | `1536px` |
+
+Pixel equivalents assume the browser's default initial font size of `16px`.
 
 Use either array or object syntax for responsive style props.
 
 ## Array syntax
 
-Array values are base-first. Index `0` is an unconditional base value, and subsequent indices correspond to the configured breakpoint keys in ascending width order. With the default theme, the indices after the base are `xs`, `sm`, `md`, `lg`, and `xl`.
+Array values are base-first. Index `0` is an unconditional base value, and subsequent indices correspond to the configured breakpoint keys in ascending width order. With the default theme, the indices after the base are `sm`, `md`, `lg`, `xl`, and `2xl`.
 
 For example, start with a `Box` that has a fixed width:
 
@@ -27,7 +29,7 @@ For example, start with a `Box` that has a fixed width:
 Use an array to change the width across breakpoints:
 
 ```jsx
-<Box backgroundColor="red.500" width={[null, '25%', '50%', '75%', '100%', '100%']}>
+<Box backgroundColor="red.500" width={['25%', '50%', '75%', '100%', null, '100%']}>
   This is a box
 </Box>
 ```
@@ -36,25 +38,25 @@ The values apply as follows:
 
 | Index | Breakpoint | Width |
 | :---- | :--------- | :---- |
-| `0` | Base | No value (`null`) |
-| `1` | `xs` (`≥ 0px`) | `25%` |
-| `2` | `sm` (`≥ 600px`) | `50%` |
-| `3` | `md` (`≥ 900px`) | `75%` |
-| `4` | `lg` (`≥ 1200px`) | `100%` |
-| `5` | `xl` (`≥ 1536px`) | `100%` |
+| `0` | Base | `25%` |
+| `1` | `sm` (`≥ 40rem`) | `50%` |
+| `2` | `md` (`≥ 48rem`) | `75%` |
+| `3` | `lg` (`≥ 64rem`) | `100%` |
+| `4` | `xl` (`≥ 80rem`) | No value (`null`) |
+| `5` | `2xl` (`≥ 96rem`) | `100%` |
 
-Pass `null` to skip a position. Since `xs` starts at `0px`, a value at index `1` overrides the unconditional base at every nonnegative viewport width.
+Pass `null` to skip a position. A skipped position retains the last applicable value.
 
 ### Migrating array values
 
-Index `3` previously corresponded to `lg`. With the new breakpoint scale, index `3` corresponds to `md`, while `lg` is at index `4`. Tonic UI keeps index `0` as the unconditional base, unlike Material UI's `iterateBreakpoints`. To preserve a large-screen change at `lg`, use a named style prop:
+The previous breakpoint scale included `xs` at `0px` after the unconditional base. Remove that slot and move its value to the base if it was set: `xs` matched every nonnegative viewport width. The remaining named slots shift left by one. Use a named style prop to make the intended breakpoint explicit:
 
 ```jsx
-// Before: index 3 was lg.
-<Text fontSize={['4xl', null, null, 48]} />
+// Before: xs applied everywhere, and index 4 was lg.
+<Text fontSize={['4xl', '3xl', null, null, 48]} />
 
-// After: the large size starts at lg (1200px).
-<Text fontSize={{ _: '4xl', lg: 48 }} />
+// After: the large size starts at lg (64rem).
+<Text fontSize={{ _: '3xl', lg: 48 }} />
 ```
 
 ## Object syntax
@@ -75,7 +77,7 @@ Use an object to change the font size across breakpoints:
 </Text>
 ```
 
-The base font size is `24px`. At `md` (`≥ 900px`) it becomes `32px`, at `lg` (`≥ 1200px`) it becomes `40px`, and at `xl` (`≥ 1536px`) it becomes `48px`.
+The base font size is `24px`. At `md` (`≥ 48rem`) it becomes `32px`, at `lg` (`≥ 64rem`) it becomes `40px`, and at `xl` (`≥ 80rem`) it becomes `48px`.
 
 Keep named breakpoint objects on flat style props. Inside `sx`, use an array or [breakpoint media queries](../../theme/breakpoints#css-media-queries). A value such as `sx={{ gap: { sm: '4x' } }}` does not set a responsive gap.
 
@@ -96,13 +98,13 @@ The responsive style props generate the following CSS:
   width: 100%;
 }
 
-@media (width >= 600px) {
+@media (width >= 40rem) {
   .Box {
     width: 50%;
   }
 }
 
-@media (width >= 900px) {
+@media (width >= 48rem) {
   .Box {
     width: 25%;
   }

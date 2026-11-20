@@ -98,7 +98,7 @@ const DefaultPage = ({ onColorModeChange, ...props }) => {
           display="flex"
           flexDirection={{
             _: 'column',
-            xl: 'row', // 1536px
+            xl: 'row', // 80rem
           }}
           gap="8x"
           alignItems="center"
@@ -177,7 +177,7 @@ const DefaultPage = ({ onColorModeChange, ...props }) => {
             <Grid
               templateColumns={{
                 _: '1fr',
-                xl: '1fr 1fr', // 1536px
+                xl: '1fr 1fr', // 80rem
               }}
               gap="6x"
             >
