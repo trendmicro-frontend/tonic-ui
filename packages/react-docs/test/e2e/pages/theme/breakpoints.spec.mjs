@@ -99,7 +99,7 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
       await fixture.setViewportSize({ width, height: 900 });
       for (const [index, table] of (await tables.all()).entries()) {
         const declarations = await table.locator('tbody tr').nth(row).locator('td:last-child code').allTextContents();
-        expect(declarations).toEqual([expect.stringMatching(/^width: .+;$/), expect.stringMatching(/^color: .+;$/)]);
+        expect(declarations).toEqual([expect.stringMatching(/^color: .+;$/), expect.stringMatching(/^width: .+;$/)]);
         const sample = fixture.getByTestId(`sample-${index}`);
         const expected = await sample.evaluate((parent, styles) => {
           const reference = document.createElement('div');

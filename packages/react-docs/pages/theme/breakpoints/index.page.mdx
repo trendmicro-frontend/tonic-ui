@@ -158,9 +158,9 @@ When width and text color change together, put both declarations in the same med
 
 | Viewport width | Styles |
 | :--- | :--- |
-| **Below `sm`**<br /><span>{`< ${exampleSmPx}`}</span> | `width: 100%;`<br />`color: inherit;` |
-| **From `sm` to below `md`**<br /><span>{`${exampleSmPx} to under ${exampleMdPx}`}</span> | `width: 50%;`<br />`color: var(--tonic-colors-text-secondary);` |
-| **`md` and above**<br /><span>{`≥ ${exampleMdPx}`}</span> | `width: 100%;`<br />`color: var(--tonic-colors-text-primary);` |
+| **Below `sm`**<br /><span>{`< ${exampleSmPx}`}</span> | `color: inherit;`<br />`width: 100%;` |
+| **From `sm` to below `md`**<br /><span>{`${exampleSmPx} to under ${exampleMdPx}`}</span> | `color: var(--tonic-colors-text-secondary);`<br />`width: 50%;` |
+| **`md` and above**<br /><span>{`≥ ${exampleMdPx}`}</span> | `color: var(--tonic-colors-text-primary);`<br />`width: 100%;` |
 
 At `md`, both queries match. The later rule wins for both properties.
 
@@ -190,9 +190,9 @@ Use an `sx` array when the declarations come from separate style objects. Here, 
 
 | Viewport width | Styles |
 | :--- | :--- |
-| **Below `sm`**<br /><span>{`< ${exampleSmPx}`}</span> | `width: 100%;`<br />`color: inherit;` |
-| **From `sm` to below `md`**<br /><span>{`${exampleSmPx} to under ${exampleMdPx}`}</span> | `width: 50%;`<br />`color: var(--tonic-colors-text-secondary);` |
-| **`md` and above**<br /><span>{`≥ ${exampleMdPx}`}</span> | `width: 100%;`<br />`color: var(--tonic-colors-text-primary);` |
+| **Below `sm`**<br /><span>{`< ${exampleSmPx}`}</span> | `color: inherit;`<br />`width: 100%;` |
+| **From `sm` to below `md`**<br /><span>{`${exampleSmPx} to under ${exampleMdPx}`}</span> | `color: var(--tonic-colors-text-secondary);`<br />`width: 50%;` |
+| **`md` and above**<br /><span>{`≥ ${exampleMdPx}`}</span> | `color: var(--tonic-colors-text-primary);`<br />`width: 100%;` |
 
 The two `gte('sm')` rules combine to produce the same result as the Orders example.
 
@@ -219,9 +219,9 @@ Use `&&` to give just the width declaration higher selector specificity. Leave c
 
 | Viewport width | Styles |
 | :--- | :--- |
-| **Below `sm`**<br /><span>{`< ${exampleSmPx}`}</span> | `width: 50%;`<br />`color: inherit;` |
-| **From `sm` to below `md`**<br /><span>{`${exampleSmPx} to under ${exampleMdPx}`}</span> | `width: 50%;`<br />`color: var(--tonic-colors-text-secondary);` |
-| **`md` and above**<br /><span>{`≥ ${exampleMdPx}`}</span> | `width: 50%;`<br />`color: var(--tonic-colors-text-primary);` |
+| **Below `sm`**<br /><span>{`< ${exampleSmPx}`}</span> | `color: inherit;`<br />`width: 50%;` |
+| **From `sm` to below `md`**<br /><span>{`${exampleSmPx} to under ${exampleMdPx}`}</span> | `color: var(--tonic-colors-text-secondary);`<br />`width: 50%;` |
+| **`md` and above**<br /><span>{`≥ ${exampleMdPx}`}</span> | `color: var(--tonic-colors-text-primary);`<br />`width: 50%;` |
 
 At `md`, `&&` overrides `width: '100%'` without affecting text color.
 
