@@ -7,8 +7,17 @@ const namedContainerQuery: string = viewportTheme.containerQueries('sidebar').on
 createTheme({ breakpoints: { values: { sm: 0, md: 48 }, unit: 'em' } });
 createTheme(viewportTheme, { breakpoints: { values: { lg: 1000 }, unit: 'px' } });
 createTheme({ breakpoints: { values: { xs: 0 } } });
-// @ts-expect-error Unknown breakpoint name.
-createTheme({ breakpoints: { values: { tablet: 640 } } });
+const deviceTheme = createTheme(viewportTheme, { breakpoints: { values: { mobile: 0, tablet: 640 } } });
+deviceTheme.breakpoints.gte('tablet');
+deviceTheme.containerQueries('sidebar').between('mobile', 'tablet');
+// @ts-expect-error A replacement scale does not include the default names.
+deviceTheme.breakpoints.gte('sm');
+// @ts-expect-error Container queries use the same inferred names.
+deviceTheme.containerQueries.only('talbet');
+const sparseTheme = createTheme({ breakpoints: { values: { mobile: 0, tablet: undefined } } });
+sparseTheme.breakpoints.gte('mobile');
+// @ts-expect-error Undefined widths omit the breakpoint.
+sparseTheme.breakpoints.gte('tablet');
 // @ts-expect-error Legacy array config is not accepted.
 createTheme({ breakpoints: ['600px'] });
 const largestQuery: string = viewportTheme.breakpoints.gte('2xl');

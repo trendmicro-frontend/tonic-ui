@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, useTheme } from '@tonic-ui/react/src';
+import { Box, TonicProvider, useTheme } from '@tonic-ui/react/src';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { TONIC_THEME } from '../constants';
 import createTheme from '../createTheme';
@@ -35,8 +35,27 @@ describe('createTheme', () => {
     expect(original.breakpoints.keys).toEqual(['sm', 'md', 'xl']);
     expect(original.breakpoints.gte('sm')).toBe('@media (width >= 0em)');
     expect(original.breakpoints.values.lg).toBeUndefined();
-    expect(extended.breakpoints.lt('lg')).toBe('@media (width < 64em)');
+    expect(extended.breakpoints.lt('lg')).toBe('@media (width < 64px)');
     expect(extended.breakpoints.values.sm).toBeUndefined();
+  });
+
+  it('uses custom breakpoint names in queries and responsive props', () => {
+    const theme = createTheme({ breakpoints: { values: { desktop: 1200, tablet: 640, mobile: 0 } } });
+    const { breakpoints, containerQueries } = theme.toColorMode('light');
+    expect(breakpoints.keys).toEqual(['mobile', 'tablet', 'desktop']);
+    expect(breakpoints.only('tablet')).toBe('@media (640px <= width < 1200px)');
+    expect(containerQueries('sidebar').gte('tablet')).toBe('@container sidebar (width >= 640px)');
+    expect(() => breakpoints.gte('sm')).toThrow(RangeError);
+    expect(() => containerQueries.only('talbet')).toThrow(RangeError);
+
+    const { container } = render(
+      <TonicProvider theme={theme}>
+        <Box display={{ _: 'block', tablet: 'flex', sm: 'none' }} />
+      </TonicProvider>
+    );
+    expect(container.firstChild).toHaveStyleRule('display', 'block');
+    expect(container.firstChild).toHaveStyleRule('display', 'flex', { media: '(width >= 640px)' });
+    expect(container.firstChild).not.toHaveStyleRule('display', 'none', { media: '(width >= 40rem)' });
   });
 
   it('exposes immutable breakpoint widths across the base theme and color modes', () => {

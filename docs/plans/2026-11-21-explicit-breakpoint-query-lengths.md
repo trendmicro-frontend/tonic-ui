@@ -36,3 +36,7 @@ Verification: 57 utility tests, 39 React theme tests, the public package build, 
 ## Named zero breakpoint
 
 The default v3 scale starts at `xs: 0`. The `xs` name can be overridden or omitted like other keys. Numeric `0` remains valid for `gte`, `lt`, and `between`, independently of that setting. The Breakpoints guide includes copyable default `rem` and equivalent `px` examples; Chromium checks both against the current theme at a `16px` initial font size.
+
+## Custom breakpoint names
+
+A supplied `values` map replaces the prior map and defaults to `px` when its `unit` is omitted. The built-in scale remains in `rem`. Valid names start with a letter and use letters, digits, or hyphens; `2xl` remains supported. Query helpers and responsive props use the same replacement map. The last override that supplies `values` determines the key type inferred by `createTheme()`.

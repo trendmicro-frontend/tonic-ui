@@ -6,9 +6,9 @@ import { Box, TonicProvider, useTheme } from '@tonic-ui/react';
     // @ts-expect-error Box may render without a theme provider.
     breakpoints.gte('sm');
     if (breakpoints) {
-      // @ts-expect-error Unknown breakpoint name.
-      breakpoints.gte('mobile');
-      return { [breakpoints.gte('sm')]: { display: 'block' } };
+      // @ts-expect-error A nonzero numeric boundary must include a unit.
+      breakpoints.gte(300);
+      return { [breakpoints.gte('mobile')]: { display: 'block' } };
     }
     return { display: 'block' };
   }}
@@ -26,13 +26,11 @@ function ContainerExample() {
             // @ts-expect-error JSX cannot infer a theme provider for this callback.
             theme.containerQueries.gte('sm');
             if (theme.containerQueries) {
-              // @ts-expect-error Unknown breakpoint name.
-              theme.containerQueries.gte('mobile');
               // @ts-expect-error Numeric boundaries need an explicit unit.
               theme.containerQueries.gte(300);
-              // @ts-expect-error only accepts a configured key.
-              theme.containerQueries.only('300px');
-              return { [theme.containerQueries.gte('300px')]: { display: 'flex' } };
+              // @ts-expect-error only accepts a name, not a number.
+              theme.containerQueries.only(0);
+              return { [theme.containerQueries.gte('mobile')]: { display: 'flex' } };
             }
             return {};
           },

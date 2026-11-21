@@ -1,6 +1,15 @@
 import React from 'react';
 import { useTheme, Box, createTheme } from '@tonic-ui/react';
 
+const layoutTheme = createTheme({ breakpoints: { values: { mobile: 0, tablet: 640 } } });
+
+function UseLayoutTheme() {
+  const { breakpoints, containerQueries } = useTheme<(typeof layoutTheme.breakpoints.keys)[number]>();
+  // @ts-expect-error This provider's theme does not define md.
+  containerQueries.only('md');
+  return <Box width={{ _: '100%', tablet: '50%' }} sx={{ [breakpoints.gte('tablet')]: { display: 'flex' } }} />;
+}
+
 // Access resolved color tokens
 function UseThemeColors() {
   const theme = useTheme();

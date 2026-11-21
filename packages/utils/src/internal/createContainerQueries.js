@@ -1,10 +1,10 @@
-/** @typedef {ReturnType<typeof import('./createBreakpoints').createBreakpoints>} Breakpoints */
-/** @typedef {Pick<Breakpoints, 'gte' | 'lt' | 'between' | 'only'>} ContainerQueryMethods */
-/** @typedef {((name: string) => ContainerQueryMethods) & ContainerQueryMethods} ContainerQueries */
+/** @template {string} Name @typedef {import('./createBreakpoints').Breakpoints<Name>} Breakpoints */
+/** @template {string} Name @typedef {Pick<Breakpoints<Name>, 'gte' | 'lt' | 'between' | 'only'>} ContainerQueryMethods */
+/** @template {string} Name @typedef {((name: string) => ContainerQueryMethods<Name>) & ContainerQueryMethods<Name>} ContainerQueries */
 
-/** @param {Breakpoints} breakpoints @returns {ContainerQueries} */
+/** @template {string} Name @param {Breakpoints<Name>} breakpoints @returns {ContainerQueries<Name>} */
 export function createContainerQueries(breakpoints) {
-  /** @param {string} [name] @returns {ContainerQueryMethods} */
+  /** @param {string} [name] @returns {ContainerQueryMethods<Name>} */
   function forContainer(name) {
     const prefix = name ? `@container ${name}` : '@container';
     return {

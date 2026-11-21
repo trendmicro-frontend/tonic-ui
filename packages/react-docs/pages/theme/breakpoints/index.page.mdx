@@ -70,7 +70,7 @@ Responsive style props accept breakpoint objects. In `sx`, use the helpers as me
 Set `breakpoints` in `createTheme()` to define the viewport widths used by responsive styles and query helpers.
 
 - `theme.breakpoints.values`: The minimum width for each breakpoint name. Tonic UI sorts the breakpoints by width.
-- `theme.breakpoints.unit`: The unit for those widths. It inherits the active theme's unit (`rem` by default). Set `unit: 'px'` to supply pixel values.
+- `theme.breakpoints.unit`: The unit for those widths. The built-in scale uses `rem`. When you supply `values` without a `unit`, those values use `px`.
 
 Setting `values` replaces the entire scale. Include every breakpoint you want to keep. These examples show the default thresholds in either unit:
 
@@ -107,6 +107,28 @@ const theme = createTheme({
   },
 });
 ```
+
+You can also name breakpoints for your project's layouts. Custom names start with a letter and can contain letters, digits, and hyphens.
+
+```js
+import { createTheme } from '@tonic-ui/react';
+
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      mobile: 0,
+      tablet: 640,
+      laptop: 1024,
+      desktop: 1200,
+    },
+  },
+});
+
+theme.breakpoints.only('tablet'); // '@media (640px <= width < 1024px)'
+theme.containerQueries('sidebar').gte('tablet'); // '@container sidebar (width >= 640px)'
+```
+
+Only the supplied names are available on this theme. You can also use them in responsive props, such as `width={{ _: '100%', tablet: '50%' }}`. `createTheme()` infers the names for its return value. Inside a component under this theme's provider, TypeScript callers can use `useTheme<(typeof theme.breakpoints.keys)[number]>()` to specify those names.
 
 ## Rule composition
 

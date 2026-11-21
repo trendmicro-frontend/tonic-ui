@@ -280,6 +280,9 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
           await expect(example).toContainText(`${key === '2xl' ? "'2xl'" : key}: ${value},`);
         }
       }
+      const custom = code.filter({ hasText: 'mobile: 0' });
+      await expect(custom).toContainText("theme.breakpoints.only('tablet')");
+      await expect(custom).toContainText('@media (640px <= width < 1024px)');
     });
   });
 });
