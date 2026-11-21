@@ -64,7 +64,7 @@ const SearchDropdown = forwardRef((
   const renderItem = (item) => {
     return (typeof renderItemProp === 'function')
       ? renderItemProp(item, { searchKeyword })
-      : (item.label ?? item.value);
+      : (item?.label ?? item?.value ?? '');
   };
 
   const filteredItems = items.filter(item => {

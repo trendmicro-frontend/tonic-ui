@@ -19,6 +19,9 @@ import {
 } from '@tonic-ui/react/src';
 import React from 'react';
 import SearchDropdown from './SearchDropdown';
+import DocsSearchDropdown from '../../../../react-docs/pages/components/dropdown/SearchDropdown';
+
+jest.mock('@tonic-ui/react', () => jest.requireActual('@tonic-ui/react/src'));
 
 const items = [
   { value: 'apple', label: 'Apple' },
@@ -45,6 +48,20 @@ const waitForCloseTransition = async () => {
 };
 
 describe('SearchDropdown (modern usage)', () => {
+  it('renders the docs recipe before selection with the default renderer', async () => {
+    const user = userEvent.setup();
+    render(<DocsSearchDropdown items={items} />);
+    const menu = await openMenu(user);
+    expect(menu).toHaveTextContent('Apple');
+  });
+
+  it('passes null to a custom docs renderer before selection', () => {
+    const renderItem = jest.fn(item => item === null ? 'All items' : item.label);
+    render(<DocsSearchDropdown items={items} renderItem={renderItem} />);
+    expect(screen.getByRole('button', { name: 'All items' })).toBeInTheDocument();
+    expect(renderItem).toHaveBeenCalledWith(null, { searchKeyword: '' });
+  });
+
   it('renders the search layout; typing filters items and renderItem receives searchKeyword', async () => {
     const user = userEvent.setup();
     const { container } = render(

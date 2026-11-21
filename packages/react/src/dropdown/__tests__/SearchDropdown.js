@@ -6,9 +6,8 @@
  * Same wrapper shape as the legacy recipe (`SearchDropdownShim`) expressed with
  * today's API — `renderContent` for the inline search input, a
  * `renderItem({ searchKeyword })` wrapper, client-side label filtering, and
- * keyword reset on close. The toggle is consumer-owned through `renderToggle`:
- * the default toggle calls `renderItem(null)` before any selection, so a
- * `renderToggle` (or a null-safe `renderItem`) is required.
+ * keyword reset on close. A custom renderer receives the selected item, including
+ * `null` before the first selection.
  *
  * Legacy counterpart: `SearchDropdownShim.js` (`slots.toggle` /
  * `slotProps.toggle` / `children`), pinned by `SearchDropdownShim.test.js`.
@@ -58,7 +57,7 @@ const SearchDropdown = forwardRef((
   const renderItem = (item) => {
     return (typeof renderItemProp === 'function')
       ? renderItemProp(item, { searchKeyword })
-      : (item.label ?? item.value);
+      : (item?.label ?? item?.value ?? '');
   };
 
   const filteredItems = items.filter((item) => {
