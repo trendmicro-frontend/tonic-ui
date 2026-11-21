@@ -227,35 +227,78 @@ At `md`, `&&` overrides `width: '100%'` without affecting text color.
 
 ## API
 
-The read-only `theme.breakpoints` object exposes `keys`, `values`, `unit`, and four query helpers. These examples use the pixel configuration from [CSS media queries](#css-media-queries). A configured name uses the theme's value and unit. `gte`, `lt`, and `between` also accept a non-negative decimal length string ending in `px`, `rem`, or `em`. An explicit length keeps its own unit. The number `0` represents zero length and is the only number accepted without a unit. Unitless strings and CSS functions such as `calc()` are not accepted. Unknown breakpoint names throw.
+The read-only `theme.breakpoints` object exposes `keys`, `values`, `unit`, and the four helpers below. The examples use the pixel configuration from [CSS media queries](#css-media-queries).
+
+A **boundary** is a configured breakpoint name, a non-negative decimal length string ending in `px`, `rem`, or `em`, or the number `0`. Names use the theme's value and unit. Explicit lengths keep their units. Unknown names, unitless strings, and CSS functions such as `calc()` are not accepted.
 
 The default scale starts at `xs: 0`. Use `gte('xs')` for the configured `xs` threshold. Use `gte(0)` for a fixed zero bound, even if `xs` changes or is omitted.
 
-### theme.breakpoints.gte
+<span id="themebreakpointsgte" />
 
-`gte(start)` matches widths at or above the lower bound:
+### `theme.breakpoints.gte(start) => media query`
+
+**Arguments**
+
+1. `start` (boundary): The minimum viewport width.
+
+**Returns**
+
+A media query string that matches widths at or above `start`.
+
+**Examples**
 
 <CodeBlock language="js" code={`breakpoints.gte('sm');    // '${exampleBreakpoints.gte('sm')}'
 breakpoints.gte('800px'); // '${exampleBreakpoints.gte('800px')}'
 breakpoints.gte(0);       // '${exampleBreakpoints.gte(0)}'`} />
 
-### theme.breakpoints.lt
+<span id="themebreakpointslt" />
 
-`lt(end)` matches widths below the upper bound:
+### `theme.breakpoints.lt(end) => media query`
+
+**Arguments**
+
+1. `end` (boundary): The exclusive upper bound.
+
+**Returns**
+
+A media query string that matches widths below `end`.
+
+**Examples**
 
 <CodeBlock language="js" code={`breakpoints.lt('sm');    // '${exampleBreakpoints.lt('sm')}'
 breakpoints.lt('800px'); // '${exampleBreakpoints.lt('800px')}'`} />
 
-### theme.breakpoints.between
+<span id="themebreakpointsbetween" />
 
-`between(start, end)` includes `start` and excludes `end`. Each bound can be a configured name, an explicit length, or the number `0`. The helper does not convert units:
+### `theme.breakpoints.between(start, end) => media query`
+
+**Arguments**
+
+1. `start` (boundary): The inclusive lower bound.
+2. `end` (boundary): The exclusive upper bound.
+
+**Returns**
+
+A media query string that matches widths at or above `start` and below `end`. The helper does not convert units.
+
+**Examples**
 
 <CodeBlock language="js" code={`breakpoints.between('sm', 'md');      // '${exampleBreakpoints.between('sm', 'md')}'
 breakpoints.between('700px', '960px'); // '${exampleBreakpoints.between('700px', '960px')}'`} />
 
-### theme.breakpoints.only
+<span id="themebreakpointsonly" />
 
-`only(key)` accepts a configured name and spans from that breakpoint up to, but not including, the next. The last key, including a single configured key, has no upper bound:
+### `theme.breakpoints.only(name) => media query`
+
+**Arguments**
+
+1. `name` (string): A configured breakpoint name.
+
+**Returns**
+
+A media query string that matches widths from the named breakpoint up to, but not including, the next configured breakpoint. If there is no next breakpoint, the query has no upper bound.
+
+**Examples**
 
 <CodeBlock language="js" code={`breakpoints.only('sm');  // '${exampleBreakpoints.only('sm')}'
 breakpoints.only('md');  // '${exampleBreakpoints.only('md')}'

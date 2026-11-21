@@ -7,6 +7,7 @@ exports[`Code should render correctly 1`] = `
   color: var(--tonic-colors-text-accent);
   font-family: var(--tonic-fonts-mono);
   font-size: var(--tonic-fontSizes-sm);
+  font-weight: var(--tonic-fontWeights-normal);
   padding-left: var(--tonic-space-1x);
   padding-right: var(--tonic-space-1x);
   padding-top: var(--tonic-space-1h);

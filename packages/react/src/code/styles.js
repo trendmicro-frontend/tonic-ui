@@ -5,6 +5,7 @@ const useCodeStyle = () => {
     color: 'text.accent',
     fontFamily: 'mono',
     fontSize: 'sm',
+    fontWeight: 'normal',
     px: '1x',
     py: '1h',
   };

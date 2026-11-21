@@ -138,7 +138,7 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
       await page.goto('./');
       await main.getByRole('link', { name: `theme.breakpoints.${helper}(${args})`, exact: true }).click();
       await expect(page).toHaveURL(new RegExp(`#themebreakpoints${helper}$`));
-      await expect(main.getByRole('heading', { name: `theme.breakpoints.${helper}`, exact: true })).toBeInViewport();
+      await expect(main.getByRole('heading', { name: `theme.breakpoints.${helper}(${args}) => media query`, exact: true })).toBeInViewport();
     }
 
     const queries = page.getByRole('list', { name: 'Media query matches' });
@@ -155,6 +155,20 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
       await page.setViewportSize({ width: scenario.width, height: 900 });
       await expectBreakpointState(page, scenario);
     }
+
+    await captureColorModes(page, 'breakpoints', 'api', async (colorMode) => {
+      await page.setViewportSize({ width: 1440, height: 1000 });
+      const root = page.locator('html');
+      if (await root.getAttribute('data-color-scheme') !== colorMode) {
+        await page.locator('[title="Toggle color mode"]').click();
+      }
+      await expect(root).toHaveAttribute('data-color-scheme', colorMode);
+      const heading = main.getByRole('heading', { name: 'API', level: 2, exact: true });
+      await heading.evaluate(element => element.scrollIntoView({ block: 'start', behavior: 'instant' }));
+      const signature = main.getByRole('heading', { name: 'theme.breakpoints.gte(start) => media query', exact: true });
+      await expect(signature).toBeInViewport();
+      await expect(signature.locator('code')).toHaveCSS('font-weight', '400');
+    });
   });
 
   test('aligns the docs shell and header at the lg boundary', async ({ page }) => {
