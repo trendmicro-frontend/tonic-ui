@@ -58,8 +58,17 @@ export default defineConfig([
     },
   },
   {
+    files: ['src/**/*.{js,jsx,ts,tsx}'],
+    extends: [tonic.configs['runtime-safety'], tonic.configs['sx-formatting']],
+  },
+  {
     files: ['test/**/*.{js,jsx,mjs,ts,tsx}'],
-    extends: [tonic.configs.recommended],
+    extends: [
+      tonic.configs.recommended,
+      tonic.configs['inline-style'],
+      tonic.configs['raw-html'],
+      tonic.configs['sx-formatting'],
+    ],
   },
   {
     files: ['**/*.d.ts'],

@@ -1,3 +1,5 @@
+import path from 'node:path';
+import * as tsParser from '@typescript-eslint/parser';
 import { RuleTester } from 'eslint';
 import plugin from '../index.mjs';
 
@@ -9,6 +11,11 @@ const ruleTester = new RuleTester({
       },
     },
   },
+});
+
+const withTonicImports = ({ code, ...testCase }) => ({
+  ...testCase,
+  code: `import { Box, Button, Flex, Grid, LinearProgress, Scrollbar, Space, TableScrollbar, Text } from '@tonic-ui/react';\n${code}`,
 });
 
 ruleTester.run('no-flat-style-props', plugin.rules['no-flat-style-props'], {
@@ -29,15 +36,18 @@ ruleTester.run('no-flat-style-props', plugin.rules['no-flat-style-props'], {
     // DOM elements are covered by no-raw-html-elements.
     { code: '<div width={100} />' },
     { code: '<span p="4x" />' },
-    // Member expressions are not resolved to a component name.
+    // Unbound members and unrelated components are not assumed to be Tonic.
     { code: '<UI.Box p="4x" />' },
+    { code: '<Custom p="4x" />' },
+    { code: '<ButtonBaseIcon py={0} />' },
+    { code: '<SuperscriptText color={textColor} />' },
     // Non style-prop attributes are ignored.
     { code: '<Box className="foo" id="bar" data-testid="baz" />' },
     { code: '<Box onClick={() => {}} aria-label="label" />' },
     // Spread props and refs are not style props.
     { code: '<Text ref={ref} {...props} />' },
     { code: '<Box sx={{ w: "100%" }}>{banner.content}</Box>' },
-  ],
+  ].map(withTonicImports),
   invalid: [
     {
       code: '<Box p="4x" />',
@@ -83,11 +93,6 @@ ruleTester.run('no-flat-style-props', plugin.rules['no-flat-style-props'], {
       code: '<Button color="red" />',
       errors: [{ messageId: 'useSx', data: { prop: 'color', element: 'Button' } }],
     },
-    // A component that documents no style props falls back to the full style-prop set.
-    {
-      code: '<Custom p="4x" />',
-      errors: [{ messageId: 'useSx', data: { prop: 'p', element: 'Custom' } }],
-    },
     // Documented props are per component: `color` is documented on Spinner, not on Box.
     {
       code: '<Box color="red" />',
@@ -125,16 +130,99 @@ ruleTester.run('no-flat-style-props', plugin.rules['no-flat-style-props'], {
       ],
     },
     {
-      code: '<ButtonBaseIcon icon={ChevronUpIcon} disabled={page <= 1} onClick={prevPage} py={0} />',
-      errors: [{ messageId: 'useSx', data: { prop: 'py', element: 'ButtonBaseIcon' } }],
-    },
-    {
-      code: '<SuperscriptText color={textColor}>{children}</SuperscriptText>',
-      errors: [{ messageId: 'useSx', data: { prop: 'color', element: 'SuperscriptText' } }],
-    },
-    {
       code: '<Grid width={contentWidth} />',
       errors: [{ messageId: 'useSx', data: { prop: 'width', element: 'Grid' } }],
+    },
+  ].map(withTonicImports),
+});
+
+ruleTester.run('no-flat-style-props/bindings', plugin.rules['no-flat-style-props'], {
+  valid: [
+    { code: 'import { Box } from "other-library"; <Box p="4x" />;' },
+    { code: 'import * as UI from "other-library"; <UI.Box p="4x" />;' },
+    { code: 'import { Missing as Box } from "@tonic-ui/react"; <Box p="4x" />;' },
+    { code: 'import { Box } from "@tonic-ui/react-extra"; <Box p="4x" />;' },
+    { code: 'import * as UI from "@tonic-ui/react"; <UI.Missing p="4x" />;' },
+    { code: 'import { useColorMode as Widget } from "@tonic-ui/react"; <Widget p="4x" />;' },
+    { code: 'import Box from "@tonic-ui/react/src/button/useButtonGroup"; <Box p="4x" />;' },
+    {
+      code: 'import { Box } from "../box"; <Box p="4x" />;',
+      filename: path.resolve(process.cwd(), '../react-docs/pages/example.js'),
+    },
+    { code: 'import { Box } from "@tonic-ui/react"; function render(Box) { return <Box p="4x" />; }' },
+    { code: 'import * as UI from "@tonic-ui/react"; function render(UI) { return <UI.Box p="4x" />; }' },
+    { code: 'import { Box as box } from "@tonic-ui/react"; <box p="4x" />;' },
+    { code: 'import { Grid as Layout } from "@tonic-ui/react"; <Layout gap={{ sm: "4x" }} rowGap={responsive} />;' },
+    { code: 'import { Box } from "@tonic-ui/react"; <Box {...{ gap: { sm: "4x" }, [name]: "4x", ...unknown }} />;' },
+    { code: 'import { Box } from "@tonic-ui/react"; <Box {...(false && { p: "4x" })} {...({} || { m: "2x" })} />;' },
+    { code: 'import { Scrollbar as Scroll, LinearProgress as Progress } from "@tonic-ui/react"; <><Scroll width={100} /><Progress color="red" /></>;' },
+    { code: 'import type { Box } from "@tonic-ui/react"; <Box p="4x" />;', filename: 'test.tsx', languageOptions: { parser: tsParser } },
+    { code: 'import { type Box } from "@tonic-ui/react"; <Box p="4x" />;', filename: 'test.tsx', languageOptions: { parser: tsParser } },
+    { code: 'import type * as UI from "@tonic-ui/react"; <UI.Box p="4x" />;', filename: 'test.tsx', languageOptions: { parser: tsParser } },
+  ],
+  invalid: [
+    {
+      code: 'import { Box as Container } from "@tonic-ui/react"; <Container p="4x" />;',
+      errors: [{ messageId: 'useSx', data: { prop: 'p', element: 'Box' } }],
+    },
+    {
+      code: 'import * as UI from "@tonic-ui/react"; <UI.Grid gridGap={{ sm: "4x" }} />;',
+      errors: [{ messageId: 'replaceUnsupportedProp', data: { element: 'Grid', prop: 'gridGap', replacement: 'gap' } }],
+    },
+    {
+      code: 'import { Box } from "@tonic-ui/react-base"; <Box width={42} />;',
+      errors: [{ messageId: 'useSx', data: { prop: 'width', element: 'Box' } }],
+    },
+    {
+      code: 'import { AddIcon as Plus } from "@tonic-ui/react-icons"; <Plus color="red" />;',
+      errors: [{ messageId: 'useSx', data: { prop: 'color', element: 'AddIcon' } }],
+    },
+    {
+      code: 'import { Box } from "@tonic-ui/react/src/box"; <Box p="4x" />;',
+      errors: [{ messageId: 'useSx', data: { prop: 'p', element: 'Box' } }],
+    },
+    {
+      code: 'import Push from "@tonic-ui/react/src/button/Button"; <Push p="4x" />;',
+      errors: [{ messageId: 'useSx', data: { prop: 'p', element: 'Button' } }],
+    },
+    {
+      code: 'import Layout from "../Grid"; <Layout gridGap="4x" />;',
+      filename: path.resolve(process.cwd(), '../react/src/grid/__tests__/Grid.test.js'),
+      errors: [{ messageId: 'replaceUnsupportedProp', data: { element: 'Grid', prop: 'gridGap', replacement: 'gap' } }],
+    },
+    {
+      code: 'import { Box as Container } from "../box"; <Container p="4x" />;',
+      filename: path.resolve(process.cwd(), '../react/src/grid/Grid.js'),
+      errors: [{ messageId: 'useSx', data: { prop: 'p', element: 'Box' } }],
+    },
+    {
+      code: 'import { Box } from "@tonic-ui/react"; <Box {...{ p: "4x", ["m"]: "2x", ...{ bg: "red" } }} />;',
+      errors: [
+        { type: 'Property', messageId: 'useSx', data: { prop: 'p', element: 'Box' } },
+        { type: 'Property', messageId: 'useSx', data: { prop: 'm', element: 'Box' } },
+        { type: 'Property', messageId: 'useSx', data: { prop: 'bg', element: 'Box' } },
+      ],
+    },
+    {
+      code: 'import { Grid } from "@tonic-ui/react"; <Grid {...{ gap: { sm: "4x" }, rowGap: responsive, width: ["1", "2"], gridGap: value }} />;',
+      errors: [
+        { messageId: 'responsiveArray', data: { prop: 'width', element: 'Grid' } },
+        { messageId: 'replaceUnsupportedProp', data: { element: 'Grid', prop: 'gridGap', replacement: 'gap' } },
+      ],
+    },
+    {
+      code: 'import { Box } from "@tonic-ui/react"; <Box {...(flag ? { p: "4x", ...(other && { m: "2x" }) } : { bg: "red" })} />;',
+      errors: [
+        { messageId: 'useSx', data: { prop: 'p', element: 'Box' } },
+        { messageId: 'useSx', data: { prop: 'm', element: 'Box' } },
+        { messageId: 'useSx', data: { prop: 'bg', element: 'Box' } },
+      ],
+    },
+    {
+      code: 'import { Box } from "@tonic-ui/react"; <Box {...({ p: "4x" } as const)} />;',
+      filename: 'test.tsx',
+      languageOptions: { parser: tsParser },
+      errors: [{ messageId: 'useSx', data: { prop: 'p', element: 'Box' } }],
     },
   ],
 });

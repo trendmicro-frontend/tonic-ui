@@ -20,6 +20,7 @@ export default defineConfig([
       'coverage',
       'dist',
       'node_modules',
+      'src/generated/**',
     ],
   },
 ]);
