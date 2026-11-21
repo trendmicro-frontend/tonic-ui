@@ -4,14 +4,14 @@ import { formatBreakpoint } from '@/utils/convert-breakpoint-width.mjs';
 
 # Container queries
 
-[Breakpoints](../breakpoints) change a layout based on the viewport width. Container queries let a widget adapt to the width of an ancestor container instead, so two widgets can use different layouts at the same viewport width. Both helpers use the same breakpoint scale and unit, with inclusive lower and exclusive upper boundaries.
+[Breakpoints](../breakpoints) change a layout based on the viewport width. Container queries let a widget adapt to the width of an ancestor container instead, so two widgets can use different layouts at the same viewport width. Both sets of helpers use the same scale and unit for breakpoint names, with inclusive lower and exclusive upper bounds.
 
 ## Overview
 
 This example uses two rules at the same time. Resize the browser to see what each rule controls:
 
 - **Viewport:** `breakpoints.gte('md')` puts the sidebar and main area side by side at <Code>{formatBreakpoint(breakpoints, 'md')}</Code> (<Code>{formatBreakpoint(breakpoints, 'md', 'px')}</Code> with a `16px` initial font size). Below that, they stack.
-- **Container:** `containerQueries.gte(14)` gives each gallery three columns when its own container reaches `14rem` (`224px` with a `16px` root font size). The sidebar stays at one column even when both galleries are side by side.
+- **Container:** `containerQueries.gte('14rem')` gives each gallery three columns when its own container reaches `14rem` (`224px` with a `16px` root font size). The sidebar stays at one column even when both galleries are side by side.
 
 {render('./usage')}
 
@@ -29,7 +29,7 @@ function PhotoGrid({ width, children }) {
         display: 'grid',
         gridTemplateColumns: '1fr',
         gap: '2x',
-        [containerQueries.gte(14)]: { gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' },
+        [containerQueries.gte('14rem')]: { gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' },
       }}>
         {children}
       </Box>
@@ -60,7 +60,7 @@ If you use a `Box` theme callback instead of `useTheme()`, guard `theme.containe
 
 ## Named containers
 
-An unnamed query measures the nearest ancestor that supports width queries. To measure a specific ancestor instead, set `containerName: 'gallery'` on that ancestor alongside `containerType: 'inline-size'`, and use `containerQueries('gallery').gte(14)` as an `sx` key on the descendant.
+An unnamed query measures the nearest ancestor that supports width queries. To measure a specific ancestor instead, set `containerName: 'gallery'` on that ancestor alongside `containerType: 'inline-size'`, and use `containerQueries('gallery').gte('14rem')` as an `sx` key on the descendant.
 
 ## Customizing container queries
 
@@ -98,6 +98,8 @@ The callable `theme.containerQueries` exposes `gte`, `lt`, `between`, and `only`
 | `containerQueries.lt('md')` | <Code>{containerQueries.lt('md')}</Code> |
 | `containerQueries.between('sm', 'lg')` | <Code>{containerQueries.between('sm', 'lg')}</Code> |
 | `containerQueries.only('md')` | <Code>{containerQueries.only('md')}</Code> |
-| `containerQueries('sidebar').gte(18.75)` | <Code>{containerQueries('sidebar').gte(18.75)}</Code> |
+| `containerQueries('sidebar').gte('18.75rem')` | <Code>{containerQueries('sidebar').gte('18.75rem')}</Code> |
 
-`gte`, `lt`, and `between` accept configured breakpoint names or numeric widths in the configured breakpoint unit. With the default `rem` unit, `18.75` means `18.75rem`, or `300px` when the root font size is `16px`. Raw length strings such as `'300px'` are not supported. `only` accepts a configured breakpoint name and ends before the next breakpoint, or has no upper bound for the last name. Unknown or unconfigured names throw. See [breakpoints](../breakpoints) for the available names and configuration.
+`gte`, `lt`, and `between` accept configured breakpoint names, the number `0`, or non-negative decimal length strings ending in `px`, `rem`, or `em`. Other numbers and unitless strings are not accepted. An explicit length keeps its unit even if the theme unit changes. In a size container query, `em` uses the query container's computed font size. In a media query, `em` uses the browser's initial font size.
+
+`only` takes a configured breakpoint name and ends before the next breakpoint. The last name has no upper bound. See [Breakpoints](../breakpoints) for the available names and configuration.

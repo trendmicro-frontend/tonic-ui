@@ -11,7 +11,7 @@ const photos = [
 
 const App = () => {
   const { breakpoints, containerQueries } = useTheme();
-  const wideLayout = containerQueries.gte(14);
+  const wideLayout = containerQueries.gte('14rem');
 
   return (
     <Box

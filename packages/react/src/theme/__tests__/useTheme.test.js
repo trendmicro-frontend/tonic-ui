@@ -23,7 +23,7 @@ describe('useTheme', () => {
     expect(breakpoints.gte('sm')).toBe('@media (width >= 40em)');
     expect(breakpoints.lt('sm')).toBe('@media (width < 40em)');
     expect(breakpoints.only('sm')).toBe('@media (40em <= width < 80em)');
-    expect(breakpoints.between(0, 'lg')).toBe('@media (0em <= width < 80em)');
+    expect(breakpoints.between('0em', 'lg')).toBe('@media (0em <= width < 80em)');
   });
 
   it.each([

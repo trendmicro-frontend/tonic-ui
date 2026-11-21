@@ -4,9 +4,11 @@ import { useTheme, Box, createTheme } from '@tonic-ui/react';
 // Access resolved color tokens
 function UseThemeColors() {
   const theme = useTheme();
-  const query: string = theme.breakpoints.between('sm', 1000);
-  const directContainerQuery: string = theme.containerQueries.lt('md');
-  const namedContainerQuery: string = theme.containerQueries('sidebar').between(18.75, 'md');
+  const query: string = theme.breakpoints.between('sm', '1000rem');
+  const directContainerQuery: string = theme.containerQueries.lt(0);
+  const namedContainerQuery: string = theme.containerQueries('sidebar').between('18.75rem', 'md');
+  // @ts-expect-error Named container queries also require explicit units.
+  theme.containerQueries('sidebar').between(18.75, 'md');
   // @ts-expect-error No public negation helper.
   theme.breakpoints.not('md');
   // @ts-expect-error Cannot replace the breakpoint snapshot.

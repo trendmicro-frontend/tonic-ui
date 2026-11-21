@@ -7,13 +7,22 @@ test.each([
   ['gte', ['md'], '@media (width >= 48rem)'],
   ['lt', ['md'], '@media (width < 48rem)'],
   ['lt', ['sm'], '@media (width < 40rem)'],
-  ['lt', [32], '@media (width < 32rem)'],
+  ['lt', ['32rem'], '@media (width < 32rem)'],
   ['between', ['sm', 'lg'], '@media (40rem <= width < 64rem)'],
-  ['between', [36, 44], '@media (36rem <= width < 44rem)'],
+  ['between', ['36rem', '44rem'], '@media (36rem <= width < 44rem)'],
   ['only', ['md'], '@media (48rem <= width < 64rem)'],
   ['only', ['2xl'], '@media (width >= 96rem)'],
-  ['between', [47.95, 48], '@media (47.95rem <= width < 48rem)'],
-  ['lt', [47.96875], '@media (width < 47.96875rem)'],
+  ['between', ['47.95rem', '48rem'], '@media (47.95rem <= width < 48rem)'],
+  ['lt', ['47.96875rem'], '@media (width < 47.96875rem)'],
+  ['gte', ['40em'], '@media (width >= 40em)'],
+  ['gte', ['0px'], '@media (width >= 0px)'],
+  ['gte', [0], '@media (width >= 0)'],
+  ['lt', [0], '@media (width < 0)'],
+  ['between', [0, 'md'], '@media (0 <= width < 48rem)'],
+  ['between', ['sm', 0], '@media (40rem <= width < 0)'],
+  ['lt', ['.5px'], '@media (width < .5px)'],
+  ['between', ['sm', '960px'], '@media (40rem <= width < 960px)'],
+  ['between', ['800px', '40rem'], '@media (800px <= width < 40rem)'],
 ])('%s(%j) produces %s', (method, args, query) => {
   expect(defaults[method](...args)).toBe(query);
 });
@@ -30,8 +39,10 @@ test('handles nonzero first, singleton and empty scales', () => {
   expect(sparse.only('sm')).toBe('@media (600px <= width < 900px)');
   const single = createBreakpoints({ values: { lg: 600 } });
   expect(single.only('lg')).toBe('@media (width >= 600px)');
-  expect(createBreakpoints().gte(300)).toBe('@media (width >= 300px)');
+  expect(createBreakpoints().gte('300px')).toBe('@media (width >= 300px)');
   expect(() => createBreakpoints().only('sm')).toThrow(RangeError);
+  expect(() => sparse.gte('2xl')).toThrow(RangeError);
+  expect(() => sparse.only('2xl')).toThrow(RangeError);
 });
 
 test('treats an undefined width as an omitted breakpoint', () => {
@@ -49,7 +60,20 @@ test('rejects unsupported options and named keys', () => {
   expect(() => createBreakpoints({ values: { tablet: 600 } })).toThrow(new TypeError('[Tonic UI] Unsupported breakpoint name: tablet.'));
   expect(() => createBreakpoints({ values: { xs: 0 } })).toThrow(new TypeError('[Tonic UI] Unsupported breakpoint name: xs.'));
   expect(() => defaults.gte('xs')).toThrow(new RangeError('[Tonic UI] Unknown breakpoint: xs.'));
-  expect(() => defaults.gte('40em')).toThrow(new RangeError('[Tonic UI] Unknown breakpoint: 40em.'));
+});
+
+test.each([
+  48, '0', '48', { value: 48, unit: 'rem' }, null, '', '-1px', '+1px', ' 48px', '48px ', '48px\n',
+  '1e2px', '48PX', '48vw', 'calc(1px + 1px)', '@media (width >= 48px)', `${'9'.repeat(309)}px`,
+])('rejects invalid query boundaries: %p', (value) => {
+  expect(() => defaults.gte(value)).toThrow(TypeError);
+  expect(() => defaults.lt(value)).toThrow(TypeError);
+  expect(() => defaults.between(value, 'md')).toThrow(TypeError);
+  expect(() => defaults.between('sm', value)).toThrow(TypeError);
+});
+
+test.each([0, 48, '48', '14rem'])('only rejects non-name input: %p', (value) => {
+  expect(() => defaults.only(value)).toThrow(TypeError);
 });
 
 test('does not expose omitted helper names or step', () => {

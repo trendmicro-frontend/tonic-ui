@@ -16,7 +16,14 @@ const largestQuery: string = viewportTheme.breakpoints.gte('2xl');
 // @ts-expect-error There is no named base breakpoint.
 viewportTheme.breakpoints.gte('xs');
 const minWidth: string = viewportTheme.breakpoints.gte('md');
-const exclusiveMaxWidth: string = viewportTheme.breakpoints.lt(48);
+const exclusiveMaxWidth: string = viewportTheme.breakpoints.lt('48rem');
+const zeroWidth: string = viewportTheme.breakpoints.gte(0);
+// @ts-expect-error Numeric boundaries need an explicit unit.
+viewportTheme.breakpoints.gte(48);
+// @ts-expect-error A unitless string is not a breakpoint name or length.
+viewportTheme.breakpoints.lt('0');
+// @ts-expect-error A length must be a string, not an object.
+viewportTheme.breakpoints.between('sm', { value: 48, unit: 'rem' });
 // @ts-expect-error The previous helper name is not accepted.
 viewportTheme.breakpoints.up('md');
 // @ts-expect-error The previous helper name is not accepted.
@@ -24,7 +31,9 @@ viewportTheme.breakpoints.down('md');
 // @ts-expect-error Strict range queries do not use a step option.
 createTheme({ breakpoints: { step: 5 } });
 // @ts-expect-error only() accepts a key, not a width.
-viewportTheme.breakpoints.only(600);
+viewportTheme.breakpoints.only('600px');
+// @ts-expect-error The numeric zero exception is not available on only().
+viewportTheme.breakpoints.only(0);
 // @ts-expect-error Cannot replace the breakpoint snapshot.
 viewportTheme.breakpoints = createTheme().breakpoints;
 // @ts-expect-error Cannot mutate a width in the snapshot.

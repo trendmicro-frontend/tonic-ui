@@ -71,7 +71,7 @@ describe('createTheme', () => {
     }
 
     const px = createTheme(extended, { breakpoints: { values: { sm: 320 }, unit: 'px' } });
-    expect(px.containerQueries('sidebar').between(300, 'sm')).toBe('@container sidebar (300px <= width < 320px)');
+    expect(px.containerQueries('sidebar').between('300px', 'sm')).toBe('@container sidebar (300px <= width < 320px)');
   });
 
   it('keeps empty breakpoint scales, rejects legacy inputs and excludes breakpoint CSS variables', () => {

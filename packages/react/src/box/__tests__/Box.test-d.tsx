@@ -18,7 +18,7 @@ function ContainerExample() {
   const { containerQueries } = useTheme();
   return (
     <Box sx={{ containerType: 'inline-size', containerName: 'sidebar' }}>
-      <Box sx={{ [containerQueries('sidebar').gte(18.75)]: { display: 'flex' } }} />
+      <Box sx={{ [containerQueries('sidebar').gte('18.75rem')]: { display: 'flex' } }} />
       <Box
         sx={[
           { display: 'block' },
@@ -28,11 +28,11 @@ function ContainerExample() {
             if (theme.containerQueries) {
               // @ts-expect-error Unknown breakpoint name.
               theme.containerQueries.gte('mobile');
-              // @ts-expect-error Numeric widths cannot include a unit.
-              theme.containerQueries.gte('300px');
+              // @ts-expect-error Numeric boundaries need an explicit unit.
+              theme.containerQueries.gte(300);
               // @ts-expect-error only accepts a configured key.
-              theme.containerQueries.only(300);
-              return { [theme.containerQueries.gte('sm')]: { display: 'flex' } };
+              theme.containerQueries.only('300px');
+              return { [theme.containerQueries.gte('300px')]: { display: 'flex' } };
             }
             return {};
           },

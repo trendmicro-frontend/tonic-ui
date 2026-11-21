@@ -126,6 +126,21 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
     }
   });
 
+  test('includes the start and excludes the end of the documented pixel range', async ({ page }) => {
+    await page.goto('./');
+    const example = page.locator('#main pre').filter({ hasText: "breakpoints.between('700px', '960px')" });
+    const condition = '(700px <= width < 960px)';
+    await expect(example).toContainText(`@media ${condition}`);
+    const zeroExample = page.locator('#main pre').filter({ hasText: 'breakpoints.gte(0)' });
+    await expect(zeroExample).toContainText('@media (width >= 0)');
+    expect(await page.evaluate(() => window.matchMedia('(width >= 0)').matches)).toBe(true);
+
+    for (const [width, matches] of [[699, false], [700, true], [959, true], [960, false]]) {
+      await page.setViewportSize({ width, height: 900 });
+      expect(await page.evaluate(query => window.matchMedia(query).matches, condition), `at ${width}px`).toBe(matches);
+    }
+  });
+
   test('updates the examples at each viewport boundary without reloading', async ({ page }) => {
     await page.goto('./');
 

@@ -186,28 +186,29 @@ At `md`, `&&` overrides `width: '100%'` without affecting text color.
 
 ## API
 
-The read-only `theme.breakpoints` object exposes `keys`, `values`, `unit`, and four query helpers. These examples use the pixel configuration from [CSS media queries](#css-media-queries). Named arguments must be configured breakpoint names; unknown names throw. `gte`, `lt`, and `between` also accept numeric widths in the configured unit. `only` accepts only a configured name.
+The read-only `theme.breakpoints` object exposes `keys`, `values`, `unit`, and four query helpers. These examples use the pixel configuration from [CSS media queries](#css-media-queries). A configured name uses the theme's value and unit. `gte`, `lt`, and `between` also accept a non-negative decimal length string ending in `px`, `rem`, or `em`. An explicit length keeps its own unit. The number `0` represents zero length and is the only number accepted without a unit. Unitless strings and CSS functions such as `calc()` are not accepted. Unknown breakpoint names throw.
 
 ### theme.breakpoints.gte
 
-`gte(keyOrWidth)` accepts a configured name or number and includes the lower boundary:
+`gte(start)` matches widths at or above the lower bound:
 
-<CodeBlock language="js" code={`breakpoints.gte('sm'); // '${exampleBreakpoints.gte('sm')}'
-breakpoints.gte(800);  // '@media (width >= 800px)'`} />
+<CodeBlock language="js" code={`breakpoints.gte('sm');    // '${exampleBreakpoints.gte('sm')}'
+breakpoints.gte('800px'); // '${exampleBreakpoints.gte('800px')}'
+breakpoints.gte(0);       // '${exampleBreakpoints.gte(0)}'`} />
 
 ### theme.breakpoints.lt
 
-`lt(keyOrWidth)` accepts a configured name or number and excludes the upper boundary:
+`lt(end)` matches widths below the upper bound:
 
-<CodeBlock language="js" code={`breakpoints.lt('sm'); // '${exampleBreakpoints.lt('sm')}'
-breakpoints.lt(800);  // '@media (width < 800px)'`} />
+<CodeBlock language="js" code={`breakpoints.lt('sm');    // '${exampleBreakpoints.lt('sm')}'
+breakpoints.lt('800px'); // '${exampleBreakpoints.lt('800px')}'`} />
 
 ### theme.breakpoints.between
 
-`between(start, end)` accepts a configured name or number for each argument. It includes the start and excludes the end:
+`between(start, end)` includes `start` and excludes `end`. Each bound can be a configured name, an explicit length, or the number `0`. The helper does not convert units:
 
-<CodeBlock language="js" code={`breakpoints.between('sm', 'md'); // '${exampleBreakpoints.between('sm', 'md')}'
-breakpoints.between(700, 960);   // '@media (700px <= width < 960px)'`} />
+<CodeBlock language="js" code={`breakpoints.between('sm', 'md');      // '${exampleBreakpoints.between('sm', 'md')}'
+breakpoints.between('700px', '960px'); // '${exampleBreakpoints.between('700px', '960px')}'`} />
 
 ### theme.breakpoints.only
 

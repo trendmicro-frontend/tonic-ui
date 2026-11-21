@@ -1,5 +1,10 @@
 /** @typedef {'sm' | 'md' | 'lg' | 'xl' | '2xl'} Breakpoint */
+/** @typedef {`${number}${'px' | 'rem' | 'em'}`} QueryLength */
+/** @typedef {Breakpoint | QueryLength | 0} QueryBoundary */
 /** @typedef {{ values?: Partial<Record<Breakpoint, number>>, unit?: string }} BreakpointOptions */
+
+const queryLengthPattern = /^([0-9]+(?:\.[0-9]+)?|\.[0-9]+)(?:px|rem|em)$/;
+const breakpointNamePattern = /^(?:2xl|[A-Za-z][A-Za-z0-9-]*)$/;
 
 /** @param {BreakpointOptions} [options] */
 export function createBreakpoints(options = {}) {
@@ -25,15 +30,24 @@ export function createBreakpoints(options = {}) {
   const sortedKeys = Object.freeze(keys);
   const sortedValues = Object.freeze(values);
 
-  /** @param {Breakpoint | number} key */
-  function width(key) {
-    if (typeof key === 'number') {
-      return key;
+  /** @param {QueryBoundary} boundary */
+  function resolveBoundary(boundary) {
+    if (boundary === 0) {
+      return '0';
     }
-    if (!Object.prototype.hasOwnProperty.call(values, key)) {
-      throw new RangeError(`[Tonic UI] Unknown breakpoint: ${key}.`);
+    if (typeof boundary === 'string') {
+      if (Object.prototype.hasOwnProperty.call(values, boundary)) {
+        return `${values[/** @type {Breakpoint} */ (boundary)]}${unit}`;
+      }
+      const length = queryLengthPattern.exec(boundary);
+      if (length && Number.isFinite(Number(length[1]))) {
+        return boundary;
+      }
+      if (breakpointNamePattern.test(boundary)) {
+        throw new RangeError(`[Tonic UI] Unknown breakpoint: ${boundary}.`);
+      }
     }
-    return values[key];
+    throw new TypeError('[Tonic UI] Expected a breakpoint name, the number 0, or a length with a px, rem, or em unit.');
   }
 
   /** @param {Breakpoint} key */
@@ -45,15 +59,18 @@ export function createBreakpoints(options = {}) {
     return index;
   }
 
-  /** @param {Breakpoint | number} key */
-  const gte = (key) => `@media (width >= ${width(key)}${unit})`;
-  /** @param {Breakpoint | number} key */
-  const lt = (key) => `@media (width < ${width(key)}${unit})`;
-  /** @param {Breakpoint | number} start @param {Breakpoint | number} end */
-  const between = (start, end) => `@media (${width(start)}${unit} <= width < ${width(end)}${unit})`;
+  /** @param {QueryBoundary} start */
+  const gte = (start) => `@media (width >= ${resolveBoundary(start)})`;
+  /** @param {QueryBoundary} end */
+  const lt = (end) => `@media (width < ${resolveBoundary(end)})`;
+  /** @param {QueryBoundary} start @param {QueryBoundary} end */
+  const between = (start, end) => `@media (${resolveBoundary(start)} <= width < ${resolveBoundary(end)})`;
 
   /** @param {Breakpoint} key */
   function only(key) {
+    if (typeof key !== 'string' || !breakpointNamePattern.test(key)) {
+      throw new TypeError('[Tonic UI] Expected a breakpoint name.');
+    }
     const next = keys[indexOf(key) + 1];
     return next ? between(key, next) : gte(key);
   }

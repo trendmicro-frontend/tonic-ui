@@ -1,4 +1,7 @@
+import { fileURLToPath } from 'node:url';
 import { expect, test } from '@playwright/test';
+import { build, transformWithEsbuild } from 'vite';
+import { pixelBreakpoints } from '../../../../pages/theme/breakpoints/pixel-breakpoints.mjs';
 import { captureColorModes } from '../../../../../../test/e2e/screenshots.mjs';
 import { breakpoints, containerQueries } from '../../../../utils/default-breakpoints.js';
 import { formatBreakpoint } from '../../../../utils/convert-breakpoint-width.mjs';
@@ -44,7 +47,7 @@ test.describe('theme container queries', { tag: ['@docs', '@boundary', '@geometr
           containerQueries.lt('md'),
           containerQueries.between('sm', 'lg'),
           containerQueries.only('md'),
-          containerQueries('sidebar').gte(18.75),
+          containerQueries('sidebar').gte('18.75rem'),
         ]);
         await page.setViewportSize({ width: mdPx - 1, height: 900 });
         await expectLayout(false);
@@ -76,4 +79,57 @@ test.describe('theme container queries', { tag: ['@docs', '@boundary', '@geometr
       });
     });
   }
+
+  test('keeps the gallery threshold in rem under a pixel theme', async ({ page }) => {
+    const entry = 'virtual:pixel-gallery';
+    const gallery = fileURLToPath(new URL('../../../../pages/theme/container-queries/usage.js', import.meta.url));
+    const { output } = await build({
+      configFile: false,
+      root: fileURLToPath(new URL('../../../../', import.meta.url)),
+      logLevel: 'error',
+      plugins: [{
+        name: 'pixel-gallery-fixture',
+        resolveId(id) {
+          if (id === entry) {
+            return `\0${entry}`;
+          }
+        },
+        load(id) {
+          if (id === `\0${entry}`) {
+            return `
+              import { createElement } from 'react';
+              import { createRoot } from 'react-dom/client';
+              import { createTheme, TonicProvider } from '@tonic-ui/react';
+              import Gallery from ${JSON.stringify(gallery)};
+              const theme = createTheme({ breakpoints: ${JSON.stringify(pixelBreakpoints)} });
+              createRoot(document.getElementById('root')).render(
+                createElement(TonicProvider, { theme }, createElement(Gallery))
+              );
+            `;
+          }
+        },
+        transform(code, id) {
+          if (id === gallery) {
+            return transformWithEsbuild(code, id, { loader: 'jsx', jsx: 'automatic' });
+          }
+        },
+      }],
+      build: { write: false, rollupOptions: { input: entry, output: { format: 'iife' } } },
+    });
+
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.setContent('<div id="root"></div>');
+    await page.addScriptTag({ content: output.find(chunk => chunk.type === 'chunk').code });
+    const narrow = page.getByTestId('gallery-grid-192');
+    const wide = page.getByTestId('gallery-grid-384');
+    await expectWidth(narrow, 192);
+    await expectWidth(wide, 384);
+    await expect(narrow).toHaveCSS('grid-template-columns', /^\d+px$/);
+    await expect(wide).toHaveCSS('grid-template-columns', /^(?:[\d.]+px ){2}[\d.]+px$/);
+
+    // A fixed 224px query would still match the 384px gallery.
+    await page.locator('html').evaluate(root => { root.style.fontSize = '32px'; });
+    await expectWidth(wide, 384);
+    await expect(wide).toHaveCSS('grid-template-columns', /^384px$/);
+  });
 });
