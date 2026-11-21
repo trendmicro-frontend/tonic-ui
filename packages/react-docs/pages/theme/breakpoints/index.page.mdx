@@ -67,12 +67,14 @@ Responsive style props accept breakpoint objects. In `sx`, use the helpers as me
 
 ## Custom breakpoints
 
-Set `breakpoints` in `createTheme()` to define the viewport widths used by responsive styles and query helpers.
+Set `breakpoints` in `createTheme()` to customize the viewport widths used by responsive styles and media query helpers.
 
-- `theme.breakpoints.values`: The minimum width for each breakpoint name. Tonic UI sorts the breakpoints by width.
-- `theme.breakpoints.unit`: The unit for those widths. The built-in scale uses `rem`. When you supply `values` without a `unit`, those values use `px`.
+- `theme.breakpoints.values`: Defines the minimum width for each breakpoint. Tonic UI sorts breakpoints by width.
+- `theme.breakpoints.unit`: Specifies the unit used for breakpoint values. The default scale uses `rem`, but custom values default to `px` when no unit is specified.
 
-Setting `values` replaces the entire scale. Include every breakpoint you want to keep. These examples show the default thresholds in either unit:
+Setting `values` replaces the entire breakpoint scale. Include all breakpoints you want to keep.
+
+The following examples show the default breakpoint values in `px` and their equivalents in `rem`:
 
 ```js
 // Pixels (at a 16px initial browser font size)
