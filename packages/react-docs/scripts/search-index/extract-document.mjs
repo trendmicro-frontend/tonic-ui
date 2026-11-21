@@ -59,7 +59,10 @@ const stripMdxModuleSyntax = (markdown) => {
  * @param {string} markdown
  */
 export const parseMdx = (markdown) => {
-  return fromMarkdown(stripMdxModuleSyntax(markdown));
+  const source = stripMdxModuleSyntax(markdown)
+    .replace(/^<CodeBlock language="[^"]+" code=\{`[\s\S]*?`\}\s*\/>[ \t]*$/gm, '')
+    .replace(/<(Code|span)>\{[^\n]*?\}<\/\1>/g, '');
+  return fromMarkdown(source);
 };
 
 const collectText = (node) => {

@@ -355,6 +355,7 @@ The v3 default breakpoints use `rem`. The pixel equivalents assume a browser ini
 
 | Breakpoint | v2 minimum width | v3 minimum width |
 | :-- | :-- | :-- |
+| `xs` | — | `0rem` (`0px`) |
 | `sm` | `320px` | `40rem` (`640px`) |
 | `md` | `640px` | `48rem` (`768px`) |
 | `lg` | `1024px` | `64rem` (`1024px`) |
@@ -396,6 +397,10 @@ function ResponsiveBox() {
 This also applies to the internal `__sx` channel. Arrays of `sx` or `__sx` style objects remain supported for composition.
 
 If you pass an array of breakpoints to `createTheme()`, replace it with `breakpoints: { values: { ... }, unit: 'px' }` to keep your custom pixel widths. Replace direct reads such as `theme.breakpoints.md` with `theme.breakpoints.values.md` for the numeric width, or `theme.breakpoints.gte('md')` for a CSS media query. See [Breakpoints](../../theme/breakpoints) and [Responsive values](../../styled-system/responsive-values).
+
+When you replace `breakpoints.values`, omitted `unit` means `px`. If your custom widths are in `rem` or `em`, specify that unit on the same override. Calling `createTheme()` without a breakpoint override still uses the built-in `rem` scale.
+
+If a query helper call uses a nonzero number, use a breakpoint name when the threshold should follow the theme. Otherwise, add the original theme's unit to the value: for example, replace `gte(800)` with `gte('800px')` if the original unit was `px`. This applies to `gte`, `lt`, and `between` on both `theme.breakpoints` and `theme.containerQueries`. The number `0` needs no unit.
 
 ### Other scales
 

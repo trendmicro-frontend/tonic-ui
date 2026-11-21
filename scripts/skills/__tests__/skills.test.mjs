@@ -11,6 +11,7 @@ const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
 const validator = join(repoRoot, 'scripts/skills/validate-skills.mjs');
 const expectedContributors = [
   'tonic-ui-patterns',
+  'tonic-ui-plan',
   'tonic-ui-pr',
   'tonic-ui-slots',
   'tonic-ui-sx',
@@ -53,7 +54,7 @@ describe('scripts/skills / Skill content', () => {
   test('repository contributor and bundled plugin skills pass standalone', () => {
     assert.deepEqual(CONTRIBUTOR_SKILLS, expectedContributors);
     const result = validateSkills(repoRoot);
-    assert.equal(result.contributorSkills, 7);
+    assert.equal(result.contributorSkills, 8);
     assert.equal(result.pluginSkills, 3);
     assert.equal(result.adapters, 'canonical-relative-links');
     const execution = spawnSync(process.execPath, [validator], { cwd: repoRoot, encoding: 'utf8' });

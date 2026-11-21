@@ -66,6 +66,24 @@ describe('extractDocument', () => {
     assert.doesNotMatch(content, /render\(/);
   });
 
+  it('keeps surrounding prose without indexing generated MDX code expressions', () => {
+    const source = [
+      '# Breakpoints',
+      '',
+      'Resize the viewport at <Code>{formatBreakpoint(breakpoints, "md")}</Code> to change the layout.',
+      '',
+      '<CodeBlock language="css" code={`',
+      '${breakpoints.gte("md")} { width: 50%; }',
+      '`} />',
+      '',
+      'The next section describes overrides.',
+    ].join('\n');
+    const [{ content }] = extractDocument(source, metadata);
+    assert.match(content, /Resize the viewport at to change the layout/);
+    assert.match(content, /The next section describes overrides/);
+    assert.doesNotMatch(content, /formatBreakpoint|breakpoints\.gte|CodeBlock/);
+  });
+
   it('collects identifiers and headings as keywords', () => {
     assert.match(documents[0].keywords, /Button/);
     assert.match(documents[0].keywords, /variant/);

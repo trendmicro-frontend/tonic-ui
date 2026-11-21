@@ -15,8 +15,9 @@ import { useContext } from 'react';
  * Components using this hook will receive a theme where all _dark and _light properties are
  * resolved to their appropriate values based on the active color mode.
  *
+ * @template {string} [Name=typeof import('@tonic-ui/theme').default.breakpoints.keys[number]]
  * @param {useThemeOptions} [options] - Optional configuration for the hook.
- * @returns {ThemeScales & { readonly breakpoints: ReturnType<typeof import('@tonic-ui/utils/internal').createBreakpoints>, containerQueries: ReturnType<typeof import('@tonic-ui/utils/internal').createContainerQueries>, get: (path: string, defaultValue?: string) => string }} The resolved theme object with color mode tokens resolved.
+ * @returns {ThemeScales & { readonly breakpoints: import('@tonic-ui/utils/internal').Breakpoints<Name>, containerQueries: import('@tonic-ui/utils/internal').ContainerQueries<Name>, get: (path: string, defaultValue?: string) => string }} The resolved theme object.
  *
  * @example
  * // Using current color mode from context

@@ -24,7 +24,7 @@ yarn workspace @tonic-ui/react-docs test:e2e
 
 The demo config builds the real demo applications into `.e2e/site/demos/`, then starts their production Vite preview. Build commands must succeed before preview starts. Remote modules and sub-apps use the configured origin. Do not start a server manually.
 
-Documentation-page specs use the Next.js dev server started by `pages/playwright.config.mjs` on port 3129 (`E2E_PAGES_PORT` overrides it). Its `.e2e/next/` output is separate from the `.next/` directory used by a developer's `yarn dev`. The config builds and serves a search index from `.e2e/search/`. Demo builds are not needed. These tests do not cover the production static export.
+Documentation-page specs use the Next.js dev server started by `pages/playwright.config.mjs` on port 3129 (`E2E_PAGES_PORT` overrides it). The config regenerates template-based docs pages before building the search index in `.e2e/search/`, so it works on a fresh checkout without a production docs build. Its `.e2e/next/` output is separate from the `.next/` directory used by a developer's `yarn dev`. Demo builds are not needed. These tests do not cover the production static export.
 
 CDN-first scenarios need network access. Local-only and outage scenarios control browser CDN requests, but the demo build can still retrieve CDN metadata.
 

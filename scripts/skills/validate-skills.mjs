@@ -12,7 +12,7 @@ const assert = (condition, message) => { if (!condition) throw new Error(message
 const linkPattern = /\[[^\]]*\]\(([^\s)]+)\)/g;
 
 /** Contributor skills shipped at the repository root; plugin skills are discovered under plugins/<name>/skills. */
-export const CONTRIBUTOR_SKILLS = ['tonic-ui-patterns', 'tonic-ui-pr', 'tonic-ui-slots', 'tonic-ui-sx', 'tonic-ui-tokens-maintenance', 'tonic-ui-types', 'tonic-ui-version'].sort();
+export const CONTRIBUTOR_SKILLS = ['tonic-ui-patterns', 'tonic-ui-plan', 'tonic-ui-pr', 'tonic-ui-slots', 'tonic-ui-sx', 'tonic-ui-tokens-maintenance', 'tonic-ui-types', 'tonic-ui-version'].sort();
 
 const isLocalLink = (link) => Boolean(link) && !/^[a-z][a-z0-9+.-]*:/i.test(link) && !link.startsWith('/');
 

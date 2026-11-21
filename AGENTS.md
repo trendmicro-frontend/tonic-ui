@@ -24,9 +24,9 @@
 
 ## Shared Agent Skills
 
-OMP is the primary agent. `skills/` owns seven repository contributor skills;
+OMP is the primary agent. `skills/` owns eight repository contributor skills;
 `plugins/` owns three independently installable application skills.
-`.agents/skills/` and `.claude/skills/` each contain the same seven direct relative
+`.agents/skills/` and `.claude/skills/` each contain the same eight direct relative
 discovery links to `skills/<name>/` only. Edit the physical source, never the adapters.
 Application skills are exposed through their individual plugins, not native adapters;
 see [the catalog](skills/README.md).
@@ -41,6 +41,7 @@ when instructed. The paths below are relative to the repository root, not the CW
 | Application frontend development highlights and optional release checks | [tonic-ui-dev](plugins/tonic-ui-dev/skills/tonic-ui-dev/SKILL.md) |
 | Consuming application upgrades; current v2-to-v3 migration guidance | [tonic-ui-upgrade](plugins/tonic-ui-upgrade/skills/tonic-ui-upgrade/SKILL.md) |
 | Library component structure, hooks, exports, browser E2E fixtures, and repository conventions | [tonic-ui-patterns](skills/tonic-ui-patterns/SKILL.md) |
+| Library change plans, acceptance tests, PR preparation, and delivery | [tonic-ui-plan](skills/tonic-ui-plan/SKILL.md) |
 | Library PR descriptions, commit message drafts, and changesets | [tonic-ui-pr](skills/tonic-ui-pr/SKILL.md) |
 | Library `slots`, `slotProps`, `useSlot`, and legacy component/props migration | [tonic-ui-slots](skills/tonic-ui-slots/SKILL.md) |
 | Library `sx`, `__sx`, `composeSx`, and style precedence | [tonic-ui-sx](skills/tonic-ui-sx/SKILL.md) |

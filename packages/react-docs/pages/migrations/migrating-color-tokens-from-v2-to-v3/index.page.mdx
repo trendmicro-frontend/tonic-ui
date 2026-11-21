@@ -35,7 +35,7 @@ Primitive color tokens have changed from a flat colon-based format (v2) to a nes
 | <ColorPreview value="white.100" /> `white.100`<br/><ColorPreview value="white.150" /> `white.150`<br/><ColorPreview value="white.200" /> `white.200`<br/><ColorPreview value="white.250" /> `white.250`<br/><ColorPreview value="white.300" /> `white.300`<br/><ColorPreview value="white.350" /> `white.350`<br/><ColorPreview value="white.400" /> `white.400`<br/><ColorPreview value="white.450" /> `white.450`<br/><ColorPreview value="white.500" /> `white.500`<br/><ColorPreview value="white.550" /> `white.550`<br/><ColorPreview value="white.600" /> `white.600` | |
 | <ColorPreview value="black.100" /> `black.100`<br/><ColorPreview value="black.150" /> `black.150`<br/><ColorPreview value="black.200" /> `black.200`<br/><ColorPreview value="black.250" /> `black.250`<br/><ColorPreview value="black.300" /> `black.300`<br/><ColorPreview value="black.350" /> `black.350`<br/><ColorPreview value="black.400" /> `black.400`<br/><ColorPreview value="black.450" /> `black.450`<br/><ColorPreview value="black.500" /> `black.500`<br/><ColorPreview value="black.550" /> `black.550`<br/><ColorPreview value="black.600" /> `black.600` | |
 
-> **Note:** Primitive color values in v2 and v3 are not equivalent. For example, `gray:10` = `#f2f2f2`, while `gray.100` = `#ffffff`. During migration, prefer semantic tokens over direct color values. See [Theme › colors](../../theme/colors) for the full token list.
+> **Note:** Primitive color values in v2 and v3 are not equivalent. For example, `gray:10` = `#f2f2f2`, while `gray.100` = `#ffffff`. During migration, prefer semantic tokens over direct color values. See [Theme › colors](../../theme/design-tokens/colors) for the full token list.
 
 v2:
 ```jsx
@@ -226,11 +226,11 @@ For chart elements:
 | <ColorPreview value="actions.selected" /> `actions.selected` | Used to indicate "selection" directly on the background. The color blue is used to highlight the selected state, such as when a table row is selected via a radio button or checkbox. |
 | <ColorPreview value="actions.selectedHovered" /> `actions.selectedHovered` | Same as above. |
 
-See the [theme documentation](../../theme/colors) for a complete list of available semantic tokens.
+See the [theme documentation](../../theme/design-tokens/colors) for a complete list of available semantic tokens.
 
 ## Migrating color style
 
-Starting in Tonic UI v3, the color style system is backed by [semantic tokens](../../theme/colors/#semantic-tokens). The API remains unchanged — color style values now map to their semantic token equivalents:
+Starting in Tonic UI v3, the color style system is backed by [semantic tokens](../../theme/design-tokens/colors/#semantic-tokens). The API remains unchanged — color style values now map to their semantic token equivalents:
 
 | Semantic token | Color style |
 | :--- | :--- |

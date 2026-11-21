@@ -16,11 +16,11 @@ const kebabize = str => {
   }).join('');
 };
 
-// Theme scale pages are named after the scale itself (e.g. `theme/fontSizes`),
+// Theme scale pages use the scale name (e.g. `theme/design-tokens/fontSizes`),
 // not a kebab-case derivative. Only link a scale that actually has a page; scales
 // without one (e.g. `letterSpacings`) render an empty cell instead of a dead link.
 const hasThemePage = (scale) => {
-  return fs.existsSync(new URL(`../pages/theme/${scale}/index.page.mdx`, import.meta.url));
+  return fs.existsSync(new URL(`../pages/theme/design-tokens/${scale}/index.page.mdx`, import.meta.url));
 };
 
 const data = _.reduce(system.config, (result, value, key) => {
@@ -51,7 +51,7 @@ try {
         const cells = [
           '`' + x.prop + '`',
           '`' + x.properties.join('`, `') + '`',
-          x.scale && hasThemePage(x.scale) ? `[${x.scale}](../../theme/${x.scale})` : '',
+          x.scale && hasThemePage(x.scale) ? `[${x.scale}](../../theme/design-tokens/${x.scale})` : '',
         ];
         return '| ' + cells.join(' | ') + ' |';
       }));

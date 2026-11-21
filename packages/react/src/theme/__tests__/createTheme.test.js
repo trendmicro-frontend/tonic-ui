@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, useTheme } from '@tonic-ui/react/src';
+import { Box, TonicProvider, useTheme } from '@tonic-ui/react/src';
 import { render } from '@tonic-ui/react/test-utils/render';
 import { TONIC_THEME } from '../constants';
 import createTheme from '../createTheme';
@@ -35,8 +35,27 @@ describe('createTheme', () => {
     expect(original.breakpoints.keys).toEqual(['sm', 'md', 'xl']);
     expect(original.breakpoints.gte('sm')).toBe('@media (width >= 0em)');
     expect(original.breakpoints.values.lg).toBeUndefined();
-    expect(extended.breakpoints.lt('lg')).toBe('@media (width < 64em)');
+    expect(extended.breakpoints.lt('lg')).toBe('@media (width < 64px)');
     expect(extended.breakpoints.values.sm).toBeUndefined();
+  });
+
+  it('uses custom breakpoint names in queries and responsive props', () => {
+    const theme = createTheme({ breakpoints: { values: { desktop: 1200, tablet: 640, mobile: 0 } } });
+    const { breakpoints, containerQueries } = theme.toColorMode('light');
+    expect(breakpoints.keys).toEqual(['mobile', 'tablet', 'desktop']);
+    expect(breakpoints.only('tablet')).toBe('@media (640px <= width < 1200px)');
+    expect(containerQueries('sidebar').gte('tablet')).toBe('@container sidebar (width >= 640px)');
+    expect(() => breakpoints.gte('sm')).toThrow(RangeError);
+    expect(() => containerQueries.only('talbet')).toThrow(RangeError);
+
+    const { container } = render(
+      <TonicProvider theme={theme}>
+        <Box display={{ _: 'block', tablet: 'flex', sm: 'none' }} />
+      </TonicProvider>
+    );
+    expect(container.firstChild).toHaveStyleRule('display', 'block');
+    expect(container.firstChild).toHaveStyleRule('display', 'flex', { media: '(width >= 640px)' });
+    expect(container.firstChild).not.toHaveStyleRule('display', 'none', { media: '(width >= 40rem)' });
   });
 
   it('exposes immutable breakpoint widths across the base theme and color modes', () => {
@@ -50,8 +69,12 @@ describe('createTheme', () => {
     }
     expect(theme.toColorMode('dark').get('breakpoints.values.md')).toBe(48);
     expect(theme.toColorMode('light').get('breakpoints.values.md')).toBe(48);
-    const custom = createTheme(theme, { breakpoints: { values: { md: 1000 }, unit: 'px' } });
+    const custom = createTheme(theme, { breakpoints: { values: { xs: 320, md: 1000 }, unit: 'px' } });
     expect(custom.breakpoints.gte('md')).toBe('@media (width >= 1000px)');
+    expect(custom.breakpoints.gte('xs')).toBe('@media (width >= 320px)');
+    expect(custom.breakpoints.gte(0)).toBe('@media (width >= 0)');
+    expect(custom.containerQueries('sidebar').between(0, 'xs')).toBe('@container sidebar (0 <= width < 320px)');
+    expect(theme.breakpoints.gte('xs')).toBe('@media (width >= 0rem)');
     expect(theme.breakpoints.gte('md')).toBe('@media (width >= 48rem)');
   });
 
@@ -71,7 +94,7 @@ describe('createTheme', () => {
     }
 
     const px = createTheme(extended, { breakpoints: { values: { sm: 320 }, unit: 'px' } });
-    expect(px.containerQueries('sidebar').between(300, 'sm')).toBe('@container sidebar (300px <= width < 320px)');
+    expect(px.containerQueries('sidebar').between('300px', 'sm')).toBe('@container sidebar (300px <= width < 320px)');
   });
 
   it('keeps empty breakpoint scales, rejects legacy inputs and excludes breakpoint CSS variables', () => {

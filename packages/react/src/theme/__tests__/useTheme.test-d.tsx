@@ -1,12 +1,23 @@
 import React from 'react';
 import { useTheme, Box, createTheme } from '@tonic-ui/react';
 
+const layoutTheme = createTheme({ breakpoints: { values: { mobile: 0, tablet: 640 } } });
+
+function UseLayoutTheme() {
+  const { breakpoints, containerQueries } = useTheme<(typeof layoutTheme.breakpoints.keys)[number]>();
+  // @ts-expect-error This provider's theme does not define md.
+  containerQueries.only('md');
+  return <Box width={{ _: '100%', tablet: '50%' }} sx={{ [breakpoints.gte('tablet')]: { display: 'flex' } }} />;
+}
+
 // Access resolved color tokens
 function UseThemeColors() {
   const theme = useTheme();
-  const query: string = theme.breakpoints.between('sm', 1000);
-  const directContainerQuery: string = theme.containerQueries.lt('md');
-  const namedContainerQuery: string = theme.containerQueries('sidebar').between(18.75, 'md');
+  const query: string = theme.breakpoints.between('sm', '1000rem');
+  const directContainerQuery: string = theme.containerQueries.gte('xs');
+  const namedContainerQuery: string = theme.containerQueries('sidebar').between('18.75rem', 'md');
+  // @ts-expect-error Named container queries also require explicit units.
+  theme.containerQueries('sidebar').between(18.75, 'md');
   // @ts-expect-error No public negation helper.
   theme.breakpoints.not('md');
   // @ts-expect-error Cannot replace the breakpoint snapshot.

@@ -4,7 +4,7 @@ import { ColorModeContext } from '../internal/color-mode/context';
 
 /** @import { ElementType, ForwardRefExoticComponent, ComponentPropsWithoutRef, RefAttributes } from 'react' */
 
-/** @typedef {ThemeScales & { readonly breakpoints?: ReturnType<typeof import('@tonic-ui/utils/internal').createBreakpoints>, containerQueries?: ReturnType<typeof import('@tonic-ui/utils/internal').createContainerQueries> }} SxTheme */
+/** @typedef {ThemeScales & { readonly breakpoints?: import('@tonic-ui/utils/internal').Breakpoints<string>, containerQueries?: import('@tonic-ui/utils/internal').ContainerQueries<string> }} SxTheme */
 
 /**
  * @typedef {{ [key: string]: string | number | boolean | null | undefined | SxStyleObject | ((theme: SxTheme) => string | number | SxStyleObject) }} SxStyleObject
