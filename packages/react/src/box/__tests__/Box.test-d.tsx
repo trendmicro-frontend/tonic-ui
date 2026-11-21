@@ -72,7 +72,7 @@ function ContainerExample() {
 </Box>;
 
 // @ts-expect-error An sx declaration cannot use a responsive value array.
-<Box sx={{ width: ['100%', '50%'] }} />;
+<Box sx={{ width: ['100%', '50%'] }} />; // eslint-disable-line @tonic-ui/no-responsive-style-arrays -- Deliberate type-contract negative test.
 
 <Box sx={[{ width: '100%' }, { '@media (width >= 40rem)': { width: '50%' } }]} />;
 

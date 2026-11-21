@@ -11,8 +11,10 @@
     "src"
   ],
   "scripts": {
-    "build": "node scripts/generate-rule-data.mjs",
+    "build": "yarn check:rule-data",
     "clean": "del coverage",
+    "generate:rule-data": "node scripts/generate-rule-data.mjs",
+    "check:rule-data": "node scripts/generate-rule-data.mjs --check",
     "lint": "eslint --ext .js,.jsx,.mjs .",
     "pre-push": "bash -c 'echo -e \"=> \\e[1;33m$npm_package_name\\e[0m\"' && yarn run lint && yarn run test",
     "test": "cross-env NODE_ENV=test jest --maxWorkers=2"
@@ -46,6 +48,7 @@
     "@babel/preset-env": "^7.0.0",
     "@tonic-ui/styled-system": "workspace:*",
     "@trendmicro/babel-config": "^1.0.2",
+    "@typescript-eslint/parser": "^8.58.0",
     "cross-env": "^7.0.3",
     "del-cli": "^5.0.0",
     "eslint": "^9.26.0",

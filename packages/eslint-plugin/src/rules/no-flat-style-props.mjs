@@ -1,4 +1,5 @@
 import { documentedStyleProps, stylePropNames } from '../generated/rule-data.mjs';
+import { getTonicComponent, visitLiteralAttributes } from '../jsx-bindings.mjs';
 
 const stylePropSet = new Set(stylePropNames);
 const documentedProps = new Map(
@@ -14,10 +15,6 @@ const unsupportedFlatPropReplacements = new Map([
 const replacementTargets = new Set(
   [...unsupportedFlatPropReplacements.values()].flatMap(replacements => [...replacements.values()]),
 );
-
-const getName = (node) => {
-  return node.type === 'JSXIdentifier' ? node.name : undefined;
-};
 
 // Flat props accept breakpoint maps. In sx, objects become nested rules.
 // Do not recommend moving a replacement target unless syntax rules out a map.
@@ -53,53 +50,36 @@ export const noFlatStyleProps = {
   },
   create(context) {
     return {
-      JSXAttribute(node) {
-        const propName = getName(node.name);
-
-        if (propName === undefined) {
-          return;
-        }
-
-        const element = node.parent;
-
-        if (element?.type !== 'JSXOpeningElement') {
-          return;
-        }
-
-        const elementName = getName(element.name);
-
+      JSXOpeningElement(node) {
+        const elementName = getTonicComponent(context, node);
         if (elementName === undefined) {
           return;
         }
 
-        if (/^[a-z]/.test(elementName)) {
-          return; // DOM elements are covered by no-raw-html-elements
-        }
+        visitLiteralAttributes(node, (propName, value, reportNode) => {
+          const replacement = unsupportedFlatPropReplacements.get(elementName)?.get(propName);
+          if (replacement !== undefined) {
+            context.report({
+              node: reportNode,
+              messageId: 'replaceUnsupportedProp',
+              data: { element: elementName, prop: propName, replacement },
+            });
+            return;
+          }
 
-        const replacement = unsupportedFlatPropReplacements.get(elementName)?.get(propName);
-        if (replacement !== undefined) {
-          context.report({
-            node,
-            messageId: 'replaceUnsupportedProp',
-            data: { element: elementName, prop: propName, replacement },
-          });
-          return;
-        }
+          if (!stylePropSet.has(propName) || documentedProps.get(elementName)?.has(propName)) {
+            return;
+          }
+          if (value && hasResponsiveArray(value)) {
+            context.report({ node: reportNode, messageId: 'responsiveArray', data: { prop: propName, element: elementName } });
+            return;
+          }
+          if (replacementTargets.has(propName) && value && !isScalar(value)) {
+            return;
+          }
 
-        if (!stylePropSet.has(propName) || documentedProps.get(elementName)?.has(propName)) {
-          return;
-        }
-        if (node.value?.type === 'JSXExpressionContainer' && hasResponsiveArray(node.value.expression)) {
-          context.report({ node, messageId: 'responsiveArray', data: { prop: propName, element: elementName } });
-          return;
-        }
-
-        if (replacementTargets.has(propName) && node.value?.type === 'JSXExpressionContainer' &&
-          !isScalar(node.value.expression)) {
-          return;
-        }
-
-        context.report({ node, messageId: 'useSx', data: { prop: propName, element: elementName } });
+          context.report({ node: reportNode, messageId: 'useSx', data: { prop: propName, element: elementName } });
+        });
       },
     };
   },

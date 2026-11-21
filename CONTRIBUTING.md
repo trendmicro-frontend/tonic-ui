@@ -43,6 +43,42 @@ yarn build
 
 This will reload the site with the new changes.
 
+## JSX styling lint
+
+Tonic UI still supports flat style props and named breakpoint maps. The
+`no-flat-style-props` rule is an `sx`-first policy for the React browser
+fixtures, not a ban on the flat style API. It checks bindings to known Tonic
+UI components and statically named keys in literal JSX spreads, not wrappers
+or unknown spread values.
+
+The `runtime-safety` preset checks React source for declaration arrays inside
+`sx`/`__sx` and for `composeSx(...)` spread into JSX props. Use explicit media or
+container queries for responsive declarations. For example, replace
+`sx={{ width: ['100%', '50%'] }}` with an array of whole styles. When the JSX
+spans multiple lines, put each prop and each entry of a multiline style array
+on its own line. Keep short, single-line JSX compact.
+
+```jsx
+<Box
+  sx={[
+    { width: '100%' },
+    { '@media (width >= 40rem)': { width: '50%' } },
+  ]}
+/>
+```
+
+The `sx-formatting` preset warns when a multiline array literal passed directly
+to `sx` or `__sx` on a Tonic UI component does not use this layout. Run
+`eslint --fix` to apply the whitespace changes. Single-line arrays are unchanged.
+
+The `inline-style` and `raw-html` presets are each opt-in and retain their
+existing scope in the browser fixtures.
+
+After changing styled-system props or component exports, build the affected
+styled-system dependencies, then run
+`yarn workspace @tonic-ui/eslint-plugin generate:rule-data`. The workspace build
+checks the committed data without rewriting it.
+
 ## Submitting Changes
 
 ### Creating a pull request
