@@ -1,13 +1,16 @@
 import { expect, test } from '@playwright/test';
 import { captureColorModes } from '../../../../../../../test/e2e/screenshots.mjs';
+import { breakpoints } from '../../../../../utils/default-breakpoints.js';
+import { formatBreakpoint } from '../../../../../utils/convert-breakpoint-width.mjs';
 
 const slugs = ['borders', 'breakpoints', 'colors', 'fonts', 'fontSizes', 'fontWeights', 'lineHeights', 'outlines', 'radii', 'shadows', 'sizes', 'space', 'zIndices'];
 
 const expectTokens = async (page) => {
   const tokens = page.locator('#main').getByRole('table').filter({ has: page.getByRole('columnheader', { name: 'Token' }) });
-  for (const [name, value] of [['sm', '40rem'], ['md', '48rem'], ['lg', '64rem'], ['xl', '80rem'], ['2xl', '96rem']]) {
+  await expect(tokens.getByRole('columnheader', { name: 'Width (px)', exact: true })).toBeVisible();
+  for (const name of breakpoints.keys) {
     const row = tokens.getByRole('row').filter({ has: page.getByRole('cell', { name, exact: true }) });
-    await expect(row.getByRole('cell').nth(1)).toHaveText(value);
+    await expect(row.getByRole('cell')).toHaveText([name, formatBreakpoint(breakpoints, name), String(parseFloat(formatBreakpoint(breakpoints, name, 'px')))]);
   }
 };
 
@@ -43,6 +46,9 @@ test('separates Theme guides from all design token destinations', async ({ page 
   await expect(main.getByRole('columnheader', { name: 'Token' })).toHaveCount(0);
   await main.getByRole('link', { name: 'breakpoint tokens', exact: true }).click();
   await expect(page).toHaveURL(/\/theme\/design-tokens\/breakpoints\/$/);
+  await main.getByRole('link', { name: 'Container queries', exact: true }).click();
+  await expect(page).toHaveURL(/\/theme\/container-queries\/$/);
+  await expect(main.getByRole('heading', { name: 'Container queries', level: 1, exact: true })).toBeVisible();
 });
 
 test('links to the new token routes from authored and generated references', async ({ page }) => {

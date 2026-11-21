@@ -1,35 +1,46 @@
+import CodeBlock from '@/components/CodeBlock';
+import { Code, createTheme } from '@tonic-ui/react';
+import { breakpoints as defaultBreakpoints } from '@/utils/default-breakpoints';
+import { formatBreakpoint } from '@/utils/convert-breakpoint-width.mjs';
+import { pixelBreakpoints } from './pixel-breakpoints.mjs';
+
+export const pixelValuesCode = Object.entries(pixelBreakpoints.values)
+  .map(([key, value]) => `${key === '2xl' ? "'2xl'" : key}: ${value}`)
+  .join(', ');
+export const exampleBreakpoints = createTheme({ breakpoints: pixelBreakpoints }).breakpoints;
+export const mdPx = formatBreakpoint(defaultBreakpoints, 'md', 'px');
+export const lgPx = formatBreakpoint(defaultBreakpoints, 'lg', 'px');
+export const exampleSmPx = formatBreakpoint(exampleBreakpoints, 'sm', 'px');
+export const exampleMdPx = formatBreakpoint(exampleBreakpoints, 'md', 'px');
+
 # Breakpoints
 
 Breakpoints define viewport widths for responsive styles and CSS media queries.
 
 `createTheme()` uses `rem` by default. See the [breakpoint tokens](../design-tokens/breakpoints) for the default widths.
 
-```jsx
-import { createTheme, TonicProvider } from '@tonic-ui/react';
+## Overview
 
-const theme = createTheme();
-
-function App({ children }) {
-  return <TonicProvider theme={theme}>{children}</TonicProvider>;
-}
-```
-
-## Examples
-
-Resize the browser to see the active breakpoint range and matching media queries.
+Resize the browser to see how the dashboard widgets respond to the **viewport width**. At the default thresholds, they stack below <Code>{mdPx}</Code> (`md`), use two columns from <Code>{mdPx}</Code> to just below <Code>{lgPx}</Code> (`lg`), and use three columns from <Code>{lgPx}</Code> onward. These pixel equivalents assume a `16px` initial browser font size.
 
 {render('./breakpoints')}
 
-{render('./media-queries')}
-
 ## CSS media queries
+
+This example configures breakpoints in pixels. Each row pairs a helper with the CSS it generates. Resize the browser to see which conditions match. More than one can match at the same width.
+
+{render('./media-queries')}
 
 Read `breakpoints` with `useTheme()` inside a `TonicProvider`. Each helper returns a CSS media query that can be used as a key in `sx`.
 
-```jsx
-import { Box, createTheme, TonicProvider, useTheme } from '@tonic-ui/react';
+<CodeBlock language="jsx" code={`import { Box, createTheme, TonicProvider, useTheme } from '@tonic-ui/react';
 
-const theme = createTheme();
+const theme = createTheme({
+  breakpoints: {
+    values: { ${pixelValuesCode} },
+    unit: '${pixelBreakpoints.unit}',
+  },
+});
 
 function ResponsiveBox() {
   const { breakpoints } = useTheme();
@@ -46,22 +57,20 @@ function App() {
     </TonicProvider>
   );
 }
-```
+`} />
 
-For the default theme, the four helpers produce:
+With that pixel configuration, the four helpers produce:
 
-```js
-breakpoints.gte('sm');           // '@media (width >= 40rem)'
-breakpoints.lt('sm');            // '@media (width < 40rem)'
-breakpoints.between('sm', 'md'); // '@media (40rem <= width < 48rem)'
-breakpoints.only('md');          // '@media (48rem <= width < 64rem)'
-```
+<CodeBlock language="js" code={`breakpoints.gte('sm');           // '${exampleBreakpoints.gte('sm')}'
+breakpoints.lt('sm');            // '${exampleBreakpoints.lt('sm')}'
+breakpoints.between('sm', 'md'); // '${exampleBreakpoints.between('sm', 'md')}'
+breakpoints.only('md');          // '${exampleBreakpoints.only('md')}'`} />
 
-To use the same style on both sides of a range, set it as the base style and override it inside the range with `only()` or `between()`, as in the example above. If a rule must match only outside a range, write a native CSS query directly, such as `@media not (48rem <= width < 64rem)`.
+To use the same style on both sides of a range, set it as the base style and override it inside the range with `only()` or `between()`, as in the example above. If a rule must match only outside a range, write a native CSS query directly, such as `@media not (768px <= width < 1024px)`.
 
-For container widths, see [Container queries](../container-queries). You can also write native CSS rules such as `@container sidebar not (40rem <= width < 48rem)` to style descendants when the named `sidebar` container is outside that range.
+Viewport breakpoints still apply when a widget sits in a narrow sidebar. To make a widget respond to its own container instead, continue with [Container queries](../container-queries).
 
-Responsive style props accept breakpoint objects. In `sx`, use the helpers as media query keys. If an exception must override a matching rule regardless of order, use `&&` on just the declaration that needs higher selector specificity, for example `sx={{ '&&': { width: '50%' } }}`.
+Responsive style props accept breakpoint objects. In `sx`, use the helpers as media query keys.
 
 ## Customizing breakpoints
 
@@ -80,43 +89,130 @@ const theme = createTheme({
 
 `unit` is appended to each numeric value. `createTheme()` inherits the active theme's breakpoint unit (`rem` by default), so set `unit: 'px'` explicitly when supplying pixel values. Upper bounds use the exclusive `<` operator, so `lt('sm')` in this custom theme returns `@media (width < 640px)`. Adjacent ranges meet at the exact breakpoint without a subpixel gap.
 
+## Rule composition
+
+These snippets use `breakpoints` from `useTheme()` with the pixel configuration in [CSS media queries](#css-media-queries). They show how matching rules combine or override individual properties.
+
+### Set related styles in one rule
+
+When width and text color change together, put both declarations in the same media query rule.
+
+```jsx
+<Box sx={{
+  width: '100%',
+  [breakpoints.gte('sm')]: {
+    width: '50%',
+    color: 'text.secondary',
+  },
+  [breakpoints.gte('md')]: {
+    width: '100%',
+    color: 'text.primary',
+  },
+}}>
+  Orders
+</Box>
+```
+
+**Resulting styles**
+
+| Viewport width | Styles |
+| :--- | :--- |
+| **Below `sm`**<br /><span>{`< ${exampleSmPx}`}</span> | `width: 100%;`<br />`color: inherit;` |
+| **From `sm` to below `md`**<br /><span>{`${exampleSmPx} to under ${exampleMdPx}`}</span> | `width: 50%;`<br />`color: var(--tonic-colors-text-secondary);` |
+| **`md` and above**<br /><span>{`≥ ${exampleMdPx}`}</span> | `width: 100%;`<br />`color: var(--tonic-colors-text-primary);` |
+
+At `md`, both queries match. The later rule wins for both properties.
+
+### Compose rules for the same query
+
+Use an `sx` array when the declarations come from separate style objects. Here, two objects use the same `gte('sm')` key: one sets color and the other sets width.
+
+```jsx
+<Box sx={[
+  { width: '100%' },
+  { [breakpoints.gte('sm')]: {
+    color: 'text.secondary',
+  } },
+  { [breakpoints.gte('sm')]: {
+    width: '50%',
+  } },
+  { [breakpoints.gte('md')]: {
+    width: '100%',
+    color: 'text.primary',
+  } },
+]}>
+  Returns
+</Box>
+```
+
+**Resulting styles**
+
+| Viewport width | Styles |
+| :--- | :--- |
+| **Below `sm`**<br /><span>{`< ${exampleSmPx}`}</span> | `width: 100%;`<br />`color: inherit;` |
+| **From `sm` to below `md`**<br /><span>{`${exampleSmPx} to under ${exampleMdPx}`}</span> | `width: 50%;`<br />`color: var(--tonic-colors-text-secondary);` |
+| **`md` and above**<br /><span>{`≥ ${exampleMdPx}`}</span> | `width: 100%;`<br />`color: var(--tonic-colors-text-primary);` |
+
+The two `gte('sm')` rules combine to produce the same result as the Orders example.
+
+### Override width without changing color
+
+Use `&&` to give just the width declaration higher selector specificity. Leave color in the media query rules.
+
+```jsx
+<Box sx={{
+  [breakpoints.gte('sm')]: {
+    color: 'text.secondary',
+  },
+  [breakpoints.gte('md')]: {
+    width: '100%',
+    color: 'text.primary',
+  },
+  '&&': { width: '50%' },
+}}>
+  Alerts
+</Box>
+```
+
+**Resulting styles**
+
+| Viewport width | Styles |
+| :--- | :--- |
+| **Below `sm`**<br /><span>{`< ${exampleSmPx}`}</span> | `width: 50%;`<br />`color: inherit;` |
+| **From `sm` to below `md`**<br /><span>{`${exampleSmPx} to under ${exampleMdPx}`}</span> | `width: 50%;`<br />`color: var(--tonic-colors-text-secondary);` |
+| **`md` and above**<br /><span>{`≥ ${exampleMdPx}`}</span> | `width: 50%;`<br />`color: var(--tonic-colors-text-primary);` |
+
+At `md`, `&&` overrides `width: '100%'` without affecting text color.
+
 ## API
 
-The read-only `theme.breakpoints` object exposes `keys`, `values`, `unit`, and four query helpers. In these examples the default theme is used. Named arguments must be configured breakpoint names; unknown names throw. `gte`, `lt`, and `between` also accept numeric widths in the configured unit. `only` accepts only a configured name.
+The read-only `theme.breakpoints` object exposes `keys`, `values`, `unit`, and four query helpers. These examples use the pixel configuration from [CSS media queries](#css-media-queries). Named arguments must be configured breakpoint names; unknown names throw. `gte`, `lt`, and `between` also accept numeric widths in the configured unit. `only` accepts only a configured name.
 
 ### theme.breakpoints.gte
 
 `gte(keyOrWidth)` accepts a configured name or number and includes the lower boundary:
 
-```js
-breakpoints.gte('sm'); // '@media (width >= 40rem)'
-breakpoints.gte(50);   // '@media (width >= 50rem)'
-```
+<CodeBlock language="js" code={`breakpoints.gte('sm'); // '${exampleBreakpoints.gte('sm')}'
+breakpoints.gte(800);  // '@media (width >= 800px)'`} />
 
 ### theme.breakpoints.lt
 
 `lt(keyOrWidth)` accepts a configured name or number and excludes the upper boundary:
 
-```js
-breakpoints.lt('sm'); // '@media (width < 40rem)'
-breakpoints.lt(50);   // '@media (width < 50rem)'
-```
+<CodeBlock language="js" code={`breakpoints.lt('sm'); // '${exampleBreakpoints.lt('sm')}'
+breakpoints.lt(800);  // '@media (width < 800px)'`} />
 
 ### theme.breakpoints.between
 
 `between(start, end)` accepts a configured name or number for each argument. It includes the start and excludes the end:
 
-```js
-breakpoints.between('sm', 'md'); // '@media (40rem <= width < 48rem)'
-breakpoints.between(44, 60);     // '@media (44rem <= width < 60rem)'
-```
+<CodeBlock language="js" code={`breakpoints.between('sm', 'md'); // '${exampleBreakpoints.between('sm', 'md')}'
+breakpoints.between(700, 960);   // '@media (700px <= width < 960px)'`} />
 
 ### theme.breakpoints.only
 
 `only(key)` accepts a configured name and spans from that breakpoint up to, but not including, the next. The last key, including a single configured key, has no upper bound:
 
-```js
-breakpoints.only('sm');  // '@media (40rem <= width < 48rem)'
-breakpoints.only('md');  // '@media (48rem <= width < 64rem)'
-breakpoints.only('2xl'); // '@media (width >= 96rem)'
-```
+<CodeBlock language="js" code={`breakpoints.only('sm');  // '${exampleBreakpoints.only('sm')}'
+breakpoints.only('md');  // '${exampleBreakpoints.only('md')}'
+breakpoints.only('2xl'); // '${exampleBreakpoints.only('2xl')}'`} />

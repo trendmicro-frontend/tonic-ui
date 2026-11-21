@@ -1,5 +1,9 @@
 import { expect, test } from '@playwright/test';
 import { captureColorModes } from '../../../../../../test/e2e/screenshots.mjs';
+import { breakpoints, containerQueries } from '../../../../utils/default-breakpoints.js';
+import { formatBreakpoint } from '../../../../utils/convert-breakpoint-width.mjs';
+
+const mdPx = Math.ceil(parseFloat(formatBreakpoint(breakpoints, 'md', 'px')));
 
 const expectWidth = async (locator, width) => {
   await expect.poll(async () => {
@@ -34,9 +38,17 @@ test.describe('theme container queries', { tag: ['@docs', '@boundary', '@geometr
       const root = page.locator('html');
 
       if (viewport === 'desktop') {
-        await page.setViewportSize({ width: 767, height: 900 });
+        const results = main.getByRole('table').filter({ has: page.getByRole('columnheader', { name: 'Result', exact: true }) });
+        await expect(results.locator('tbody td:last-child')).toHaveText([
+          containerQueries.gte('sm'),
+          containerQueries.lt('md'),
+          containerQueries.between('sm', 'lg'),
+          containerQueries.only('md'),
+          containerQueries('sidebar').gte(18.75),
+        ]);
+        await page.setViewportSize({ width: mdPx - 1, height: 900 });
         await expectLayout(false);
-        await page.setViewportSize({ width: 768, height: 900 });
+        await page.setViewportSize({ width: mdPx, height: 900 });
         await expectLayout(true);
       }
 

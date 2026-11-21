@@ -1,14 +1,19 @@
+import { Code } from '@tonic-ui/react';
+import CodeBlock from '@/components/CodeBlock';
+import { breakpoints } from '@/utils/default-breakpoints';
+import { formatBreakpoint } from '@/utils/convert-breakpoint-width.mjs';
+
 # Responsive values
 
 Responsive values use the [breakpoints](../../theme/design-tokens/breakpoints) defined in the theme. Each breakpoint starts at its minimum viewport width.
 
 | Breakpoint | Minimum width | At 16px |
 | :--------- | :------------ | :------ |
-| `sm` | `40rem` | `640px` |
-| `md` | `48rem` | `768px` |
-| `lg` | `64rem` | `1024px` |
-| `xl` | `80rem` | `1280px` |
-| `2xl` | `96rem` | `1536px` |
+| `sm` | <Code>{formatBreakpoint(breakpoints, 'sm')}</Code> | <Code>{formatBreakpoint(breakpoints, 'sm', 'px')}</Code> |
+| `md` | <Code>{formatBreakpoint(breakpoints, 'md')}</Code> | <Code>{formatBreakpoint(breakpoints, 'md', 'px')}</Code> |
+| `lg` | <Code>{formatBreakpoint(breakpoints, 'lg')}</Code> | <Code>{formatBreakpoint(breakpoints, 'lg', 'px')}</Code> |
+| `xl` | <Code>{formatBreakpoint(breakpoints, 'xl')}</Code> | <Code>{formatBreakpoint(breakpoints, 'xl', 'px')}</Code> |
+| `2xl` | <Code>{formatBreakpoint(breakpoints, '2xl')}</Code> | <Code>{formatBreakpoint(breakpoints, '2xl', 'px')}</Code> |
 
 Pixel equivalents assume the browser's default initial font size of `16px`.
 
@@ -24,7 +29,7 @@ Named keys make the intended breakpoints explicit. Use `_` for an unconditional 
 </Text>
 ```
 
-The base font size is `24px`. At `md` (`≥ 48rem`) it becomes `32px`, at `lg` (`≥ 64rem`) it becomes `40px`, and at `xl` (`≥ 80rem`) it becomes `48px`. A value continues to apply until another matching breakpoint overrides it. Omit `_` if no base declaration is needed. Unconfigured breakpoint names are ignored.
+The base font size is `24px`. At `md` (<Code>{`≥ ${formatBreakpoint(breakpoints, 'md')}`}</Code>) it becomes `32px`, at `lg` (<Code>{`≥ ${formatBreakpoint(breakpoints, 'lg')}`}</Code>) it becomes `40px`, and at `xl` (<Code>{`≥ ${formatBreakpoint(breakpoints, 'xl')}`}</Code>) it becomes `48px`. A value continues to apply until another matching breakpoint overrides it. Omit `_` if no base declaration is needed. Unconfigured breakpoint names are ignored.
 
 ## Responsive styles in `sx`
 
@@ -76,20 +81,19 @@ Given the following example:
 
 The responsive style props generate the following CSS:
 
-```css
-.Box {
+<CodeBlock language="css" code={`.Box {
   width: 100%;
 }
 
-@media (width >= 40rem) {
+${breakpoints.gte('sm')} {
   .Box {
     width: 50%;
   }
 }
 
-@media (width >= 48rem) {
+${breakpoints.gte('md')} {
   .Box {
     width: 25%;
   }
 }
-```
+`} />

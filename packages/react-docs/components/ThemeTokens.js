@@ -37,7 +37,6 @@ import { useMemo, useState, useTransition } from 'react';
 
 // Import v3 primitive tokens
 import { borders as primitiveBorders } from '@tonic-ui/theme/src/v3/primitive/borders';
-import { breakpoints as primitiveBreakpoints } from '@tonic-ui/theme/src/v3/primitive/breakpoints';
 import { colors as primitiveColors } from '@tonic-ui/theme/src/v3/primitive/colors';
 import { fonts as primitiveFonts } from '@tonic-ui/theme/src/v3/primitive/fonts';
 import { fontSizes as primitiveFontSizes } from '@tonic-ui/theme/src/v3/primitive/fontSizes';
@@ -66,6 +65,8 @@ import v2Shadows from '@tonic-ui/theme/src/v2/shadows';
 import v2Sizes from '@tonic-ui/theme/src/v2/sizes';
 import v2Space from '@tonic-ui/theme/src/v2/space';
 import v2ZIndices from '@tonic-ui/theme/src/v2/zIndices';
+
+import { convertBreakpointWidth, DEFAULT_INITIAL_FONT_SIZE_PX } from '../utils/convert-breakpoint-width.mjs';
 
 // Walk an object by a dot-separated path
 const walkPath = (obj, path) => {
@@ -247,6 +248,8 @@ const TokenCategory = ({ scale, tokens, defaultIsExpanded }) => {
   const [sorting, setSorting] = useState([]);
   const [isFetching, startTransition] = useTransition();
   const theme = useTheme();
+  const breakpointUnit = scale === 'breakpoints' ? theme.breakpoints.unit : null;
+  const showPixelEquivalent = breakpointUnit === 'rem';
 
   const filteredRows = useMemo(() => {
     let rows = filterQuery
@@ -309,12 +312,19 @@ const TokenCategory = ({ scale, tokens, defaultIsExpanded }) => {
         return (
           <Stack direction="row" alignItems="center" spacing="2x" fontFamily="mono">
             <ColorSwatch value={value} />
-            <Code>{scale === 'breakpoints' && typeof value === 'number' ? `${value}rem` : String(value)}</Code>
+            <Code>{breakpointUnit ? `${value}${breakpointUnit}` : String(value)}</Code>
           </Stack>
         );
       },
     },
-  ], [scale, filterQuery]);
+    ...(showPixelEquivalent ? [{
+      id: 'pixel-width',
+      accessorKey: 'value',
+      header: 'Width (px)',
+      enableSorting: false,
+      cell: ({ getValue }) => <Code>{convertBreakpointWidth(getValue(), breakpointUnit, 'px')}</Code>,
+    }] : []),
+  ], [scale, filterQuery, breakpointUnit, showPixelEquivalent]);
 
   const table = useReactTable({
     data: filteredRows,
@@ -376,6 +386,11 @@ const TokenCategory = ({ scale, tokens, defaultIsExpanded }) => {
       </AccordionToggle>
       <AccordionContent>
         <Box pl="7x" pr="4x" py="2x">
+          {showPixelEquivalent && (
+            <Text fontSize="sm" color="text.secondary" mb="2x">
+              Pixel equivalents assume an initial browser font size of <Code>{DEFAULT_INITIAL_FONT_SIZE_PX}px</Code>.
+            </Text>
+          )}
           <Flex alignItems="center" justifyContent="space-between">
             <SearchInput
               onKeyDown={(e) => {
@@ -486,11 +501,11 @@ const TokenCategory = ({ scale, tokens, defaultIsExpanded }) => {
   );
 };
 
-const getTokenData = (type) => {
+const getTokenData = (type, breakpointValues) => {
   if (type === 'primitive') {
     return {
       borders: primitiveBorders.rem,
-      breakpoints: primitiveBreakpoints,
+      breakpoints: breakpointValues,
       colors: primitiveColors,
       fonts: primitiveFonts,
       fontSizes: primitiveFontSizes.rem,
@@ -529,7 +544,8 @@ const getTokenData = (type) => {
 };
 
 const ThemeTokens = ({ type, scales }) => {
-  const data = getTokenData(type);
+  const { breakpoints } = useTheme();
+  const data = getTokenData(type, breakpoints.values);
   const entries = (() => {
     if (!scales) {
       return Object.entries(data).map(([scale, tokens]) => ({
