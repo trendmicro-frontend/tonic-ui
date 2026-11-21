@@ -1,20 +1,8 @@
-import ThemeTokens from "@/components/ThemeTokens";
-
-# breakpoints
+# Breakpoints
 
 Breakpoints define viewport widths for responsive styles and CSS media queries.
 
-## Default breakpoints
-
-`createTheme()` uses these numeric values in `rem`. The equivalent pixel widths assume the browser's default initial font size of `16px`.
-
-| Name | Minimum width | At 16px |
-| :--- | :------------ | :------ |
-| `sm` | `40rem` | `640px` |
-| `md` | `48rem` | `768px` |
-| `lg` | `64rem` | `1024px` |
-| `xl` | `80rem` | `1280px` |
-| `2xl` | `96rem` | `1536px` |
+`createTheme()` uses `rem` by default. See the [breakpoint tokens](../design-tokens/breakpoints) for the default widths.
 
 ```jsx
 import { createTheme, TonicProvider } from '@tonic-ui/react';
@@ -25,12 +13,6 @@ function App({ children }) {
   return <TonicProvider theme={theme}>{children}</TonicProvider>;
 }
 ```
-
-## Design tokens
-
-### Primitive tokens (v3)
-
-<ThemeTokens type="primitive" scales={[{ name: 'breakpoints', defaultIsExpanded: true }]} />
 
 ## Examples
 

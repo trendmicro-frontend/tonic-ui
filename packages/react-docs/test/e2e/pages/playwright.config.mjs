@@ -16,6 +16,7 @@ export default createE2EConfig(root, {
   servers: [
     {
       commands: [
+        'bash -c \'. ./tonic-ui.env && ./scripts/update-docs.sh\'',
         'TONIC_UI_REACT_DOCS_E2E=1 node ./scripts/build-search-index.mjs',
         `bash -c '. ./tonic-ui.env && TONIC_UI_REACT_DOCS_E2E=1 TONIC_UI_REACT_DOCS_DIST_DIR=.e2e/next node ./scripts/dev.mjs --port ${docsPort}'`,
       ],

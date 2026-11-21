@@ -79,15 +79,6 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
     }
   });
 
-  test('shows the default primitive tokens with their rem units', async ({ page }) => {
-    await page.goto('./');
-    const tokens = page.getByRole('table').filter({ has: page.getByRole('columnheader', { name: 'Token' }) });
-    for (const [name, value] of [['sm', '40rem'], ['md', '48rem'], ['lg', '64rem'], ['xl', '80rem'], ['2xl', '96rem']]) {
-      const row = tokens.getByRole('row').filter({ has: page.getByRole('cell', { name, exact: true }) });
-      await expect(row.getByRole('cell').nth(1)).toHaveText(value);
-    }
-  });
-
   test('aligns the docs shell and header at the lg boundary', async ({ page }) => {
     await page.setViewportSize({ width: 1023, height: 900 });
     await page.goto('./');
