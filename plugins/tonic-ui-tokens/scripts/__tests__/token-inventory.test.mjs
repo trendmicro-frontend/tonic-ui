@@ -268,8 +268,9 @@ describe('plugins/tonic-ui-tokens / Lookup and inventory generation', () => {
         'breakpoints.values.md',
         'breakpoints.values.sm',
         'breakpoints.values.xl',
+        'breakpoints.values.xs',
       ]);
-      for (const [index, value] of [96, 64, 48, 40, 80].entries()) {
+      for (const [index, value] of [96, 64, 48, 40, 80, 0].entries()) {
         const token = breakpoints[index];
         assert.equal(token.kind, 'primitive');
         assert.equal(token.raw, value);
