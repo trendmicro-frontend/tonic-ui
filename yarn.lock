@@ -818,6 +818,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/helper-string-parser@npm:^7.29.15":
+  version: 7.29.15
+  resolution: "@babel/helper-string-parser@npm:7.29.15"
+  checksum: 10/f47627415e209bbfd83f9a4b2273eec30e9a30e087f65421055c6d5bf74ae30be5283d7ab340202a86022f266a5e48535748614491f6444e3248255829050052
+  languageName: node
+  linkType: hard
+
 "@babel/helper-string-parser@npm:^7.29.7":
   version: 7.29.7
   resolution: "@babel/helper-string-parser@npm:7.29.7"
@@ -949,6 +956,17 @@ __metadata:
   bin:
     babel-node: ./bin/babel-node.js
   checksum: 10/1ef5c98cca42e713c22bfc084abce9aad0310368a5bfccbaa4fed39ba4946b87878e86502787d1dba90503d259d7061b150bc936cc0a51831013d932c5f7d939
+  languageName: node
+  linkType: hard
+
+"@babel/parser@npm:^7.0.0":
+  version: 7.29.15
+  resolution: "@babel/parser@npm:7.29.15"
+  dependencies:
+    "@babel/types": "npm:^7.29.15"
+  bin:
+    parser: ./bin/babel-parser.js
+  checksum: 10/5d3866c3baaa4f21cdbf3eca12a293bc0d0f6916f8180ca6a3109a7813f600bc97746101f7283d83329e8977ce269af5f501ac2b4e1df6acfffa640c578d77cd
   languageName: node
   linkType: hard
 
@@ -2689,6 +2707,16 @@ __metadata:
     "@babel/helper-string-parser": "npm:^7.27.1"
     "@babel/helper-validator-identifier": "npm:^7.28.5"
   checksum: 10/bfc2b211210f3894dcd7e6a33b2d1c32c93495dc1e36b547376aa33441abe551ab4bc1640d4154ee2acd8e46d3bbc925c7224caae02fcaf0e6a771e97fccc661
+  languageName: node
+  linkType: hard
+
+"@babel/types@npm:^7.29.15":
+  version: 7.29.15
+  resolution: "@babel/types@npm:7.29.15"
+  dependencies:
+    "@babel/helper-string-parser": "npm:^7.29.15"
+    "@babel/helper-validator-identifier": "npm:^7.29.7"
+  checksum: 10/8500f1961da3139738b1d2dc41e1da0ac38be815f819be456b3fac2424c62c385b966751359d5971f9dfcccf9dc08166cfa0668c0d97f027d4b895b3dc7f3799
   languageName: node
   linkType: hard
 
@@ -6815,6 +6843,7 @@ __metadata:
     "@babel/eslint-parser": "npm:^7.0.0"
     "@babel/eslint-plugin": "npm:^7.0.0"
     "@babel/node": "npm:^7.0.0"
+    "@babel/parser": "npm:^7.0.0"
     "@babel/plugin-transform-runtime": "npm:^7.0.0"
     "@babel/preset-env": "npm:^7.0.0"
     "@babel/preset-react": "npm:^7.0.0"
@@ -6870,6 +6899,7 @@ __metadata:
     lz-string: "npm:^1.5.0"
     mdast-util-from-markdown: "npm:^2.0.0"
     mdast-util-mdx-jsx: "npm:^3.0.0"
+    mdast-util-to-string: "npm:^4.0.0"
     micromark-extension-mdx-jsx: "npm:^2.0.0"
     minisearch: "npm:^7.2.0"
     next: "npm:^15.5.14"
