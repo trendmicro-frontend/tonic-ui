@@ -75,7 +75,7 @@ Set `breakpoints` in `createTheme()` to define the viewport widths used by respo
 Setting `values` replaces the entire scale. Include every breakpoint you want to keep. These examples show the default thresholds in either unit:
 
 ```js
-// px
+// Pixels (at a 16px initial browser font size)
 const theme = createTheme({
   breakpoints: {
     values: {
@@ -89,8 +89,10 @@ const theme = createTheme({
     unit: 'px',
   },
 });
+```
 
-// rem
+```js
+// Root ems (the default unit)
 const theme = createTheme({
   breakpoints: {
     values: {

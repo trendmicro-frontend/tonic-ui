@@ -274,6 +274,7 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
       for (const unit of [defaultBreakpoints.unit, 'px']) {
         const example = code.filter({ hasText: new RegExp(`'2xl': [\\d.]+,\\s*},\\s*unit: '${unit}'`) });
         await expect(example).toBeVisible();
+        expect((await example.textContent()).match(/\bconst theme\b/g)).toHaveLength(1);
         for (const key of defaultBreakpoints.keys) {
           const value = convertBreakpointWidth(defaultBreakpoints.values[key], defaultBreakpoints.unit, unit);
           await expect(example).toContainText(`${key === '2xl' ? "'2xl'" : key}: ${value},`);
