@@ -1,7 +1,7 @@
 import { createBreakpoints } from '../createBreakpoints';
 import { createContainerQueries } from '../createContainerQueries';
 
-const breakpoints = createBreakpoints({ values: { sm: 40, md: 48, lg: 64, xl: 80, '2xl': 96 }, unit: 'rem' });
+const breakpoints = createBreakpoints({ values: { xs: 0, sm: 40, md: 48, lg: 64, xl: 80, '2xl': 96 }, unit: 'rem' });
 const queries = createContainerQueries(breakpoints);
 
 it.each([
@@ -13,6 +13,7 @@ it.each([
   ['lt', ['20rem'], '(width < 20rem)'],
   ['between', ['18.75rem', '24rem'], '(18.75rem <= width < 24rem)'],
   ['between', ['0px', 'sm'], '(0px <= width < 40rem)'],
+  ['between', ['xs', 'sm'], '(0rem <= width < 40rem)'],
   ['between', [0, 'sm'], '(0 <= width < 40rem)'],
 ])('adapts %s %j for unnamed and named containers', (method, args, condition) => {
   expect(queries[method](...args)).toBe(`@container ${condition}`);
@@ -43,7 +44,8 @@ it('inherits units and validation from the active breakpoint scale', () => {
   expect(custom.gte('300px')).toBe('@container (width >= 300px)');
   expect(() => custom('sidebar').gte('mobile')).toThrow(RangeError);
   expect(() => custom.only(300)).toThrow(TypeError);
-  expect(() => custom.gte(300)).toThrow(TypeError);
+  expect(custom.gte(0)).toBe('@container (width >= 0)');
+  expect(custom('sidebar').lt(0)).toBe('@container sidebar (width < 0)');
   expect(() => custom('sidebar').between('sm', '300')).toThrow(TypeError);
   expect(() => custom('sidebar').only('300px')).toThrow(TypeError);
 });

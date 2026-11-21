@@ -50,8 +50,12 @@ describe('createTheme', () => {
     }
     expect(theme.toColorMode('dark').get('breakpoints.values.md')).toBe(48);
     expect(theme.toColorMode('light').get('breakpoints.values.md')).toBe(48);
-    const custom = createTheme(theme, { breakpoints: { values: { md: 1000 }, unit: 'px' } });
+    const custom = createTheme(theme, { breakpoints: { values: { xs: 320, md: 1000 }, unit: 'px' } });
     expect(custom.breakpoints.gte('md')).toBe('@media (width >= 1000px)');
+    expect(custom.breakpoints.gte('xs')).toBe('@media (width >= 320px)');
+    expect(custom.breakpoints.gte(0)).toBe('@media (width >= 0)');
+    expect(custom.containerQueries('sidebar').between(0, 'xs')).toBe('@container sidebar (0 <= width < 320px)');
+    expect(theme.breakpoints.gte('xs')).toBe('@media (width >= 0rem)');
     expect(theme.breakpoints.gte('md')).toBe('@media (width >= 48rem)');
   });
 

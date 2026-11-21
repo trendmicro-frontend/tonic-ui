@@ -1,6 +1,6 @@
 import { createBreakpoints } from '../createBreakpoints';
 
-const defaults = createBreakpoints({ values: { lg: 64, sm: 40, '2xl': 96, xl: 80, md: 48 }, unit: 'rem' });
+const defaults = createBreakpoints({ values: { lg: 64, sm: 40, '2xl': 96, xl: 80, md: 48, xs: 0 }, unit: 'rem' });
 
 test.each([
   ['gte', ['sm'], '@media (width >= 40rem)'],
@@ -16,6 +16,8 @@ test.each([
   ['lt', ['47.96875rem'], '@media (width < 47.96875rem)'],
   ['gte', ['40em'], '@media (width >= 40em)'],
   ['gte', ['0px'], '@media (width >= 0px)'],
+  ['gte', ['xs'], '@media (width >= 0rem)'],
+  ['only', ['xs'], '@media (0rem <= width < 40rem)'],
   ['gte', [0], '@media (width >= 0)'],
   ['lt', [0], '@media (width < 0)'],
   ['between', [0, 'md'], '@media (0 <= width < 48rem)'],
@@ -58,8 +60,7 @@ test('rejects unsupported options and named keys', () => {
     expect(() => createBreakpoints(value)).toThrow(new TypeError('[Tonic UI] breakpoints must be an options object.'));
   }
   expect(() => createBreakpoints({ values: { tablet: 600 } })).toThrow(new TypeError('[Tonic UI] Unsupported breakpoint name: tablet.'));
-  expect(() => createBreakpoints({ values: { xs: 0 } })).toThrow(new TypeError('[Tonic UI] Unsupported breakpoint name: xs.'));
-  expect(() => defaults.gte('xs')).toThrow(new RangeError('[Tonic UI] Unknown breakpoint: xs.'));
+  expect(() => createBreakpoints().gte('xs')).toThrow(new RangeError('[Tonic UI] Unknown breakpoint: xs.'));
 });
 
 test.each([

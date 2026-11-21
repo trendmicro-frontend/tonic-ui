@@ -32,3 +32,7 @@ Keep `theme.breakpoints` and `theme.containerQueries`. On `breakpoints`, unnamed
 Review: matched the runtime delegation, unit/type fixtures, docs pages and E2E call sites above against the checkout. The runtime and TypeScript tests deliberately cover different validation layers; the TypeScript template literal alone cannot enforce the runtime decimal grammar.
 
 Verification: 57 utility tests, 39 React theme tests, the public package build, React declaration checks, 12 Chromium docs tests, and the React container-query browser test in both build modes passed. Chromium matched unitless zero in media and container width queries, and the gallery retained one and three columns under a pixel theme. The docs source index had no missing pages or broken links.
+
+## Named zero breakpoint
+
+The default v3 scale starts at `xs: 0`. The `xs` name can be overridden or omitted like other keys. Numeric `0` remains valid for `gte`, `lt`, and `between`, independently of that setting. The Breakpoints guide includes copyable default `rem` and equivalent `px` examples; Chromium checks both against the current theme at a `16px` initial font size.

@@ -213,7 +213,7 @@ describe('v4 theme (default)', () => {
         tooltip: 1800,
       });
 
-      expect(breakpoints.values).toEqual({ sm: 40, md: 48, lg: 64, xl: 80, '2xl': 96 });
+      expect(breakpoints.values).toEqual({ xs: 0, sm: 40, md: 48, lg: 64, xl: 80, '2xl': 96 });
       expect(breakpoints.gte('lg')).toBe('@media (width >= 64rem)');
     });
   });
@@ -423,12 +423,12 @@ describe('v4 theme (default)', () => {
       const theme = createTheme(unit);
       const { breakpoints } = theme;
 
-      expect(breakpoints.values).toEqual({ sm: 40, md: 48, lg: 64, xl: 80, '2xl': 96 });
-      expect(breakpoints.keys).toEqual(['sm', 'md', 'lg', 'xl', '2xl']);
+      expect(breakpoints.values).toEqual({ xs: 0, sm: 40, md: 48, lg: 64, xl: 80, '2xl': 96 });
+      expect(breakpoints.keys).toEqual(['xs', 'sm', 'md', 'lg', 'xl', '2xl']);
       expect(breakpoints.unit).toBe('rem');
       expect(breakpoints[0]).toBeUndefined();
       expect(breakpoints.sm).toBeUndefined();
-      expect(breakpoints.values.xs).toBeUndefined();
+      expect(breakpoints.gte('xs')).toBe('@media (width >= 0rem)');
       expect(Reflect.set(theme, 'breakpoints', {})).toBe(false);
       expect(Reflect.set(breakpoints.values, 'md', 1)).toBe(false);
       expect(Reflect.set(breakpoints.keys, 0, 'xl')).toBe(false);

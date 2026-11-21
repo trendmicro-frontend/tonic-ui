@@ -6,18 +6,16 @@ const directContainerQuery: string = viewportTheme.containerQueries.gte('sm');
 const namedContainerQuery: string = viewportTheme.containerQueries('sidebar').only('md');
 createTheme({ breakpoints: { values: { sm: 0, md: 48 }, unit: 'em' } });
 createTheme(viewportTheme, { breakpoints: { values: { lg: 1000 }, unit: 'px' } });
-// @ts-expect-error There is no named base breakpoint.
 createTheme({ breakpoints: { values: { xs: 0 } } });
 // @ts-expect-error Unknown breakpoint name.
 createTheme({ breakpoints: { values: { tablet: 640 } } });
 // @ts-expect-error Legacy array config is not accepted.
 createTheme({ breakpoints: ['600px'] });
 const largestQuery: string = viewportTheme.breakpoints.gte('2xl');
-// @ts-expect-error There is no named base breakpoint.
-viewportTheme.breakpoints.gte('xs');
 const minWidth: string = viewportTheme.breakpoints.gte('md');
 const exclusiveMaxWidth: string = viewportTheme.breakpoints.lt('48rem');
-const zeroWidth: string = viewportTheme.breakpoints.gte(0);
+const zeroWidth: string = viewportTheme.breakpoints.gte('xs');
+const explicitZeroWidth: string = viewportTheme.breakpoints.gte(0);
 // @ts-expect-error Numeric boundaries need an explicit unit.
 viewportTheme.breakpoints.gte(48);
 // @ts-expect-error A unitless string is not a breakpoint name or length.
@@ -32,7 +30,7 @@ viewportTheme.breakpoints.down('md');
 createTheme({ breakpoints: { step: 5 } });
 // @ts-expect-error only() accepts a key, not a width.
 viewportTheme.breakpoints.only('600px');
-// @ts-expect-error The numeric zero exception is not available on only().
+// @ts-expect-error only() accepts a key, not numeric zero.
 viewportTheme.breakpoints.only(0);
 // @ts-expect-error Cannot replace the breakpoint snapshot.
 viewportTheme.breakpoints = createTheme().breakpoints;

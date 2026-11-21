@@ -8,17 +8,14 @@ import { convertBreakpointWidth } from '../../../../utils/convert-breakpoint-wid
 import { captureColorModes } from '../../../../../../test/e2e/screenshots.mjs';
 
 const HELPERS = ['gte-sm', 'lt-sm', 'only-md', 'between-sm-md'];
-const RANGES = ['base', ...defaultBreakpoints.keys];
 const defaultPx = (key) => convertBreakpointWidth(defaultBreakpoints.values[key], defaultBreakpoints.unit, 'px');
-const defaultMd = defaultPx('md');
 const defaultLg = defaultPx('lg');
 const { sm: exampleSm, md: exampleMd, lg: exampleLg } = pixelBreakpoints.values;
-const boundaries = [...defaultBreakpoints.keys.map(defaultPx), ...Object.values(pixelBreakpoints.values)];
+const boundaries = [exampleSm, exampleMd, exampleLg];
 const CASES = [200, ...new Set(boundaries.flatMap(width => [Math.ceil(width) - 1, Math.ceil(width)]))]
   .sort((a, b) => a - b)
   .map(width => ({
     width,
-    range: defaultBreakpoints.keys.findLast(key => width >= defaultPx(key)) ?? 'base',
     active: HELPERS.filter(id => ({
       'gte-sm': width >= exampleSm,
       'lt-sm': width < exampleSm,
@@ -27,7 +24,7 @@ const CASES = [200, ...new Set(boundaries.flatMap(width => [Math.ceil(width) - 1
     })[id]),
   }));
 
-const expectBreakpointState = async (page, { width, active, range }) => {
+const expectBreakpointState = async (page, { width, active }) => {
   const main = page.locator('#main');
   for (const helper of HELPERS) {
     const box = main.getByTestId(`breakpoint-${helper}`);
@@ -40,14 +37,6 @@ const expectBreakpointState = async (page, { width, active, range }) => {
   const queries = main.getByRole('list', { name: 'Media query matches' });
   await expect(queries.getByRole('listitem')).toHaveCount(HELPERS.length);
   await expect(queries.getByText('No match', { exact: true }).filter({ visible: true })).toHaveCount(HELPERS.length - active.length);
-  for (const key of RANGES) {
-    const box = main.getByTestId(`breakpoint-range-${key}`);
-    if (key === range) {
-      await expect(box, `${key} range at ${width}px`).toBeVisible();
-    } else {
-      await expect(box, `${key} range at ${width}px`).toBeHidden();
-    }
-  }
 };
 
 test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, () => {
@@ -144,6 +133,14 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
   test('updates the examples at each viewport boundary without reloading', async ({ page }) => {
     await page.goto('./');
 
+    const main = page.locator('#main');
+    for (const [helper, args] of [['gte', 'start'], ['lt', 'end'], ['between', 'start, end'], ['only', 'name']]) {
+      await page.goto('./');
+      await main.getByRole('link', { name: `theme.breakpoints.${helper}(${args})`, exact: true }).click();
+      await expect(page).toHaveURL(new RegExp(`#themebreakpoints${helper}$`));
+      await expect(main.getByRole('heading', { name: `theme.breakpoints.${helper}`, exact: true })).toBeInViewport();
+    }
+
     const queries = page.getByRole('list', { name: 'Media query matches' });
     for (const query of [
       `@media (width >= ${exampleSm}px)`,
@@ -157,10 +154,6 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
     for (const scenario of CASES) {
       await page.setViewportSize({ width: scenario.width, height: 900 });
       await expectBreakpointState(page, scenario);
-      const metrics = page.getByRole('list', { name: 'Store metrics' });
-      const columns = scenario.width < defaultMd ? 1 : scenario.width < defaultLg ? 2 : 3;
-      await expect(metrics).toHaveCSS('grid-template-columns', new RegExp(`^\\S+(?: \\S+){${columns - 1}}$`));
-      await expect(metrics.getByRole('listitem')).toHaveCount(3);
     }
   });
 
@@ -206,8 +199,8 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
     await page.goto('./');
 
     for (const scenario of CASES.slice(1)) {
-      const { width, range: size } = scenario;
-      await captureColorModes(page, 'breakpoints', `helpers-${size}-${width}`, async (colorMode) => {
+      const { width } = scenario;
+      await captureColorModes(page, 'breakpoints', `helpers-${width}`, async (colorMode) => {
         await page.setViewportSize({ width, height: 900 });
         const root = page.locator('html');
         await expect(root).toHaveAttribute('data-color-scheme', /^(light|dark)$/);
@@ -236,22 +229,6 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
       });
     }
 
-    for (const width of [Math.ceil(defaultMd) - 1, Math.ceil(defaultMd), Math.ceil(defaultLg)]) {
-      await captureColorModes(page, 'breakpoints', `dashboard-${width}`, async (colorMode) => {
-        await page.setViewportSize({ width, height: 900 });
-        const root = page.locator('html');
-        await expect(root).toHaveAttribute('data-color-scheme', /^(light|dark)$/);
-        if (await root.getAttribute('data-color-scheme') !== colorMode) {
-          await page.locator('[title="Toggle color mode"]').click();
-        }
-        await expect(root).toHaveAttribute('data-color-scheme', colorMode);
-        const dashboard = page.getByRole('list', { name: 'Store metrics' });
-        await dashboard.evaluate((element) => element.scrollIntoView({ block: 'center', behavior: 'instant' }));
-        await expect(dashboard.getByRole('listitem')).toHaveCount(3);
-        await expect(dashboard).toBeInViewport({ ratio: 1 });
-      });
-    }
-
     await captureColorModes(page, 'breakpoints', 'code-samples-1024', async (colorMode) => {
       await page.setViewportSize({ width: 1024, height: 900 });
       const root = page.locator('html');
@@ -262,6 +239,46 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
       const composition = page.getByRole('heading', { name: 'Compose rules for the same query', level: 3, exact: true });
       await composition.evaluate((element) => element.scrollIntoView({ block: 'center', behavior: 'instant' }));
       await expect(composition).toBeInViewport();
+    });
+
+    await captureColorModes(page, 'breakpoints', 'css-media-queries', async (colorMode) => {
+      await page.setViewportSize({ width: 1440, height: 1000 });
+      const root = page.locator('html');
+      if (await root.getAttribute('data-color-scheme') !== colorMode) {
+        await page.locator('[title="Toggle color mode"]').click();
+      }
+      await expect(root).toHaveAttribute('data-color-scheme', colorMode);
+      const heading = page.locator('#main').getByRole('heading', { name: 'CSS media queries', level: 2 });
+      await heading.evaluate(element => element.scrollIntoView({ block: 'start', behavior: 'instant' }));
+      await expect(page.getByRole('link', { name: 'theme.breakpoints.gte(start)', exact: true })).toBeInViewport();
+      const code = page.getByRole('link', { name: 'theme.breakpoints.gte(start)', exact: true }).locator('code');
+      await expect(code).toHaveCSS('padding-block', '2px');
+      await expect(code).toHaveCSS('padding-inline', '4px');
+      await expect(code).toHaveCSS('border-top-left-radius', '6px');
+    });
+
+    await captureColorModes(page, 'breakpoints', 'custom-breakpoints', async (colorMode) => {
+      await page.setViewportSize({ width: 1440, height: 1000 });
+      const root = page.locator('html');
+      if (await root.getAttribute('data-color-scheme') !== colorMode) {
+        await page.locator('[title="Toggle color mode"]').click();
+      }
+      await expect(root).toHaveAttribute('data-color-scheme', colorMode);
+      const main = page.locator('#main');
+      await main.getByRole('link', { name: 'custom breakpoints', exact: true }).click();
+      await expect(page).toHaveURL(/#custom-breakpoints$/);
+      const heading = main.getByRole('heading', { name: 'Custom breakpoints', level: 2, exact: true });
+      await heading.evaluate(element => element.scrollIntoView({ block: 'start', behavior: 'instant' }));
+      await expect(heading).toBeInViewport();
+      const code = main.locator('pre');
+      for (const unit of [defaultBreakpoints.unit, 'px']) {
+        const example = code.filter({ hasText: new RegExp(`'2xl': [\\d.]+,\\s*},\\s*unit: '${unit}'`) });
+        await expect(example).toBeVisible();
+        for (const key of defaultBreakpoints.keys) {
+          const value = convertBreakpointWidth(defaultBreakpoints.values[key], defaultBreakpoints.unit, unit);
+          await expect(example).toContainText(`${key === '2xl' ? "'2xl'" : key}: ${value},`);
+        }
+      }
     });
   });
 });

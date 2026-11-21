@@ -1,6 +1,5 @@
 import CodeBlock from '@/components/CodeBlock';
-import { Code, createTheme } from '@tonic-ui/react';
-import { breakpoints as defaultBreakpoints } from '@/utils/default-breakpoints';
+import { createTheme } from '@tonic-ui/react';
 import { formatBreakpoint } from '@/utils/convert-breakpoint-width.mjs';
 import { pixelBreakpoints } from './pixel-breakpoints.mjs';
 
@@ -8,8 +7,6 @@ export const pixelValuesCode = Object.entries(pixelBreakpoints.values)
   .map(([key, value]) => `${key === '2xl' ? "'2xl'" : key}: ${value}`)
   .join(', ');
 export const exampleBreakpoints = createTheme({ breakpoints: pixelBreakpoints }).breakpoints;
-export const mdPx = formatBreakpoint(defaultBreakpoints, 'md', 'px');
-export const lgPx = formatBreakpoint(defaultBreakpoints, 'lg', 'px');
 export const exampleSmPx = formatBreakpoint(exampleBreakpoints, 'sm', 'px');
 export const exampleMdPx = formatBreakpoint(exampleBreakpoints, 'md', 'px');
 
@@ -17,17 +14,18 @@ export const exampleMdPx = formatBreakpoint(exampleBreakpoints, 'md', 'px');
 
 Breakpoints define viewport widths for responsive styles and CSS media queries.
 
-`createTheme()` uses `rem` by default. See the [breakpoint tokens](../design-tokens/breakpoints) for the default widths.
-
-## Overview
-
-Resize the browser to see how the dashboard widgets respond to the **viewport width**. At the default thresholds, they stack below <Code>{mdPx}</Code> (`md`), use two columns from <Code>{mdPx}</Code> to just below <Code>{lgPx}</Code> (`lg`), and use three columns from <Code>{lgPx}</Code> onward. These pixel equivalents assume a `16px` initial browser font size.
-
-{render('./breakpoints')}
+`createTheme()` uses `rem` by default. See the [breakpoint tokens](../design-tokens/breakpoints) for the default widths, or define [custom breakpoints](#custom-breakpoints) for your project.
 
 ## CSS media queries
 
-This example configures breakpoints in pixels. Each row pairs a helper with the CSS it generates. Resize the browser to see which conditions match. More than one can match at the same width.
+Use CSS media queries to apply styles based on the viewport width. `theme.breakpoints` provides four helpers:
+
+- [`theme.breakpoints.gte(start)`](#themebreakpointsgte)
+- [`theme.breakpoints.lt(end)`](#themebreakpointslt)
+- [`theme.breakpoints.between(start, end)`](#themebreakpointsbetween)
+- [`theme.breakpoints.only(name)`](#themebreakpointsonly)
+
+The demo uses breakpoints in pixels. Resize the browser to see which queries match. More than one can match at the same width.
 
 {render('./media-queries')}
 
@@ -59,35 +57,54 @@ function App() {
 }
 `} />
 
-With that pixel configuration, the four helpers produce:
-
-<CodeBlock language="js" code={`breakpoints.gte('sm');           // '${exampleBreakpoints.gte('sm')}'
-breakpoints.lt('sm');            // '${exampleBreakpoints.lt('sm')}'
-breakpoints.between('sm', 'md'); // '${exampleBreakpoints.between('sm', 'md')}'
-breakpoints.only('md');          // '${exampleBreakpoints.only('md')}'`} />
-
 To use the same style on both sides of a range, set it as the base style and override it inside the range with `only()` or `between()`, as in the example above. If a rule must match only outside a range, write a native CSS query directly, such as `@media not (768px <= width < 1024px)`.
 
 Viewport breakpoints still apply when a widget sits in a narrow sidebar. To make a widget respond to its own container instead, continue with [Container queries](../container-queries).
 
 Responsive style props accept breakpoint objects. In `sx`, use the helpers as media query keys.
 
-## Customizing breakpoints
+<span id="customizing-breakpoints" />
 
-Pass breakpoint options to `createTheme()`. `values` replaces the default map and supports the standard names `sm`, `md`, `lg`, `xl`, and `2xl`. The keys are sorted by their numeric values. Omit a name if the theme does not need that breakpoint.
+## Custom breakpoints
 
-```jsx
-import { createTheme } from '@tonic-ui/react';
+Set `breakpoints` in `createTheme()` to define the viewport widths used by responsive styles and query helpers.
 
+- `theme.breakpoints.values`: The minimum width for each breakpoint name. Tonic UI sorts the breakpoints by width.
+- `theme.breakpoints.unit`: The unit for those widths. It inherits the active theme's unit (`rem` by default). Set `unit: 'px'` to supply pixel values.
+
+Setting `values` replaces the entire scale. Include every breakpoint you want to keep. These examples show the default thresholds in either unit:
+
+```js
+// px
 const theme = createTheme({
   breakpoints: {
-    values: { sm: 640, md: 960, lg: 1280, xl: 1600 },
+    values: {
+      xs: 0,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      '2xl': 1536,
+    },
     unit: 'px',
   },
 });
-```
 
-`unit` is appended to each numeric value. `createTheme()` inherits the active theme's breakpoint unit (`rem` by default), so set `unit: 'px'` explicitly when supplying pixel values. Upper bounds use the exclusive `<` operator, so `lt('sm')` in this custom theme returns `@media (width < 640px)`. Adjacent ranges meet at the exact breakpoint without a subpixel gap.
+// rem
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 40,
+      md: 48,
+      lg: 64,
+      xl: 80,
+      '2xl': 96,
+    },
+    unit: 'rem',
+  },
+});
+```
 
 ## Rule composition
 
@@ -187,6 +204,8 @@ At `md`, `&&` overrides `width: '100%'` without affecting text color.
 ## API
 
 The read-only `theme.breakpoints` object exposes `keys`, `values`, `unit`, and four query helpers. These examples use the pixel configuration from [CSS media queries](#css-media-queries). A configured name uses the theme's value and unit. `gte`, `lt`, and `between` also accept a non-negative decimal length string ending in `px`, `rem`, or `em`. An explicit length keeps its own unit. The number `0` represents zero length and is the only number accepted without a unit. Unitless strings and CSS functions such as `calc()` are not accepted. Unknown breakpoint names throw.
+
+The default scale starts at `xs: 0`. Use `gte('xs')` for the configured `xs` threshold. Use `gte(0)` for a fixed zero bound, even if `xs` changes or is omitted.
 
 ### theme.breakpoints.gte
 

@@ -5,7 +5,7 @@ import { useTheme, Box, createTheme } from '@tonic-ui/react';
 function UseThemeColors() {
   const theme = useTheme();
   const query: string = theme.breakpoints.between('sm', '1000rem');
-  const directContainerQuery: string = theme.containerQueries.lt(0);
+  const directContainerQuery: string = theme.containerQueries.gte('xs');
   const namedContainerQuery: string = theme.containerQueries('sidebar').between('18.75rem', 'md');
   // @ts-expect-error Named container queries also require explicit units.
   theme.containerQueries('sidebar').between(18.75, 'md');
