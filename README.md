@@ -24,7 +24,7 @@ v1 | https://trendmicro-frontend.github.io/tonic-ui/react/v1/
 
 ## AI skills marketplace
 
-The [Tonic UI skills catalog](skills/README.md) separates seven repository
+The [Tonic UI skills catalog](skills/README.md) separates eight repository
 contributor skills in `skills/` from three independently installable application
 plugins in `plugins/`: `tonic-ui-dev`, `tonic-ui-tokens`, and `tonic-ui-upgrade`.
 The `tonic-ui` marketplace exposes these plugins to Claude Code, Codex, and omp.

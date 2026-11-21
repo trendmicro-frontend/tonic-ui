@@ -1,6 +1,6 @@
 # Tonic UI AI skills
 
-Seven contributor skills support work on the Tonic UI library. Three separate
+Eight contributor skills support work on the Tonic UI library. Three separate
 plugins provide application-facing skills; each can be installed independently.
 
 | Group | Skill | Use it for |
@@ -9,6 +9,7 @@ plugins provide application-facing skills; each can be installed independently.
 | plugin | [tonic-ui-dev](../plugins/tonic-ui-dev/skills/tonic-ui-dev/SKILL.md) | Understand app context, retrieve official APIs/examples, integrate with existing wrappers/forms/state, and verify the requested behavior; includes optional MCP/local-source access and on-demand compatibility investigation |
 | plugin | [tonic-ui-upgrade](../plugins/tonic-ui-upgrade/skills/tonic-ui-upgrade/SKILL.md) | Upgrading a consuming app's Tonic UI packages; current guidance covers the v2-to-v3 migration |
 | contributor | [tonic-ui-patterns](tonic-ui-patterns/SKILL.md) | Repository component structure, hooks, exports and conventions |
+| contributor | [tonic-ui-plan](tonic-ui-plan/SKILL.md) | Planning library changes, acceptance tests, PR preparation, and delivery |
 | contributor | [tonic-ui-pr](tonic-ui-pr/SKILL.md) | Library PR descriptions, commit-message drafts and changesets; no publication authorization |
 | contributor | [tonic-ui-slots](tonic-ui-slots/SKILL.md) | `slots`, `slotProps`, `useSlot` and legacy component/props migration |
 | contributor | [tonic-ui-sx](tonic-ui-sx/SKILL.md) | `sx`, `__sx`, `composeSx` and consumer override precedence |
@@ -21,19 +22,19 @@ Resolving a token in an already-v3 app does not require an upgrade. Library repo
 ## Layout
 
 ```text
-skills/tonic-ui-<contributor>/               # seven contributor skills
+skills/tonic-ui-<contributor>/               # eight contributor skills
 plugins/tonic-ui-<plugin>/                  # dev, tokens, or upgrade
 ├── .claude-plugin/plugin.json
 └── skills/tonic-ui-<plugin>/               # one matching application skill
 .agents/skills/ and .claude/skills/         # contributor symlink adapters
 ```
 
-`.agents/skills/<name>` and `.claude/skills/<name>` each contain the same seven relative links to `skills/<name>`. Claude Code keeps its own `.claude/skills/` discovery entry points; Codex and omp use `.agents/skills/`. Neither directory contains instruction copies or plugin skill links. Edit the physical source directory, never an adapter.
+`.agents/skills/<name>` and `.claude/skills/<name>` each contain the same eight relative links to `skills/<name>`. Claude Code keeps its own `.claude/skills/` discovery entry points; Codex and omp use `.agents/skills/`. Neither directory contains instruction copies or plugin skill links. Edit the physical source directory, never an adapter.
 
 ## Use a local checkout without installation
 
 Start the client from the Tonic UI checkout or a subdirectory. Native discovery
-exposes only the seven **contributor skills**:
+exposes only the eight **contributor skills**:
 
 - **Claude Code:** `.claude/skills/<name>`; for example `/tonic-ui-patterns`.
 - **Codex:** `.agents/skills/<name>`; for example `$tonic-ui-patterns`.
