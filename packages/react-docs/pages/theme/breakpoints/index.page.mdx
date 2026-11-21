@@ -139,17 +139,19 @@ These snippets use `breakpoints` from `useTheme()` with the pixel configuration 
 When width and text color change together, put both declarations in the same media query rule.
 
 ```jsx
-<Box sx={{
-  width: '100%',
-  [breakpoints.gte('sm')]: {
-    width: '50%',
-    color: 'text.secondary',
-  },
-  [breakpoints.gte('md')]: {
+<Box
+  sx={{
     width: '100%',
-    color: 'text.primary',
-  },
-}}>
+    [breakpoints.gte('sm')]: {
+      color: 'text.secondary',
+      width: '50%',
+    },
+    [breakpoints.gte('md')]: {
+      color: 'text.primary',
+      width: '100%',
+    },
+  }}
+>
   Orders
 </Box>
 ```
@@ -169,19 +171,23 @@ At `md`, both queries match. The later rule wins for both properties.
 Use an `sx` array when the declarations come from separate style objects. Here, two objects use the same `gte('sm')` key: one sets color and the other sets width.
 
 ```jsx
-<Box sx={[
-  { width: '100%' },
-  { [breakpoints.gte('sm')]: {
-    color: 'text.secondary',
-  } },
-  { [breakpoints.gte('sm')]: {
-    width: '50%',
-  } },
-  { [breakpoints.gte('md')]: {
-    width: '100%',
-    color: 'text.primary',
-  } },
-]}>
+<Box
+  sx={[
+    { width: '100%' },
+    {
+      [breakpoints.gte('sm')]: {
+        color: 'text.secondary',
+        width: '50%',
+      },
+    },
+    {
+      [breakpoints.gte('md')]: {
+        color: 'text.primary',
+        width: '100%',
+      },
+    },
+  ]}
+>
   Returns
 </Box>
 ```
@@ -201,16 +207,18 @@ The two `gte('sm')` rules combine to produce the same result as the Orders examp
 Use `&&` to give just the width declaration higher selector specificity. Leave color in the media query rules.
 
 ```jsx
-<Box sx={{
-  [breakpoints.gte('sm')]: {
-    color: 'text.secondary',
-  },
-  [breakpoints.gte('md')]: {
-    width: '100%',
-    color: 'text.primary',
-  },
-  '&&': { width: '50%' },
-}}>
+<Box
+  sx={{
+    [breakpoints.gte('sm')]: {
+      color: 'text.secondary',
+    },
+    [breakpoints.gte('md')]: {
+      color: 'text.primary',
+      width: '100%',
+    },
+    '&&': { width: '50%' },
+  }}
+>
   Alerts
 </Box>
 ```
