@@ -164,11 +164,11 @@ When width and text color change together, put both declarations in the same med
 | **From `sm` to below `md`**<br /><span>{`${exampleSmPx} to under ${exampleMdPx}`}</span> | `color: var(--tonic-colors-text-secondary);`<br />`width: 50%;` |
 | **`md` and above**<br /><span>{`≥ ${exampleMdPx}`}</span> | `color: var(--tonic-colors-text-primary);`<br />`width: 100%;` |
 
-At `md`, both queries match. The later rule wins for both properties.
+<span id="compose-rules-for-the-same-query" />
 
-### Compose rules for the same query
+### Compose styles with an `sx` array
 
-Use an `sx` array when the declarations come from separate style objects. Here, two objects use the same `gte('sm')` key: one sets color and the other sets width.
+Use an `sx` array to compose separate style objects. This example puts the base width, the `sm` rule, and the `md` rule in separate objects.
 
 ```jsx
 <Box
@@ -200,8 +200,6 @@ Use an `sx` array when the declarations come from separate style objects. Here, 
 | **From `sm` to below `md`**<br /><span>{`${exampleSmPx} to under ${exampleMdPx}`}</span> | `color: var(--tonic-colors-text-secondary);`<br />`width: 50%;` |
 | **`md` and above**<br /><span>{`≥ ${exampleMdPx}`}</span> | `color: var(--tonic-colors-text-primary);`<br />`width: 100%;` |
 
-The two `gte('sm')` rules combine to produce the same result as the Orders example.
-
 ### Override width without changing color
 
 Use `&&` to give just the width declaration higher selector specificity. Leave color in the media query rules.
@@ -230,8 +228,6 @@ Use `&&` to give just the width declaration higher selector specificity. Leave c
 | **Below `sm`**<br /><span>{`< ${exampleSmPx}`}</span> | `color: inherit;`<br />`width: 50%;` |
 | **From `sm` to below `md`**<br /><span>{`${exampleSmPx} to under ${exampleMdPx}`}</span> | `color: var(--tonic-colors-text-secondary);`<br />`width: 50%;` |
 | **`md` and above**<br /><span>{`≥ ${exampleMdPx}`}</span> | `color: var(--tonic-colors-text-primary);`<br />`width: 50%;` |
-
-At `md`, `&&` overrides `width: '100%'` without affecting text color.
 
 ## API
 

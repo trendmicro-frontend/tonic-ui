@@ -250,7 +250,7 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
         await page.locator('[title="Toggle color mode"]').click();
       }
       await expect(root).toHaveAttribute('data-color-scheme', colorMode);
-      const composition = page.getByRole('heading', { name: 'Compose rules for the same query', level: 3, exact: true });
+      const composition = page.getByRole('heading', { name: 'Compose styles with an sx array', level: 3, exact: true });
       await composition.evaluate((element) => element.scrollIntoView({ block: 'center', behavior: 'instant' }));
       await expect(composition).toBeInViewport();
     });
