@@ -180,6 +180,8 @@ const finalizeResolvedSx = (state, context) => {
 };
 
 const resolveDeclaration = (key, value, styleProps, props, theme) => {
+  // Use the same aliases and token transforms as `system` (e.g. `bg` uses the color scale).
+  // Pass through CSS properties with no registered transform.
   const style = system.config[key];
   if (typeof style !== 'function') {
     return { [key]: value };
@@ -199,6 +201,7 @@ const resolveSx = (valueOrFn, props, theme, context) => {
   if (isNullish(valueOrFn)) {
     return result;
   }
+  // Arrays of whole styles compose in order; arrays used as declaration values do not.
   if (Array.isArray(valueOrFn)) {
     for (const item of valueOrFn) {
       mergeResolvedSx(result, resolveSx(item, props, theme, context));
@@ -256,6 +259,9 @@ const resolveSx = (valueOrFn, props, theme, context) => {
     }
 
     if (isPlainObject(value)) {
+      // After breakpoint maps are handled, a plain object is a rule body
+      // (e.g. `&:hover` or `@container`). Recurse with the same theme and
+      // `__colorMode` so nested declarations resolve tokens in the active mode.
       const rule = getRule(result, key, 'explicit');
       mergeResolvedSx(rule, resolveSx(value, props, theme, context));
       continue;
