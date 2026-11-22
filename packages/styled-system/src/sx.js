@@ -263,8 +263,8 @@ const resolveSx = (valueOrFn, props, theme, context) => {
       // (e.g. `&:hover` or `@container`). Recurse with the same theme and
       // `__colorMode` so nested declarations resolve tokens in the active mode.
       //
-      // The provider uses the default theme and has CSS variables enabled.
-      // `colorMode` is the current color mode.
+      // This example uses the default theme with CSS variables enabled and
+      // passes the current color mode as `__colorMode`.
       //
       // Given the following `sx` input:
       //
