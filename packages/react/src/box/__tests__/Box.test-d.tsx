@@ -26,7 +26,7 @@ function ContainerExample() {
             // @ts-expect-error JSX cannot infer a theme provider for this callback.
             theme.containerQueries.gte('sm');
             // @ts-expect-error The sx theme's optional query binding is readonly.
-            theme.containerQueries = theme.containerQueries;
+            theme.containerQueries = theme.containerQueries; // eslint-disable-line no-self-assign -- Deliberate type-contract negative test.
             if (theme.containerQueries) {
               // @ts-expect-error Numeric boundaries need an explicit unit.
               theme.containerQueries.gte(300);
@@ -224,7 +224,9 @@ function ListItem({ sx, ...rest }: React.ComponentProps<typeof Box>) {
   </Box>
 </Box>;
 
-<Box sx={({ breakpoints }) => [
-  { width: { _: '100%', md: '50%' } },
-  breakpoints && { [breakpoints.gte('md')]: { display: 'grid' } },
-]} />;
+<Box
+  sx={({ breakpoints }) => [
+    { width: { _: '100%', md: '50%' } },
+    breakpoints && { [breakpoints.gte('md')]: { display: 'grid' } },
+  ]}
+/>;

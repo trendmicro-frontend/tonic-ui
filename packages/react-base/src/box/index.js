@@ -13,7 +13,6 @@ import { ColorModeContext } from '../internal/color-mode/context';
 /** @typedef {SxStyleObject | ((theme: SxTheme) => SxStyleObject | SxStyleArray) | boolean | null | undefined} SxStyleItem */
 /** @typedef {Array<SxStyleItem>} SxStyleArray */
 
-
 /**
  * @typedef {Object} BoxProps
  * @property {ElementType} [as] - The element type to render as.

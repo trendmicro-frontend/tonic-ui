@@ -49,6 +49,13 @@
       "prompt": "We render our Tonic UI app as a widget embedded inside another company application (same document). The v3 guide shows `useCSSBaseline` and `useCSSVariables` on `TonicProvider` and a `data-color-scheme` attribute. Should we turn those on?",
       "expected_output": "Classifies the decision as manual, not necessary. Says `useCSSBaseline`/`useCSSVariables` are for standalone applications; an embedded widget sharing the host document should leave them off to avoid clashing with the host's global styles and CSS variables. Notes `data-color-scheme` is required only when `useCSSVariables` is enabled (CSSVariables emits `[data-color-scheme=...]` rules). Does not assert a compile failure either way.",
       "files": []
+    },
+    {
+      "id": 7,
+      "name": "responsive-breakpoint-objects",
+      "prompt": "When migrating from v2 to v3, how should we replace responsive width arrays on Box flat props and inside sx? Does Tonic UI still support flat width? How do we write a rule based on container width instead of viewport width?",
+      "expected_output": "Requires migrating responsive property arrays to named breakpoint objects on both flat style props and sx, mapping positions against the old theme and reviewing thresholds. Says Tonic UI still supports flat style props. Explains that breakpoint objects use viewport widths and that container widths require an explicit @container key from theme.containerQueries. Distinguishes unsupported responsive property arrays from supported arrays composing whole sx objects and non-style arrays such as LinearProgress color stops.",
+      "files": []
     }
   ]
 }

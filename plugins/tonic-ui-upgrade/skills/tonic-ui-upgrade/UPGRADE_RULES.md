@@ -162,8 +162,10 @@ If the app merges a custom `colorStyle` (`merge(colorStyle, {...})`) and passes 
 **T6 · The default `colorStyle` API itself is unchanged — DEP/OPT.**
 `colorStyle` values now map to semantic tokens, but the shape (`background.primary`, `color.primary`, …) is the same (`packages/react/src/color-style/color-style.js`); `useColorStyle` is unchanged. Migrating consumers from `colorStyle.*` to direct semantic tokens is **OPT**.
 
-**T7 · Breakpoints changed between v2 and v3 — MAN.**
-v2: `320 / 640 / 1024 / 1280 / 1680`; v3: `320 / 744 / 1440 / 1680 / 1920` (`packages/theme/src/v2/breakpoints.js` vs `packages/theme/src/v3/primitive/breakpoints.js`). Responsive layouts keyed to `md`/`lg`/`xl`/`2xl` shift as a result. Not a compile error; a visual/manual review item. Evidence: guide, "Breakpoints".
+**T7 · Breakpoints and responsive values changed between v2 and v3 — NEC / MAN.**
+Replace responsive value arrays in flat style props and individual `sx` / `__sx` declarations with named breakpoint objects, such as `width={{ _: '100%', md: '50%' }}` or `sx={{ width: { _: '100%', md: '50%' } }}`. Arrays of whole `sx` / `__sx` style objects still compose styles and must not be removed. Map old positions using the app's actual v2 breakpoint scale and review layouts at the target thresholds. The v3 default scale is `xs: 0`, `sm: 40`, `md: 48`, `lg: 64`, `xl: 80`, `2xl: 96` in `rem`; v2 defaults differ. Custom breakpoint arrays and direct breakpoint aliases also need migration. Verify against the target version's source and the guide's "Breakpoints" section.
+
+Flat style props remain supported in Tonic UI. Breakpoint objects use viewport widths. For container widths, use `theme.containerQueries` to create explicit `@container` keys in `sx` or `__sx`.
 
 **T8 · Some v3 scale values collide with v2 names — MAN.**
 The guide's collision table: `radii.sm` `0.1875rem` → `0.25rem`, `radii.lg` `0.75rem` → `0.5rem`, `fonts.base` changes to Inter, `fonts.mono` changes to DM Mono. `radii.circle` and `radii.none` are v2-only and preserved. Re-check border radius and font loading. Evidence: guide, "Theme changes".

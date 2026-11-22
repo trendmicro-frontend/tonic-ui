@@ -94,6 +94,6 @@ const prefix = theme.cssVariablePrefix;
 const rootSel = theme.rootSelector;
 
 // @ts-expect-error Query bindings are immutable.
-viewportTheme.containerQueries = viewportTheme.containerQueries;
+viewportTheme.containerQueries = viewportTheme.containerQueries; // eslint-disable-line no-self-assign -- Deliberate type-contract negative test.
 // @ts-expect-error Standalone presets lock the same query binding.
-standalonePreset.containerQueries = standalonePreset.containerQueries;
+standalonePreset.containerQueries = standalonePreset.containerQueries; // eslint-disable-line no-self-assign -- Deliberate type-contract negative test.

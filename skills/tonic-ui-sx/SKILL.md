@@ -68,36 +68,29 @@ explicit media query keys, and arrays composing style objects. They differ only 
 
 ## Responsive values versus sx composition
 
-Responsive value arrays have been removed. On flat style props, use a breakpoint object with
-`_` for the unconditional base. Inside `sx` or `__sx`, use explicit media query keys rather
-than breakpoint objects or arrays as individual property values. `sx={[a, b]}` and
-`__sx={composeSx(a, b)}` still compose whole style objects in order; those arrays are not
-responsive values.
-
-For example, inside a `TonicProvider`:
+Responsive value arrays have been removed. Use a named breakpoint object on flat style
+props or as an individual property value in `sx` or `__sx`. `_` is the unconditional
+base; `base` is also accepted in `sx` and `__sx`. Explicit media query keys remain
+available for ranges and other conditions. `sx={[a, b]}` and `__sx={composeSx(a, b)}`
+still compose whole style objects in order; those arrays are not responsive values.
+Flat style props remain supported in Tonic UI.
 
 ```jsx
-import { Box, useTheme } from '@tonic-ui/react';
-
-function ResponsiveBoxes() {
-  const { breakpoints } = useTheme();
-
-  return (
-    <>
-      <Box width={{ _: '100%', md: '50%' }} />
-      <Box sx={[
-        { width: '100%' },
-        { [breakpoints.gte('md')]: { width: '50%' } },
-      ]} />
-    </>
-  );
-}
+<Box width={{ _: '100%', md: '50%' }} />
+<Box sx={{ width: { _: '100%', md: '50%' } }} />
 ```
 
 For a `Box` theme callback, `theme.breakpoints` is optional even when the `Box` is inside a
 provider; guard it before using a helper. A provider-backed `useTheme()` exposes the helpers.
 See the [responsive values guide](../../packages/react-docs/pages/styled-system/responsive-values/index.page.mdx)
 for migration examples and the breakpoint thresholds.
+
+Breakpoint objects use viewport widths. For container widths, use `theme.containerQueries`
+to create explicit `@container` keys in `sx` or `__sx`. Guard `theme.containerQueries` in a
+`Box` theme callback; a provider-backed `useTheme()` exposes it directly.
+
+Explicit rules retain their authored order across composition. Matching declarations
+follow the CSS cascade; use `&&` only when an override intentionally needs higher specificity.
 
 ## Why `__sx` exists (the problem it solves)
 
@@ -250,12 +243,11 @@ pseudo props. They never touch `__sx` (it's internal and off the public type):
 Prefer `sx` for new consumer JSX, including layout primitives. Flat style props still
 work, but `sx` wins when both set the same declaration at equal specificity.
 
-When using the [`style-props-to-sx` codemod](../../packages/codemod/README.md#style-props-to-sx),
-keep named breakpoint objects such as `width={{ _: '100%', lg: '50%' }}` flat:
-`sx.width` interprets that object as a nested rule, not responsive values. To move it into
-`sx`, use explicit breakpoint media query keys as above. Do not mechanically move props
-flagged `needs manual review`, including aliases such as `w` left beside `width`; moving
-only one can change the cascade.
+The [`style-props-to-sx` codemod](../../packages/codemod/README.md#style-props-to-sx)
+leaves possible responsive props for manual review, even though named breakpoint objects
+also work in `sx`. Replace legacy responsive arrays with named breakpoint objects. Do not
+mechanically move props flagged `needs manual review`, including aliases such as `w` left
+beside `width`; moving only one can change the cascade.
 
 ## The specificity boundary (read before promising "consumers can override anything")
 
@@ -293,8 +285,8 @@ Channel order resolves ties **only at equal selector specificity**. Specificity 
   `composeSx(a, b)` (array). Object-merging discards whole nested keys like `&:hover`.
 - `composeSx(...)` spread as props (`<Box {...composeSx(...)} />`) → it returns an **array** for the
   `__sx`/`sx` prop, not a props object.
-- Treating a style property's array value as responsive, or placing named breakpoint objects
-  inside an `sx` property → use a breakpoint object on a flat prop or explicit `sx` media keys.
+- Treating a style property's array value as responsive → use a named breakpoint object
+  on the flat prop or in `sx` / `__sx`, or use explicit media query keys.
 - Incoming `__sx` not destructured out of `rest`, or `composeSx(...)` placed **before** `{...rest}`
   → the fold is wrong; an injected override is double-applied or silently dropped.
 - `const props = useDefaultProps(...)` capturing the whole bag, then `{...props}` onto the child
@@ -314,13 +306,6 @@ Channel order resolves ties **only at equal selector specificity**. Specificity 
 
 ## Sources of truth (in this repo)
 
-- `docs/adr/2026-06-24-box-internal-sx-base-channel.md` — why `__sx` was introduced and the
-  specificity boundary.
-- `docs/adr/2026-06-29-scrollbar-scrollview-slot-and-useslot-sx-composition.md` — `__sx`
-  composition through `useSlot` for a slotted default component (`Scrollbar`/`ScrollView`).
-- `docs/adr/2026-07-03-transition-style-through-sx-channel.md` — the transition convention:
-  animation state through `__sx` in both render modes; the function-child handoff carries `__sx`
-  and requires a `Box`-based child; DOM-measured values stay on inline `style`.
 - `packages/react-base/src/box/Box.js` — the four-channel compose chain.
 - `packages/utils/src/internal/composeSx.js` — the helper.
 - `docs/plans/2026-07-02-sx-internals-migration.md` — the migration plan covering both

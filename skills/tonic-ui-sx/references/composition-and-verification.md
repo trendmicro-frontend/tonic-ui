@@ -68,8 +68,7 @@ would put it on the consumer's channel and require hand-merging the consumer's `
 
 Transition components (`transitions/{Fade,Collapse,Grow,Scale,Slide,Zoom}`, `ToastTransition`,
 and the `Transition`-consuming toggle icons) follow the same channel rules with three
-clarifications, settled in `docs/adr/2026-07-03-transition-style-through-sx-channel.md`
-(reference implementation: `accordion/AccordionToggleIcon.js`):
+clarifications (reference implementation: `accordion/AccordionToggleIcon.js`):
 
 1. **Animation state values are base styling — not exempt.** The per-transition-state style
    derived from the bounded state enum + static config (`opacity`, `transform`, the `transition`
@@ -175,8 +174,7 @@ describe('Drawer sx override', () => {
 Internal-only `Box`es with no incoming `rest`/`ref` (`__sx={ownStyle}`, no merge) structurally
 cannot receive a consumer's `sx` — don't fake a test around a channel that doesn't exist there.
 
-**Slot-composition shape** (a distinct second case, not yet implemented as of this ADR — deferred
-to a future batch): 9 components inject their *own* `__sx` into a *default* slotted component via
+**Slot-composition shape**: These components inject their *own* `__sx` into a *default* slotted component via
 `useSlot` (traced in `slot/useSlot.js`'s `composeSx(propsSx, slotSx)` merge) — `menu/MenuContent.js`,
 `menu/SubmenuContent.js`, `date-pickers/DatePicker/DatePickerContent.js` (→ `Popper`);
 `drawer/DrawerOverlay.js`, `modal/ModalOverlay.js` (→ `Fade`), `drawer/DrawerContent.js`

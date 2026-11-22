@@ -16,8 +16,8 @@ const replacementTargets = new Set(
   [...unsupportedFlatPropReplacements.values()].flatMap(replacements => [...replacements.values()]),
 );
 
-// Flat props accept breakpoint maps. In sx, objects become nested rules.
-// Do not recommend moving a replacement target unless syntax rules out a map.
+// Keep potentially responsive Grid gap replacements on the supported flat channel.
+// Moving them to sx can change cascade priority.
 const isScalar = (expression) => {
   if (expression.type === 'ConditionalExpression') {
     return isScalar(expression.consequent) && isScalar(expression.alternate);

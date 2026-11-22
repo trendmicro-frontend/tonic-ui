@@ -11,9 +11,16 @@ const responsiveStyle = ({ breakpoints }) => breakpoints
   : { color: 'red' };
 
 test('a Box without a provider renders base styles without breakpoint rules', () => {
-  const html = renderToString(<Box sx={responsiveStyle}>Bare Box</Box>);
+  const html = renderToString(
+    <>
+      <Box sx={responsiveStyle}>Bare Box</Box>
+      <Box display={{ _: 'block', sm: 'none' }}>Responsive Box</Box>
+    </>
+  );
   expect(html).toContain('Bare Box');
+  expect(html).toContain('Responsive Box');
   expect(html).toContain('color:red');
+  expect(html).toContain('display:block');
   expect(html).not.toContain('@media');
 });
 
@@ -34,6 +41,16 @@ test('resolves base maps without a provider', () => {
   expect(html).not.toContain('@media');
 });
 
+const cascadeSx = (currentTheme) => [
+  { width: { md: '50%' } },
+  {
+    '& .child': {
+      [currentTheme.breakpoints.gte('md')]: { display: 'grid' },
+      [currentTheme.containerQueries('sidebar').gte('20rem')]: { color: 'red' },
+    },
+  },
+];
+
 test('renders all three responsive channels in cascade order', () => {
   const breakpoints = createBreakpoints({ values: { md: 48 }, unit: 'rem' });
   const theme = { breakpoints, containerQueries: createContainerQueries(breakpoints) };
@@ -42,15 +59,7 @@ test('renders all three responsive channels in cascade order', () => {
       <Box
         __sx={{ width: { _: '100%', md: '75%' } }}
         height={{ _: '20px', md: '40px' }}
-        sx={(currentTheme) => [
-          { width: { md: '50%' } },
-          {
-            '& .child': {
-              [currentTheme.breakpoints.gte('md')]: { display: 'grid' },
-              [currentTheme.containerQueries('sidebar').gte('20rem')]: { color: 'red' },
-            },
-          },
-        ]}
+        sx={cascadeSx}
       />
     </ThemeProvider>
   );

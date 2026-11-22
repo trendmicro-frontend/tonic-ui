@@ -16,7 +16,7 @@ function UseThemeColors() {
   const query: string = theme.breakpoints.between('sm', '1000rem');
   const directContainerQuery: string = theme.containerQueries.gte('xs');
   // @ts-expect-error The resolved theme keeps the query binding immutable.
-  theme.containerQueries = theme.containerQueries;
+  theme.containerQueries = theme.containerQueries; // eslint-disable-line no-self-assign -- Deliberate type-contract negative test.
   const namedContainerQuery: string = theme.containerQueries('sidebar').between('18.75rem', 'md');
   // @ts-expect-error Named container queries also require explicit units.
   theme.containerQueries('sidebar').between(18.75, 'md');

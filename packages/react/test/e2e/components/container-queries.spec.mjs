@@ -49,6 +49,19 @@ test('uses the named ancestor instead of the nearest container or viewport', {
   }
 });
 
+test('flat responsive props use only the active custom breakpoint names', {
+  tag: ['@container-queries', '@boundary'],
+}, async ({ page }) => {
+  await page.setViewportSize({ width: 639, height: 1000 });
+  await visit(page, 'container-queries');
+  const layout = page.getByTestId('device-display');
+  await expect(layout).toHaveCSS('display', 'block');
+  await page.setViewportSize({ width: 640, height: 1000 });
+  await expect(layout).toHaveCSS('display', 'flex');
+  await page.setViewportSize({ width: 1200, height: 1000 });
+  await expect(layout).toHaveCSS('display', 'flex');
+});
+
 test('keeps flat and internal maps while sx wins at the same custom breakpoint', async ({ page }) => {
   await page.setViewportSize({ width: 639, height: 900 });
   await visit(page, 'container-queries');

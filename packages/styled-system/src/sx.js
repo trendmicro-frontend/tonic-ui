@@ -73,8 +73,8 @@ const isResponsiveObjectValue = (key, value, breakpoints) => {
     return true;
   }
   return Object.keys(value).some(name => (
-    RESPONSIVE_OBJECT_BASE_KEYS.has(name)
-    || Object.prototype.hasOwnProperty.call(breakpoints?.values ?? {}, name)
+    RESPONSIVE_OBJECT_BASE_KEYS.has(name) ||
+    Object.prototype.hasOwnProperty.call(breakpoints?.values ?? {}, name)
   ));
 };
 

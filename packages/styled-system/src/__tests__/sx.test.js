@@ -678,6 +678,11 @@ describe('responsive values', () => {
     expect(sx([{ [query]: explicitRule }, { [query]: widthRule }])({ theme })).toEqual({
       [query]: { width: explicitFirst, color: 'red' },
     });
+    expect(widthRule).toEqual({ width: '50%' });
+    expect(explicitRule).toEqual({
+      color: 'red',
+      ...(explicitWidth === undefined ? {} : { width: explicitWidth }),
+    });
   });
 
   it('preserves authored order when declarations use aliases for the same property', () => {
@@ -704,6 +709,17 @@ describe('responsive values', () => {
     });
   });
 
+  it('resolves callback-derived nested rules and forwards color mode', () => {
+    const query = breakpoints.gte('sm');
+    const colors = { text: { _light: 'black', _dark: 'white' } };
+    const style = sx({
+      [query]: currentTheme => ({
+        '&:hover': { color: () => 'text', width: currentTheme.breakpoints.values.md },
+      }),
+    })({ theme: { breakpoints, colors }, __colorMode: 'dark' });
+    expect(style).toEqual({ [query]: { '&:hover': { color: 'white', width: 48 } } });
+  });
+
   it('emits a base declaration and a named media query', () => {
     expect(sx({ width: { _: '100%', sm: '50%' } })({ theme })).toEqual({
       width: '100%',
@@ -727,13 +743,6 @@ describe('array composition', () => {
     expect(Object.keys(result)).toEqual([md, sm]);
     expect(result[sm]).toEqual({ width: '50%' });
     expect(result[md]).toEqual({ color: 'red', width: '100%' });
-  });
-
-  it('preserves the authored order of explicit media rules across items', () => {
-    const sm = breakpoints.gte('sm');
-    const md = breakpoints.gte('md');
-    const result = sx([{ [md]: { width: '100%' } }, { [sm]: { width: '50%' } }])({ theme });
-    expect(Object.keys(result)).toEqual([md, sm]);
   });
 
   it('keeps the first position of a repeated query while merging declarations', () => {
