@@ -85,9 +85,9 @@ provider; guard it before using a helper. A provider-backed `useTheme()` exposes
 See the [responsive values guide](../../packages/react-docs/pages/styled-system/responsive-values/index.page.mdx)
 for migration examples and the breakpoint thresholds.
 
-Breakpoint objects use viewport widths. For container widths, use `theme.containerQueries`
-to create explicit `@container` keys in `sx` or `__sx`. Guard `theme.containerQueries` in a
-`Box` theme callback; a provider-backed `useTheme()` exposes it directly.
+Breakpoint objects use viewport widths. For container widths, use an explicit `@container`
+key in `sx` or `__sx`: write native CSS or generate the key with `theme.containerQueries`.
+Guard the helper in a `Box` theme callback; a provider-backed `useTheme()` exposes it directly.
 
 Explicit rules retain their authored order across composition. Matching declarations
 follow the CSS cascade; use `&&` only when an override intentionally needs higher specificity.
@@ -308,8 +308,4 @@ Channel order resolves ties **only at equal selector specificity**. Specificity 
 
 - `packages/react-base/src/box/Box.js` — the four-channel compose chain.
 - `packages/utils/src/internal/composeSx.js` — the helper.
-- `docs/plans/2026-07-02-sx-internals-migration.md` — the migration plan covering both
-  `@tonic-ui/react` and the confirmed `@tonic-ui/react-data-grid` instances (e.g.
-  `DataGridResizeHandle.js`, `DataGridScrollbar.js`, `RowReorder.js`'s `getRowProps()`
-  contribution); a live worked example of every pattern above outside a component render body.
 

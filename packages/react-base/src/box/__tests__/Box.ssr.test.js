@@ -69,3 +69,10 @@ test('renders all three responsive channels in cascade order', () => {
   expect(html).toMatch(/@media \(width >= 48rem\)[^}]+ \.child\{display:grid/);
   expect(html).toMatch(/@container sidebar \(width >= 20rem\)[^}]+ \.child\{color:red/);
 });
+
+test('rejects positional declaration arrays in either Box styling channel', () => {
+  expect(() => renderToString(<Box __sx={{ width: ['100%', '50%'] }} />))
+    .toThrow(/sx property "width"/);
+  expect(() => renderToString(<Box sx={{ _hover: { color: ['red', 'blue'] } }} />))
+    .toThrow(/sx property "color"/);
+});

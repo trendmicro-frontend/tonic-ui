@@ -745,18 +745,18 @@ describe('array composition', () => {
     expect(result[md]).toEqual({ color: 'red', width: '100%' });
   });
 
-  it('keeps the first position of a repeated query while merging declarations', () => {
-    const sm = breakpoints.gte('sm');
-    const md = breakpoints.gte('md');
+  it.each([
+    ['@media (width >= 600px)', '@media (width >= 0px)'],
+    ['@container sidebar (width >= 600px)', '@container sidebar (width >= 0px)'],
+  ])('keeps the first position of a repeated query while merging declarations: %s', (wide, narrow) => {
     const result = sx([
-      { [md]: { color: 'red' } },
-      { [sm]: { color: 'blue', width: '50%' } },
-      { [md]: { width: '100%' } },
-    ])({ theme });
-
+      { [wide]: { width: '75%', color: 'red' } },
+      { [narrow]: { width: '50%' } },
+      { [wide]: { width: '100%' } },
+    ])({});
     expect(Object.entries(result)).toEqual([
-      [md, { color: 'red', width: '100%' }],
-      [sm, { color: 'blue', width: '50%' }],
+      [wide, { width: '100%', color: 'red' }],
+      [narrow, { width: '50%' }],
     ]);
   });
 
