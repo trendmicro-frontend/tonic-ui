@@ -262,6 +262,28 @@ const resolveSx = (valueOrFn, props, theme, context) => {
       // After breakpoint maps are handled, a plain object is a rule body
       // (e.g. `&:hover` or `@container`). Recurse with the same theme and
       // `__colorMode` so nested declarations resolve tokens in the active mode.
+      //
+      // The provider uses the default theme and has CSS variables enabled.
+      // `colorMode` is the current color mode.
+      //
+      // Given the following `sx` input:
+      //
+      // ```js
+      // sx({
+      //   '&:hover': { color: 'text.primary' },
+      //   width: { _: '100%', md: '50%' },
+      // })({ theme, __colorMode: colorMode });
+      // ```
+      //
+      // The resolver produces:
+      //
+      // ```js
+      // {
+      //   '&:hover': { color: 'var(--tonic-colors-text-primary)' },
+      //   width: '100%',
+      //   '@media (width >= 48rem)': { width: '50%' },
+      // }
+      // ```
       const rule = getRule(result, key, 'explicit');
       mergeResolvedSx(rule, resolveSx(value, props, theme, context));
       continue;
