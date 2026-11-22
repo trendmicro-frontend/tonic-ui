@@ -58,6 +58,20 @@ export const routes = [
           <LinkIcon />
         ),
       },
+      {
+        title: 'Media queries',
+        path: 'theme/media-queries',
+        render: () => (
+          <LinkIcon />
+        ),
+      },
+      {
+        title: 'Container queries',
+        path: 'theme/container-queries',
+        render: () => (
+          <LinkIcon />
+        ),
+      },
       { title: 'AI assistant with MCP', path: 'getting-started/mcp' },
       { title: 'The sx prop', path: 'getting-started/the-sx-prop' },
       { title: 'Versions', path: 'getting-started/versions' },
@@ -596,7 +610,7 @@ export const routes = [
     ),
     routes: [
       { title: 'Getting started', path: 'theme' },
-      { title: 'Breakpoints', path: 'theme/breakpoints' },
+      { title: 'Media queries', path: 'theme/media-queries' },
       { title: 'Container queries', path: 'theme/container-queries' },
 
       { title: 'DESIGN TOKENS', heading: true },

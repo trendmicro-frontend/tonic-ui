@@ -1,21 +1,30 @@
-import { Code } from '@tonic-ui/react';
+import CodeBlock from '@/components/CodeBlock';
+import QueryWidthDiagram from '@/components/QueryWidthDiagram';
+import { Box, Code, createTheme } from '@tonic-ui/react';
 import { breakpoints, containerQueries } from '@/utils/default-breakpoints';
 import { formatBreakpoint } from '@/utils/convert-breakpoint-width.mjs';
 
+export const customBreakpoints = { values: { sm: 30, md: 50 }, unit: 'rem' };
+export const customContainerQuery = createTheme({ breakpoints: customBreakpoints }).containerQueries('sidebar').only('sm');
+
 # Container queries
 
-[Breakpoints](../breakpoints) change a layout based on the viewport width. Container queries let a widget adapt to the width of an ancestor container instead, so two widgets can use different layouts at the same viewport width. Both sets of helpers use the same scale and unit for breakpoint names, with inclusive lower and exclusive upper bounds.
+Container queries let components adapt to the space available in their container, independently of the viewport size.
 
-## Overview
+<QueryWidthDiagram />
+
+<Box id="usage" />
+
+<Box id="overview" />
 
 This example uses two rules at the same time. Resize the browser to see what each rule controls:
 
-- **Viewport:** `breakpoints.gte('md')` puts the sidebar and main area side by side at <Code>{formatBreakpoint(breakpoints, 'md')}</Code> (<Code>{formatBreakpoint(breakpoints, 'md', 'px')}</Code> with a `16px` initial font size). Below that, they stack.
+- **Viewport:** `breakpoints.gte('md')` puts the sidebar and main area side by side at <Code>{formatBreakpoint(breakpoints, 'md')}</Code>{breakpoints.unit === 'rem' && <> (<Code>{formatBreakpoint(breakpoints, 'md', 'px')}</Code> with a <Code>16px</Code> initial font size)</>}. Below that, they stack.
 - **Container:** `containerQueries.gte('14rem')` gives each gallery three columns when its own container reaches `14rem` (`224px` with a `16px` root font size). The sidebar stays at one column even when both galleries are side by side.
 
 {render('./usage')}
 
-Inside a `TonicProvider`, apply the breakpoint to the outer layout. Set `containerType: 'inline-size'` on each gallery container and apply the container query to the grid inside it.
+Inside an `TonicProvider`, apply the breakpoint to the outer layout. To make each gallery an eligible query container, set `containerType: 'inline-size'` (`container-type: inline-size` in CSS) on the gallery wrapper. Apply the container query to the grid inside that wrapper.
 
 ```jsx
 import { Box, useTheme } from '@tonic-ui/react';
@@ -24,7 +33,7 @@ function PhotoGrid({ width, children }) {
   const { containerQueries } = useTheme();
 
   return (
-    <Box sx={{ width, maxWidth: '100%', containerType: 'inline-size' }}>
+    <Box sx={{ width, maxWidth: '100%', flexShrink: width === '192px' ? 0 : 1, containerType: 'inline-size' }}>
       <Box sx={{
         display: 'grid',
         gridTemplateColumns: '1fr',
@@ -56,7 +65,7 @@ function GalleryLayout({ photos }) {
 
 The helpers produce explicit nested keys for `sx` or `__sx`, not property-level breakpoint objects. You can still use a whole-`sx` or `__sx` composition array to combine objects containing container rules. Rules follow normal CSS cascade order; the helpers do not sort them.
 
-If you use a `Box` theme callback instead of `useTheme()`, guard `theme.containerQueries` before calling it. A `Box` can also render without a provider.
+When a `Box` theme callback might run without a provider, guard `theme.containerQueries` before calling it. A standalone `Box` has no default query helpers.
 
 ## Named containers
 
@@ -64,21 +73,20 @@ An unnamed query measures the nearest ancestor that supports width queries. To m
 
 ## Customizing container queries
 
-Configure [breakpoints](../breakpoints) with `createTheme()` to change the shared widths or unit. There is no separate container query scale.
+Configure breakpoint widths or units with `createTheme()` as described in [Media queries](../media-queries/). Container names select ancestors, not token scales. All containers use the same breakpoint scale.
 
-```jsx
-import { createTheme } from '@tonic-ui/react';
+<CodeBlock language="jsx" code={`import { createTheme } from '@tonic-ui/react';
 
 const theme = createTheme({
   breakpoints: {
-    values: { sm: 30, md: 50 },
-    unit: 'rem',
+    values: { sm: ${customBreakpoints.values.sm}, md: ${customBreakpoints.values.md} },
+    unit: '${customBreakpoints.unit}',
   },
 });
 
 theme.containerQueries('sidebar').only('sm');
-// '@container sidebar (30rem <= width < 50rem)'
-```
+// '${customContainerQuery}'
+`} />
 
 For a style that applies on both sides of a range, use it as the base style and override it within the range with `only()` or `between()`. To match only outside a range, use native CSS directly as an `sx` key:
 
@@ -102,4 +110,4 @@ The callable `theme.containerQueries` exposes `gte`, `lt`, `between`, and `only`
 
 `gte`, `lt`, and `between` accept configured breakpoint names, the number `0`, or non-negative decimal length strings ending in `px`, `rem`, or `em`. Other numbers and unitless strings are not accepted. An explicit length keeps its unit even if the theme unit changes. In a size container query, `em` uses the query container's computed font size. In a media query, `em` uses the browser's initial font size.
 
-`only` takes a configured breakpoint name and ends before the next breakpoint. The last name has no upper bound. See [Breakpoints](../breakpoints) for the available names and configuration.
+`only` takes a configured breakpoint name and ends before the next breakpoint. The last name has no upper bound. Unknown names throw. See [Media queries](../media-queries/) for the available names and configuration.

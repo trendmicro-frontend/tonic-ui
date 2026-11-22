@@ -365,7 +365,7 @@
 
 [Getting started]({{PAGE_BASE}}/theme/): <classification>LLM should read this page when needing an overview of theming in Tonic UI, understanding theme structure and customization, or learning how to work with theme tokens and design system principles.</classification>
 
-[Breakpoints]({{PAGE_BASE}}/theme/breakpoints/): <classification>LLM should read this page when configuring viewport breakpoints, implementing responsive styles, or using the breakpoint media query API.</classification>
+[Media queries]({{PAGE_BASE}}/theme/media-queries/): <classification>LLM should read this page when configuring viewport breakpoints, implementing responsive styles, or using the breakpoint media query API.</classification>
 
 [Container queries]({{PAGE_BASE}}/theme/container-queries/): <classification>LLM should read this page when styling descendants based on container width, using named or unnamed container queries, or customizing container thresholds through breakpoints.</classification>
 

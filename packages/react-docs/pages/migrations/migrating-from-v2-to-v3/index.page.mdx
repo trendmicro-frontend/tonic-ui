@@ -396,7 +396,7 @@ function ResponsiveBox() {
 
 This also applies to the internal `__sx` channel. Arrays of `sx` or `__sx` style objects remain supported for composition.
 
-If you pass an array of breakpoints to `createTheme()`, replace it with `breakpoints: { values: { ... }, unit: 'px' }` to keep your custom pixel widths. Replace direct reads such as `theme.breakpoints.md` with `theme.breakpoints.values.md` for the numeric width, or `theme.breakpoints.gte('md')` for a CSS media query. See [Breakpoints](../../theme/breakpoints) and [Responsive values](../../styled-system/responsive-values).
+If you pass an array of breakpoints to `createTheme()`, replace it with `breakpoints: { values: { ... }, unit: 'px' }` to keep your custom pixel widths. Replace direct reads such as `theme.breakpoints.md` with `theme.breakpoints.values.md` for the numeric width, or `theme.breakpoints.gte('md')` for a CSS media query. See [Media queries](../../theme/media-queries) and [Responsive values](../../styled-system/responsive-values).
 
 When you replace `breakpoints.values`, omitted `unit` means `px`. If your custom widths are in `rem` or `em`, specify that unit on the same override. Calling `createTheme()` without a breakpoint override still uses the built-in `rem` scale.
 

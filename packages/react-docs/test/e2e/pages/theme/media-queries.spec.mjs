@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { expect, test } from '@playwright/test';
 import { build, transformWithEsbuild } from 'vite';
-import { pixelBreakpoints } from '../../../../pages/theme/breakpoints/pixel-breakpoints.mjs';
+import { pixelBreakpoints } from '../../../../pages/theme/media-queries/pixel-breakpoints.mjs';
 import { breakpoints as defaultBreakpoints } from '../../../../utils/default-breakpoints.js';
 import { convertBreakpointWidth } from '../../../../utils/convert-breakpoint-width.mjs';
 import { captureColorModes } from '../../../../../../test/e2e/screenshots.mjs';
@@ -41,7 +41,7 @@ const expectBreakpointState = async (page, { width, active }) => {
 
 test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, () => {
   test('matches the documented rule composition results', async ({ page, context }) => {
-    const guide = new URL('../../../../pages/theme/breakpoints/index.page.mdx', import.meta.url);
+    const guide = new URL('../../../../pages/theme/media-queries/index.page.mdx', import.meta.url);
     const source = (await readFile(guide, 'utf8')).split('\n## Rule composition\n')[1].split('\n## API\n')[0];
     const samples = [...source.matchAll(/```jsx\n([\s\S]*?)\n```/g)].map(([, snippet]) => snippet);
     await page.goto('./');
@@ -233,9 +233,9 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
 
         const main = page.locator('#main');
         const helper = main.getByTestId(`breakpoint-${scenario.active.at(-1)}`);
-        const examples = main.getByRole('region', { name: 'Media query examples' });
-        await examples.evaluate((element) => element.scrollIntoView({ block: 'center', behavior: 'instant' }));
-        await expect(examples).toBeInViewport({ ratio: 1 });
+        const matches = main.getByRole('list', { name: 'Media query matches' });
+        await matches.evaluate((element) => element.scrollIntoView({ block: 'center', behavior: 'instant' }));
+        await expect(matches).toBeInViewport({ ratio: 1 });
         await expect(helper).toBeInViewport();
         const header = await page.locator('header').boundingBox();
         const helperBox = await helper.boundingBox();
@@ -262,7 +262,7 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
         await page.locator('[title="Toggle color mode"]').click();
       }
       await expect(root).toHaveAttribute('data-color-scheme', colorMode);
-      const heading = page.locator('#main').getByRole('heading', { name: 'CSS media queries', level: 2 });
+      const heading = page.locator('#main #css-media-queries');
       await heading.evaluate(element => element.scrollIntoView({ block: 'start', behavior: 'instant' }));
       await expect(page.getByRole('link', { name: 'theme.breakpoints.gte(start)', exact: true })).toBeInViewport();
       const code = page.getByRole('link', { name: 'theme.breakpoints.gte(start)', exact: true }).locator('code');
@@ -279,7 +279,7 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
       }
       await expect(root).toHaveAttribute('data-color-scheme', colorMode);
       const main = page.locator('#main');
-      await main.getByRole('link', { name: 'custom breakpoints', exact: true }).click();
+      await main.getByRole('link', { name: 'configure your own breakpoints', exact: true }).click();
       await expect(page).toHaveURL(/#custom-breakpoints$/);
       const heading = main.getByRole('heading', { name: 'Custom breakpoints', level: 2, exact: true });
       await heading.evaluate(element => element.scrollIntoView({ block: 'start', behavior: 'instant' }));
@@ -298,5 +298,59 @@ test.describe('theme breakpoints', { tag: ['@docs', '@media', '@boundary'] }, ()
       await expect(custom).toContainText("theme.breakpoints.only('tablet')");
       await expect(custom).toContainText('@media (640px <= width < 1024px)');
     });
+  });
+
+  test('shows the source lead and width diagram in light and dark', async ({ page }, testInfo) => {
+    await page.goto('./');
+    const main = page.locator('#main');
+    const heading = main.getByRole('heading', { name: 'Media queries', level: 1, exact: true });
+    await expect(heading).toBeVisible();
+    const intro = main.getByText('Media queries apply CSS styles');
+    await expect(intro).toHaveText("Media queries apply CSS styles based on conditions such as viewport width, screen orientation, or reduced-motion preferences. Use theme.breakpoints to create viewport-width queries for responsive layouts.");
+    await expect(intro.locator('code')).toHaveText('theme.breakpoints');
+    const panels = ['breakpoint-composed-sx', 'breakpoint-explicit-sx', 'breakpoint-specificity-override'];
+    const region = page.getByRole('region', { name: 'Media query examples' });
+    for (const [viewport, fractions] of [[640, [0.5, 0.5, 0.5]], [768, [1, 1, 0.5]]]) {
+      await page.setViewportSize({ width: viewport, height: 1000 });
+      for (const [index, id] of panels.entries()) {
+        const panel = region.getByTestId(id);
+        await expect.poll(() => panel.evaluate(element => (
+          element.getBoundingClientRect().width / element.parentElement.getBoundingClientRect().width
+        )), `${id} at ${viewport}px`).toBeCloseTo(fractions[index], 2);
+      }
+    }
+    const figure = main.getByRole('figure', { name: 'Width measured by each query' });
+    const svg = figure.getByRole('img');
+    await expect(svg).toHaveAttribute('viewBox', '0 0 440 360');
+    await expect(svg.locator('text')).toHaveText(['Device screen', 'Viewport size', 'Header', 'Nav', 'Main', 'Container size']);
+    await expect(figure.locator('pre code')).toHaveText([
+      '@media (width >= 48rem) { /* Viewport styles */ }',
+      '@container (width >= 14rem) { /* Container styles */ }',
+    ]);
+    const geometry = await svg.evaluate(root => [root, ...root.querySelectorAll('*')].map(element => [
+      element.localName,
+      [...element.attributes].map(({ name, value }) => [name, name === 'class' ? value.split(/\s+/).filter(token => !/^(?:(?:agentic|tonic)-)?css-|^e[a-z0-9]{5,}\d$/.test(token)).join(' ') : value])
+        .filter(([name, value]) => name !== 'class' || value).sort(),
+      element.localName === 'text' ? element.textContent : '',
+    ]));
+    await testInfo.attach('query-width-geometry', { body: JSON.stringify(geometry), contentType: 'application/json' });
+    for (const width of [1440, 320]) {
+      await captureColorModes(page, 'query-width-diagram', 'media-queries-' + width, async colorMode => {
+        await page.setViewportSize({ width: 1440, height: 1000 });
+        const root = page.locator('html');
+        await expect(root).toHaveAttribute('data-color-scheme', /^(light|dark)$/);
+        if (await root.getAttribute('data-color-scheme') !== colorMode) {
+          await page.getByTitle('Toggle color mode').click();
+        }
+        await expect(root).toHaveAttribute('data-color-scheme', colorMode);
+        await page.setViewportSize({ width, height: 1000 });
+        await figure.scrollIntoViewIfNeeded();
+        await expect(figure).toBeInViewport();
+        expect(await figure.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+        const fills = await svg.locator('.diagram-bezel, .diagram-display, .diagram-toolbar').evaluateAll(elements => elements.map(element => getComputedStyle(element).fill));
+        expect(new Set(fills).size).toBe(3);
+        expect(fills).not.toContain('none');
+      });
+    }
   });
 });

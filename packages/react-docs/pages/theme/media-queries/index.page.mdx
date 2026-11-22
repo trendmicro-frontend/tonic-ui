@@ -1,0 +1,343 @@
+import CodeBlock from '@/components/CodeBlock';
+import QueryWidthDiagram from '@/components/QueryWidthDiagram';
+import { Box, createTheme } from '@tonic-ui/react';
+import { breakpoints as defaultBreakpoints } from '@/utils/default-breakpoints';
+import { convertBreakpointWidth, formatBreakpoint } from '@/utils/convert-breakpoint-width.mjs';
+import { pixelBreakpoints } from './pixel-breakpoints.mjs';
+
+export const pixelValuesCode = Object.entries(pixelBreakpoints.values)
+  .map(([key, value]) => `${key === '2xl' ? "'2xl'" : key}: ${value}`)
+  .join(', ');
+export const exampleBreakpoints = createTheme({ breakpoints: pixelBreakpoints }).breakpoints;
+export const exampleSmPx = formatBreakpoint(exampleBreakpoints, 'sm', 'px');
+export const exampleMdPx = formatBreakpoint(exampleBreakpoints, 'md', 'px');
+export const defaultValuesCode = (unit) => defaultBreakpoints.keys
+  .map((key) => `      ${key === '2xl' ? "'2xl'" : key}: ${convertBreakpointWidth(defaultBreakpoints.values[key], defaultBreakpoints.unit, unit)},`)
+  .join('\n');
+export const projectBreakpoints = { values: { mobile: 0, tablet: 640, laptop: 1024, desktop: 1200 } };
+export const projectTheme = createTheme({ breakpoints: projectBreakpoints });
+export const projectValuesCode = Object.entries(projectBreakpoints.values)
+  .map(([key, value]) => `      ${key}: ${value},`)
+  .join('\n');
+
+# Media queries
+
+Media queries apply CSS styles based on conditions such as viewport width, screen orientation, or reduced-motion preferences. Use `theme.breakpoints` to create viewport-width queries for responsive layouts.
+
+<Box id="default-breakpoints" />
+<Box id="design-tokens" />
+<Box id="primitive-widths" />
+
+<QueryWidthDiagram />
+
+<Box id="media-query-helpers" />
+
+<Box id="css-media-queries" />
+
+> The default breakpoint widths use `rem`. See the [breakpoint tokens](../design-tokens/breakpoints/) for the default values, or [configure your own breakpoints](#custom-breakpoints).
+
+`theme.breakpoints` provides four helpers:
+
+- [`theme.breakpoints.gte(start)`](#themebreakpointsgte)
+- [`theme.breakpoints.lt(end)`](#themebreakpointslt)
+- [`theme.breakpoints.between(start, end)`](#themebreakpointsbetween)
+- [`theme.breakpoints.only(name)`](#themebreakpointsonly)
+
+<Box id="examples" />
+
+The demo uses breakpoints in pixels. Resize the browser to see which queries match. More than one can match at the same width.
+
+{render('./media-queries')}
+
+Read `breakpoints` with `useTheme()` inside an `TonicProvider`. Each helper returns a CSS media query that can be used as a key in `sx`.
+
+<CodeBlock language="jsx" code={`import { Box, createTheme, TonicProvider, useTheme } from '@tonic-ui/react';
+
+const theme = createTheme({
+  breakpoints: {
+    values: { ${pixelValuesCode} },
+    unit: '${pixelBreakpoints.unit}',
+  },
+});
+
+function ResponsiveBox() {
+  const { breakpoints } = useTheme();
+
+  return (
+    <Box sx={{ backgroundColor: 'background.low', [breakpoints.only('md')]: { backgroundColor: 'background.high' } }} />
+  );
+}
+
+function App() {
+  return (
+    <TonicProvider theme={theme}>
+      <ResponsiveBox />
+    </TonicProvider>
+  );
+}
+`} />
+
+To use the same style on both sides of a range, set it as the base style and override it inside the range with `only()` or `between()`, as in the example above. If a rule must match only outside a range, write a native CSS query directly, such as <code>{exampleBreakpoints.only('md').replace('@media ', '@media not ')}</code>.
+
+Viewport breakpoints still apply when a widget sits in a narrow sidebar. To make a widget respond to its own container instead, continue with [Container queries](../container-queries/).
+
+Use named breakpoint maps in flat style props, `sx`, or `__sx`, or use helpers as explicit media query keys in `sx` and `__sx`. Lower bounds are inclusive and upper bounds are exclusive, so adjacent ranges meet without a subpixel gap. CSS media query boundaries cannot use CSS variables. See [Responsive values](../../styled-system/responsive-values/).
+
+When a `Box` theme callback might run without a provider, guard `theme.breakpoints` before calling a helper. A standalone `Box` has no default query helpers.
+
+<Box id="customizing-breakpoints" />
+
+## Custom breakpoints
+
+Set `breakpoints` in `createTheme()` to customize the viewport widths used by responsive styles and media query helpers.
+
+- `theme.breakpoints.values`: Defines the minimum width for each breakpoint. Tonic UI sorts breakpoints by width.
+- `theme.breakpoints.unit`: Specifies the unit used for breakpoint values. The default scale uses `rem`, but custom values default to `px` when no unit is specified. A unit-only override changes the unit of the current scale.
+
+Setting `values` replaces the entire breakpoint scale. Include all breakpoints you want to keep. An empty map removes all named thresholds; a unit-only override keeps the existing numeric values without conversion.
+
+The following examples show the default breakpoint values in `px` and their equivalents in `rem`:
+
+<CodeBlock language="js" code={`// px
+import { createTheme } from '@tonic-ui/react';
+
+const theme = createTheme({
+  breakpoints: {
+    values: {
+${defaultValuesCode('px')}
+    },
+    unit: 'px',
+  },
+});
+`} />
+
+<CodeBlock language="js" code={`// rem
+import { createTheme } from '@tonic-ui/react';
+
+const theme = createTheme({
+  breakpoints: {
+    values: {
+${defaultValuesCode('rem')}
+    },
+    unit: 'rem',
+  },
+});
+`} />
+
+To use the default scale without overrides:
+
+```js
+import { createTheme } from '@tonic-ui/react';
+
+const theme = createTheme();
+```
+
+You can also set a smaller pixel scale:
+
+```js
+import { createTheme } from '@tonic-ui/react';
+
+const customTheme = createTheme({
+  breakpoints: {
+    values: { sm: 640, md: 960, lg: 1280 },
+    unit: 'px',
+  },
+});
+customTheme.breakpoints.only('md'); // '@media (960px <= width < 1280px)'
+```
+
+You can also name breakpoints for your project's layouts. Custom names start with a letter and can contain letters, digits, and hyphens; `2xl` is also supported.
+
+<CodeBlock language="js" code={`import { createTheme } from '@tonic-ui/react';
+
+const theme = createTheme({
+  breakpoints: {
+    values: {
+${projectValuesCode}
+    },
+  },
+});
+
+theme.breakpoints.only('tablet'); // '${projectTheme.breakpoints.only('tablet')}'
+theme.containerQueries('sidebar').gte('tablet'); // '${projectTheme.containerQueries('sidebar').gte('tablet')}'
+`} />
+
+Only the supplied names are available on this theme. You can also use them in responsive maps, such as `sx={{ width: { _: '100%', tablet: '50%' } }}`, or on a flat prop, such as `width={{ _: '100%', tablet: '50%' }}`. `createTheme()` infers the names for its return value. Inside a component under this theme's provider, TypeScript callers can use `useTheme<(typeof theme.breakpoints.keys)[number]>()` to specify those names.
+
+## Rule composition
+
+These snippets use `breakpoints` from `useTheme()` with the pixel configuration in [CSS media queries](#css-media-queries). They show how matching rules combine or override individual properties.
+
+### Set related styles in one rule
+
+When width and text color change together, put both declarations in the same media query rule.
+
+```jsx
+<Box
+  sx={{
+    width: '100%',
+    [breakpoints.gte('sm')]: {
+      color: 'text.secondary',
+      width: '50%',
+    },
+    [breakpoints.gte('md')]: {
+      color: 'text.primary',
+      width: '100%',
+    },
+  }}
+>
+  Orders
+</Box>
+```
+
+**Resulting styles**
+
+| Viewport width | Styles |
+| :--- | :--- |
+| **Below `sm`**<br /><Box sx={{ display: 'inline' }}>{`< ${exampleSmPx}`}</Box> | `color: inherit;`<br />`width: 100%;` |
+| **From `sm` to below `md`**<br /><Box sx={{ display: 'inline' }}>{`${exampleSmPx} to under ${exampleMdPx}`}</Box> | `color: var(--tonic-colors-text-secondary);`<br />`width: 50%;` |
+| **`md` and above**<br /><Box sx={{ display: 'inline' }}>{`≥ ${exampleMdPx}`}</Box> | `color: var(--tonic-colors-text-primary);`<br />`width: 100%;` |
+
+<Box id="compose-rules-for-the-same-query" />
+
+### Compose styles with an `sx` array
+
+Use an `sx` array to compose separate style objects. This example puts the base width, the `sm` rule, and the `md` rule in separate objects.
+
+```jsx
+<Box
+  sx={[
+    { width: '100%' },
+    {
+      [breakpoints.gte('sm')]: {
+        color: 'text.secondary',
+        width: '50%',
+      },
+    },
+    {
+      [breakpoints.gte('md')]: {
+        color: 'text.primary',
+        width: '100%',
+      },
+    },
+  ]}
+>
+  Returns
+</Box>
+```
+
+**Resulting styles**
+
+| Viewport width | Styles |
+| :--- | :--- |
+| **Below `sm`**<br /><Box sx={{ display: 'inline' }}>{`< ${exampleSmPx}`}</Box> | `color: inherit;`<br />`width: 100%;` |
+| **From `sm` to below `md`**<br /><Box sx={{ display: 'inline' }}>{`${exampleSmPx} to under ${exampleMdPx}`}</Box> | `color: var(--tonic-colors-text-secondary);`<br />`width: 50%;` |
+| **`md` and above**<br /><Box sx={{ display: 'inline' }}>{`≥ ${exampleMdPx}`}</Box> | `color: var(--tonic-colors-text-primary);`<br />`width: 100%;` |
+
+### Override width without changing color
+
+Use `&&` to give just the width declaration higher selector specificity. Leave color in the media query rules.
+
+```jsx
+<Box
+  sx={{
+    [breakpoints.gte('sm')]: {
+      color: 'text.secondary',
+    },
+    [breakpoints.gte('md')]: {
+      color: 'text.primary',
+      width: '100%',
+    },
+    '&&': { width: '50%' },
+  }}
+>
+  Alerts
+</Box>
+```
+
+**Resulting styles**
+
+| Viewport width | Styles |
+| :--- | :--- |
+| **Below `sm`**<br /><Box sx={{ display: 'inline' }}>{`< ${exampleSmPx}`}</Box> | `color: inherit;`<br />`width: 50%;` |
+| **From `sm` to below `md`**<br /><Box sx={{ display: 'inline' }}>{`${exampleSmPx} to under ${exampleMdPx}`}</Box> | `color: var(--tonic-colors-text-secondary);`<br />`width: 50%;` |
+| **`md` and above**<br /><Box sx={{ display: 'inline' }}>{`≥ ${exampleMdPx}`}</Box> | `color: var(--tonic-colors-text-primary);`<br />`width: 50%;` |
+
+## API
+
+The read-only `theme.breakpoints` object exposes `keys`, `values`, `unit`, and the four helpers below. The examples use the pixel configuration from [CSS media queries](#css-media-queries).
+
+A **boundary** is a configured breakpoint name, a non-negative decimal length string ending in `px`, `rem`, or `em`, or the number `0`. Names use the theme's value and unit. Explicit lengths keep their units. Unknown names, nonzero numbers, unitless strings, and CSS functions such as `calc()` are not accepted.
+
+The default scale starts at `xs: 0`. Use `gte('xs')` for the configured `xs` threshold. Use `gte(0)` for a fixed zero bound, even if `xs` changes or is omitted.
+
+<Box id="themebreakpointsgte" />
+
+### `theme.breakpoints.gte(start) => media query`
+
+**Arguments**
+
+1. `start` (boundary): The minimum viewport width.
+
+**Returns**
+
+A media query string that matches widths at or above `start`.
+
+**Examples**
+
+<CodeBlock language="js" code={`breakpoints.gte('sm');    // '${exampleBreakpoints.gte('sm')}'
+breakpoints.gte('800px'); // '${exampleBreakpoints.gte('800px')}'
+breakpoints.gte(0);       // '${exampleBreakpoints.gte(0)}'`} />
+
+<Box id="themebreakpointslt" />
+
+### `theme.breakpoints.lt(end) => media query`
+
+**Arguments**
+
+1. `end` (boundary): The exclusive upper bound.
+
+**Returns**
+
+A media query string that matches widths below `end`.
+
+**Examples**
+
+<CodeBlock language="js" code={`breakpoints.lt('sm');    // '${exampleBreakpoints.lt('sm')}'
+breakpoints.lt('800px'); // '${exampleBreakpoints.lt('800px')}'`} />
+
+<Box id="themebreakpointsbetween" />
+
+### `theme.breakpoints.between(start, end) => media query`
+
+**Arguments**
+
+1. `start` (boundary): The inclusive lower bound.
+2. `end` (boundary): The exclusive upper bound.
+
+**Returns**
+
+A media query string that matches widths at or above `start` and below `end`. The helper does not convert units.
+
+**Examples**
+
+<CodeBlock language="js" code={`breakpoints.between('sm', 'md');      // '${exampleBreakpoints.between('sm', 'md')}'
+breakpoints.between('700px', '960px'); // '${exampleBreakpoints.between('700px', '960px')}'`} />
+
+<Box id="themebreakpointsonly" />
+
+### `theme.breakpoints.only(name) => media query`
+
+**Arguments**
+
+1. `name` (string): A configured breakpoint name.
+
+**Returns**
+
+A media query string that matches widths from the named breakpoint up to, but not including, the next configured breakpoint. If there is no next breakpoint, the query has no upper bound.
+
+**Examples**
+
+<CodeBlock language="js" code={`breakpoints.only('sm');  // '${exampleBreakpoints.only('sm')}'
+breakpoints.only('md');  // '${exampleBreakpoints.only('md')}'
+breakpoints.only('2xl'); // '${exampleBreakpoints.only('2xl')}'`} />

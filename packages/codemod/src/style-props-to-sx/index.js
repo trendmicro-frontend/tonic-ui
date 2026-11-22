@@ -407,7 +407,7 @@ function flagUnresolvedIfStyleLike(node, localName, allImports, styleNames, unre
   unresolvedReview.push(`${localName} (${locationHint}, could not verify where these props are forwarded): ${styleAttrNames.join(', ')}`);
 }
 
-// Flat breakpoint maps and legacy responsive arrays cannot be moved into sx.
+// Keep flat responsive props and legacy responsive arrays for manual review.
 // Without type information, a binding or call can return either.
 function canMoveSystemValue(j, expression) {
   if (expression.type === 'ConditionalExpression') {

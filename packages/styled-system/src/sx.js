@@ -2,9 +2,9 @@ import { get, isNullish, isPlainObject } from '@tonic-ui/utils';
 import system from './system';
 import { pseudoClassSelector, pseudoElementSelector } from './pseudo';
 
-const resolvePseudo = (styleProps, theme) => {
+const createPseudoResolver = (theme) => (styleProps) => {
   if (isNullish(styleProps)) {
-    return {};
+    return [];
   }
 
   /**
@@ -41,10 +41,11 @@ const resolvePseudo = (styleProps, theme) => {
   });
 
   let entries = [];
+
   for (const [name, valueOrFn] of orderedEntries) {
     const value = typeof valueOrFn === 'function' ? valueOrFn(theme) : valueOrFn;
     if (Array.isArray(value)) {
-      throw new TypeError(`Array values are not supported for sx property "${name}". Use explicit media queries instead.`);
+      throw new TypeError(`Array values are not supported for sx property "${name}". Use named breakpoint maps or explicit queries instead.`);
     }
     const selectorFunction = pseudoClassSelector[name] ?? pseudoElementSelector[name];
     if (typeof selectorFunction === 'function') {
@@ -53,130 +54,223 @@ const resolvePseudo = (styleProps, theme) => {
       entries.push([name, value]);
     }
   }
-  return Object.fromEntries(entries);
+
+  return entries;
 };
 
+const RESPONSIVE_OBJECT_BASE_KEYS = new Set(['_', 'base']);
+
+// Rule bodies must never be mistaken for declaration-value breakpoint maps.
+const isRuleKey = key => /^[@&:.[#>+~*]/.test(key);
+
+const isResponsiveObjectValue = (key, value, breakpoints) => {
+  if (!isPlainObject(value) || isRuleKey(key)) {
+    return false;
+  }
+  if (typeof system.config[key] === 'function') {
+    // Recognized declarations containing only obsolete names still disappear,
+    // rather than being emitted as invalid nested CSS.
+    return true;
+  }
+  return Object.keys(value).some(name => (
+    RESPONSIVE_OBJECT_BASE_KEYS.has(name)
+    || Object.prototype.hasOwnProperty.call(breakpoints?.values ?? {}, name)
+  ));
+};
+
+const createResolvedState = () => ({ styles: {} });
+
+const getRule = (state, key, kind) => {
+  if (kind === 'explicit' && /^@(?:media|container)\b/.test(key)) {
+    if (!state.explicit?.has(key)) {
+      // An implicit rule may have appeared before other explicit rules. Its
+      // first explicit occurrence belongs after those rules in author order.
+      if (state.generated?.has(key) && Object.prototype.hasOwnProperty.call(state.styles, key)) {
+        const previous = state.styles[key];
+        delete state.styles[key];
+        state.styles[key] = previous;
+      }
+      (state.explicit ??= new Set()).add(key);
+    }
+  } else if (kind === 'generated') {
+    (state.generated ??= new Set()).add(key);
+  }
+
+  let child = state.children?.get(key);
+  if (!child) {
+    child = createResolvedState();
+    (state.children ??= new Map()).set(key, child);
+    state.styles[key] = child.styles;
+  }
+  return child;
+};
+
+const assignDeclarations = (state, declarations) => {
+  for (const key of Object.keys(declarations)) {
+    state.styles[key] = declarations[key];
+    state.children?.delete(key);
+    state.generated?.delete(key);
+    state.explicit?.delete(key);
+  }
+};
+
+// Whole-style composition merges recursively, per declaration, into objects
+// owned by the resolver rather than mutating any authored input.
 const mergeResolvedSx = (acc, resolved) => {
-  const next = { ...acc };
-  for (const key in resolved) {
-    if (!Object.prototype.hasOwnProperty.call(resolved, key)) {
+  for (const key of Object.keys(resolved.styles)) {
+    const child = resolved.children?.get(key);
+    if (!child) {
+      assignDeclarations(acc, { [key]: resolved.styles[key] });
       continue;
     }
-    const accValue = next[key];
-    const resolvedValue = resolved[key];
-    next[key] = (isPlainObject(accValue) && isPlainObject(resolvedValue))
-      ? mergeResolvedSx(accValue, resolvedValue)
-      : resolvedValue;
+    const isExplicit = resolved.explicit?.has(key);
+    const isGenerated = resolved.generated?.has(key);
+    const target = getRule(acc, key, isExplicit ? 'explicit' : (isGenerated ? 'generated' : 'nested'));
+    if (isExplicit && isGenerated) {
+      (acc.generated ??= new Set()).add(key);
+    }
+    mergeResolvedSx(target, child);
   }
-  return next;
+  return acc;
 };
 
-const resolveSx = (valueOrFn, props) => {
-  if (isNullish(valueOrFn)) {
-    return {};
-  }
-
-  /**
-   * If an array is provided, each item is resolved independently and merged left to right,
-   * per declaration -- a later item overrides an earlier one's individual properties without
-   * discarding the rest. For a flat property this is a plain last-write-wins overwrite. For a
-   * nested rule (a pseudo-selector, media query, or any other plain-object value), the merge
-   * recurses instead of replacing the whole nested object, so two array items that both touch
-   * the SAME nested selector (e.g. two peer contributors both declaring `&:hover`) compose
-   * their declarations together rather than the later one silently discarding everything the
-   * earlier one declared under that selector.
-   *
-   * ```js
-   * sx([
-   *   { color: 'red:50' },
-   *   { bg: 'gray:80' },
-   *   (theme) => ({ fontSize: theme.fontSizes.sm }),
-   * ])
-   * ```
-   */
-  if (Array.isArray(valueOrFn)) {
-    return valueOrFn.reduce((acc, item) => {
-      const resolved = resolveSx(item, props);
-      return mergeResolvedSx(acc, resolved);
-    }, {});
-  }
-
-  const theme = {
-    ...(props.theme || props),
-  };
-  const originalStyleProps = (typeof valueOrFn === 'function') ? valueOrFn(theme) : valueOrFn;
-  if (Array.isArray(originalStyleProps)) {
-    return resolveSx(originalStyleProps, props);
-  }
-  const resolvedStyleProps = resolvePseudo(originalStyleProps, theme);
-
-  let result = {};
-  for (const key in resolvedStyleProps) {
-    if (!Object.prototype.hasOwnProperty.call(resolvedStyleProps, key)) {
-      continue;
+const finalizeResolvedSx = (state, context) => {
+  if (state.children) {
+    for (const [key, child] of state.children) {
+      state.styles[key] = finalizeResolvedSx(child, context);
     }
+  }
+  if (!state.generated || state.generated.size < 2) {
+    return state.styles;
+  }
 
-    const styleValueOrFn = resolvedStyleProps[key];
-    const value = (typeof styleValueOrFn === 'function') ? styleValueOrFn(theme) : styleValueOrFn;
+  const generated = context.mediaOrder.filter(key => state.generated.has(key));
+  const movable = new Set(generated.filter(key => !state.explicit?.has(key)));
+  if (!movable.size) {
+    return state.styles;
+  }
+  let keys = Object.keys(state.styles);
+  const anchors = generated.filter(key => state.explicit?.has(key));
+  if (!anchors.length) {
+    // With no explicit collision, only swap generated slots.
+    const ordered = generated.filter(key => movable.has(key));
+    let index = 0;
+    keys = keys.map(key => movable.has(key) ? ordered[index++] : key);
+  } else {
+    // Keep explicit queries fixed relative to one another while placing each
+    // movable generated rule around compatible explicit breakpoint anchors.
+    keys = keys.filter(key => !movable.has(key));
+    for (let index = 0; index < generated.length; index++) {
+      const key = generated[index];
+      if (!movable.has(key)) {
+        continue;
+      }
+      const previous = generated.slice(0, index).reverse().find(item => keys.includes(item));
+      const next = generated.slice(index + 1).find(item => state.explicit?.has(item));
+      const after = previous ? keys.indexOf(previous) + 1 : 0;
+      const before = next ? keys.indexOf(next) : keys.length;
+      keys.splice(after <= before && next ? before : after, 0, key);
+    }
+  }
+  const result = {};
+  for (const key of keys) {
+    result[key] = state.styles[key];
+  }
+  return result;
+};
+
+const resolveDeclaration = (key, value, styleProps, props, theme) => {
+  const style = system.config[key];
+  if (typeof style !== 'function') {
+    return { [key]: value };
+  }
+  const scale = get(theme, style.scale, style.defaultScale);
+  return style(scale, value, { ...styleProps, theme, __colorMode: props.__colorMode });
+};
+
+const resolveSx = (valueOrFn, props, theme, context) => {
+  const result = createResolvedState();
+  if (isNullish(valueOrFn)) {
+    return result;
+  }
+  if (typeof valueOrFn === 'function') {
+    valueOrFn = valueOrFn(theme);
+  }
+  if (isNullish(valueOrFn)) {
+    return result;
+  }
+  if (Array.isArray(valueOrFn)) {
+    for (const item of valueOrFn) {
+      mergeResolvedSx(result, resolveSx(item, props, theme, context));
+    }
+    return result;
+  }
+
+  const entries = createPseudoResolver(theme)(valueOrFn);
+  const styleProps = Object.fromEntries(entries);
+  const breakpoints = theme.breakpoints;
+
+  for (const [key, valueOrFn] of entries) {
+    // Functional pseudo selectors may expand into entries whose own values
+    // are callbacks, so resolve and validate those just like other props.
+    const value = typeof valueOrFn === 'function' ? valueOrFn(theme) : valueOrFn;
+    if (Array.isArray(value)) {
+      throw new TypeError(`Array values are not supported for sx property "${key}". Use named breakpoint maps or explicit queries instead.`);
+    }
     if (isNullish(value)) {
       continue;
     }
-    if (Array.isArray(value)) {
-      throw new TypeError(`Array values are not supported for sx property "${key}". Use explicit media queries instead.`);
+
+    if (isResponsiveObjectValue(key, value, breakpoints)) {
+      const names = Object.keys(value);
+      // Resolve both base spellings before any generated query, irrespective
+      // of their position within the author's map.
+      const orderedNames = [
+        ...names.filter(name => RESPONSIVE_OBJECT_BASE_KEYS.has(name)),
+        ...names.filter(name => !RESPONSIVE_OBJECT_BASE_KEYS.has(name)),
+      ];
+      for (const name of orderedNames) {
+        const isBase = RESPONSIVE_OBJECT_BASE_KEYS.has(name);
+        if (!isBase && !Object.prototype.hasOwnProperty.call(breakpoints?.values ?? {}, name)) {
+          continue;
+        }
+        const item = typeof value[name] === 'function' ? value[name](theme) : value[name];
+        if (isNullish(item)) {
+          continue;
+        }
+        if (Array.isArray(item)) {
+          throw new TypeError(`Array values are not supported for sx property "${key}". Use named breakpoint maps or explicit queries instead.`);
+        }
+        const declaration = resolveDeclaration(key, item, styleProps, props, theme);
+        if (isBase) {
+          assignDeclarations(result, declaration);
+          continue;
+        }
+        if (!context.mediaOrder) {
+          context.mediaOrder = [...new Set(breakpoints.keys.map(breakpoint => breakpoints.gte(breakpoint)))];
+        }
+        const media = breakpoints.gte(name);
+        assignDeclarations(getRule(result, media, 'generated'), declaration);
+      }
+      continue;
     }
 
     if (isPlainObject(value)) {
-      /**
-       * An object value indicates a nested rule whose inner style tokens are resolved recursively against the theme.
-       *
-       * ```js
-       * sx({ '&:hover': { color: 'red:50', bg: 'gray:80' } })
-       * // key   → '&:hover'
-       * // value → { color: 'red:50', bg: 'gray:80' }
-       * ```
-       *
-       * `__colorMode` is forwarded so color tokens resolve correctly in dark mode.
-       */
-      result[key] = resolveSx(value, { theme, __colorMode: props.__colorMode });
+      const rule = getRule(result, key, 'explicit');
+      mergeResolvedSx(rule, resolveSx(value, props, theme, context));
       continue;
     }
 
-    /**
-     * The system config is a map of all style props with its corresponding "sx" function and properties.
-     *
-     * {
-     *   background: f sx(scale, value, props)
-     *     alias: undefined
-     *     defaultScale: {}
-     *     group: "background"
-     *     properties: ['background']
-     *     scale: "colors"
-     *   bg: f sx(scale, value, props)
-     *     alias: "background"
-     *     defaultScale: {}
-     *     group: "background"
-     *     properties: ['background']
-     *     scale: "colors"
-     * }
-     */
-    const _sx = system.config[key];
-    if (typeof _sx !== 'function') {
-      // pass them through to the result for unknown props
-      result[key] = value;
-      continue;
-    }
-
-    const scale = get(theme, _sx.scale, _sx.defaultScale);
-
-    result = {
-      ...result,
-      ..._sx(scale, value, { ...resolvedStyleProps, theme, __colorMode: props.__colorMode }),
-    };
+    assignDeclarations(result, resolveDeclaration(key, value, styleProps, props, theme));
   }
 
   return result;
 };
 
-const sx = (valueOrFn) => (props = {}) => resolveSx(valueOrFn, props);
+const sx = (valueOrFn) => (props = {}) => {
+  const theme = { ...(props.theme || props) };
+  const context = {};
+  return finalizeResolvedSx(resolveSx(valueOrFn, props, theme, context), context);
+};
 
 export default sx;

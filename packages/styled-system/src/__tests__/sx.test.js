@@ -1,4 +1,4 @@
-import { createBreakpoints } from '@tonic-ui/utils/internal';
+import { createBreakpoints, createContainerQueries } from '@tonic-ui/utils/internal';
 import { sx } from '@tonic-ui/styled-system/src';
 
 const defaultTheme = {
@@ -614,7 +614,7 @@ describe('responsive values', () => {
   ])('rejects array property values in %p', (value, property) => {
     const resolve = () => sx(value)({ theme });
     expect(resolve).toThrow(TypeError);
-    expect(resolve).toThrow(`Array values are not supported for sx property "${property}". Use explicit media queries instead.`);
+    expect(resolve).toThrow(`Array values are not supported for sx property "${property}". Use named breakpoint maps or explicit queries instead.`);
   });
 
   it('rejects property arrays even without a theme', () => {
@@ -704,9 +704,11 @@ describe('responsive values', () => {
     });
   });
 
-  it('continues treating property-level objects as nested rules', () => {
-    const width = { _: '100%', sm: '50%' };
-    expect(sx({ width })({ theme })).toEqual({ width });
+  it('emits a base declaration and a named media query', () => {
+    expect(sx({ width: { _: '100%', sm: '50%' } })({ theme })).toEqual({
+      width: '100%',
+      [theme.breakpoints.gte('sm')]: { width: '50%' },
+    });
   });
 });
 
@@ -831,5 +833,251 @@ describe('array composition', () => {
       { '&:hover': { color: 'red' } },
     ])({});
     expect(scalarThenObject).toEqual({ '&:hover': { color: 'red' } });
+  });
+});
+
+describe('object-form responsive values', () => {
+  const breakpoints = createBreakpoints({
+    values: { sm: 320, md: 744, lg: 1440 },
+    unit: 'px',
+  });
+
+  const theme = {
+    colors: { 'red:50': '#f24c4f', 'blue:50': '#578aef', 'green:50': '#00a94f' },
+    breakpoints,
+  };
+
+  it('resolves a `{ _, sm, md, lg }` object into base value + per-breakpoint media queries', () => {
+    const style = sx({
+      color: { _: 'red:50', sm: 'blue:50', md: 'green:50' },
+    })({ theme });
+
+    expect(style).toEqual({
+      color: '#f24c4f', // red:50
+      '@media (width >= 320px)': { color: '#578aef' }, // blue:50
+      '@media (width >= 744px)': { color: '#00a94f' }, // green:50
+    });
+  });
+
+  it('treats `base` the same as `_` for the unconditional value', () => {
+    const style = sx({
+      color: { base: 'red:50', lg: 'blue:50' },
+    })({ theme });
+
+    expect(style).toEqual({
+      color: '#f24c4f', // red:50
+      '@media (width >= 1440px)': { color: '#578aef' }, // blue:50
+    });
+  });
+
+  it('supports a per-breakpoint value that is itself a function of theme', () => {
+    const style = sx({
+      color: { _: 'red:50', md: (t) => t.colors['blue:50'] },
+    })({ theme });
+
+    expect(style).toEqual({
+      color: '#f24c4f', // red:50
+      '@media (width >= 744px)': { color: '#578aef' }, // blue:50, function already returned the resolved hex
+    });
+  });
+
+  it('does not misidentify a nested-selector style object as a responsive object', () => {
+    // `&:hover`'s inner object has a `color` key -- not a `_`/`base`
+    // sentinel or a named breakpoint alias -- so it must pass through
+    // untouched for the normal nested-selector recursion to handle.
+    const style = sx({
+      '&:hover': { color: 'red:50' },
+    })({ theme });
+
+    expect(style).toEqual({
+      '&:hover': { color: '#f24c4f' }, // red:50, resolved by the nested-selector recursion
+    });
+  });
+
+  it('drops a nullish per-breakpoint value without emitting an empty rule', () => {
+    const style = sx({
+      color: { _: 'red:50', sm: undefined, md: 'green:50' },
+    })({ theme });
+
+    expect(style).toEqual({
+      color: '#f24c4f', // red:50
+      '@media (width >= 744px)': { color: '#00a94f' }, // green:50
+    });
+  });
+
+  it('emits media queries in ascending breakpoint order regardless of authoring key order', () => {
+    // Authored out of order (`lg` before `sm`) -- if emitted in this literal
+    // insertion order, a viewport >= 1440px would match BOTH queries and the
+    // `sm` rule (emitted last) would incorrectly win the cascade over `lg`.
+    const style = sx({
+      color: { lg: 'blue:50', sm: 'red:50' },
+    })({ theme });
+
+    const keys = Object.keys(style);
+    expect(keys).toEqual([
+      '@media (width >= 320px)', // sm
+      '@media (width >= 1440px)', // lg
+    ]);
+    expect(style).toEqual({
+      '@media (width >= 320px)': { color: '#f24c4f' }, // red:50
+      '@media (width >= 1440px)': { color: '#578aef' }, // blue:50
+    });
+  });
+
+  it('orders thresholds numerically across declarations and accepts zero and 2xl', () => {
+    const customTheme = {
+      ...theme,
+      breakpoints: createBreakpoints({
+        values: { sm: 10.125, md: 10.5, lg: 0, '2xl': 20 },
+        unit: 'em',
+      }),
+    };
+    const style = sx({
+      width: { md: '30%', sm: '20%', lg: '0%', xs: '10%', base: '100%' },
+      height: { '2xl': '80%', sm: '40%' },
+    })({ theme: customTheme });
+    expect(Object.keys(style)).toEqual([
+      'width',
+      '@media (width >= 0em)',
+      '@media (width >= 10.125em)',
+      '@media (width >= 10.5em)',
+      '@media (width >= 20em)',
+    ]);
+    expect(style).toEqual({
+      width: '100%',
+      '@media (width >= 0em)': { width: '0%' },
+      '@media (width >= 10.125em)': { width: '20%', height: '40%' },
+      '@media (width >= 10.5em)': { width: '30%' },
+      '@media (width >= 20em)': { height: '80%' },
+    });
+  });
+
+  it('merges breakpoints with equal widths without dropping later queries', () => {
+    const equalTheme = {
+      ...theme,
+      breakpoints: createBreakpoints({ values: { sm: 10, md: 10, lg: 20 }, unit: 'em' }),
+    };
+    const style = sx({ width: { lg: '40%', sm: '20%', md: '30%' } })({ theme: equalTheme });
+    expect(Object.keys(style)).toEqual(['@media (width >= 10em)', '@media (width >= 20em)']);
+    expect(style).toEqual({
+      '@media (width >= 10em)': { width: '30%' },
+      '@media (width >= 20em)': { width: '40%' },
+    });
+  });
+
+  it('ignores obsolete and unconfigured names, including when there is no theme', () => {
+    expect(sx({ width: { xs: '10px' }, height: { _: '20px', lg: '30px' } })({})).toEqual({
+      height: '20px',
+    });
+    const emptyTheme = { ...theme, breakpoints: createBreakpoints({ values: {} }) };
+    expect(sx({ width: { xs: '10px', sm: '20px' } })({ theme: emptyTheme })).toEqual({});
+  });
+
+  it('resolves callbacks in declarations, maps and nested rules without mutating input', () => {
+    const values = Object.freeze({ _: () => 'red:50', sm: t => t.colors['blue:50'] });
+    const input = Object.freeze({
+      color: () => values,
+      '&:hover': Object.freeze({ color: { base: 'green:50', md: () => 'red:50' } }),
+    });
+    expect(sx(input)({ theme })).toEqual({
+      color: '#f24c4f',
+      '@media (width >= 320px)': { color: '#578aef' },
+      '&:hover': {
+        color: '#00a94f',
+        '@media (width >= 744px)': { color: '#f24c4f' },
+      },
+    });
+    expect(input.color()).toBe(values);
+  });
+
+  it('resolves callbacks expanded by functional pseudo selectors', () => {
+    expect(sx({ _has: { '.child': t => ({ color: t.colors['red:50'] }) } })({ theme })).toEqual({
+      '&:has(.child)': { color: '#f24c4f' },
+    });
+  });
+
+  it('preserves explicit rule bodies, selector order and dark token resolution', () => {
+    const modeTheme = { ...theme, colors: { dynamic: { _light: 'black', _dark: 'white' } } };
+    const style = sx({
+      '@container sidebar (width >= 20rem)': { display: 'grid', color: 'dynamic' },
+      '@media (prefers-reduced-motion)': { display: 'block' },
+      '& svg': { color: 'dynamic' },
+      containerType: 'inline-size',
+      containerName: 'sidebar',
+    })({ theme: modeTheme, __colorMode: 'dark' });
+    expect(Object.keys(style)).toEqual([
+      '@container sidebar (width >= 20rem)',
+      '@media (prefers-reduced-motion)',
+      '& svg',
+      'containerType',
+      'containerName',
+    ]);
+    expect(style).toEqual({
+      '@container sidebar (width >= 20rem)': { display: 'grid', color: 'white' },
+      '@media (prefers-reduced-motion)': { display: 'block' },
+      '& svg': { color: 'white' },
+      containerType: 'inline-size',
+      containerName: 'sidebar',
+    });
+  });
+
+  it('resolves container helper keys in whole-style and nested theme callbacks', () => {
+    const queryTheme = { ...theme, containerQueries: createContainerQueries(breakpoints) };
+    const sidebar = queryTheme.containerQueries('sidebar');
+    const style = sx(t => ({
+      containerType: 'inline-size',
+      containerName: 'sidebar',
+      [t.containerQueries('sidebar').gte('18.75px')]: {
+        display: 'grid',
+        '&:hover': { color: 'red:50' },
+      },
+      [sidebar.between('20px', '40px')]: { width: '50%' },
+    }))({ theme: queryTheme });
+    expect(style).toEqual({
+      containerType: 'inline-size',
+      containerName: 'sidebar',
+      '@container sidebar (width >= 18.75px)': {
+        display: 'grid',
+        '&:hover': { color: '#f24c4f' },
+      },
+      '@container sidebar (20px <= width < 40px)': { width: '50%' },
+    });
+  });
+
+  it('retains explicit query order when a query was first generated implicitly', () => {
+    const sm = breakpoints.gte('sm');
+    const md = breakpoints.gte('md');
+    const container = '@container sidebar (width >= 20rem)';
+    const style = sx([
+      { width: { md: '80%', sm: '40%' } },
+      { [container]: { display: 'grid' } },
+      { [sm]: { width: '50%', color: 'red' } },
+    ])({ theme });
+    expect(Object.keys(style)).toEqual([container, sm, md]);
+    expect(style[sm]).toEqual({ width: '50%', color: 'red' });
+    expect(style[md]).toEqual({ width: '80%' });
+  });
+
+  it('merges implicit and explicit rules in either author order, including aliases', () => {
+    const media = breakpoints.gte('sm');
+    const explicit = { [media]: { width: '50%', color: 'red' } };
+    const implicit = { w: { sm: '75%' } };
+    expect(sx([explicit, implicit])({ theme })[media]).toEqual({ width: '75%', color: 'red' });
+    expect(sx([implicit, explicit])({ theme })[media]).toEqual({ width: '50%', color: 'red' });
+  });
+
+  it('rejects property arrays in direct, callback, nested, pseudo and map forms', () => {
+    const invalid = [
+      [{ width: ['100%', '50%'] }, /width/],
+      [{ width: () => ['100%', '50%'] }, /width/],
+      [{ '&:hover': { width: ['100%', '50%'] } }, /width/],
+      [{ _hover: [{ color: 'red' }] }, /_hover/],
+      [{ _has: { '.child': () => [{ color: 'red' }] } }, /has/],
+      [{ width: { sm: ['50%'] } }, /width/],
+      [{ width: { base: () => ['100%'] } }, /width/],
+    ];
+    for (const [input, property] of invalid) {
+      expect(() => sx(input)({ theme })).toThrow(property);
+    }
   });
 });

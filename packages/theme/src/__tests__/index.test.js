@@ -38,3 +38,15 @@ test('the default export must have all properties defined in the theme object', 
   expect(defaultExport).toHaveProperty('space');
   expect(defaultExport).toHaveProperty('zIndices');
 });
+
+test('the standalone preset locks both query snapshots', () => {
+  const custom = createTheme('px');
+  for (const key of ['breakpoints', 'containerQueries']) {
+    expect(Object.getOwnPropertyDescriptor(defaultExport, key)).toEqual({
+      value: defaultExport[key], enumerable: true, configurable: false, writable: false,
+    });
+    expect(Reflect.set(defaultExport, key, custom[key])).toBe(false);
+  }
+  expect(defaultExport.breakpoints.gte('md')).toBe('@media (width >= 48rem)');
+  expect(defaultExport.containerQueries.gte('md')).toBe('@container (width >= 48rem)');
+});

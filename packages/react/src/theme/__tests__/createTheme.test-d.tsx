@@ -1,4 +1,5 @@
 import { createTheme } from '@tonic-ui/react';
+import standalonePreset from '@tonic-ui/theme';
 
 const viewportTheme = createTheme();
 const viewportQuery: string = viewportTheme.breakpoints.only('md');
@@ -91,3 +92,8 @@ const mergedTheme = createTheme(
 const theme = createTheme({});
 const prefix = theme.cssVariablePrefix;
 const rootSel = theme.rootSelector;
+
+// @ts-expect-error Query bindings are immutable.
+viewportTheme.containerQueries = viewportTheme.containerQueries;
+// @ts-expect-error Standalone presets lock the same query binding.
+standalonePreset.containerQueries = standalonePreset.containerQueries;

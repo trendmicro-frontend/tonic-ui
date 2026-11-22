@@ -13,7 +13,7 @@ type BreakpointNames<Options extends readonly unknown[]> =
 
 export type CreatedTheme<Options extends readonly unknown[]> = ThemeScales & {
   readonly breakpoints: Breakpoints<BreakpointNames<Options>>;
-  containerQueries: ContainerQueries<BreakpointNames<Options>>;
+  readonly containerQueries: ContainerQueries<BreakpointNames<Options>>;
   cssVariablePrefix: string;
   cssVariables: ThemeScales;
   rootSelector: string;
