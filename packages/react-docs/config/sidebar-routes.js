@@ -1,5 +1,4 @@
 import {
-  Tag,
   Text,
   Tooltip,
 } from '@tonic-ui/react';
@@ -54,6 +53,20 @@ export const routes = [
       {
         title: 'Icons',
         path: 'icons',
+        render: () => (
+          <LinkIcon />
+        ),
+      },
+      {
+        title: 'Media queries',
+        path: 'theme/media-queries',
+        render: () => (
+          <LinkIcon />
+        ),
+      },
+      {
+        title: 'Container queries',
+        path: 'theme/container-queries',
         render: () => (
           <LinkIcon />
         ),
@@ -130,29 +143,14 @@ export const routes = [
     icon: (props) => (
       <MigrateSuccessIcon size="4x" {...props} />
     ),
-    render: () => (
-      <Tag variant="outline" borderColor="yellow:50" color="yellow:50" size="sm">
-        NEW
-      </Tag>
-    ),
     routes: [
       {
         title: 'Migrating color tokens from v2 to v3',
         path: 'migrations/migrating-color-tokens-from-v2-to-v3',
-        render: () => (
-          <Tag variant="outline" borderColor="yellow:50" color="yellow:50" size="sm">
-            NEW
-          </Tag>
-        ),
       },
       {
         title: 'Migrating from v2 to v3',
         path: 'migrations/migrating-from-v2-to-v3',
-        render: () => (
-          <Tag variant="outline" borderColor="yellow:50" color="yellow:50" size="sm">
-            NEW
-          </Tag>
-        ),
       },
       { title: 'Migrating from v1 to v2', path: 'migrations/migrating-from-v1-to-v2' },
       { title: 'Migrating from v0 to v1', path: 'migrations/migrating-from-v0-to-v1' },
@@ -589,14 +587,9 @@ export const routes = [
     icon: (props) => (
       <ColorIcon size="4x" {...props} />
     ),
-    render: () => (
-      <Tag variant="outline" borderColor="yellow:50" color="yellow:50" size="sm">
-        NEW
-      </Tag>
-    ),
     routes: [
       { title: 'Getting started', path: 'theme' },
-      { title: 'Breakpoints', path: 'theme/breakpoints' },
+      { title: 'Media queries', path: 'theme/media-queries' },
       { title: 'Container queries', path: 'theme/container-queries' },
 
       { title: 'DESIGN TOKENS', heading: true },

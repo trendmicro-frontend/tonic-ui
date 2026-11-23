@@ -17,7 +17,7 @@ import { useContext } from 'react';
  *
  * @template {string} [Name=typeof import('@tonic-ui/theme').default.breakpoints.keys[number]]
  * @param {useThemeOptions} [options] - Optional configuration for the hook.
- * @returns {ThemeScales & { readonly breakpoints: import('@tonic-ui/utils/internal').Breakpoints<Name>, containerQueries: import('@tonic-ui/utils/internal').ContainerQueries<Name>, get: (path: string, defaultValue?: string) => string }} The resolved theme object.
+ * @returns {ThemeScales & { readonly breakpoints: import('@tonic-ui/utils/internal').Breakpoints<Name>, readonly containerQueries: import('@tonic-ui/utils/internal').ContainerQueries<Name>, get: (path: string, defaultValue?: string) => string }} The resolved theme object.
  *
  * @example
  * // Using current color mode from context

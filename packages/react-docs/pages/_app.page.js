@@ -79,10 +79,6 @@ const App = (props) => {
     }
   }, []);
 
-  if (router.pathname === '/theme/[legacyToken]') {
-    return <NextApp {...props} />;
-  }
-
   if (!initialColorMode) {
     return null;
   }

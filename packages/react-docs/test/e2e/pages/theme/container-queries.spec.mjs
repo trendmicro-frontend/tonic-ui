@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'node:url';
 import { expect, test } from '@playwright/test';
 import { build, transformWithEsbuild } from 'vite';
-import { pixelBreakpoints } from '../../../../pages/theme/breakpoints/pixel-breakpoints.mjs';
+import { pixelBreakpoints } from '../../../../pages/theme/media-queries/pixel-breakpoints.mjs';
 import { captureColorModes } from '../../../../../../test/e2e/screenshots.mjs';
 import { breakpoints, containerQueries } from '../../../../utils/default-breakpoints.js';
 import { formatBreakpoint } from '../../../../utils/convert-breakpoint-width.mjs';
@@ -131,5 +131,46 @@ test.describe('theme container queries', { tag: ['@docs', '@boundary', '@geometr
     await page.locator('html').evaluate(root => { root.style.fontSize = '32px'; });
     await expectWidth(wide, 384);
     await expect(wide).toHaveCSS('grid-template-columns', /^384px$/);
+  });
+
+  test('shows the source lead and width diagram in light and dark', async ({ page }, testInfo) => {
+    await page.goto('./');
+    const main = page.locator('#main');
+    const heading = main.getByRole('heading', { name: 'Container queries', level: 1, exact: true });
+    await expect(heading).toBeVisible();
+    await expect(main.getByText("Container queries let components adapt to the space available in their container, independently of the viewport size.", { exact: true })).toBeVisible();
+    const figure = main.getByRole('figure', { name: 'Width measured by each query' });
+    const svg = figure.getByRole('img');
+    await expect(svg).toHaveAttribute('viewBox', '0 0 440 360');
+    await expect(svg.locator('text')).toHaveText(['Device screen', 'Viewport size', 'Header', 'Nav', 'Main', 'Container size']);
+    await expect(figure.locator('pre code')).toHaveText([
+      '@media (width >= 48rem) { /* Viewport styles */ }',
+      '@container (width >= 14rem) { /* Container styles */ }',
+    ]);
+    const geometry = await svg.evaluate(root => [root, ...root.querySelectorAll('*')].map(element => [
+      element.localName,
+      [...element.attributes].map(({ name, value }) => [name, name === 'class' ? value.split(/\s+/).filter(token => !/^(?:(?:agentic|tonic)-)?css-|^e[a-z0-9]{5,}\d$/.test(token)).join(' ') : value])
+        .filter(([name, value]) => name !== 'class' || value).sort(),
+      element.localName === 'text' ? element.textContent : '',
+    ]));
+    await testInfo.attach('query-width-geometry', { body: JSON.stringify(geometry), contentType: 'application/json' });
+    for (const width of [1440, 320]) {
+      await captureColorModes(page, 'query-width-diagram', 'container-queries-' + width, async colorMode => {
+        await page.setViewportSize({ width: 1440, height: 1000 });
+        const root = page.locator('html');
+        await expect(root).toHaveAttribute('data-color-scheme', /^(light|dark)$/);
+        if (await root.getAttribute('data-color-scheme') !== colorMode) {
+          await page.getByTitle('Toggle color mode').click();
+        }
+        await expect(root).toHaveAttribute('data-color-scheme', colorMode);
+        await page.setViewportSize({ width, height: 1000 });
+        await figure.scrollIntoViewIfNeeded();
+        await expect(figure).toBeInViewport();
+        expect(await figure.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+        const fills = await svg.locator('.diagram-bezel, .diagram-display, .diagram-toolbar').evaluateAll(elements => elements.map(element => getComputedStyle(element).fill));
+        expect(new Set(fills).size).toBe(3);
+        expect(fills).not.toContain('none');
+      });
+    }
   });
 });

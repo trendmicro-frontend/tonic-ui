@@ -69,8 +69,11 @@ const createTheme = (unit = 'rem') => {
       ...semanticTokens.shadows,
     },
   };
-  Object.defineProperty(theme, 'breakpoints', { writable: false, configurable: false });
-  return /** @type {Omit<typeof theme, 'breakpoints'> & Readonly<Pick<typeof theme, 'breakpoints'>>} */ (theme);
+  Object.defineProperties(theme, {
+    breakpoints: { writable: false, configurable: false },
+    containerQueries: { writable: false, configurable: false },
+  });
+  return /** @type {Omit<typeof theme, 'breakpoints' | 'containerQueries'> & Readonly<Pick<typeof theme, 'breakpoints' | 'containerQueries'>>} */ (theme);
 };
 
 export default createTheme;

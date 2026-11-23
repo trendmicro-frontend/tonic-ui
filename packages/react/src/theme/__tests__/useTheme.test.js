@@ -42,6 +42,10 @@ describe('useTheme', () => {
       ),
     });
     expect(result.current.containerQueries('sidebar').only('sm')).toBe('@container sidebar (30rem <= width < 50rem)');
+    const replacement = createTheme({ breakpoints: { values: { md: 900 } } });
+    expect(Reflect.set(result.current, 'breakpoints', replacement.breakpoints)).toBe(false);
+    expect(Reflect.set(result.current, 'containerQueries', replacement.containerQueries)).toBe(false);
+    expect(result.current.containerQueries.gte('md')).toBe('@container (width >= 50rem)');
   });
 
   it('should resolve _dark tokens when color mode is dark', () => {

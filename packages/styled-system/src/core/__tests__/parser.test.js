@@ -150,3 +150,18 @@ test.each([
   expect(parseColor).toThrow(TypeError);
   expect(parseColor).toThrow('Responsive array values are not supported for style prop "color". Use a breakpoint object with scalar values instead.');
 });
+
+test('merges declarations at duplicate thresholds in authored order', () => {
+  const breakpoints = createBreakpoints({ values: { sm: 10, md: 10, lg: 20 }, unit: 'em' });
+  const parse = system({ color: true, background: true });
+  const result = parse({
+    theme: { breakpoints },
+    color: { md: 'blue', sm: 'red', lg: 'green' },
+    background: { sm: 'white', md: 'black' },
+  });
+  expect(result).toEqual({
+    '@media (width >= 10em)': { color: 'red', background: 'black' },
+    '@media (width >= 20em)': { color: 'green' },
+  });
+  expect(Object.keys(result)).toEqual(['@media (width >= 10em)', '@media (width >= 20em)']);
+});

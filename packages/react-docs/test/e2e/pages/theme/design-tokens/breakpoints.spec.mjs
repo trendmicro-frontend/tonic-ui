@@ -20,10 +20,11 @@ test('separates Theme guides from all design token destinations', async ({ page 
 
   const sidebar = page.locator('#sidenav');
   const main = page.locator('#main');
-  const guide = sidebar.getByRole('link', { name: 'Breakpoints', exact: true });
+  const theme = sidebar.locator('[data-title="Theme"]').locator('..');
+  const guide = theme.getByRole('link', { name: 'Media queries', exact: true });
   const token = sidebar.getByRole('link', { name: 'breakpoints', exact: true });
-  const order = sidebar.locator('[data-path="theme"], [data-path="theme/breakpoints"], [data-path="theme/container-queries"], [data-path^="theme/design-tokens/"], :text-is("DESIGN TOKENS")');
-  await expect(order).toHaveText(['Getting started', 'Breakpoints', 'Container queries', 'DESIGN TOKENS', ...slugs]);
+  const order = theme.locator('[data-path="theme"], [data-path="theme/media-queries"], [data-path="theme/container-queries"], [data-path^="theme/design-tokens/"], :text-is("DESIGN TOKENS")');
+  await expect(order).toHaveText(['Getting started', 'Media queries', 'Container queries', 'DESIGN TOKENS', ...slugs]);
   await expect(token).toHaveAttribute('aria-selected', 'true');
   await expect(guide).toHaveAttribute('aria-selected', 'false');
   await expect(main.getByRole('heading', { name: 'API', exact: true })).toHaveCount(0);
@@ -38,8 +39,8 @@ test('separates Theme guides from all design token destinations', async ({ page 
   }
 
   await token.click();
-  await main.getByRole('link', { name: 'Breakpoints', exact: true }).click();
-  await expect(page).toHaveURL(/\/theme\/breakpoints\/$/);
+  await main.getByRole('link', { name: 'Media queries', exact: true }).click();
+  await expect(page).toHaveURL(/\/theme\/media-queries\/$/);
   await expect(guide).toHaveAttribute('aria-selected', 'true');
   await expect(token).toHaveAttribute('aria-selected', 'false');
   await expect(main.getByRole('heading', { name: 'API', exact: true })).toBeVisible();
@@ -59,6 +60,7 @@ test('links to the new token routes from authored and generated references', asy
   await semantic.click();
   await expect(page).toHaveURL(/\/theme\/design-tokens\/colors\/#semantic-tokens$/);
   await expect(main.getByRole('heading', { name: 'Semantic tokens', exact: true })).toBeVisible();
+  await expect(main.locator('#semantic-tokens')).toHaveCount(1);
 
   await page.goto('../../../styled-system/style-props/');
   const fontSizes = main.getByRole('link', { name: 'fontSizes', exact: true }).first();
@@ -68,7 +70,7 @@ test('links to the new token routes from authored and generated references', asy
   await expect(main.getByRole('heading', { name: 'fontSizes', level: 1, exact: true })).toBeVisible();
 });
 
-for (const [name, route] of [['tokens', './'], ['guide', '../../breakpoints/']]) {
+for (const [name, route] of [['tokens', './'], ['guide', '../../media-queries/']]) {
   test(`records the ${name} page and Theme navigation`, async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto(route);
@@ -79,8 +81,59 @@ for (const [name, route] of [['tokens', './'], ['guide', '../../breakpoints/']])
         await page.locator('[title="Toggle color mode"]').click();
       }
       await expect(root).toHaveAttribute('data-color-scheme', colorMode);
-      await expect(page.locator('#sidenav').getByText('DESIGN TOKENS', { exact: true })).toBeInViewport();
-      await expect(page.locator('#main').getByRole('heading', { name: name === 'tokens' ? 'breakpoints' : 'Breakpoints', level: 1, exact: true })).toBeInViewport();
+      const tokensHeading = page.locator('#sidenav').getByText('DESIGN TOKENS', { exact: true });
+      await tokensHeading.scrollIntoViewIfNeeded();
+      await expect(tokensHeading).toBeInViewport();
+      await expect(page.locator('#main').getByRole('heading', { name: name === 'tokens' ? 'breakpoints' : 'Media queries', level: 1, exact: true })).toBeInViewport();
     });
   });
 }
+
+test('does not serve or forward retired routes', async ({ browser, page, request }) => {
+  const route = (path) => new URL(path, page.url()).href;
+  await page.goto('./');
+  const retired = [...slugs, 'not-a-design-token'];
+  for (const slug of retired) {
+    const url = route(`../../${slug}/?view=test`);
+    const result = await request.get(url, { maxRedirects: 0 });
+    expect(result.status(), url).toBe(404);
+    expect(result.headers().location).toBeUndefined();
+    expect(await result.text()).not.toMatch(/http-equiv="refresh"/i);
+  }
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const url = route('../../colors/?view=test#semantic-tokens');
+    const fallback = await context.newPage();
+    expect((await fallback.goto(url)).status()).toBe(404);
+    await expect(fallback).toHaveURL(url);
+    expect((await page.goto(url)).status()).toBe(404);
+    await expect(page).toHaveURL(url);
+  } finally {
+    await context.close();
+  }
+});
+
+test('opens both guides from Getting started and Theme', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto('./');
+  const sidebar = page.locator('#sidenav');
+  const toggle = sidebar.locator('[data-title="Getting started"]');
+  if (await toggle.getAttribute('data-expanded') === 'false') {
+    await toggle.click();
+  }
+  const quick = toggle.locator('..');
+  const theme = sidebar.locator('[data-title="Theme"]').locator('..');
+  const shortcutRoutes = await quick.locator('[data-path]').evaluateAll(links => links.map(link => link.getAttribute('data-path')));
+  const icons = shortcutRoutes.indexOf('icons');
+  expect(icons).toBeGreaterThanOrEqual(0);
+  expect(shortcutRoutes.slice(icons, icons + 4)).toEqual(['icons', 'theme/media-queries', 'theme/container-queries', 'getting-started/mcp']);
+  for (const [path, name] of [['media-queries', 'Media queries'], ['container-queries', 'Container queries']]) {
+    await quick.locator(`[data-path="theme/${path}"]`).click();
+    await expect(page.locator('#main').getByRole('heading', { name, level: 1, exact: true })).toBeVisible();
+    await expect(theme.locator(`[data-path="theme/${path}"]`)).toBeVisible();
+  }
+  for (const [path, name] of [['media-queries', 'Media queries'], ['container-queries', 'Container queries']]) {
+    await theme.locator(`[data-path="theme/${path}"]`).click();
+    await expect(page.locator('#main').getByRole('heading', { name, level: 1, exact: true })).toBeVisible();
+  }
+});

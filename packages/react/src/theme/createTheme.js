@@ -76,16 +76,19 @@ const createTheme = (...input) => {
   }
 
   const breakpoints = createBreakpoints({ values, unit });
+  const containerQueries = createContainerQueries(breakpoints);
   theme.breakpoints = breakpoints;
-  theme.containerQueries = createContainerQueries(breakpoints);
+  theme.containerQueries = containerQueries;
 
-  // Resolve token references (e.g., {colors.primary} → actual value)
-  // Note: Preserves _dark/_light structure for color mode handling
+  // Resolve token references before attaching the same immutable snapshot to every mode.
   theme = resolveTheme(theme);
-  const breakpointDescriptor = { value: breakpoints, enumerable: true, writable: false, configurable: false };
-  Object.defineProperty(theme, 'breakpoints', breakpointDescriptor);
-  Object.defineProperty(theme.toColorMode('light'), 'breakpoints', breakpointDescriptor);
-  Object.defineProperty(theme.toColorMode('dark'), 'breakpoints', breakpointDescriptor);
+  const queryDescriptors = {
+    breakpoints: { value: breakpoints, enumerable: true, writable: false, configurable: false },
+    containerQueries: { value: containerQueries, enumerable: true, writable: false, configurable: false },
+  };
+  for (const variant of [theme, theme.toColorMode('light'), theme.toColorMode('dark')]) {
+    Object.defineProperties(variant, queryDescriptors);
+  }
 
   // Configure the prefix and root selector for CSS variables
   const cssVariablePrefix = cssVariableConfig?.prefix ?? defaultCSSVariablePrefix;

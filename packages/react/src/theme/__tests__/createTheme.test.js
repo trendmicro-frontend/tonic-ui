@@ -224,3 +224,20 @@ describe('createTheme', () => {
     expect(styleElement).toMatchSnapshot();
   });
 });
+
+it('shares immutable query helpers while allowing a new theme with new widths', () => {
+  const theme = createTheme();
+  const custom = createTheme(theme, { breakpoints: { values: { md: 900 } } });
+  for (const view of [theme, theme.toColorMode('light'), theme.toColorMode('dark')]) {
+    for (const key of ['breakpoints', 'containerQueries']) {
+      expect(Object.getOwnPropertyDescriptor(view, key)).toEqual({
+        value: theme[key], enumerable: true, configurable: false, writable: false,
+      });
+      expect(Reflect.set(view, key, custom[key])).toBe(false);
+    }
+    expect(view.breakpoints.gte('md')).toBe('@media (width >= 48rem)');
+    expect(view.containerQueries.gte('md')).toBe('@container (width >= 48rem)');
+  }
+  expect(custom.breakpoints.gte('md')).toBe('@media (width >= 900px)');
+  expect(custom.containerQueries.gte('md')).toBe('@container (width >= 900px)');
+});

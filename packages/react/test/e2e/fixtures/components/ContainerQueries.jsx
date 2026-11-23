@@ -1,5 +1,9 @@
 import React, { useCallback, useState } from 'react';
-import { Box, Input, useTheme } from '../../../../src';
+import { Box, Input, TonicProvider, createTheme, useTheme } from '../../../../src';
+
+const deviceTheme = createTheme({ breakpoints: { values: { mobile: 0, tablet: 640, desktop: 1024 } } });
+
+const responsiveChannelSx = () => [{ width: { tablet: '160px', sm: '300px' } }];
 
 const ContainerQueriesFixture = () => {
   const { containerQueries } = useTheme();
@@ -19,6 +23,17 @@ const ContainerQueriesFixture = () => {
           <Box data-testid="named-only" sx={{ display: 'none', [outer.only('sm')]: { display: 'block' } }}>In sm range</Box>
         </Box>
       </Box>
+      <TonicProvider theme={deviceTheme}>
+        {/* eslint-disable @tonic-ui/no-flat-style-props -- Deliberate flat-prop coverage; the test asserts flat breakpoint maps. */}
+        <Box data-testid="device-display" display={{ _: 'block', tablet: 'flex', sm: 'none' }}>Device layout</Box>
+        <Box
+          data-testid="responsive-channels"
+          __sx={{ width: { _: '100px', tablet: '120px' }, minHeight: { base: '10px', tablet: '20px' } }}
+          height={{ _: '30px', tablet: '40px' }}
+          sx={responsiveChannelSx}
+        />
+        {/* eslint-enable @tonic-ui/no-flat-style-props */}
+      </TonicProvider>
     </>
   );
 };

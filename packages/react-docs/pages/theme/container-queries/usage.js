@@ -23,7 +23,7 @@ const App = () => {
       }}
     >
       {[['Sidebar', 192], ['Main area', 384]].map(([label, width]) => (
-        <Box key={width} sx={{ width: `${width}px`, maxWidth: '100%', containerType: 'inline-size' }}>
+        <Box key={width} sx={{ width: `${width}px`, maxWidth: '100%', flexShrink: width === 192 ? 0 : 1, containerType: 'inline-size' }}>
           <Text sx={{ mb: '2x', fontSize: 'sm', fontWeight: 'semibold' }}>
             {label}
           </Text>
